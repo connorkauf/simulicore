@@ -1,33 +1,31 @@
 #-----------------------------------------------
-# source root setup
+# sources setup
 #-----------------------------------------------
-set(SRC_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMPI_SRC
+	)
 
-#-----------------------------------------------
-# sub-module setup
-#-----------------------------------------------
-set(CLA3P_LIB "cla3p-pre")
-add_subdirectory(cla3p)
+set(CMPI_HPP
+	)
 
 #-----------------------------------------------
 # target setup
 #-----------------------------------------------
-add_executable(${BIN_NAME} example.cpp)
+#add_library(${CMPI_LIB} SHARED ${CMPI_SRC})
 
 #-----------------------------------------------
 # dependencies setup
 #-----------------------------------------------
-target_include_directories(${BIN_NAME} PRIVATE
-	)
-
-target_link_libraries(${BIN_NAME}
-	${CLA3P_LIB}
-	)
+# target_include_directories(${CMPI_LIB} PRIVATE ${SOME_INC_DIR})
+# target_link_libraries(${CMPI_LIB} ${SOME_LIB})
 
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
-install(TARGETS ${BIN_NAME} DESTINATION bin)
+#set(CMPI_HPP_INSTALL include/cmpi)
+#set(CMPI_LIB_INSTALL lib)
+
+#install(FILES   ${CMPI_HPP} DESTINATION ${CMPI_HPP_INSTALL})
+#install(TARGETS ${CMPI_LIB} DESTINATION ${CMPI_LIB_INSTALL})
 
 #-----------------------------------------------
 # end

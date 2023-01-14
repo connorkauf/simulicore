@@ -1,6 +1,4 @@
 .*.swp
 .*.swo
-src/tags
-doc/*
-obj/*
+build/*
 install/*

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "cla3p/test.hpp"
+#include "cla3p/src/test.hpp"
 /*-------------------------------------------------*/
 int main()
 {

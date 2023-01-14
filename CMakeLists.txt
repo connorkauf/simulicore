@@ -12,21 +12,28 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 #-----------------------------------------------
+# set project root
+#-----------------------------------------------
+set(CLA3P_PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+
+#-----------------------------------------------
 # set install location
 #-----------------------------------------------
-set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install")
+set(CMAKE_INSTALL_PREFIX "${CLA3P_PROJECT_ROOT}/install")
 
 #-----------------------------------------------
-# set custom executable names
+# sub-module setup
 #-----------------------------------------------
-set(BIN_NAME "example")
-set(BSH_NAME "${BIN_NAME}.sh")
+set(CMPI_LIB "cmpi-pre")
+set(CLA3P_LIB "cla3p-pre")
+
+add_subdirectory(cmpi)
+add_subdirectory(cla3p)
 
 #-----------------------------------------------
-# add build subdirectories
+# custom executable setup
 #-----------------------------------------------
-add_subdirectory(src)
-add_subdirectory(exesh)
+add_subdirectory(example)
 
 #-----------------------------------------------
 # end

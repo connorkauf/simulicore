@@ -26,9 +26,9 @@ int& TestClass::x()
 	return x_;
 }
 /*-------------------------------------------------*/
-int TestClass::add(int y)
+int TestClass::add(int y, int z)
 {
-	x() += y;
+	x() += y + z;
 	return x();
 }
 /*-------------------------------------------------*/
