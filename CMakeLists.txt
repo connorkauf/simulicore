@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-set(project_name "Hello")
+set(project_name "CLA3P")
 set(project_version "1.0.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 

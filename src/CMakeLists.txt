@@ -6,8 +6,8 @@ set(SRC_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 #-----------------------------------------------
 # sub-module setup
 #-----------------------------------------------
-set(LINA_LIB "lina-pre")
-add_subdirectory(lina)
+set(CLA3P_LIB "cla3p-pre")
+add_subdirectory(cla3p)
 
 #-----------------------------------------------
 # end
