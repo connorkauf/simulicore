@@ -17,9 +17,16 @@ endif()
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install")
 
 #-----------------------------------------------
+# set custom executable names
+#-----------------------------------------------
+set(BIN_NAME "example")
+set(BSH_NAME "${BIN_NAME}.sh")
+
+#-----------------------------------------------
 # add build subdirectories
 #-----------------------------------------------
 add_subdirectory(src)
+add_subdirectory(exesh)
 
 #-----------------------------------------------
 # end

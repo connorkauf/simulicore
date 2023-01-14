@@ -55,6 +55,13 @@ class TestClass {
 		 */
 		int add(int y); 
 
+		/** 
+		 * \static
+		 * \brief create a zero class
+		 * \return A zero test class
+		 */
+		static TestClass zero();
+
 	private:
 		int x_;
 };

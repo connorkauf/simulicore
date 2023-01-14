@@ -1,0 +1,1 @@
+install(PROGRAMS ${BSH_NAME} DESTINATION bin)
