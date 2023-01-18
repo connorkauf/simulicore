@@ -1,4 +1,4 @@
-message("Setting up ${CLA3P_LIB}...")
+message(STATUS "Configuring ${CLA3P_LIB}...")
 
 #-----------------------------------------------
 # set module root

@@ -11,11 +11,13 @@ add_executable(${BIN_NAME} example.cpp)
 #-----------------------------------------------
 target_include_directories(${BIN_NAME} PRIVATE 
 	${CLA3P_PROJECT_ROOT}
+	${MKL_INC}
 	)
 
 target_link_libraries(${BIN_NAME}
 	${CLA3P_LIB}
-	#${CMPI_LIB}
+	#${CMPI_LIB} enable when ready
+	${MKL_LIB}
 	)
 
 #-----------------------------------------------

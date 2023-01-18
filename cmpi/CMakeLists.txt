@@ -1,4 +1,4 @@
-message("Setting up ${CMPI_LIB}...")
+message(STATUS "Configuring ${CMPI_LIB}...")
 
 #-----------------------------------------------
 # set module root
