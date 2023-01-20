@@ -27,7 +27,7 @@ uint_t inumlen(int_t n)
 	return len;
 }
 /*-------------------------------------------------*/
-std::string bytes2human(std::size_t nbytes, nint_t nsd)
+std::string bytes2human(bulk_t nbytes, nint_t nsd)
 {
 	nsd = std::max( 1, nsd);
 	nsd = std::min(16, nsd);

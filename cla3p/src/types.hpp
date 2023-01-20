@@ -6,6 +6,7 @@
  */
 
 #include <cstddef>
+#include <ostream>
 #include "mkl_types.h"
 
 #if defined (CLA3P_I64)
@@ -27,8 +28,22 @@ typedef double real_t;
 typedef MKL_Complex16 complex_t;
 typedef std::size_t bulk_t;
 
+inline complex_t cval(real_t re, real_t im)
+{
+	return {re, im};
+}
+
 /*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
+
+std::ostream& operator<<(std::ostream&, const cla3p::complex_t&);
+
+cla3p::complex_t operator+(const cla3p::complex_t&, const cla3p::complex_t&);
+cla3p::complex_t operator-(const cla3p::complex_t&, const cla3p::complex_t&);
+cla3p::complex_t operator*(const cla3p::complex_t&, const cla3p::complex_t&);
+cla3p::complex_t operator/(const cla3p::complex_t&, const cla3p::complex_t&);
+
 /*-------------------------------------------------*/
 
 #endif // CLA3P_TYPES_HPP_

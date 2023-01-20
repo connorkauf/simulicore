@@ -3,11 +3,13 @@
 #-----------------------------------------------
 set(CLA3P_SRC
 	test.cpp # to be deleted
+	types.cpp
 	types_test.cpp
-	dns_io.cpp
-	utils.cpp
-	imalloc.cpp
 	error.cpp
+	imalloc.cpp
+	utils.cpp
+	dns.cpp
+	dns_io.cpp
 	)
 
 set(CLA3P_HPP

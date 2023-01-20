@@ -33,5 +33,14 @@ MemoryException::~MemoryException() throw()
 {
 }
 /*-------------------------------------------------*/
+ConsistencyException::ConsistencyException(const std::string& msg)
+	: Exception("Consistency error: " + msg)
+{
+}
+/*-------------------------------------------------*/
+ConsistencyException::~ConsistencyException() throw()
+{
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
