@@ -1,17 +1,17 @@
-#ifndef CLA3P_TYPES_TEST_HPP_
-#define CLA3P_TYPES_TEST_HPP_
+#ifndef CLA3P_BLAS_PROXY_HPP_
+#define CLA3P_BLAS_PROXY_HPP_
 
 #include "types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace blas {
 /*-------------------------------------------------*/
 
-int_t test_int_sizes();
-int_t test_complex();
 
 /*-------------------------------------------------*/
+} // namespace blas
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_TYPES_TEST_HPP_
+#endif // CLA3P_BLAS_PROXY_HPP_

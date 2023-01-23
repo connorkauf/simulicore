@@ -33,29 +33,42 @@ class Exception : public std::exception {
 };
 
 /**
- * @brief Memory cla3p exception class
+ * @brief Consistency cla3p exception class
  */
-class MemoryException : public Exception {
+class NoConsistency : public Exception {
 	public:
 		/** 
 		 * @brief Constructor
 		 * @param[in] msg The message to display on throw
 		 */
-		MemoryException(const std::string& msg = "Untitled");
-		~MemoryException() throw();
+		NoConsistency(const std::string& msg = "Untitled");
+		~NoConsistency() throw();
+};
+
+/**
+ * @brief Memory cla3p exception class
+ */
+class OutOfMemory : public Exception {
+	public:
+		/** 
+		 * @brief Constructor
+		 * @param[in] msg The message to display on throw
+		 */
+		OutOfMemory(const std::string& msg = "Untitled");
+		~OutOfMemory() throw();
 };
 
 /**
  * @brief Consistency cla3p exception class
  */
-class ConsistencyException : public Exception {
+class OutOfBounds : public Exception {
 	public:
 		/** 
 		 * @brief Constructor
 		 * @param[in] msg The message to display on throw
 		 */
-		ConsistencyException(const std::string& msg = "Untitled");
-		~ConsistencyException() throw();
+		OutOfBounds(const std::string& msg = "Untitled");
+		~OutOfBounds() throw();
 };
 
 /*-------------------------------------------------*/

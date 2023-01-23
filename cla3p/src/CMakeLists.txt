@@ -6,8 +6,11 @@ set(CLA3P_SRC
 	types.cpp
 	types_test.cpp
 	error.cpp
-	imalloc.cpp
 	utils.cpp
+	imalloc.cpp
+	mkl_proxy.cpp
+	blas_proxy.cpp
+	lapack_proxy.cpp
 	dns.cpp
 	dns_io.cpp
 	)

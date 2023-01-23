@@ -24,21 +24,30 @@ const char* Exception::what() const throw()
 	return m_msg.c_str();
 }
 /*-------------------------------------------------*/
-MemoryException::MemoryException(const std::string& msg)
-	: Exception("Memory error: " + msg)
-{
-}
-/*-------------------------------------------------*/
-MemoryException::~MemoryException() throw()
-{
-}
-/*-------------------------------------------------*/
-ConsistencyException::ConsistencyException(const std::string& msg)
+NoConsistency::NoConsistency(const std::string& msg)
 	: Exception("Consistency error: " + msg)
 {
 }
 /*-------------------------------------------------*/
-ConsistencyException::~ConsistencyException() throw()
+NoConsistency::~NoConsistency() throw()
+{
+}
+/*-------------------------------------------------*/
+OutOfMemory::OutOfMemory(const std::string& msg)
+	: Exception("Memory error: " + msg)
+{
+}
+/*-------------------------------------------------*/
+OutOfMemory::~OutOfMemory() throw()
+{
+}
+/*-------------------------------------------------*/
+OutOfBounds::OutOfBounds(const std::string& msg)
+	: Exception("Out of bounds error: " + msg)
+{
+}
+/*-------------------------------------------------*/
+OutOfBounds::~OutOfBounds() throw()
 {
 }
 /*-------------------------------------------------*/

@@ -58,11 +58,7 @@ class DnsPrinter {
 /*-------------------------------------------------*/
 static uint_t sanitized_nsd(uint_t nsd)
 {
-	const uint_t nsd_min =  1;
-	const uint_t nsd_max = 16;
-	nsd = std::max(nsd, nsd_min);
-	nsd = std::min(nsd, nsd_max);
-
+	sanitize_nsd(nsd);
 	return nsd;
 }
 /*-------------------------------------------------*/

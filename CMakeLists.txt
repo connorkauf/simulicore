@@ -104,8 +104,13 @@ message(STATUS "MKL LIBRARY: ${MKL_LIB}")
 #-----------------------------------------------
 # sub-module setup
 #-----------------------------------------------
-set(CMPI_LIB "cmpi-pre")
-set(CLA3P_LIB "cla3p-pre")
+if(CLA3P_USE_I64)
+set(CMPI_LIB "cmpi_i64_pre")
+set(CLA3P_LIB "cla3p_i64_pre")
+else()
+set(CMPI_LIB "cmpi_pre")
+set(CLA3P_LIB "cla3p_pre")
+endif()
 
 add_subdirectory(cmpi)
 add_subdirectory(cla3p)
