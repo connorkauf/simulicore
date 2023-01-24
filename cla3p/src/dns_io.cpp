@@ -24,25 +24,35 @@ class DnsPrinter {
 		~DnsPrinter();
 
 		std::string print2str(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower);
-		void print(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower);
-
+		std::string print2str(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower);
 		std::string print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower);
-		void print(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower);
+		std::string print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower);
+
+		template <class T>
+		void print(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
 
 	private:
 		void reset();
 		void reserve(uint_t m, uint_t n);
+
+		template <class T>
+		std::string print2str_real(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		template <class T>
+		std::string print2str_complex(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
 		template <class T>
 		void fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
-		uint_t count_columns_per_page(uint_t m, uint_t n);
 		template <class T>
 		void append_page(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
-		void append_page_header(uint_t jbgn, uint_t jend);
 		template <class T>
 		void append_page_ith_row(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
+
+		uint_t count_columns_per_page(uint_t m, uint_t n);
+		void append_page_header(uint_t jbgn, uint_t jend);
 		void appent_extra_spaces();
 		void appent_element(real_t a);
+		void appent_element(real4_t a);
 		void appent_element(complex_t a);
+		void appent_element(complex8_t a);
 
 		const uint_t m_nsd;
 		const uint_t m_line_maxlen;
@@ -132,10 +142,24 @@ void DnsPrinter::appent_element(real_t a)
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
+void DnsPrinter::appent_element(real4_t a)
+{
+	nint_t nd = m_nsd;
+	std::sprintf(m_cbuff, " % .*e", nd, a);
+	m_str.append(m_cbuff);
+}
+/*-------------------------------------------------*/
 void DnsPrinter::appent_element(complex_t a)
 {
 	nint_t nd = m_nsd;
-	std::sprintf(m_cbuff, " (% .*le,% .*le)", nd, a.real, nd, a.imag);
+	std::sprintf(m_cbuff, " (% .*le,% .*le)", nd, a.real(), nd, a.imag());
+	m_str.append(m_cbuff);
+}
+/*-------------------------------------------------*/
+void DnsPrinter::appent_element(complex8_t a)
+{
+	nint_t nd = m_nsd;
+	std::sprintf(m_cbuff, " (% .*e,% .*e)", nd, a.real(), nd, a.imag());
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
@@ -194,7 +218,8 @@ void DnsPrinter::fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 	} // rem_cols
 }
 /*-------------------------------------------------*/
-std::string DnsPrinter::print2str(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower)
+template <class T>
+std::string DnsPrinter::print2str_real(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -207,13 +232,11 @@ std::string DnsPrinter::print2str(uint_t m, uint_t n, const real_t *a, uint_t ld
 	return m_str;
 }
 /*-------------------------------------------------*/
-void DnsPrinter::print(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower)
-{
-	std::string str = print2str(m, n, a, lda, lower);
-	std::printf("%s", str.c_str());
-}
+std::string DnsPrinter::print2str(uint_t m, uint_t n, const real_t  *a, uint_t lda, bool lower) { return print2str_real(m, n, a, lda, lower); }
+std::string DnsPrinter::print2str(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower) { return print2str_real(m, n, a, lda, lower); }
 /*-------------------------------------------------*/
-std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower)
+template <class T>
+std::string DnsPrinter::print2str_complex(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -226,7 +249,11 @@ std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex_t *a, uint_t
 	return m_str;
 }
 /*-------------------------------------------------*/
-void DnsPrinter::print(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower)
+std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex_t  *a, uint_t lda, bool lower) { return print2str_complex(m, n, a, lda, lower); }
+std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower) { return print2str_complex(m, n, a, lda, lower); }
+/*-------------------------------------------------*/
+template <class T>
+void DnsPrinter::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	std::string str = print2str(m, n, a, lda, lower);
 	std::printf("%s", str.c_str());
@@ -234,32 +261,60 @@ void DnsPrinter::print(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool 
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const real_t *a, uint_t lda, 
-		bool lower, uint_t nsd, uint_t line_maxlen)
+template <class T>
+std::string print2str_tmpl(uint_t m, uint_t n, T *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
 {
+	if(!m || !n) return;
 	DnsPrinter printer(nsd, line_maxlen);
 	return printer.print2str(m, n, a, lda, lower);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const real_t *a, uint_t lda, 
-		bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
 {
+	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+std::string print2str(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+std::string print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+std::string print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+template <class T>
+void print_tmpl(uint_t m, uint_t n, T *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	if(!m || !n) return;
 	DnsPrinter printer(nsd, line_maxlen);
 	printer.print(m, n, a, lda, lower);
 }
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, 
-		bool lower, uint_t nsd, uint_t line_maxlen)
+void print(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
 {
-	DnsPrinter printer(nsd, line_maxlen);
-	return printer.print2str(m, n, a, lda, lower);
+	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const complex_t *a, uint_t lda, 
-		bool lower, uint_t nsd, uint_t line_maxlen)
+void print(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
 {
-	DnsPrinter printer(nsd, line_maxlen);
-	printer.print(m, n, a, lda, lower);
+	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+void print(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+}
+/*-------------------------------------------------*/
+void print(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+{
+	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 } // namespace dns

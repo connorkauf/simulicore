@@ -16,7 +16,9 @@ std::string bytes2human(bulk_t nbytes, uint_t nsd = 3);
 int_t irand(int_t low, int_t high);
 uint_t urand(uint_t low, uint_t high);
 real_t drand(real_t low, real_t high);
+real4_t srand(real4_t low, real4_t high);
 complex_t zrand(real_t low, real_t high);
+complex8_t crand(real4_t low, real4_t high);
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -30,7 +30,7 @@ set(CLA3P_PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 set(CMAKE_INSTALL_PREFIX "${CLA3P_PROJECT_ROOT}/install")
 
 #-----------------------------------------------
-# set definitions
+# set global definitions
 #-----------------------------------------------
 set(CLA3P_USE_I64 1)
 
@@ -61,6 +61,8 @@ endif()
 #-----------------------------------------------
 
 # mkl setup
+add_definitions(-DMKL_Complex8=std::complex<float>)
+add_definitions(-DMKL_Complex16=std::complex<double>)
 set(MKL_ROOT /home/konstantinos/Development/3rd/intel/oneapi/mkl/2023.0.0)
 set(IOMP5_LIB 
 	-L/home/konstantinos/Development/3rd/intel/oneapi/compiler/2023.0.0/linux/compiler/lib/intel64_lin

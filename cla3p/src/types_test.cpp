@@ -24,28 +24,5 @@ int_t test_int_sizes()
 	return 0;
 }
 /*-------------------------------------------------*/
-int_t test_complex()
-{
-#define check_res(x, y) \
-	do{ \
-		if(x.real != y.real() || x.imag != y.imag()) return 1; \
-	} while(0)
-	complex_t c1 = cval( 3., -2.);
-	complex_t c2 = cval(-9.,  5.);
-	complex_t c3;
-
-	std::complex<real_t> cc1(c1.real, c1.imag);
-	std::complex<real_t> cc2(c2.real, c2.imag);
-	std::complex<real_t> cc3;
-
-	c3 = c1 + c2; cc3 = cc1 + cc2; check_res(c3, cc3);
-	c3 = c1 - c2; cc3 = cc1 - cc2; check_res(c3, cc3);
-	c3 = c1 * c2; cc3 = cc1 * cc2; check_res(c3, cc3);
-	c3 = c1 / c2; cc3 = cc1 / cc2; check_res(c3, cc3);
-#undef check_res
-
-	return 0;
-}
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdio>
+#include <complex>
 
 #include <omp.h>
 
@@ -35,39 +36,35 @@ int main()
 {
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 
-	cla3p::ptype_t ptype = cla3p::ptype_t::GENERAL;
-	cla3p::Property prop;
-	cla3p::Property psym(cla3p::ptype_t::SYMMETRIC);
-	std::cout << "pname0: " << prop.name() << std::endl;
-	std::cout << "pname1: " << psym.name() << std::endl;
-	prop = psym;
-	std::cout << "pname0: " << prop.name() << std::endl;
-	std::cout << "pname1: " << psym.name() << std::endl;
-	prop = cla3p::Property();
-	std::cout << "pname0: " << prop.name() << std::endl;
-	std::cout << "pname1: " << psym.name() << std::endl;
+	cla3p::uint_t m = 10;
+	cla3p::uint_t n =  8;
+	cla3p::uint_t ld = m + 12;
 
+	cla3p::uint_t nsd = 2;
+	//bool lower = false;
+	bool lower = true;
+	if(lower){
+		m = std::min(m,n);
+		n = std::min(m,n);
+	}
+
+	{
+		cla3p::real_t     *d = cla3p::dns::alloc<cla3p::real_t    >(m,n,ld);
+		cla3p::real4_t    *s = cla3p::dns::alloc<cla3p::real4_t   >(m,n,ld);
+		cla3p::complex_t  *z = cla3p::dns::alloc<cla3p::complex_t >(m,n,ld);
+		cla3p::complex8_t *c = cla3p::dns::alloc<cla3p::complex8_t>(m,n,ld);
+
+		cla3p::dns::rand(m, n, d, ld);
+		cla3p::dns::rand(m, n, s, ld);
+		cla3p::dns::rand(m, n, z, ld);
+		cla3p::dns::rand(m, n, c, ld);
+
+		cla3p::dns::print(m, n, d, ld, lower, nsd);
+		cla3p::dns::print(m, n, s, ld, lower, nsd);
+		cla3p::dns::print(m, n, z, ld, lower, nsd);
+		cla3p::dns::print(m, n, c, ld, lower, nsd);
+	}
+	
 	return 0;
-
-	cla3p::uint_t m = 5;
-	cla3p::uint_t n = 3;
-	cla3p::uint_t lda = m + 2;
-	cla3p::uint_t ldb = n + 2;
-
-	{
-		cla3p::real_t *a = cla3p::dns::alloc<cla3p::real_t>(m, n, lda);
-		cla3p::real_t *b = cla3p::dns::alloc<cla3p::real_t>(n, m, lda);
-		cla3p::dns::rand(m, n, a, lda);
-		cla3p::dns::print(m, n, a, lda);
-		cla3p::dns::transpose(m, n, a, lda, b, ldb, -1.0);
-		cla3p::dns::print(n, m, b, ldb);
-	}
-
-	{
-		//cla3p::complex_t *a = cla3p::dns::znew(m, n, lda);
-		//cla3p::dns::rand(m, n, a, lda);
-		//cla3p::dns::print(lda, n, a, lda);
-	}
-
 }
 /*-------------------------------------------------*/

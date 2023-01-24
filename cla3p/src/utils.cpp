@@ -67,7 +67,7 @@ std::string bytes2human(bulk_t nbytes, uint_t nsd)
 }
 /*-------------------------------------------------*/
 template <class T>
-static T rand_tmpl(T low, T high)
+static real_t rand_tmpl(T low, T high)
 {
 	if(low > high) {
 		throw NoConsistency("Need low <= high");
@@ -92,15 +92,11 @@ uint_t urand(uint_t low, uint_t high)
 	return std::round(ret);
 }
 /*-------------------------------------------------*/
-real_t drand(real_t low, real_t high)
-{
-	return rand_tmpl(low, high);
-}
+real_t  drand(real_t  low, real_t  high) { return                      rand_tmpl(low, high) ; }
+real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl(low, high)); }
 /*-------------------------------------------------*/
-complex_t zrand(real_t low, real_t high)
-{
-	return cval(drand(low,high), drand(low,high));
-}
+complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
+complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
