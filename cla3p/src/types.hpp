@@ -43,7 +43,7 @@ enum class TransOp {
 	C    
 };
 
-enum class ptype_t {
+enum class prop_t {
 	NONE      = 0,
 	GENERAL      ,
 	SYMMETRIC    ,
@@ -53,19 +53,19 @@ enum class ptype_t {
 class Property {
 	public:
 		Property();
-		Property(ptype_t);
+		Property(prop_t);
 		Property(const Property&);
 		Property& operator=(const Property&);
 		~Property();
 
-		ptype_t type() const;
+		prop_t type() const;
 		const std::string& name() const;
 		bool is_valid() const;
 		bool is_general() const;
 		bool is_symmetric() const;
 		bool is_hermitian() const;
 	private:
-		ptype_t m_type;
+		prop_t m_type;
 };
 
 /*-------------------------------------------------*/

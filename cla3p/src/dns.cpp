@@ -17,7 +17,7 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-void check(uint_t m, uint_t n, const void *a, uint_t lda, ptype_t ptype)
+void check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	if(!m || !n || !lda) 
 		throw Exception("Zero dimensions");
@@ -204,7 +204,7 @@ void he2ge(uint_t n, complex_t  *a, uint_t lda) { he2ge_tmpl(n, a, lda); }
 void he2ge(uint_t n, complex8_t *a, uint_t lda) { he2ge_tmpl(n, a, lda); }
 /*-------------------------------------------------*/
 template <class Tout, class Tin>
-static Tout norm_one_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t ptype)
+static Tout norm_one_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -213,12 +213,12 @@ static Tout norm_one_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t 
 	else if(prop.is_symmetric()) return lapack::lansy('1', 'L', n, a, lda);
 	else if(prop.is_hermitian()) return lapack::lanhe('1', 'L', n, a, lda);
 	
-	throw Exception("Property: " + prop.name());
+	throw Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
 template <class Tout, class Tin>
-static Tout norm_inf_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t ptype)
+static Tout norm_inf_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -227,12 +227,12 @@ static Tout norm_inf_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t 
 	else if(prop.is_symmetric()) return lapack::lansy('I', 'L', n, a, lda);
 	else if(prop.is_hermitian()) return lapack::lanhe('I', 'L', n, a, lda);
 	
-	throw Exception("Property: " + prop.name());
+	throw Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
 template <class Tout, class Tin>
-static Tout norm_max_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t ptype)
+static Tout norm_max_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -241,12 +241,12 @@ static Tout norm_max_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t 
 	else if(prop.is_symmetric()) return lapack::lansy('M', 'L', n, a, lda);
 	else if(prop.is_hermitian()) return lapack::lanhe('M', 'L', n, a, lda);
 	
-	throw Exception("Property: " + prop.name());
+	throw Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
 template <class Tout, class Tin>
-static Tout norm_fro_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t ptype)
+static Tout norm_fro_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -255,29 +255,73 @@ static Tout norm_fro_tmpl(uint_t m, uint_t n, const Tin *a, uint_t lda, ptype_t 
 	else if(prop.is_symmetric()) return lapack::lansy('F', 'L', n, a, lda);
 	else if(prop.is_hermitian()) return lapack::lanhe('F', 'L', n, a, lda);
 	
-	throw Exception("Property: " + prop.name());
+	throw Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
-real_t norm_one(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype){ return norm_one_tmpl<real_t,real_t>(m,n,a,lda,ptype); }
-real_t norm_inf(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype){ return norm_inf_tmpl<real_t,real_t>(m,n,a,lda,ptype); }
-real_t norm_max(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype){ return norm_max_tmpl<real_t,real_t>(m,n,a,lda,ptype); }
-real_t norm_fro(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype){ return norm_fro_tmpl<real_t,real_t>(m,n,a,lda,ptype); }
+real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_one_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
+real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_inf_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
+real_t norm_max(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_max_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
+real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_fro_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
-real4_t norm_one(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype){ return norm_one_tmpl<real4_t,real4_t>(m,n,a,lda,ptype); }
-real4_t norm_inf(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype){ return norm_inf_tmpl<real4_t,real4_t>(m,n,a,lda,ptype); }
-real4_t norm_max(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype){ return norm_max_tmpl<real4_t,real4_t>(m,n,a,lda,ptype); }
-real4_t norm_fro(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype){ return norm_fro_tmpl<real4_t,real4_t>(m,n,a,lda,ptype); }
+real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_one_tmpl<real4_t,real4_t>(ptype,m,n,a,lda); }
+real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_inf_tmpl<real4_t,real4_t>(ptype,m,n,a,lda); }
+real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_max_tmpl<real4_t,real4_t>(ptype,m,n,a,lda); }
+real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,real4_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
-real_t norm_one(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype){ return norm_one_tmpl<real_t,complex_t>(m,n,a,lda,ptype); }
-real_t norm_inf(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype){ return norm_inf_tmpl<real_t,complex_t>(m,n,a,lda,ptype); }
-real_t norm_max(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype){ return norm_max_tmpl<real_t,complex_t>(m,n,a,lda,ptype); }
-real_t norm_fro(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype){ return norm_fro_tmpl<real_t,complex_t>(m,n,a,lda,ptype); }
+real_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_one_tmpl<real_t,complex_t>(ptype,m,n,a,lda); }
+real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_inf_tmpl<real_t,complex_t>(ptype,m,n,a,lda); }
+real_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_max_tmpl<real_t,complex_t>(ptype,m,n,a,lda); }
+real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_fro_tmpl<real_t,complex_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
-real4_t norm_one(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype){ return norm_one_tmpl<real4_t,complex8_t>(m,n,a,lda,ptype); }
-real4_t norm_inf(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype){ return norm_inf_tmpl<real4_t,complex8_t>(m,n,a,lda,ptype); }
-real4_t norm_max(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype){ return norm_max_tmpl<real4_t,complex8_t>(m,n,a,lda,ptype); }
-real4_t norm_fro(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype){ return norm_fro_tmpl<real4_t,complex8_t>(m,n,a,lda,ptype); }
+real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_one_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
+real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
+real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
+real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
+/*-------------------------------------------------*/
+template <class T>
+static void permute_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)
+{
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			entry(ldb, b, P[i], j) = entry(lda, a, i, j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <class T>
+static void permute_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *Q)
+{
+	for(uint_t j = 0; j < n; j++) {
+		copy(m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
+	} // j
+}
+/*-------------------------------------------------*/
+template <class T>
+static void permute_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			entry(ldb, b, P[i], Q[j]) = entry(lda, a, i, j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <class T>
+static void permute_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	if(!m || !n) return;
+
+	/**/ if( P &&  Q) permute_both_tmpl (m, n, a, lda, b, ldb, P, Q);
+	else if( P && !Q) permute_right_tmpl(m, n, a, lda, b, ldb, P);
+	else if(!P &&  Q) permute_left_tmpl (m, n, a, lda, b, ldb, Q);
+	else              copy(m, n, a, lda, b, ldb);
+}
+/*-------------------------------------------------*/
+void permute(uint_t m, uint_t n, const real_t     *a, uint_t lda, real_t     *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
+void permute(uint_t m, uint_t n, const real4_t    *a, uint_t lda, real4_t    *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
+void permute(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
+void permute(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

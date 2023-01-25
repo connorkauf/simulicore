@@ -9,7 +9,7 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 
-void check(uint_t m, uint_t n, const void *a, uint_t lda, ptype_t ptype);
+void check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
 
 template <class T>
 inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
@@ -74,25 +74,30 @@ void sy2ge(uint_t n, complex8_t *a, uint_t lda);
 void he2ge(uint_t n, complex_t *a, uint_t lda);
 void he2ge(uint_t n, complex8_t *a, uint_t lda);
 
-real_t norm_one(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
-real_t norm_inf(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
-real_t norm_max(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
-real_t norm_fro(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
+real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_max(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
 
-real4_t norm_one(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_inf(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_max(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_fro(uint_t m, uint_t n, const real4_t *a, uint_t lda, ptype_t ptype);
+real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
 
-real_t norm_one(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype);
-real_t norm_inf(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype);
-real_t norm_max(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype);
-real_t norm_fro(uint_t m, uint_t n, const complex_t *a, uint_t lda, ptype_t ptype);
+real_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
 
-real4_t norm_one(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_inf(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_max(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype);
-real4_t norm_fro(uint_t m, uint_t n, const complex8_t *a, uint_t lda, ptype_t ptype);
+real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+
+void permute(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
 
 /*-------------------------------------------------*/
 } // namespace dns

@@ -12,11 +12,11 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 Property::Property()
-	: m_type(ptype_t::NONE)
+	: m_type(prop_t::NONE)
 {
 }
 /*-------------------------------------------------*/
-Property::Property(ptype_t ptype)
+Property::Property(prop_t ptype)
 	: m_type(ptype)
 {
 }
@@ -36,7 +36,7 @@ Property::~Property()
 {
 }
 /*-------------------------------------------------*/
-ptype_t Property::type() const
+prop_t Property::type() const
 {
 	return m_type;
 }
@@ -48,32 +48,32 @@ const std::string pname_hermitian = "Hermitian";
 /*-------------------------------------------------*/
 const std::string& Property::name() const
 {
-	if(type() == ptype_t::NONE     ) return pname_none     ;
-	if(type() == ptype_t::GENERAL  ) return pname_general  ;
-	if(type() == ptype_t::SYMMETRIC) return pname_symmetric;
-	if(type() == ptype_t::HERMITIAN) return pname_hermitian;
+	if(type() == prop_t::NONE     ) return pname_none     ;
+	if(type() == prop_t::GENERAL  ) return pname_general  ;
+	if(type() == prop_t::SYMMETRIC) return pname_symmetric;
+	if(type() == prop_t::HERMITIAN) return pname_hermitian;
 
 	throw Exception();
 }
 /*-------------------------------------------------*/
 bool Property::is_valid() const
 {
-	return (type() != ptype_t::NONE);
+	return (type() != prop_t::NONE);
 }
 /*-------------------------------------------------*/
 bool Property::is_general() const
 {
-	return (type() == ptype_t::GENERAL);
+	return (type() == prop_t::GENERAL);
 }
 /*-------------------------------------------------*/
 bool Property::is_symmetric() const
 {
-	return (type() == ptype_t::SYMMETRIC);
+	return (type() == prop_t::SYMMETRIC);
 }
 /*-------------------------------------------------*/
 bool Property::is_hermitian() const
 {
-	return (type() == ptype_t::HERMITIAN);
+	return (type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
