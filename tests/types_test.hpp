@@ -1,7 +1,7 @@
 #ifndef CLA3P_TYPES_TEST_HPP_
 #define CLA3P_TYPES_TEST_HPP_
 
-#include "types.hpp"
+#include "cla3p/src/types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

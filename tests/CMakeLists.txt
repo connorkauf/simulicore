@@ -1,44 +1,40 @@
 #-----------------------------------------------
 # source setup
 #-----------------------------------------------
-set(CLA3P_SRC
-	test.cpp # to be deleted
-	types.cpp
-	error.cpp
-	utils.cpp
-	imalloc.cpp
-	mkl_proxy.cpp
-	blas_proxy.cpp
-	lapack_proxy.cpp
-	dns.cpp
-	dns_io.cpp
-	)
+set(CLA3P_TEST_SRC
+	types_test.cpp
+	cla3p_tests.cpp
+  )
 
-set(CLA3P_HPP
-	test.hpp # to be deleted
-	types.hpp
-	error.hpp
-	)
+set(CLA3P_TEST_HPP
+  )
 
 #-----------------------------------------------
 # target setup
 #-----------------------------------------------
-add_library(${CLA3P_LIB} SHARED ${CLA3P_SRC})
+set(BIN_NAME "cla3p_tests")
+set(BSH_NAME "${BIN_NAME}.sh")
+
+add_executable(${BIN_NAME} ${CLA3P_TEST_SRC})
 
 #-----------------------------------------------
 # dependencies setup
 #-----------------------------------------------
-target_include_directories(${CLA3P_LIB} PRIVATE ${MKL_INC})
-target_link_libraries(${CLA3P_LIB} ${MKL_LIB})
+target_include_directories(${BIN_NAME} PRIVATE 
+	${CLA3P_PROJECT_ROOT}
+	)
+
+target_link_libraries(${BIN_NAME}
+	${CLA3P_LIB}
+	#${CMPI_LIB} enable when ready
+	)
 
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
-set(CLA3P_HPP_INSTALL include/cla3p)
-set(CLA3P_LIB_INSTALL lib)
+install(TARGETS ${BIN_NAME} DESTINATION bin)
+install(PROGRAMS ${BSH_NAME} DESTINATION bin)
 
-install(FILES   ${CLA3P_HPP} DESTINATION ${CLA3P_HPP_INSTALL})
-install(TARGETS ${CLA3P_LIB} DESTINATION ${CLA3P_LIB_INSTALL})
 #-----------------------------------------------
 # end
 #-----------------------------------------------

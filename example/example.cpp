@@ -13,8 +13,6 @@
 #include "cla3p/src/dns_io.hpp"
 #include "cla3p/src/mkl_proxy.hpp"
 
-
-#include "cla3p/src/types_test.hpp"
 /*-------------------------------------------------*/
 #if 0
 static void omp_print()

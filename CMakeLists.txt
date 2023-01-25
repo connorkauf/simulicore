@@ -123,9 +123,7 @@ endif()
 add_subdirectory(cmpi)
 add_subdirectory(cla3p)
 
-#-----------------------------------------------
-# custom executable setup
-#-----------------------------------------------
+add_subdirectory(tests)
 add_subdirectory(example)
 
 #-----------------------------------------------
