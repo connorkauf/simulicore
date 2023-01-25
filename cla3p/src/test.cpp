@@ -4,12 +4,14 @@ namespace cla3p {
 /*-------------------------------------------------*/
 int return_zero(int x)
 {
-	return 0;
+	x = 0;
+	return x;
 }
 /*-------------------------------------------------*/
 int return_one(int x)
 {
-	return 1;
+	x = 1;
+	return x;
 }
 /*-------------------------------------------------*/
 TestClass::TestClass()

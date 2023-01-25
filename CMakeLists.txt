@@ -43,6 +43,12 @@ endif()
 #-----------------------------------------------
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wshadow")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-format-attribute")
+
 #-----------------------------------------------
 # set 3rd parties
 #-----------------------------------------------

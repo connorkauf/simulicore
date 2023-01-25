@@ -46,6 +46,19 @@ class NoConsistency : public Exception {
 };
 
 /**
+ * @brief Consistency cla3p exception class
+ */
+class Overflow : public Exception {
+	public:
+		/** 
+		 * @brief Constructor
+		 * @param[in] msg The message to display on throw
+		 */
+		Overflow(const std::string& msg = "Untitled");
+		~Overflow() throw();
+};
+
+/**
  * @brief Memory cla3p exception class
  */
 class OutOfMemory : public Exception {

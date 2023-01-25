@@ -11,15 +11,21 @@ namespace mkl {
 
 std::string version();
 
-void omatcopy(char ordering, char trans, size_t rows, size_t cols, real_t alpha, const real_t *a, size_t lda, real_t *b, size_t ldb);
-void omatcopy(char ordering, char trans, size_t rows, size_t cols, real4_t alpha, const real4_t *a, size_t lda, real4_t *b, size_t ldb);
-void omatcopy(char ordering, char trans, size_t rows, size_t cols, complex_t alpha, const complex_t *a, size_t lda, complex_t *b, size_t ldb);
-void omatcopy(char ordering, char trans, size_t rows, size_t cols, complex8_t alpha, const complex8_t *a, size_t lda, complex8_t *b, size_t ldb);
+#define omatcopy_macro(typeout, typein) \
+typeout omatcopy(char ordering, char trans, size_t rows, size_t cols, typein alpha, const typein *a, size_t lda, typein *b, size_t ldb);
+omatcopy_macro(void, real_t    )
+omatcopy_macro(void, real4_t   )
+omatcopy_macro(void, complex_t )
+omatcopy_macro(void, complex8_t)
+#undef omatcopy_macro
 
-void imatcopy(char ordering, char trans, size_t rows, size_t cols, real_t alpha, real_t *a, size_t lda, size_t ldb);
-void imatcopy(char ordering, char trans, size_t rows, size_t cols, real4_t alpha, real4_t *a, size_t lda, size_t ldb);
-void imatcopy(char ordering, char trans, size_t rows, size_t cols, complex_t alpha, complex_t *a, size_t lda, size_t ldb);
-void imatcopy(char ordering, char trans, size_t rows, size_t cols, complex8_t alpha, complex8_t *a, size_t lda, size_t ldb);
+#define imatcopy_macro(typeout, typein) \
+typeout imatcopy(char ordering, char trans, size_t rows, size_t cols, typein alpha, typein *a, size_t lda, size_t ldb);
+imatcopy_macro(void, real_t    )
+imatcopy_macro(void, real4_t   )
+imatcopy_macro(void, complex_t )
+imatcopy_macro(void, complex8_t)
+#undef imatcopy_macro
 
 /*-------------------------------------------------*/
 } // namespace mkl

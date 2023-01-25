@@ -46,7 +46,7 @@ class DnsPrinter {
 		template <class T>
 		void append_page_ith_row(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
 
-		uint_t count_columns_per_page(uint_t m, uint_t n);
+		uint_t count_columns_per_page(uint_t n);
 		void append_page_header(uint_t jbgn, uint_t jend);
 		void appent_extra_spaces();
 		void appent_element(real_t a);
@@ -95,7 +95,7 @@ void DnsPrinter::reset()
 	m_str.clear();
 }
 /*-------------------------------------------------*/
-uint_t DnsPrinter::count_columns_per_page(uint_t m, uint_t n)
+uint_t DnsPrinter::count_columns_per_page(uint_t n)
 {
 	uint_t row_index_len = m_row_numdigits + 3; // rowidx + space + sep + space
 	
@@ -200,7 +200,7 @@ void DnsPrinter::reserve(uint_t m, uint_t n)
 template <class T>
 void DnsPrinter::fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
-	uint_t columns_per_page = count_columns_per_page(m, n);
+	uint_t columns_per_page = count_columns_per_page(n);
 
 	uint_t num_pages = n / columns_per_page;
 	uint_t rem_cols = n % columns_per_page;
@@ -264,7 +264,7 @@ void DnsPrinter::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 template <class T>
 std::string print2str_tmpl(uint_t m, uint_t n, T *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
 {
-	if(!m || !n) return;
+	if(!m || !n) return "";
 	DnsPrinter printer(nsd, line_maxlen);
 	return printer.print2str(m, n, a, lda, lower);
 }

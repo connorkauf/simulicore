@@ -67,6 +67,13 @@ void conjugate(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *
 void conjugate(uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t scale = 1.);
 void conjugate(uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t scale = 1.);
 
+void sy2ge(uint_t n, real_t *a, uint_t lda);
+void sy2ge(uint_t n, real4_t *a, uint_t lda);
+void sy2ge(uint_t n, complex_t *a, uint_t lda);
+void sy2ge(uint_t n, complex8_t *a, uint_t lda);
+void he2ge(uint_t n, complex_t *a, uint_t lda);
+void he2ge(uint_t n, complex8_t *a, uint_t lda);
+
 real_t norm_one(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
 real_t norm_inf(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);
 real_t norm_max(uint_t m, uint_t n, const real_t *a, uint_t lda, ptype_t ptype);

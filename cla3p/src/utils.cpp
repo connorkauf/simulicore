@@ -70,7 +70,7 @@ template <class T>
 static real_t rand_tmpl(T low, T high)
 {
 	if(low > high) {
-		throw NoConsistency("Need low <= high");
+		throw Exception("Need low <= high");
 	} // error
 
 	real_t diff = static_cast<real_t>(high - low);

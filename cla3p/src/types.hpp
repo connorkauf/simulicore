@@ -33,6 +33,10 @@ typedef std::complex<real4_t> complex8_t;
 typedef std::complex<real_t> complex_t;
 typedef std::size_t bulk_t;
 
+// TODO: move to a math header ???
+inline complex_t conj(const complex_t& z) { return std::conj(z); }
+inline complex8_t conj(const complex8_t& c) { return std::conj(c); }
+
 enum class TransOp {
 	N = 0,
 	T    ,

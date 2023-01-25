@@ -8,20 +8,29 @@ namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
 
-real_t lange(char norm, int_t m, int_t n, const real_t *a, int_t lda);
-real4_t lange(char norm, int_t m, int_t n, const real4_t *a, int_t lda);
-real_t lange(char norm, int_t m, int_t n, const complex_t *a, int_t lda);
-real4_t lange(char norm, int_t m, int_t n, const complex8_t *a, int_t lda);
+#define lange_macro(typeout, typein) \
+typeout lange(char norm, int_t m, int_t n, const typein *a, int_t lda);
+lange_macro(real_t , real_t    )
+lange_macro(real4_t, real4_t   )
+lange_macro(real_t , complex_t )
+lange_macro(real4_t, complex8_t)
+#undef lange_macro
 
-real_t lansy(char norm, char uplo, int_t n, const real_t *a, int_t lda);
-real4_t lansy(char norm, char uplo, int_t n, const real4_t *a, int_t lda);
-real_t lansy(char norm, char uplo, int_t n, const complex_t *a, int_t lda);
-real4_t lansy(char norm, char uplo, int_t n, const complex8_t *a, int_t lda);
+#define lansy_macro(typeout, typein) \
+typeout lansy(char norm, char uplo, int_t n, const typein *a, int_t lda);
+lansy_macro(real_t , real_t    )
+lansy_macro(real4_t, real4_t   )
+lansy_macro(real_t , complex_t )
+lansy_macro(real4_t, complex8_t)
+#undef lansy_macro
 
-real_t lanhe(char norm, char uplo, int_t n, const real_t *a, int_t lda); // same as lansy
-real4_t lanhe(char norm, char uplo, int_t n, const real4_t *a, int_t lda); // same as lansy
-real_t lanhe(char norm, char uplo, int_t n, const complex_t *a, int_t lda);
-real4_t lanhe(char norm, char uplo, int_t n, const complex8_t *a, int_t lda);
+#define lanhe_macro(typeout, typein) \
+typeout lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda);
+lanhe_macro(real_t , real_t    ) // same as lansy
+lanhe_macro(real4_t, real4_t   ) // same as lansy
+lanhe_macro(real_t , complex_t )
+lanhe_macro(real4_t, complex8_t)
+#undef lanhe_macro
 
 /*-------------------------------------------------*/
 } // namespace lapack
