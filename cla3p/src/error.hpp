@@ -46,7 +46,7 @@ class NoConsistency : public Exception {
 };
 
 /**
- * @brief Consistency cla3p exception class
+ * @brief Overflow cla3p exception class
  */
 class Overflow : public Exception {
 	public:
@@ -72,7 +72,7 @@ class OutOfMemory : public Exception {
 };
 
 /**
- * @brief Consistency cla3p exception class
+ * @brief Out-of-bounds cla3p exception class
  */
 class OutOfBounds : public Exception {
 	public:
