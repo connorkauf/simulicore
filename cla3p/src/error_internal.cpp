@@ -8,6 +8,7 @@
 // 3rd
 
 // cla3p
+#include "utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -40,7 +41,7 @@ void Warning_with_args(const std::string& msg, const char *file, const char *fun
 {
 	if(show_dbg_messages()) {
 		messaging_mutex().lock();
-		std::cout << "Warning: in file '" << file << "' line " << line << "function '" << fun << "' -> " << msg << std::endl;
+		std::cout << "Warning: in file '" << extract_filename(file) << ":" << line << "' function '" << fun << "' -> " << msg << std::endl;
 		messaging_mutex().unlock();
 	} // show_dbg_messages
 }
@@ -49,7 +50,7 @@ void Error_with_args(const std::string& msg, const char *file, const char *fun, 
 {
 	if(show_dbg_messages()) {
 		messaging_mutex().lock();
-		std::cout << "Error: in file '" << file << "' line " << line << "function '" << fun << "' -> " << msg << std::endl;
+		std::cout << "Error: in file '" << extract_filename(file) << ":" << line << "' function '" << fun << "' -> " << msg << std::endl;
 		messaging_mutex().unlock();
 	} // show_dbg_messages
 }

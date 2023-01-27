@@ -21,7 +21,7 @@ std::string version()
 }
 /*-------------------------------------------------*/
 #define omatcopy_macro(typeout, typein, prefix) \
-typeout omatcopy(char ordering, char trans, size_t rows, size_t cols, typein alpha, const typein *a, size_t lda, typein *b, size_t ldb) \
+typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, const typein *a, bulk_t lda, typein *b, bulk_t ldb) \
 { \
 	mkl_##prefix##omatcopy(ordering, trans, rows, cols, alpha, a, lda, b, ldb); \
 }
@@ -32,7 +32,7 @@ omatcopy_macro(void, complex8_t, c)
 #undef omatcopy_macro
 /*-------------------------------------------------*/
 #define imatcopy_macro(typeout, typein, prefix) \
-typeout imatcopy(char ordering, char trans, size_t rows, size_t cols, typein alpha, typein *a, size_t lda, size_t ldb) \
+typeout imatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, typein *a, bulk_t lda, bulk_t ldb) \
 { \
 	mkl_##prefix##imatcopy(ordering, trans, rows, cols, alpha, a, lda, ldb); \
 }

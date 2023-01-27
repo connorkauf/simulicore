@@ -262,59 +262,65 @@ void DnsPrinter::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <class T>
-std::string print2str_tmpl(uint_t m, uint_t n, T *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return "";
+
+	bool lower = check(ptype, m, n, a, lda);
+
 	DnsPrinter printer(nsd, line_maxlen);
 	return printer.print2str(m, n, a, lda, lower);
 }
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	return print2str_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	return print2str_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	return print2str_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+std::string print2str(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print2str_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	return print2str_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 template <class T>
-void print_tmpl(uint_t m, uint_t n, T *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+void print_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return;
+
+	bool lower = check(ptype, m, n, a, lda);
+
 	DnsPrinter printer(nsd, line_maxlen);
 	printer.print(m, n, a, lda, lower);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+void print(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+void print(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+void print(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower, uint_t nsd, uint_t line_maxlen)
+void print(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(m, n, a, lda, lower, nsd, line_maxlen);
+	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 } // namespace dns

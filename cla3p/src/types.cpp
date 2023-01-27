@@ -84,3 +84,13 @@ bool Property::is_lower() const
 } // namespace cla3p
 /*-------------------------------------------------*/
 
+
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::Property& prop)
+{
+	os << prop.name();
+	return os;
+}
+/*-------------------------------------------------*/
+
+

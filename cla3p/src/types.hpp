@@ -38,14 +38,6 @@ inline real_t conj(const real_t& d) { /*WarningNoReach*/ return d; }
 inline real4_t conj(const real4_t& s) { /*WarningNoReach*/ return s; }
 inline complex_t conj(const complex_t& z) { return std::conj(z); }
 inline complex8_t conj(const complex8_t& c) { return std::conj(c); }
-#if 0
-bool operator==(const complex_t & z1, const complex_t & z2) { return (z1.real() == z2.real() && z1.imag() == z2.imag()); }
-bool operator==(const complex8_t& c1, const complex8_t& c2) { return (c1.real() == c2.real() && c1.imag() == c2.imag()); }
-bool operator==(const complex_t & z , const real_t    & d ) { return (z.real() == d && z.imag() == 0.); }
-bool operator==(const complex8_t& c , const real4_t   & s ) { return (c.real() == s && c.imag() == 0.); }
-bool operator==(const real_t    & d , const complex_t & z ) { return (z == d); }
-bool operator==(const real4_t   & s , const complex8_t& c ) { return (c == s); }
-#endif
 
 enum class TransOp {
 	N = 0,
@@ -82,4 +74,10 @@ class Property {
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
+
+std::ostream& operator<<(std::ostream& os, const cla3p::Property& prop);
+
+/*-------------------------------------------------*/
+
+
 #endif // CLA3P_TYPES_HPP_

@@ -19,6 +19,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
+// TODO: perhaps group all similar recursive ops under one
+//       operation with a function object
 static uint_t recursive_min_dim()
 {
 	return 256;

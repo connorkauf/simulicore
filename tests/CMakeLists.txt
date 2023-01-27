@@ -4,6 +4,7 @@
 set(CLA3P_TEST_SRC
 	naive_matrix_ops.cpp
 	types_test.cpp
+	utils_test.cpp
 	cla3p_tests.cpp
   )
 
@@ -23,6 +24,7 @@ add_executable(${BIN_NAME} ${CLA3P_TEST_SRC})
 #-----------------------------------------------
 target_include_directories(${BIN_NAME} PRIVATE 
 	${CLA3P_PROJECT_ROOT}
+	${MKL_INC}
 	)
 
 target_link_libraries(${BIN_NAME}

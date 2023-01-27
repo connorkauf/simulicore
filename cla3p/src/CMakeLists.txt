@@ -2,7 +2,6 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC
-	test.cpp # to be deleted
 	types.cpp
 	error.cpp
 	error_internal.cpp
@@ -13,12 +12,13 @@ set(CLA3P_SRC
 	lapack_proxy.cpp
 	dns.cpp
 	dns_io.cpp
+	dns_generic.cpp
 	)
 
 set(CLA3P_HPP
-	test.hpp # to be deleted
 	types.hpp
 	error.hpp
+	dns_generic.hpp
 	)
 
 #-----------------------------------------------
