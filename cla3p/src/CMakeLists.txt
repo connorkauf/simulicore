@@ -5,6 +5,7 @@ set(CLA3P_SRC
 	test.cpp # to be deleted
 	types.cpp
 	error.cpp
+	error_internal.cpp
 	utils.cpp
 	imalloc.cpp
 	mkl_proxy.cpp

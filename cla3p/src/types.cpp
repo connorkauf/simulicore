@@ -76,6 +76,11 @@ bool Property::is_hermitian() const
 	return (type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
+bool Property::is_lower() const
+{
+	return (is_symmetric() || is_hermitian());
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

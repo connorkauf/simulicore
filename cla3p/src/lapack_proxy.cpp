@@ -7,6 +7,7 @@
 #include <mkl.h>
 
 // cla3p
+#include "error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -34,8 +35,17 @@ lansy_macro(real_t , complex_t , z)
 lansy_macro(real4_t, complex8_t, c)
 #undef lansy_macro
 /*-------------------------------------------------*/
-real_t  lanhe(char norm, char uplo, int_t n, const real_t  *a, int_t lda) { return lansy(norm, uplo, n, a, lda); }
-real4_t lanhe(char norm, char uplo, int_t n, const real4_t *a, int_t lda) { return lansy(norm, uplo, n, a, lda); }
+real_t lanhe(char norm, char uplo, int_t n, const real_t *a, int_t lda)
+{ 
+	WarningNoReach();
+	return lansy(norm, uplo, n, a, lda); 
+}
+/*-------------------------------------------------*/
+real4_t lanhe(char norm, char uplo, int_t n, const real4_t *a, int_t lda) 
+{ 
+	WarningNoReach();
+	return lansy(norm, uplo, n, a, lda); 
+}
 /*-------------------------------------------------*/
 #define lanhe_macro(typeout, typein, prefix) \
 typeout lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \

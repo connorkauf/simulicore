@@ -9,7 +9,9 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 
-void check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
+// throws exception on error
+// returns if pattern is lower
+bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
 
 template <class T>
 inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
@@ -23,49 +25,62 @@ inline T& entry(uint_t lda, T *a, uint_t i, uint_t j)
 	return *ptrmv(lda,a,i,j);
 }
 
-void zero(uint_t m, uint_t n, real_t *a, uint_t lda);
-void zero(uint_t m, uint_t n, real4_t *a, uint_t lda);
-void zero(uint_t m, uint_t n, complex_t *a, uint_t lda);
-void zero(uint_t m, uint_t n, complex8_t *a, uint_t lda);
+void zero(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda);
+void zero(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda);
+void zero(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda);
+void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda);
 
 template <class T>
 T* alloc(uint_t m, uint_t n, uint_t lda, bool clear = false)
 {
 	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));
 	if(clear) {
-		zero(m, n, ret, lda);
+		zero(prop_t::GENERAL, m, n, ret, lda);
 	} // clear
 	return ret;
 }
 
-void fill(uint_t m, uint_t n, real_t *a, uint_t lda, real_t val);
-void fill(uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t val);
-void fill(uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t val);
-void fill(uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val);
+void fill(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t val);
+void fill(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t val);
+void fill(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t val);
+void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val);
 
-void rand(uint_t m, uint_t n, real_t *a, uint_t lda, real_t low = 0., real_t high = 1.);
-void rand(uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t low = 0., real4_t high = 1.);
-void rand(uint_t m, uint_t n, complex_t *a, uint_t lda, real_t low = 0., real_t high = 1.);
-void rand(uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low = 0., real4_t high = 1.);
+void rand(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t low = 0., real_t high = 1.);
+void rand(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t low = 0., real4_t high = 1.);
+void rand(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, real_t low = 0., real_t high = 1.);
+void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low = 0., real4_t high = 1.);
 
-void copy(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t scale = 1.);
-void copy(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t scale = 1.);
-void copy(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t scale = 1.);
-void copy(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale = 1.);
+void copy(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff = 1.);
+void copy(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff = 1.);
+void copy(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff = 1.);
+void copy(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff = 1.);
 
-void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t scale = 1.);
-void transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t scale = 1.);
-void transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t scale = 1.);
-void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale = 1.);
+void scale(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff);
+void scale(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff);
+void scale(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff);
+void scale(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff);
 
-void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t scale = 1.);
-void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale = 1.);
+void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff = 1.);
+void transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff = 1.);
+void transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff = 1.);
+void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff = 1.);
 
-void conjugate(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t scale = 1.);
-void conjugate(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale = 1.);
+void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff = 1.); // same as transpose
+void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff = 1.); // same as transpose
+void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff = 1.);
+void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff = 1.);
 
-void conjugate(uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t scale = 1.);
-void conjugate(uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t scale = 1.);
+#if 0
+void conjugate(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff = 1.); // scale only
+void conjugate(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff = 1.); // scale only
+void conjugate(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff = 1.);
+void conjugate(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff = 1.);
+#endif
+
+void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // scale only
+void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // scale only
+void conjugate(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff = 1.);
+void conjugate(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff = 1.);
 
 void sy2ge(uint_t n, real_t *a, uint_t lda);
 void sy2ge(uint_t n, real4_t *a, uint_t lda);
@@ -94,10 +109,13 @@ real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
-void permute(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
-void permute(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
-void permute(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
-void permute(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+// prop: GENERAL   B = P*A*Q     if P,Q is nullptr, the identity perm is used
+// prop: SYMMETRIC B = P*A*P^{T} Q is not referenced
+// prop: HERMITIAN B = P*A*P^{H} Q is not referenced
+void permute(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
+void permute(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
 
 /*-------------------------------------------------*/
 } // namespace dns

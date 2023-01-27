@@ -4,11 +4,13 @@
 // system
 #include <cstring>
 #include <algorithm>
+#include <functional>
 
 // 3rd
 
 // cla3p
 #include "error.hpp"
+#include "error_internal.hpp"
 #include "utils.hpp"
 #include "mkl_proxy.hpp"
 #include "lapack_proxy.hpp"
@@ -17,7 +19,12 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-void check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
+static uint_t recursive_min_dim()
+{
+	return 256;
+}
+/*-------------------------------------------------*/
+bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	if(!m || !n || !lda) 
 		throw Exception("Zero dimensions");
@@ -32,13 +39,17 @@ void check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 	if(!prop.is_valid()) 
 		throw Exception("Invalid property");
 
-	bool lower = (prop.is_symmetric() || prop.is_hermitian());
+	bool lower = (prop.is_lower());
 	if(lower && m != n) 
 		throw Exception("Non square matrix");
+
+	return lower;
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <class T>
-static void zero_tmpl(uint_t m, uint_t n, T *a, uint_t lda)
+static void zero_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	// TODO: using memset on complex throws warning, 
 	//       measure and choose best method
@@ -46,162 +57,530 @@ static void zero_tmpl(uint_t m, uint_t n, T *a, uint_t lda)
 #if 0
 	if(!m || !n) return;
 
-	if(m == lda) {
+	bool lower = check(ptype, m, n, a, lda);
+
+	if(m == lda && !lower) {
 		std::memset(a, 0, m * n * sizeof(T));
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			std::memset(ptrmv(lda,a,0,j), 0, m * sizeof(T));
+			uint_t ibgn = lower ?     j : 0;
+			uint_t ilen = lower ? m - j : m;
+			std::memset(ptrmv(lda,a,ibgn,j), 0, ilen * sizeof(T));
 		} // j
 	} // m = lda
 #else
-	fill(m, n, a, lda, 0.);
+	fill(ptype, m, n, a, lda, 0.);
 #endif
 }
 /*-------------------------------------------------*/
-void zero(uint_t m, uint_t n, real_t     *a, uint_t lda) { zero_tmpl(m, n, a, lda); }
-void zero(uint_t m, uint_t n, real4_t    *a, uint_t lda) { zero_tmpl(m, n, a, lda); }
-void zero(uint_t m, uint_t n, complex_t  *a, uint_t lda) { zero_tmpl(m, n, a, lda); }
-void zero(uint_t m, uint_t n, complex8_t *a, uint_t lda) { zero_tmpl(m, n, a, lda); }
+void zero(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda)
+{ 
+	zero_tmpl(ptype, m, n, a, lda); 
+}
+/*-------------------------------------------------*/
+void zero(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda)
+{ 
+	zero_tmpl(ptype, m, n, a, lda); 
+}
+/*-------------------------------------------------*/
+void zero(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda)
+{ 
+	zero_tmpl(ptype, m, n, a, lda); 
+}
+/*-------------------------------------------------*/
+void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda)
+{ 
+	zero_tmpl(ptype, m, n, a, lda); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <class T>
-static void fill_tmpl(uint_t m, uint_t n, T *a, uint_t lda, T val)
+static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 {
 	// TODO: if !val call zero() fix when operators for complex are done
 	if(!m || !n) return;
 
-	if(m == lda) {
+	bool lower = check(ptype, m, n, a, lda);
+
+	if(m == lda || lower) {
 		std::fill_n(a, m * n, val);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			std::fill_n(ptrmv(lda,a,0,j), m, val);
+			uint_t ibgn = lower ?     j : 0;
+			uint_t ilen = lower ? m - j : m;
+			std::fill_n(ptrmv(lda,a,ibgn,j), ilen, val);
 		} // j
 	} // m = lda
 }
 /*-------------------------------------------------*/
-void fill(uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val) { fill_tmpl(m, n, a, lda, val); }
-void fill(uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val) { fill_tmpl(m, n, a, lda, val); }
-void fill(uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val) { fill_tmpl(m, n, a, lda, val); }
-void fill(uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val) { fill_tmpl(m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t val)
+{ 
+	fill_tmpl(ptype, m, n, a, lda, val); 
+}
 /*-------------------------------------------------*/
-void rand(uint_t m, uint_t n, real_t *a, uint_t lda, real_t low, real_t high)
+void fill(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t val)
+{ 
+	fill_tmpl(ptype, m, n, a, lda, val); 
+}
+/*-------------------------------------------------*/
+void fill(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t val)
+{ 
+	fill_tmpl(ptype, m, n, a, lda, val); 
+}
+/*-------------------------------------------------*/
+void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val)
+{ 
+	fill_tmpl(ptype, m, n, a, lda, val); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <class Tin, class Tout>
+static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda, 
+		Tin low, Tin high, const std::function<Tout (Tin low, Tin high)>& randfun)
 {
+	if(!m || !n) return;
+
+	bool lower = check(ptype, m, n, a, lda);
+
 	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			entry(lda,a,i,j) = drand(low, high);
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(lda,a,i,j) = randfun(low, high);
 		} // j
 	} // j
 }
 /*-------------------------------------------------*/
-void rand(uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t low, real4_t high)
+void rand(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t low, real_t high)
 {
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			entry(lda,a,i,j) = srand(low, high);
+	std::function<real_t (real_t low, real_t high)> randfun = drand;
+	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
+}
+/*-------------------------------------------------*/
+void rand(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t low, real4_t high)
+{
+	std::function<real4_t (real4_t low, real4_t high)> randfun = srand;
+	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
+}
+/*-------------------------------------------------*/
+void rand(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, real_t low, real_t high)
+{
+	std::function<complex_t (real_t low, real_t high)> randfun = zrand;
+	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
+}
+/*-------------------------------------------------*/
+void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high)
+{
+	std::function<complex8_t (real4_t low, real4_t high)> randfun = crand;
+	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <class T>
+static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff);
+/*-------------------------------------------------*/
+template <class T>
+static void copy_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			copy_tmpl(prop_t::GENERAL, n-j, 1, ptrmv(lda,a,j,j), lda, ptrmv(ldb,b,j,j), ldb, coeff);
 		} // j
-	} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		copy_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, ptrmv(ldb,b, 0, 0), ldb, coeff);
+		copy_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, ptrmv(ldb,b,n0,n0), ldb, coeff);
+
+		copy_tmpl(prop_t::GENERAL, n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(ldb,b,n0,0), ldb, coeff);
+
+	} // dim check
 }
 /*-------------------------------------------------*/
-void rand(uint_t m, uint_t n, complex_t *a, uint_t lda, real_t low, real_t high)
+template <class T>
+static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			entry(lda,a,i,j) = zrand(low, high);
+	if(!m || !n) return;
+
+	bool lower = check(ptype, m, n, a, lda);
+
+	if(lower) {
+		copy_recursive_tmpl(n, a, lda, b, ldb, coeff);
+	} else {
+		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
+	} // lower
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+{
+	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+{ 
+	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
+{
+	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
+{ 
+	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <class T>
+static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff);
+/*-------------------------------------------------*/
+template <class T>
+static void scale_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
+{
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			scale_tmpl(prop_t::GENERAL, n-j, 1, ptrmv(lda,a,j,j), lda, coeff);
 		} // j
-	} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		scale_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		scale_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, coeff);
+
+		scale_tmpl(prop_t::GENERAL, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+
+	} // dim check
 }
 /*-------------------------------------------------*/
-void rand(uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high)
+template <class T>
+static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			entry(lda,a,i,j) = crand(low, high);
+	if(!m || !n) return;
+
+	bool lower = check(ptype, m, n, a, lda);
+
+	T one = 1.;
+	if(coeff == one) return;
+
+	// TODO special case for coeff == 0 ???
+
+	if(lower) {
+		scale_recursive_tmpl(n, a, lda, coeff);
+	} else {
+		mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
+	} // lower
+}
+/*-------------------------------------------------*/
+void scale(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff)
+{
+	scale_tmpl(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+void scale(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff)
+{
+	scale_tmpl(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+void scale(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
+{
+	scale_tmpl(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+void scale(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff)
+{
+	scale_tmpl(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <class T>
+static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!m || !n) return;
+
+	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+{ 
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+{ 
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
+{
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
+{ 
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <class T>
+static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!m || !n) return;
+
+	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+{ 
+	WarningNoReach();
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+{ 
+	WarningNoReach();
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
+{ 
+	conjugate_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
+{ 
+	conjugate_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+#if 0
+template <class T>
+static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff);
+/*-------------------------------------------------*/
+template <class T>
+static void conjugate_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			conjugate_tmpl(prop_t::GENERAL, n-j, 1, ptrmv(lda,a,j,j), lda, ptrmv(ldb,b,j,j), ldb, coeff);
 		} // j
-	} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		conjugate_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, ptrmv(ldb,b, 0, 0), ldb, coeff);
+		conjugate_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, ptrmv(ldb,b,n0,n0), ldb, coeff);
+
+		conjugate_tmpl(prop_t::GENERAL, n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(ldb,b,n0,0), ldb, coeff);
+
+	} // dim check
 }
 /*-------------------------------------------------*/
 template <class T>
-static void copy_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T scale)
+static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
-	mkl::omatcopy('C', 'N', m, n, scale, a, lda, b, ldb);
+
+	bool lower = check(ptype, m, n, a, lda);
+
+	if(lower) {
+		conjugate_recursive_tmpl(n, a, lda, b, ldb, coeff);
+	} else {
+		mkl::omatcopy('C', 'R', m, n, coeff, a, lda, b, ldb);
+	} // lower
 }
 /*-------------------------------------------------*/
-void copy(uint_t m, uint_t n, const real_t     *a, uint_t lda, real_t     *b, uint_t ldb, real_t     scale) { copy_tmpl(m, n, a, lda, b, ldb, scale); }
-void copy(uint_t m, uint_t n, const real4_t    *a, uint_t lda, real4_t    *b, uint_t ldb, real4_t    scale) { copy_tmpl(m, n, a, lda, b, ldb, scale); }
-void copy(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, complex_t  scale) { copy_tmpl(m, n, a, lda, b, ldb, scale); }
-void copy(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale) { copy_tmpl(m, n, a, lda, b, ldb, scale); }
+void conjugate(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+{
+	WarningNoReach();
+	copy(ptype, m, n, a, lda, b, ldb, coeff);
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+{
+	WarningNoReach();
+	copy(ptype, m, n, a, lda, b, ldb, coeff);
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
+{ 
+	conjugate_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
+{ 
+	conjugate_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+#endif
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <class T>
-static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T scale)
+static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff);
+/*-------------------------------------------------*/
+template <class T>
+static void conjugate_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
+{
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			conjugate_tmpl(prop_t::GENERAL, n-j, 1, ptrmv(lda,a,j,j), lda, coeff);
+		} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		conjugate_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		conjugate_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, coeff);
+
+		conjugate_tmpl(prop_t::GENERAL, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+
+	} // dim check
+}
+/*-------------------------------------------------*/
+template <class T>
+static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!m || !n) return;
-	mkl::omatcopy('C', 'T', m, n, scale, a, lda, b, ldb);
+
+	bool lower = check(ptype, m, n, a, lda);
+
+	if(lower) {
+		conjugate_recursive_tmpl(n, a, lda, coeff);
+	} else {
+		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);
+	} // lower
 }
 /*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const real_t     *a, uint_t lda, real_t     *b, uint_t ldb, real_t     scale) { transpose_tmpl(m, n, a, lda, b, ldb, scale); }
-void transpose(uint_t m, uint_t n, const real4_t    *a, uint_t lda, real4_t    *b, uint_t ldb, real4_t    scale) { transpose_tmpl(m, n, a, lda, b, ldb, scale); }
-void transpose(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, complex_t  scale) { transpose_tmpl(m, n, a, lda, b, ldb, scale); }
-void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale) { transpose_tmpl(m, n, a, lda, b, ldb, scale); }
+void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff)
+{
+	WarningNoReach();
+	scale(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff)
+{
+	WarningNoReach();
+	scale(ptype, m, n, a, lda, coeff);
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
+{ 
+	conjugate_tmpl(ptype, m, n, a, lda, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff)
+{ 
+	conjugate_tmpl(ptype, m, n, a, lda, coeff); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <class T>
-static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T scale)
-{
-	if(!m || !n) return;
-	mkl::omatcopy('C', 'C', m, n, scale, a, lda, b, ldb);
-}
-/*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, complex_t  scale) { conjugate_transpose_tmpl(m, n, a, lda, b, ldb, scale); }
-void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale) { conjugate_transpose_tmpl(m, n, a, lda, b, ldb, scale); }
+static void syhe2ge_tmpl(uint_t n, T *a, uint_t lda, bool conjop);
 /*-------------------------------------------------*/
 template <class T>
-static void conjugate_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T scale)
+static void syhe2ge_recursive_tmpl(uint_t n, T *a, uint_t lda, bool conjop)
 {
-	if(!m || !n) return;
-	mkl::omatcopy('C', 'R', m, n, scale, a, lda, b, ldb);
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		if(conjop) {
+			for(uint_t j = 0; j < n; j++) {
+				for(uint_t i = j+1; i < n; i++) {
+					entry(lda,a,j,i) = conj(entry(lda,a,i,j));
+				} // i
+			} // j
+		} else {
+			for(uint_t j = 0; j < n; j++) {
+				for(uint_t i = j+1; i < n; i++) {
+					entry(lda,a,j,i) = entry(lda,a,i,j);
+				} // i
+			} // j
+		} // conjop
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		syhe2ge_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, conjop);
+		syhe2ge_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, conjop);
+
+		if(conjop) {
+			conjugate_transpose(n0, n1, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
+		} else {
+			transpose(n0, n1, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
+		} // conjop
+
+	} // dim check
 }
-/*-------------------------------------------------*/
-void conjugate(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, complex_t  scale) { conjugate_tmpl(m, n, a, lda, b, ldb, scale); }
-void conjugate(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t scale) { conjugate_tmpl(m, n, a, lda, b, ldb, scale); }
 /*-------------------------------------------------*/
 template <class T>
-static void conjugate_tmpl(uint_t m, uint_t n, T *a, uint_t lda, T scale)
+static void syhe2ge_tmpl(uint_t n, T *a, uint_t lda, bool conjop)
 {
-	if(!m || !n) return;
-	mkl::imatcopy('C', 'R', m, n, scale, a, lda, lda);
+	syhe2ge_recursive_tmpl(n, a, lda, conjop);
 }
 /*-------------------------------------------------*/
-void conjugate(uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  scale) { conjugate_tmpl(m, n, a, lda, scale); }
-void conjugate(uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t scale) { conjugate_tmpl(m, n, a, lda, scale); }
-/*-------------------------------------------------*/
-template <class T>
-void sy2ge_tmpl(uint_t n, T *a, uint_t lda)
-{
-	// TODO: something using smaller buffers for large mats & blas copy
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = j+1; i < n; i++) {
-			entry(lda,a,j,i) = entry(lda,a,i,j);
-		} // i
-	} // j
+void sy2ge(uint_t n, real_t *a, uint_t lda) 
+{ 
+	syhe2ge_tmpl(n, a, lda, false); 
 }
 /*-------------------------------------------------*/
-void sy2ge(uint_t n, real_t     *a, uint_t lda) { sy2ge_tmpl(n, a, lda); }
-void sy2ge(uint_t n, real4_t    *a, uint_t lda) { sy2ge_tmpl(n, a, lda); }
-void sy2ge(uint_t n, complex_t  *a, uint_t lda) { sy2ge_tmpl(n, a, lda); }
-void sy2ge(uint_t n, complex8_t *a, uint_t lda) { sy2ge_tmpl(n, a, lda); }
-/*-------------------------------------------------*/
-template <class T>
-void he2ge_tmpl(uint_t n, T *a, uint_t lda)
-{
-	// TODO: something using smaller buffers for large mats & blas copy
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = j+1; i < n; i++) {
-			entry(lda,a,j,i) = conj(entry(lda,a,i,j));
-		} // i
-	} // j
+void sy2ge(uint_t n, real4_t *a, uint_t lda)
+{ 
+	syhe2ge_tmpl(n, a, lda, false); 
 }
 /*-------------------------------------------------*/
-void he2ge(uint_t n, complex_t  *a, uint_t lda) { he2ge_tmpl(n, a, lda); }
-void he2ge(uint_t n, complex8_t *a, uint_t lda) { he2ge_tmpl(n, a, lda); }
+void sy2ge(uint_t n, complex_t *a, uint_t lda)
+{ 
+	syhe2ge_tmpl(n, a, lda, false); 
+}
+/*-------------------------------------------------*/
+void sy2ge(uint_t n, complex8_t *a, uint_t lda)
+{ 
+	syhe2ge_tmpl(n, a, lda, false); 
+}
+/*-------------------------------------------------*/
+void he2ge(uint_t n, complex_t *a, uint_t lda)
+{ 
+	syhe2ge_tmpl(n, a, lda, true); 
+}
+/*-------------------------------------------------*/
+void he2ge(uint_t n, complex8_t *a, uint_t lda)
+{ 
+	syhe2ge_tmpl(n, a, lda, true); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <class Tout, class Tin>
 static Tout norm_one_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
@@ -280,8 +659,9 @@ real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
 template <class T>
-static void permute_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)
+static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)
 {
+	// TODO: could use (blas or dns) copy ???
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
 			entry(ldb, b, P[i], j) = entry(lda, a, i, j);
@@ -290,15 +670,15 @@ static void permute_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b,
 }
 /*-------------------------------------------------*/
 template <class T>
-static void permute_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *Q)
+static void permute_ge_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
-		copy(m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
+		copy(prop_t::GENERAL, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
 	} // j
 }
 /*-------------------------------------------------*/
 template <class T>
-static void permute_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+static void permute_ge_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -308,20 +688,84 @@ static void permute_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, 
 }
 /*-------------------------------------------------*/
 template <class T>
-static void permute_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+static void permute_syhe_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, bool conjop)
+{
+	uint_t Pi;
+	uint_t Pj;
+	T      Aij;
+
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = j; i < n; i++) {
+
+			Pi  = P[i];
+			Pj  = P[j];
+			Aij = entry(lda,a,i,j);
+
+			if(Pj > Pi) {
+				entry(ldb,b,Pj,Pi) = (conjop ? conj(Aij) : Aij);
+			} else {
+				entry(ldb,b,Pi,Pj) = Aij;
+			} // upper/lower 
+
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <class T>
+static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 {
 	if(!m || !n) return;
 
-	/**/ if( P &&  Q) permute_both_tmpl (m, n, a, lda, b, ldb, P, Q);
-	else if( P && !Q) permute_right_tmpl(m, n, a, lda, b, ldb, P);
-	else if(!P &&  Q) permute_left_tmpl (m, n, a, lda, b, ldb, Q);
-	else              copy(m, n, a, lda, b, ldb);
+	check(ptype, m, n, a, lda);
+
+	if(!P && !Q) {
+		copy(ptype, m, n, a, lda, b, ldb);
+		return;
+	} // no perms, copy and exit
+
+	Property prop(ptype);
+
+	if(prop.is_general()) {
+
+		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
+		else if( P && !Q) permute_ge_right_tmpl(m, n, a, lda, b, ldb, P);
+		else if(!P &&  Q) permute_ge_left_tmpl (m, n, a, lda, b, ldb, Q);
+		else              ErrorNoReach();
+
+	} else if(prop.is_symmetric()) {
+
+		permute_syhe_tmpl(n, a, lda, b, ldb, P, false);
+
+	} else if(prop.is_hermitian()) {
+
+		permute_syhe_tmpl(n, a, lda, b, ldb, P, true);
+
+	} else {
+
+		throw Exception("Invalid property: " + prop.name());
+
+	} // prop
 }
 /*-------------------------------------------------*/
-void permute(uint_t m, uint_t n, const real_t     *a, uint_t lda, real_t     *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
-void permute(uint_t m, uint_t n, const real4_t    *a, uint_t lda, real4_t    *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
-void permute(uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
-void permute(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q) { permute_tmpl(m, n, a, lda, b, ldb, P, Q); }
+void permute(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{ 
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
+}
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
