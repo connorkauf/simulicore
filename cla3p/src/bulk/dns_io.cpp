@@ -8,12 +8,13 @@
 // 3rd
 
 // cla3p
-#include "utils.hpp"
 #include "dns.hpp"
+#include "../utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
+namespace bulk {
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -323,6 +324,7 @@ void print(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, ui
 	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
+} // namespace bulk
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/

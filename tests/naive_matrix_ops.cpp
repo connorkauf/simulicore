@@ -6,16 +6,16 @@
 // 3rd
 
 // cla3p
-#include "cla3p/src/dns.hpp"
+#include "cla3p/src/bulk/dns.hpp"
 
 /*-------------------------------------------------*/
 static real_t GetElem(uint_t lda, const real_t *a, uint_t i, uint_t j, TransOp op)
 {
 	real_t ret = 0.;
 
-	/**/ if(op == TransOp::N) ret = dns::entry(lda,a,i,j);
-	else if(op == TransOp::T) ret = dns::entry(lda,a,j,i);
-	else if(op == TransOp::C) ret = dns::entry(lda,a,j,i);
+	/**/ if(op == TransOp::N) ret = dns::bulk::entry(lda,a,i,j);
+	else if(op == TransOp::T) ret = dns::bulk::entry(lda,a,j,i);
+	else if(op == TransOp::C) ret = dns::bulk::entry(lda,a,j,i);
 
 	return ret;
 }
@@ -33,8 +33,8 @@ void naive_gemm(uint_t m, uint_t n, uint_t k, real_t alpha,
 				real_t bb = GetElem(ldb,b,l,j,opB);
 				sum += alpha * aa * bb;
 			} // l
-			dns::entry(ldc,c,i,j) = (beta ? dns::entry(ldc,c,i,j) * beta : 0.);
-			dns::entry(ldc,c,i,j) += sum;
+			dns::bulk::entry(ldc,c,i,j) = (beta ? dns::bulk::entry(ldc,c,i,j) * beta : 0.);
+			dns::bulk::entry(ldc,c,i,j) += sum;
 		} // j
 	} // i
 }

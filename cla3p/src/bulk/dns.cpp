@@ -9,15 +9,16 @@
 // 3rd
 
 // cla3p
-#include "error.hpp"
-#include "error_internal.hpp"
-#include "utils.hpp"
-#include "mkl_proxy.hpp"
-#include "lapack_proxy.hpp"
+#include "../error.hpp"
+#include "../error_internal.hpp"
+#include "../utils.hpp"
+#include "../mkl_proxy.hpp"
+#include "../lapack_proxy.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
+namespace bulk {
 /*-------------------------------------------------*/
 // TODO: perhaps group all similar recursive ops under one
 //       operation with a function object
@@ -769,6 +770,7 @@ void permute(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, 
 	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
 }
 /*-------------------------------------------------*/
+} // namespace bulk
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
