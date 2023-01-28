@@ -52,6 +52,8 @@ class GenericObject {
 
 		// static members
 		static uint_t const defaultld = 0;
+		static GenericObject init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
+		static GenericObject zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
 		static GenericObject random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
 
 	private:

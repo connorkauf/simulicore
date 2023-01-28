@@ -20,17 +20,22 @@ int main()
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 	cla3p::enable_dbg_messages();
 
-	cla3p::uint_t m = 10;
-	cla3p::uint_t n = 10;
-	cla3p::Property prop(cla3p::prop_t::SYMMETRIC);
-	
-	cla3p::dns::GenericObject<cla3p::real_t> ob1 = cla3p::dns::GenericObject<cla3p::real_t>::random(prop, m, n);
-	cla3p::dns::GenericObject<cla3p::complex_t> ob3 = cla3p::dns::GenericObject<cla3p::complex_t>::random(prop, m/2, n/2);
+	//using DataType = cla3p::real_t;
+	using DataType = cla3p::real4_t;
+	//using DataType = cla3p::complex_t;
+	//using DataType = cla3p::complex8_t;
 
-	cla3p::dns::GenericObject<cla3p::real_t> ob2;
+	cla3p::uint_t m = 3;
+	cla3p::uint_t n = 3;
+	cla3p::Property prop(cla3p::prop_t::HERMITIAN);
+	
+	cla3p::dns::GenericObject<DataType> ob1 = cla3p::dns::GenericObject<DataType>::init(prop, m, n);
+	cla3p::dns::GenericObject<DataType> ob2 = cla3p::dns::GenericObject<DataType>::zero(prop, m, n);
+	cla3p::dns::GenericObject<DataType> ob3 = cla3p::dns::GenericObject<DataType>::random(prop, m, n);
+
 	ob1.print();
-	ob2 = ob1.move();
 	ob2.print();
+	ob3.print();
 
 	return 0;
 }

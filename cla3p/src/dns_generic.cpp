@@ -166,14 +166,27 @@ void GenericObject<T>::print(uint_t nsd) const
 }
 /*-------------------------------------------------*/
 template <class T>
+GenericObject<T> GenericObject<T>::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+{
+	if(ld == defaultld) ld = nrows;
+	T *values = bulk::alloc<T>(nrows, ncols, ld);
+	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericObject<T> GenericObject<T>::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+{
+	if(ld == defaultld) ld = nrows;
+	T *values = bulk::alloc<T>(nrows, ncols, ld, true);
+	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
+}
+/*-------------------------------------------------*/
+template <class T>
 GenericObject<T> GenericObject<T>::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	if(ld == defaultld) ld = nrows;
-
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
-
 	bulk::rand(prop.type(), nrows, ncols, values, ld);
-
 	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
