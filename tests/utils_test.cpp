@@ -15,7 +15,7 @@
 namespace cla3p {
 namespace tests {
 /*-------------------------------------------------*/
-int_t utilities(bool strict)
+static int_t number_length(bool strict)
 {
 	uint_t u0 = 0        ; uint_t lenu0 = 1;
 	uint_t u1 = 1234     ; uint_t lenu1 = 4;
@@ -32,6 +32,11 @@ int_t utilities(bool strict)
 	if(inumlen(i1) != leni1) fatal_error();
 	if(inumlen(i2) != leni2) fatal_error();
 
+	test_success();
+}
+/*-------------------------------------------------*/
+static int_t random_numbers(bool strict)
+{
 	int_t   ilow = -10 ; int_t   ihigh = 10 ;
 	uint_t  ulow =   5 ; uint_t  uhigh = 18 ;
 	real_t  dlow = -10.; real_t  dhigh = 17.;
@@ -56,7 +61,17 @@ int_t utilities(bool strict)
 	} // k
 
 	test_success();
-	return 0;
+}
+/*-------------------------------------------------*/
+int_t utilities(bool strict)
+{
+	int_t numtests = 0;
+	int_t numfail = 0;
+
+	numfail += number_length(strict); numtests++;
+	numfail += random_numbers(strict); numtests++;
+
+	print_summary();
 }
 /*-------------------------------------------------*/
 } // namespace tests

@@ -3,7 +3,6 @@
 #include "test_macros.hpp"
 
 // system
-#include <iostream>
 
 // 3rd
 #include "mkl.h"
@@ -14,7 +13,7 @@
 namespace cla3p {
 namespace tests {
 /*-------------------------------------------------*/
-int_t datatypes(bool strict)
+static int_t integer_lengths(bool strict)
 {
 #if defined (CLA3P_I64)
 	if(sizeof( int_t) != 8) fatal_error();
@@ -28,7 +27,16 @@ int_t datatypes(bool strict)
 	if(sizeof(uint_t) != sizeof(MKL_UINT)) fatal_error();
 
 	test_success();
-	return 0;
+}
+/*-------------------------------------------------*/
+int_t datatypes(bool strict)
+{
+	int_t numtests = 0;
+	int_t numfail = 0;
+
+	numfail += integer_lengths(strict); numtests++;
+
+	print_summary();
 }
 /*-------------------------------------------------*/
 } // namespace tests
