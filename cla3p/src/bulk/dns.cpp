@@ -108,7 +108,7 @@ static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 
 	bool lower = check(ptype, m, n, a, lda);
 
-	if(m == lda || lower) {
+	if(m == lda && !lower) {
 		std::fill_n(a, m * n, val);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
