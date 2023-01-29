@@ -2,6 +2,7 @@
 #define CLA3P_UTILS_HPP_
 
 #include <string>
+#include <vector>
 
 #include "types.hpp"
 
@@ -20,6 +21,8 @@ real_t drand(real_t low, real_t high);
 real4_t srand(real4_t low, real4_t high);
 complex_t zrand(real_t low, real_t high);
 complex8_t crand(real4_t low, real4_t high);
+
+std::vector<uint_t> create_random_perm(uint_t n);
 
 /*-------------------------------------------------*/
 } // namespace cla3p

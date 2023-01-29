@@ -38,6 +38,10 @@ inline real_t conj(const real_t& d) { /*WarningNoReach*/ return d; }
 inline real4_t conj(const real4_t& s) { /*WarningNoReach*/ return s; }
 inline complex_t conj(const complex_t& z) { return std::conj(z); }
 inline complex8_t conj(const complex8_t& c) { return std::conj(c); }
+inline void setim(real_t&, real_t ) { /*WarningNoReach*/ }
+inline void setim(real4_t&, real4_t) { /*WarningNoReach*/ }
+inline void setim(complex_t& z, real_t d) { z.imag(d); }
+inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
 
 enum class TransOp {
 	N = 0,

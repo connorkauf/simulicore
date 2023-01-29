@@ -155,6 +155,12 @@ static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda,
 			entry(lda,a,i,j) = randfun(low, high);
 		} // j
 	} // j
+	
+	if(ptype == prop_t::HERMITIAN) {
+		for(uint_t j = 0; j < n; j++) {
+			setim(entry(lda,a,j,j), 0.);
+		} // j
+	} // hermitian
 }
 /*-------------------------------------------------*/
 void rand(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t low, real_t high)
@@ -575,6 +581,18 @@ void sy2ge(uint_t n, complex8_t *a, uint_t lda)
 	syhe2ge_tmpl(n, a, lda, false); 
 }
 /*-------------------------------------------------*/
+void he2ge(uint_t n, real_t *a, uint_t lda)
+{ 
+	WarningNoReach();
+	sy2ge(n, a, lda); 
+}
+/*-------------------------------------------------*/
+void he2ge(uint_t n, real4_t *a, uint_t lda)
+{ 
+	WarningNoReach();
+	sy2ge(n, a, lda); 
+}
+/*-------------------------------------------------*/
 void he2ge(uint_t n, complex_t *a, uint_t lda)
 { 
 	syhe2ge_tmpl(n, a, lda, true); 
@@ -723,11 +741,6 @@ static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t ld
 
 	check(ptype, m, n, a, lda);
 
-	if(!P && !Q) {
-		copy(ptype, m, n, a, lda, b, ldb);
-		return;
-	} // no perms, copy and exit
-
 	Property prop(ptype);
 
 	if(prop.is_general()) {
@@ -735,15 +748,17 @@ static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t ld
 		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
 		else if( P && !Q) permute_ge_right_tmpl(m, n, a, lda, b, ldb, P);
 		else if(!P &&  Q) permute_ge_left_tmpl (m, n, a, lda, b, ldb, Q);
-		else              ErrorNoReach();
+		else              copy(ptype, m, n, a, lda, b, ldb);
 
 	} else if(prop.is_symmetric()) {
 
-		permute_syhe_tmpl(n, a, lda, b, ldb, P, false);
+		if(P) permute_syhe_tmpl(n, a, lda, b, ldb, P, false);
+		else  copy(ptype, m, n, a, lda, b, ldb);
 
 	} else if(prop.is_hermitian()) {
 
-		permute_syhe_tmpl(n, a, lda, b, ldb, P, true);
+		if(P) permute_syhe_tmpl(n, a, lda, b, ldb, P, true);
+		else  copy(ptype, m, n, a, lda, b, ldb);
 
 	} else {
 

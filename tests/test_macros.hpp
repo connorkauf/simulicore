@@ -16,11 +16,15 @@
 		return 1; \
 	} while(0)
 /*-------------------------------------------------*/
+#if 0
 #define test_success() \
 	do{ \
 		std::cout << "  Test " << __func__ << " passed\n"; \
 		return 0; \
 	}while(0)
+#else
+#define test_success() return 0;
+#endif
 /*-------------------------------------------------*/
 #define print_summary() \
 	do{ \

@@ -87,6 +87,9 @@ void sy2ge(uint_t n, real_t *a, uint_t lda);
 void sy2ge(uint_t n, real4_t *a, uint_t lda);
 void sy2ge(uint_t n, complex_t *a, uint_t lda);
 void sy2ge(uint_t n, complex8_t *a, uint_t lda);
+
+void he2ge(uint_t n, real_t *a, uint_t lda); // same as sy2ge
+void he2ge(uint_t n, real4_t *a, uint_t lda); // same as sy2ge
 void he2ge(uint_t n, complex_t *a, uint_t lda);
 void he2ge(uint_t n, complex8_t *a, uint_t lda);
 

@@ -120,5 +120,25 @@ real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl
 complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
 complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
+std::vector<uint_t> create_random_perm(uint_t n)
+{
+	std::vector<uint_t> ret(n);
+
+	if(!n) return ret;
+
+	for(uint_t i = 0; i < n; i++) {
+		ret[i] = i;
+	} // i
+
+	uint_t ilen = n;
+	for(uint_t i = 0; i < n - 1; i++) {
+		uint_t k = urand(0, ilen-1);
+		std::swap(ret[k], ret[ilen-1]);
+		ilen--;
+	} // i
+
+	return ret;
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
