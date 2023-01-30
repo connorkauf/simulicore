@@ -7,7 +7,7 @@
 #include <mkl.h>
 
 // cla3p
-#include "error_internal.hpp"
+#include "../error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

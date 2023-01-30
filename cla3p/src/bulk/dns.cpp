@@ -12,8 +12,8 @@
 #include "../error.hpp"
 #include "../error_internal.hpp"
 #include "../utils.hpp"
-#include "../mkl_proxy.hpp"
-#include "../lapack_proxy.hpp"
+#include "../proxies/lapack_proxy.hpp"
+#include "../proxies/mkl_proxy.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

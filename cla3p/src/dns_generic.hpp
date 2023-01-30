@@ -14,9 +14,7 @@ template <class T>
 class GenericObject {
 
 	public:
-
 	//protected:
-	
 		GenericObject();
 		~GenericObject();
 
@@ -49,6 +47,9 @@ class GenericObject {
 
 		void info(const std::string& msg) const; // FIXME: remove this, final-object-specific
 		void print(uint_t nsd = 3) const;
+
+		T& operator()(uint_t i, uint_t j);
+		const T& operator()(uint_t i, uint_t j) const;
 
 		// static members
 		static uint_t const defaultld = 0;

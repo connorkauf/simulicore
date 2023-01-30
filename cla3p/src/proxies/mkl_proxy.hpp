@@ -1,7 +1,7 @@
 #ifndef CLA3P_MKL_PROXY_HPP_
 #define CLA3P_MKL_PROXY_HPP_
 
-#include "types.hpp"
+#include "../types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

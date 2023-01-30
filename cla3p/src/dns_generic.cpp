@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "error.hpp"
 #include "imalloc.hpp"
 #include "bulk/dns.hpp"
 #include "bulk/dns_io.hpp"
@@ -163,6 +164,22 @@ template<class T>
 void GenericObject<T>::print(uint_t nsd) const
 {
 	bulk::print(prop().type(), nrows(), ncols(), values(), ld(), nsd);
+}
+/*-------------------------------------------------*/
+template<class T>
+T& GenericObject<T>::operator()(uint_t i, uint_t j)
+{
+	if(i >= nrows() || j >= ncols()) throw OutOfBounds();
+
+	return dns::bulk::entry(ld(), values(), i, j);
+}
+/*-------------------------------------------------*/
+template<class T>
+const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
+{
+	if(i >= nrows() || j >= ncols()) throw OutOfBounds();
+
+	return dns::bulk::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/
 template <class T>

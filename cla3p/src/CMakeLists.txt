@@ -7,9 +7,6 @@ set(CLA3P_SRC
 	error_internal.cpp
 	utils.cpp
 	imalloc.cpp
-	mkl_proxy.cpp
-	blas_proxy.cpp
-	lapack_proxy.cpp
 	dns_generic.cpp
 	)
 
@@ -23,6 +20,7 @@ set(CLA3P_HPP
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(bulk)
+add_subdirectory(proxies)
 
 #-----------------------------------------------
 # target setup
