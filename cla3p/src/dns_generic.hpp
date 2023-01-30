@@ -39,13 +39,18 @@ class GenericObject {
 		const Property& prop  () const;
 		bool            owner () const;
 
+		bool isready() const;
 		void clear();
 		void unbind();
 
 		GenericObject copy() const;
 		GenericObject move();
 
-		void info(const std::string& msg) const; // FIXME: remove this, final-object-specific
+		void info(
+				const std::string& msg,
+				const std::string& otype,
+				const std::string& dtype,
+				const std::string& dprec) const;
 		void print(uint_t nsd = 3) const;
 
 		T& operator()(uint_t i, uint_t j);

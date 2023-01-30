@@ -14,6 +14,7 @@ uint_t inumlen(int_t n);
 void sanitize_nsd(uint_t& nsd);
 std::string bytes2human(bulk_t nbytes, uint_t nsd = 3);
 std::string extract_filename(const std::string& path, const std::string& hint = "");
+void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
 
 int_t irand(int_t low, int_t high);
 uint_t urand(uint_t low, uint_t high);

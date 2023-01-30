@@ -7,6 +7,7 @@
 
 // cla3p
 #include "error.hpp"
+#include "utils.hpp"
 #include "imalloc.hpp"
 #include "bulk/dns.hpp"
 #include "bulk/dns_io.hpp"
@@ -101,6 +102,15 @@ template<class T> const Property& GenericObject<T>::prop  () const { return m_pr
 template<class T> bool            GenericObject<T>::owner () const { return m_owner ; }
 /*-------------------------------------------------*/
 template<class T>
+bool GenericObject<T>::isready() const
+{
+	if(nrows() && ncols() && values()) 
+		return true;
+
+	return false;
+}
+/*-------------------------------------------------*/
+template<class T>
 void GenericObject<T>::clear()
 {
 	if(owner()) {
@@ -148,16 +158,42 @@ GenericObject<T> GenericObject<T>::move()
 }
 /*-------------------------------------------------*/
 template<class T>
-void GenericObject<T>::info(const std::string& msg) const
+void GenericObject<T>::info(
+		const std::string& msg, 
+		const std::string& otype, 
+		const std::string& dtype, 
+		const std::string& dprec) const
 {
-	std::cout << "INFO:: " << msg << std::endl;
+	std::string top;
+	std::string bottom;
+	fill_info_margins(msg, top, bottom);
 
-	std::cout << nrows () << std::endl;
-	std::cout << ncols () << std::endl;
-	std::cout << ld    () << std::endl;
-	std::cout << values() << std::endl;
-	std::cout << prop  () << std::endl;
-	std::cout << owner () << std::endl << std::endl;
+	std::cout << top << "\n";
+
+	std::cout << "  Object type.......... " << otype << "\n";
+	std::cout << "  Datatype............. " << dtype << "\n";
+	std::cout << "  Precision............ " << dprec << "\n";
+
+	bool is_vector = (otype == "Vector");
+	bool is_matrix = (otype == "Matrix");
+
+	if(is_vector) {
+		std::cout << "  size................. " << nrows () << "\n";
+		std::cout << "  values............... " << values() << "\n";
+		std::cout << "  prop................. " << prop  () << "\n";
+		std::cout << "  owner................ " << owner () << "\n";
+	} // vector
+
+	if(is_matrix) {
+		std::cout << "  nrows................ " << nrows () << "\n";
+		std::cout << "  ncols................ " << ncols () << "\n";
+		std::cout << "  ld................... " << ld    () << "\n";
+		std::cout << "  values............... " << values() << "\n";
+		std::cout << "  prop................. " << prop  () << "\n";
+		std::cout << "  owner................ " << owner () << "\n";
+	} // matrix
+
+	std::cout << bottom << "\n";
 }
 /*-------------------------------------------------*/
 template<class T>
@@ -169,7 +205,11 @@ void GenericObject<T>::print(uint_t nsd) const
 template<class T>
 T& GenericObject<T>::operator()(uint_t i, uint_t j)
 {
-	if(i >= nrows() || j >= ncols()) throw OutOfBounds();
+	// TODO: move check in final object & message check
+	if(!isready()) throw NoConsistency("Matrix is empty");
+
+	if(i >= nrows()) throw OutOfBounds("requested index i/nrows: " + std::to_string(i) + "/" + std::to_string(nrows()));
+	if(j >= ncols()) throw OutOfBounds("requested index j/ncols: " + std::to_string(j) + "/" + std::to_string(ncols()));
 
 	return dns::bulk::entry(ld(), values(), i, j);
 }
@@ -177,7 +217,11 @@ T& GenericObject<T>::operator()(uint_t i, uint_t j)
 template<class T>
 const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
 {
-	if(i >= nrows() || j >= ncols()) throw OutOfBounds();
+	// TODO: move check in final object & message check
+	if(!isready()) throw NoConsistency("Matrix is empty");
+
+	if(i >= nrows()) throw OutOfBounds("requested index i/nrows: " + std::to_string(i) + "/" + std::to_string(nrows()));
+	if(j >= ncols()) throw OutOfBounds("requested index j/ncols: " + std::to_string(j) + "/" + std::to_string(ncols()));
 
 	return dns::bulk::entry(ld(), values(), i, j);
 }

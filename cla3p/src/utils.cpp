@@ -88,6 +88,30 @@ std::string extract_filename(const std::string& path, const std::string& hint)
 	return ret;
 }
 /*-------------------------------------------------*/
+void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom)
+{
+	const bulk_t deflen = 40;
+	const bulk_t msglen = msg.size();
+
+	top.clear();
+	bottom.clear();
+
+	if(!msglen) {
+		top.resize(deflen, '=');
+	} else if(msglen > deflen - 2) {
+		top = msg;
+	} else {
+		bulk_t lenmargin = (deflen - msglen - 2) / 2;
+		top.append(lenmargin, '=');
+		top.append(" ");
+		top.append(msg);
+		top.append(" ");
+		top.append(lenmargin, '=');
+	} // msglen
+
+	bottom.resize(top.size(), '=');
+}
+/*-------------------------------------------------*/
 template <class T>
 static real_t rand_tmpl(T low, T high)
 {

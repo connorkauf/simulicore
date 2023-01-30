@@ -8,12 +8,14 @@ set(CLA3P_SRC
 	utils.cpp
 	imalloc.cpp
 	dns_generic.cpp
+	dns_dmat.cpp
 	)
 
 set(CLA3P_HPP
 	types.hpp
 	error.hpp
 	dns_generic.hpp
+	dns_dmat.hpp
 	)
 
 #-----------------------------------------------
