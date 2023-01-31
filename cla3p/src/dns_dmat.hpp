@@ -21,17 +21,23 @@ class dMat : private GenericObject<real_t> {
 		dMat(dMat&&);
 		dMat& operator=(dMat&&);
 
-		void info(const std::string& msg = "") const;
+		bool isready() const;
+		void clear();
+		void unbind();
+
 		dMat copy() const;
+		dMat clone();
 		dMat move();
+		void info(const std::string& msg = "") const;
 		void print() const;
 
-		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
-    static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
-		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
+		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
+		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
+		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
+		static dMat map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld = 0);
 
-		cla3p::real_t& operator()(uint_t i, cla3p::uint_t j);
-		const cla3p::real_t& operator()(uint_t i, uint_t j) const;
+		real_t& operator()(uint_t i, uint_t j);
+		const real_t& operator()(uint_t i, uint_t j) const;
 
 	private:
 		dMat(GenericObject<real_t>&&);

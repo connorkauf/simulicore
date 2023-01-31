@@ -9,21 +9,42 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-
 template <class T>
 class GenericObject {
 
 	public:
-	//protected:
 		GenericObject();
 		~GenericObject();
+		GenericObject(const GenericObject<T>&) = delete;
+		GenericObject<T>& operator=(const GenericObject<T>&) = delete;
+		GenericObject(GenericObject<T>&&);
+		GenericObject<T>& operator=(GenericObject<T>&&);
 
-		GenericObject(const GenericObject&) = delete;
-		GenericObject& operator=(const GenericObject&) = delete;
+		bool isready() const;
+		void clear();
+		void unbind();
 
-		GenericObject(GenericObject&&);
-		GenericObject& operator=(GenericObject&&);
+		GenericObject<T> copy() const;
+		GenericObject<T> clone();
+		GenericObject<T> move();
 
+		void info(
+				const std::string& msg,
+				const std::string& otype,
+				const std::string& dtype,
+				const std::string& dprec) const;
+		void print(uint_t nsd = 3) const;
+
+		T& operator()(uint_t i, uint_t j);
+		const T& operator()(uint_t i, uint_t j) const;
+
+		// static members
+		static GenericObject<T> init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static GenericObject<T> zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static GenericObject<T> random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static GenericObject<T> map(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
+
+	protected:
 		void set_nrows (uint_t           nrows );
 		void set_ncols (uint_t           ncols );
 		void set_ld    (uint_t           ld    );
@@ -38,29 +59,6 @@ class GenericObject {
 		const T*        values() const;
 		const Property& prop  () const;
 		bool            owner () const;
-
-		bool isready() const;
-		void clear();
-		void unbind();
-
-		GenericObject copy() const;
-		GenericObject move();
-
-		void info(
-				const std::string& msg,
-				const std::string& otype,
-				const std::string& dtype,
-				const std::string& dprec) const;
-		void print(uint_t nsd = 3) const;
-
-		T& operator()(uint_t i, uint_t j);
-		const T& operator()(uint_t i, uint_t j) const;
-
-		// static members
-		static uint_t const defaultld = 0;
-		static GenericObject init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
-		static GenericObject zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
-		static GenericObject random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = defaultld);
 
 	private:
 		uint_t   m_nrows ;
