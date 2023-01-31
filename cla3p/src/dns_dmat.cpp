@@ -11,7 +11,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-using GenericObj = GenericObject<real_t>;
+using ThisObjType = GenericObject<real_t>;
+using ThisMapType = GenericMap<dMat>;
 /*-------------------------------------------------*/
 const std::string _objtype = "Matrix";
 const std::string _datatype = "Real";
@@ -30,26 +31,13 @@ dMat::~dMat()
 }
 /*-------------------------------------------------*/
 dMat::dMat(dMat&& src)
+	:ThisObjType(std::move(src))
 {
-	*this = static_cast<GenericObj&&>(src);
 }
 /*-------------------------------------------------*/
 dMat& dMat::operator=(dMat&& src)
 {
-	*this = static_cast<GenericObj&&>(src);
-	return *this;
-}
-/*-------------------------------------------------*/
-dMat::dMat(GenericObj&& src)
-{
-	GenericObj& dest = *this;
-	dest = src.move();
-}
-/*-------------------------------------------------*/
-dMat& dMat::operator=(GenericObj&& src)
-{
-	GenericObj& dest = *this;
-	dest = src.move();
+	ThisObjType::operator=(std::move(src));
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -57,85 +45,137 @@ dMat& dMat::operator=(GenericObj&& src)
 /*-------------------------------------------------*/
 bool dMat::isready() const
 {
-	return GenericObj::isready();
+	return ThisObjType::isready();
 }
 /*-------------------------------------------------*/
 void dMat::clear()
 {
-	return GenericObj::clear();
+	return ThisObjType::clear();
 }
 /*-------------------------------------------------*/
 void dMat::unbind()
 {
-	return GenericObj::unbind();
+	return ThisObjType::unbind();
 }
 /*-------------------------------------------------*/
 dMat dMat::copy() const 
 { 
-	return GenericObj::copy();  
+	dMat ret;
+	ThisObjType& dest = ret;
+	ThisObjType::copy_to(dest);
+	return ret;
+}
+/*-------------------------------------------------*/
+dMat dMat::move()
+{ 
+	dMat ret;
+	ThisObjType& dest = ret;
+	ThisObjType::move_to(dest);
+	return ret;
 }
 /*-------------------------------------------------*/
 dMat dMat::clone()
 {
-	return GenericObj::clone();
+	dMat ret;
+	ThisObjType& dest = ret;
+	ThisObjType::clone_to(dest);
+	return ret;
 }
 /*-------------------------------------------------*/
-#if 0
 dMMap dMat::clone() const
 {
-}
-#endif
-/*-------------------------------------------------*/
-dMat dMat::move()
-{ 
-	return GenericObj::move();  
+	dMMap ret;
+	ThisMapType& dest = ret;
+	dest = *this;
+	return ret;
 }
 /*-------------------------------------------------*/
 void dMat::info(const std::string& msg) const
 { 
-	GenericObj::info(msg, objtype(), datatype(), prectype()); 
+	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
 }
 /*-------------------------------------------------*/
 void dMat::print() const 
 {
-	GenericObj::print(); 
+	ThisObjType::print(); 
 }
 /*-------------------------------------------------*/
-dMat dMat::init  (const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
+dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	if(!ld) ld = nrows;
-	return GenericObj::init  (prop, nrows, ncols, ld); 
+	dMat ret;
+	ThisObjType& dest = ret;
+	dest.create_empty(prop, nrows, ncols, ld); 
+	return ret;
 }
 /*-------------------------------------------------*/
-dMat dMat::zero  (const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
+dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	if(!ld) ld = nrows;
-	return GenericObj::zero  (prop, nrows, ncols, ld); 
+	dMat ret;
+	ThisObjType& dest = ret;
+	dest.create_zero(prop, nrows, ncols, ld); 
+	return ret;
 }
 /*-------------------------------------------------*/
 dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	if(!ld) ld = nrows;
-	return GenericObj::random(prop, nrows, ncols, ld); 
+	dMat ret;
+	ThisObjType& dest = ret;
+	dest.create_random(prop, nrows, ncols, ld); 
+	return ret;
 }
 /*-------------------------------------------------*/
 dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld)
 {
 	if(!ld) ld = nrows;
-	return GenericObj::map(prop, nrows, ncols, values, ld); 
+	dMat ret;
+	ThisObjType& dest = ret;
+	dest.create_mapped(prop, nrows, ncols, values, ld); 
+	return ret;
 }
 /*-------------------------------------------------*/
 real_t& dMat::operator()(uint_t i, uint_t j)
 {
-	return GenericObj::operator()(i,j);
+	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/
 const real_t& dMat::operator()(uint_t i, uint_t j) const
 {
-	return GenericObj::operator()(i,j);
+	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+dMMap::dMMap()
+{
+}
+/*-------------------------------------------------*/
+dMMap::~dMMap()
+{
+}
+/*-------------------------------------------------*/
+dMMap::dMMap(const dMMap& src)
+	:ThisMapType()
+{
+	ThisMapType& dest = *this;
+	const ThisMapType& msrc = src;
+	dest = msrc;
+}
+/*-------------------------------------------------*/
+dMMap& dMMap::operator=(const dMMap& src)
+{
+	ThisMapType& dest = *this;
+	const ThisMapType& msrc = src;
+	dest = msrc;
+	return *this;
+}
+/*-------------------------------------------------*/
+const dMat& dMMap::mat() const
+{ 
+	return obj(); 
+}
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

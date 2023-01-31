@@ -21,6 +21,7 @@ int main()
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 	cla3p::enable_dbg_messages();
 
+#if 0
 	cla3p::uint_t m = 3;
 	cla3p::uint_t n = 3;
 	cla3p::Property prop(cla3p::prop_t::HERMITIAN);
@@ -33,6 +34,18 @@ int main()
 	std::cout << B(3,3) << std::endl;;
 	//A(2,1) = -1.;
 	//std::cout << A(2,1) << std::endl;;
+#endif
+
+#if 1
+	cla3p::dns::GenericMap<cla3p::dns::dMat> mC1;
+	cla3p::dns::GenericMap<cla3p::dns::dMat> mC2;
+	mC1 = mC2;
+#else
+	cla3p::dns::dMMap mA;
+	cla3p::dns::dMMap mB;
+	mB = mA;
+#endif
+
 
 	return 0;
 }

@@ -23,19 +23,6 @@ GenericObject<T>::GenericObject()
 }
 /*-------------------------------------------------*/
 template<class T>
-GenericObject<T>::GenericObject(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner)
-{
-	bulk::check(prop.type(), nrows, ncols, values, ld); // FIXME: remove me from here, cannot copy/move/clone empty objects
-
-	set_nrows (nrows );
-	set_ncols (ncols );
-	set_ld    (ld    );
-	set_values(values);
-	set_prop  (prop  );
-	set_owner (owner );
-}
-/*-------------------------------------------------*/
-template<class T>
 GenericObject<T>::~GenericObject()
 {
 	clear();
@@ -45,14 +32,7 @@ template<class T>
 GenericObject<T>::GenericObject(GenericObject<T>&& src)
 {
 	clear();
-
-	set_nrows (src.nrows ());
-	set_ncols (src.ncols ());
-	set_ld    (src.ld    ());
-	set_values(src.values());
-	set_prop  (src.prop  ());
-	set_owner (src.owner ());
-
+	creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
 	src.unbind();
 	src.clear();
 }
@@ -61,14 +41,7 @@ template<class T>
 GenericObject<T>& GenericObject<T>::operator=(GenericObject<T>&& src)
 {
 	clear();
-
-	set_nrows (src.nrows ());
-	set_ncols (src.ncols ());
-	set_ld    (src.ld    ());
-	set_values(src.values());
-	set_prop  (src.prop  ());
-	set_owner (src.owner ());
-
+	creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
 	src.unbind();
 	src.clear();
 
@@ -84,6 +57,17 @@ void GenericObject<T>::defaults()
 	set_values(nullptr);
 	set_prop  (prop_t::NONE);
 	set_owner (false);
+}
+/*-------------------------------------------------*/
+template<class T>
+void GenericObject<T>::creator(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner)
+{
+	set_nrows (nrows );
+	set_ncols (ncols );
+	set_values(values);
+	set_ld    (ld    );
+	set_prop  (prop  );
+	set_owner (owner );
 }
 /*-------------------------------------------------*/
 template<class T> void GenericObject<T>::set_nrows (uint_t          nrows ) { m_nrows  = nrows ; }
@@ -127,46 +111,25 @@ void GenericObject<T>::unbind()
 }
 /*-------------------------------------------------*/
 template<class T>
-GenericObject<T> GenericObject<T>::copy() const
+void GenericObject<T>::copy_to(GenericObject<T>& trg) const
 {
-	uint_t          m   = nrows ();
-	uint_t          n   = ncols ();
-	uint_t          ldv = ld    ();
-	const T*        v   = values();
-	const Property& p   = prop  ();
-
-	T *vnew = bulk::alloc<T>(m, n, m);
-	bulk::copy(p.type(), m, n, v, ldv, vnew, m);
-
-	return GenericObject<T>(m, n, vnew, m, p, true);
+	T *vnew = bulk::alloc<T>(nrows(), ncols(), nrows());
+	bulk::copy(prop().type(), nrows(), ncols(), values(), ld(), vnew, nrows());
+	trg.creator(nrows(), ncols(), vnew, nrows(), prop(), true);
 }
 /*-------------------------------------------------*/
 template<class T>
-GenericObject<T> GenericObject<T>::clone()
+void GenericObject<T>::move_to(GenericObject<T>& trg)
 {
-	uint_t          m   = nrows ();
-	uint_t          n   = ncols ();
-	uint_t          ldv = ld    ();
-	T*              v   = values();
-	const Property& p   = prop  ();
-
-	return GenericObject<T>(m, n, v, ldv, p, false);
-}
-/*-------------------------------------------------*/
-template<class T>
-GenericObject<T> GenericObject<T>::move()
-{
-	uint_t   m   = nrows ();
-	uint_t   n   = ncols ();
-	uint_t   ldv = ld    ();
-	T*       v   = values();
-	Property p   = prop  (); // copy this
-	bool     own = owner ();
-
+	trg.creator(nrows(), ncols(), values(), ld(), prop(), owner());
 	unbind();
 	clear();
-
-	return GenericObject<T>(m, n, v, ldv, p, own);
+}
+/*-------------------------------------------------*/
+template<class T>
+void GenericObject<T>::clone_to(GenericObject<T>& trg)
+{
+	trg.creator(nrows(), ncols(), values(), ld(), prop(), false);
 }
 /*-------------------------------------------------*/
 template<class T>
@@ -239,31 +202,31 @@ const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 template <class T>
-GenericObject<T> GenericObject<T>::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
-	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
+	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
 template <class T>
-GenericObject<T> GenericObject<T>::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld, true);
-	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
+	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
 template <class T>
-GenericObject<T> GenericObject<T>::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
 	bulk::rand(prop.type(), nrows, ncols, values, ld);
-	return GenericObject<T>(nrows, ncols, values, ld, prop, true);
+	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
 template <class T>
-GenericObject<T> GenericObject<T>::map(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld)
+void GenericObject<T>::create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld)
 {
-	return GenericObject<T>(nrows, ncols, values, ld, prop, false);
+	creator(nrows, ncols, values, ld, prop, false);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

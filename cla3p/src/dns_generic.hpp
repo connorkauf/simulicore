@@ -24,10 +24,16 @@ class GenericObject {
 		void clear();
 		void unbind();
 
-		GenericObject<T> copy() const;
-		GenericObject<T> clone();
-		GenericObject<T> move();
+		void copy_to(GenericObject<T>&) const;
+		void move_to(GenericObject<T>&);
+		void clone_to(GenericObject<T>&);
 
+		void create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
+
+	protected:
 		void info(
 				const std::string& msg,
 				const std::string& otype,
@@ -37,12 +43,6 @@ class GenericObject {
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
-
-		// static members
-		static GenericObject<T> init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static GenericObject<T> zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static GenericObject<T> random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static GenericObject<T> map(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
 
 	protected:
 		void set_nrows (uint_t           nrows );
@@ -68,10 +68,72 @@ class GenericObject {
 		Property m_prop  ;
 		bool     m_owner ;
 
-		GenericObject(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner);
 		void defaults();
+		void creator(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner);
 };
 
+/*-------------------------------------------------*/
+
+template <class T>
+class GenericMap {
+
+	public:
+		GenericMap();
+		~GenericMap();
+		GenericMap(const GenericMap<T>&);
+		GenericMap<T>& operator=(const GenericMap<T>&);
+		GenericMap(const T&);
+		GenericMap<T>& operator=(const T&);
+
+	protected:
+		const T& obj() const;
+
+	protected:
+		T m_obj;
+};
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>::GenericMap()
+{
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>::~GenericMap()
+{
+	m_obj.clear();
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>::GenericMap(const GenericMap<T>& src)
+{
+	*this = src.obj();
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>& GenericMap<T>::operator=(const GenericMap<T>& src)
+{
+	*this = src.obj();
+	return *this;
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>::GenericMap(const T& mat)
+{
+	m_obj = const_cast<T&>(mat).clone();
+}
+/*-------------------------------------------------*/
+template <class T>
+GenericMap<T>& GenericMap<T>::operator=(const T& mat)
+{
+	m_obj = const_cast<T&>(mat).clone();
+	return *this;
+}
+/*-------------------------------------------------*/
+template <class T>
+const T& GenericMap<T>::GenericMap::obj() const
+{
+	return m_obj;
+}
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

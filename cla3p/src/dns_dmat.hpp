@@ -10,6 +10,7 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
+class dMMap;
 
 class dMat : private GenericObject<real_t> {
 
@@ -26,8 +27,9 @@ class dMat : private GenericObject<real_t> {
 		void unbind();
 
 		dMat copy() const;
-		dMat clone();
 		dMat move();
+		dMat clone();
+		dMMap clone() const;
 		void info(const std::string& msg = "") const;
 		void print() const;
 
@@ -38,10 +40,21 @@ class dMat : private GenericObject<real_t> {
 
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;
+};
 
-	private:
-		dMat(GenericObject<real_t>&&);
-		dMat& operator=(GenericObject<real_t>&&);
+/*-------------------------------------------------*/
+
+class dMMap : private GenericMap<dMat> {
+
+	public:
+		dMMap();
+		~dMMap();
+		dMMap(const dMMap&);
+		dMMap& operator=(const dMMap&);
+
+		const dMat& mat() const;
+
+		friend class dMat;
 };
 
 /*-------------------------------------------------*/
