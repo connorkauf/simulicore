@@ -128,6 +128,11 @@ std::string out_of_bounds_message(uint_t n, uint_t i)
 	return (ret1 + ret2);
 }
 /*-------------------------------------------------*/
+std::string bool2yn(bool flg)
+{
+	return (flg ? "Yes" : "No");
+}
+/*-------------------------------------------------*/
 template <class T>
 static real_t rand_tmpl(T low, T high)
 {

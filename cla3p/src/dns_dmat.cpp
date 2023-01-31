@@ -13,7 +13,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-using ThisObjType = GenericObject<real_t>;
+using ThisDatType = real_t;
+using ThisObjType = GenericObject<ThisDatType>;
 using ThisMapType = GenericMap<dMat>;
 /*-------------------------------------------------*/
 const std::string _objtype = "Matrix";
@@ -44,6 +45,14 @@ dMat& dMat::operator=(dMat&& src)
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+uint_t             dMat::nrows () const { return ThisObjType::nrows (); }
+uint_t             dMat::ncols () const { return ThisObjType::ncols (); }
+uint_t             dMat::ld    () const { return ThisObjType::ld    (); }
+ThisDatType*       dMat::values()       { return ThisObjType::values(); }
+const ThisDatType* dMat::values() const { return ThisObjType::values(); }
+const Property&    dMat::prop  () const { return ThisObjType::prop  (); }
+bool               dMat::owner () const { return ThisObjType::owner (); }
 /*-------------------------------------------------*/
 bool dMat::empty() const
 {
@@ -129,7 +138,7 @@ dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 	return ret;
 }
 /*-------------------------------------------------*/
-dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld)
+dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld)
 {
 	if(!ld) ld = nrows;
 	dMat ret;
@@ -138,7 +147,16 @@ dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values,
 	return ret;
 }
 /*-------------------------------------------------*/
-real_t& dMat::operator()(uint_t i, uint_t j)
+dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
+{
+	dMMap ret;
+	ThisMapType& dest = ret;
+	dMat mat = dMat::map(prop, nrows, ncols, const_cast<ThisDatType*>(values), ld);
+	dest = mat;
+	return ret;
+}
+/*-------------------------------------------------*/
+ThisDatType& dMat::operator()(uint_t i, uint_t j)
 {
 	if(i >= nrows() || j >= ncols()) {
 		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
@@ -147,7 +165,7 @@ real_t& dMat::operator()(uint_t i, uint_t j)
 	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/
-const real_t& dMat::operator()(uint_t i, uint_t j) const
+const ThisDatType& dMat::operator()(uint_t i, uint_t j) const
 {
 	if(i >= nrows() || j >= ncols()) {
 		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
@@ -167,24 +185,25 @@ dMMap::~dMMap()
 }
 /*-------------------------------------------------*/
 dMMap::dMMap(const dMMap& src)
-	:ThisMapType()
+	:ThisMapType(src)
 {
-	ThisMapType& dest = *this;
-	const ThisMapType& msrc = src;
-	dest = msrc;
+	//ThisMapType& dest = *this;
+	//const ThisMapType& msrc = src;
+	//dest = msrc;
 }
 /*-------------------------------------------------*/
 dMMap& dMMap::operator=(const dMMap& src)
 {
-	ThisMapType& dest = *this;
-	const ThisMapType& msrc = src;
-	dest = msrc;
+	//ThisMapType& dest = *this;
+	//const ThisMapType& msrc = src;
+	//dest = msrc;
+	ThisMapType::operator=(src);
 	return *this;
 }
 /*-------------------------------------------------*/
 const dMat& dMMap::mat() const
 { 
-	return obj(); 
+	return ThisMapType::obj(); 
 }
 /*-------------------------------------------------*/
 } // namespace dns

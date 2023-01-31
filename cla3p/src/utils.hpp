@@ -17,6 +17,7 @@ std::string extract_filename(const std::string& path, const std::string& hint = 
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
 std::string out_of_bounds_message(uint_t m, uint_t n, uint_t i, uint_t j);
 std::string out_of_bounds_message(uint_t n, uint_t i);
+std::string bool2yn(bool flg);
 
 int_t irand(int_t low, int_t high);
 uint_t urand(uint_t low, uint_t high);

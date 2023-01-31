@@ -153,19 +153,18 @@ void GenericObject<T>::info(
 	bool is_matrix = (otype == "Matrix");
 
 	if(is_vector) {
-		std::cout << "  size................. " << nrows () << "\n";
-		std::cout << "  values............... " << values() << "\n";
-		std::cout << "  prop................. " << prop  () << "\n";
-		std::cout << "  owner................ " << owner () << "\n";
+		std::cout << "  size................. " <<         nrows () << "\n";
+		std::cout << "  values............... " <<         values() << "\n";
+		std::cout << "  owner................ " << bool2yn(owner ()) << "\n";
 	} // vector
 
 	if(is_matrix) {
-		std::cout << "  nrows................ " << nrows () << "\n";
-		std::cout << "  ncols................ " << ncols () << "\n";
-		std::cout << "  ld................... " << ld    () << "\n";
-		std::cout << "  values............... " << values() << "\n";
-		std::cout << "  prop................. " << prop  () << "\n";
-		std::cout << "  owner................ " << owner () << "\n";
+		std::cout << "  nrows................ " <<         nrows () << "\n";
+		std::cout << "  ncols................ " <<         ncols () << "\n";
+		std::cout << "  ld................... " <<         ld    () << "\n";
+		std::cout << "  values............... " <<         values() << "\n";
+		std::cout << "  prop................. " <<         prop  () << "\n";
+		std::cout << "  owner................ " << bool2yn(owner ()) << "\n";
 	} // matrix
 
 	std::cout << bottom << "\n";
