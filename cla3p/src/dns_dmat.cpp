@@ -6,6 +6,8 @@
 // 3rd
 
 // cla3p
+#include "error.hpp"
+#include "utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -43,9 +45,9 @@ dMat& dMat::operator=(dMat&& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-bool dMat::isready() const
+bool dMat::empty() const
 {
-	return ThisObjType::isready();
+	return ThisObjType::empty();
 }
 /*-------------------------------------------------*/
 void dMat::clear()
@@ -95,9 +97,9 @@ void dMat::info(const std::string& msg) const
 	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
 }
 /*-------------------------------------------------*/
-void dMat::print() const 
+void dMat::print(uint_t nsd) const 
 {
-	ThisObjType::print(); 
+	ThisObjType::print(nsd); 
 }
 /*-------------------------------------------------*/
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
@@ -138,11 +140,19 @@ dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values,
 /*-------------------------------------------------*/
 real_t& dMat::operator()(uint_t i, uint_t j)
 {
+	if(i >= nrows() || j >= ncols()) {
+		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+	} // out-of-bounds
+
 	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/
 const real_t& dMat::operator()(uint_t i, uint_t j) const
 {
+	if(i >= nrows() || j >= ncols()) {
+		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+	} // out-of-bounds
+
 	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/

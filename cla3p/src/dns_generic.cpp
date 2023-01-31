@@ -86,12 +86,12 @@ template<class T> const Property& GenericObject<T>::prop  () const { return m_pr
 template<class T> bool            GenericObject<T>::owner () const { return m_owner ; }
 /*-------------------------------------------------*/
 template<class T>
-bool GenericObject<T>::isready() const
+bool GenericObject<T>::empty() const
 {
 	if(nrows() && ncols() && values()) 
-		return true;
+		return false;
 
-	return false;
+	return true;
 }
 /*-------------------------------------------------*/
 template<class T>
@@ -180,24 +180,12 @@ void GenericObject<T>::print(uint_t nsd) const
 template<class T>
 T& GenericObject<T>::operator()(uint_t i, uint_t j)
 {
-	// TODO: move check in final object & message check
-	if(!isready()) throw NoConsistency("Matrix is empty");
-
-	if(i >= nrows()) throw OutOfBounds("requested index i/nrows: " + std::to_string(i) + "/" + std::to_string(nrows()));
-	if(j >= ncols()) throw OutOfBounds("requested index j/ncols: " + std::to_string(j) + "/" + std::to_string(ncols()));
-
 	return dns::bulk::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/
 template<class T>
 const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
 {
-	// TODO: move check in final object & message check
-	if(!isready()) throw NoConsistency("Matrix is empty");
-
-	if(i >= nrows()) throw OutOfBounds("requested index i/nrows: " + std::to_string(i) + "/" + std::to_string(nrows()));
-	if(j >= ncols()) throw OutOfBounds("requested index j/ncols: " + std::to_string(j) + "/" + std::to_string(ncols()));
-
 	return dns::bulk::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/

@@ -22,7 +22,7 @@ class dMat : private GenericObject<real_t> {
 		dMat(dMat&&);
 		dMat& operator=(dMat&&);
 
-		bool isready() const;
+		bool empty() const;
 		void clear();
 		void unbind();
 
@@ -31,7 +31,7 @@ class dMat : private GenericObject<real_t> {
 		dMat clone();
 		dMMap clone() const;
 		void info(const std::string& msg = "") const;
-		void print() const;
+		void print(uint_t nsd = 3) const;
 
 		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
 		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);

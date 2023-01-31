@@ -13,6 +13,12 @@ template <class T>
 class GenericObject {
 
 	public:
+		void create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
+
+	protected:
 		GenericObject();
 		~GenericObject();
 		GenericObject(const GenericObject<T>&) = delete;
@@ -20,7 +26,7 @@ class GenericObject {
 		GenericObject(GenericObject<T>&&);
 		GenericObject<T>& operator=(GenericObject<T>&&);
 
-		bool isready() const;
+		bool empty() const;
 		void clear();
 		void unbind();
 
@@ -28,30 +34,25 @@ class GenericObject {
 		void move_to(GenericObject<T>&);
 		void clone_to(GenericObject<T>&);
 
-		void create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
-
-	protected:
 		void info(
-				const std::string& msg,
-				const std::string& otype,
-				const std::string& dtype,
-				const std::string& dprec) const;
-		void print(uint_t nsd = 3) const;
+				const std::string&,
+				const std::string&,
+				const std::string&,
+				const std::string&) const;
+		void print(uint_t) const;
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
 
-	protected:
-		void set_nrows (uint_t           nrows );
-		void set_ncols (uint_t           ncols );
-		void set_ld    (uint_t           ld    );
-		void set_values(T*               values);
-		void set_prop  (const Property&  prop  );
-		void set_owner (bool             owner );
+		// setters
+		void set_nrows (uint_t          nrows );
+		void set_ncols (uint_t          ncols );
+		void set_ld    (uint_t          ld    );
+		void set_values(T*              values);
+		void set_prop  (const Property& prop  );
+		void set_owner (bool            owner );
 
+		// getters
 		uint_t          nrows () const;
 		uint_t          ncols () const;
 		uint_t          ld    () const;
