@@ -44,12 +44,19 @@ class dMat : private GenericObject<real_t> {
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;
 
-		// static members
-		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
-		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
-		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld = 0);
-		static dMat map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld = 0);
-		static dMMap map(const Property& prop, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld = 0);
+		// static members (basic)
+		static dMat init(uint_t nrows, uint_t ncols);
+		static dMat zero(uint_t nrows, uint_t ncols);
+		static dMat random(uint_t nrows, uint_t ncols);
+		static dMat map(uint_t nrows, uint_t ncols, real_t *values);
+		static dMMap map(uint_t nrows, uint_t ncols, const real_t *values);
+
+		// static members (advanced)
+		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
+		static dMMap map(const Property& prop, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
 };
 
 /*-------------------------------------------------*/

@@ -42,8 +42,6 @@ bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 	if(!prop.is_valid()) 
 		throw Exception("Invalid property");
 
-	// TODO: perhaps check if real & hermitian -> error
-
 	bool lower = (prop.is_lower());
 	if(lower && m != n) 
 		throw Exception("Non square matrix");

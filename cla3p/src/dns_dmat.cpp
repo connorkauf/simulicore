@@ -108,43 +108,64 @@ void dMat::print(uint_t nsd) const
 	ThisObjType::print(nsd); 
 }
 /*-------------------------------------------------*/
+dMat dMat::init(uint_t nrows, uint_t ncols) 
+{ 
+	return init(prop_t::GENERAL, nrows, ncols, nrows);
+}
+/*-------------------------------------------------*/
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	if(!ld) ld = nrows;
 	dMat ret;
 	ret.create_empty(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
+dMat dMat::zero(uint_t nrows, uint_t ncols) 
+{ 
+	return zero(prop_t::GENERAL, nrows, ncols, nrows) ;
+}
+/*-------------------------------------------------*/
 dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	if(!ld) ld = nrows;
 	dMat ret;
 	ret.create_zero(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
+dMat dMat::random(uint_t nrows, uint_t ncols) 
+{ 
+	return random(prop_t::GENERAL, nrows, ncols, nrows);
+}
+/*-------------------------------------------------*/
 dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	if(!ld) ld = nrows;
 	dMat ret;
 	ret.create_random(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld)
+dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
 {
-	if(!ld) ld = nrows;
+	return map(prop_t::GENERAL, nrows, ncols, values, nrows, false);
+}
+/*-------------------------------------------------*/
+dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
+{
 	dMat ret;
-	ret.create_mapped(prop, nrows, ncols, values, ld); 
+	ret.create_mapped(prop, nrows, ncols, values, ld, bind); 
 	return ret.move();
+}
+/*-------------------------------------------------*/
+dMMap dMat::map(uint_t nrows, uint_t ncols, const ThisDatType *values)
+{
+	return map(prop_t::GENERAL, nrows, ncols, values, nrows);
 }
 /*-------------------------------------------------*/
 dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
 {
 	dMMap ret;
 	ThisMapType& dest = ret;
-	dest = dMat::map(prop, nrows, ncols, const_cast<ThisDatType*>(values), ld);
+	dest = dMat::map(prop, nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
 	return ret;
 }
 /*-------------------------------------------------*/

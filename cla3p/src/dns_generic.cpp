@@ -211,9 +211,9 @@ void GenericObject<T>::create_random(const Property& prop, uint_t nrows, uint_t 
 }
 /*-------------------------------------------------*/
 template <class T>
-void GenericObject<T>::create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld)
+void GenericObject<T>::create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
 {
-	creator(nrows, ncols, values, ld, prop, false);
+	creator(nrows, ncols, values, ld, prop, bind);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

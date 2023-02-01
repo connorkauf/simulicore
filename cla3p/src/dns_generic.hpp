@@ -16,7 +16,7 @@ class GenericObject {
 		void create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		void create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		void create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld);
+		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	protected:
 		GenericObject();
