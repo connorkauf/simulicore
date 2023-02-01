@@ -17,21 +17,21 @@ namespace cla3p {
 #if defined (CLA3P_I64)
 #define _DFMT_ "lld"
 #define _UFMT_ "llu"
-typedef          long long int  int_t;
-typedef unsigned long long int uint_t;
+using  int_t =          long long int;
+using uint_t = unsigned long long int;
 #else
 #define _DFMT_ "d"
 #define _UFMT_ "u"
-typedef          int  int_t;
-typedef unsigned int uint_t;
+using  int_t =          int;
+using uint_t = unsigned int;
 #endif
 
-typedef int nint_t;
-typedef float real4_t;
-typedef double real_t;
-typedef std::complex<real4_t> complex8_t;
-typedef std::complex<real_t> complex_t;
-typedef std::size_t bulk_t;
+using nint_t = int;
+using real4_t = float;
+using real_t = double;
+using complex8_t = std::complex<real4_t>;
+using complex_t = std::complex<real_t>;
+using bulk_t = std::size_t;
 
 // TODO: move to a math header ???
 inline real_t conj(const real_t& d) { /*WarningNoReach*/ return d; }

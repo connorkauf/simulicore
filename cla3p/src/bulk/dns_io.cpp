@@ -30,22 +30,22 @@ class DnsPrinter {
 		std::string print2str(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower);
 		std::string print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower);
 
-		template <class T>
+		template <typename T>
 		void print(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
 
 	private:
 		void reset();
 		void reserve(uint_t m, uint_t n);
 
-		template <class T>
+		template <typename T>
 		std::string print2str_real(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
-		template <class T>
+		template <typename T>
 		std::string print2str_complex(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
-		template <class T>
+		template <typename T>
 		void fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
-		template <class T>
+		template <typename T>
 		void append_page(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
-		template <class T>
+		template <typename T>
 		void append_page_ith_row(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
 
 		uint_t count_columns_per_page(uint_t n);
@@ -165,7 +165,7 @@ void DnsPrinter::appent_element(complex8_t a)
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void DnsPrinter::append_page_ith_row(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower)
 {
 	nint_t nd = m_row_numdigits;
@@ -182,7 +182,7 @@ void DnsPrinter::append_page_ith_row(uint_t i, uint_t jbgn, uint_t jend, T *a, u
 	m_str.append("\n");
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void DnsPrinter::append_page(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower)
 {
 	append_page_header(jbgn, jend);
@@ -199,7 +199,7 @@ void DnsPrinter::reserve(uint_t m, uint_t n)
 	m_str.reserve(m * n * m_element_length_max); // rough estimation
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void DnsPrinter::fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	uint_t columns_per_page = count_columns_per_page(n);
@@ -220,7 +220,7 @@ void DnsPrinter::fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 	} // rem_cols
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 std::string DnsPrinter::print2str_real(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	m_row_numdigits = inumlen(m);
@@ -237,7 +237,7 @@ std::string DnsPrinter::print2str_real(uint_t m, uint_t n, T *a, uint_t lda, boo
 std::string DnsPrinter::print2str(uint_t m, uint_t n, const real_t  *a, uint_t lda, bool lower) { return print2str_real(m, n, a, lda, lower); }
 std::string DnsPrinter::print2str(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower) { return print2str_real(m, n, a, lda, lower); }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 std::string DnsPrinter::print2str_complex(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	m_row_numdigits = inumlen(m);
@@ -254,7 +254,7 @@ std::string DnsPrinter::print2str_complex(uint_t m, uint_t n, T *a, uint_t lda, 
 std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex_t  *a, uint_t lda, bool lower) { return print2str_complex(m, n, a, lda, lower); }
 std::string DnsPrinter::print2str(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower) { return print2str_complex(m, n, a, lda, lower); }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void DnsPrinter::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	std::string str = print2str(m, n, a, lda, lower);
@@ -263,7 +263,7 @@ void DnsPrinter::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 std::string print2str_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return "";
@@ -294,7 +294,7 @@ std::string print2str(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uin
 	return print2str_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void print_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return;

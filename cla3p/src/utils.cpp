@@ -133,7 +133,7 @@ std::string bool2yn(bool flg)
 	return (flg ? "Yes" : "No");
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static real_t rand_tmpl(T low, T high)
 {
 	if(low > high) {

@@ -30,7 +30,7 @@ static uint_t recursive_min_dim()
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void zero_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	// TODO: using memset on complex throws warning, 
@@ -77,7 +77,7 @@ void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 {
 	// TODO: if !val call zero() fix when operators for complex are done
@@ -118,7 +118,7 @@ void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class Tin, class Tout>
+template <typename Tin, typename Tout>
 static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda, 
 		Tin low, Tin high, const std::function<Tout (Tin low, Tin high)>& randfun)
 {
@@ -166,10 +166,10 @@ void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t l
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff);
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void copy_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!n) return;
@@ -193,7 +193,7 @@ static void copy_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t l
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
@@ -229,10 +229,10 @@ void copy(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, com
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff);
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void scale_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!n) return;
@@ -256,7 +256,7 @@ static void scale_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!m || !n) return;
@@ -297,7 +297,7 @@ void scale(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
@@ -327,7 +327,7 @@ void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
@@ -360,10 +360,10 @@ void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, co
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #if 0
-template <class T>
+template <typename T>
 static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff);
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!n) return;
@@ -387,7 +387,7 @@ static void conjugate_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uin
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
@@ -426,10 +426,10 @@ void conjugate(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff);
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!n) return;
@@ -453,7 +453,7 @@ static void conjugate_recursive_tmpl(uint_t n, T *a, uint_t lda, T coeff)
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!m || !n) return;
@@ -491,10 +491,10 @@ void conjugate(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, comp
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void syhe2ge_tmpl(uint_t n, T *a, uint_t lda, bool conjop);
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void syhe2ge_recursive_tmpl(uint_t n, T *a, uint_t lda, bool conjop)
 {
 	if(!n) return;
@@ -532,7 +532,7 @@ static void syhe2ge_recursive_tmpl(uint_t n, T *a, uint_t lda, bool conjop)
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void syhe2ge_tmpl(uint_t n, T *a, uint_t lda, bool conjop)
 {
 	syhe2ge_recursive_tmpl(n, a, lda, conjop);
@@ -582,7 +582,7 @@ void he2ge(uint_t n, complex8_t *a, uint_t lda)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <class Tout, class Tin>
+template <typename Tout, typename Tin>
 static Tout norm_one_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
@@ -596,7 +596,7 @@ static Tout norm_one_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <class Tout, class Tin>
+template <typename Tout, typename Tin>
 static Tout norm_inf_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
@@ -610,7 +610,7 @@ static Tout norm_inf_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <class Tout, class Tin>
+template <typename Tout, typename Tin>
 static Tout norm_max_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
@@ -624,7 +624,7 @@ static Tout norm_max_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <class Tout, class Tin>
+template <typename Tout, typename Tin>
 static Tout norm_fro_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
@@ -658,7 +658,7 @@ real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)
 {
 	// TODO: could use (blas or dns) copy ???
@@ -669,7 +669,7 @@ static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T 
 	} // j
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void permute_ge_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
@@ -677,7 +677,7 @@ static void permute_ge_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *
 	} // j
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void permute_ge_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
@@ -687,7 +687,7 @@ static void permute_ge_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *
 	} // j
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void permute_syhe_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, bool conjop)
 {
 	uint_t Pi;
@@ -711,7 +711,7 @@ static void permute_syhe_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb
 	} // j
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 {
 	if(!m || !n) return;

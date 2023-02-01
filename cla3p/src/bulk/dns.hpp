@@ -11,13 +11,13 @@ namespace dns {
 namespace bulk {
 /*-------------------------------------------------*/
 
-template <class T>
+template <typename T>
 inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
 {
 	return (a + i + j * lda);
 }
 
-template <class T>
+template <typename T>
 inline T& entry(uint_t lda, T *a, uint_t i, uint_t j)
 {
 	return *ptrmv(lda,a,i,j);
@@ -28,7 +28,7 @@ void zero(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda);
 void zero(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda);
 void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda);
 
-template <class T>
+template <typename T>
 T* alloc(uint_t m, uint_t n, uint_t lda, bool clear = false)
 {
 	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));

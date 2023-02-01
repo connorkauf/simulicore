@@ -18,19 +18,19 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 GenericObject<T>::GenericObject()
 {
 	defaults();
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 GenericObject<T>::~GenericObject()
 {
 	clear();
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 GenericObject<T>::GenericObject(GenericObject<T>&& src)
 {
 	clear();
@@ -43,7 +43,7 @@ GenericObject<T>::GenericObject(GenericObject<T>&& src)
 	src.clear();
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 GenericObject<T>& GenericObject<T>::operator=(GenericObject<T>&& src)
 {
 	clear();
@@ -58,7 +58,7 @@ GenericObject<T>& GenericObject<T>::operator=(GenericObject<T>&& src)
 	return *this;
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::defaults()
 {
 	set_nrows (0);
@@ -69,7 +69,7 @@ void GenericObject<T>::defaults()
 	set_owner (false);
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::creator(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner)
 {
 	clear();
@@ -95,22 +95,22 @@ void GenericObject<T>::creator(uint_t nrows, uint_t ncols, T *values, uint_t ld,
 	} // consistency check
 }
 /*-------------------------------------------------*/
-template<class T> void GenericObject<T>::set_nrows (uint_t          nrows ) { m_nrows  = nrows ; }
-template<class T> void GenericObject<T>::set_ncols (uint_t          ncols ) { m_ncols  = ncols ; }
-template<class T> void GenericObject<T>::set_ld    (uint_t          ld    ) { m_ld     = ld    ; }
-template<class T> void GenericObject<T>::set_values(T*              values) { m_values = values; }
-template<class T> void GenericObject<T>::set_prop  (const Property& prop  ) { m_prop   = prop  ; }
-template<class T> void GenericObject<T>::set_owner (bool            owner ) { m_owner  = owner ; }
+template<typename T> void GenericObject<T>::set_nrows (uint_t          nrows ) { m_nrows  = nrows ; }
+template<typename T> void GenericObject<T>::set_ncols (uint_t          ncols ) { m_ncols  = ncols ; }
+template<typename T> void GenericObject<T>::set_ld    (uint_t          ld    ) { m_ld     = ld    ; }
+template<typename T> void GenericObject<T>::set_values(T*              values) { m_values = values; }
+template<typename T> void GenericObject<T>::set_prop  (const Property& prop  ) { m_prop   = prop  ; }
+template<typename T> void GenericObject<T>::set_owner (bool            owner ) { m_owner  = owner ; }
 /*-------------------------------------------------*/
-template<class T> uint_t          GenericObject<T>::nrows () const { return m_nrows ; }
-template<class T> uint_t          GenericObject<T>::ncols () const { return m_ncols ; }
-template<class T> uint_t          GenericObject<T>::ld    () const { return m_ld    ; }
-template<class T> T*              GenericObject<T>::values()       { return m_values; }
-template<class T> const T*        GenericObject<T>::values() const { return m_values; }
-template<class T> const Property& GenericObject<T>::prop  () const { return m_prop  ; }
-template<class T> bool            GenericObject<T>::owner () const { return m_owner ; }
+template<typename T> uint_t          GenericObject<T>::nrows () const { return m_nrows ; }
+template<typename T> uint_t          GenericObject<T>::ncols () const { return m_ncols ; }
+template<typename T> uint_t          GenericObject<T>::ld    () const { return m_ld    ; }
+template<typename T> T*              GenericObject<T>::values()       { return m_values; }
+template<typename T> const T*        GenericObject<T>::values() const { return m_values; }
+template<typename T> const Property& GenericObject<T>::prop  () const { return m_prop  ; }
+template<typename T> bool            GenericObject<T>::owner () const { return m_owner ; }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 bool GenericObject<T>::empty() const
 {
 	if(nrows() && ncols() && values()) 
@@ -119,7 +119,7 @@ bool GenericObject<T>::empty() const
 	return true;
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::clear()
 {
 	if(owner()) {
@@ -129,13 +129,13 @@ void GenericObject<T>::clear()
 	defaults();
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::unbind()
 {
 	set_owner(false);
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::copy_to(GenericObject<T>& trg) const
 {
 	trg.clear();
@@ -147,7 +147,7 @@ void GenericObject<T>::copy_to(GenericObject<T>& trg) const
 	} // !empty
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::move_to(GenericObject<T>& trg)
 {
 	trg.clear();
@@ -160,7 +160,7 @@ void GenericObject<T>::move_to(GenericObject<T>& trg)
 	clear();
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::clone_to(GenericObject<T>& trg)
 {
 	trg.clear();
@@ -170,7 +170,7 @@ void GenericObject<T>::clone_to(GenericObject<T>& trg)
 	} // !empty
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::info(
 		const std::string& msg, 
 		const std::string& otype, 
@@ -208,39 +208,39 @@ void GenericObject<T>::info(
 	std::cout << bottom << "\n";
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 void GenericObject<T>::print(uint_t nsd) const
 {
 	bulk::print(prop().type(), nrows(), ncols(), values(), ld(), nsd);
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 T& GenericObject<T>::operator()(uint_t i, uint_t j)
 {
 	return dns::bulk::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/
-template<class T>
+template<typename T>
 const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
 {
 	return dns::bulk::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void GenericObject<T>::create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
 	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void GenericObject<T>::create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld, true);
 	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void GenericObject<T>::create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
@@ -248,7 +248,7 @@ void GenericObject<T>::create_random(const Property& prop, uint_t nrows, uint_t 
 	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 void GenericObject<T>::create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
 {
 	creator(nrows, ncols, values, ld, prop, bind);

@@ -9,7 +9,7 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 class GenericObject {
 
 	public:
@@ -75,7 +75,7 @@ class GenericObject {
 
 /*-------------------------------------------------*/
 
-template <class T>
+template <typename T>
 class GenericMap {
 
 	public:
@@ -93,44 +93,44 @@ class GenericMap {
 		T m_obj;
 };
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>::GenericMap()
 {
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>::~GenericMap()
 {
 	m_obj.clear();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>::GenericMap(const GenericMap<T>& src)
 {
 	*this = src.obj();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>& GenericMap<T>::operator=(const GenericMap<T>& src)
 {
 	*this = src.obj();
 	return *this;
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>::GenericMap(const T& mat)
 {
 	m_obj = const_cast<T&>(mat).clone();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 GenericMap<T>& GenericMap<T>::operator=(const T& mat)
 {
 	m_obj = const_cast<T&>(mat).clone();
 	return *this;
 }
 /*-------------------------------------------------*/
-template <class T>
+template <typename T>
 const T& GenericMap<T>::GenericMap::obj() const
 {
 	return m_obj;
