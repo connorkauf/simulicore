@@ -142,10 +142,9 @@ dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *va
 /*-------------------------------------------------*/
 dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
 {
-	dMat mat = dMat::map(prop, nrows, ncols, const_cast<ThisDatType*>(values), ld);
 	dMMap ret;
 	ThisMapType& dest = ret;
-	dest = mat;
+	dest = dMat::map(prop, nrows, ncols, const_cast<ThisDatType*>(values), ld);
 	return ret;
 }
 /*-------------------------------------------------*/
