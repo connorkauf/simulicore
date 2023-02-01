@@ -9,6 +9,7 @@
 
 // cla3p
 #include "dns.hpp"
+#include "dns_checks.hpp"
 #include "../utils.hpp"
 
 /*-------------------------------------------------*/

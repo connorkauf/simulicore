@@ -7,10 +7,12 @@
 
 // cla3p
 #include "error.hpp"
+#include "error_internal.hpp"
 #include "utils.hpp"
 #include "imalloc.hpp"
 #include "bulk/dns.hpp"
 #include "bulk/dns_io.hpp"
+#include "bulk/dns_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -32,7 +34,11 @@ template<class T>
 GenericObject<T>::GenericObject(GenericObject<T>&& src)
 {
 	clear();
-	creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
+
+	if(!src.empty()) {
+		creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
+	} // !empty
+
 	src.unbind();
 	src.clear();
 }
@@ -41,7 +47,11 @@ template<class T>
 GenericObject<T>& GenericObject<T>::operator=(GenericObject<T>&& src)
 {
 	clear();
-	creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
+
+	if(!src.empty()) {
+		creator(src.nrows(), src.ncols(), src.values(), src.ld(), src.prop(), src.owner());
+	} // !empty
+
 	src.unbind();
 	src.clear();
 
@@ -62,12 +72,27 @@ void GenericObject<T>::defaults()
 template<class T>
 void GenericObject<T>::creator(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner)
 {
-	set_nrows (nrows );
-	set_ncols (ncols );
-	set_values(values);
-	set_ld    (ld    );
-	set_prop  (prop  );
-	set_owner (owner );
+	clear();
+
+	if(!nrows || !ncols) return; // policy is on zero dimensions, return empty object
+
+	status_t stype = bulk::input_consistency_status(prop.type(), nrows, ncols, values, ld);
+	Status status(stype); 
+
+	if(status.success()) {
+
+		set_nrows (nrows );
+		set_ncols (ncols );
+		set_values(values);
+		set_ld    (ld    );
+		set_prop  (prop  );
+		set_owner (owner );
+
+	} else {
+
+		throw NoConsistency(status.message());
+
+	} // consistency check
 }
 /*-------------------------------------------------*/
 template<class T> void GenericObject<T>::set_nrows (uint_t          nrows ) { m_nrows  = nrows ; }
@@ -113,15 +138,24 @@ void GenericObject<T>::unbind()
 template<class T>
 void GenericObject<T>::copy_to(GenericObject<T>& trg) const
 {
-	T *vnew = bulk::alloc<T>(nrows(), ncols(), nrows());
-	bulk::copy(prop().type(), nrows(), ncols(), values(), ld(), vnew, nrows());
-	trg.creator(nrows(), ncols(), vnew, nrows(), prop(), true);
+	trg.clear();
+
+	if(!empty()) {
+		T *vnew = bulk::alloc<T>(nrows(), ncols(), nrows());
+		bulk::copy(prop().type(), nrows(), ncols(), values(), ld(), vnew, nrows());
+		trg.creator(nrows(), ncols(), vnew, nrows(), prop(), true);
+	} // !empty
 }
 /*-------------------------------------------------*/
 template<class T>
 void GenericObject<T>::move_to(GenericObject<T>& trg)
 {
-	trg.creator(nrows(), ncols(), values(), ld(), prop(), owner());
+	trg.clear();
+
+	if(!empty()) {
+		trg.creator(nrows(), ncols(), values(), ld(), prop(), owner());
+	} // !empty
+
 	unbind();
 	clear();
 }
@@ -129,7 +163,11 @@ void GenericObject<T>::move_to(GenericObject<T>& trg)
 template<class T>
 void GenericObject<T>::clone_to(GenericObject<T>& trg)
 {
-	trg.creator(nrows(), ncols(), values(), ld(), prop(), false);
+	trg.clear();
+
+	if(!empty()) {
+		trg.creator(nrows(), ncols(), values(), ld(), prop(), false);
+	} // !empty
 }
 /*-------------------------------------------------*/
 template<class T>

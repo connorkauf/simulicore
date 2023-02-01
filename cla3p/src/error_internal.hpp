@@ -39,6 +39,31 @@ bool show_dbg_messages();
 void Warning_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 void Error_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 
+enum class status_t {
+	SUCCESS = 0,
+	ERROR_DIM  ,
+	ERROR_PTR  ,
+	ERROR_LD   ,
+	ERROR_PROP ,
+	ERROR_PRSQ 
+};
+
+class Status {
+	public:
+		Status();
+		Status(status_t);
+		Status(const Status&);
+		Status& operator=(const Status&);
+		~Status();
+
+		status_t status() const;
+		bool success() const;
+		const std::string& message() const;
+
+	private:
+		status_t m_status;
+};
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

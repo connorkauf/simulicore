@@ -9,6 +9,7 @@
 // 3rd
 
 // cla3p
+#include "dns_checks.hpp"
 #include "../error.hpp"
 #include "../error_internal.hpp"
 #include "../utils.hpp"
@@ -25,28 +26,6 @@ namespace bulk {
 static uint_t recursive_min_dim()
 {
 	return 256;
-}
-/*-------------------------------------------------*/
-bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
-{
-	if(!m || !n || !lda) 
-		throw Exception("Zero dimensions");
-
-	if(!a) 
-		throw Exception("Invalid pointer"); 
-
-	if(lda < m) 
-		throw Exception("Invalid leading dimension");
-
-	Property prop(ptype);
-	if(!prop.is_valid()) 
-		throw Exception("Invalid property");
-
-	bool lower = (prop.is_lower());
-	if(lower && m != n) 
-		throw Exception("Non square matrix");
-
-	return lower;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

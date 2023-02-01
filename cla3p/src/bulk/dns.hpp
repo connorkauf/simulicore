@@ -3,16 +3,13 @@
 
 #include "../types.hpp"
 #include "../imalloc.hpp"
+#include "../error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 namespace bulk {
 /*-------------------------------------------------*/
-
-// throws exception on error
-// returns if pattern is lower
-bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
 
 template <class T>
 inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
