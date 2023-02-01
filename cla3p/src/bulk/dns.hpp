@@ -3,7 +3,6 @@
 
 #include "../types.hpp"
 #include "../imalloc.hpp"
-#include "../error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

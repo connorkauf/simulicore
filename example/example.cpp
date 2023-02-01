@@ -5,7 +5,7 @@
 #include <omp.h>
 
 //#include "cla3p/src/types.hpp"
-//#include "cla3p/src/error.hpp"
+#include "cla3p/src/error.hpp"
 //#include "cla3p/src/imalloc.hpp"
 #include "cla3p/src/utils.hpp"
 #include "cla3p/src/error_internal.hpp"
@@ -16,22 +16,37 @@
 #include "cla3p/src/bulk/dns.hpp"
 #include "cla3p/src/bulk/dns_io.hpp"
 /*-------------------------------------------------*/
+using namespace cla3p;
+using namespace cla3p::dns;
+
 int main()
 {
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 	cla3p::enable_dbg_messages();
 
-	cla3p::uint_t m = 3;
-	cla3p::uint_t n = 3;
-	/* */ cla3p::dns::dMat A = cla3p::dns::dMat::random(m, n);
-	A.info("A");
-	const cla3p::dns::dMat B = cla3p::dns::dMat::random(m, n);
-	B.info("B");
+	uint_t m = 3;
+	uint_t n = 3;
 
-	cla3p::dns::dMat  mA = cla3p::dns::dMat::map(A.prop(),m,n,A.values(),A.ld(), false);
-	mA.info("A");
-	cla3p::dns::dMMap mB = cla3p::dns::dMat::map(B.prop(),m,n,B.values(),B.ld());
-	mB.mat().info("B");
+	dMat A;
+	try {
+		A = dMat::random(prop_t::SYMMETRIC, m, n, m+2);
+	} catch (const NoConsistency& exc2) {
+		printf("CAUGHT CONSISTENCY EXCEPTION\n");
+	} catch (const Exception& exc1) {
+		printf("CAUGHT EXCEPTION\n");
+	} // exception
+
+	A(5,7) = 0;
+
+	dMat B = dMat::random(m, 2);
+	A.info("A");
+	B.info("B");
+	A.print();
+	B.print();
+
+	A = B.copy().move().move().move();
+	A.info("A");
+	B.info("B");
 
 	return 0;
 }

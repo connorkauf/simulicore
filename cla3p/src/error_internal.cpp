@@ -60,8 +60,8 @@ Status::Status()
 {
 }
 /*-------------------------------------------------*/
-Status::Status(status_t)
-	: m_status(status_t::SUCCESS)
+Status::Status(status_t status)
+	: m_status(status)
 {
 }
 /*-------------------------------------------------*/
