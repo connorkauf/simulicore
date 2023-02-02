@@ -9,6 +9,7 @@ set(CLA3P_SRC
 	imalloc.cpp
 	dns_generic.cpp
 	dns_dmat.cpp
+	prm_mat.cpp
 	)
 
 set(CLA3P_HPP
@@ -16,6 +17,7 @@ set(CLA3P_HPP
 	error.hpp
 	dns_generic.hpp
 	dns_dmat.hpp
+	prm_mat.hpp
 	)
 
 #-----------------------------------------------
