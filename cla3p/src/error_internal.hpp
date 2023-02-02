@@ -48,6 +48,15 @@ enum class status_t {
 	ERROR_PRSQ 
 };
 
+const std::string& msg_unknown();
+const std::string& msg_success();
+const std::string& msg_invalid_dimensions();
+const std::string& msg_invald_pointer();
+const std::string& msg_invalid_leading_dimension();
+const std::string& msg_invalid_property();
+const std::string& msg_invalid_property_for_square();
+
+
 class Status {
 	public:
 		Status();
