@@ -14,7 +14,7 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 using ThisDatType = real_t;
-using ThisObjType = GenericObject<ThisDatType>;
+using ThisObjType = GenericObject<ThisDatType,ThisDatType>;
 using ThisMapType = GenericMap<dMat>;
 /*-------------------------------------------------*/
 const std::string _objtype = "Matrix";
@@ -26,6 +26,16 @@ const std::string& datatype() { return _datatype; }
 const std::string& prectype() { return _prectype; }
 /*-------------------------------------------------*/
 dMat::dMat()
+{
+}
+/*-------------------------------------------------*/
+dMat::dMat(uint_t nrows, uint_t ncols)
+	:ThisObjType(prop_t::GENERAL, nrows, ncols, nrows, false)
+{
+}
+/*-------------------------------------------------*/
+dMat::dMat(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
+	:ThisObjType(prop, nrows, ncols, ld, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -69,6 +79,11 @@ void dMat::unbind()
 	return ThisObjType::unbind();
 }
 /*-------------------------------------------------*/
+void dMat::scale(real_t coeff)
+{
+	return ThisObjType::scale(coeff);
+}
+/*-------------------------------------------------*/
 dMat dMat::copy() const 
 { 
 	dMat ret;
@@ -98,6 +113,53 @@ dMMap dMat::clone() const
 	return ret;
 }
 /*-------------------------------------------------*/
+dMat dMat::transpose() const
+{
+	dMat ret;
+	ThisObjType::transpose_to(ret);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::permute(const uint_t *P, const uint_t *Q) const
+{
+	if(!prop().is_general())
+		throw InvalidOp("Double sided permutations are applied on general matrices");
+
+	dMat ret;
+	ThisObjType::permute_to(ret, P, Q);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::lpermute(const uint_t *P) const
+{
+	if(!prop().is_general())
+		throw InvalidOp("Left sided permutations are applied on general matrices");
+
+	dMat ret;
+	ThisObjType::permute_to(ret, P, nullptr);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::rpermute(const uint_t *Q) const
+{
+	if(!prop().is_general())
+		throw InvalidOp("Right sided permutations are applied on general matrices");
+
+	dMat ret;
+	ThisObjType::permute_to(ret, nullptr, Q);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::permute(const uint_t *P) const
+{
+	if(!prop().is_symmetric())
+		throw InvalidOp("Symmetric sided permutations are applied on symmetric matrices");
+
+	dMat ret;
+	ThisObjType::permute_to(ret, P, nullptr);
+	return ret.move();
+}
+/*-------------------------------------------------*/
 void dMat::info(const std::string& msg) const
 { 
 	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
@@ -107,6 +169,11 @@ void dMat::print(uint_t nsd) const
 {
 	ThisObjType::print(nsd); 
 }
+/*-------------------------------------------------*/
+real_t dMat::norm_one() const { return ThisObjType::norm_one(); }
+real_t dMat::norm_inf() const { return ThisObjType::norm_inf(); }
+real_t dMat::norm_max() const { return ThisObjType::norm_max(); }
+real_t dMat::norm_fro() const { return ThisObjType::norm_fro(); }
 /*-------------------------------------------------*/
 dMat dMat::init(uint_t nrows, uint_t ncols) 
 { 

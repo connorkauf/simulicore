@@ -12,10 +12,12 @@ namespace dns {
 /*-------------------------------------------------*/
 class dMMap;
 
-class dMat : private GenericObject<real_t> {
+class dMat : private GenericObject<real_t,real_t> {
 
 	public:
 		dMat();
+		dMat(uint_t nrows, uint_t ncols);
+		dMat(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~dMat();
 		dMat(const dMat&) = delete;
 		dMat& operator=(const dMat&) = delete;
@@ -33,13 +35,25 @@ class dMat : private GenericObject<real_t> {
 		bool empty() const;
 		void clear();
 		void unbind();
+		void scale(real_t coeff);
 
 		dMat copy() const;
 		dMat move();
 		dMat clone();
 		dMMap clone() const;
+		dMat transpose() const;
+		dMat permute(const uint_t *P, const uint_t *Q) const; // general rl TODO: replace with Perm Mat when ready
+		dMat lpermute(const uint_t *P) const; // general l TODO: replace with Perm Mat when ready
+		dMat rpermute(const uint_t *Q) const; // general r TODO: replace with Perm Mat when ready
+		dMat permute(const uint_t *P) const; // symmetric TODO: replace with Perm Mat when ready
+
 		void info(const std::string& msg = "") const;
 		void print(uint_t nsd = 3) const;
+
+		real_t norm_one() const;
+		real_t norm_inf() const;
+		real_t norm_max() const;
+		real_t norm_fro() const;
 
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;

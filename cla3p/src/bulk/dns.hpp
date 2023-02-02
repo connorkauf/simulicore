@@ -28,12 +28,12 @@ void zero(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda);
 void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda);
 
 template <typename T>
-T* alloc(uint_t m, uint_t n, uint_t lda, bool clear = false)
+T* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
 {
 	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));
-	if(clear) {
+	if(wipe) {
 		zero(prop_t::GENERAL, m, n, ret, lda);
-	} // clear
+	} // wipe
 	return ret;
 }
 

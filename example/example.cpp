@@ -27,28 +27,36 @@ int main()
 	uint_t m = 3;
 	uint_t n = 4;
 
-	dMat A;
-	try {
-		A = dMat::random(prop_t::SYMMETRIC, m, n, m+2);
-	} catch (const NoConsistency& exc2) {
-		printf("CAUGHT CONSISTENCY EXCEPTION\n");
-		throw;
-	} catch (const Exception& exc1) {
-		printf("CAUGHT EXCEPTION\n");
-		throw;
-	} // exception
-
-	A(5,7) = 0;
-
-	dMat B = dMat::random(m, 2);
+	//dMat A(m, n);
+	dMat A = dMat::random(m,n);
 	A.info("A");
-	B.info("B");
 	A.print();
-	B.print();
+	std::cout << "normA: " << A.norm_one() << std::endl;
+	std::cout << "normA: " << A.norm_inf() << std::endl;
+	std::cout << "normA: " << A.norm_max() << std::endl;
+	std::cout << "normA: " << A.norm_fro() << std::endl;
 
-	A = B.copy().move().move().move();
-	A.info("A");
-	B.info("B");
+	dMat B = A.transpose();
+	B.print();
+	std::cout << "normB: " << B.norm_one() << std::endl;
+	std::cout << "normB: " << B.norm_inf() << std::endl;
+	std::cout << "normB: " << B.norm_max() << std::endl;
+	std::cout << "normB: " << B.norm_fro() << std::endl;
+
+	B.scale(-3.);
+	B.print();
+	std::cout << "normB: " << B.norm_one() << std::endl;
+	std::cout << "normB: " << B.norm_inf() << std::endl;
+	std::cout << "normB: " << B.norm_max() << std::endl;
+	std::cout << "normB: " << B.norm_fro() << std::endl;
+
+	std::vector<uint_t> P = create_random_perm(m);
+	std::vector<uint_t> Q = create_random_perm(n);
+
+	for(uint_t i = 0; i < m; i++) printf("P[%llu] = %llu\n", i, P[i]);
+	for(uint_t i = 0; i < n; i++) printf("Q[%llu] = %llu\n", i, Q[i]);
+	dMat C = A.permute(P.data(),Q.data());
+	C.print();
 
 	return 0;
 }

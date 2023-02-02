@@ -9,7 +9,7 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <typename T>
+template <typename T, typename Tr>
 class GenericObject {
 
 	public:
@@ -20,11 +20,12 @@ class GenericObject {
 
 	protected:
 		GenericObject();
+		GenericObject(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~GenericObject();
-		GenericObject(const GenericObject<T>&) = delete;
-		GenericObject<T>& operator=(const GenericObject<T>&) = delete;
-		GenericObject(GenericObject<T>&&);
-		GenericObject<T>& operator=(GenericObject<T>&&);
+		GenericObject(const GenericObject<T,Tr>&) = delete;
+		GenericObject<T,Tr>& operator=(const GenericObject<T,Tr>&) = delete;
+		GenericObject(GenericObject<T,Tr>&&);
+		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
 
 		void set_nrows (uint_t          nrows );
 		void set_ncols (uint_t          ncols );
@@ -44,10 +45,14 @@ class GenericObject {
 		bool empty() const;
 		void clear();
 		void unbind();
+		void scale(T coeff);
 
-		void copy_to(GenericObject<T>&) const;
-		void move_to(GenericObject<T>&);
-		void clone_to(GenericObject<T>&);
+		void copy_to(GenericObject<T,Tr>&) const;
+		void move_to(GenericObject<T,Tr>&);
+		void clone_to(GenericObject<T,Tr>&);
+		void transpose_to(GenericObject<T,Tr>&) const;
+		void ctranspose_to(GenericObject<T,Tr>&) const;
+		void permute_to(GenericObject<T,Tr>&, const uint_t *P, const uint_t *Q) const; // TODO: replace with Perm Mat when ready
 
 		void info(
 				const std::string&,
@@ -55,6 +60,11 @@ class GenericObject {
 				const std::string&,
 				const std::string&) const;
 		void print(uint_t) const;
+
+		Tr norm_one() const;
+		Tr norm_inf() const;
+		Tr norm_max() const;
+		Tr norm_fro() const;
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
@@ -68,7 +78,7 @@ class GenericObject {
 		bool     m_owner ;
 
 		void defaults();
-		void creator(uint_t nrows, uint_t ncols, T *values, uint_t ld, const Property& prop, bool owner);
+		void creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
 };
 
 /*-------------------------------------------------*/
