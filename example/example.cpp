@@ -25,15 +25,17 @@ int main()
 	cla3p::enable_dbg_messages();
 
 	uint_t m = 3;
-	uint_t n = 3;
+	uint_t n = 4;
 
 	dMat A;
 	try {
 		A = dMat::random(prop_t::SYMMETRIC, m, n, m+2);
 	} catch (const NoConsistency& exc2) {
 		printf("CAUGHT CONSISTENCY EXCEPTION\n");
+		throw;
 	} catch (const Exception& exc1) {
 		printf("CAUGHT EXCEPTION\n");
+		throw;
 	} // exception
 
 	A(5,7) = 0;

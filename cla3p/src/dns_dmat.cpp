@@ -116,7 +116,7 @@ dMat dMat::init(uint_t nrows, uint_t ncols)
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.create_empty(prop, nrows, ncols, ld); 
+	ret.empty_creator(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -128,7 +128,7 @@ dMat dMat::zero(uint_t nrows, uint_t ncols)
 dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.create_zero(prop, nrows, ncols, ld); 
+	ret.zero_creator(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -140,7 +140,7 @@ dMat dMat::random(uint_t nrows, uint_t ncols)
 dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.create_random(prop, nrows, ncols, ld); 
+	ret.random_creator(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -152,7 +152,7 @@ dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
 dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
 {
 	dMat ret;
-	ret.create_mapped(prop, nrows, ncols, values, ld, bind); 
+	ret.map_creator(prop, nrows, ncols, values, ld, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/

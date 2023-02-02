@@ -227,29 +227,38 @@ const T& GenericObject<T>::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 template <typename T>
-void GenericObject<T>::create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::empty_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
 	creator(nrows, ncols, values, ld, prop, true);
 }
 /*-------------------------------------------------*/
 template <typename T>
-void GenericObject<T>::create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
-	T *values = bulk::alloc<T>(nrows, ncols, ld, true);
-	creator(nrows, ncols, values, ld, prop, true);
+	empty_creator(prop, nrows, ncols, ld);
+	bulk::zero(
+			this->prop().type(), 
+			this->nrows(), 
+			this->ncols(), 
+			this->values(), 
+			this->ld());
 }
 /*-------------------------------------------------*/
 template <typename T>
-void GenericObject<T>::create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T>::random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
-	T *values = bulk::alloc<T>(nrows, ncols, ld);
-	bulk::rand(prop.type(), nrows, ncols, values, ld);
-	creator(nrows, ncols, values, ld, prop, true);
+	empty_creator(prop, nrows, ncols, ld);
+	bulk::rand(
+			this->prop().type(), 
+			this->nrows(), 
+			this->ncols(), 
+			this->values(), 
+			this->ld());
 }
 /*-------------------------------------------------*/
 template <typename T>
-void GenericObject<T>::create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
+void GenericObject<T>::map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
 {
 	creator(nrows, ncols, values, ld, prop, bind);
 }

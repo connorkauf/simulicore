@@ -2,18 +2,12 @@
 #include "dns_checks.hpp"
 
 // system
-//#include <cstring>
-//#include <algorithm>
-//#include <functional>
 
 // 3rd
 
 // cla3p
 #include "../error.hpp"
 #include "../error_internal.hpp"
-//#include "../utils.hpp"
-//#include "../proxies/lapack_proxy.hpp"
-//#include "../proxies/mkl_proxy.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -13,10 +13,10 @@ template <typename T>
 class GenericObject {
 
 	public:
-		void create_empty(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void create_mapped(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		void  empty_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void   zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void    map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	protected:
 		GenericObject();
@@ -25,6 +25,21 @@ class GenericObject {
 		GenericObject<T>& operator=(const GenericObject<T>&) = delete;
 		GenericObject(GenericObject<T>&&);
 		GenericObject<T>& operator=(GenericObject<T>&&);
+
+		void set_nrows (uint_t          nrows );
+		void set_ncols (uint_t          ncols );
+		void set_ld    (uint_t          ld    );
+		void set_values(T*              values);
+		void set_prop  (const Property& prop  );
+		void set_owner (bool            owner );
+
+		uint_t          nrows () const;
+		uint_t          ncols () const;
+		uint_t          ld    () const;
+		T*              values()      ;
+		const T*        values() const;
+		const Property& prop  () const;
+		bool            owner () const;
 
 		bool empty() const;
 		void clear();
@@ -43,23 +58,6 @@ class GenericObject {
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
-
-		// setters
-		void set_nrows (uint_t          nrows );
-		void set_ncols (uint_t          ncols );
-		void set_ld    (uint_t          ld    );
-		void set_values(T*              values);
-		void set_prop  (const Property& prop  );
-		void set_owner (bool            owner );
-
-		// getters
-		uint_t          nrows () const;
-		uint_t          ncols () const;
-		uint_t          ld    () const;
-		T*              values()      ;
-		const T*        values() const;
-		const Property& prop  () const;
-		bool            owner () const;
 
 	private:
 		uint_t   m_nrows ;
