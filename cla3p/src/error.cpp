@@ -33,6 +33,15 @@ NoConsistency::~NoConsistency() throw()
 {
 }
 /*-------------------------------------------------*/
+InvalidOp::InvalidOp(const std::string& msg)
+	: Exception("Invalid operation error: " + msg)
+{
+}
+/*-------------------------------------------------*/
+InvalidOp::~InvalidOp() throw()
+{
+}
+/*-------------------------------------------------*/
 Overflow::Overflow(const std::string& msg)
 	: Exception("Overflow error: " + msg)
 {

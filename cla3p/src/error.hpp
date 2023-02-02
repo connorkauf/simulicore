@@ -46,6 +46,19 @@ class NoConsistency : public Exception {
 };
 
 /**
+ * @brief Invalid operation cla3p exception class
+ */
+class InvalidOp : public Exception {
+	public:
+		/** 
+		 * @brief Constructor
+		 * @param[in] msg The message to display on throw
+		 */
+		InvalidOp(const std::string& msg = "Untitled");
+		~InvalidOp() throw();
+};
+
+/**
  * @brief Overflow cla3p exception class
  */
 class Overflow : public Exception {
