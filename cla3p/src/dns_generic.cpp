@@ -30,7 +30,7 @@ GenericObject<T,Tr>::GenericObject(const Property& prop, uint_t nrows, uint_t nc
 	if(wipe) {
 		zero_creator(prop, nrows, ncols, ld);
 	} else {
-		empty_creator(prop, nrows, ncols, ld);
+		blank_creator(prop, nrows, ncols, ld);
 	} // wipe
 }
 /*-------------------------------------------------*/
@@ -151,7 +151,7 @@ void GenericObject<T,Tr>::copy_to(GenericObject<T,Tr>& trg) const
 	trg.clear();
 
 	if(!empty()) {
-		trg.empty_creator(prop(), nrows(), ncols(), ld());
+		trg.blank_creator(prop(), nrows(), ncols(), ld());
 		bulk::copy(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 	} // !empty
 }
@@ -187,7 +187,7 @@ void GenericObject<T,Tr>::transpose_to(GenericObject<T,Tr>& trg) const
 	if(!empty()) {
 		if(!prop().is_general()) 
 			throw InvalidOp("Transpositions are applied on general matrices");
-		trg.empty_creator(prop(), ncols(), nrows(), ncols());
+		trg.blank_creator(prop(), ncols(), nrows(), ncols());
 		bulk::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 	} // !empty
 }
@@ -200,7 +200,7 @@ void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
 	if(!empty()) {
 		if(!prop().is_general()) 
 			throw InvalidOp("Transpositions are applied on general matrices");
-		trg.empty_creator(prop(), ncols(), nrows(), ncols());
+		trg.blank_creator(prop(), ncols(), nrows(), ncols());
 		bulk::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 	} // !empty
 }
@@ -211,7 +211,7 @@ void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const uint_t *P, 
 	trg.clear();
 
 	if(!empty()) {
-		trg.empty_creator(prop(), nrows(), ncols(), nrows());
+		trg.blank_creator(prop(), nrows(), ncols(), nrows());
 		bulk::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P, Q);
 	} // !empty
 }
@@ -305,7 +305,7 @@ const T& GenericObject<T,Tr>::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::empty_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T,Tr>::blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
 	T *values = bulk::alloc<T>(nrows, ncols, ld);
 	creator(prop, nrows, ncols, values, ld, true);
@@ -314,7 +314,7 @@ void GenericObject<T,Tr>::empty_creator(const Property& prop, uint_t nrows, uint
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
-	empty_creator(prop, nrows, ncols, ld);
+	blank_creator(prop, nrows, ncols, ld);
 	bulk::zero(
 			this->prop().type(), 
 			this->nrows(), 
@@ -326,7 +326,7 @@ void GenericObject<T,Tr>::zero_creator(const Property& prop, uint_t nrows, uint_
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
-	empty_creator(prop, nrows, ncols, ld);
+	blank_creator(prop, nrows, ncols, ld);
 	bulk::rand(
 			this->prop().type(), 
 			this->nrows(), 

@@ -13,7 +13,7 @@ template <typename T, typename Tr>
 class GenericObject {
 
 	public:
-		void  empty_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void  blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		void   zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		void random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		void    map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);

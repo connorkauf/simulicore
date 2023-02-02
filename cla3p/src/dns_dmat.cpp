@@ -153,7 +153,7 @@ dMat dMat::rpermute(const uint_t *Q) const
 dMat dMat::permute(const uint_t *P) const
 {
 	if(!prop().is_symmetric())
-		throw InvalidOp("Symmetric sided permutations are applied on symmetric matrices");
+		throw InvalidOp("Symmetric permutations are applied on symmetric matrices");
 
 	dMat ret;
 	ThisObjType::permute_to(ret, P, nullptr);
@@ -183,7 +183,7 @@ dMat dMat::init(uint_t nrows, uint_t ncols)
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.empty_creator(prop, nrows, ncols, ld); 
+	ret.blank_creator(prop, nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
