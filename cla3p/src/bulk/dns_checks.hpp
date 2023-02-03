@@ -2,7 +2,7 @@
 #define CLA3P_DNS_CHECKS_HPP_
 
 #include "../types.hpp"
-#include "../error_internal.hpp"
+#include "../support/error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

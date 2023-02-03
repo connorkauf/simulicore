@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 
-#include "types.hpp"
+#include "../types.hpp"
 
 #define Warning(msg) \
 	do { \

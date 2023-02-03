@@ -6,7 +6,7 @@
 // 3rd
 
 // cla3p
-#include "error.hpp"
+#include "support/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

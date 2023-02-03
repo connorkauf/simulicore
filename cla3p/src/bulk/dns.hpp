@@ -2,7 +2,7 @@
 #define CLA3P_DNS_HPP_
 
 #include "../types.hpp"
-#include "../imalloc.hpp"
+#include "../support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

@@ -6,9 +6,9 @@
 // 3rd
 
 // cla3p
-#include "error.hpp"
-#include "error_internal.hpp"
-#include "utils.hpp"
+#include "support/error.hpp"
+#include "support/error_internal.hpp"
+#include "support/utils.hpp"
 #include "prm_mat.hpp"
 
 /*-------------------------------------------------*/
@@ -202,6 +202,11 @@ void dMat::print(uint_t nsd) const
 	ThisObjType::print(nsd); 
 }
 /*-------------------------------------------------*/
+std::string dMat::print2str(uint_t nsd) const 
+{
+	return ThisObjType::print2str(nsd); 
+}
+/*-------------------------------------------------*/
 real_t dMat::norm_one() const { return ThisObjType::norm_one(); }
 real_t dMat::norm_inf() const { return ThisObjType::norm_inf(); }
 real_t dMat::norm_max() const { return ThisObjType::norm_max(); }
@@ -314,4 +319,10 @@ const dMat& dMMap::mat() const
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::dMat& mat)
+{
+	os << mat.print2str();
+	return os;
+}
 /*-------------------------------------------------*/

@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "cla3p/src/error.hpp"
-#include "cla3p/src/error_internal.hpp"
+#include "cla3p/src/support/error.hpp"
+#include "cla3p/src/support/error_internal.hpp"
 
 /*-------------------------------------------------*/
 #define fatal_error() \

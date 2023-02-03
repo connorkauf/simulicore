@@ -4,7 +4,7 @@
 #include <string>
 
 #include "types.hpp"
-#include "dns_generic.hpp"
+#include "generic/dns_generic.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { namespace prm {
@@ -53,6 +53,7 @@ class dMat : private GenericObject<real_t,real_t> {
 
 		void info(const std::string& msg = "") const;
 		void print(uint_t nsd = 3) const;
+		std::string print2str(uint_t nsd = 3) const;
 
 		real_t norm_one() const;
 		real_t norm_inf() const;
@@ -95,6 +96,8 @@ class dMMap : private GenericMap<dMat> {
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream&, const cla3p::dns::dMat&);
 /*-------------------------------------------------*/
 
 #endif // CLA3P_DNS_DMAT_HPP_

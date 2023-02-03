@@ -6,14 +6,14 @@
 // 3rd
 
 // cla3p
-#include "error.hpp"
-#include "error_internal.hpp"
-#include "utils.hpp"
-#include "imalloc.hpp"
-#include "bulk/dns.hpp"
-#include "bulk/dns_io.hpp"
-#include "bulk/dns_checks.hpp"
-#include "prm_mat.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
+#include "../support/utils.hpp"
+#include "../support/imalloc.hpp"
+#include "../bulk/dns.hpp"
+#include "../bulk/dns_io.hpp"
+#include "../bulk/dns_checks.hpp"
+#include "../prm_mat.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -289,6 +289,12 @@ template <typename T, typename Tr>
 void GenericObject<T,Tr>::print(uint_t nsd) const
 {
 	bulk::print(prop().type(), nrows(), ncols(), values(), ld(), nsd);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+std::string GenericObject<T,Tr>::print2str(uint_t nsd) const
+{
+	return bulk::print2str(prop().type(), nrows(), ncols(), values(), ld(), nsd);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

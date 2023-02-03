@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "cla3p/src/error_internal.hpp"
+#include "cla3p/src/support/error_internal.hpp"
 
 int main(int argc, const char **argv)
 {

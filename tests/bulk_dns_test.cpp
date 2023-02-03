@@ -7,7 +7,7 @@
 // 3rd
 
 // cla3p
-#include "cla3p/src/utils.hpp"
+#include "cla3p/src/support/utils.hpp"
 #include "cla3p/src/bulk/dns.hpp"
 #include "cla3p/src/bulk/dns_io.hpp"
 

@@ -10,7 +10,7 @@
 // cla3p
 #include "dns.hpp"
 #include "dns_checks.hpp"
-#include "../utils.hpp"
+#include "../support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

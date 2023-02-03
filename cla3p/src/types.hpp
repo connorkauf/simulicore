@@ -79,7 +79,7 @@ class Property {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-std::ostream& operator<<(std::ostream& os, const cla3p::Property& prop);
+std::ostream& operator<<(std::ostream&, const cla3p::Property&);
 
 /*-------------------------------------------------*/
 

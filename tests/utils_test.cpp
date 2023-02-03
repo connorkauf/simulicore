@@ -9,7 +9,7 @@
 #include "mkl.h"
 
 // cla3p
-#include "cla3p/src/utils.hpp"
+#include "cla3p/src/support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

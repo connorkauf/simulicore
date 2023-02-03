@@ -1,9 +1,10 @@
 #ifndef CLA3P_DNS_GENERIC_HPP_
 #define CLA3P_DNS_GENERIC_HPP_
 
+#include <string>
 #include <iostream>
 
-#include "types.hpp"
+#include "../types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { namespace prm {
@@ -64,6 +65,7 @@ class GenericObject {
 				const std::string&,
 				const std::string&) const;
 		void print(uint_t) const;
+		std::string print2str(uint_t) const;
 
 		Tr norm_one() const;
 		Tr norm_inf() const;

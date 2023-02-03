@@ -10,11 +10,11 @@
 
 // cla3p
 #include "dns_checks.hpp"
-#include "../error.hpp"
-#include "../error_internal.hpp"
-#include "../utils.hpp"
 #include "../proxies/lapack_proxy.hpp"
 #include "../proxies/mkl_proxy.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
+#include "../support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

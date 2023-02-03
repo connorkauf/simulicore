@@ -3,19 +3,12 @@
 #-----------------------------------------------
 set(CLA3P_SRC
 	types.cpp
-	error.cpp
-	error_internal.cpp
-	utils.cpp
-	imalloc.cpp
-	dns_generic.cpp
 	dns_dmat.cpp
 	prm_mat.cpp
 	)
 
 set(CLA3P_HPP
 	types.hpp
-	error.hpp
-	dns_generic.hpp
 	dns_dmat.hpp
 	prm_mat.hpp
 	)
@@ -25,6 +18,8 @@ set(CLA3P_HPP
 #-----------------------------------------------
 add_subdirectory(bulk)
 add_subdirectory(proxies)
+add_subdirectory(support)
+add_subdirectory(generic)
 
 #-----------------------------------------------
 # target setup
