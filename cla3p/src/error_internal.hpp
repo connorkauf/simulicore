@@ -67,12 +67,12 @@ class Status {
 		Status& operator=(const Status&);
 		~Status();
 
-		status_t status() const;
+		status_t type() const;
 		bool success() const;
 		const std::string& message() const;
 
 	private:
-		status_t m_status;
+		status_t m_type;
 };
 
 /*-------------------------------------------------*/
