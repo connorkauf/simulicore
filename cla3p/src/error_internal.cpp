@@ -90,21 +90,21 @@ bool Status::success() const
 	return (status() == status_t::SUCCESS);
 }
 /*-------------------------------------------------*/
-static const std::string _msg_unknown                     = "Unknown status";
-static const std::string _msg_success                     = "Success";
-static const std::string _msg_invalid_dimensions          = "Invalid dimensions";
-static const std::string _msg_invald_pointer              = "Invalid pointer";
-static const std::string _msg_invalid_leading_dimension   = "Invalid leading dimension";
-static const std::string _msg_invalid_property            = "Invalid property";
-static const std::string _msg_invalid_property_for_square = "Invalid property for square matrix";
+static const std::string const_msg_unknown                     = "Unknown status";
+static const std::string const_msg_success                     = "Success";
+static const std::string const_msg_invalid_dimensions          = "Invalid/mismatching dimensions";
+static const std::string const_msg_invald_pointer              = "Invalid pointer";
+static const std::string const_msg_invalid_leading_dimension   = "Invalid leading dimension";
+static const std::string const_msg_invalid_property            = "Invalid property";
+static const std::string const_msg_invalid_property_for_square = "Property requires square matrix";
 /*-------------------------------------------------*/
-const std::string& msg_unknown()                      { return _msg_unknown                    ; }
-const std::string& msg_success()                      { return _msg_success                    ; }
-const std::string& msg_invalid_dimensions()           { return _msg_invalid_dimensions         ; }
-const std::string& msg_invald_pointer()               { return _msg_invald_pointer             ; }
-const std::string& msg_invalid_leading_dimension()    { return _msg_invalid_leading_dimension  ; }
-const std::string& msg_invalid_property()             { return _msg_invalid_property           ; }
-const std::string& msg_invalid_property_for_square()  { return _msg_invalid_property_for_square; }
+const std::string& msg_unknown()                      { return const_msg_unknown                    ; }
+const std::string& msg_success()                      { return const_msg_success                    ; }
+const std::string& msg_invalid_dimensions()           { return const_msg_invalid_dimensions         ; }
+const std::string& msg_invald_pointer()               { return const_msg_invald_pointer             ; }
+const std::string& msg_invalid_leading_dimension()    { return const_msg_invalid_leading_dimension  ; }
+const std::string& msg_invalid_property()             { return const_msg_invalid_property           ; }
+const std::string& msg_invalid_property_for_square()  { return const_msg_invalid_property_for_square; }
 /*-------------------------------------------------*/
 const std::string& Status::message() const
 {

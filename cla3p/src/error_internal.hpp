@@ -45,7 +45,7 @@ enum class status_t {
 	ERROR_PTR  ,
 	ERROR_LD   ,
 	ERROR_PROP ,
-	ERROR_PRSQ 
+	ERROR_PRSQ  
 };
 
 const std::string& msg_unknown();
