@@ -97,6 +97,7 @@ static const std::string const_msg_invald_pointer              = "Invalid pointe
 static const std::string const_msg_invalid_leading_dimension   = "Invalid leading dimension";
 static const std::string const_msg_invalid_property            = "Invalid property";
 static const std::string const_msg_invalid_property_for_square = "Property requires square matrix";
+static const std::string const_msg_empty_object                = "Empty object detected";
 /*-------------------------------------------------*/
 const std::string& msg_unknown()                      { return const_msg_unknown                    ; }
 const std::string& msg_success()                      { return const_msg_success                    ; }
@@ -105,15 +106,17 @@ const std::string& msg_invald_pointer()               { return const_msg_invald_
 const std::string& msg_invalid_leading_dimension()    { return const_msg_invalid_leading_dimension  ; }
 const std::string& msg_invalid_property()             { return const_msg_invalid_property           ; }
 const std::string& msg_invalid_property_for_square()  { return const_msg_invalid_property_for_square; }
+const std::string& msg_empty_object()                 { return const_msg_empty_object               ; }
 /*-------------------------------------------------*/
 const std::string& Status::message() const
 {
-	/**/ if(status() == status_t::SUCCESS   ) return msg_success()                    ;
-	else if(status() == status_t::ERROR_DIM ) return msg_invalid_dimensions()         ;
-	else if(status() == status_t::ERROR_PTR ) return msg_invald_pointer()             ;
-	else if(status() == status_t::ERROR_LD  ) return msg_invalid_leading_dimension()  ;
-	else if(status() == status_t::ERROR_PROP) return msg_invalid_property()           ;
-	else if(status() == status_t::ERROR_PRSQ) return msg_invalid_property_for_square();
+	/**/ if(status() == status_t::SUCCESS    ) return msg_success()                    ;
+	else if(status() == status_t::ERROR_DIM  ) return msg_invalid_dimensions()         ;
+	else if(status() == status_t::ERROR_PTR  ) return msg_invald_pointer()             ;
+	else if(status() == status_t::ERROR_LD   ) return msg_invalid_leading_dimension()  ;
+	else if(status() == status_t::ERROR_PROP ) return msg_invalid_property()           ;
+	else if(status() == status_t::ERROR_PRSQ ) return msg_invalid_property_for_square();
+	else if(status() == status_t::ERROR_EMPTY) return msg_empty_object()               ;
 
 	return msg_unknown();
 }

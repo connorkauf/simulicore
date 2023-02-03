@@ -40,12 +40,13 @@ void Warning_with_args(const std::string& msg, const char *file, const char *fun
 void Error_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 
 enum class status_t {
-	SUCCESS = 0,
-	ERROR_DIM  ,
-	ERROR_PTR  ,
-	ERROR_LD   ,
-	ERROR_PROP ,
-	ERROR_PRSQ  
+	SUCCESS     = 0,
+	ERROR_DIM      ,
+	ERROR_PTR      ,
+	ERROR_LD       ,
+	ERROR_PROP     ,
+	ERROR_PRSQ     ,
+	ERROR_EMPTY    
 };
 
 const std::string& msg_unknown();
@@ -55,6 +56,7 @@ const std::string& msg_invald_pointer();
 const std::string& msg_invalid_leading_dimension();
 const std::string& msg_invalid_property();
 const std::string& msg_invalid_property_for_square();
+const std::string& msg_empty_object();
 
 
 class Status {
