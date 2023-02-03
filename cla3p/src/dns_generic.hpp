@@ -6,6 +6,10 @@
 #include "types.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p { namespace prm {
+class pMat;
+}}
+/*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
@@ -52,7 +56,7 @@ class GenericObject {
 		void clone_to(GenericObject<T,Tr>&);
 		void transpose_to(GenericObject<T,Tr>&) const;
 		void ctranspose_to(GenericObject<T,Tr>&) const;
-		void permute_to(GenericObject<T,Tr>&, const uint_t *P, const uint_t *Q) const; // TODO: replace with Perm Mat when ready
+		void permute_to(GenericObject<T,Tr>&, const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const;
 
 		void info(
 				const std::string&,

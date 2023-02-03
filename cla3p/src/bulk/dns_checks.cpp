@@ -38,7 +38,9 @@ bool check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 	Property prop(ptype);
 	Status status(stype);
 
-	if(!status.success()) throw Exception(status.message());
+	if(!status.success()) {
+		throw Exception(status.message());
+	}
 
 	return prop.is_lower();
 }

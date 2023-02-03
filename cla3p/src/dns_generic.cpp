@@ -13,6 +13,7 @@
 #include "bulk/dns.hpp"
 #include "bulk/dns_io.hpp"
 #include "bulk/dns_checks.hpp"
+#include "prm_mat.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -185,8 +186,9 @@ void GenericObject<T,Tr>::transpose_to(GenericObject<T,Tr>& trg) const
 	trg.clear();
 
 	if(!empty()) {
-		if(!prop().is_general()) 
+		if(!prop().is_general()) {
 			throw InvalidOp("Transpositions are applied on general matrices");
+		}
 		trg.blank_creator(prop(), ncols(), nrows(), ncols());
 		bulk::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 	} // !empty
@@ -198,21 +200,34 @@ void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
 	trg.clear();
 
 	if(!empty()) {
-		if(!prop().is_general()) 
+		if(!prop().is_general())  {
 			throw InvalidOp("Transpositions are applied on general matrices");
+		}
 		trg.blank_creator(prop(), ncols(), nrows(), ncols());
 		bulk::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 	} // !empty
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const uint_t *P, const uint_t *Q) const
+void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 {
 	trg.clear();
 
+	if(!P.empty()) {
+		if(nrows() != P.size()) {
+			throw NoConsistency(msg_invalid_dimensions() + " for permute operation");
+		}
+	} // !empty P
+
+	if(!Q.empty()) {
+		if(ncols() != Q.size()) {
+			throw NoConsistency(msg_invalid_dimensions() + " for permute operation");
+		}
+	} // !empty P
+
 	if(!empty()) {
 		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P, Q);
+		bulk::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
 	} // !empty
 }
 /*-------------------------------------------------*/

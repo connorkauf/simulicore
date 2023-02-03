@@ -8,6 +8,7 @@
 // cla3p
 #include "error.hpp"
 #include "utils.hpp"
+#include "prm_mat.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -120,43 +121,50 @@ dMat dMat::transpose() const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const uint_t *P, const uint_t *Q) const
+dMat dMat::permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 {
-	if(!prop().is_general())
+	if(!prop().is_general()) {
 		throw InvalidOp("Double sided permutations are applied on general matrices");
+	}
 
 	dMat ret;
 	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::lpermute(const uint_t *P) const
+dMat dMat::lpermute(const cla3p::prm::pMat& P) const
 {
-	if(!prop().is_general())
+	if(!prop().is_general()) {
 		throw InvalidOp("Left sided permutations are applied on general matrices");
+	}
 
+	cla3p::prm::pMat Q; // dummy Q
 	dMat ret;
-	ThisObjType::permute_to(ret, P, nullptr);
+	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::rpermute(const uint_t *Q) const
+dMat dMat::rpermute(const cla3p::prm::pMat& Q) const
 {
-	if(!prop().is_general())
+	if(!prop().is_general()) {
 		throw InvalidOp("Right sided permutations are applied on general matrices");
+	}
 
+	cla3p::prm::pMat P; // dummy P
 	dMat ret;
-	ThisObjType::permute_to(ret, nullptr, Q);
+	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const uint_t *P) const
+dMat dMat::permute(const cla3p::prm::pMat& P) const
 {
-	if(!prop().is_symmetric())
+	if(!prop().is_symmetric()) {
 		throw InvalidOp("Symmetric permutations are applied on symmetric matrices");
+	}
 
+	cla3p::prm::pMat Q; // dummy Q
 	dMat ret;
-	ThisObjType::permute_to(ret, P, nullptr);
+	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/

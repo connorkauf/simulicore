@@ -11,6 +11,7 @@
 #include "cla3p/src/error_internal.hpp"
 #include "cla3p/src/dns_generic.hpp"
 #include "cla3p/src/dns_dmat.hpp"
+#include "cla3p/src/prm_mat.hpp"
 
 #include "cla3p/src/proxies/mkl_proxy.hpp"
 #include "cla3p/src/bulk/dns.hpp"
@@ -50,13 +51,20 @@ int main()
 	std::cout << "normB: " << B.norm_max() << std::endl;
 	std::cout << "normB: " << B.norm_fro() << std::endl;
 
-	std::vector<uint_t> P = create_random_perm(m);
-	std::vector<uint_t> Q = create_random_perm(n);
+	prm::pMat P = prm::pMat::random(m+1);
+	prm::pMat Q = prm::pMat::random(n);
 
-	for(uint_t i = 0; i < m; i++) printf("P[%llu] = %llu\n", i, P[i]);
-	for(uint_t i = 0; i < n; i++) printf("Q[%llu] = %llu\n", i, Q[i]);
-	dMat C = A.permute(P.data(),Q.data());
-	C.print();
+	P.info();
+	P.print();
+	Q.info();
+	Q.print();
+	dMat C1 = A.permute(P,Q);
+	dMat C2 = A.lpermute(P);
+	dMat C3 = A.rpermute(Q);
+	A.print();
+	C1.print();
+	C2.print();
+	C3.print();
 
 	return 0;
 }

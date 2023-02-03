@@ -7,6 +7,10 @@
 #include "dns_generic.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p { namespace prm {
+class pMat;
+}}
+/*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
@@ -42,10 +46,10 @@ class dMat : private GenericObject<real_t,real_t> {
 		dMat clone();
 		dMMap clone() const;
 		dMat transpose() const;
-		dMat permute(const uint_t *P, const uint_t *Q) const; // general rl TODO: replace with Perm Mat when ready
-		dMat lpermute(const uint_t *P) const; // general l TODO: replace with Perm Mat when ready
-		dMat rpermute(const uint_t *Q) const; // general r TODO: replace with Perm Mat when ready
-		dMat permute(const uint_t *P) const; // symmetric TODO: replace with Perm Mat when ready
+		dMat permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const;
+		dMat lpermute(const cla3p::prm::pMat& P) const;
+		dMat rpermute(const cla3p::prm::pMat& Q) const;
+		dMat permute(const cla3p::prm::pMat& P) const;
 
 		void info(const std::string& msg = "") const;
 		void print(uint_t nsd = 3) const;
@@ -58,14 +62,14 @@ class dMat : private GenericObject<real_t,real_t> {
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;
 
-		// static members (basic)
+		// static initializers (basic)
 		static dMat init(uint_t nrows, uint_t ncols);
 		static dMat zero(uint_t nrows, uint_t ncols);
 		static dMat random(uint_t nrows, uint_t ncols);
 		static dMat map(uint_t nrows, uint_t ncols, real_t *values);
 		static dMMap map(uint_t nrows, uint_t ncols, const real_t *values);
 
-		// static members (advanced)
+		// static initializers (advanced)
 		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
 		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
