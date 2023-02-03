@@ -182,7 +182,7 @@ void pMat::print() const
 {
 	nint_t nd = inumlen(size());
 	for(uint_t i = 0; i < size(); i++) {
-		std::printf("%*llu | %*llu\n", nd, i, nd, (*this)(i));
+		std::printf("%*" _UFMT_ " | %*" _UFMT_ "\n", nd, i, nd, (*this)(i));
 	} // i
 }
 /*-------------------------------------------------*/

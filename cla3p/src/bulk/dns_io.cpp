@@ -115,7 +115,7 @@ uint_t DnsPrinter::count_columns_per_page(uint_t n)
 void DnsPrinter::append_page_header(uint_t jbgn, uint_t jend)
 {
 	nint_t nd = m_row_numdigits;
-	std::sprintf(m_cbuff, "%*s |", nd, "");
+	std::sprintf(m_cbuff, "%*s  ", nd, "");
 	m_str.append(m_cbuff);
 
 	nd = m_element_length_max;
