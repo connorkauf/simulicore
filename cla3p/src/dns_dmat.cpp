@@ -7,6 +7,7 @@
 
 // cla3p
 #include "error.hpp"
+#include "error_internal.hpp"
 #include "utils.hpp"
 #include "prm_mat.hpp"
 
@@ -123,6 +124,10 @@ dMat dMat::transpose() const
 /*-------------------------------------------------*/
 dMat dMat::permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 {
+	if(P.empty() || Q.empty()) {
+		throw NoConsistency(msg_empty_object() + " on permute operation");
+	}
+
 	if(!prop().is_general()) {
 		throw InvalidOp("Double sided permutations are applied on general matrices");
 	}
@@ -134,6 +139,10 @@ dMat dMat::permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 /*-------------------------------------------------*/
 dMat dMat::lpermute(const cla3p::prm::pMat& P) const
 {
+	if(P.empty()) {
+		throw NoConsistency(msg_empty_object() + " on permute operation (left)");
+	}
+
 	if(!prop().is_general()) {
 		throw InvalidOp("Left sided permutations are applied on general matrices");
 	}
@@ -146,6 +155,10 @@ dMat dMat::lpermute(const cla3p::prm::pMat& P) const
 /*-------------------------------------------------*/
 dMat dMat::rpermute(const cla3p::prm::pMat& Q) const
 {
+	if(Q.empty()) {
+		throw NoConsistency(msg_empty_object() + " on permute operation (right)");
+	}
+
 	if(!prop().is_general()) {
 		throw InvalidOp("Right sided permutations are applied on general matrices");
 	}
@@ -158,6 +171,10 @@ dMat dMat::rpermute(const cla3p::prm::pMat& Q) const
 /*-------------------------------------------------*/
 dMat dMat::permute(const cla3p::prm::pMat& P) const
 {
+	if(P.empty()) {
+		throw NoConsistency(msg_empty_object() + " on permute operation (symmetric)");
+	}
+
 	if(!prop().is_symmetric()) {
 		throw InvalidOp("Symmetric permutations are applied on symmetric matrices");
 	}

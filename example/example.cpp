@@ -51,15 +51,21 @@ int main()
 	std::cout << "normB: " << B.norm_max() << std::endl;
 	std::cout << "normB: " << B.norm_fro() << std::endl;
 
-	prm::pMat P = prm::pMat::random(m+1);
+	prm::pMat P = prm::pMat::random(m);
 	prm::pMat Q = prm::pMat::random(n);
 
 	P.info();
 	P.print();
 	Q.info();
 	Q.print();
+	prm::pMat P2 = P.copy();
+	P2.print();
+	prm::pMat Q2 = Q.move();
+	Q2.info();
+	Q2.print();
+
 	dMat C1 = A.permute(P,Q);
-	dMat C2 = A.lpermute(P);
+	dMat C2 = A.lpermute(P2);
 	dMat C3 = A.rpermute(Q);
 	A.print();
 	C1.print();

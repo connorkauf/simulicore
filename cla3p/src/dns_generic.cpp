@@ -185,13 +185,16 @@ void GenericObject<T,Tr>::transpose_to(GenericObject<T,Tr>& trg) const
 {
 	trg.clear();
 
-	if(!empty()) {
-		if(!prop().is_general()) {
-			throw InvalidOp("Transpositions are applied on general matrices");
-		}
-		trg.blank_creator(prop(), ncols(), nrows(), ncols());
-		bulk::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
-	} // !empty
+	if(empty()) {
+		throw NoConsistency(msg_empty_object() + " on transpose operation");
+	} // empty
+
+	if(!prop().is_general()) {
+		throw InvalidOp("Transpositions are applied on general matrices");
+	}
+
+	trg.blank_creator(prop(), ncols(), nrows(), ncols());
+	bulk::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -199,19 +202,26 @@ void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
 {
 	trg.clear();
 
-	if(!empty()) {
-		if(!prop().is_general())  {
-			throw InvalidOp("Transpositions are applied on general matrices");
-		}
-		trg.blank_creator(prop(), ncols(), nrows(), ncols());
-		bulk::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
-	} // !empty
+	if(empty()) {
+		throw NoConsistency(msg_empty_object() + " on conjugate transpose operation");
+	} // empty
+
+	if(!prop().is_general())  {
+		throw InvalidOp("Transpositions are applied on general matrices");
+	}
+
+	trg.blank_creator(prop(), ncols(), nrows(), ncols());
+	bulk::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 {
 	trg.clear();
+
+	if(empty()) {
+		throw NoConsistency(msg_empty_object() + " on permute operation");
+	} // empty
 
 	if(!P.empty()) {
 		if(nrows() != P.size()) {
@@ -225,10 +235,8 @@ void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const cla3p::prm:
 		}
 	} // !empty P
 
-	if(!empty()) {
-		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
-	} // !empty
+	trg.blank_creator(prop(), nrows(), ncols(), nrows());
+	bulk::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
