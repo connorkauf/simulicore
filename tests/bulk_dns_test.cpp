@@ -29,11 +29,11 @@ static real_t cmptol()
 template <class T>
 static T* naive_fill_vals(uint_t m, uint_t n, uint_t lda, T ref)
 {
-	T *a = dns::bulk::alloc<T>(m, n, lda);
+	T *a = bulk::dns::alloc<T>(m, n, lda);
 
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < lda; i++) {
-			dns::bulk::entry(lda,a,i,j) = ref;
+			bulk::dns::entry(lda,a,i,j) = ref;
 		} // j
 	} // j
 	return a;
@@ -52,7 +52,7 @@ static int_t naive_check_vals(prop_t ptype, uint_t m, uint_t n, const T *a, uint
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < lda; i++) {
-			T aij = dns::bulk::entry(lda,a,i,j);
+			T aij = bulk::dns::entry(lda,a,i,j);
 			if(element_is_in_active_range(ptype,m,n,i,j) && aij != val) return 1;
 		} // i
 	} // j
@@ -65,7 +65,7 @@ static int_t naive_check_complementary_vals(prop_t ptype, uint_t m, uint_t n, co
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < lda; i++) {
-			T aij = dns::bulk::entry(lda,a,i,j);
+			T aij = bulk::dns::entry(lda,a,i,j);
 			if(!element_is_in_active_range(ptype,m,n,i,j) && aij != ref) return 1;
 		} // i
 	} // j
@@ -88,12 +88,12 @@ static int_t naive_compare_vals(prop_t ptype, uint_t m, uint_t n, bool trA, bool
 
 	for(uint_t j = 0; j < Bcols; j++) {
 		for(uint_t i = 0; i < Brows; i++) {
-			T bij = dns::bulk::entry(ldb,b,i,j);
+			T bij = bulk::dns::entry(ldb,b,i,j);
 			T aij = T(0.);
-			if(!trA && !conjA) aij =      dns::bulk::entry(lda,a,i,j) ;
-			if(!trA &&  conjA) aij = conj(dns::bulk::entry(lda,a,i,j));
-			if( trA && !conjA) aij =      dns::bulk::entry(lda,a,j,i) ;
-			if( trA &&  conjA) aij = conj(dns::bulk::entry(lda,a,j,i));
+			if(!trA && !conjA) aij =      bulk::dns::entry(lda,a,i,j) ;
+			if(!trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,i,j));
+			if( trA && !conjA) aij =      bulk::dns::entry(lda,a,j,i) ;
+			if( trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,j,i));
 			real_t diff = std::abs(coeff * aij - bij);
 			if(element_is_in_active_range(ptype,Brows,Bcols,i,j) && diff > cmptol<T>()) return 1;
 		} // i
@@ -107,8 +107,8 @@ static int_t naive_compare_upper_lower_part(bool conjop, uint_t n, const T *a, u
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = j; i < n; i++) {
-			T aij = dns::bulk::entry(lda,a,i,j);
-			T aji = dns::bulk::entry(lda,a,j,i);
+			T aij = bulk::dns::entry(lda,a,i,j);
+			T aji = bulk::dns::entry(lda,a,j,i);
 			if(conjop && i > j) aij = conj(aij);
 			real_t diff = std::abs(aij - aji);
 			if(element_is_in_active_range(prop_t::GENERAL,n,n,i,j) && diff > cmptol<T>()) return 1;
@@ -135,7 +135,7 @@ static int_t test_zero_in(prop_t ptype, uint_t m, uint_t n, uint_t lda)
 	} // lower
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
-	dns::bulk::zero(ptype, m, n, a, lda);
+	bulk::dns::zero(ptype, m, n, a, lda);
 	if(naive_check_vals              <T>(ptype, m, n, a, lda, val)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	i_free(a);
@@ -183,7 +183,7 @@ static int_t test_fill_in(prop_t ptype, uint_t m, uint_t n, uint_t lda)
 	} // lower
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
-	dns::bulk::fill(ptype, m, n, a, lda, val);
+	bulk::dns::fill(ptype, m, n, a, lda, val);
 	if(naive_check_vals              <T>(ptype, m, n, a, lda, val)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	i_free(a);
@@ -232,7 +232,7 @@ static int_t test_rand_in(prop_t ptype, uint_t m, uint_t n, uint_t lda)
 	} // lower
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	i_free(a);
 
@@ -283,8 +283,8 @@ static int_t test_copy_in(prop_t ptype, uint_t m, uint_t n, uint_t lda, uint_t l
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
 	T *b = naive_fill_vals<T>(m, n, ldb, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
-	dns::bulk::copy(ptype, m, n, a, lda, b, ldb, coeff);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
+	bulk::dns::copy(ptype, m, n, a, lda, b, ldb, coeff);
 	if(naive_compare_vals<T>(ptype, m, n, false, false, a, lda, b, ldb, coeff)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, b, ldb, ref)) return 1;
@@ -346,9 +346,9 @@ static int_t test_scale_in(prop_t ptype, uint_t m, uint_t n, uint_t lda, uint_t 
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
 	T *b = naive_fill_vals<T>(m, n, ldb, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
-	dns::bulk::copy(ptype, m, n, a, lda, b, ldb);
-	dns::bulk::scale(ptype, m, n, b, ldb, coeff);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
+	bulk::dns::copy(ptype, m, n, a, lda, b, ldb);
+	bulk::dns::scale(ptype, m, n, b, ldb, coeff);
 	if(naive_compare_vals<T>(ptype, m, n, false, false, a, lda, b, ldb, coeff)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, b, ldb, ref)) return 1;
@@ -393,9 +393,9 @@ static int_t test_ctranspose_in(uint_t m, uint_t n, uint_t lda, uint_t ldb, real
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
 	T *b = naive_fill_vals<T>(n, m, ldb, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
-	if(conjop) dns::bulk::conjugate_transpose(m, n, a, lda, b, ldb, coeff);
-	else       dns::bulk::transpose(m, n, a, lda, b, ldb, coeff);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
+	if(conjop) bulk::dns::conjugate_transpose(m, n, a, lda, b, ldb, coeff);
+	else       bulk::dns::transpose(m, n, a, lda, b, ldb, coeff);
 	if(naive_compare_vals<T>(ptype, m, n, true, conjop, a, lda, b, ldb, coeff)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, n, m, b, ldb, ref)) return 1;
@@ -472,9 +472,9 @@ static int_t test_conjugate_in(prop_t ptype, uint_t m, uint_t n, uint_t lda, uin
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
 	T *b = naive_fill_vals<T>(m, n, ldb, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
-	dns::bulk::copy(ptype, m, n, a, lda, b, ldb);
-	dns::bulk::conjugate(ptype, m, n, b, ldb, coeff);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
+	bulk::dns::copy(ptype, m, n, a, lda, b, ldb);
+	bulk::dns::conjugate(ptype, m, n, b, ldb, coeff);
 	if(naive_compare_vals<T>(ptype, m, n, false, true, a, lda, b, ldb, coeff)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, a, lda, ref)) return 1;
 	if(naive_check_complementary_vals<T>(ptype, m, n, b, ldb, ref)) return 1;
@@ -524,11 +524,11 @@ static int_t test_syhe2ge_in(bool conjop, uint_t n, uint_t lda)
 
 	T *a = naive_fill_vals<T>(n, n, lda, ref);
 	if(conjop) {
-		dns::bulk::rand(prop_t::HERMITIAN, n, n, a, lda, low, high);
-		dns::bulk::he2ge(n, a, lda);
+		bulk::dns::rand(prop_t::HERMITIAN, n, n, a, lda, low, high);
+		bulk::dns::he2ge(n, a, lda);
 	} else {
-		dns::bulk::rand(prop_t::SYMMETRIC, n, n, a, lda, low, high);
-		dns::bulk::sy2ge(n, a, lda);
+		bulk::dns::rand(prop_t::SYMMETRIC, n, n, a, lda, low, high);
+		bulk::dns::sy2ge(n, a, lda);
 	} // conjop
 	if(naive_compare_upper_lower_part(conjop, n, a, lda)) return 1;
 	if(naive_check_complementary_vals<T>(prop_t::GENERAL, n, n, a, lda, ref)) return 1;
@@ -583,15 +583,15 @@ static int_t test_nrm_in(prop_t ptype, uint_t m, uint_t n, uint_t lda, WhichNorm
 	} // lower
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
-	dns::bulk::rand(ptype, m, n, a, lda, low, high);
+	bulk::dns::rand(ptype, m, n, a, lda, low, high);
 
 	real_t ret = 0.;
 	real_t ret2 = 0.;
 
-	if(which == WhichNorm::TEST_NRM_ONE) ret = dns::bulk::norm_one(ptype, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_INF) ret = dns::bulk::norm_inf(ptype, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_MAX) ret = dns::bulk::norm_max(ptype, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_FRO) ret = dns::bulk::norm_fro(ptype, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_ONE) ret = bulk::dns::norm_one(ptype, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_INF) ret = bulk::dns::norm_inf(ptype, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_MAX) ret = bulk::dns::norm_max(ptype, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_FRO) ret = bulk::dns::norm_fro(ptype, m, n, a, lda);
 
 	if(which == WhichNorm::TEST_NRM_ONE) ret2 = naive_norm_one(ptype, m, n, a, lda);
 	if(which == WhichNorm::TEST_NRM_INF) ret2 = naive_norm_inf(ptype, m, n, a, lda);
@@ -727,8 +727,8 @@ static int_t test_perms_in(prop_t ptype, uint_t m, uint_t n, uint_t lda, uint_t 
 		T *a = naive_fill_vals<T>(m, n, lda, ref);
 		T *b = naive_fill_vals<T>(m, n, ldb, ref);
 		T *c = naive_fill_vals<T>(m, n, ldc, ref);
-		dns::bulk::rand(ptype, m, n, a, lda, low, high);
-		dns::bulk::permute(ptype, m, n, a, lda, b, ldb, P, Q);
+		bulk::dns::rand(ptype, m, n, a, lda, low, high);
+		bulk::dns::permute(ptype, m, n, a, lda, b, ldb, P, Q);
 		naive_permute(ptype, m, n, a, lda, c, ldc, P, Q);
 		if(naive_compare_vals<T>(ptype, m, n, false, false, b, ldb, c, ldc, 1.)) return 1;
 		if(naive_check_complementary_vals<T>(ptype, m, n, b, ldb, ref)) return 1;

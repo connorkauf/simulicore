@@ -1,13 +1,13 @@
-#ifndef CLA3P_DNS_HPP_
-#define CLA3P_DNS_HPP_
+#ifndef CLA3P_BULK_DNS_HPP_
+#define CLA3P_BULK_DNS_HPP_
 
 #include "../types.hpp"
 #include "../support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 namespace bulk {
+namespace dns {
 /*-------------------------------------------------*/
 
 template <typename T>
@@ -118,9 +118,9 @@ void permute(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, c
 void permute(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q);
 
 /*-------------------------------------------------*/
-} // namespace bulk
 } // namespace dns
+} // namespace bulk
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_HPP_
+#endif // CLA3P_BULK_DNS_HPP_

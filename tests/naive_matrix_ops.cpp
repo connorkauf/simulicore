@@ -13,9 +13,9 @@ static real_t GetElem(uint_t lda, const real_t *a, uint_t i, uint_t j, TransOp o
 {
 	real_t ret = 0.;
 
-	/**/ if(op == TransOp::N) ret = dns::bulk::entry(lda,a,i,j);
-	else if(op == TransOp::T) ret = dns::bulk::entry(lda,a,j,i);
-	else if(op == TransOp::C) ret = dns::bulk::entry(lda,a,j,i);
+	/**/ if(op == TransOp::N) ret = bulk::dns::entry(lda,a,i,j);
+	else if(op == TransOp::T) ret = bulk::dns::entry(lda,a,j,i);
+	else if(op == TransOp::C) ret = bulk::dns::entry(lda,a,j,i);
 
 	return ret;
 }
@@ -33,8 +33,8 @@ void naive_gemm(uint_t m, uint_t n, uint_t k, real_t alpha,
 				real_t bb = GetElem(ldb,b,l,j,opB);
 				sum += alpha * aa * bb;
 			} // l
-			dns::bulk::entry(ldc,c,i,j) = (beta ? dns::bulk::entry(ldc,c,i,j) * beta : 0.);
-			dns::bulk::entry(ldc,c,i,j) += sum;
+			bulk::dns::entry(ldc,c,i,j) = (beta ? bulk::dns::entry(ldc,c,i,j) * beta : 0.);
+			bulk::dns::entry(ldc,c,i,j) += sum;
 		} // j
 	} // i
 }

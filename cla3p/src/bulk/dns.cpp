@@ -9,7 +9,7 @@
 // 3rd
 
 // cla3p
-#include "dns_checks.hpp"
+#include "../checks/all_checks.hpp"
 #include "../proxies/lapack_proxy.hpp"
 #include "../proxies/mkl_proxy.hpp"
 #include "../support/error.hpp"
@@ -18,8 +18,8 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 namespace bulk {
+namespace dns {
 /*-------------------------------------------------*/
 // TODO: perhaps group all similar recursive ops under one
 //       operation with a function object
@@ -39,7 +39,7 @@ static void zero_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda)
 #if 0
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	if(m == lda && !lower) {
 		std::memset(a, 0, m * n * sizeof(T));
@@ -83,7 +83,7 @@ static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 	// TODO: if !val call zero() fix when operators for complex are done
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	if(m == lda && !lower) {
 		std::fill_n(a, m * n, val);
@@ -124,7 +124,7 @@ static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda,
 {
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	for(uint_t j = 0; j < n; j++) {
 		uint_t ibgn = lower ? j : 0;
@@ -198,7 +198,7 @@ static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, 
 {
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	if(lower) {
 		copy_recursive_tmpl(n, a, lda, b, ldb, coeff);
@@ -261,7 +261,7 @@ static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coe
 {
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	T one = 1.;
 	if(coeff == one) return;
@@ -392,7 +392,7 @@ static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t 
 {
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	if(lower) {
 		conjugate_recursive_tmpl(n, a, lda, b, ldb, coeff);
@@ -458,7 +458,7 @@ static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T
 {
 	if(!m || !n) return;
 
-	bool lower = check(ptype, m, n, a, lda);
+	bool lower = dns_consistency_check(ptype, m, n, a, lda);
 
 	if(lower) {
 		conjugate_recursive_tmpl(n, a, lda, coeff);
@@ -716,7 +716,7 @@ static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t ld
 {
 	if(!m || !n) return;
 
-	check(ptype, m, n, a, lda);
+	dns_consistency_check(ptype, m, n, a, lda);
 
 	Property prop(ptype);
 
@@ -764,7 +764,7 @@ void permute(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, 
 	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
 }
 /*-------------------------------------------------*/
-} // namespace bulk
 } // namespace dns
+} // namespace bulk
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -7,11 +7,8 @@
 #include "../types.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { namespace prm {
-class pMat;
-}}
-/*-------------------------------------------------*/
-namespace cla3p {
+namespace cla3p { 
+namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -57,7 +54,11 @@ class GenericObject {
 		void clone_to(GenericObject<T,Tr>&);
 		void transpose_to(GenericObject<T,Tr>&) const;
 		void ctranspose_to(GenericObject<T,Tr>&) const;
-		void permute_to(GenericObject<T,Tr>&, const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const;
+		void permute_to(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
+
+		void get_block(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void get_rblock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		void set_block(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		void info(
 				const std::string&,

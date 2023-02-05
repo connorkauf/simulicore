@@ -29,12 +29,14 @@ int main()
 	cla3p::uint_t n = 4;
 
 	//dMat A(m, n);
-	cla3p::dns::dMat A = cla3p::dns::dMat::random(m,n);
-	//cla3p::dns::dMat A = cla3p::dns::dMat::random(cla3p::prop_t::HERMITIAN, m, n, m);
+	//cla3p::dns::dMat A = cla3p::dns::dMat::random(cla3p::prop_t::GENERAL  , m, n, m);
+	const cla3p::dns::dMat A = cla3p::dns::dMat::random(cla3p::prop_t::HERMITIAN, m, n, m);
 	A.info("A");
-	std::cout << A << std::endl;
-	return 0;
+	A.print();
 
+	cla3p::dns::dMMap B = A.rblock(2,0,2,3);
+	B.mat().info("B");
+	B.mat().print();
 
 	return 0;
 }

@@ -7,11 +7,8 @@
 #include "generic/dns_generic.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { namespace prm {
-class pMat;
-}}
-/*-------------------------------------------------*/
 namespace cla3p {
+namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
 class dMMap;
@@ -46,10 +43,17 @@ class dMat : private GenericObject<real_t,real_t> {
 		dMat clone();
 		dMMap clone() const;
 		dMat transpose() const;
-		dMat permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const;
-		dMat lpermute(const cla3p::prm::pMat& P) const;
-		dMat rpermute(const cla3p::prm::pMat& Q) const;
-		dMat permute(const cla3p::prm::pMat& P) const;
+
+		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
+		dMat lpermute(const prm::pMat& P) const;
+		dMat rpermute(const prm::pMat& Q) const;
+		dMat permute(const prm::pMat& P) const;
+
+		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		dMMap rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		void set_block(uint_t ibgn, uint_t jbgn, const dMat& src);
 
 		void info(const std::string& msg = "") const;
 		void print(uint_t nsd = 3) const;

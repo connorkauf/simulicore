@@ -17,6 +17,7 @@ set(CLA3P_HPP
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(bulk)
+add_subdirectory(checks)
 add_subdirectory(proxies)
 add_subdirectory(support)
 add_subdirectory(generic)

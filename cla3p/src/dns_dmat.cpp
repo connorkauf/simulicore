@@ -117,8 +117,8 @@ dMat dMat::clone()
 dMMap dMat::clone() const
 {
 	dMMap ret;
-	ThisMapType& dest = ret;
-	dest = *this;
+	ThisMapType& trg = ret;
+	trg = *this;
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -129,7 +129,7 @@ dMat dMat::transpose() const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
+dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 {
 	if(P.empty() || Q.empty()) {
 		throw NoConsistency(msg_empty_object() + " on permute operation");
@@ -144,7 +144,7 @@ dMat dMat::permute(const cla3p::prm::pMat& P, const cla3p::prm::pMat& Q) const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::lpermute(const cla3p::prm::pMat& P) const
+dMat dMat::lpermute(const prm::pMat& P) const
 {
 	if(P.empty()) {
 		throw NoConsistency(msg_empty_object() + " on permute operation (left)");
@@ -154,13 +154,13 @@ dMat dMat::lpermute(const cla3p::prm::pMat& P) const
 		throw InvalidOp("Left sided permutations are applied on general matrices");
 	}
 
-	cla3p::prm::pMat Q; // dummy Q
+	prm::pMat Q; // dummy Q
 	dMat ret;
 	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::rpermute(const cla3p::prm::pMat& Q) const
+dMat dMat::rpermute(const prm::pMat& Q) const
 {
 	if(Q.empty()) {
 		throw NoConsistency(msg_empty_object() + " on permute operation (right)");
@@ -170,13 +170,13 @@ dMat dMat::rpermute(const cla3p::prm::pMat& Q) const
 		throw InvalidOp("Right sided permutations are applied on general matrices");
 	}
 
-	cla3p::prm::pMat P; // dummy P
+	prm::pMat P; // dummy P
 	dMat ret;
 	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const cla3p::prm::pMat& P) const
+dMat dMat::permute(const prm::pMat& P) const
 {
 	if(P.empty()) {
 		throw NoConsistency(msg_empty_object() + " on permute operation (symmetric)");
@@ -186,10 +186,38 @@ dMat dMat::permute(const cla3p::prm::pMat& P) const
 		throw InvalidOp("Symmetric permutations are applied on symmetric matrices");
 	}
 
-	cla3p::prm::pMat Q; // dummy Q
+	prm::pMat Q; // dummy Q
 	dMat ret;
 	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	dMat ret;
+	ThisObjType::get_block(ret, ibgn, jbgn, ni, nj);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMat dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+{
+	dMat ret;
+	ThisObjType::get_rblock(ret, ibgn, jbgn, ni, nj);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dMMap dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	dMat tmp = const_cast<dMat&>(*this).rblock(ibgn, jbgn, ni, nj);
+	dMMap ret;
+	ThisMapType& trg = ret;
+	trg = dMat::map(tmp.prop(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), false);
+	return ret;
+}
+/*-------------------------------------------------*/
+void dMat::set_block(uint_t ibgn, uint_t jbgn, const dMat& src)
+{
+	ThisObjType::set_block(src, ibgn, jbgn);
 }
 /*-------------------------------------------------*/
 void dMat::info(const std::string& msg) const
@@ -268,8 +296,8 @@ dMMap dMat::map(uint_t nrows, uint_t ncols, const ThisDatType *values)
 dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
 {
 	dMMap ret;
-	ThisMapType& dest = ret;
-	dest = dMat::map(propcheck(prop), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
+	ThisMapType& trg = ret;
+	trg = dMat::map(propcheck(prop), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
 	return ret;
 }
 /*-------------------------------------------------*/
