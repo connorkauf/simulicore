@@ -62,9 +62,9 @@ const std::string& msg_empty_object();
 class Status {
 	public:
 		Status();
-		Status(status_t);
 		Status(const Status&);
 		Status& operator=(const Status&);
+		explicit Status(status_t);
 		~Status();
 
 		status_t type() const;

@@ -16,11 +16,6 @@ Property::Property()
 {
 }
 /*-------------------------------------------------*/
-Property::Property(prop_t ptype)
-	: m_type(ptype)
-{
-}
-/*-------------------------------------------------*/
 Property::Property(const Property& src)
 	: m_type(src.type())
 {
@@ -30,6 +25,11 @@ Property& Property::operator=(const Property& src)
 {
 	m_type = src.type();
 	return *this;
+}
+/*-------------------------------------------------*/
+Property::Property(prop_t ptype)
+	: m_type(ptype)
+{
 }
 /*-------------------------------------------------*/
 Property::~Property()

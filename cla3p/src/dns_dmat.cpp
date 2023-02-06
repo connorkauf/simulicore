@@ -27,7 +27,7 @@ const std::string& objtype () { return _objtype ; }
 const std::string& datatype() { return _datatype; }
 const std::string& prectype() { return _prectype; }
 /*-------------------------------------------------*/
-static const Property _pproper = prop_t::SYMMETRIC;
+static const Property _pproper = Property(prop_t::SYMMETRIC);
 /*-------------------------------------------------*/
 static const Property& propcheck(const Property& prop)
 {
@@ -39,7 +39,7 @@ dMat::dMat()
 }
 /*-------------------------------------------------*/
 dMat::dMat(uint_t nrows, uint_t ncols)
-	:ThisObjType(prop_t::GENERAL, nrows, ncols, nrows, false)
+	:ThisObjType(Property(prop_t::GENERAL), nrows, ncols, nrows, false)
 {
 }
 /*-------------------------------------------------*/
@@ -131,14 +131,6 @@ dMat dMat::transpose() const
 /*-------------------------------------------------*/
 dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 {
-	if(P.empty() || Q.empty()) {
-		throw NoConsistency(msg_empty_object() + " on permute operation");
-	}
-
-	if(!prop().is_general()) {
-		throw InvalidOp("Double sided permutations are applied on general matrices");
-	}
-
 	dMat ret;
 	ThisObjType::permute_to(ret, P, Q);
 	return ret.move();
@@ -146,49 +138,22 @@ dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 /*-------------------------------------------------*/
 dMat dMat::lpermute(const prm::pMat& P) const
 {
-	if(P.empty()) {
-		throw NoConsistency(msg_empty_object() + " on permute operation (left)");
-	}
-
-	if(!prop().is_general()) {
-		throw InvalidOp("Left sided permutations are applied on general matrices");
-	}
-
-	prm::pMat Q; // dummy Q
 	dMat ret;
-	ThisObjType::permute_to(ret, P, Q);
+	ThisObjType::lpermute_to(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::rpermute(const prm::pMat& Q) const
 {
-	if(Q.empty()) {
-		throw NoConsistency(msg_empty_object() + " on permute operation (right)");
-	}
-
-	if(!prop().is_general()) {
-		throw InvalidOp("Right sided permutations are applied on general matrices");
-	}
-
-	prm::pMat P; // dummy P
 	dMat ret;
-	ThisObjType::permute_to(ret, P, Q);
+	ThisObjType::rpermute_to(ret, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute(const prm::pMat& P) const
 {
-	if(P.empty()) {
-		throw NoConsistency(msg_empty_object() + " on permute operation (symmetric)");
-	}
-
-	if(!prop().is_symmetric()) {
-		throw InvalidOp("Symmetric permutations are applied on symmetric matrices");
-	}
-
-	prm::pMat Q; // dummy Q
 	dMat ret;
-	ThisObjType::permute_to(ret, P, Q);
+	ThisObjType::shpermute_to(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -202,16 +167,15 @@ dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 dMat dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
 	dMat ret;
-	ThisObjType::get_rblock(ret, ibgn, jbgn, ni, nj);
+	ThisObjType::get_block_reference(ret, ibgn, jbgn, ni, nj);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMMap dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	dMat tmp = const_cast<dMat&>(*this).rblock(ibgn, jbgn, ni, nj);
 	dMMap ret;
 	ThisMapType& trg = ret;
-	trg = dMat::map(tmp.prop(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), false);
+	trg = const_cast<dMat&>(*this).rblock(ibgn, jbgn, ni, nj);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -242,7 +206,7 @@ real_t dMat::norm_fro() const { return ThisObjType::norm_fro(); }
 /*-------------------------------------------------*/
 dMat dMat::init(uint_t nrows, uint_t ncols) 
 { 
-	return init(prop_t::GENERAL, nrows, ncols, nrows);
+	return init(Property(prop_t::GENERAL), nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
@@ -254,7 +218,7 @@ dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 /*-------------------------------------------------*/
 dMat dMat::zero(uint_t nrows, uint_t ncols) 
 { 
-	return zero(prop_t::GENERAL, nrows, ncols, nrows) ;
+	return zero(Property(prop_t::GENERAL), nrows, ncols, nrows) ;
 }
 /*-------------------------------------------------*/
 dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
@@ -266,7 +230,7 @@ dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 /*-------------------------------------------------*/
 dMat dMat::random(uint_t nrows, uint_t ncols) 
 { 
-	return random(prop_t::GENERAL, nrows, ncols, nrows);
+	return random(Property(prop_t::GENERAL), nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
 dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
@@ -278,7 +242,7 @@ dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 /*-------------------------------------------------*/
 dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
 {
-	return map(prop_t::GENERAL, nrows, ncols, values, nrows, false);
+	return map(Property(prop_t::GENERAL), nrows, ncols, values, nrows, false);
 }
 /*-------------------------------------------------*/
 dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
@@ -290,7 +254,7 @@ dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *va
 /*-------------------------------------------------*/
 dMMap dMat::map(uint_t nrows, uint_t ncols, const ThisDatType *values)
 {
-	return map(prop_t::GENERAL, nrows, ncols, values, nrows);
+	return map(Property(prop_t::GENERAL), nrows, ncols, values, nrows);
 }
 /*-------------------------------------------------*/
 dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)

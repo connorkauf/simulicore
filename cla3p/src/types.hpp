@@ -59,9 +59,9 @@ enum class prop_t {
 class Property {
 	public:
 		Property();
-		Property(prop_t);
 		Property(const Property&);
 		Property& operator=(const Property&);
+		explicit Property(prop_t);
 		~Property();
 
 		prop_t type() const;

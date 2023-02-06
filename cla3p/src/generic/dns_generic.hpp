@@ -55,9 +55,12 @@ class GenericObject {
 		void transpose_to(GenericObject<T,Tr>&) const;
 		void ctranspose_to(GenericObject<T,Tr>&) const;
 		void permute_to(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
+		void lpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
+		void rpermute_to(GenericObject<T,Tr>&, const prm::pMat& Q) const;
+		void shpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
 
 		void get_block(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void get_rblock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		void get_block_reference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 		void set_block(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		void info(

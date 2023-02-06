@@ -268,7 +268,9 @@ std::string print2str_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, u
 {
 	if(!m || !n) return "";
 
-	bool lower = dns_consistency_check(ptype, m, n, a, lda);
+	dns_consistency_check(ptype, m, n, a, lda);
+
+	bool lower = Property(ptype).is_lower();
 
 	DnsPrinter printer(nsd, line_maxlen);
 	return printer.print2str(m, n, a, lda, lower);
@@ -299,7 +301,9 @@ void print_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, 
 {
 	if(!m || !n) return;
 
-	bool lower = dns_consistency_check(ptype, m, n, a, lda);
+	dns_consistency_check(ptype, m, n, a, lda);
+
+	bool lower = Property(ptype).is_lower();
 
 	DnsPrinter printer(nsd, line_maxlen);
 	printer.print(m, n, a, lda, lower);

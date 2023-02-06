@@ -34,27 +34,12 @@ pMat::~pMat()
 /*-------------------------------------------------*/
 pMat::pMat(pMat&& src)
 {
-	clear();
-
-	if(!src.empty()) {
-		creator(src.size(), src.values(), src.owner());
-	} // !empty
-
-	src.unbind();
-	src.clear();
+	*this = src.move();
 }
 /*-------------------------------------------------*/
 pMat& pMat::operator=(pMat&& src)
 {
-	clear();
-
-	if(!src.empty()) {
-		creator(src.size(), src.values(), src.owner());
-	} // !empty
-
-	src.unbind();
-	src.clear();
-
+	*this = src.move();
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -71,8 +56,9 @@ void pMat::creator(uint_t size, uint_t *values, bool owner)
 
 	if(!size) return; // policy is on zero dimensions, return empty object
 
-	if(!values)
+	if(!values) {
 		throw NoConsistency(msg_invald_pointer());
+	}
 
 	set_size  (size);
 	set_values(values);
@@ -94,9 +80,8 @@ pMat pMat::init(uint_t size)
 /*-------------------------------------------------*/
 void pMat::random_creator(uint_t size)
 {
-	uint_t *p = static_cast<uint_t*>(i_malloc(size, sizeof(uint_t)));
-	fill_random_perm(size, p);
-	creator(size, p, true);
+	blank_creator(size);
+	fill_random_perm(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 pMat pMat::random(uint_t size)
@@ -140,26 +125,17 @@ void pMat::unbind()
 pMat pMat::copy() const
 {
 	pMat ret;
-
-	if(!empty()) {
-		ret.blank_creator(size());
-		std::memcpy(ret.values(), values(), size() * sizeof(uint_t));
-	} // !empty
-
+	ret.blank_creator(size());
+	std::memcpy(ret.values(), values(), size() * sizeof(uint_t));
 	return ret.move();
 }
 /*-------------------------------------------------*/
 pMat pMat::move()
 {
 	pMat ret;
-
-	if(!empty()) {
-		ret.creator(size(), values(), owner());
-	} // !empty
-		//
+	ret.creator(size(), values(), owner());
 	unbind();
 	clear();
-
 	return ret;
 }
 /*-------------------------------------------------*/

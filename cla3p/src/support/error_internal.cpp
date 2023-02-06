@@ -97,7 +97,7 @@ static const std::string const_msg_invald_pointer              = "Invalid pointe
 static const std::string const_msg_invalid_leading_dimension   = "Invalid leading dimension";
 static const std::string const_msg_invalid_property            = "Invalid property";
 static const std::string const_msg_invalid_property_for_square = "Property requires square matrix";
-static const std::string const_msg_empty_object                = "Empty object detected";
+static const std::string const_msg_empty_object                = "Empty object(s) detected";
 /*-------------------------------------------------*/
 const std::string& msg_unknown()                      { return const_msg_unknown                    ; }
 const std::string& msg_success()                      { return const_msg_success                    ; }
