@@ -13,47 +13,33 @@ namespace dns {
 /*-------------------------------------------------*/
 class dMMap;
 
-class dMat : private GenericObject<real_t,real_t> {
+class dMat : public GenericObject<real_t,real_t> {
 
 	public:
 		dMat();
 		dMat(uint_t nrows, uint_t ncols);
 		dMat(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~dMat();
+
+		// no copy
 		dMat(const dMat&) = delete;
 		dMat& operator=(const dMat&) = delete;
+
+		// move
 		dMat(dMat&&);
 		dMat& operator=(dMat&&);
 
+		// non inherited args
 		uint_t nrows() const;
 		uint_t ncols() const;
 		uint_t ld() const;
-		real_t* values();
-		const real_t* values() const;
 		const Property& prop() const;
-		bool owner() const;
 
-		bool empty() const;
-		void clear();
-		void unbind();
-		void scale(real_t coeff);
-
+		// callcable from empty
 		dMat copy() const;
 		dMat move();
 		dMat clone();
 		dMMap clone() const;
-		dMat transpose() const;
-
-		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
-		dMat lpermute(const prm::pMat& P) const;
-		dMat rpermute(const prm::pMat& Q) const;
-		dMat permute(const prm::pMat& P) const;
-
-		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-		dMMap rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-
-		void set_block(uint_t ibgn, uint_t jbgn, const dMat& src);
 
 		void info(const std::string& msg = "") const;
 		void print(uint_t nsd = 3) const;
@@ -66,6 +52,19 @@ class dMat : private GenericObject<real_t,real_t> {
 
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;
+
+		// not callcable from empty
+		dMat transpose() const;
+		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
+		dMat lpermute(const prm::pMat& P) const;
+		dMat rpermute(const prm::pMat& Q) const;
+		dMat permute(const prm::pMat& P) const;
+
+		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		dMMap rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		void set_block(uint_t ibgn, uint_t jbgn, const dMat& src);
 
 		// static initializers (basic)
 		static dMat init(uint_t nrows, uint_t ncols);

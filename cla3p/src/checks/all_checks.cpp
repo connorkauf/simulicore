@@ -124,24 +124,24 @@ static void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uin
 /*-------------------------------------------------*/
 void perm_ge_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
-	perm_op_consistency_check(nrows, ncols, np, nq);
 	if(ptype != prop_t::GENERAL) {
-		throw InvalidOp("Right/Left sided permutations are applied on general matrices");
+		throw InvalidOp("Right/Left sided permutations are applied on non-empty general matrices");
 	}
+	perm_op_consistency_check(nrows, ncols, np, nq);
 }
 /*-------------------------------------------------*/
 void perm_syhe_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
-	perm_op_consistency_check(nrows, ncols, np, nq);
 	if(ptype != prop_t::SYMMETRIC && ptype != prop_t::HERMITIAN) {
-		throw InvalidOp("Symmetric/Hermitian permutations are applied on Symmetric/Hermitian matrices");
+		throw InvalidOp("Symmetric/Hermitian permutations are applied on non-empty Symmetric/Hermitian matrices");
 	}
+	perm_op_consistency_check(nrows, ncols, np, nq);
 }
 /*-------------------------------------------------*/
 void transp_op_consistency_check(prop_t ptype, bool conjop)
 {
 	if(ptype != prop_t::GENERAL) {
-		throw InvalidOp(std::string(conjop ? "Conjugate t" : "T") + "ranspositions are applied on general matrices");
+		throw InvalidOp(std::string(conjop ? "Conjugate t" : "T") + "ranspositions are applied on non-empty general matrices");
 	}
 }
 /*-------------------------------------------------*/

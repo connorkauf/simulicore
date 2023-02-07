@@ -54,6 +54,8 @@ GenericObject<T,Tr>& GenericObject<T,Tr>::operator=(GenericObject<T,Tr>&& src)
 	return *this;
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::defaults()
 {
@@ -68,10 +70,6 @@ void GenericObject<T,Tr>::defaults()
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner)
 {
-	clear();
-
-	if(!nrows || !ncols) return; // policy is on zero dimensions, return empty object
-
 	dns_consistency_check(prop.type(), nrows, ncols, values, ld);
 
 	set_nrows (nrows );
@@ -96,6 +94,8 @@ template <typename T, typename Tr> T*              GenericObject<T,Tr>::values()
 template <typename T, typename Tr> const T*        GenericObject<T,Tr>::values() const { return m_values; }
 template <typename T, typename Tr> const Property& GenericObject<T,Tr>::prop  () const { return m_prop  ; }
 template <typename T, typename Tr> bool            GenericObject<T,Tr>::owner () const { return m_owner ; }
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
 bool GenericObject<T,Tr>::empty() const
@@ -128,18 +128,28 @@ void GenericObject<T,Tr>::scale(T coeff)
 	bulk::dns::scale(prop().type(), nrows(), ncols(), values(), ld(), coeff);
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::copy_to(GenericObject<T,Tr>& trg) const
 {
-	trg.blank_creator(prop(), nrows(), ncols(), nrows());
-	bulk::dns::copy(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
+	if(!empty()) {
+		trg.blank_creator(prop(), nrows(), ncols(), nrows());
+		bulk::dns::copy(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
+	} else {
+		trg.clear();
+	}// (!)empty
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::move_to(GenericObject<T,Tr>& trg)
 {
-	trg.creator(prop(), nrows(), ncols(), values(), ld(), owner());
-	
+	trg.clear();
+
+	if(!empty()) {
+		trg.creator(prop(), nrows(), ncols(), values(), ld(), owner());
+	} // !empty
+
 	unbind();
 	clear();
 }
@@ -147,101 +157,11 @@ void GenericObject<T,Tr>::move_to(GenericObject<T,Tr>& trg)
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::clone_to(GenericObject<T,Tr>& trg)
 {
-	trg.creator(prop(), nrows(), ncols(), values(), ld(), false);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::transpose_to(GenericObject<T,Tr>& trg) const
-{
-	if(empty()) {
-		trg.clear();
-	} else {
-		transp_op_consistency_check(prop().type(), false);
-		trg.blank_creator(prop(), ncols(), nrows(), ncols());
-		bulk::dns::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
-{
-	if(empty()) {
-		trg.clear();
-	} else {
-		transp_op_consistency_check(prop().type(), true);
-		trg.blank_creator(prop(), ncols(), nrows(), ncols());
-		bulk::dns::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const prm::pMat& P, const prm::pMat& Q) const
-{
-	if(empty() && P.empty() && Q.empty()) {
-		trg.clear();
-	} else {
-		perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
-		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::lpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
-{
-	if(empty() && P.empty()) {
-		trg.clear();
-	} else {
-		perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
-		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::rpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& Q) const
-{
-	if(empty() && Q.empty()) {
-		trg.clear();
-	} else {
-		perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
-		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), nullptr, Q.values());
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::shpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
-{
-	if(empty() && P.empty()) {
-		trg.clear();
-	} else {
-		perm_syhe_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), P.size());
-		trg.blank_creator(prop(), nrows(), ncols(), nrows());
-		bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
-	} // empty
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::get_block(GenericObject<T,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
-{
-	prop_t blptype = block_op_consistency_check(prop().type(), nrows(), ncols(), ibgn, jbgn, ni, nj);
-	trg.blank_creator(Property(blptype), ni, nj, ni);
-	bulk::dns::copy(blptype, ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), trg.values(), trg.ld());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::get_block_reference(GenericObject<T,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
-{
-	prop_t blptype = block_op_consistency_check(prop().type(), nrows(), ncols(), ibgn, jbgn, ni, nj);
-	trg.creator(Property(blptype), ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), false);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::set_block(const GenericObject<T,Tr>& src, uint_t ibgn, uint_t jbgn)
-{
-	block_op_consistency_check(src.prop().type(), prop().type(), nrows(), ncols(), ibgn, jbgn, src.nrows(), src.ncols());
-	bulk::dns::copy(src.prop().type(), src.nrows(), src.ncols(), src.values(), src.ld(), bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld());
+	trg.clear();
+
+	if(!empty()) {
+		trg.creator(prop(), nrows(), ncols(), values(), ld(), false);
+	} // !empty
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -330,9 +250,94 @@ const T& GenericObject<T,Tr>::operator()(uint_t i, uint_t j) const
 	return bulk::dns::entry(ld(), values(), i, j);
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::transpose_to(GenericObject<T,Tr>& trg) const
+{
+	transp_op_consistency_check(prop().type(), false);
+
+	trg.blank_creator(prop(), ncols(), nrows(), ncols());
+	bulk::dns::transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
+{
+	transp_op_consistency_check(prop().type(), true);
+	
+	trg.blank_creator(prop(), ncols(), nrows(), ncols());
+	bulk::dns::conjugate_transpose(nrows(), ncols(), values(), ld(), trg.values(), trg.ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const prm::pMat& P, const prm::pMat& Q) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
+
+	trg.blank_creator(prop(), nrows(), ncols(), nrows());
+	bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::lpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
+
+	trg.blank_creator(prop(), nrows(), ncols(), nrows());
+	bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::rpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& Q) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
+
+	trg.blank_creator(prop(), nrows(), ncols(), nrows());
+	bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), nullptr, Q.values());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::shpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+{
+	perm_syhe_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), P.size());
+
+	trg.blank_creator(prop(), nrows(), ncols(), nrows());
+	bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::get_block(GenericObject<T,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	prop_t blptype = block_op_consistency_check(prop().type(), nrows(), ncols(), ibgn, jbgn, ni, nj);
+
+	trg.blank_creator(Property(blptype), ni, nj, ni);
+	bulk::dns::copy(blptype, ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), trg.values(), trg.ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::get_block_reference(GenericObject<T,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+{
+	prop_t blptype = block_op_consistency_check(prop().type(), nrows(), ncols(), ibgn, jbgn, ni, nj);
+
+	trg.clear();
+	trg.creator(Property(blptype), ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), false);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::set_block(const GenericObject<T,Tr>& src, uint_t ibgn, uint_t jbgn)
+{
+	block_op_consistency_check(src.prop().type(), prop().type(), nrows(), ncols(), ibgn, jbgn, src.nrows(), src.ncols());
+
+	bulk::dns::copy(src.prop().type(), src.nrows(), src.ncols(), src.values(), src.ld(), bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld());
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld)
 {
+	clear();
 	T *values = bulk::dns::alloc<T>(nrows, ncols, ld);
 	creator(prop, nrows, ncols, values, ld, true);
 }
@@ -364,6 +369,7 @@ void GenericObject<T,Tr>::random_creator(const Property& prop, uint_t nrows, uin
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
 {
+	clear();
 	creator(prop, nrows, ncols, values, ld, bind);
 }
 /*-------------------------------------------------*/

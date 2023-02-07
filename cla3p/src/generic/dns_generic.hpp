@@ -15,20 +15,31 @@ template <typename T, typename Tr>
 class GenericObject {
 
 	public:
-		void  blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void   zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void    map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		// inherited args
+		T* values();
+		const T* values() const;
+		bool owner() const;
+
+		// inherited methods - callable from empty
+		bool empty() const;
+		void clear();
+		void unbind();
+		void scale(T coeff);
 
 	protected:
 		GenericObject();
 		GenericObject(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~GenericObject();
+
+		// no copy
 		GenericObject(const GenericObject<T,Tr>&) = delete;
 		GenericObject<T,Tr>& operator=(const GenericObject<T,Tr>&) = delete;
+
+		// move
 		GenericObject(GenericObject<T,Tr>&&);
 		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
 
+		// args
 		void set_nrows (uint_t          nrows );
 		void set_ncols (uint_t          ncols );
 		void set_ld    (uint_t          ld    );
@@ -39,29 +50,12 @@ class GenericObject {
 		uint_t          nrows () const;
 		uint_t          ncols () const;
 		uint_t          ld    () const;
-		T*              values()      ;
-		const T*        values() const;
 		const Property& prop  () const;
-		bool            owner () const;
 
-		bool empty() const;
-		void clear();
-		void unbind();
-		void scale(T coeff);
-
+		// callable from empty
 		void copy_to(GenericObject<T,Tr>&) const;
 		void move_to(GenericObject<T,Tr>&);
 		void clone_to(GenericObject<T,Tr>&);
-		void transpose_to(GenericObject<T,Tr>&) const;
-		void ctranspose_to(GenericObject<T,Tr>&) const;
-		void permute_to(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
-		void lpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
-		void rpermute_to(GenericObject<T,Tr>&, const prm::pMat& Q) const;
-		void shpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
-
-		void get_block(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void get_block_reference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-		void set_block(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		void info(
 				const std::string&,
@@ -79,6 +73,25 @@ class GenericObject {
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
 
+		// not callcable from empty
+		void transpose_to(GenericObject<T,Tr>&) const;
+		void ctranspose_to(GenericObject<T,Tr>&) const;
+
+		void permute_to(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
+		void lpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
+		void rpermute_to(GenericObject<T,Tr>&, const prm::pMat& Q) const;
+		void shpermute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
+
+		void get_block(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void get_block_reference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		void set_block(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
+
+		// creators
+		void  blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void   zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void    map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+
 	private:
 		uint_t   m_nrows ;
 		uint_t   m_ncols ;
@@ -90,9 +103,9 @@ class GenericObject {
 		void defaults();
 		void creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
 };
-
 /*-------------------------------------------------*/
-
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T>
 class GenericMap {
 

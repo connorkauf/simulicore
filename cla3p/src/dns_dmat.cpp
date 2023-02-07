@@ -34,6 +34,8 @@ static const Property& propcheck(const Property& prop)
 	return (prop.is_hermitian() ? _pproper : prop);
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 dMat::dMat()
 {
 }
@@ -65,33 +67,10 @@ dMat& dMat::operator=(dMat&& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-uint_t             dMat::nrows () const { return ThisObjType::nrows (); }
-uint_t             dMat::ncols () const { return ThisObjType::ncols (); }
-uint_t             dMat::ld    () const { return ThisObjType::ld    (); }
-ThisDatType*       dMat::values()       { return ThisObjType::values(); }
-const ThisDatType* dMat::values() const { return ThisObjType::values(); }
-const Property&    dMat::prop  () const { return ThisObjType::prop  (); }
-bool               dMat::owner () const { return ThisObjType::owner (); }
-/*-------------------------------------------------*/
-bool dMat::empty() const
-{
-	return ThisObjType::empty();
-}
-/*-------------------------------------------------*/
-void dMat::clear()
-{
-	return ThisObjType::clear();
-}
-/*-------------------------------------------------*/
-void dMat::unbind()
-{
-	return ThisObjType::unbind();
-}
-/*-------------------------------------------------*/
-void dMat::scale(real_t coeff)
-{
-	return ThisObjType::scale(coeff);
-}
+uint_t          dMat::nrows () const { return ThisObjType::nrows (); }
+uint_t          dMat::ncols () const { return ThisObjType::ncols (); }
+uint_t          dMat::ld    () const { return ThisObjType::ld    (); }
+const Property& dMat::prop  () const { return ThisObjType::prop  (); }
 /*-------------------------------------------------*/
 dMat dMat::copy() const 
 { 
@@ -121,6 +100,46 @@ dMMap dMat::clone() const
 	trg = *this;
 	return ret;
 }
+/*-------------------------------------------------*/
+void dMat::info(const std::string& msg) const
+{ 
+	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
+}
+/*-------------------------------------------------*/
+void dMat::print(uint_t nsd) const 
+{
+	ThisObjType::print(nsd); 
+}
+/*-------------------------------------------------*/
+std::string dMat::print2str(uint_t nsd) const 
+{
+	return ThisObjType::print2str(nsd); 
+}
+/*-------------------------------------------------*/
+real_t dMat::norm_one() const { return ThisObjType::norm_one(); }
+real_t dMat::norm_inf() const { return ThisObjType::norm_inf(); }
+real_t dMat::norm_max() const { return ThisObjType::norm_max(); }
+real_t dMat::norm_fro() const { return ThisObjType::norm_fro(); }
+/*-------------------------------------------------*/
+ThisDatType& dMat::operator()(uint_t i, uint_t j)
+{
+	if(i >= nrows() || j >= ncols()) {
+		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+	} // out-of-bounds
+
+	return ThisObjType::operator()(i,j);
+}
+/*-------------------------------------------------*/
+const ThisDatType& dMat::operator()(uint_t i, uint_t j) const
+{
+	if(i >= nrows() || j >= ncols()) {
+		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+	} // out-of-bounds
+
+	return ThisObjType::operator()(i,j);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 dMat dMat::transpose() const
 {
@@ -184,25 +203,7 @@ void dMat::set_block(uint_t ibgn, uint_t jbgn, const dMat& src)
 	ThisObjType::set_block(src, ibgn, jbgn);
 }
 /*-------------------------------------------------*/
-void dMat::info(const std::string& msg) const
-{ 
-	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
-}
 /*-------------------------------------------------*/
-void dMat::print(uint_t nsd) const 
-{
-	ThisObjType::print(nsd); 
-}
-/*-------------------------------------------------*/
-std::string dMat::print2str(uint_t nsd) const 
-{
-	return ThisObjType::print2str(nsd); 
-}
-/*-------------------------------------------------*/
-real_t dMat::norm_one() const { return ThisObjType::norm_one(); }
-real_t dMat::norm_inf() const { return ThisObjType::norm_inf(); }
-real_t dMat::norm_max() const { return ThisObjType::norm_max(); }
-real_t dMat::norm_fro() const { return ThisObjType::norm_fro(); }
 /*-------------------------------------------------*/
 dMat dMat::init(uint_t nrows, uint_t ncols) 
 { 
@@ -263,24 +264,6 @@ dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatT
 	ThisMapType& trg = ret;
 	trg = dMat::map(propcheck(prop), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
 	return ret;
-}
-/*-------------------------------------------------*/
-ThisDatType& dMat::operator()(uint_t i, uint_t j)
-{
-	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
-	} // out-of-bounds
-
-	return ThisObjType::operator()(i,j);
-}
-/*-------------------------------------------------*/
-const ThisDatType& dMat::operator()(uint_t i, uint_t j) const
-{
-	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
-	} // out-of-bounds
-
-	return ThisObjType::operator()(i,j);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
