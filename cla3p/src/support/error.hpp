@@ -59,7 +59,7 @@ class InvalidOp : public Exception {
 };
 
 /**
- * @brief Overflow cla3p exception class
+ * @brief Numerical overflow cla3p exception class
  */
 class Overflow : public Exception {
 	public:

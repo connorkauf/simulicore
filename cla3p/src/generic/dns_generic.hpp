@@ -11,19 +11,62 @@ namespace cla3p {
 namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
+/**
+ * @brief The basic dense object generic class
+ *
+ * All dense objects inherit from this base class
+ */
 template <typename T, typename Tr>
 class GenericObject {
 
 	public:
+
+		// 
 		// inherited args
+		//
+
+		/**
+		 * @brief The values array
+		 * @return The pointer to the numerical values of the object
+		 */
 		T* values();
+
+		/**
+		 * @brief The values array
+		 * @return The pointer to the numerical values
+		 */
 		const T* values() const;
+
+		/**
+		 * @brief The ownership status
+		 * @return The ownership status
+		 */
 		bool owner() const;
 
+		// 
 		// inherited methods - callable from empty
+		//
+
+		/**
+		 * @brief Checks object for entries
+		 * @return If object is empty
+		 */
 		bool empty() const;
+
+		/**
+		 * @brief Clears the object
+		 */
 		void clear();
+
+		/**
+		 * @brief Unbinds associated data from the object
+		 */
 		void unbind();
+
+		/**
+		 * @brief Scales object by coeff
+		 * @param[in] coeff The scaling coefficient
+		 */
 		void scale(T coeff);
 
 	protected:
