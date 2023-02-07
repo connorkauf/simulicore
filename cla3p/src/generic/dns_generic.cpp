@@ -271,7 +271,7 @@ void GenericObject<T,Tr>::ctranspose_to(GenericObject<T,Tr>& trg) const
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const prm::pMat& P, const prm::pMat& Q) const
+void GenericObject<T,Tr>::ge_permute_to(GenericObject<T,Tr>& trg, const prm::pMat& P, const prm::pMat& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
 
@@ -280,7 +280,7 @@ void GenericObject<T,Tr>::permute_to(GenericObject<T,Tr>& trg, const prm::pMat& 
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::lpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+void GenericObject<T,Tr>::ge_permute_to_left(GenericObject<T,Tr>& trg, const prm::pMat& P) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
 
@@ -289,7 +289,7 @@ void GenericObject<T,Tr>::lpermute_to(GenericObject<T,Tr>& trg, const prm::pMat&
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::rpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& Q) const
+void GenericObject<T,Tr>::ge_permute_to_right(GenericObject<T,Tr>& trg, const prm::pMat& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
 
@@ -298,12 +298,44 @@ void GenericObject<T,Tr>::rpermute_to(GenericObject<T,Tr>& trg, const prm::pMat&
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::shpermute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+void GenericObject<T,Tr>::sh_permute_to(GenericObject<T,Tr>& trg, const prm::pMat& P) const
 {
 	perm_syhe_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), P.size());
 
 	trg.blank_creator(prop(), nrows(), ncols(), nrows());
 	bulk::dns::permute(prop().type(), nrows(), ncols(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::ge_permute_ip(const prm::pMat& P, const prm::pMat& Q)
+{
+	GenericObject<T,Tr> tmp;
+	ge_permute_to(tmp, P, Q);
+	bulk::dns::copy(tmp.prop().type(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::ge_permute_ip_left(const prm::pMat& P)
+{
+	GenericObject<T,Tr> tmp;
+	ge_permute_to_left(tmp, P);
+	bulk::dns::copy(tmp.prop().type(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::ge_permute_ip_right(const prm::pMat& Q)
+{
+	GenericObject<T,Tr> tmp;
+	ge_permute_to_right(tmp, Q);
+	bulk::dns::copy(tmp.prop().type(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::sh_permute_ip(const prm::pMat& P)
+{
+	GenericObject<T,Tr> tmp;
+	sh_permute_to(tmp, P);
+	bulk::dns::copy(tmp.prop().type(), tmp.nrows(), tmp.ncols(), tmp.values(), tmp.ld(), values(), ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

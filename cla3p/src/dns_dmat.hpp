@@ -56,9 +56,14 @@ class dMat : public GenericObject<real_t,real_t> {
 		// not callcable from empty
 		dMat transpose() const;
 		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
-		dMat lpermute(const prm::pMat& P) const;
-		dMat rpermute(const prm::pMat& Q) const;
+		dMat permute_left(const prm::pMat& P) const;
+		dMat permute_right(const prm::pMat& Q) const;
 		dMat permute(const prm::pMat& P) const;
+
+		void ipermute(const prm::pMat& P, const prm::pMat& Q);
+		void ipermute_left(const prm::pMat& P);
+		void ipermute_right(const prm::pMat& Q);
+		void ipermute(const prm::pMat& P);
 
 		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);

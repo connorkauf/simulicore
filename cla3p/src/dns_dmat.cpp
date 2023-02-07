@@ -151,30 +151,35 @@ dMat dMat::transpose() const
 dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 {
 	dMat ret;
-	ThisObjType::permute_to(ret, P, Q);
+	ThisObjType::ge_permute_to(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::lpermute(const prm::pMat& P) const
+dMat dMat::permute_left(const prm::pMat& P) const
 {
 	dMat ret;
-	ThisObjType::lpermute_to(ret, P);
+	ThisObjType::ge_permute_to_left(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::rpermute(const prm::pMat& Q) const
+dMat dMat::permute_right(const prm::pMat& Q) const
 {
 	dMat ret;
-	ThisObjType::rpermute_to(ret, Q);
+	ThisObjType::ge_permute_to_right(ret, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute(const prm::pMat& P) const
 {
 	dMat ret;
-	ThisObjType::shpermute_to(ret, P);
+	ThisObjType::sh_permute_to(ret, P);
 	return ret.move();
 }
+/*-------------------------------------------------*/
+void dMat::ipermute      (const prm::pMat& P, const prm::pMat& Q) { return ThisObjType::ge_permute_ip      (P, Q); }
+void dMat::ipermute_left (const prm::pMat& P                    ) { return ThisObjType::ge_permute_ip_left (P);    }
+void dMat::ipermute_right(const prm::pMat& Q                    ) { return ThisObjType::ge_permute_ip_right(Q);    }
+void dMat::ipermute      (const prm::pMat& P                    ) { return ThisObjType::sh_permute_ip      (P);    }
 /*-------------------------------------------------*/
 dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
