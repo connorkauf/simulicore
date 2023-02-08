@@ -104,9 +104,7 @@ void UniversalMetaData::setAllMeta(uint_t rsize, uint_t csize, bool owner)
 /*-------------------------------------------------*/
 void UniversalMetaData::defaults()
 {
-	setRsize(0);
-	setCsize(0);
-	setOwner(false);
+	setAllMeta(0, 0, false);
 }
 /*-------------------------------------------------*/
 bool UniversalMetaData::empty() const

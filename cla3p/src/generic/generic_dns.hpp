@@ -15,7 +15,7 @@ namespace dns {
 /**
  * @brief The basic dense object generic class
  *
- * All dense objects inherit from this base class
+ * All dense objects inherit from this class
  */
 template <typename T, typename Tr>
 class GenericObject : public UniversalMetaData {

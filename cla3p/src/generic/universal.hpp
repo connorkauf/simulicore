@@ -53,11 +53,30 @@ class UniversalMetaTypes {
 
 /*-------------------------------------------------*/
 
+/**
+ * @brief The universal metadata class
+ *
+ * All objects inherit from this class
+ */
 class UniversalMetaData {
 
 	public:
+
+		/**
+		 * @brief Test whether object is empty
+		 * @return whether the object is empty
+		 */
 		bool empty() const;
+
+		/**
+		 * @brief Test whether object is data owner
+		 * @return whether the object is owner
+		 */
 		bool owner() const;
+
+		/**
+		 * @brief Unties data from object
+		 */
 		void unbind();
 
 	protected:
