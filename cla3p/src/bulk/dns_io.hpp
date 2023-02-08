@@ -11,10 +11,10 @@ namespace bulk {
 namespace dns {
 /*-------------------------------------------------*/
 
-std::string print2str(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
-std::string print2str(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
-std::string print2str(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
-std::string print2str(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
+std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
+std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
+std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
+std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
 
 void print(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);
 void print(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd = 3, uint_t line_maxlen = 128);

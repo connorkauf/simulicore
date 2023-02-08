@@ -42,8 +42,6 @@ class dMat : public GenericObject<real_t,real_t> {
 		dMMap clone() const;
 
 		void info(const std::string& msg = "") const;
-		void print(uint_t nsd = 3) const;
-		std::string print2str(uint_t nsd = 3) const;
 
 		real_t norm_one() const;
 		real_t norm_inf() const;

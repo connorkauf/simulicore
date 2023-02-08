@@ -69,6 +69,18 @@ class GenericObject {
 		 */
 		void scale(T coeff);
 
+		/**
+		 * @brief Prints the contents of the object
+		 * @param[in] nsd The number of significant digits
+		 */
+		void print(uint_t nsd = 3) const;
+
+		/**
+		 * @brief Prints the contents of the object
+		 * @param[in] nsd The number of significant digits
+		 */
+		std::string printToString(uint_t nsd = 3) const;
+
 	protected:
 		GenericObject();
 		GenericObject(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
@@ -83,12 +95,12 @@ class GenericObject {
 		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
 
 		// args
-		void set_nrows (uint_t          nrows );
-		void set_ncols (uint_t          ncols );
-		void set_ld    (uint_t          ld    );
-		void set_values(T*              values);
-		void set_prop  (const Property& prop  );
-		void set_owner (bool            owner );
+		void setNrows (uint_t          nrows );
+		void setNcols (uint_t          ncols );
+		void setLd    (uint_t          ld    );
+		void setValues(T*              values);
+		void setProp  (const Property& prop  );
+		void setOwner (bool            owner );
 
 		uint_t          nrows () const;
 		uint_t          ncols () const;
@@ -96,49 +108,47 @@ class GenericObject {
 		const Property& prop  () const;
 
 		// callable from empty
-		void copy_to(GenericObject<T,Tr>&) const;
-		void move_to(GenericObject<T,Tr>&);
-		void clone_to(GenericObject<T,Tr>&);
+		void copyTo(GenericObject<T,Tr>&) const;
+		void moveTo(GenericObject<T,Tr>&);
+		void cloneTo(GenericObject<T,Tr>&);
 
 		void info(
 				const std::string&,
 				const std::string&,
 				const std::string&,
 				const std::string&) const;
-		void print(uint_t) const;
-		std::string print2str(uint_t) const;
 
-		Tr norm_one() const;
-		Tr norm_inf() const;
-		Tr norm_max() const;
-		Tr norm_fro() const;
+		Tr normOne() const;
+		Tr normInf() const;
+		Tr normMax() const;
+		Tr normFro() const;
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;
 
 		// not callcable from empty
-		void transpose_to(GenericObject<T,Tr>&) const;
-		void ctranspose_to(GenericObject<T,Tr>&) const;
+		void transposeTo(GenericObject<T,Tr>&) const;
+		void ctransposeTo(GenericObject<T,Tr>&) const;
 
-		void ge_permute_to(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
-		void ge_permute_to_left(GenericObject<T,Tr>&, const prm::pMat& P) const;
-		void ge_permute_to_right(GenericObject<T,Tr>&, const prm::pMat& Q) const;
-		void sh_permute_to(GenericObject<T,Tr>&, const prm::pMat& P) const;
+		void gePermuteTo(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
+		void gePermuteToLeft(GenericObject<T,Tr>&, const prm::pMat& P) const;
+		void gePermuteToRight(GenericObject<T,Tr>&, const prm::pMat& Q) const;
+		void shPermuteTo(GenericObject<T,Tr>&, const prm::pMat& P) const;
 
-		void ge_permute_ip(const prm::pMat& P, const prm::pMat& Q);
-		void ge_permute_ip_left(const prm::pMat& P);
-		void ge_permute_ip_right(const prm::pMat& Q);
-		void sh_permute_ip(const prm::pMat& P);
+		void gePermuteIp(const prm::pMat& P, const prm::pMat& Q);
+		void gePermuteIpLeft(const prm::pMat& P);
+		void gePermuteIpRight(const prm::pMat& Q);
+		void shPermuteIp(const prm::pMat& P);
 
-		void get_block(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void get_block_reference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-		void set_block(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
+		void getBlock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void getBlockReference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		void setBlock(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		// creators
-		void  blank_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void   zero_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void random_creator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void    map_creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		void  blankCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void   zeroCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void randomCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
+		void    mapCreator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	private:
 		uint_t   m_nrows ;

@@ -75,21 +75,21 @@ const Property& dMat::prop  () const { return ThisObjType::prop  (); }
 dMat dMat::copy() const 
 { 
 	dMat ret;
-	ThisObjType::copy_to(ret);
+	ThisObjType::copyTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::move()
 { 
 	dMat ret;
-	ThisObjType::move_to(ret);
+	ThisObjType::moveTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 dMat dMat::clone()
 {
 	dMat ret;
-	ThisObjType::clone_to(ret);
+	ThisObjType::cloneTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -106,20 +106,10 @@ void dMat::info(const std::string& msg) const
 	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
 }
 /*-------------------------------------------------*/
-void dMat::print(uint_t nsd) const 
-{
-	ThisObjType::print(nsd); 
-}
-/*-------------------------------------------------*/
-std::string dMat::print2str(uint_t nsd) const 
-{
-	return ThisObjType::print2str(nsd); 
-}
-/*-------------------------------------------------*/
-real_t dMat::norm_one() const { return ThisObjType::norm_one(); }
-real_t dMat::norm_inf() const { return ThisObjType::norm_inf(); }
-real_t dMat::norm_max() const { return ThisObjType::norm_max(); }
-real_t dMat::norm_fro() const { return ThisObjType::norm_fro(); }
+real_t dMat::norm_one() const { return ThisObjType::normOne(); }
+real_t dMat::norm_inf() const { return ThisObjType::normInf(); }
+real_t dMat::norm_max() const { return ThisObjType::normMax(); }
+real_t dMat::norm_fro() const { return ThisObjType::normFro(); }
 /*-------------------------------------------------*/
 ThisDatType& dMat::operator()(uint_t i, uint_t j)
 {
@@ -144,54 +134,54 @@ const ThisDatType& dMat::operator()(uint_t i, uint_t j) const
 dMat dMat::transpose() const
 {
 	dMat ret;
-	ThisObjType::transpose_to(ret);
+	ThisObjType::transposeTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 {
 	dMat ret;
-	ThisObjType::ge_permute_to(ret, P, Q);
+	ThisObjType::gePermuteTo(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute_left(const prm::pMat& P) const
 {
 	dMat ret;
-	ThisObjType::ge_permute_to_left(ret, P);
+	ThisObjType::gePermuteToLeft(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute_right(const prm::pMat& Q) const
 {
 	dMat ret;
-	ThisObjType::ge_permute_to_right(ret, Q);
+	ThisObjType::gePermuteToRight(ret, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::permute(const prm::pMat& P) const
 {
 	dMat ret;
-	ThisObjType::sh_permute_to(ret, P);
+	ThisObjType::shPermuteTo(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void dMat::ipermute      (const prm::pMat& P, const prm::pMat& Q) { return ThisObjType::ge_permute_ip      (P, Q); }
-void dMat::ipermute_left (const prm::pMat& P                    ) { return ThisObjType::ge_permute_ip_left (P);    }
-void dMat::ipermute_right(const prm::pMat& Q                    ) { return ThisObjType::ge_permute_ip_right(Q);    }
-void dMat::ipermute      (const prm::pMat& P                    ) { return ThisObjType::sh_permute_ip      (P);    }
+void dMat::ipermute      (const prm::pMat& P, const prm::pMat& Q) { return ThisObjType::gePermuteIp     (P, Q); }
+void dMat::ipermute_left (const prm::pMat& P                    ) { return ThisObjType::gePermuteIpLeft (P);    }
+void dMat::ipermute_right(const prm::pMat& Q                    ) { return ThisObjType::gePermuteIpRight(Q);    }
+void dMat::ipermute      (const prm::pMat& P                    ) { return ThisObjType::shPermuteIp     (P);    }
 /*-------------------------------------------------*/
 dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
 	dMat ret;
-	ThisObjType::get_block(ret, ibgn, jbgn, ni, nj);
+	ThisObjType::getBlock(ret, ibgn, jbgn, ni, nj);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
 	dMat ret;
-	ThisObjType::get_block_reference(ret, ibgn, jbgn, ni, nj);
+	ThisObjType::getBlockReference(ret, ibgn, jbgn, ni, nj);
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -205,7 +195,7 @@ dMMap dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 /*-------------------------------------------------*/
 void dMat::set_block(uint_t ibgn, uint_t jbgn, const dMat& src)
 {
-	ThisObjType::set_block(src, ibgn, jbgn);
+	ThisObjType::setBlock(src, ibgn, jbgn);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -218,7 +208,7 @@ dMat dMat::init(uint_t nrows, uint_t ncols)
 dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.blank_creator(propcheck(prop), nrows, ncols, ld); 
+	ret.blankCreator(propcheck(prop), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -230,7 +220,7 @@ dMat dMat::zero(uint_t nrows, uint_t ncols)
 dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.zero_creator(propcheck(prop), nrows, ncols, ld); 
+	ret.zeroCreator(propcheck(prop), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -242,7 +232,7 @@ dMat dMat::random(uint_t nrows, uint_t ncols)
 dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.random_creator(propcheck(prop), nrows, ncols, ld); 
+	ret.randomCreator(propcheck(prop), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -254,7 +244,7 @@ dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
 dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
 {
 	dMat ret;
-	ret.map_creator(propcheck(prop), nrows, ncols, values, ld, bind); 
+	ret.mapCreator(propcheck(prop), nrows, ncols, values, ld, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
@@ -302,7 +292,7 @@ const dMat& dMMap::mat() const
 /*-------------------------------------------------*/
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::dMat& mat)
 {
-	os << mat.print2str();
+	os << mat.printToString();
 	return os;
 }
 /*-------------------------------------------------*/
