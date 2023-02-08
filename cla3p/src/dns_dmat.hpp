@@ -18,7 +18,7 @@ class dMat : public GenericObject<real_t,real_t> {
 	public:
 		dMat();
 		dMat(uint_t nrows, uint_t ncols);
-		dMat(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
+		dMat(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~dMat();
 
 		// no copy
@@ -77,11 +77,11 @@ class dMat : public GenericObject<real_t,real_t> {
 		static dMMap map(uint_t nrows, uint_t ncols, const real_t *values);
 
 		// static initializers (advanced)
-		static dMat init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static dMat zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static dMat random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		static dMat map(const Property& prop, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
-		static dMMap map(const Property& prop, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
+		static dMat init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static dMat map(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
+		static dMMap map(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
 };
 
 /*-------------------------------------------------*/

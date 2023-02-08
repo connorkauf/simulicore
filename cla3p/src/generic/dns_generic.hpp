@@ -83,7 +83,7 @@ class GenericObject {
 
 	protected:
 		GenericObject();
-		GenericObject(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
+		GenericObject(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 		~GenericObject();
 
 		// no copy
@@ -145,10 +145,10 @@ class GenericObject {
 		void setBlock(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		// creators
-		void  blankCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void   zeroCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void randomCreator(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld);
-		void    mapCreator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		void  blankCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		void   zeroCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		void randomCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		void    mapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	private:
 		uint_t   m_nrows ;
@@ -159,7 +159,7 @@ class GenericObject {
 		bool     m_owner ;
 
 		void defaults();
-		void creator(const Property& prop, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
+		void creator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
 };
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

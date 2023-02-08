@@ -27,11 +27,11 @@ const std::string& objtype () { return _objtype ; }
 const std::string& datatype() { return _datatype; }
 const std::string& prectype() { return _prectype; }
 /*-------------------------------------------------*/
-static const Property _pproper = Property(prop_t::SYMMETRIC);
+static const prop_t _pproper = prop_t::SYMMETRIC;
 /*-------------------------------------------------*/
-static const Property& propcheck(const Property& prop)
+static prop_t propcheck(prop_t ptype)
 {
-	return (prop.is_hermitian() ? _pproper : prop);
+	return (ptype == prop_t::HERMITIAN ? _pproper : ptype);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -41,12 +41,12 @@ dMat::dMat()
 }
 /*-------------------------------------------------*/
 dMat::dMat(uint_t nrows, uint_t ncols)
-	:ThisObjType(Property(prop_t::GENERAL), nrows, ncols, nrows, false)
+	:ThisObjType(prop_t::GENERAL, nrows, ncols, nrows, false)
 {
 }
 /*-------------------------------------------------*/
-dMat::dMat(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
-	:ThisObjType(propcheck(prop), nrows, ncols, ld, wipe)
+dMat::dMat(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
+	:ThisObjType(propcheck(ptype), nrows, ncols, ld, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -202,62 +202,62 @@ void dMat::setBlock(uint_t ibgn, uint_t jbgn, const dMat& src)
 /*-------------------------------------------------*/
 dMat dMat::init(uint_t nrows, uint_t ncols) 
 { 
-	return init(Property(prop_t::GENERAL), nrows, ncols, nrows);
+	return init(prop_t::GENERAL, nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
-dMat dMat::init(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
+dMat dMat::init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.blankCreator(propcheck(prop), nrows, ncols, ld); 
+	ret.blankCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::zero(uint_t nrows, uint_t ncols) 
 { 
-	return zero(Property(prop_t::GENERAL), nrows, ncols, nrows) ;
+	return zero(prop_t::GENERAL, nrows, ncols, nrows) ;
 }
 /*-------------------------------------------------*/
-dMat dMat::zero(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
+dMat dMat::zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.zeroCreator(propcheck(prop), nrows, ncols, ld); 
+	ret.zeroCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::random(uint_t nrows, uint_t ncols) 
 { 
-	return random(Property(prop_t::GENERAL), nrows, ncols, nrows);
+	return random(prop_t::GENERAL, nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
-dMat dMat::random(const Property& prop, uint_t nrows, uint_t ncols, uint_t ld) 
+dMat dMat::random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
 	dMat ret;
-	ret.randomCreator(propcheck(prop), nrows, ncols, ld); 
+	ret.randomCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
 {
-	return map(Property(prop_t::GENERAL), nrows, ncols, values, nrows, false);
+	return map(prop_t::GENERAL, nrows, ncols, values, nrows, false);
 }
 /*-------------------------------------------------*/
-dMat dMat::map(const Property& prop, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
+dMat dMat::map(prop_t ptype, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
 {
 	dMat ret;
-	ret.mapCreator(propcheck(prop), nrows, ncols, values, ld, bind); 
+	ret.mapCreator(propcheck(ptype), nrows, ncols, values, ld, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 dMMap dMat::map(uint_t nrows, uint_t ncols, const ThisDatType *values)
 {
-	return map(Property(prop_t::GENERAL), nrows, ncols, values, nrows);
+	return map(prop_t::GENERAL, nrows, ncols, values, nrows);
 }
 /*-------------------------------------------------*/
-dMMap dMat::map(const Property& prop, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
+dMMap dMat::map(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
 {
 	dMMap ret;
 	ThisMapType& trg = ret;
-	trg = dMat::map(propcheck(prop), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
+	trg = dMat::map(propcheck(ptype), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
 	return ret;
 }
 /*-------------------------------------------------*/
