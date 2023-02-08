@@ -55,6 +55,22 @@ void Error_with_args(const std::string& msg, const char *file, const char *fun, 
 	} // show_dbg_messages
 }
 /*-------------------------------------------------*/
+std::string out_of_bounds_message(uint_t m, uint_t n, uint_t i, uint_t j)
+{
+	std::string ret1 = "requested index (" + std::to_string(i) + "," + std::to_string(j) + ")";
+	std::string ret2 = " of matrix with dimensions (" + std::to_string(m) + " x " + std::to_string(n) + ")";
+
+	return (ret1 + ret2);
+}
+/*-------------------------------------------------*/
+std::string out_of_bounds_message(uint_t n, uint_t i)
+{
+	std::string ret1 = "requested index " + std::to_string(i);
+	std::string ret2 = " of vector with size " + std::to_string(n);
+
+	return (ret1 + ret2);
+}
+/*-------------------------------------------------*/
 Status::Status()
 	: m_type(status_t::SUCCESS)
 {

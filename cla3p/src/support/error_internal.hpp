@@ -49,10 +49,13 @@ enum class status_t {
 	ERROR_EMPTY    
 };
 
+std::string out_of_bounds_message(uint_t m, uint_t n, uint_t i, uint_t j);
+std::string out_of_bounds_message(uint_t n, uint_t i);
+
 const std::string& msg_unknown();
 const std::string& msg_success();
 const std::string& msg_invalid_dimensions();
-const std::string& msg_invald_pointer();
+const std::string& msg_invalid_pointer();
 const std::string& msg_invalid_leading_dimension();
 const std::string& msg_invalid_property();
 const std::string& msg_invalid_property_for_square();

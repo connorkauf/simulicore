@@ -14,8 +14,10 @@ class pMat {
 		pMat();
 		pMat(uint_t size);
 		~pMat();
+
 		pMat(const pMat&) = delete;
 		pMat& operator=(const pMat&) = delete;
+
 		pMat(pMat&&);
 		pMat& operator=(pMat&&);
 
@@ -43,14 +45,14 @@ class pMat {
 		uint_t *m_values;
 		bool    m_owner ;
 
-		void set_size  (uint_t  size  );
-		void set_values(uint_t *values);
-		void set_owner (bool    owner );
+		void setSize  (uint_t  size  );
+		void setValues(uint_t *values);
+		void setOwner (bool    owner );
 
 		void defaults();
 		void creator(uint_t size, uint_t *values, bool owner);
-		void blank_creator(uint_t size);
-		void random_creator(uint_t size);
+		void blankCreator(uint_t size);
+		void randomCreator(uint_t size);
 		void unbind();
 };
 

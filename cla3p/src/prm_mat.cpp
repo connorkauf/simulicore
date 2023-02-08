@@ -8,6 +8,7 @@
 // 3rd
 
 // cla3p
+#include "checks/all_checks.hpp"
 #include "support/error.hpp"
 #include "support/error_internal.hpp"
 #include "support/imalloc.hpp"
@@ -24,7 +25,7 @@ pMat::pMat()
 /*-------------------------------------------------*/
 pMat::pMat(uint_t size)
 {
-	blank_creator(size);
+	blankCreator(size);
 }
 /*-------------------------------------------------*/
 pMat::~pMat()
@@ -45,28 +46,23 @@ pMat& pMat::operator=(pMat&& src)
 /*-------------------------------------------------*/
 void pMat::defaults()
 {
-	set_size  (0);
-	set_values(nullptr);
-	set_owner (false);
+	setSize  (0);
+	setValues(nullptr);
+	setOwner (false);
 }
 /*-------------------------------------------------*/
 void pMat::creator(uint_t size, uint_t *values, bool owner)
 {
-	clear();
+	dns_consistency_check(prop_t::GENERAL, size, 1, values, size);
 
-	if(!size) return; // policy is on zero dimensions, return empty object
-
-	if(!values) {
-		throw NoConsistency(msg_invald_pointer());
-	}
-
-	set_size  (size);
-	set_values(values);
-	set_owner (owner);
+	setSize  (size);
+	setValues(values);
+	setOwner (owner);
 }
 /*-------------------------------------------------*/
-void pMat::blank_creator(uint_t size)
+void pMat::blankCreator(uint_t size)
 {
+	clear();
 	uint_t *p = static_cast<uint_t*>(i_malloc(size, sizeof(uint_t)));
 	creator(size, p, true);
 }
@@ -74,26 +70,26 @@ void pMat::blank_creator(uint_t size)
 pMat pMat::init(uint_t size)
 {
 	pMat ret;
-	ret.blank_creator(size);
+	ret.blankCreator(size);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void pMat::random_creator(uint_t size)
+void pMat::randomCreator(uint_t size)
 {
-	blank_creator(size);
+	blankCreator(size);
 	fill_random_perm(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 pMat pMat::random(uint_t size)
 {
 	pMat ret;
-	ret.random_creator(size);
+	ret.randomCreator(size);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void pMat::set_size  (uint_t  size  ) { m_size   = size  ; }
-void pMat::set_values(uint_t *values) { m_values = values; }
-void pMat::set_owner (bool    owner ) { m_owner  = owner ; }
+void pMat::setSize  (uint_t  size  ) { m_size   = size  ; }
+void pMat::setValues(uint_t *values) { m_values = values; }
+void pMat::setOwner (bool    owner ) { m_owner  = owner ; }
 /*-------------------------------------------------*/
 uint_t        pMat::size  () const { return m_size  ; }
 uint_t*       pMat::values()       { return m_values; }
@@ -119,13 +115,13 @@ void pMat::clear()
 /*-------------------------------------------------*/
 void pMat::unbind()
 {
-	set_owner(false);
+	setOwner(false);
 }
 /*-------------------------------------------------*/
 pMat pMat::copy() const
 {
 	pMat ret;
-	ret.blank_creator(size());
+	ret.blankCreator(size());
 	std::memcpy(ret.values(), values(), size() * sizeof(uint_t));
 	return ret.move();
 }

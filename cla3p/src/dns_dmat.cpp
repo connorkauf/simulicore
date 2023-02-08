@@ -106,10 +106,10 @@ void dMat::info(const std::string& msg) const
 	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
 }
 /*-------------------------------------------------*/
-real_t dMat::norm_one() const { return ThisObjType::normOne(); }
-real_t dMat::norm_inf() const { return ThisObjType::normInf(); }
-real_t dMat::norm_max() const { return ThisObjType::normMax(); }
-real_t dMat::norm_fro() const { return ThisObjType::normFro(); }
+real_t dMat::normOne() const { return ThisObjType::normOne(); }
+real_t dMat::normInf() const { return ThisObjType::normInf(); }
+real_t dMat::normMax() const { return ThisObjType::normMax(); }
+real_t dMat::normFro() const { return ThisObjType::normFro(); }
 /*-------------------------------------------------*/
 ThisDatType& dMat::operator()(uint_t i, uint_t j)
 {
@@ -145,14 +145,14 @@ dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute_left(const prm::pMat& P) const
+dMat dMat::permuteLeft(const prm::pMat& P) const
 {
 	dMat ret;
 	ThisObjType::gePermuteToLeft(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute_right(const prm::pMat& Q) const
+dMat dMat::permuteRight(const prm::pMat& Q) const
 {
 	dMat ret;
 	ThisObjType::gePermuteToRight(ret, Q);
@@ -166,10 +166,10 @@ dMat dMat::permute(const prm::pMat& P) const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void dMat::ipermute      (const prm::pMat& P, const prm::pMat& Q) { return ThisObjType::gePermuteIp     (P, Q); }
-void dMat::ipermute_left (const prm::pMat& P                    ) { return ThisObjType::gePermuteIpLeft (P);    }
-void dMat::ipermute_right(const prm::pMat& Q                    ) { return ThisObjType::gePermuteIpRight(Q);    }
-void dMat::ipermute      (const prm::pMat& P                    ) { return ThisObjType::shPermuteIp     (P);    }
+void dMat::ipermute     (const prm::pMat& P, const prm::pMat& Q) { return ThisObjType::gePermuteIp     (P, Q); }
+void dMat::ipermuteLeft (const prm::pMat& P                    ) { return ThisObjType::gePermuteIpLeft (P);    }
+void dMat::ipermuteRight(const prm::pMat& Q                    ) { return ThisObjType::gePermuteIpRight(Q);    }
+void dMat::ipermute     (const prm::pMat& P                    ) { return ThisObjType::shPermuteIp     (P);    }
 /*-------------------------------------------------*/
 dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
@@ -193,7 +193,7 @@ dMMap dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 	return ret;
 }
 /*-------------------------------------------------*/
-void dMat::set_block(uint_t ibgn, uint_t jbgn, const dMat& src)
+void dMat::setBlock(uint_t ibgn, uint_t jbgn, const dMat& src)
 {
 	ThisObjType::setBlock(src, ibgn, jbgn);
 }

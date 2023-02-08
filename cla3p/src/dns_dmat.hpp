@@ -43,10 +43,10 @@ class dMat : public GenericObject<real_t,real_t> {
 
 		void info(const std::string& msg = "") const;
 
-		real_t norm_one() const;
-		real_t norm_inf() const;
-		real_t norm_max() const;
-		real_t norm_fro() const;
+		real_t normOne() const;
+		real_t normInf() const;
+		real_t normMax() const;
+		real_t normFro() const;
 
 		real_t& operator()(uint_t i, uint_t j);
 		const real_t& operator()(uint_t i, uint_t j) const;
@@ -54,20 +54,20 @@ class dMat : public GenericObject<real_t,real_t> {
 		// not callcable from empty
 		dMat transpose() const;
 		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
-		dMat permute_left(const prm::pMat& P) const;
-		dMat permute_right(const prm::pMat& Q) const;
+		dMat permuteLeft(const prm::pMat& P) const;
+		dMat permuteRight(const prm::pMat& Q) const;
 		dMat permute(const prm::pMat& P) const;
 
 		void ipermute(const prm::pMat& P, const prm::pMat& Q);
-		void ipermute_left(const prm::pMat& P);
-		void ipermute_right(const prm::pMat& Q);
+		void ipermuteLeft(const prm::pMat& P);
+		void ipermuteRight(const prm::pMat& Q);
 		void ipermute(const prm::pMat& P);
 
 		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 		dMMap rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
-		void set_block(uint_t ibgn, uint_t jbgn, const dMat& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const dMat& src);
 
 		// static initializers (basic)
 		static dMat init(uint_t nrows, uint_t ncols);
