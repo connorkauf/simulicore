@@ -24,29 +24,20 @@ int main()
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 	cla3p::enable_dbg_messages();
 
-	cla3p::uint_t m = 12;
-	cla3p::uint_t n = 100;
-	cla3p::uint_t ld = m + 15;
-	cla3p::Property prop(cla3p::prop_t::GENERAL);
+	using namespace cla3p;
 
-	cla3p::dns::dMat A = cla3p::dns::dMat::random(prop, m, n, ld);
-	A.info("A");
-	A.print();
-	cla3p::dns::dMat B;
-	B = A.move();
-	A.info("A");
-	B.info("B");
-
-	cla3p::prm::pMat P = cla3p::prm::pMat::random(m);
-	cla3p::prm::pMat Q = cla3p::prm::pMat::random(n);
-
-	P.info("P");
-	Q.info("Q");
-	P.print();
-	Q.print();
-
-	cla3p::dns::dMat PAQ = B.permute(P, Q);
-	std::cout << PAQ;
+	prop_t ptype1 = prop_t::NONE;
+	prop_t ptype2 = prop_t::GENERAL;
+	prop_t ptype3 = prop_t::SYMMETRIC;
+	prop_t ptype4 = prop_t::HERMITIAN;
+	Property prop1(ptype1);
+	Property prop2(ptype2);
+	Property prop3(ptype3);
+	Property prop4(ptype4);
+	std::cout << prop1 << std::endl;
+	std::cout << prop2 << std::endl;
+	std::cout << prop3 << std::endl;
+	std::cout << prop4 << std::endl;
 
 	return 0;
 }

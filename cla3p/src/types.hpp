@@ -43,26 +43,47 @@ inline void setim(real4_t&, real4_t) { /*WarningNoReach*/ }
 inline void setim(complex_t& z, real_t d) { z.imag(d); }
 inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
 
-enum class TransOp {
-	N = 0,
-	T    ,
-	C    
-};
+/*-------------------------------------------------*/
 
-enum class prop_t {
-	NONE      = 0,
-	GENERAL      ,
-	SYMMETRIC    ,
-	HERMITIAN    
-};
-
-class Property {
+class TransOp {
 	public:
+		enum class trans_t {
+			N = 0,
+			T    ,
+			C    
+		};
+
+		TransOp();
+		explicit TransOp(trans_t);
+		~TransOp();
+
+		TransOp(const TransOp&);
+		TransOp& operator=(const TransOp&);
+
+		trans_t type() const;
+
+	private:
+		trans_t m_type;
+};
+using trans_t = TransOp::trans_t;
+
+/*-------------------------------------------------*/
+class Property {
+
+	public:
+		enum class prop_t {
+			NONE      = 0,
+			GENERAL      ,
+			SYMMETRIC    ,
+			HERMITIAN    
+		};
+
 		Property();
-		Property(const Property&);
-		Property& operator=(const Property&);
 		explicit Property(prop_t);
 		~Property();
+
+		Property(const Property&);
+		Property& operator=(const Property&);
 
 		prop_t type() const;
 		const std::string& name() const;
@@ -71,9 +92,11 @@ class Property {
 		bool is_symmetric() const;
 		bool is_hermitian() const;
 		bool is_lower() const;
+
 	private:
 		prop_t m_type;
 };
+using prop_t = Property::prop_t;
 
 /*-------------------------------------------------*/
 } // namespace cla3p

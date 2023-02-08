@@ -39,15 +39,6 @@ bool show_dbg_messages();
 void Warning_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 void Error_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 
-enum class status_t {
-	SUCCESS     = 0,
-	ERROR_DIM      ,
-	ERROR_PTR      ,
-	ERROR_LD       ,
-	ERROR_PROP     ,
-	ERROR_PRSQ     ,
-	ERROR_EMPTY    
-};
 
 std::string out_of_bounds_message(uint_t m, uint_t n, uint_t i, uint_t j);
 std::string out_of_bounds_message(uint_t n, uint_t i);
@@ -63,12 +54,24 @@ const std::string& msg_empty_object();
 
 
 class Status {
+
 	public:
+		enum class status_t {
+			SUCCESS     = 0,
+			ERROR_DIM      ,
+			ERROR_PTR      ,
+			ERROR_LD       ,
+			ERROR_PROP     ,
+			ERROR_PRSQ     ,
+			ERROR_EMPTY    
+		};
+
 		Status();
-		Status(const Status&);
-		Status& operator=(const Status&);
 		explicit Status(status_t);
 		~Status();
+
+		Status(const Status&);
+		Status& operator=(const Status&);
 
 		status_t type() const;
 		bool success() const;
@@ -77,6 +80,7 @@ class Status {
 	private:
 		status_t m_type;
 };
+using status_t = Status::status_t;
 
 /*-------------------------------------------------*/
 } // namespace cla3p

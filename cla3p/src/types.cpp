@@ -11,6 +11,38 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
+TransOp::TransOp()
+	: m_type(trans_t::N)
+{
+}
+/*-------------------------------------------------*/
+TransOp::TransOp(const TransOp& src)
+	: m_type(src.type())
+{
+}
+/*-------------------------------------------------*/
+TransOp& TransOp::operator=(const TransOp& src)
+{
+	m_type = src.type();
+	return *this;
+}
+/*-------------------------------------------------*/
+TransOp::TransOp(trans_t ttype)
+	: m_type(ttype)
+{
+}
+/*-------------------------------------------------*/
+TransOp::~TransOp()
+{
+}
+/*-------------------------------------------------*/
+trans_t TransOp::type() const
+{
+	return m_type;
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 Property::Property()
 	: m_type(prop_t::NONE)
 {
@@ -53,7 +85,7 @@ const std::string& Property::name() const
 	if(type() == prop_t::SYMMETRIC) return pname_symmetric;
 	if(type() == prop_t::HERMITIAN) return pname_hermitian;
 
-	throw Exception();
+	throw Exception("Unknown property");
 }
 /*-------------------------------------------------*/
 bool Property::is_valid() const
