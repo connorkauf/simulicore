@@ -1,5 +1,5 @@
-#ifndef CLA3P_DNS_GENERIC_HPP_
-#define CLA3P_DNS_GENERIC_HPP_
+#ifndef CLA3P_GENERIC_DNS_HPP_
+#define CLA3P_GENERIC_DNS_HPP_
 
 #include <string>
 #include <iostream>
@@ -229,4 +229,4 @@ const T& GenericMap<T>::GenericMap::obj() const
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_GENERIC_HPP_
+#endif // CLA3P_GENERIC_DNS_HPP_

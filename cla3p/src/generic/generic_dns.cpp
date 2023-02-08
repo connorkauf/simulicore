@@ -1,5 +1,5 @@
 // this file inc
-#include "dns_generic.hpp"
+#include "generic_dns.hpp"
 
 // system
 

@@ -2,11 +2,13 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	generic/dns_generic.cpp
+	generic/universal.cpp
+	generic/generic_dns.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_GENERIC_HPP 
-	dns_generic.hpp
+	universal.hpp
+	generic_dns.hpp
 	)
 
 #-----------------------------------------------

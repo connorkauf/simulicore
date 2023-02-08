@@ -4,7 +4,7 @@
 #include <string>
 
 #include "types.hpp"
-#include "generic/dns_generic.hpp"
+#include "generic/generic_dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
