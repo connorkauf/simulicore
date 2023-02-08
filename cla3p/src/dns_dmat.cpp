@@ -19,13 +19,7 @@ using ThisDatType = real_t;
 using ThisObjType = GenericObject<ThisDatType,ThisDatType>;
 using ThisMapType = GenericMap<dMat>;
 /*-------------------------------------------------*/
-const std::string _objtype = "Matrix";
-const std::string _datatype = "Real";
-const std::string _prectype = "Double";
-/*-------------------------------------------------*/
-const std::string& objtype () { return _objtype ; }
-const std::string& datatype() { return _datatype; }
-const std::string& prectype() { return _prectype; }
+#define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::REAL, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/
 static const prop_t _pproper = prop_t::SYMMETRIC;
 /*-------------------------------------------------*/
@@ -37,16 +31,22 @@ static prop_t propcheck(prop_t ptype)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 dMat::dMat()
+	: 
+		UniversalConstructor()
 {
 }
 /*-------------------------------------------------*/
 dMat::dMat(uint_t nrows, uint_t ncols)
-	:ThisObjType(prop_t::GENERAL, nrows, ncols, nrows, false)
+	:
+		UniversalConstructor(),
+		ThisObjType(prop_t::GENERAL, nrows, ncols, nrows, false)
 {
 }
 /*-------------------------------------------------*/
 dMat::dMat(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
-	:ThisObjType(propcheck(ptype), nrows, ncols, ld, wipe)
+	:
+		UniversalConstructor(),
+		ThisObjType(propcheck(ptype), nrows, ncols, ld, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -55,7 +55,9 @@ dMat::~dMat()
 }
 /*-------------------------------------------------*/
 dMat::dMat(dMat&& src)
-	:ThisObjType(std::move(src))
+	:
+		UniversalConstructor(),
+		ThisObjType(std::move(src))
 {
 }
 /*-------------------------------------------------*/
@@ -67,10 +69,11 @@ dMat& dMat::operator=(dMat&& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-uint_t          dMat::nrows () const { return ThisObjType::nrows (); }
-uint_t          dMat::ncols () const { return ThisObjType::ncols (); }
-uint_t          dMat::ld    () const { return ThisObjType::ld    (); }
-const Property& dMat::prop  () const { return ThisObjType::prop  (); }
+uint_t dMat::nrows() const { return rsize(); }
+uint_t dMat::ncols() const { return csize(); }
+/*-------------------------------------------------*/
+uint_t          dMat::ld  () const { return ThisObjType::ld  (); }
+const Property& dMat::prop() const { return ThisObjType::prop(); }
 /*-------------------------------------------------*/
 dMat dMat::copy() const 
 { 
@@ -103,7 +106,7 @@ dMMap dMat::clone() const
 /*-------------------------------------------------*/
 void dMat::info(const std::string& msg) const
 { 
-	ThisObjType::info(msg, objtype(), datatype(), prectype()); 
+	ThisObjType::info(true, msg, objTypeName(), dataTypeName(), precTypeName()); 
 }
 /*-------------------------------------------------*/
 real_t dMat::normOne() const { return ThisObjType::normOne(); }
@@ -286,6 +289,8 @@ const dMat& dMMap::mat() const
 { 
 	return ThisMapType::obj(); 
 }
+/*-------------------------------------------------*/
+#undef UniversalConstructor
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

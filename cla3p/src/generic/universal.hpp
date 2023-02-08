@@ -1,11 +1,84 @@
 #ifndef CLA3P_GENERIC_UNIVERSAL_HPP_
 #define CLA3P_GENERIC_UNIVERSAL_HPP_
 
+#include <string>
+
 #include "../types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
+
+class UniversalMetaTypes {
+
+	protected:
+		enum class ObjectType {
+			NONE       = 0,
+			DNS_VECTOR    ,
+			DNS_MATRIX    ,
+			CSC_VECTOR    ,
+			CSC_MATRIX     
+		};
+
+		enum class DataType {
+			NONE    = 0,
+			INT        ,
+			UINT       ,
+			REAL       ,
+			COMPLEX
+		};
+
+		enum class PrecisionType {
+			NONE   = 0,
+			SINGLE    ,
+			DOUBLE     
+		};
+
+		UniversalMetaTypes(ObjectType otype, DataType dtype, PrecisionType ptype);
+		~UniversalMetaTypes();
+
+		ObjectType    otype() const;
+		DataType      dtype() const;
+		PrecisionType ptype() const;
+
+		const std::string&  objTypeName() const;
+		const std::string& dataTypeName() const;
+		const std::string& precTypeName() const;
+
+	private:
+		const ObjectType    m_otype;
+		const DataType      m_dtype;
+		const PrecisionType m_ptype;
+};
+
+/*-------------------------------------------------*/
+
+class UniversalMetaData {
+
+	public:
+		bool empty() const;
+		bool owner() const;
+		void unbind();
+
+	protected:
+		UniversalMetaData();
+		~UniversalMetaData();
+
+		uint_t rsize() const;
+		uint_t csize() const;
+
+		void setAllMeta(uint_t rsize, uint_t csize, bool owner);
+		void defaults();
+
+	private:
+		uint_t m_rsize;
+		uint_t m_csize;
+		bool   m_owner;
+
+		void setRsize(uint_t rsize);
+		void setCsize(uint_t csize);
+		void setOwner(bool   owner);
+};
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -13,7 +13,7 @@ namespace dns {
 /*-------------------------------------------------*/
 class dMMap;
 
-class dMat : public GenericObject<real_t,real_t> {
+class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 	public:
 		dMat();

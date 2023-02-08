@@ -24,6 +24,20 @@ int main()
 	std::printf("MKL_VERSION: '%s'\n", cla3p::mkl::version().c_str());
 	cla3p::enable_dbg_messages();
 
+	cla3p::dns::dMat A(10,10);
+	A.info("A");
+
+	cla3p::dns::dMat B = A.move();
+	A.info("A");
+	B.info("B");
+
+	cla3p::prm::pMat P(10);
+	P.info("P");
+
+	cla3p::prm::pMat Q = P.move();
+	P.info("P");
+	Q.info("Q");
+
 	return 0;
 }
 /*-------------------------------------------------*/

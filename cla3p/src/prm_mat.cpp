@@ -18,12 +18,22 @@
 namespace cla3p {
 namespace prm {
 /*-------------------------------------------------*/
+#if defined (CLA3P_I64)
+#define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::UINT, PrecisionType::DOUBLE)
+#else
+#define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::UINT, PrecisionType::SINGLE)
+#endif
+/*-------------------------------------------------*/
 pMat::pMat()
+	:
+		UniversalConstructor()
 {
 	defaults();
 }
 /*-------------------------------------------------*/
 pMat::pMat(uint_t size)
+	:
+		UniversalConstructor()
 {
 	blankCreator(size);
 }
@@ -34,6 +44,8 @@ pMat::~pMat()
 }
 /*-------------------------------------------------*/
 pMat::pMat(pMat&& src)
+	:
+		UniversalConstructor()
 {
 	*this = src.move();
 }
@@ -44,20 +56,27 @@ pMat& pMat::operator=(pMat&& src)
 	return *this;
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 void pMat::defaults()
 {
-	setSize  (0);
+	UniversalMetaData::defaults();
+
 	setValues(nullptr);
-	setOwner (false);
 }
 /*-------------------------------------------------*/
 void pMat::creator(uint_t size, uint_t *values, bool owner)
 {
-	dns_consistency_check(prop_t::GENERAL, size, 1, values, size);
+	uint_t rsize = size;
+	uint_t csize = 1;
 
-	setSize  (size);
+	dns_consistency_check(prop_t::GENERAL, rsize, csize, values, size);
+
+	// meta data
+	setAllMeta(rsize, csize, owner);
+
+	// additional
 	setValues(values);
-	setOwner (owner);
 }
 /*-------------------------------------------------*/
 void pMat::blankCreator(uint_t size)
@@ -87,22 +106,12 @@ pMat pMat::random(uint_t size)
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void pMat::setSize  (uint_t  size  ) { m_size   = size  ; }
 void pMat::setValues(uint_t *values) { m_values = values; }
-void pMat::setOwner (bool    owner ) { m_owner  = owner ; }
 /*-------------------------------------------------*/
-uint_t        pMat::size  () const { return m_size  ; }
+uint_t pMat::size() const { return rsize(); }
+/*-------------------------------------------------*/
 uint_t*       pMat::values()       { return m_values; }
 const uint_t* pMat::values() const { return m_values; }
-bool          pMat::owner () const { return m_owner ; }
-/*-------------------------------------------------*/
-bool pMat::empty() const
-{
-  if(size() && values())
-    return false;
-
-  return true;
-}
 /*-------------------------------------------------*/
 void pMat::clear()
 {
@@ -111,11 +120,6 @@ void pMat::clear()
 	} // owner  
 
 	defaults();
-}
-/*-------------------------------------------------*/
-void pMat::unbind()
-{
-	setOwner(false);
 }
 /*-------------------------------------------------*/
 pMat pMat::copy() const
@@ -143,9 +147,13 @@ void pMat::info(const std::string& msg) const
 
   std::cout << top << "\n";
 
-	std::cout << "  size................. " <<         size  () << "\n";
-	std::cout << "  values............... " <<         values() << "\n";
-	std::cout << "  owner................ " << bool2yn(owner ()) << "\n";
+	std::cout << "  Object type.......... " <<  objTypeName() << "\n";
+  std::cout << "  Datatype............. " << dataTypeName() << "\n";
+  std::cout << "  Precision............ " << precTypeName() << "\n";
+
+	std::cout << "  Size................. " <<         size  ()  << "\n";
+	std::cout << "  Values............... " <<         values()  << "\n";
+	std::cout << "  Owner................ " << bool2yn(owner ()) << "\n";
 
   std::cout << bottom << "\n";
 }
@@ -175,6 +183,8 @@ const uint_t& pMat::operator()(uint_t i) const
 
   return values()[i];
 }
+/*-------------------------------------------------*/
+#undef UniversalConstructor
 /*-------------------------------------------------*/
 } // namespace prm
 } // namespace cla3p

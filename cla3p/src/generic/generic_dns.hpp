@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "../types.hpp"
+#include "universal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -17,7 +18,7 @@ namespace dns {
  * All dense objects inherit from this base class
  */
 template <typename T, typename Tr>
-class GenericObject {
+class GenericObject : public UniversalMetaData {
 
 	public:
 
@@ -37,31 +38,14 @@ class GenericObject {
 		 */
 		const T* values() const;
 
-		/**
-		 * @brief The ownership status
-		 * @return The ownership status
-		 */
-		bool owner() const;
-
 		// 
 		// inherited methods - callable from empty
 		//
 
 		/**
-		 * @brief Checks object for entries
-		 * @return If object is empty
-		 */
-		bool empty() const;
-
-		/**
 		 * @brief Clears the object
 		 */
 		void clear();
-
-		/**
-		 * @brief Unbinds associated data from the object
-		 */
-		void unbind();
 
 		/**
 		 * @brief Scales object by coeff
@@ -95,24 +79,19 @@ class GenericObject {
 		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
 
 		// args
-		void setNrows (uint_t          nrows );
-		void setNcols (uint_t          ncols );
 		void setLd    (uint_t          ld    );
 		void setValues(T*              values);
 		void setProp  (const Property& prop  );
-		void setOwner (bool            owner );
 
-		uint_t          nrows () const;
-		uint_t          ncols () const;
-		uint_t          ld    () const;
-		const Property& prop  () const;
+		uint_t          ld  () const;
+		const Property& prop() const;
 
 		// callable from empty
 		void copyTo(GenericObject<T,Tr>&) const;
 		void moveTo(GenericObject<T,Tr>&);
 		void cloneTo(GenericObject<T,Tr>&);
 
-		void info(
+		void info(bool is2D,
 				const std::string&,
 				const std::string&,
 				const std::string&,
@@ -151,12 +130,9 @@ class GenericObject {
 		void    mapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	private:
-		uint_t   m_nrows ;
-		uint_t   m_ncols ;
 		uint_t   m_ld    ;
 		T*       m_values;
 		Property m_prop  ;
-		bool     m_owner ;
 
 		void defaults();
 		void creator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
