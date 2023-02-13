@@ -14,6 +14,7 @@ namespace dns {
 class dMGuard;
 
 /**
+ * @class dMat
  * @brief The double precision real dense matrix object
  */
 class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
@@ -350,6 +351,9 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 /**
  * @brief The double precision real dense matrix guard
+ *
+ * The matrix guard class is a matrix wrapper class. 
+ * Useful for protecting immutable data from being exposed.
  */
 class dMGuard : private GenericGuard<dMat> {
 

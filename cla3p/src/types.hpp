@@ -45,37 +45,60 @@ inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
 
 /*-------------------------------------------------*/
 
-class TransOp {
+/**
+ * @class Operation
+ * @brief The operation type class
+ */
+class Operation {
+
 	public:
-		enum class trans_t {
-			N = 0,
-			T    ,
-			C    
+
+		/**
+		 * @enum cla3p::Operation::op_t
+		 * @brief The operation type
+		 */
+		enum class op_t {
+			N = 0, /**< No operation */
+			T    , /**< Transpose */
+			C      /**< Conjugate transpose */
 		};
 
-		TransOp();
-		explicit TransOp(trans_t);
-		~TransOp();
+		Operation();
+		explicit Operation(op_t);
+		~Operation();
 
-		TransOp(const TransOp&);
-		TransOp& operator=(const TransOp&);
+		Operation(const Operation&);
+		Operation& operator=(const Operation&);
 
-		trans_t type() const;
+		/**
+		 * @brief The operation type
+		 */
+		op_t type() const;
 
 	private:
-		trans_t m_type;
+		op_t m_type;
 };
-using trans_t = TransOp::trans_t;
+using op_t = Operation::op_t;
 
 /*-------------------------------------------------*/
+
+/**
+ * @class Property
+ * @brief The property class
+ */
 class Property {
 
 	public:
+
+		/**
+		 * @enum cla3p::Property::prop_t
+		 * @brief The property type
+		 */
 		enum class prop_t {
-			NONE      = 0,
-			GENERAL      ,
-			SYMMETRIC    ,
-			HERMITIAN    
+			NONE      = 0, /**< No property */
+			GENERAL      , /**< General (non-symmetric/non-hermitian matrix) */
+			SYMMETRIC    , /**< Symmetric matrix */
+			HERMITIAN      /**< Hermitian matrix */
 		};
 
 		Property();
@@ -85,7 +108,14 @@ class Property {
 		Property(const Property&);
 		Property& operator=(const Property&);
 
+		/**
+		 * @brief The property type
+		 */
 		prop_t type() const;
+
+		/**
+		 * @brief The property name
+		 */
 		const std::string& name() const;
 		bool is_valid() const;
 		bool is_general() const;

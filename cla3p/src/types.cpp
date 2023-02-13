@@ -11,32 +11,32 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-TransOp::TransOp()
-	: m_type(trans_t::N)
+Operation::Operation()
+	: m_type(op_t::N)
 {
 }
 /*-------------------------------------------------*/
-TransOp::TransOp(const TransOp& src)
+Operation::Operation(const Operation& src)
 	: m_type(src.type())
 {
 }
 /*-------------------------------------------------*/
-TransOp& TransOp::operator=(const TransOp& src)
+Operation& Operation::operator=(const Operation& src)
 {
 	m_type = src.type();
 	return *this;
 }
 /*-------------------------------------------------*/
-TransOp::TransOp(trans_t ttype)
+Operation::Operation(op_t ttype)
 	: m_type(ttype)
 {
 }
 /*-------------------------------------------------*/
-TransOp::~TransOp()
+Operation::~Operation()
 {
 }
 /*-------------------------------------------------*/
-trans_t TransOp::type() const
+op_t Operation::type() const
 {
 	return m_type;
 }
