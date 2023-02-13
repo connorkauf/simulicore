@@ -78,7 +78,11 @@ class Operation {
 	private:
 		op_t m_type;
 };
-using op_t = Operation::op_t;
+/** 
+ * @typedef cla3p::Operation::op_t cla3p::op_t
+ * For convinience purposes op_t is callable from outside the Operation class
+ */
+using op_t = cla3p::Operation::op_t;
 
 /*-------------------------------------------------*/
 
@@ -126,7 +130,11 @@ class Property {
 	private:
 		prop_t m_type;
 };
-using prop_t = Property::prop_t;
+/** 
+ * @typedef cla3p::Property::prop_t cla3p::prop_t
+ * For convinience purposes prop_t is callable from outside the Property class
+ */
+using prop_t = cla3p::Property::prop_t;
 
 /*-------------------------------------------------*/
 } // namespace cla3p
