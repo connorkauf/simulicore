@@ -12,6 +12,7 @@ namespace cla3p {
 namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
+
 /**
  * @brief The basic dense object generic class
  *
