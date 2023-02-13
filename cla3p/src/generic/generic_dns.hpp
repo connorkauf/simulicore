@@ -142,15 +142,15 @@ class GenericObject : public UniversalMetaData {
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-class GenericMap {
+class GenericGuard {
 
 	public:
-		GenericMap();
-		~GenericMap();
-		GenericMap(const GenericMap<T>&);
-		GenericMap<T>& operator=(const GenericMap<T>&);
-		GenericMap(const T&);
-		GenericMap<T>& operator=(const T&);
+		GenericGuard();
+		~GenericGuard();
+		GenericGuard(const GenericGuard<T>&);
+		GenericGuard<T>& operator=(const GenericGuard<T>&);
+		GenericGuard(const T&);
+		GenericGuard<T>& operator=(const T&);
 
 	protected:
 		const T& obj() const;
@@ -160,44 +160,44 @@ class GenericMap {
 };
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>::GenericMap()
+GenericGuard<T>::GenericGuard()
 {
 }
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>::~GenericMap()
+GenericGuard<T>::~GenericGuard()
 {
 	m_obj.clear();
 }
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>::GenericMap(const GenericMap<T>& src)
+GenericGuard<T>::GenericGuard(const GenericGuard<T>& src)
 {
 	*this = src.obj();
 }
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>& GenericMap<T>::operator=(const GenericMap<T>& src)
+GenericGuard<T>& GenericGuard<T>::operator=(const GenericGuard<T>& src)
 {
 	*this = src.obj();
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>::GenericMap(const T& mat)
+GenericGuard<T>::GenericGuard(const T& mat)
 {
 	m_obj = const_cast<T&>(mat).clone();
 }
 /*-------------------------------------------------*/
 template <typename T>
-GenericMap<T>& GenericMap<T>::operator=(const T& mat)
+GenericGuard<T>& GenericGuard<T>::operator=(const T& mat)
 {
 	m_obj = const_cast<T&>(mat).clone();
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T>
-const T& GenericMap<T>::GenericMap::obj() const
+const T& GenericGuard<T>::GenericGuard::obj() const
 {
 	return m_obj;
 }

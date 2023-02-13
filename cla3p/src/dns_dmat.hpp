@@ -11,7 +11,7 @@ namespace cla3p {
 namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
-class dMMap;
+class dMGuard;
 
 /**
  * @brief The double precision real dense matrix object
@@ -103,9 +103,9 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 		/**
 		 * @brief Clones a matrix
-		 * @return A view of the matrix
+		 * @return A guard of the matrix
 		 */
-		dMMap clone() const;
+		dMGuard clone() const;
 
 		/**
 		 * @brief Prints matrix information
@@ -232,7 +232,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] nj The number of columns of the requested block
 		 * @return A reference of a portion of the matrix
 		 */
-		dMMap rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		dMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Sets a submatrix
@@ -280,13 +280,13 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		static dMat wrap(uint_t nrows, uint_t ncols, real_t *values);
 
 		/**
-		 * @brief Creates a matrix map from aux data
+		 * @brief Creates a matrix guard from aux data
 		 * @param[in] nrows The number of matrix rows
 		 * @param[in] ncols The number of matrix columns
 		 * @param[in] values The array containing the matrix values in column-major ordering
-		 * @return A matrix map with values from aux bulk data
+		 * @return A matrix guard with values from aux bulk data
 		 */
-		static dMMap wrap(uint_t nrows, uint_t ncols, const real_t *values);
+		static dMGuard wrap(uint_t nrows, uint_t ncols, const real_t *values);
 
 		// 
 		// static initializers (advanced)
@@ -335,7 +335,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		static dMat wrap(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
 
 		/**
-		 * @brief Creates a matrix map from aux data
+		 * @brief Creates a matrix guard from aux data
 		 * @param[in] ptype The matrix property
 		 * @param[in] nrows The number of matrix rows
 		 * @param[in] ncols The number of matrix columns
@@ -343,25 +343,25 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMMap wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
+		static dMGuard wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
 };
 
 /*-------------------------------------------------*/
 
 /**
- * @brief The double precision real dense matrix view
+ * @brief The double precision real dense matrix guard
  */
-class dMMap : private GenericMap<dMat> {
+class dMGuard : private GenericGuard<dMat> {
 
 	public:
-		dMMap();
-		~dMMap();
-		dMMap(const dMMap&);
-		dMMap& operator=(const dMMap&);
+		dMGuard();
+		~dMGuard();
+		dMGuard(const dMGuard&);
+		dMGuard& operator=(const dMGuard&);
 
 		/**
-		 * @brief The matrix being viewed
-		 * @return The matrix being viewed
+		 * @brief The matrix being guarded
+		 * @return The matrix being guarded
 		 */
 		const dMat& mat() const;
 
