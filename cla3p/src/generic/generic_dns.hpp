@@ -128,7 +128,7 @@ class GenericObject : public UniversalMetaData {
 		void  blankCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
 		void   zeroCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
 		void randomCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
-		void    mapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		void   wrapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
 
 	private:
 		uint_t   m_ld    ;

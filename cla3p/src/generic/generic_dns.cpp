@@ -383,7 +383,7 @@ void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nrows, uint_t ncols
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::mapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
+void GenericObject<T,Tr>::wrapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
 {
 	clear();
 	creator(ptype, nrows, ncols, values, ld, bind);

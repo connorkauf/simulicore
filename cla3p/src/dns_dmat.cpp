@@ -239,28 +239,28 @@ dMat dMat::random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld)
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::map(uint_t nrows, uint_t ncols, ThisDatType *values)
+dMat dMat::wrap(uint_t nrows, uint_t ncols, ThisDatType *values)
 {
-	return map(prop_t::GENERAL, nrows, ncols, values, nrows, false);
+	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows, false);
 }
 /*-------------------------------------------------*/
-dMat dMat::map(prop_t ptype, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
+dMat dMat::wrap(prop_t ptype, uint_t nrows, uint_t ncols, ThisDatType *values, uint_t ld, bool bind)
 {
 	dMat ret;
-	ret.mapCreator(propcheck(ptype), nrows, ncols, values, ld, bind); 
+	ret.wrapCreator(propcheck(ptype), nrows, ncols, values, ld, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMMap dMat::map(uint_t nrows, uint_t ncols, const ThisDatType *values)
+dMMap dMat::wrap(uint_t nrows, uint_t ncols, const ThisDatType *values)
 {
-	return map(prop_t::GENERAL, nrows, ncols, values, nrows);
+	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows);
 }
 /*-------------------------------------------------*/
-dMMap dMat::map(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
+dMMap dMat::wrap(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDatType *values, uint_t ld)
 {
 	dMMap ret;
 	ThisMapType& trg = ret;
-	trg = dMat::map(propcheck(ptype), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
+	trg = dMat::wrap(propcheck(ptype), nrows, ncols, const_cast<ThisDatType*>(values), ld, false);
 	return ret;
 }
 /*-------------------------------------------------*/

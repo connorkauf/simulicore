@@ -277,7 +277,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] values The array containing the matrix values in column-major ordering
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMat map(uint_t nrows, uint_t ncols, real_t *values);
+		static dMat wrap(uint_t nrows, uint_t ncols, real_t *values);
 
 		/**
 		 * @brief Creates a matrix map from aux data
@@ -286,7 +286,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] values The array containing the matrix values in column-major ordering
 		 * @return A matrix map with values from aux bulk data
 		 */
-		static dMMap map(uint_t nrows, uint_t ncols, const real_t *values);
+		static dMMap wrap(uint_t nrows, uint_t ncols, const real_t *values);
 
 		// 
 		// static initializers (advanced)
@@ -332,7 +332,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate the data on destroy
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMat map(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
+		static dMat wrap(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
 
 		/**
 		 * @brief Creates a matrix map from aux data
@@ -343,7 +343,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMMap map(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
+		static dMMap wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
 };
 
 /*-------------------------------------------------*/
