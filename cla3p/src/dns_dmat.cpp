@@ -16,16 +16,15 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 using ThisDataType = real_t;
+using ThisRealType = real_t;
 using ThisObjectType = GenericObject<ThisDataType,ThisDataType>;
 using ThisGuardType = GenericGuard<dMat>;
 /*-------------------------------------------------*/
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::REAL, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/
-static const prop_t _pproper = prop_t::SYMMETRIC;
-/*-------------------------------------------------*/
 static prop_t propcheck(prop_t ptype)
 {
-	return (ptype == prop_t::HERMITIAN ? _pproper : ptype);
+	return (ptype == prop_t::HERMITIAN ? prop_t::SYMMETRIC : ptype);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
