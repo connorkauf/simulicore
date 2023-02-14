@@ -1,6 +1,10 @@
 #ifndef CLA3P_IMALLOC_HPP_
 #define CLA3P_IMALLOC_HPP_
 
+/** @file imalloc.hpp
+ * Basic allocation features
+ */
+
 #include "../types.hpp"
 
 /*-------------------------------------------------*/

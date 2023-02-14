@@ -1,6 +1,10 @@
 #ifndef CLA3P_PRM_MAT_HPP_
 #define CLA3P_PRM_MAT_HPP_
 
+/** @file prm_mat.hpp
+ * The permutation matrix definitions
+ */
+
 #include "types.hpp"
 #include "generic/universal.hpp"
 

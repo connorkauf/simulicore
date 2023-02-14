@@ -1,6 +1,10 @@
 #ifndef CLA3P_GENERIC_UNIVERSAL_HPP_
 #define CLA3P_GENERIC_UNIVERSAL_HPP_
 
+/** @file universal.hpp
+ * Basic object identification & meta data
+ */
+
 #include <string>
 
 #include "../types.hpp"

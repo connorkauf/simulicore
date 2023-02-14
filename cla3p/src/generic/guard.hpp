@@ -1,6 +1,10 @@
 #ifndef CLA3P_GUARD_HPP_
 #define CLA3P_GUARD_HPP_
 
+/** @file guard.hpp
+ * Guard class definitions
+ */
+
 #include "../types.hpp"
 
 /*-------------------------------------------------*/

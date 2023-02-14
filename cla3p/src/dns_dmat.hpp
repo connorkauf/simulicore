@@ -1,6 +1,10 @@
 #ifndef CLA3P_DNS_DMAT_HPP_
 #define CLA3P_DNS_DMAT_HPP_
 
+/** @file dns_dmat.hpp
+ * The double precision real dense matrix definitions
+ */
+
 #include <string>
 
 #include "types.hpp"
