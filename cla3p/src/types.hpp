@@ -1,8 +1,8 @@
 #ifndef CLA3P_TYPES_HPP_
 #define CLA3P_TYPES_HPP_
 
-/** @file types.hpp
- * Basic datatypes and enumerations declaration
+/** @file
+ * Basic datatypes and enumerations
  */
 
 #include <cstddef>
@@ -47,7 +47,7 @@ inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
 
 /**
  * @class Operation
- * @brief The operation type class
+ * @brief The operation class
  */
 class Operation {
 
@@ -58,22 +58,55 @@ class Operation {
 		 * @brief The operation type
 		 */
 		enum class op_t {
-			N = 0, /**< No operation */
-			T    , /**< Transpose */
-			C      /**< Conjugate transpose */
+			N = 0, /**< No operation, op(A) = A */
+			T    , /**< Transpose, op(A) = A^T */
+			C      /**< Conjugate transpose, op(A) = A^H */
 		};
 
+		/*
+		 * @brief The operation default constructor
+		 *
+		 * Constructs an empty operation
+		 */
 		Operation();
-		explicit Operation(op_t);
+
+		/*
+		 * @brief The operation member constructor
+		 *
+		 * Constructs an operation with type otype
+		 */
+		explicit Operation(op_t otype);
+
+		/*
+		 * @brief The operation default destructor
+		 *
+		 * Destructs the operation
+		 */
 		~Operation();
 
-		Operation(const Operation&);
-		Operation& operator=(const Operation&);
+		/*
+		 * @brief The operation copy constructor
+		 *
+		 * Constructs an operation with the copy of the contents of other
+		 */
+		Operation(const Operation& other);
+
+		/*
+		 * @brief The operation copy assignment operator
+		 *
+		 * Replaces the contents of operation with a copy of the contents of other
+		 */
+		Operation& operator=(const Operation& other);
 
 		/**
 		 * @brief The operation type
 		 */
 		op_t type() const;
+
+		/**
+		 * @brief The operation name
+		 */
+		const std::string& name() const;
 
 	private:
 		op_t m_type;
@@ -105,12 +138,40 @@ class Property {
 			HERMITIAN      /**< Hermitian matrix */
 		};
 
+		/*
+		 * @brief The property default constructor
+		 *
+		 * Constructs an empty property
+		 */
 		Property();
-		explicit Property(prop_t);
+
+		/*
+		 * @brief The property member constructor
+		 *
+		 * Constructs an property with type ptype
+		 */
+		explicit Property(prop_t ptype);
+
+		/*
+		 * @brief The property default destructor
+		 *
+		 * Destructs the property
+		 */
 		~Property();
 
-		Property(const Property&);
-		Property& operator=(const Property&);
+		/*
+		 * @brief The property copy constructor
+		 *
+		 * Constructs an property with the copy of the contents of other
+		 */
+		Property(const Property& other);
+
+		/*
+		 * @brief The property copy assignment operator
+		 *
+		 * Replaces the contents of property with a copy of the contents of other
+		 */
+		Property& operator=(const Property& other);
 
 		/**
 		 * @brief The property type
@@ -121,10 +182,30 @@ class Property {
 		 * @brief The property name
 		 */
 		const std::string& name() const;
+
+		/**
+		 * @brief Checks weather the property has a valid type
+		 */
 		bool is_valid() const;
+
+		/**
+		 * @brief Checks weather the property type is general
+		 */
 		bool is_general() const;
+
+		/**
+		 * @brief Checks weather the property type is symmetric
+		 */
 		bool is_symmetric() const;
+
+		/**
+		 * @brief Checks weather the property type is hermitian
+		 */
 		bool is_hermitian() const;
+
+		/**
+		 * @brief Checks weather the property type refers to the lower triangular part of a matrix
+		 */
 		bool is_lower() const;
 
 	private:
@@ -140,9 +221,16 @@ using prop_t = cla3p::Property::prop_t;
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-std::ostream& operator<<(std::ostream&, const cla3p::Property&);
+/**
+ * @brief Writes to os the type of op
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op);
+
+/**
+ * @brief Writes to os the type of prop
+ */
+std::ostream& operator<<(std::ostream& so, const cla3p::Property& prop);
 
 /*-------------------------------------------------*/
-
 
 #endif // CLA3P_TYPES_HPP_
