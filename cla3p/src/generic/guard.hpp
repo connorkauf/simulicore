@@ -66,7 +66,7 @@ Guard<T>& Guard<T>::operator=(const T& mat)
 }
 /*-------------------------------------------------*/
 template <typename T>
-const T& Guard<T>::Guard::obj() const
+const T& Guard<T>::obj() const
 {
 	return m_obj;
 }
