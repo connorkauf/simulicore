@@ -379,7 +379,6 @@ class RdMGuard : private Guard<RdMatrix> {
 
 /*-------------------------------------------------*/
 } // namespace dns
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 std::ostream& operator<<(std::ostream&, const cla3p::dns::RdMatrix&);
