@@ -1,7 +1,7 @@
 #ifndef CLA3P_GUARD_HPP_
 #define CLA3P_GUARD_HPP_
 
-/** @file guard.hpp
+/** @file
  * Guard class definitions
  */
 

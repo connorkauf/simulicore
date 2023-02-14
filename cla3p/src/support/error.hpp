@@ -1,7 +1,7 @@
 #ifndef CLA3P_ERROR_HPP_
 #define CLA3P_ERROR_HPP_
 
-/** @file error.hpp
+/** @file
  * Basic error control features
  */
 

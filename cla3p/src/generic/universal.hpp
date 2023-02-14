@@ -1,7 +1,7 @@
-#ifndef CLA3P_GENERIC_UNIVERSAL_HPP_
-#define CLA3P_GENERIC_UNIVERSAL_HPP_
+#ifndef CLA3P_UNIVERSAL_HPP_
+#define CLA3P_UNIVERSAL_HPP_
 
-/** @file universal.hpp
+/** @file
  * Basic object identification & meta data
  */
 
@@ -107,4 +107,4 @@ class UniversalMetaData {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_GENERIC_UNIVERSAL_HPP_
+#endif // CLA3P_UNIVERSAL_HPP_

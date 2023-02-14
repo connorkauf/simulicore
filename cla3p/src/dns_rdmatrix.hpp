@@ -1,7 +1,7 @@
 #ifndef CLA3P_DNS_RDMATRIX_HPP_
 #define CLA3P_DNS_RDMATRIX_HPP_
 
-/** @file dns_rdmatrix.hpp
+/** @file
  * The double precision real dense matrix definitions
  */
 

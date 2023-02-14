@@ -1,7 +1,7 @@
 #ifndef CLA3P_PRM_MAT_HPP_
 #define CLA3P_PRM_MAT_HPP_
 
-/** @file prm_mat.hpp
+/** @file
  * The permutation matrix definitions
  */
 
