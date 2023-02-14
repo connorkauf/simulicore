@@ -58,9 +58,9 @@ class Operation {
 		 * @brief The operation type
 		 */
 		enum class op_t {
-			N = 0, /**< No operation, op(A) = A */
-			T    , /**< Transpose, op(A) = A^T */
-			C      /**< Conjugate transpose, op(A) = A^H */
+			N = 0, /**< No operation: \f$op(A) = A\f$ */
+			T    , /**< Transpose operation: \f$op(A) = A^T\f$ */
+			C      /**< Conjugate transpose operation: \f$op(A) = A^H\f$ */
 		};
 
 		/*
