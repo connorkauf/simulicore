@@ -13,7 +13,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace prm { class pMat; }
+class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
 class RdMGuard;
@@ -162,53 +162,53 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] Q The right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		RdMatrix permute(const prm::pMat& P, const prm::pMat& Q) const;
+		RdMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
 
 		/**
 		 * @brief Permutes the rows a matrix
 		 * @param[in] P The left side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		RdMatrix permuteLeft(const prm::pMat& P) const;
+		RdMatrix permuteLeft(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes the columns a matrix
 		 * @param[in] Q The right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		RdMatrix permuteRight(const prm::pMat& Q) const;
+		RdMatrix permuteRight(const PermMatrix& Q) const;
 
 		/**
 		 * @brief Permutes a symmetric matrix
 		 * @param[in] P The left and right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		RdMatrix permute(const prm::pMat& P) const;
+		RdMatrix permute(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes a matrix in-place
 		 * @param[in] P The left side permutation matrix
 		 * @param[in] Q The right side permutation matrix
 		 */
-		void ipermute(const prm::pMat& P, const prm::pMat& Q);
+		void ipermute(const PermMatrix& P, const PermMatrix& Q);
 
 		/**
 		 * @brief Permutes the rows a matrix in-place
 		 * @param[in] P The left side permutation matrix
 		 */
-		void ipermuteLeft(const prm::pMat& P);
+		void ipermuteLeft(const PermMatrix& P);
 
 		/**
 		 * @brief Permutes the columns a matrix in-place
 		 * @param[in] Q The right side permutation matrix
 		 */
-		void ipermuteRight(const prm::pMat& Q);
+		void ipermuteRight(const PermMatrix& Q);
 
 		/**
 		 * @brief Permutes a symmetric matrix in-place
 		 * @param[in] P The left and right side permutation matrix
 		 */
-		void ipermute(const prm::pMat& P);
+		void ipermute(const PermMatrix& P);
 
 		/**
 		 * @brief Gets a submatrix copy

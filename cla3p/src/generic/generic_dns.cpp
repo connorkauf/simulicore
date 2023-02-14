@@ -13,7 +13,7 @@
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../support/imalloc.hpp"
-#include "../prm_mat.hpp"
+#include "../perm_matrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -255,7 +255,7 @@ void GenericObject<T,Tr>::ctransposeTo(GenericObject<T,Tr>& trg) const
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteTo(GenericObject<T,Tr>& trg, const prm::pMat& P, const prm::pMat& Q) const
+void GenericObject<T,Tr>::gePermuteTo(GenericObject<T,Tr>& trg, const PermMatrix& P, const PermMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), rsize(), csize(), P.size(), Q.size());
 
@@ -264,7 +264,7 @@ void GenericObject<T,Tr>::gePermuteTo(GenericObject<T,Tr>& trg, const prm::pMat&
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteToLeft(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+void GenericObject<T,Tr>::gePermuteToLeft(GenericObject<T,Tr>& trg, const PermMatrix& P) const
 {
 	perm_ge_op_consistency_check(prop().type(), rsize(), csize(), P.size(), csize());
 
@@ -273,7 +273,7 @@ void GenericObject<T,Tr>::gePermuteToLeft(GenericObject<T,Tr>& trg, const prm::p
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteToRight(GenericObject<T,Tr>& trg, const prm::pMat& Q) const
+void GenericObject<T,Tr>::gePermuteToRight(GenericObject<T,Tr>& trg, const PermMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), rsize(), csize(), rsize(), Q.size());
 
@@ -282,7 +282,7 @@ void GenericObject<T,Tr>::gePermuteToRight(GenericObject<T,Tr>& trg, const prm::
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::shPermuteTo(GenericObject<T,Tr>& trg, const prm::pMat& P) const
+void GenericObject<T,Tr>::shPermuteTo(GenericObject<T,Tr>& trg, const PermMatrix& P) const
 {
 	perm_syhe_op_consistency_check(prop().type(), rsize(), csize(), P.size(), P.size());
 
@@ -291,7 +291,7 @@ void GenericObject<T,Tr>::shPermuteTo(GenericObject<T,Tr>& trg, const prm::pMat&
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteIp(const prm::pMat& P, const prm::pMat& Q)
+void GenericObject<T,Tr>::gePermuteIp(const PermMatrix& P, const PermMatrix& Q)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteTo(tmp, P, Q);
@@ -299,7 +299,7 @@ void GenericObject<T,Tr>::gePermuteIp(const prm::pMat& P, const prm::pMat& Q)
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteIpLeft(const prm::pMat& P)
+void GenericObject<T,Tr>::gePermuteIpLeft(const PermMatrix& P)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteToLeft(tmp, P);
@@ -307,7 +307,7 @@ void GenericObject<T,Tr>::gePermuteIpLeft(const prm::pMat& P)
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::gePermuteIpRight(const prm::pMat& Q)
+void GenericObject<T,Tr>::gePermuteIpRight(const PermMatrix& Q)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteToRight(tmp, Q);
@@ -315,7 +315,7 @@ void GenericObject<T,Tr>::gePermuteIpRight(const prm::pMat& Q)
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::shPermuteIp(const prm::pMat& P)
+void GenericObject<T,Tr>::shPermuteIp(const PermMatrix& P)
 {
 	GenericObject<T,Tr> tmp;
 	shPermuteTo(tmp, P);

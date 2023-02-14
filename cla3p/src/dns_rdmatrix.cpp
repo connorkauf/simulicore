@@ -9,7 +9,7 @@
 #include "support/error.hpp"
 #include "support/error_internal.hpp"
 #include "support/utils.hpp"
-#include "prm_mat.hpp"
+#include "perm_matrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -142,38 +142,38 @@ RdMatrix RdMatrix::transpose() const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::permute(const prm::pMat& P, const prm::pMat& Q) const
+RdMatrix RdMatrix::permute(const PermMatrix& P, const PermMatrix& Q) const
 {
 	RdMatrix ret;
 	ThisObjectType::gePermuteTo(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::permuteLeft(const prm::pMat& P) const
+RdMatrix RdMatrix::permuteLeft(const PermMatrix& P) const
 {
 	RdMatrix ret;
 	ThisObjectType::gePermuteToLeft(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::permuteRight(const prm::pMat& Q) const
+RdMatrix RdMatrix::permuteRight(const PermMatrix& Q) const
 {
 	RdMatrix ret;
 	ThisObjectType::gePermuteToRight(ret, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::permute(const prm::pMat& P) const
+RdMatrix RdMatrix::permute(const PermMatrix& P) const
 {
 	RdMatrix ret;
 	ThisObjectType::shPermuteTo(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void RdMatrix::ipermute     (const prm::pMat& P, const prm::pMat& Q) { return ThisObjectType::gePermuteIp     (P, Q); }
-void RdMatrix::ipermuteLeft (const prm::pMat& P                    ) { return ThisObjectType::gePermuteIpLeft (P);    }
-void RdMatrix::ipermuteRight(const prm::pMat& Q                    ) { return ThisObjectType::gePermuteIpRight(Q);    }
-void RdMatrix::ipermute     (const prm::pMat& P                    ) { return ThisObjectType::shPermuteIp     (P);    }
+void RdMatrix::ipermute     (const PermMatrix& P, const PermMatrix& Q) { return ThisObjectType::gePermuteIp     (P, Q); }
+void RdMatrix::ipermuteLeft (const PermMatrix& P                    ) { return ThisObjectType::gePermuteIpLeft (P);    }
+void RdMatrix::ipermuteRight(const PermMatrix& Q                    ) { return ThisObjectType::gePermuteIpRight(Q);    }
+void RdMatrix::ipermute     (const PermMatrix& P                    ) { return ThisObjectType::shPermuteIp     (P);    }
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {

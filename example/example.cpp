@@ -6,7 +6,7 @@
 
 #include "cla3p/src/types.hpp"
 #include "cla3p/src/dns_rdmatrix.hpp"
-#include "cla3p/src/prm_mat.hpp"
+#include "cla3p/src/perm_matrix.hpp"
 
 #include "cla3p/src/support/error.hpp"
 #include "cla3p/src/support/error_internal.hpp"

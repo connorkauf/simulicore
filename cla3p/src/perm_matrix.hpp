@@ -1,5 +1,5 @@
-#ifndef CLA3P_PRM_MAT_HPP_
-#define CLA3P_PRM_MAT_HPP_
+#ifndef CLA3P_PERM_MATRIX_HPP_
+#define CLA3P_PERM_MATRIX_HPP_
 
 /** @file
  * The permutation matrix definitions
@@ -10,23 +10,22 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace prm {
 /*-------------------------------------------------*/
 
-class pMat : private UniversalMetaTypes, private UniversalMetaData {
+class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 
 	public:
-		pMat();
-		pMat(uint_t size);
-		~pMat();
+		PermMatrix();
+		PermMatrix(uint_t size);
+		~PermMatrix();
 
 		// no copy
-		pMat(const pMat&) = delete;
-		pMat& operator=(const pMat&) = delete;
+		PermMatrix(const PermMatrix&) = delete;
+		PermMatrix& operator=(const PermMatrix&) = delete;
 
 		// move
-		pMat(pMat&&);
-		pMat& operator=(pMat&&);
+		PermMatrix(PermMatrix&&);
+		PermMatrix& operator=(PermMatrix&&);
 
 		// non inherited args
 		uint_t        size  () const;
@@ -35,8 +34,8 @@ class pMat : private UniversalMetaTypes, private UniversalMetaData {
 
 		// callcable from empty
 		void clear();
-		pMat copy() const;
-		pMat move();
+		PermMatrix copy() const;
+		PermMatrix move();
 
 		void info(const std::string& msg = "") const;
 		void print() const;
@@ -48,8 +47,8 @@ class pMat : private UniversalMetaTypes, private UniversalMetaData {
 		// ...
 
 		// static initializers (basic)
-		static pMat init(uint_t size);
-		static pMat random(uint_t size);
+		static PermMatrix init(uint_t size);
+		static PermMatrix random(uint_t size);
 
 	private:
 		uint_t *m_values;
@@ -63,8 +62,7 @@ class pMat : private UniversalMetaTypes, private UniversalMetaData {
 };
 
 /*-------------------------------------------------*/
-} // namespace prm
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_PRM_MAT_HPP_
+#endif // CLA3P_PERM_MATRIX_HPP_

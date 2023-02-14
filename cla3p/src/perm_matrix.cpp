@@ -1,5 +1,5 @@
 // this file inc
-#include "prm_mat.hpp"
+#include "perm_matrix.hpp"
 
 // system
 #include <iostream>
@@ -16,7 +16,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace prm {
 /*-------------------------------------------------*/
 #if defined (CLA3P_I64)
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::UINT, PrecisionType::DOUBLE)
@@ -24,33 +23,33 @@ namespace prm {
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::UINT, PrecisionType::SINGLE)
 #endif
 /*-------------------------------------------------*/
-pMat::pMat()
+PermMatrix::PermMatrix()
 	:
 		UniversalConstructor()
 {
 	defaults();
 }
 /*-------------------------------------------------*/
-pMat::pMat(uint_t size)
+PermMatrix::PermMatrix(uint_t size)
 	:
 		UniversalConstructor()
 {
 	blankCreator(size);
 }
 /*-------------------------------------------------*/
-pMat::~pMat()
+PermMatrix::~PermMatrix()
 {
 	clear();
 }
 /*-------------------------------------------------*/
-pMat::pMat(pMat&& src)
+PermMatrix::PermMatrix(PermMatrix&& src)
 	:
 		UniversalConstructor()
 {
 	*this = src.move();
 }
 /*-------------------------------------------------*/
-pMat& pMat::operator=(pMat&& src)
+PermMatrix& PermMatrix::operator=(PermMatrix&& src)
 {
 	*this = src.move();
 	return *this;
@@ -58,14 +57,14 @@ pMat& pMat::operator=(pMat&& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-void pMat::defaults()
+void PermMatrix::defaults()
 {
 	UniversalMetaData::defaults();
 
 	setValues(nullptr);
 }
 /*-------------------------------------------------*/
-void pMat::creator(uint_t size, uint_t *values, bool owner)
+void PermMatrix::creator(uint_t size, uint_t *values, bool owner)
 {
 	uint_t rsize = size;
 	uint_t csize = 1;
@@ -79,41 +78,41 @@ void pMat::creator(uint_t size, uint_t *values, bool owner)
 	setValues(values);
 }
 /*-------------------------------------------------*/
-void pMat::blankCreator(uint_t size)
+void PermMatrix::blankCreator(uint_t size)
 {
 	clear();
 	uint_t *p = static_cast<uint_t*>(i_malloc(size, sizeof(uint_t)));
 	creator(size, p, true);
 }
 /*-------------------------------------------------*/
-pMat pMat::init(uint_t size)
+PermMatrix PermMatrix::init(uint_t size)
 {
-	pMat ret;
+	PermMatrix ret;
 	ret.blankCreator(size);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void pMat::randomCreator(uint_t size)
+void PermMatrix::randomCreator(uint_t size)
 {
 	blankCreator(size);
 	fill_random_perm(this->size(), this->values());
 }
 /*-------------------------------------------------*/
-pMat pMat::random(uint_t size)
+PermMatrix PermMatrix::random(uint_t size)
 {
-	pMat ret;
+	PermMatrix ret;
 	ret.randomCreator(size);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void pMat::setValues(uint_t *values) { m_values = values; }
+void PermMatrix::setValues(uint_t *values) { m_values = values; }
 /*-------------------------------------------------*/
-uint_t pMat::size() const { return rsize(); }
+uint_t PermMatrix::size() const { return rsize(); }
 /*-------------------------------------------------*/
-uint_t*       pMat::values()       { return m_values; }
-const uint_t* pMat::values() const { return m_values; }
+uint_t*       PermMatrix::values()       { return m_values; }
+const uint_t* PermMatrix::values() const { return m_values; }
 /*-------------------------------------------------*/
-void pMat::clear()
+void PermMatrix::clear()
 {
 	if(owner()) {
 		i_free(values());
@@ -122,24 +121,24 @@ void pMat::clear()
 	defaults();
 }
 /*-------------------------------------------------*/
-pMat pMat::copy() const
+PermMatrix PermMatrix::copy() const
 {
-	pMat ret;
+	PermMatrix ret;
 	ret.blankCreator(size());
 	std::memcpy(ret.values(), values(), size() * sizeof(uint_t));
 	return ret.move();
 }
 /*-------------------------------------------------*/
-pMat pMat::move()
+PermMatrix PermMatrix::move()
 {
-	pMat ret;
+	PermMatrix ret;
 	ret.creator(size(), values(), owner());
 	unbind();
 	clear();
 	return ret;
 }
 /*-------------------------------------------------*/
-void pMat::info(const std::string& msg) const
+void PermMatrix::info(const std::string& msg) const
 {
   std::string top;
   std::string bottom;
@@ -158,7 +157,7 @@ void pMat::info(const std::string& msg) const
   std::cout << bottom << "\n";
 }
 /*-------------------------------------------------*/
-void pMat::print() const
+void PermMatrix::print() const
 {
 	nint_t nd = inumlen(size());
 	for(uint_t i = 0; i < size(); i++) {
@@ -166,7 +165,7 @@ void pMat::print() const
 	} // i
 }
 /*-------------------------------------------------*/
-uint_t& pMat::operator()(uint_t i)
+uint_t& PermMatrix::operator()(uint_t i)
 {
 	if(i >= size()) {
 		throw OutOfBounds(out_of_bounds_message(size(),i));
@@ -175,7 +174,7 @@ uint_t& pMat::operator()(uint_t i)
   return values()[i];
 }
 /*-------------------------------------------------*/
-const uint_t& pMat::operator()(uint_t i) const
+const uint_t& PermMatrix::operator()(uint_t i) const
 {
 	if(i >= size()) {
 		throw OutOfBounds(out_of_bounds_message(size(),i));
@@ -186,6 +185,5 @@ const uint_t& pMat::operator()(uint_t i) const
 /*-------------------------------------------------*/
 #undef UniversalConstructor
 /*-------------------------------------------------*/
-} // namespace prm
 } // namespace cla3p
 /*-------------------------------------------------*/

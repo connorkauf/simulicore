@@ -13,7 +13,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace prm { class pMat; }
+class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -114,15 +114,15 @@ class GenericObject : public UniversalMetaData {
 		void transposeTo(GenericObject<T,Tr>&) const;
 		void ctransposeTo(GenericObject<T,Tr>&) const;
 
-		void gePermuteTo(GenericObject<T,Tr>&, const prm::pMat& P, const prm::pMat& Q) const;
-		void gePermuteToLeft(GenericObject<T,Tr>&, const prm::pMat& P) const;
-		void gePermuteToRight(GenericObject<T,Tr>&, const prm::pMat& Q) const;
-		void shPermuteTo(GenericObject<T,Tr>&, const prm::pMat& P) const;
+		void gePermuteTo(GenericObject<T,Tr>&, const PermMatrix& P, const PermMatrix& Q) const;
+		void gePermuteToLeft(GenericObject<T,Tr>&, const PermMatrix& P) const;
+		void gePermuteToRight(GenericObject<T,Tr>&, const PermMatrix& Q) const;
+		void shPermuteTo(GenericObject<T,Tr>&, const PermMatrix& P) const;
 
-		void gePermuteIp(const prm::pMat& P, const prm::pMat& Q);
-		void gePermuteIpLeft(const prm::pMat& P);
-		void gePermuteIpRight(const prm::pMat& Q);
-		void shPermuteIp(const prm::pMat& P);
+		void gePermuteIp(const PermMatrix& P, const PermMatrix& Q);
+		void gePermuteIpLeft(const PermMatrix& P);
+		void gePermuteIpRight(const PermMatrix& Q);
+		void shPermuteIp(const PermMatrix& P);
 
 		void getBlock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		void getBlockReference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
