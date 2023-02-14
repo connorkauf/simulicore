@@ -30,11 +30,11 @@ PermMatrix::PermMatrix()
 	defaults();
 }
 /*-------------------------------------------------*/
-PermMatrix::PermMatrix(uint_t size)
+PermMatrix::PermMatrix(uint_t n)
 	:
 		UniversalConstructor()
 {
-	blankCreator(size);
+	blankCreator(n);
 }
 /*-------------------------------------------------*/
 PermMatrix::~PermMatrix()
@@ -42,18 +42,20 @@ PermMatrix::~PermMatrix()
 	clear();
 }
 /*-------------------------------------------------*/
-PermMatrix::PermMatrix(PermMatrix&& src)
+PermMatrix::PermMatrix(PermMatrix&& other)
 	:
 		UniversalConstructor()
 {
-	*this = src.move();
+	*this = other.move();
 }
 /*-------------------------------------------------*/
-PermMatrix& PermMatrix::operator=(PermMatrix&& src)
+PermMatrix& PermMatrix::operator=(PermMatrix&& other)
 {
-	*this = src.move();
+	*this = other.move();
 	return *this;
 }
+/*-------------------------------------------------*/
+#undef UniversalConstructor
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -64,48 +66,48 @@ void PermMatrix::defaults()
 	setValues(nullptr);
 }
 /*-------------------------------------------------*/
-void PermMatrix::creator(uint_t size, uint_t *values, bool owner)
+void PermMatrix::creator(uint_t n, uint_t *vals, bool owner)
 {
-	uint_t rsize = size;
+	uint_t rsize = n;
 	uint_t csize = 1;
 
-	dns_consistency_check(prop_t::GENERAL, rsize, csize, values, size);
+	dns_consistency_check(prop_t::GENERAL, rsize, csize, vals, rsize);
 
 	// meta data
 	setAllMeta(rsize, csize, owner);
 
 	// additional
-	setValues(values);
+	setValues(vals);
 }
 /*-------------------------------------------------*/
-void PermMatrix::blankCreator(uint_t size)
+void PermMatrix::blankCreator(uint_t n)
 {
 	clear();
-	uint_t *p = static_cast<uint_t*>(i_malloc(size, sizeof(uint_t)));
-	creator(size, p, true);
+	uint_t *p = static_cast<uint_t*>(i_malloc(n, sizeof(uint_t)));
+	creator(n, p, true);
 }
 /*-------------------------------------------------*/
-PermMatrix PermMatrix::init(uint_t size)
+PermMatrix PermMatrix::init(uint_t n)
 {
 	PermMatrix ret;
-	ret.blankCreator(size);
+	ret.blankCreator(n);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void PermMatrix::randomCreator(uint_t size)
+void PermMatrix::randomCreator(uint_t n)
 {
-	blankCreator(size);
+	blankCreator(n);
 	fill_random_perm(this->size(), this->values());
 }
 /*-------------------------------------------------*/
-PermMatrix PermMatrix::random(uint_t size)
+PermMatrix PermMatrix::random(uint_t n)
 {
 	PermMatrix ret;
-	ret.randomCreator(size);
+	ret.randomCreator(n);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void PermMatrix::setValues(uint_t *values) { m_values = values; }
+void PermMatrix::setValues(uint_t *vals) { m_values = vals; }
 /*-------------------------------------------------*/
 uint_t PermMatrix::size() const { return rsize(); }
 /*-------------------------------------------------*/
@@ -182,8 +184,6 @@ const uint_t& PermMatrix::operator()(uint_t i) const
 
   return values()[i];
 }
-/*-------------------------------------------------*/
-#undef UniversalConstructor
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
