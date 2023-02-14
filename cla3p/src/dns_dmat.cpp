@@ -18,7 +18,7 @@ namespace dns {
 using ThisDataType = real_t;
 using ThisRealType = real_t;
 using ThisObjectType = GenericObject<ThisDataType,ThisDataType>;
-using ThisGuardType = GenericGuard<dMat>;
+using ThisGuardType = Guard<dMat>;
 /*-------------------------------------------------*/
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::REAL, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/

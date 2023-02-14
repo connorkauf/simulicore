@@ -5,6 +5,7 @@
 
 #include "types.hpp"
 #include "generic/generic_dns.hpp"
+#include "generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -355,7 +356,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
  * The matrix guard class is a matrix wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class dMGuard : private GenericGuard<dMat> {
+class dMGuard : private Guard<dMat> {
 
 	public:
 		dMGuard();

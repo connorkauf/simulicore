@@ -139,69 +139,6 @@ class GenericObject : public UniversalMetaData {
 		void creator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
 };
 /*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template <typename T>
-class GenericGuard {
-
-	public:
-		GenericGuard();
-		~GenericGuard();
-		GenericGuard(const GenericGuard<T>&);
-		GenericGuard<T>& operator=(const GenericGuard<T>&);
-		GenericGuard(const T&);
-		GenericGuard<T>& operator=(const T&);
-
-	protected:
-		const T& obj() const;
-
-	protected:
-		T m_obj;
-};
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>::GenericGuard()
-{
-}
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>::~GenericGuard()
-{
-	m_obj.clear();
-}
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>::GenericGuard(const GenericGuard<T>& src)
-{
-	*this = src.obj();
-}
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>& GenericGuard<T>::operator=(const GenericGuard<T>& src)
-{
-	*this = src.obj();
-	return *this;
-}
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>::GenericGuard(const T& mat)
-{
-	m_obj = const_cast<T&>(mat).clone();
-}
-/*-------------------------------------------------*/
-template <typename T>
-GenericGuard<T>& GenericGuard<T>::operator=(const T& mat)
-{
-	m_obj = const_cast<T&>(mat).clone();
-	return *this;
-}
-/*-------------------------------------------------*/
-template <typename T>
-const T& GenericGuard<T>::GenericGuard::obj() const
-{
-	return m_obj;
-}
-/*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
