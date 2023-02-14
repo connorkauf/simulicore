@@ -3,13 +3,13 @@
 #-----------------------------------------------
 set(CLA3P_SRC
 	types.cpp
-	dns_dmat.cpp
+	dns_rdmatrix.cpp
 	prm_mat.cpp
 	)
 
 set(CLA3P_HPP
 	types.hpp
-	dns_dmat.hpp
+	dns_rdmatrix.hpp
 	prm_mat.hpp
 	)
 

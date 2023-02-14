@@ -1,5 +1,5 @@
 // this file inc
-#include "dns_dmat.hpp"
+#include "dns_rdmatrix.hpp"
 
 // system
 
@@ -18,7 +18,7 @@ namespace dns {
 using ThisDataType = real_t;
 using ThisRealType = real_t;
 using ThisObjectType = GenericObject<ThisDataType,ThisDataType>;
-using ThisGuardType = Guard<dMat>;
+using ThisGuardType = Guard<RdMatrix>;
 /*-------------------------------------------------*/
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::REAL, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/
@@ -29,91 +29,93 @@ static prop_t propcheck(prop_t ptype)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-dMat::dMat()
+RdMatrix::RdMatrix()
 	: 
 		UniversalConstructor()
 {
 }
 /*-------------------------------------------------*/
-dMat::dMat(uint_t nrows, uint_t ncols)
+RdMatrix::RdMatrix(uint_t nrows, uint_t ncols)
 	:
 		UniversalConstructor(),
 		ThisObjectType(prop_t::GENERAL, nrows, ncols, nrows, false)
 {
 }
 /*-------------------------------------------------*/
-dMat::dMat(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
+RdMatrix::RdMatrix(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
 	:
 		UniversalConstructor(),
 		ThisObjectType(propcheck(ptype), nrows, ncols, ld, wipe)
 {
 }
 /*-------------------------------------------------*/
-dMat::~dMat()
+RdMatrix::~RdMatrix()
 {
 }
 /*-------------------------------------------------*/
-dMat::dMat(dMat&& src)
+RdMatrix::RdMatrix(RdMatrix&& src)
 	:
 		UniversalConstructor(),
 		ThisObjectType(std::move(src))
 {
 }
 /*-------------------------------------------------*/
-dMat& dMat::operator=(dMat&& src)
+RdMatrix& RdMatrix::operator=(RdMatrix&& src)
 {
 	ThisObjectType::operator=(std::move(src));
 	return *this;
 }
 /*-------------------------------------------------*/
+#undef UniversalConstructor
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-uint_t dMat::nrows() const { return rsize(); }
-uint_t dMat::ncols() const { return csize(); }
 /*-------------------------------------------------*/
-uint_t          dMat::ld  () const { return ThisObjectType::ld  (); }
-const Property& dMat::prop() const { return ThisObjectType::prop(); }
+uint_t RdMatrix::nrows() const { return rsize(); }
+uint_t RdMatrix::ncols() const { return csize(); }
 /*-------------------------------------------------*/
-dMat dMat::copy() const 
+uint_t          RdMatrix::ld  () const { return ThisObjectType::ld  (); }
+const Property& RdMatrix::prop() const { return ThisObjectType::prop(); }
+/*-------------------------------------------------*/
+RdMatrix RdMatrix::copy() const 
 { 
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::copyTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::move()
+RdMatrix RdMatrix::move()
 { 
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::moveTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-dMat dMat::clone()
+RdMatrix RdMatrix::clone()
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::cloneTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMGuard dMat::clone() const
+RdMGuard RdMatrix::clone() const
 {
-	dMGuard ret;
+	RdMGuard ret;
 	ThisGuardType& trg = ret;
 	trg = *this;
 	return ret;
 }
 /*-------------------------------------------------*/
-void dMat::info(const std::string& msg) const
+void RdMatrix::info(const std::string& msg) const
 { 
 	ThisObjectType::info(true, msg, objTypeName(), dataTypeName(), precTypeName()); 
 }
 /*-------------------------------------------------*/
-real_t dMat::normOne() const { return ThisObjectType::normOne(); }
-real_t dMat::normInf() const { return ThisObjectType::normInf(); }
-real_t dMat::normMax() const { return ThisObjectType::normMax(); }
-real_t dMat::normFro() const { return ThisObjectType::normFro(); }
+real_t RdMatrix::normOne() const { return ThisObjectType::normOne(); }
+real_t RdMatrix::normInf() const { return ThisObjectType::normInf(); }
+real_t RdMatrix::normMax() const { return ThisObjectType::normMax(); }
+real_t RdMatrix::normFro() const { return ThisObjectType::normFro(); }
 /*-------------------------------------------------*/
-ThisDataType& dMat::operator()(uint_t i, uint_t j)
+ThisDataType& RdMatrix::operator()(uint_t i, uint_t j)
 {
 	if(i >= nrows() || j >= ncols()) {
 		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
@@ -122,7 +124,7 @@ ThisDataType& dMat::operator()(uint_t i, uint_t j)
 	return ThisObjectType::operator()(i,j);
 }
 /*-------------------------------------------------*/
-const ThisDataType& dMat::operator()(uint_t i, uint_t j) const
+const ThisDataType& RdMatrix::operator()(uint_t i, uint_t j) const
 {
 	if(i >= nrows() || j >= ncols()) {
 		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
@@ -133,170 +135,174 @@ const ThisDataType& dMat::operator()(uint_t i, uint_t j) const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-dMat dMat::transpose() const
+RdMatrix RdMatrix::transpose() const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::transposeTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const prm::pMat& P, const prm::pMat& Q) const
+RdMatrix RdMatrix::permute(const prm::pMat& P, const prm::pMat& Q) const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::gePermuteTo(ret, P, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permuteLeft(const prm::pMat& P) const
+RdMatrix RdMatrix::permuteLeft(const prm::pMat& P) const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::gePermuteToLeft(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permuteRight(const prm::pMat& Q) const
+RdMatrix RdMatrix::permuteRight(const prm::pMat& Q) const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::gePermuteToRight(ret, Q);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::permute(const prm::pMat& P) const
+RdMatrix RdMatrix::permute(const prm::pMat& P) const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::shPermuteTo(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void dMat::ipermute     (const prm::pMat& P, const prm::pMat& Q) { return ThisObjectType::gePermuteIp     (P, Q); }
-void dMat::ipermuteLeft (const prm::pMat& P                    ) { return ThisObjectType::gePermuteIpLeft (P);    }
-void dMat::ipermuteRight(const prm::pMat& Q                    ) { return ThisObjectType::gePermuteIpRight(Q);    }
-void dMat::ipermute     (const prm::pMat& P                    ) { return ThisObjectType::shPermuteIp     (P);    }
+void RdMatrix::ipermute     (const prm::pMat& P, const prm::pMat& Q) { return ThisObjectType::gePermuteIp     (P, Q); }
+void RdMatrix::ipermuteLeft (const prm::pMat& P                    ) { return ThisObjectType::gePermuteIpLeft (P);    }
+void RdMatrix::ipermuteRight(const prm::pMat& Q                    ) { return ThisObjectType::gePermuteIpRight(Q);    }
+void RdMatrix::ipermute     (const prm::pMat& P                    ) { return ThisObjectType::shPermuteIp     (P);    }
 /*-------------------------------------------------*/
-dMat dMat::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+RdMatrix RdMatrix::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::getBlock(ret, ibgn, jbgn, ni, nj);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+RdMatrix RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
-	dMat ret;
+	RdMatrix ret;
 	ThisObjectType::getBlockReference(ret, ibgn, jbgn, ni, nj);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMGuard dMat::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+RdMGuard RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	dMGuard ret;
+	RdMGuard ret;
 	ThisGuardType& trg = ret;
-	trg = const_cast<dMat&>(*this).rblock(ibgn, jbgn, ni, nj);
+	trg = const_cast<RdMatrix&>(*this).rblock(ibgn, jbgn, ni, nj);
 	return ret;
 }
 /*-------------------------------------------------*/
-void dMat::setBlock(uint_t ibgn, uint_t jbgn, const dMat& src)
+void RdMatrix::setBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src)
 {
 	ThisObjectType::setBlock(src, ibgn, jbgn);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-dMat dMat::init(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::init(uint_t nrows, uint_t ncols) 
 { 
 	return init(prop_t::GENERAL, nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
-dMat dMat::init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	dMat ret;
+	RdMatrix ret;
 	ret.blankCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::zero(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::zero(uint_t nrows, uint_t ncols) 
 { 
 	return zero(prop_t::GENERAL, nrows, ncols, nrows) ;
 }
 /*-------------------------------------------------*/
-dMat dMat::zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	dMat ret;
+	RdMatrix ret;
 	ret.zeroCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::random(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::random(uint_t nrows, uint_t ncols) 
 { 
 	return random(prop_t::GENERAL, nrows, ncols, nrows);
 }
 /*-------------------------------------------------*/
-dMat dMat::random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
 { 
-	dMat ret;
+	RdMatrix ret;
 	ret.randomCreator(propcheck(ptype), nrows, ncols, ld); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMat dMat::wrap(uint_t nrows, uint_t ncols, ThisDataType *values)
+RdMatrix RdMatrix::wrap(uint_t nrows, uint_t ncols, ThisDataType *values)
 {
 	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows, false);
 }
 /*-------------------------------------------------*/
-dMat dMat::wrap(prop_t ptype, uint_t nrows, uint_t ncols, ThisDataType *values, uint_t ld, bool bind)
+RdMatrix RdMatrix::wrap(prop_t ptype, uint_t nrows, uint_t ncols, ThisDataType *values, uint_t ld, bool bind)
 {
-	dMat ret;
+	RdMatrix ret;
 	ret.wrapCreator(propcheck(ptype), nrows, ncols, values, ld, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dMGuard dMat::wrap(uint_t nrows, uint_t ncols, const ThisDataType *values)
+RdMGuard RdMatrix::wrap(uint_t nrows, uint_t ncols, const ThisDataType *values)
 {
 	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows);
 }
 /*-------------------------------------------------*/
-dMGuard dMat::wrap(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDataType *values, uint_t ld)
+RdMGuard RdMatrix::wrap(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDataType *values, uint_t ld)
 {
-	dMGuard ret;
+	RdMGuard ret;
 	ThisGuardType& trg = ret;
-	trg = dMat::wrap(propcheck(ptype), nrows, ncols, const_cast<ThisDataType*>(values), ld, false);
+	trg = RdMatrix::wrap(propcheck(ptype), nrows, ncols, const_cast<ThisDataType*>(values), ld, false);
 	return ret;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-dMGuard::dMGuard()
+RdMGuard::RdMGuard()
 {
 }
 /*-------------------------------------------------*/
-dMGuard::~dMGuard()
+RdMGuard::~RdMGuard()
 {
 }
 /*-------------------------------------------------*/
-dMGuard::dMGuard(const dMGuard& src)
+RdMGuard::RdMGuard(const RdMGuard& src)
 	:ThisGuardType(src)
 {
 }
 /*-------------------------------------------------*/
-dMGuard& dMGuard::operator=(const dMGuard& src)
+RdMGuard& RdMGuard::operator=(const RdMGuard& src)
 {
 	ThisGuardType::operator=(src);
 	return *this;
 }
 /*-------------------------------------------------*/
-const dMat& dMGuard::mat() const
+const RdMatrix& RdMGuard::mat() const
 { 
 	return ThisGuardType::obj(); 
 }
 /*-------------------------------------------------*/
-#undef UniversalConstructor
-/*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::dMat& mat)
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMatrix& mat)
 {
 	os << mat.printToString();
+	return os;
+}
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMGuard& grd)
+{
+	os << grd.mat().printToString();
 	return os;
 }
 /*-------------------------------------------------*/

@@ -1,7 +1,7 @@
-#ifndef CLA3P_DNS_DMAT_HPP_
-#define CLA3P_DNS_DMAT_HPP_
+#ifndef CLA3P_DNS_RDMATRIX_HPP_
+#define CLA3P_DNS_RDMATRIX_HPP_
 
-/** @file dns_dmat.hpp
+/** @file dns_rdmatrix.hpp
  * The double precision real dense matrix definitions
  */
 
@@ -16,26 +16,26 @@ namespace cla3p {
 namespace prm { class pMat; }
 namespace dns {
 /*-------------------------------------------------*/
-class dMGuard;
+class RdMGuard;
 
 /**
- * @class dMat
+ * @class RdMatrix
  * @brief The double precision real dense matrix object
  */
-class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
+class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 	public:
 		/**
 		 * @brief The default constructor
 		 */
-		dMat();
+		RdMatrix();
 
 		/**
 		 * @brief The dimensional constructor
 		 * @param[in] nrows The number of matrix rows
 		 * @param[in] ncols The number of matrix columns
 		 */
-		dMat(uint_t nrows, uint_t ncols);
+		RdMatrix(uint_t nrows, uint_t ncols);
 
 		/**
 		 * @brief The advanced constructor
@@ -45,17 +45,17 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @param[in] wipe Set all matrix values to zero
 		 */
-		dMat(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
+		RdMatrix(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
 
-		~dMat();
+		~RdMatrix();
 
 		// no copy
-		dMat(const dMat&) = delete;
-		dMat& operator=(const dMat&) = delete;
+		RdMatrix(const RdMatrix&) = delete;
+		RdMatrix& operator=(const RdMatrix&) = delete;
 
 		// move
-		dMat(dMat&&);
-		dMat& operator=(dMat&&);
+		RdMatrix(RdMatrix&&);
+		RdMatrix& operator=(RdMatrix&&);
 
 		// 
 		// non inherited args
@@ -93,25 +93,25 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @brief Copies a matrix
 		 * @return A deep copy of the matrix
 		 */
-		dMat copy() const;
+		RdMatrix copy() const;
 
 		/**
 		 * @brief Moves a matrix
 		 * @return A shallow copy of the matrix, original matrix is destroyed
 		 */
-		dMat move();
+		RdMatrix move();
 
 		/**
 		 * @brief Clones a matrix
 		 * @return A shallow copy of the matrix
 		 */
-		dMat clone();
+		RdMatrix clone();
 
 		/**
 		 * @brief Clones a matrix
 		 * @return A guard of the matrix
 		 */
-		dMGuard clone() const;
+		RdMGuard clone() const;
 
 		/**
 		 * @brief Prints matrix information
@@ -154,7 +154,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @brief Transposes a matrix
 		 * @return The transpose of the matrix
 		 */
-		dMat transpose() const;
+		RdMatrix transpose() const;
 
 		/**
 		 * @brief Permutes a matrix
@@ -162,28 +162,28 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] Q The right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		dMat permute(const prm::pMat& P, const prm::pMat& Q) const;
+		RdMatrix permute(const prm::pMat& P, const prm::pMat& Q) const;
 
 		/**
 		 * @brief Permutes the rows a matrix
 		 * @param[in] P The left side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		dMat permuteLeft(const prm::pMat& P) const;
+		RdMatrix permuteLeft(const prm::pMat& P) const;
 
 		/**
 		 * @brief Permutes the columns a matrix
 		 * @param[in] Q The right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		dMat permuteRight(const prm::pMat& Q) const;
+		RdMatrix permuteRight(const prm::pMat& Q) const;
 
 		/**
 		 * @brief Permutes a symmetric matrix
 		 * @param[in] P The left and right side permutation matrix
 		 * @return The permuted copy of the matrix
 		 */
-		dMat permute(const prm::pMat& P) const;
+		RdMatrix permute(const prm::pMat& P) const;
 
 		/**
 		 * @brief Permutes a matrix in-place
@@ -218,7 +218,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] nj The number of columns of the requested block
 		 * @return A copy of a portion of the matrix
 		 */
-		dMat block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		RdMatrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Gets a submatrix reference
@@ -228,7 +228,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] nj The number of columns of the requested block
 		 * @return A reference of a portion of the matrix
 		 */
-		dMat rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		RdMatrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
 		 * @brief Gets a submatrix reference
@@ -238,7 +238,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] nj The number of columns of the requested block
 		 * @return A reference of a portion of the matrix
 		 */
-		dMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		RdMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Sets a submatrix
@@ -246,7 +246,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] jbgn The matrix column that src will be placed
 		 * @param[in] src The matrix to be placed
 		 */
-		void setBlock(uint_t ibgn, uint_t jbgn, const dMat& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src);
 
 		// 
 		// static initializers (basic)
@@ -258,7 +258,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ncols The number of matrix columns
 		 * @return A matrix with uninitialized values
 		 */
-		static dMat init(uint_t nrows, uint_t ncols);
+		static RdMatrix init(uint_t nrows, uint_t ncols);
 
 		/**
 		 * @brief Creates a zero matrix
@@ -266,7 +266,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ncols The number of matrix columns
 		 * @return A matrix with zero values
 		 */
-		static dMat zero(uint_t nrows, uint_t ncols);
+		static RdMatrix zero(uint_t nrows, uint_t ncols);
 
 		/**
 		 * @brief Creates a random matrix
@@ -274,7 +274,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ncols The number of matrix columns
 		 * @return A matrix with random values in (0,1)
 		 */
-		static dMat random(uint_t nrows, uint_t ncols);
+		static RdMatrix random(uint_t nrows, uint_t ncols);
 
 		/**
 		 * @brief Creates a matrix from aux data
@@ -283,7 +283,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] values The array containing the matrix values in column-major ordering
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMat wrap(uint_t nrows, uint_t ncols, real_t *values);
+		static RdMatrix wrap(uint_t nrows, uint_t ncols, real_t *values);
 
 		/**
 		 * @brief Creates a matrix guard from aux data
@@ -292,7 +292,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] values The array containing the matrix values in column-major ordering
 		 * @return A matrix guard with values from aux bulk data
 		 */
-		static dMGuard wrap(uint_t nrows, uint_t ncols, const real_t *values);
+		static RdMGuard wrap(uint_t nrows, uint_t ncols, const real_t *values);
 
 		// 
 		// static initializers (advanced)
@@ -306,7 +306,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with uninitialized values
 		 */
-		static dMat init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
 
 		/**
 		 * @brief Creates a zero matrix
@@ -316,7 +316,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with zero values
 		 */
-		static dMat zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
 
 		/**
 		 * @brief Creates a random matrix
@@ -326,7 +326,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with random values in (0,1)
 		 */
-		static dMat random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
 
 		/**
 		 * @brief Creates a matrix from aux data
@@ -338,7 +338,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate the data on destroy
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMat wrap(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
+		static RdMatrix wrap(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
 
 		/**
 		 * @brief Creates a matrix guard from aux data
@@ -349,7 +349,7 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 		 * @param[in] ld The leading dimension of the matrix
 		 * @return A matrix with values from aux bulk data
 		 */
-		static dMGuard wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
+		static RdMGuard wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
 };
 
 /*-------------------------------------------------*/
@@ -360,28 +360,30 @@ class dMat : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
  * The matrix guard class is a matrix wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class dMGuard : private Guard<dMat> {
+class RdMGuard : private Guard<RdMatrix> {
 
 	public:
-		dMGuard();
-		~dMGuard();
-		dMGuard(const dMGuard&);
-		dMGuard& operator=(const dMGuard&);
+		RdMGuard();
+		~RdMGuard();
+		RdMGuard(const RdMGuard&);
+		RdMGuard& operator=(const RdMGuard&);
 
 		/**
 		 * @brief The matrix being guarded
 		 * @return The matrix being guarded
 		 */
-		const dMat& mat() const;
+		const RdMatrix& mat() const;
 
-		friend class dMat;
+		friend class RdMatrix;
 };
 
 /*-------------------------------------------------*/
 } // namespace dns
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
-std::ostream& operator<<(std::ostream&, const cla3p::dns::dMat&);
+std::ostream& operator<<(std::ostream&, const cla3p::dns::RdMatrix&);
+std::ostream& operator<<(std::ostream&, const cla3p::dns::RdMGuard&);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_DMAT_HPP_
+#endif // CLA3P_DNS_RDMATRIX_HPP_
