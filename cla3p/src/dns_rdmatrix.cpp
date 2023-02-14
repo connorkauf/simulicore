@@ -35,17 +35,17 @@ RdMatrix::RdMatrix()
 {
 }
 /*-------------------------------------------------*/
-RdMatrix::RdMatrix(uint_t nrows, uint_t ncols)
+RdMatrix::RdMatrix(uint_t nr, uint_t nc)
 	:
 		UniversalConstructor(),
-		ThisObjectType(prop_t::GENERAL, nrows, ncols, nrows, false)
+		ThisObjectType(prop_t::GENERAL, nr, nc, nr, false)
 {
 }
 /*-------------------------------------------------*/
-RdMatrix::RdMatrix(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
+RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe)
 	:
 		UniversalConstructor(),
-		ThisObjectType(propcheck(ptype), nrows, ncols, ld, wipe)
+		ThisObjectType(propcheck(ptype), nr, nc, ldim, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -53,16 +53,16 @@ RdMatrix::~RdMatrix()
 {
 }
 /*-------------------------------------------------*/
-RdMatrix::RdMatrix(RdMatrix&& src)
+RdMatrix::RdMatrix(RdMatrix&& other)
 	:
 		UniversalConstructor(),
-		ThisObjectType(std::move(src))
+		ThisObjectType(std::move(other))
 {
 }
 /*-------------------------------------------------*/
-RdMatrix& RdMatrix::operator=(RdMatrix&& src)
+RdMatrix& RdMatrix::operator=(RdMatrix&& other)
 {
-	ThisObjectType::operator=(std::move(src));
+	ThisObjectType::operator=(std::move(other));
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -204,64 +204,64 @@ void RdMatrix::setBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::init(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::init(uint_t nr, uint_t nc) 
 { 
-	return init(prop_t::GENERAL, nrows, ncols, nrows);
+	return init(prop_t::GENERAL, nr, nc, nr);
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
 { 
 	RdMatrix ret;
-	ret.blankCreator(propcheck(ptype), nrows, ncols, ld); 
+	ret.blankCreator(propcheck(ptype), nr, nc, ldim); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::zero(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::zero(uint_t nr, uint_t nc) 
 { 
-	return zero(prop_t::GENERAL, nrows, ncols, nrows) ;
+	return zero(prop_t::GENERAL, nr, nc, nr) ;
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
 { 
 	RdMatrix ret;
-	ret.zeroCreator(propcheck(ptype), nrows, ncols, ld); 
+	ret.zeroCreator(propcheck(ptype), nr, nc, ldim); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::random(uint_t nrows, uint_t ncols) 
+RdMatrix RdMatrix::random(uint_t nr, uint_t nc) 
 { 
-	return random(prop_t::GENERAL, nrows, ncols, nrows);
+	return random(prop_t::GENERAL, nr, nc, nr);
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld) 
+RdMatrix RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
 { 
 	RdMatrix ret;
-	ret.randomCreator(propcheck(ptype), nrows, ncols, ld); 
+	ret.randomCreator(propcheck(ptype), nr, nc, ldim); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::wrap(uint_t nrows, uint_t ncols, ThisDataType *values)
+RdMatrix RdMatrix::wrap(uint_t nr, uint_t nc, ThisDataType *vals)
 {
-	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows, false);
+	return wrap(prop_t::GENERAL, nr, nc, vals, nr, false);
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::wrap(prop_t ptype, uint_t nrows, uint_t ncols, ThisDataType *values, uint_t ld, bool bind)
+RdMatrix RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv, bool bind)
 {
 	RdMatrix ret;
-	ret.wrapCreator(propcheck(ptype), nrows, ncols, values, ld, bind); 
+	ret.wrapCreator(propcheck(ptype), nr, nc, vals, ldv, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMGuard RdMatrix::wrap(uint_t nrows, uint_t ncols, const ThisDataType *values)
+RdMGuard RdMatrix::wrap(uint_t nr, uint_t nc, const ThisDataType *vals)
 {
-	return wrap(prop_t::GENERAL, nrows, ncols, values, nrows);
+	return wrap(prop_t::GENERAL, nr, nc, vals, nr);
 }
 /*-------------------------------------------------*/
-RdMGuard RdMatrix::wrap(prop_t ptype, uint_t nrows, uint_t ncols, const ThisDataType *values, uint_t ld)
+RdMGuard RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
 {
 	RdMGuard ret;
 	ThisGuardType& trg = ret;
-	trg = RdMatrix::wrap(propcheck(ptype), nrows, ncols, const_cast<ThisDataType*>(values), ld, false);
+	trg = RdMatrix::wrap(propcheck(ptype), nr, nc, const_cast<ThisDataType*>(vals), ldv, false);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -275,14 +275,14 @@ RdMGuard::~RdMGuard()
 {
 }
 /*-------------------------------------------------*/
-RdMGuard::RdMGuard(const RdMGuard& src)
-	:ThisGuardType(src)
+RdMGuard::RdMGuard(const RdMGuard& other)
+	:ThisGuardType(other)
 {
 }
 /*-------------------------------------------------*/
-RdMGuard& RdMGuard::operator=(const RdMGuard& src)
+RdMGuard& RdMGuard::operator=(const RdMGuard& other)
 {
-	ThisGuardType::operator=(src);
+	ThisGuardType::operator=(other);
 	return *this;
 }
 /*-------------------------------------------------*/

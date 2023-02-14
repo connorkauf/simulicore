@@ -26,12 +26,12 @@ GenericObject<T,Tr>::GenericObject()
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-GenericObject<T,Tr>::GenericObject(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe)
+GenericObject<T,Tr>::GenericObject(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe)
 {
 	if(wipe) {
-		zeroCreator(ptype, nrows, ncols, ld);
+		zeroCreator(ptype, nr, nc, ldim);
 	} else {
-		blankCreator(ptype, nrows, ncols, ld);
+		blankCreator(ptype, nr, nc, ldim);
 	} // wipe
 }
 /*-------------------------------------------------*/
@@ -69,24 +69,24 @@ void GenericObject<T,Tr>::defaults()
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::creator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner)
+void GenericObject<T,Tr>::creator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner)
 {
-	dns_consistency_check(ptype, nrows, ncols, values, ld);
+	dns_consistency_check(ptype, nr, nc, vals, ldv);
 
 	Property prop(ptype);
 
 	// meta data
-	setAllMeta(nrows, ncols, owner);
+	setAllMeta(nr, nc, owner);
 
 	// additional
-	setValues(values);
-	setLd    (ld    );
-	setProp  (prop  );
+	setValues(vals);
+	setLd    (ldv );
+	setProp  (prop);
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr> void GenericObject<T,Tr>::setLd    (uint_t          ld    ) { m_ld     = ld    ; }
-template <typename T, typename Tr> void GenericObject<T,Tr>::setValues(T*              values) { m_values = values; }
-template <typename T, typename Tr> void GenericObject<T,Tr>::setProp  (const Property& prop  ) { m_prop   = prop  ; }
+template <typename T, typename Tr> void GenericObject<T,Tr>::setLd    (uint_t          ldim) { m_ld     = ldim; }
+template <typename T, typename Tr> void GenericObject<T,Tr>::setValues(T*              vals) { m_values = vals; }
+template <typename T, typename Tr> void GenericObject<T,Tr>::setProp  (const Property& prop) { m_prop   = prop; }
 /*-------------------------------------------------*/
 template <typename T, typename Tr> uint_t          GenericObject<T,Tr>::ld    () const { return m_ld    ; }
 template <typename T, typename Tr> T*              GenericObject<T,Tr>::values()       { return m_values; }
@@ -351,17 +351,17 @@ void GenericObject<T,Tr>::setBlock(const GenericObject<T,Tr>& src, uint_t ibgn, 
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::blankCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T,Tr>::blankCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim)
 {
 	clear();
-	T *values = bulk::dns::alloc<T>(nrows, ncols, ld);
-	creator(ptype, nrows, ncols, values, ld, true);
+	T *values = bulk::dns::alloc<T>(nr, nc, ldim);
+	creator(ptype, nr, nc, values, ldim, true);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::zeroCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T,Tr>::zeroCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim)
 {
-	blankCreator(ptype, nrows, ncols, ld);
+	blankCreator(ptype, nr, nc, ldim);
 	bulk::dns::zero(
 			this->prop().type(), 
 			this->rsize(), 
@@ -371,9 +371,9 @@ void GenericObject<T,Tr>::zeroCreator(prop_t ptype, uint_t nrows, uint_t ncols, 
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld)
+void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim)
 {
-	blankCreator(ptype, nrows, ncols, ld);
+	blankCreator(ptype, nr, nc, ldim);
 	bulk::dns::rand(
 			this->prop().type(), 
 			this->rsize(), 
@@ -383,10 +383,10 @@ void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nrows, uint_t ncols
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::wrapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind)
+void GenericObject<T,Tr>::wrapCreator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool bind)
 {
 	clear();
-	creator(ptype, nrows, ncols, values, ld, bind);
+	creator(ptype, nr, nc, vals, ldv, bind);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

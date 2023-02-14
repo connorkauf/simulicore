@@ -27,35 +27,56 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 	public:
 		/**
 		 * @brief The default constructor
+		 *
+		 * Constructs an empty matrix
 		 */
 		RdMatrix();
 
 		/**
 		 * @brief The dimensional constructor
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
+		 *
+		 * Constructs a general (nr x nc) RdMatrix with uninitialized values
+		 *
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
 		 */
-		RdMatrix(uint_t nrows, uint_t ncols);
+		RdMatrix(uint_t nr, uint_t nc);
 
 		/**
 		 * @brief The advanced constructor
+		 *
+		 * Constructs a (nr x nc) RdMatrix with advanced options
+		 *
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] ldim The leading dimension of the matrix
 		 * @param[in] wipe Set all matrix values to zero
 		 */
-		RdMatrix(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
+		RdMatrix(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe);
 
+		/**
+		 * @brief Destroys the matrix
+		 */
 		~RdMatrix();
 
 		// no copy
 		RdMatrix(const RdMatrix&) = delete;
 		RdMatrix& operator=(const RdMatrix&) = delete;
 
-		// move
-		RdMatrix(RdMatrix&&);
-		RdMatrix& operator=(RdMatrix&&);
+		/**
+		 * @brief Move constructor
+		 *
+		 * Constructs a matrix with the contents of other, other is destroyed
+		 */
+		RdMatrix(RdMatrix&& other);
+
+		/**
+		 * @brief Move assignment operator
+		 *
+		 * Replaces the contents with those of other, other is destroyed
+		 */
+		RdMatrix& operator=(RdMatrix&& other);
 
 		// 
 		// non inherited args
@@ -103,7 +124,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 		/**
 		 * @brief Clones a matrix
-		 * @return A shallow copy of the matrix
+		 * @return A shallow copy of the matrix, original matrix is unchanged
 		 */
 		RdMatrix clone();
 
@@ -152,7 +173,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 		/**
 		 * @brief Transposes a matrix
-		 * @return The transpose of the matrix
+		 * @return The transposed copy of the matrix
 		 */
 		RdMatrix transpose() const;
 
@@ -226,7 +247,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] jbgn The matrix column that the requested part begins
 		 * @param[in] ni The number of rows of the requested block
 		 * @param[in] nj The number of columns of the requested block
-		 * @return A reference of a portion of the matrix
+		 * @return A reference to a portion of the matrix
 		 */
 		RdMatrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
@@ -236,7 +257,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] jbgn The matrix column that the requested part begins
 		 * @param[in] ni The number of rows of the requested block
 		 * @param[in] nj The number of columns of the requested block
-		 * @return A reference of a portion of the matrix
+		 * @return A reference to a portion of the matrix
 		 */
 		RdMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
@@ -254,45 +275,45 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 		/**
 		 * @brief Creates a matrix
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
 		 * @return A matrix with uninitialized values
 		 */
-		static RdMatrix init(uint_t nrows, uint_t ncols);
+		static RdMatrix init(uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a zero matrix
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
 		 * @return A matrix with zero values
 		 */
-		static RdMatrix zero(uint_t nrows, uint_t ncols);
+		static RdMatrix zero(uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a random matrix
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
 		 * @return A matrix with random values in (0,1)
 		 */
-		static RdMatrix random(uint_t nrows, uint_t ncols);
+		static RdMatrix random(uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a matrix from aux data
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] values The array containing the matrix values in column-major ordering
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] vals The array containing the matrix values in column-major ordering
 		 * @return A matrix with values from aux bulk data
 		 */
-		static RdMatrix wrap(uint_t nrows, uint_t ncols, real_t *values);
+		static RdMatrix wrap(uint_t nr, uint_t nc, real_t *vals);
 
 		/**
 		 * @brief Creates a matrix guard from aux data
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] values The array containing the matrix values in column-major ordering
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] vals The array containing the matrix values in column-major ordering
 		 * @return A matrix guard with values from aux bulk data
 		 */
-		static RdMGuard wrap(uint_t nrows, uint_t ncols, const real_t *values);
+		static RdMGuard wrap(uint_t nr, uint_t nc, const real_t *vals);
 
 		// 
 		// static initializers (advanced)
@@ -301,60 +322,61 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		/**
 		 * @brief Creates a matrix
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] ldim The leading dimension of the matrix
 		 * @return A matrix with uninitialized values
 		 */
-		static RdMatrix init(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix init(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
 
 		/**
 		 * @brief Creates a zero matrix
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] ldim The leading dimension of the matrix
 		 * @return A matrix with zero values
 		 */
-		static RdMatrix zero(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix zero(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
 
 		/**
 		 * @brief Creates a random matrix
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] ldim The leading dimension of the matrix
 		 * @return A matrix with random values in (0,1)
 		 */
-		static RdMatrix random(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
+		static RdMatrix random(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
 
 		/**
 		 * @brief Creates a matrix from aux data
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] values The array containing the matrix values in column-major ordering
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] vals The array containing the matrix values in column-major ordering
+		 * @param[in] ldv The leading dimension of the matrix
 		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate the data on destroy
 		 * @return A matrix with values from aux bulk data
 		 */
-		static RdMatrix wrap(prop_t ptype, uint_t nrows, uint_t ncols, real_t *values, uint_t ld, bool bind);
+		static RdMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind);
 
 		/**
 		 * @brief Creates a matrix guard from aux data
 		 * @param[in] ptype The matrix property
-		 * @param[in] nrows The number of matrix rows
-		 * @param[in] ncols The number of matrix columns
-		 * @param[in] values The array containing the matrix values in column-major ordering
-		 * @param[in] ld The leading dimension of the matrix
+		 * @param[in] nr The number of matrix rows
+		 * @param[in] nc The number of matrix columns
+		 * @param[in] vals The array containing the matrix values in column-major ordering
+		 * @param[in] ldv The leading dimension of the matrix
 		 * @return A matrix with values from aux bulk data
 		 */
-		static RdMGuard wrap(prop_t ptype, uint_t nrows, uint_t ncols, const real_t *values, uint_t ld);
+		static RdMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv);
 };
 
 /*-------------------------------------------------*/
 
 /**
+ * @class RdMGuard
  * @brief The double precision real dense matrix guard
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -363,10 +385,31 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 class RdMGuard : private Guard<RdMatrix> {
 
 	public:
+		/**
+		 * @brief The default constructor
+		 *
+		 * Constructs an empty guard
+		 */
 		RdMGuard();
+
+		/**
+		 * @brief Destroys the guard
+		 */
 		~RdMGuard();
-		RdMGuard(const RdMGuard&);
-		RdMGuard& operator=(const RdMGuard&);
+
+		/**
+		 * @brief The guard copy constructor
+		 *
+		 * Constructs a guard with s clonr of the contents of other
+		 */
+		RdMGuard(const RdMGuard& other);
+
+		/**
+		 * @brief The guard copy assignment operator
+		 *
+		 * Replaces the contents of guard with a clone of the contents of other
+		 */
+		RdMGuard& operator=(const RdMGuard& other);
 
 		/**
 		 * @brief The matrix being guarded
@@ -381,8 +424,16 @@ class RdMGuard : private Guard<RdMatrix> {
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-std::ostream& operator<<(std::ostream&, const cla3p::dns::RdMatrix&);
-std::ostream& operator<<(std::ostream&, const cla3p::dns::RdMGuard&);
+
+/**
+ * @brief Writes to os the type of mat
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMatrix& mat);
+
+/**
+ * @brief Writes to os the type of grd
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMGuard& grd);
 /*-------------------------------------------------*/
 
 #endif // CLA3P_DNS_RDMATRIX_HPP_

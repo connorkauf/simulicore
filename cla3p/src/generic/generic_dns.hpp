@@ -38,7 +38,8 @@ class GenericObject : public UniversalMetaData {
 		T* values();
 
 		/**
-		 * @copydoc GenericObject::values
+		 * @brief The values array
+		 * @return The pointer to the numerical values of the object
 		 */
 		const T* values() const;
 
@@ -72,7 +73,7 @@ class GenericObject : public UniversalMetaData {
 
 	protected:
 		GenericObject();
-		GenericObject(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld, bool wipe);
+		GenericObject(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe);
 		~GenericObject();
 
 		// no copy
@@ -84,7 +85,7 @@ class GenericObject : public UniversalMetaData {
 		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
 
 		// args
-		void setLd    (uint_t          ld    );
+		void setLd    (uint_t          ldim  );
 		void setValues(T*              values);
 		void setProp  (const Property& prop  );
 
@@ -129,10 +130,10 @@ class GenericObject : public UniversalMetaData {
 		void setBlock(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
 		// creators
-		void  blankCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
-		void   zeroCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
-		void randomCreator(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ld);
-		void   wrapCreator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool bind);
+		void  blankCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
+		void   zeroCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
+		void randomCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
+		void   wrapCreator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool bind);
 
 	private:
 		uint_t   m_ld    ;
@@ -140,7 +141,7 @@ class GenericObject : public UniversalMetaData {
 		Property m_prop  ;
 
 		void defaults();
-		void creator(prop_t ptype, uint_t nrows, uint_t ncols, T *values, uint_t ld, bool owner);
+		void creator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner);
 };
 /*-------------------------------------------------*/
 } // namespace dns
