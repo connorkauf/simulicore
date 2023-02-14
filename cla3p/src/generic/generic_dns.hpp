@@ -38,8 +38,7 @@ class GenericObject : public UniversalMetaData {
 		T* values();
 
 		/**
-		 * @brief The values array
-		 * @return The pointer to the numerical values
+		 * @copydoc GenericObject::values
 		 */
 		const T* values() const;
 
@@ -65,8 +64,9 @@ class GenericObject : public UniversalMetaData {
 		void print(uint_t nsd = 3) const;
 
 		/**
-		 * @brief Prints the contents of the object
+		 * @brief Prints the contents of the object to a string
 		 * @param[in] nsd The number of significant digits
+		 * @return The string containing the formatted numerical values of the object
 		 */
 		std::string printToString(uint_t nsd = 3) const;
 

@@ -73,13 +73,20 @@ class UniversalMetaData {
 		bool empty() const;
 
 		/**
-		 * @brief Test whether object is data owner
-		 * @return whether the object is owner
+		 * @brief Test whether object is the owner of its contents
+		 *
+		 * If the ownership flag is true, the object is responsible for deallocation of its contents
+		 *
+		 * @return whether the object is the owner of its contents 
 		 */
 		bool owner() const;
 
 		/**
 		 * @brief Unties data from object
+		 *
+		 * The object contents are detached from the object @n
+		 * The object is no longer responsible for content deallocation @n
+		 * Use with caution as it may lead to memory leak if contents are not deallocated by the user
 		 */
 		void unbind();
 

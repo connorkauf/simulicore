@@ -21,11 +21,20 @@ class Exception : public std::exception {
 
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @brief Default constructor
+		 *
+		 * Constructs an exception with the given message
 		 */
 		Exception(const std::string& msg = "Untitled");
+
+		/** 
+		 * @brief Destroys the exception object
+		 */
 		~Exception() throw();
+
+		/** 
+		 * @brief Returns the explanatory string
+		 */
 		const char *what() const throw();
 
 	private:
@@ -38,10 +47,13 @@ class Exception : public std::exception {
 class NoConsistency : public Exception {
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @copydoc Exception::Exception()
 		 */
 		NoConsistency(const std::string& msg = "Untitled");
+
+		/** 
+		 * @copydoc Exception::~Exception()
+		 */
 		~NoConsistency() throw();
 };
 
@@ -51,10 +63,13 @@ class NoConsistency : public Exception {
 class InvalidOp : public Exception {
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @copydoc Exception::Exception()
 		 */
 		InvalidOp(const std::string& msg = "Untitled");
+
+		/** 
+		 * @copydoc Exception::~Exception()
+		 */
 		~InvalidOp() throw();
 };
 
@@ -64,10 +79,13 @@ class InvalidOp : public Exception {
 class Overflow : public Exception {
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @copydoc Exception::Exception()
 		 */
 		Overflow(const std::string& msg = "Untitled");
+
+		/** 
+		 * @copydoc Exception::~Exception()
+		 */
 		~Overflow() throw();
 };
 
@@ -77,10 +95,13 @@ class Overflow : public Exception {
 class OutOfMemory : public Exception {
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @copydoc Exception::Exception()
 		 */
 		OutOfMemory(const std::string& msg = "Untitled");
+
+		/** 
+		 * @copydoc Exception::~Exception()
+		 */
 		~OutOfMemory() throw();
 };
 
@@ -90,10 +111,13 @@ class OutOfMemory : public Exception {
 class OutOfBounds : public Exception {
 	public:
 		/** 
-		 * @brief Constructor
-		 * @param[in] msg The message to display on throw
+		 * @copydoc Exception::Exception()
 		 */
 		OutOfBounds(const std::string& msg = "Untitled");
+
+		/** 
+		 * @copydoc Exception::~Exception()
+		 */
 		~OutOfBounds() throw();
 };
 
