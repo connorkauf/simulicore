@@ -54,7 +54,7 @@ class Operation {
 	public:
 
 		/**
-		 * @enum cla3p::Operation::op_t
+		 * @enum op_t
 		 * @brief The operation type
 		 */
 		enum class op_t {
@@ -63,36 +63,34 @@ class Operation {
 			C      /**< Conjugate transpose operation: \f$op(A) = A^H\f$ */
 		};
 
-		/*
-		 * @brief The operation default constructor
+		/**
+		 * @brief The default constructor
 		 *
 		 * Constructs an empty operation
 		 */
 		Operation();
 
-		/*
-		 * @brief The operation member constructor
+		/**
+		 * @brief The member constructor
 		 *
 		 * Constructs an operation with type otype
 		 */
 		explicit Operation(op_t otype);
 
-		/*
-		 * @brief The operation default destructor
-		 *
-		 * Destructs the operation
+		/**
+		 * @brief Destructs the operation
 		 */
 		~Operation();
 
-		/*
-		 * @brief The operation copy constructor
+		/**
+		 * @brief The copy constructor
 		 *
 		 * Constructs an operation with the copy of the contents of other
 		 */
 		Operation(const Operation& other);
 
-		/*
-		 * @brief The operation copy assignment operator
+		/**
+		 * @brief The copy assignment operator
 		 *
 		 * Replaces the contents of operation with a copy of the contents of other
 		 */
@@ -113,7 +111,7 @@ class Operation {
 };
 /** 
  * @typedef cla3p::Operation::op_t cla3p::op_t
- * For convinience purposes op_t is callable from outside the Operation class
+ * Use directly cla3p::op_t to declare an operation type
  */
 using op_t = cla3p::Operation::op_t;
 
@@ -128,46 +126,44 @@ class Property {
 	public:
 
 		/**
-		 * @enum cla3p::Property::prop_t
+		 * @enum prop_t
 		 * @brief The property type
 		 */
 		enum class prop_t {
 			NONE      = 0, /**< No property */
 			GENERAL      , /**< General (non-symmetric/non-hermitian matrix) */
-			SYMMETRIC    , /**< Symmetric matrix */
-			HERMITIAN      /**< Hermitian matrix */
+			SYMMETRIC    , /**< Symmetric (lower) matrix */
+			HERMITIAN      /**< Hermitian (lower) matrix */
 		};
 
-		/*
-		 * @brief The property default constructor
+		/**
+		 * @brief The default constructor
 		 *
 		 * Constructs an empty property
 		 */
 		Property();
 
-		/*
-		 * @brief The property member constructor
+		/**
+		 * @brief The member constructor
 		 *
 		 * Constructs an property with type ptype
 		 */
 		explicit Property(prop_t ptype);
 
-		/*
-		 * @brief The property default destructor
-		 *
-		 * Destructs the property
+		/**
+		 * @brief Destructs the property
 		 */
 		~Property();
 
-		/*
-		 * @brief The property copy constructor
+		/**
+		 * @brief The copy constructor
 		 *
-		 * Constructs an property with the copy of the contents of other
+		 * Constructs a property with the copy of the contents of other
 		 */
 		Property(const Property& other);
 
-		/*
-		 * @brief The property copy assignment operator
+		/**
+		 * @brief The copy assignment operator
 		 *
 		 * Replaces the contents of property with a copy of the contents of other
 		 */
@@ -213,7 +209,7 @@ class Property {
 };
 /** 
  * @typedef cla3p::Property::prop_t cla3p::prop_t
- * For convinience purposes prop_t is callable from outside the Property class
+ * Use directly cla3p::prop_t to declare a property type
  */
 using prop_t = cla3p::Property::prop_t;
 
