@@ -4,6 +4,7 @@
 // system
 #include <iostream>
 #include <cstring>
+#include <sstream>
 
 // 3rd
 
@@ -140,31 +141,46 @@ PermMatrix PermMatrix::move()
 	return ret;
 }
 /*-------------------------------------------------*/
-void PermMatrix::info(const std::string& msg) const
+std::string PermMatrix::info(const std::string& msg) const
 {
-  std::string top;
-  std::string bottom;
-  fill_info_margins(msg, top, bottom);
+	std::string top;
+	std::string bottom;
+	fill_info_margins(msg, top, bottom);
 
-  std::cout << top << "\n";
+	std::stringstream ss;
 
-	std::cout << "  Object type.......... " <<  objTypeName() << "\n";
-  std::cout << "  Datatype............. " << dataTypeName() << "\n";
-  std::cout << "  Precision............ " << precTypeName() << "\n";
+	ss << top << "\n";
 
-	std::cout << "  Size................. " <<         size  ()  << "\n";
-	std::cout << "  Values............... " <<         values()  << "\n";
-	std::cout << "  Owner................ " << bool2yn(owner ()) << "\n";
+	ss << "  Object type.......... " <<  objTypeName() << "\n";
+	ss << "  Datatype............. " << dataTypeName() << "\n";
+	ss << "  Precision............ " << precTypeName() << "\n";
 
-  std::cout << bottom << "\n";
+	ss << "  Size................. " <<         size  ()  << "\n";
+	ss << "  Values............... " <<         values()  << "\n";
+	ss << "  Owner................ " << bool2yn(owner ()) << "\n";
+
+	ss << bottom << "\n";
+
+	return ss.str();
+}
+/*-------------------------------------------------*/
+std::string PermMatrix::printToString() const
+{
+	std::string ret;
+
+	char tmp[64];
+	nint_t nd = inumlen(size());
+	for(uint_t i = 0; i < size(); i++) {
+		std::sprintf(tmp, "%*" _UFMT_ " | %*" _UFMT_ "\n", nd, i, nd, (*this)(i));
+		ret.append(tmp);
+	} // i
+
+	return ret;
 }
 /*-------------------------------------------------*/
 void PermMatrix::print() const
 {
-	nint_t nd = inumlen(size());
-	for(uint_t i = 0; i < size(); i++) {
-		std::printf("%*" _UFMT_ " | %*" _UFMT_ "\n", nd, i, nd, (*this)(i));
-	} // i
+	std::cout << printToString();
 }
 /*-------------------------------------------------*/
 uint_t& PermMatrix::operator()(uint_t i)
@@ -186,4 +202,10 @@ const uint_t& PermMatrix::operator()(uint_t i) const
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::PermMatrix& mat)
+{
+	os << mat.printToString();
+	return os;
+}
 /*-------------------------------------------------*/

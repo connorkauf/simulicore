@@ -2,6 +2,7 @@
 #include "generic_dns.hpp"
 
 // system
+#include <sstream>
 
 // 3rd
 
@@ -154,7 +155,7 @@ void GenericObject<T,Tr>::cloneTo(GenericObject<T,Tr>& trg)
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::info(bool is2D,
+std::string GenericObject<T,Tr>::info(bool is2D,
 		const std::string& msg, 
 		const std::string& otype, 
 		const std::string& dtype, 
@@ -164,26 +165,30 @@ void GenericObject<T,Tr>::info(bool is2D,
 	std::string bottom;
 	fill_info_margins(msg, top, bottom);
 
-	std::cout << top << "\n";
+	std::stringstream ss;
 
-	std::cout << "  Object type.......... " << otype << "\n";
-	std::cout << "  Datatype............. " << dtype << "\n";
-	std::cout << "  Precision............ " << dprec << "\n";
+	ss << top << "\n";
+
+	ss << "  Object type.......... " << otype << "\n";
+	ss << "  Datatype............. " << dtype << "\n";
+	ss << "  Precision............ " << dprec << "\n";
 
 	if(is2D) {
-		std::cout << "  Number of rows....... " <<         rsize ()  << "\n";
-		std::cout << "  Number of columns.... " <<         csize ()  << "\n";
-		std::cout << "  Leading dimension.... " <<         ld    ()  << "\n";
-		std::cout << "  Values............... " <<         values()  << "\n";
-		std::cout << "  Property............. " <<         prop  ()  << "\n";
-		std::cout << "  Owner................ " << bool2yn(owner ()) << "\n";
+		ss << "  Number of rows....... " <<         rsize ()  << "\n";
+		ss << "  Number of columns.... " <<         csize ()  << "\n";
+		ss << "  Leading dimension.... " <<         ld    ()  << "\n";
+		ss << "  Values............... " <<         values()  << "\n";
+		ss << "  Property............. " <<         prop  ()  << "\n";
+		ss << "  Owner................ " << bool2yn(owner ()) << "\n";
 	} else {
-		std::cout << "  Size................. " <<         rsize ()  << "\n";
-		std::cout << "  Values............... " <<         values()  << "\n";
-		std::cout << "  Owner................ " << bool2yn(owner ()) << "\n";
+		ss << "  Size................. " <<         rsize ()  << "\n";
+		ss << "  Values............... " <<         values()  << "\n";
+		ss << "  Owner................ " << bool2yn(owner ()) << "\n";
 	} // 1/2D
 
-	std::cout << bottom << "\n";
+	ss << bottom << "\n";
+
+	return ss.str();
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

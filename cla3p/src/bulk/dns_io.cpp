@@ -42,7 +42,7 @@ class DnsPrinter {
 		template <typename T>
 		std::string printToStringComplex(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
 		template <typename T>
-		void fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		void fillString(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
 		template <typename T>
 		void appendPage(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
 		template <typename T>
@@ -200,7 +200,7 @@ void DnsPrinter::reserve(uint_t m, uint_t n)
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DnsPrinter::fill(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+void DnsPrinter::fillString(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 {
 	uint_t columns_per_page = countColumnsPerPage(n);
 
@@ -229,7 +229,7 @@ std::string DnsPrinter::printToStringReal(uint_t m, uint_t n, T *a, uint_t lda, 
 	m_element_length_max = std::max(m_element_length, m_col_numdigits + 1);
 
 	reserve(m, n);
-	fill(m, n, a, lda, lower);
+	fillString(m, n, a, lda, lower);
 
 	return m_str;
 }
@@ -246,7 +246,7 @@ std::string DnsPrinter::printToStringComplex(uint_t m, uint_t n, T *a, uint_t ld
 	m_element_length_max = std::max(m_element_length, m_col_numdigits + 1);
 
 	reserve(m, n);
-	fill(m, n, a, lda, lower);
+	fillString(m, n, a, lda, lower);
 
 	return m_str;
 }

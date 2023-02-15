@@ -163,7 +163,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @brief Prints matrix information.
 		 * @param[in] msg Set a header identifier.
 		 */
-		void info(const std::string& msg = "") const;
+		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @brief Matrix 1-norm.

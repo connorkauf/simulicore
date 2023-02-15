@@ -129,15 +129,22 @@ class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 		PermMatrix move();
 
 		/**
-		 * @brief Prints permutation matrix information.
+		 * @brief Prints permutation matrix information to a string.
 		 * @param[in] msg Set a header identifier.
+		 * @return A string containing the permutation matrix information
 		 */
-		void info(const std::string& msg = "") const;
+		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @brief Prints the contents of the permutation matrix.
 		 */
 		void print() const;
+
+		/**
+		 * @brief Prints the contents of the permutation matrix to a string.
+		 * @return The string containing the formatted numerical values of the permutation matrix.
+		 */
+		std::string printToString() const;
 
 		// 
 		// not callcable from empty
@@ -181,6 +188,12 @@ class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 
 /*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
+
+/**
+ * @brief Writes to os the contents of mat
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::PermMatrix& mat);
 /*-------------------------------------------------*/
 
 #endif // CLA3P_PERM_MATRIX_HPP_

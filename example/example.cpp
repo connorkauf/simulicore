@@ -27,9 +27,15 @@ int main()
 	cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(10,10);
 	cla3p::PermMatrix P = cla3p::PermMatrix::random(10);
 
-	A.print();
-	P.print();
-	A.permuteLeft(P).print();
+	std::cout << A.info("A");
+	std::cout << A;
+
+	std::cout << P.info("P");
+	std::cout << P;
+
+	//A.print();
+	//P.print();
+	//A.permuteLeft(P).print();
 
 	return 0;
 }

@@ -105,9 +105,9 @@ RdMGuard RdMatrix::clone() const
 	return ret;
 }
 /*-------------------------------------------------*/
-void RdMatrix::info(const std::string& msg) const
+std::string RdMatrix::info(const std::string& msg) const
 { 
-	ThisObjectType::info(true, msg, objTypeName(), dataTypeName(), precTypeName()); 
+	return ThisObjectType::info(true, msg, objTypeName(), dataTypeName(), precTypeName()); 
 }
 /*-------------------------------------------------*/
 real_t RdMatrix::normOne() const { return ThisObjectType::normOne(); }

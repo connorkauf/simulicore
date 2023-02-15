@@ -99,7 +99,7 @@ class GenericObject : public UniversalMetaData {
 		void moveTo(GenericObject<T,Tr>&);
 		void cloneTo(GenericObject<T,Tr>&);
 
-		void info(bool is2D,
+		std::string info(bool is2D,
 				const std::string&,
 				const std::string&,
 				const std::string&,
