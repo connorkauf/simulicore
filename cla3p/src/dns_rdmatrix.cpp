@@ -42,10 +42,10 @@ RdMatrix::RdMatrix(uint_t nr, uint_t nc)
 {
 }
 /*-------------------------------------------------*/
-RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe)
+RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
 	:
 		UniversalConstructor(),
-		ThisObjectType(propcheck(ptype), nr, nc, ldim, wipe)
+		ThisObjectType(propcheck(ptype), nr, nc, nr, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -206,43 +206,43 @@ void RdMatrix::setBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src)
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::init(uint_t nr, uint_t nc) 
 { 
-	return init(prop_t::GENERAL, nr, nc, nr);
+	return init(prop_t::GENERAL, nr, nc);
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
+RdMatrix RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc) 
 { 
 	RdMatrix ret;
-	ret.blankCreator(propcheck(ptype), nr, nc, ldim); 
+	ret.blankCreator(propcheck(ptype), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::zero(uint_t nr, uint_t nc) 
 { 
-	return zero(prop_t::GENERAL, nr, nc, nr) ;
+	return zero(prop_t::GENERAL, nr, nc) ;
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
+RdMatrix RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc) 
 { 
 	RdMatrix ret;
-	ret.zeroCreator(propcheck(ptype), nr, nc, ldim); 
+	ret.zeroCreator(propcheck(ptype), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::random(uint_t nr, uint_t nc) 
 { 
-	return random(prop_t::GENERAL, nr, nc, nr);
+	return random(prop_t::GENERAL, nr, nc);
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim) 
+RdMatrix RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc) 
 { 
 	RdMatrix ret;
-	ret.randomCreator(propcheck(ptype), nr, nc, ldim); 
+	ret.randomCreator(propcheck(ptype), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::wrap(uint_t nr, uint_t nc, ThisDataType *vals)
+RdMatrix RdMatrix::wrap(uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv)
 {
-	return wrap(prop_t::GENERAL, nr, nc, vals, nr, false);
+	return wrap(prop_t::GENERAL, nr, nc, vals, ldv, false);
 }
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv, bool bind)
@@ -252,9 +252,9 @@ RdMatrix RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, ThisDataType *vals, 
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMGuard RdMatrix::wrap(uint_t nr, uint_t nc, const ThisDataType *vals)
+RdMGuard RdMatrix::wrap(uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
 {
-	return wrap(prop_t::GENERAL, nr, nc, vals, nr);
+	return wrap(prop_t::GENERAL, nr, nc, vals, ldv);
 }
 /*-------------------------------------------------*/
 RdMGuard RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
@@ -297,12 +297,6 @@ const RdMatrix& RdMGuard::mat() const
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMatrix& mat)
 {
 	os << mat.printToString();
-	return os;
-}
-/*-------------------------------------------------*/
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMGuard& grd)
-{
-	os << grd.mat().printToString();
 	return os;
 }
 /*-------------------------------------------------*/
