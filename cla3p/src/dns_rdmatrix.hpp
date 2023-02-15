@@ -20,11 +20,13 @@ class RdMGuard;
 
 /**
  * @class RdMatrix
+ * @nosubgrouping 
  * @brief The double precision real dense matrix object.
  */
 class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 	public:
+
 		/**
 		 * @brief The default constructor.
 		 *
@@ -70,6 +72,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 */
 		RdMatrix(RdMatrix&& other);
 
+		/** 
+		 * @name Operators
+		 */
+
+		/** @{ */
+
 		/**
 		 * @brief The move assignment operator.
 		 *
@@ -92,6 +100,8 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @return A reference to the (i,j)-th element of the matrix.
 		 */
 		const real_t& operator()(uint_t i, uint_t j) const;
+
+		/** @} */
 
 		// 
 		// non inherited args
@@ -398,6 +408,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] vals The array containing the matrix values in column-major ordering.
+		 * @param[in] ldv The leading dimension of the vals array.
 		 * @return The newly created matrix.
 		 */
 		static RdMatrix wrap(uint_t nr, uint_t nc, real_t *vals, uint_t ldv);
@@ -425,6 +436,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] vals The array containing the matrix values in column-major ordering.
+		 * @param[in] ldv The leading dimension of the vals array.
 		 * @return The newly created guard.
 		 */
 		static RdMGuard wrap(uint_t nr, uint_t nc, const real_t *vals, uint_t ldv);

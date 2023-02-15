@@ -2,7 +2,7 @@
 #define CLA3P_PERM_MATRIX_HPP_
 
 /** @file
- * The permutation matrix definitions
+ * The permutation matrix definitions.
  */
 
 #include "types.hpp"
@@ -14,29 +14,34 @@ namespace cla3p {
 
 /**
  * @class PermMatrix
- * @brief The permutation matrix object
+ * @nosubgrouping
+ * @brief The permutation matrix class (0-based).
+ *
+ * Permutation matrices are represented by an array of (unsigned) integers. @n
+ * Their purpose is to rearrange indices using a predefined mapping. @n
+ * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1].
  */
 class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 
 	public:
 		/**
-		 * @brief The default constructor
+		 * @brief The default constructor.
 		 *
-		 * Constructs an empty matrix
+		 * Constructs an empty permutation matrix.
 		 */
 		PermMatrix();
 
 		/**
-		 * @brief The dimensional constructor
+		 * @brief The dimensional constructor.
 		 *
-		 * Constructs a general (n x n) PermMatrix with uninitialized values
+		 * Constructs an n-sized permutation matrix with uninitialized values.
 		 *
-		 * @param[in] n The number of matrix rows and columns
+		 * @param[in] n The permutation matrix size.
 		 */
 		PermMatrix(uint_t n);
 
 		/**
-		 * @brief Destroys the matrix
+		 * @brief Destroys the permutation matrix.
 		 */
 		~PermMatrix();
 
@@ -45,38 +50,60 @@ class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 		PermMatrix& operator=(const PermMatrix&) = delete;
 
 		/**
-		 * @brief Move constructor
+		 * @brief The move constructor.
 		 *
-		 * Constructs a matrix with the contents of other, other is destroyed
+		 * Constructs a permutation matrix with the contents of other, other is destroyed.
 		 */
 		PermMatrix(PermMatrix&& other);
 
 		/**
-		 * @brief Move assignment operator
+		 * @name Operators
+		 */
+
+		/** @{ */
+
+		/**
+		 * @brief The move assignment operator.
 		 *
-		 * Replaces the contents with those of other, other is destroyed
+		 * Replaces the contents with those of other, other is destroyed.
 		 */
 		PermMatrix& operator=(PermMatrix&& other);
+
+		/**
+		 * @brief Permutation matrix entry operator.
+		 * @param[in] i The number of the requested index.
+		 * @return A reference to the i-th element of the permutation.
+		 */
+		uint_t& operator()(uint_t i);
+
+		/**
+		 * @brief Matrix entry operator.
+		 * @param[in] i The number of the requested index.
+		 * @return A reference to the i-th element of the permutation.
+		 */
+		const uint_t& operator()(uint_t i) const;
+
+		/** @} */
 
 		// 
 		// non inherited args
 		//
 
 		/**
-		 * @brief The matrix rows/columns
-		 * @return The number of matrix rows/columns
+		 * @brief The permutation size.
+		 * @return The number of permutation size.
 		 */
 		uint_t size() const;
 
 		/**
-		 * @brief The values array
-		 * @return The pointer to the numerical values of the object
+		 * @brief The values array.
+		 * @return The pointer to the numerical values of the permutation matrix.
 		 */
 		uint_t* values();
 
 		/**
-		 * @brief The values array
-		 * @return The pointer to the numerical values of the object
+		 * @brief The values array.
+		 * @return The pointer to the numerical values of the permutation matrix.
 		 */
 		const uint_t* values() const;
 
@@ -85,35 +112,32 @@ class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 		//
 
 		/**
-		 * @brief Clears the object
+		 * @brief Clears the permutation matrix.
 		 */
 		void clear();
 
 		/**
-		 * @brief Copies a matrix
-		 * @return A deep copy of the matrix
+		 * @brief Copies the permutation matrix.
+		 * @return A deep copy of the permutation matrix.
 		 */
 		PermMatrix copy() const;
 
 		/**
-		 * @brief Moves a matrix
-		 * @return A shallow copy of the matrix, original matrix is destroyed
+		 * @brief Moves the permutation matrix.
+		 * @return A shallow copy of the permutation matrix, original matrix is destroyed.
 		 */
 		PermMatrix move();
 
 		/**
-		 * @brief Prints matrix information
-		 * @param[in] msg Set a header identifier
+		 * @brief Prints permutation matrix information.
+		 * @param[in] msg Set a header identifier.
 		 */
 		void info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Prints the contents of the object
+		 * @brief Prints the contents of the permutation matrix.
 		 */
 		void print() const;
-
-		uint_t& operator()(uint_t i);
-		const uint_t& operator()(uint_t i) const;
 
 		// 
 		// not callcable from empty
@@ -125,16 +149,22 @@ class PermMatrix : private UniversalMetaTypes, private UniversalMetaData {
 		//
 
 		/**
-		 * @brief Creates a matrix
-		 * @param[in] n The number of matrix rows/columns
-		 * @return A matrix with uninitialized values
+		 * @brief Creates a permutation matrix.
+		 *
+		 * Creates an n-dimensional permutation matrix with uninitialized values.
+		 *
+		 * @param[in] n The permutation matrix size.
+		 * @return The newly created permutation matrix.
 		 */
 		static PermMatrix init(uint_t n);
 
 		/**
 		 * @brief Creates a random permutation matrix
-		 * @param[in] n The number of matrix rows/columns
-		 * @return A matrix with randomly rearranged rows/columns
+		 *
+		 * Creates an n-sized permutation matrix with randomly rearranged indexes.
+		 *
+		 * @param[in] n The permutation matrix size.
+		 * @return The newly created permutation matrix.
 		 */
 		static PermMatrix random(uint_t n);
 
