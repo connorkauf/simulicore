@@ -2,7 +2,7 @@
 #define CLA3P_ERROR_HPP_
 
 /** @file
- * Basic error control features
+ * Basic error control features.
  */
 
 #include <string>
@@ -15,25 +15,25 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @brief Basic cla3p exception class
+ * @brief Basic cla3p exception class.
  */
 class Exception : public std::exception {
 
 	public:
 		/** 
-		 * @brief Default constructor
+		 * @brief The default constructor.
 		 *
-		 * Constructs an exception with the given message
+		 * Constructs an exception with the given message.
 		 */
 		Exception(const std::string& msg = "Untitled");
 
 		/** 
-		 * @brief Destroys the exception object
+		 * @brief Destroys the exception.
 		 */
 		~Exception() throw();
 
 		/** 
-		 * @brief Returns the explanatory string
+		 * @brief Returns the explanatory string.
 		 */
 		const char *what() const throw();
 
@@ -42,7 +42,7 @@ class Exception : public std::exception {
 };
 
 /**
- * @brief Consistency cla3p exception class
+ * @brief Consistency cla3p exception class.
  */
 class NoConsistency : public Exception {
 	public:
@@ -58,7 +58,7 @@ class NoConsistency : public Exception {
 };
 
 /**
- * @brief Invalid operation cla3p exception class
+ * @brief Invalid operation cla3p exception class.
  */
 class InvalidOp : public Exception {
 	public:
@@ -74,7 +74,7 @@ class InvalidOp : public Exception {
 };
 
 /**
- * @brief Numerical overflow cla3p exception class
+ * @brief Numerical overflow cla3p exception class.
  */
 class Overflow : public Exception {
 	public:
@@ -90,7 +90,7 @@ class Overflow : public Exception {
 };
 
 /**
- * @brief Memory cla3p exception class
+ * @brief Memory cla3p exception class.
  */
 class OutOfMemory : public Exception {
 	public:
@@ -106,7 +106,7 @@ class OutOfMemory : public Exception {
 };
 
 /**
- * @brief Out-of-bounds cla3p exception class
+ * @brief Out-of-bounds cla3p exception class.
  */
 class OutOfBounds : public Exception {
 	public:

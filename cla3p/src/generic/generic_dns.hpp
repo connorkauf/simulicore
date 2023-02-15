@@ -2,7 +2,7 @@
 #define CLA3P_GENERIC_DNS_HPP_
 
 /** @file
- * Generic dense object definitions
+ * Generic dense object definitions.
  */
 
 #include <string>
@@ -18,9 +18,9 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @brief The basic dense object generic class
+ * @brief The basic dense object generic class.
  *
- * All dense objects inherit from this class
+ * All dense objects inherit from this class.
  */
 template <typename T, typename Tr>
 class GenericObject : public UniversalMetaData {
@@ -32,14 +32,14 @@ class GenericObject : public UniversalMetaData {
 		//
 
 		/**
-		 * @brief The values array
-		 * @return The pointer to the numerical values of the object
+		 * @brief The values array.
+		 * @return The pointer to the numerical values of the object (column-major).
 		 */
 		T* values();
 
 		/**
-		 * @brief The values array
-		 * @return The pointer to the numerical values of the object
+		 * @brief The values array.
+		 * @return The pointer to the numerical values of the object (column-major).
 		 */
 		const T* values() const;
 
@@ -48,26 +48,28 @@ class GenericObject : public UniversalMetaData {
 		//
 
 		/**
-		 * @brief Clears the object
+		 * @brief Clears the object.
+		 *
+		 * Deallocates owned data and resets all members.
 		 */
 		void clear();
 
 		/**
-		 * @brief Scales object by coeff
-		 * @param[in] coeff The scaling coefficient
+		 * @brief Scales object by coeff.
+		 * @param[in] coeff The scaling coefficient.
 		 */
 		void scale(T coeff);
 
 		/**
-		 * @brief Prints the contents of the object
-		 * @param[in] nsd The number of significant digits
+		 * @brief Prints the contents of the object.
+		 * @param[in] nsd The number of significant digits.
 		 */
 		void print(uint_t nsd = 3) const;
 
 		/**
-		 * @brief Prints the contents of the object to a string
-		 * @param[in] nsd The number of significant digits
-		 * @return The string containing the formatted numerical values of the object
+		 * @brief Prints the contents of the object to a string.
+		 * @param[in] nsd The number of significant digits.
+		 * @return The string containing the formatted numerical values of the object.
 		 */
 		std::string printToString(uint_t nsd = 3) const;
 

@@ -2,7 +2,7 @@
 #define CLA3P_UNIVERSAL_HPP_
 
 /** @file
- * Basic object identification & meta data
+ * Basic object identification & meta data.
  */
 
 #include <string>
@@ -58,35 +58,36 @@ class UniversalMetaTypes {
 /*-------------------------------------------------*/
 
 /**
- * @brief The universal metadata class
+ * @brief The universal metadata class.
  *
- * All objects inherit from this class
+ * All objects inherit from this class.
  */
 class UniversalMetaData {
 
 	public:
 
 		/**
-		 * @brief Test whether object is empty
-		 * @return whether the object is empty
+		 * @brief Test whether object is empty.
+		 * @return whether the object is empty.
 		 */
 		bool empty() const;
 
 		/**
-		 * @brief Test whether object is the owner of its contents
+		 * @brief Test whether object is the owner of its contents.
 		 *
-		 * If the ownership flag is true, the object is responsible for deallocation of its contents
+		 * If the ownership flag is true, the object is responsible for deallocation of its contents. @n
+		 * The content memory is deallocated on object destruction.
 		 *
-		 * @return whether the object is the owner of its contents 
+		 * @return whether the object is the owner of its contents.
 		 */
 		bool owner() const;
 
 		/**
-		 * @brief Unties data from object
+		 * @brief Unties data from object.
 		 *
-		 * The object contents are detached from the object @n
-		 * The object is no longer responsible for content deallocation @n
-		 * Use with caution as it may lead to memory leak if contents are not deallocated by the user
+		 * Makes the object no longer responsible for content deallocation. @n
+		 * Use with caution as it may lead to memory leaks if the contents are not deallocated by the user. @n
+		 * Deallocate automatically allocated data using i_free().
 		 */
 		void unbind();
 

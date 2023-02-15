@@ -25,13 +25,18 @@ static void check_allocation(const void *ptr, bulk_t nmemb, bulk_t size)
 /*-------------------------------------------------*/
 void* i_malloc(bulk_t nmemb, bulk_t size)
 {
+	return i_malloc(nmemb * size);
+}
+/*-------------------------------------------------*/
+void* i_malloc(bulk_t size)
+{
 	void *ret = nullptr;
 
-	if(!nmemb || !size) return ret;
+	if(!size) return ret;
 
-	ret = mkl_malloc(nmemb * size, MKL_ALLOC_ALIGNMENT);
+	ret = mkl_malloc(size, MKL_ALLOC_ALIGNMENT);
 
-	check_allocation(ret, nmemb, size);
+	check_allocation(ret, 1, size);
 
 	return ret;
 }
@@ -49,20 +54,25 @@ void* i_calloc(bulk_t nmemb, bulk_t size)
 	return ret;
 }
 /*-------------------------------------------------*/
-void* i_realloc(void *ptr, bulk_t nmemb, bulk_t size)
+void* i_realloc(void *ptr, bulk_t size)
 {
 	void *ret = nullptr;
 
-	if(!nmemb || !size){
+	if(!size){
 		i_free(ptr);
 		return ret;
 	} // empty allocation
 
-	ret = mkl_realloc(ptr, nmemb * size);
+	ret = mkl_realloc(ptr, size);
 
-	check_allocation(ret, nmemb, size);
+	check_allocation(ret, 1, size);
 
 	return ret;
+}
+/*-------------------------------------------------*/
+void* i_realloc(void *ptr, bulk_t nmemb, bulk_t size)
+{
+	return i_realloc(ptr, nmemb * size);
 }
 /*-------------------------------------------------*/
 void i_free(void *ptr)
