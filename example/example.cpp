@@ -25,7 +25,7 @@ int main()
 	cla3p::enable_dbg_messages();
 
 	cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(10,10);
-	cla3p::PermMatrix P = cla3p::PermMatrix::random(10);
+	cla3p::PermMatrix P = cla3p::PermMatrix::random(1000);
 
 	std::cout << A.info("A");
 	std::cout << A;

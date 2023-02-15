@@ -29,34 +29,6 @@ static uint_t recursive_min_dim()
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-static void zero_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda)
-{
-	fill(ptype, m, n, a, lda, 0.);
-}
-/*-------------------------------------------------*/
-void zero(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda)
-{ 
-	zero_tmpl(ptype, m, n, a, lda); 
-}
-/*-------------------------------------------------*/
-void zero(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda)
-{ 
-	zero_tmpl(ptype, m, n, a, lda); 
-}
-/*-------------------------------------------------*/
-void zero(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda)
-{ 
-	zero_tmpl(ptype, m, n, a, lda); 
-}
-/*-------------------------------------------------*/
-void zero(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda)
-{ 
-	zero_tmpl(ptype, m, n, a, lda); 
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template <typename T>
 static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 {
 	if(!m || !n) return;
@@ -76,25 +48,12 @@ static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
 	} // m = lda
 }
 /*-------------------------------------------------*/
-void fill(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t val)
-{ 
-	fill_tmpl(ptype, m, n, a, lda, val); 
-}
-/*-------------------------------------------------*/
-void fill(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t val)
-{ 
-	fill_tmpl(ptype, m, n, a, lda, val); 
-}
-/*-------------------------------------------------*/
-void fill(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t val)
-{ 
-	fill_tmpl(ptype, m, n, a, lda, val); 
-}
-/*-------------------------------------------------*/
-void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val)
-{ 
-	fill_tmpl(ptype, m, n, a, lda, val); 
-}
+void fill(prop_t ptype, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){ fill_tmpl(ptype, m, n, a, lda, val); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -122,29 +81,12 @@ static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda,
 	} // hermitian
 }
 /*-------------------------------------------------*/
-void rand(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t low, real_t high)
-{
-	std::function<real_t (real_t low, real_t high)> randfun = drand;
-	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
-}
-/*-------------------------------------------------*/
-void rand(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t low, real4_t high)
-{
-	std::function<real4_t (real4_t low, real4_t high)> randfun = srand;
-	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
-}
-/*-------------------------------------------------*/
-void rand(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, real_t low, real_t high)
-{
-	std::function<complex_t (real_t low, real_t high)> randfun = zrand;
-	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
-}
-/*-------------------------------------------------*/
-void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high)
-{
-	std::function<complex8_t (real4_t low, real4_t high)> randfun = crand;
-	rand_tmpl(ptype, m, n, a, lda, low, high, randfun);
-}
+void rand(prop_t ptype, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl<int_t  ,int_t     >(ptype, m, n, a, lda, low, high, irand); }
+void rand(prop_t ptype, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl<uint_t ,uint_t    >(ptype, m, n, a, lda, low, high, urand); }
+void rand(prop_t ptype, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t ,real_t    >(ptype, m, n, a, lda, low, high, drand); }
+void rand(prop_t ptype, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t,real4_t   >(ptype, m, n, a, lda, low, high, srand); }
+void rand(prop_t ptype, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t ,complex_t >(ptype, m, n, a, lda, low, high, zrand); }
+void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t,complex8_t>(ptype, m, n, a, lda, low, high, crand); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -189,6 +131,33 @@ static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, 
 	} else {
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
 	} // lower
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+	bool lower = Property(ptype).is_lower();
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
+{
+	naive_copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void copy(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
+{
+	naive_copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 void copy(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
@@ -249,12 +218,12 @@ static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coe
 
 	bool lower = Property(ptype).is_lower();
 
-	T coeff_one = 1.;
+	T coeff_one = 1;
 	if(coeff == coeff_one) {
 		return;
 	} // coeff = 1
 
-	T coeff_zero = 0.;
+	T coeff_zero = 0;
 	if(coeff == coeff_zero) {
 		zero(ptype, m, n, a, lda);
 		return;
@@ -267,25 +236,40 @@ static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coe
 	} // lower
 }
 /*-------------------------------------------------*/
-void scale(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff)
+template <typename T>
+static void naive_scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
-	scale_tmpl(ptype, m, n, a, lda, coeff);
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+	bool lower = Property(ptype).is_lower();
+
+	T coeff_one = 1;
+	if(coeff == coeff_one) {
+		return;
+	} // coeff = 1
+
+	T coeff_zero = 0;
+	if(coeff == coeff_zero) {
+		zero(ptype, m, n, a, lda);
+		return;
+	} // coeff = 0
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(lda,a,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
 }
 /*-------------------------------------------------*/
-void scale(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff)
-{
-	scale_tmpl(ptype, m, n, a, lda, coeff);
-}
-/*-------------------------------------------------*/
-void scale(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
-{
-	scale_tmpl(ptype, m, n, a, lda, coeff);
-}
-/*-------------------------------------------------*/
-void scale(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff)
-{
-	scale_tmpl(ptype, m, n, a, lda, coeff);
-}
+void scale(prop_t ptype, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      coeff) { naive_scale_tmpl(ptype, m, n, a, lda, coeff); }
+void scale(prop_t ptype, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     coeff) { naive_scale_tmpl(ptype, m, n, a, lda, coeff); }
+void scale(prop_t ptype, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     coeff) {       scale_tmpl(ptype, m, n, a, lda, coeff); }
+void scale(prop_t ptype, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    coeff) {       scale_tmpl(ptype, m, n, a, lda, coeff); }
+void scale(prop_t ptype, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  coeff) {       scale_tmpl(ptype, m, n, a, lda, coeff); }
+void scale(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff) {       scale_tmpl(ptype, m, n, a, lda, coeff); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -295,6 +279,28 @@ static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uin
 	if(!m || !n) return;
 
 	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	if(!m || !n) return;
+
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			entry(ldb,b,j,i) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
+{ 
+	naive_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void transpose(uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
+{ 
+	naive_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
@@ -327,16 +333,28 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
+{ 
+	WarningNoReach();
+	transpose(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
+{ 
+	WarningNoReach();
+	transpose(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
 { 
 	WarningNoReach();
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+	transpose(m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
 { 
 	WarningNoReach();
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+	transpose(m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
@@ -565,6 +583,16 @@ static Tout norm_fro_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t
 	return 0.;
 }
 /*-------------------------------------------------*/
+int_t norm_one(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+int_t norm_inf(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+int_t norm_max(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+int_t norm_fro(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+/*-------------------------------------------------*/
+uint_t norm_one(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+uint_t norm_inf(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+uint_t norm_max(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+uint_t norm_fro(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+/*-------------------------------------------------*/
 real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_one_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
 real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_inf_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
 real_t norm_max(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_max_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
@@ -668,6 +696,16 @@ static void permute_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t ld
 		throw Exception("Invalid property: " + prop.name());
 
 	} // prop
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{
+	permute_tmpl(ptype, m, n, a, lda, b, ldb, P, Q); 
 }
 /*-------------------------------------------------*/
 void permute(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)

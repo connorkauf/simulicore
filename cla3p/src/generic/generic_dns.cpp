@@ -396,6 +396,8 @@ void GenericObject<T,Tr>::wrapCreator(prop_t ptype, uint_t nr, uint_t nc, T *val
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template class GenericObject<int_t,int_t>;
+template class GenericObject<uint_t,uint_t>;
 template class GenericObject<real_t,real_t>;
 template class GenericObject<real4_t,real4_t>;
 template class GenericObject<complex_t,real_t>;

@@ -9,6 +9,7 @@
 // 3rd
 
 // cla3p
+#include "bulk/dns_io.hpp"
 #include "checks/all_checks.hpp"
 #include "support/error.hpp"
 #include "support/error_internal.hpp"
@@ -166,16 +167,9 @@ std::string PermMatrix::info(const std::string& msg) const
 /*-------------------------------------------------*/
 std::string PermMatrix::printToString() const
 {
-	std::string ret;
-
-	char tmp[64];
-	nint_t nd = inumlen(size());
-	for(uint_t i = 0; i < size(); i++) {
-		std::sprintf(tmp, "%*" _UFMT_ " | %*" _UFMT_ "\n", nd, i, nd, (*this)(i));
-		ret.append(tmp);
-	} // i
-
-	return ret;
+	uint_t rsize = size();
+	uint_t csize = 1;
+	return bulk::dns::print_to_string(prop_t::GENERAL, rsize, csize, values(), rsize);
 }
 /*-------------------------------------------------*/
 void PermMatrix::print() const
