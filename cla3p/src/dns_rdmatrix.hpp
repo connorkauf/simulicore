@@ -136,6 +136,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		//
 
 		/**
+		 * @brief Scales matrix by coeff.
+		 * @param[in] coeff The scaling coefficient.
+		 */
+		void scale(real_t coeff);
+
+		/**
 		 * @brief Copies a matrix.
 		 * @return A deep copy of the matrix.
 		 */

@@ -55,20 +55,14 @@ class GenericObject : public UniversalMetaData {
 		void clear();
 
 		/**
-		 * @brief Scales object by coeff.
-		 * @param[in] coeff The scaling coefficient.
-		 */
-		void scale(T coeff);
-
-		/**
 		 * @brief Prints the contents of the object.
-		 * @param[in] nsd The number of significant digits.
+		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
 		 */
 		void print(uint_t nsd = 3) const;
 
 		/**
 		 * @brief Prints the contents of the object to a string.
-		 * @param[in] nsd The number of significant digits.
+		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
 		 * @return The string containing the formatted numerical values of the object.
 		 */
 		std::string printToString(uint_t nsd = 3) const;
@@ -95,6 +89,7 @@ class GenericObject : public UniversalMetaData {
 		const Property& prop() const;
 
 		// callable from empty
+		void scaleWith(T coeff);
 		void copyTo(GenericObject<T,Tr>&) const;
 		void moveTo(GenericObject<T,Tr>&);
 		void cloneTo(GenericObject<T,Tr>&);

@@ -106,13 +106,13 @@ void GenericObject<T,Tr>::clear()
 	defaults();
 }
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::scale(T coeff)
+void GenericObject<T,Tr>::scaleWith(T coeff)
 {
 	bulk::dns::scale(prop().type(), rsize(), csize(), values(), ld(), coeff);
 }
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::copyTo(GenericObject<T,Tr>& trg) const

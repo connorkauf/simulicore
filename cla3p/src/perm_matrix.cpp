@@ -4,7 +4,6 @@
 // system
 #include <iostream>
 #include <cstring>
-#include <sstream>
 
 // 3rd
 
@@ -19,6 +18,9 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
+using ThisDataType = uint_t;
+using ThisObjectType = dns::GenericObject<ThisDataType,ThisDataType>;
+/*-------------------------------------------------*/
 #if defined (CLA3P_I64)
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::UINT, PrecisionType::DOUBLE)
 #else
@@ -29,31 +31,30 @@ PermMatrix::PermMatrix()
 	:
 		UniversalConstructor()
 {
-	defaults();
 }
 /*-------------------------------------------------*/
 PermMatrix::PermMatrix(uint_t n)
 	:
-		UniversalConstructor()
+		UniversalConstructor(),
+		ThisObjectType(prop_t::GENERAL, n, 1, n, false)
+
 {
-	blankCreator(n);
 }
 /*-------------------------------------------------*/
 PermMatrix::~PermMatrix()
 {
-	clear();
 }
 /*-------------------------------------------------*/
 PermMatrix::PermMatrix(PermMatrix&& other)
 	:
-		UniversalConstructor()
+		UniversalConstructor(),
+		ThisObjectType(std::move(other))
 {
-	*this = other.move();
 }
 /*-------------------------------------------------*/
 PermMatrix& PermMatrix::operator=(PermMatrix&& other)
 {
-	*this = other.move();
+	ThisObjectType::operator=(std::move(other));
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -61,123 +62,28 @@ PermMatrix& PermMatrix::operator=(PermMatrix&& other)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-void PermMatrix::defaults()
-{
-	UniversalMetaData::defaults();
-
-	setValues(nullptr);
-}
-/*-------------------------------------------------*/
-void PermMatrix::creator(uint_t n, uint_t *vals, bool owner)
-{
-	uint_t rsize = n;
-	uint_t csize = 1;
-
-	dns_consistency_check(prop_t::GENERAL, rsize, csize, vals, rsize);
-
-	// meta data
-	setAllMeta(rsize, csize, owner);
-
-	// additional
-	setValues(vals);
-}
-/*-------------------------------------------------*/
-void PermMatrix::blankCreator(uint_t n)
-{
-	clear();
-	uint_t *p = static_cast<uint_t*>(i_malloc(n, sizeof(uint_t)));
-	creator(n, p, true);
-}
-/*-------------------------------------------------*/
-PermMatrix PermMatrix::init(uint_t n)
-{
-	PermMatrix ret;
-	ret.blankCreator(n);
-	return ret.move();
-}
-/*-------------------------------------------------*/
-void PermMatrix::randomCreator(uint_t n)
-{
-	blankCreator(n);
-	fill_random_perm(this->size(), this->values());
-}
-/*-------------------------------------------------*/
-PermMatrix PermMatrix::random(uint_t n)
-{
-	PermMatrix ret;
-	ret.randomCreator(n);
-	return ret.move();
-}
-/*-------------------------------------------------*/
-void PermMatrix::setValues(uint_t *vals) { m_values = vals; }
-/*-------------------------------------------------*/
 uint_t PermMatrix::size() const { return rsize(); }
-/*-------------------------------------------------*/
-uint_t*       PermMatrix::values()       { return m_values; }
-const uint_t* PermMatrix::values() const { return m_values; }
-/*-------------------------------------------------*/
-void PermMatrix::clear()
-{
-	if(owner()) {
-		i_free(values());
-	} // owner  
-
-	defaults();
-}
 /*-------------------------------------------------*/
 PermMatrix PermMatrix::copy() const
 {
 	PermMatrix ret;
-	ret.blankCreator(size());
-	std::memcpy(ret.values(), values(), size() * sizeof(uint_t));
-	return ret.move();
+  ThisObjectType::copyTo(ret);
+  return ret.move();
 }
 /*-------------------------------------------------*/
 PermMatrix PermMatrix::move()
 {
 	PermMatrix ret;
-	ret.creator(size(), values(), owner());
-	unbind();
-	clear();
+	ThisObjectType::moveTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 std::string PermMatrix::info(const std::string& msg) const
 {
-	std::string top;
-	std::string bottom;
-	fill_info_margins(msg, top, bottom);
-
-	std::stringstream ss;
-
-	ss << top << "\n";
-
-	ss << "  Object type.......... " <<  objTypeName() << "\n";
-	ss << "  Datatype............. " << dataTypeName() << "\n";
-	ss << "  Precision............ " << precTypeName() << "\n";
-
-	ss << "  Size................. " <<         size  ()  << "\n";
-	ss << "  Values............... " <<         values()  << "\n";
-	ss << "  Owner................ " << bool2yn(owner ()) << "\n";
-
-	ss << bottom << "\n";
-
-	return ss.str();
+	return ThisObjectType::info(false, msg, objTypeName(), dataTypeName(), precTypeName());
 }
 /*-------------------------------------------------*/
-std::string PermMatrix::printToString() const
-{
-	uint_t rsize = size();
-	uint_t csize = 1;
-	return bulk::dns::print_to_string(prop_t::GENERAL, rsize, csize, values(), rsize);
-}
-/*-------------------------------------------------*/
-void PermMatrix::print() const
-{
-	std::cout << printToString();
-}
-/*-------------------------------------------------*/
-uint_t& PermMatrix::operator()(uint_t i)
+ThisDataType& PermMatrix::operator()(uint_t i)
 {
 	if(i >= size()) {
 		throw OutOfBounds(out_of_bounds_message(size(),i));
@@ -186,13 +92,28 @@ uint_t& PermMatrix::operator()(uint_t i)
   return values()[i];
 }
 /*-------------------------------------------------*/
-const uint_t& PermMatrix::operator()(uint_t i) const
+const ThisDataType& PermMatrix::operator()(uint_t i) const
 {
 	if(i >= size()) {
 		throw OutOfBounds(out_of_bounds_message(size(),i));
 	} // out-of-bounds
 
   return values()[i];
+}
+/*-------------------------------------------------*/
+PermMatrix PermMatrix::init(uint_t n)
+{
+	PermMatrix ret;
+	ret.blankCreator(prop_t::GENERAL, n, 1, n);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+PermMatrix PermMatrix::random(uint_t n)
+{
+	PermMatrix ret;
+	ret.blankCreator(prop_t::GENERAL, n, 1, n);
+	fill_random_perm(ret.size(), ret.values());
+	return ret.move();
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -76,6 +76,11 @@ uint_t RdMatrix::ncols() const { return csize(); }
 uint_t          RdMatrix::ld  () const { return ThisObjectType::ld  (); }
 const Property& RdMatrix::prop() const { return ThisObjectType::prop(); }
 /*-------------------------------------------------*/
+void RdMatrix::scale(real_t coeff)
+{
+	ThisObjectType::scaleWith(coeff);
+}
+/*-------------------------------------------------*/
 RdMatrix RdMatrix::copy() const 
 { 
 	RdMatrix ret;
