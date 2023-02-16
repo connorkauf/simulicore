@@ -2,8 +2,6 @@
 #include "dns.hpp"
 
 // system
-#include <cstring>
-#include <algorithm>
 #include <functional>
 
 // 3rd

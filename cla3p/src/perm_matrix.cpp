@@ -2,17 +2,12 @@
 #include "perm_matrix.hpp"
 
 // system
-#include <iostream>
-#include <cstring>
 
 // 3rd
 
 // cla3p
-#include "bulk/dns_io.hpp"
-#include "checks/all_checks.hpp"
 #include "support/error.hpp"
 #include "support/error_internal.hpp"
-#include "support/imalloc.hpp"
 #include "support/utils.hpp"
 
 /*-------------------------------------------------*/

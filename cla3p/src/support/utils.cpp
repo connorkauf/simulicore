@@ -3,6 +3,7 @@
 
 // system
 #include <cstdio>
+#include <string>
 #include <cmath>
 #include <algorithm>
 

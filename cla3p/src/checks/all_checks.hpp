@@ -2,7 +2,6 @@
 #define CLA3P_GENERIC_CHECKS_HPP_
 
 #include "../types.hpp"
-#include "../support/error_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

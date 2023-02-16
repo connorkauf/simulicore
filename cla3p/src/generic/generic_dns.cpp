@@ -2,7 +2,6 @@
 #include "generic_dns.hpp"
 
 // system
-#include <sstream>
 
 // 3rd
 
@@ -10,8 +9,6 @@
 #include "../bulk/dns.hpp"
 #include "../bulk/dns_io.hpp"
 #include "../checks/all_checks.hpp"
-#include "../support/error.hpp"
-#include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../support/imalloc.hpp"
 #include "../perm_matrix.hpp"

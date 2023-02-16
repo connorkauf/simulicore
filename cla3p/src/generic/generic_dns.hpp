@@ -6,7 +6,6 @@
  */
 
 #include <string>
-#include <iostream>
 
 #include "../types.hpp"
 #include "universal.hpp"
