@@ -114,6 +114,12 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		PermMatrix move();
 
 		/**
+		 * @brief The inverse permutation matrix.
+		 * @return The inverse (transpose) of the permutation matrix.
+		 */
+		PermMatrix inverse() const;
+
+		/**
 		 * @brief Prints permutation matrix information to a string.
 		 * @param[in] msg Set a header identifier.
 		 * @return A string containing the permutation matrix information

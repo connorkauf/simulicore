@@ -73,6 +73,15 @@ PermMatrix PermMatrix::move()
 	return ret;
 }
 /*-------------------------------------------------*/
+PermMatrix PermMatrix::inverse() const
+{
+	PermMatrix ret(size());
+	for(uint_t i = 0; i < size(); i++) {
+		ret((*this)(i)) = i;
+	} // i
+	return ret.move();
+}
+/*-------------------------------------------------*/
 std::string PermMatrix::info(const std::string& msg) const
 {
 	return ThisObjectType::info(false, msg, objTypeName(), dataTypeName(), precTypeName());
