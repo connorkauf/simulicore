@@ -123,12 +123,12 @@ class GenericObject : public UniversalMetaData {
 		void gePermuteTo(GenericObject<T,Tr>&, const PermMatrix& P, const PermMatrix& Q) const;
 		void gePermuteToLeft(GenericObject<T,Tr>&, const PermMatrix& P) const;
 		void gePermuteToRight(GenericObject<T,Tr>&, const PermMatrix& Q) const;
-		void shPermuteTo(GenericObject<T,Tr>&, const PermMatrix& P) const;
+		void xxPermuteToMirror(GenericObject<T,Tr>&, const PermMatrix& P) const;
 
 		void gePermuteIp(const PermMatrix& P, const PermMatrix& Q);
 		void gePermuteIpLeft(const PermMatrix& P);
 		void gePermuteIpRight(const PermMatrix& Q);
-		void shPermuteIp(const PermMatrix& P);
+		void xxPermuteIpMirror(const PermMatrix& P);
 
 		void getBlock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		void getBlockReference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);

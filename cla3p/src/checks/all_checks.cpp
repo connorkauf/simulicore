@@ -115,7 +115,7 @@ void block_op_consistency_check(
 	}
 }
 /*-------------------------------------------------*/
-static void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
+void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
 	if(nrows != np || ncols != nq) {
 		throw NoConsistency(msg_invalid_dimensions() + " for permute operation");
@@ -126,14 +126,6 @@ void perm_ge_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint
 {
 	if(ptype != prop_t::GENERAL) {
 		throw InvalidOp("Right/Left sided permutations are applied on non-empty general matrices");
-	}
-	perm_op_consistency_check(nrows, ncols, np, nq);
-}
-/*-------------------------------------------------*/
-void perm_syhe_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
-{
-	if(ptype != prop_t::SYMMETRIC && ptype != prop_t::HERMITIAN) {
-		throw InvalidOp("Symmetric/Hermitian permutations are applied on non-empty Symmetric/Hermitian matrices");
 	}
 	perm_op_consistency_check(nrows, ncols, np, nq);
 }

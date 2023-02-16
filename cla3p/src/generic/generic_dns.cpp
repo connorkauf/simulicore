@@ -290,12 +290,15 @@ void GenericObject<T,Tr>::gePermuteToRight(GenericObject<T,Tr>& trg, const PermM
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::shPermuteTo(GenericObject<T,Tr>& trg, const PermMatrix& P) const
+void GenericObject<T,Tr>::xxPermuteToMirror(GenericObject<T,Tr>& trg, const PermMatrix& P) const
 {
-	perm_syhe_op_consistency_check(prop().type(), rsize(), csize(), P.size(), P.size());
+	perm_op_consistency_check(rsize(), csize(), P.size(), P.size());
+
+	PermMatrix iP;
+	if(prop().is_general()) iP = P.inverse();
 
 	trg.blankCreator(prop().type(), rsize(), csize(), rsize());
-	bulk::dns::permute(prop().type(), rsize(), csize(), values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
+	bulk::dns::permute(prop().type(), rsize(), csize(), values(), ld(), trg.values(), trg.ld(), P.values(), iP.values());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -323,10 +326,10 @@ void GenericObject<T,Tr>::gePermuteIpRight(const PermMatrix& Q)
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::shPermuteIp(const PermMatrix& P)
+void GenericObject<T,Tr>::xxPermuteIpMirror(const PermMatrix& P)
 {
 	GenericObject<T,Tr> tmp;
-	shPermuteTo(tmp, P);
+	xxPermuteToMirror(tmp, P);
 	bulk::dns::copy(tmp.prop().type(), tmp.rsize(), tmp.csize(), tmp.values(), tmp.ld(), values(), ld());
 }
 /*-------------------------------------------------*/

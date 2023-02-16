@@ -30,24 +30,28 @@
 
 /*-------------------------------------------------*/
 
-using Matrix = cla3p::dns::RiMatrix;
-
 int main()
 {
 	cla3p::enable_dbg_messages();
 
-	Matrix A = Matrix::random(10,10);
+	cla3p::dns::RdMatrix Ad = cla3p::dns::RdMatrix::random(10,10);
+	cla3p::dns::RfMatrix Af = cla3p::dns::RfMatrix::random(10,10);
+	cla3p::dns::RiMatrix Ai = cla3p::dns::RiMatrix::random(10,10);
+
 	cla3p::PermMatrix P = cla3p::PermMatrix::random(10);
 
-	std::cout << A.info("A");
-	std::cout << A;
+	std::cout << Ad.info("Ad") << Af.info("Af") << Ai.info("Ai");
+	std::cout << Ad << Af << Ai;
 
 	std::cout << P.info("P");
 	std::cout << P;
+	std::cout << P.inverse();
 
-	A.print();
-	P.print();
-	A.permuteLeft(P).print();
+	Ad.fill(1);
+	Af.fill(1);
+	Ai.fill(1);
+
+	std::cout << Ad << Af << Ai;
 
 	return 0;
 }

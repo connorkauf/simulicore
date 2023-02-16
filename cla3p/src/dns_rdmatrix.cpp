@@ -168,17 +168,17 @@ RdMatrix RdMatrix::permuteRight(const PermMatrix& Q) const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-RdMatrix RdMatrix::permute(const PermMatrix& P) const
+RdMatrix RdMatrix::permuteMirror(const PermMatrix& P) const
 {
 	RdMatrix ret;
-	ThisObjectType::shPermuteTo(ret, P);
+	ThisObjectType::xxPermuteToMirror(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void RdMatrix::ipermute     (const PermMatrix& P, const PermMatrix& Q) { return ThisObjectType::gePermuteIp     (P, Q); }
-void RdMatrix::ipermuteLeft (const PermMatrix& P                    ) { return ThisObjectType::gePermuteIpLeft (P);    }
-void RdMatrix::ipermuteRight(const PermMatrix& Q                    ) { return ThisObjectType::gePermuteIpRight(Q);    }
-void RdMatrix::ipermute     (const PermMatrix& P                    ) { return ThisObjectType::shPermuteIp     (P);    }
+void RdMatrix::ipermute      (const PermMatrix& P, const PermMatrix& Q) { return ThisObjectType::gePermuteIp      (P, Q); }
+void RdMatrix::ipermuteLeft  (const PermMatrix& P                     ) { return ThisObjectType::gePermuteIpLeft  (P);    }
+void RdMatrix::ipermuteRight (const PermMatrix& Q                     ) { return ThisObjectType::gePermuteIpRight (Q);    }
+void RdMatrix::ipermuteMirror(const PermMatrix& P                     ) { return ThisObjectType::xxPermuteIpMirror(P);    }
 /*-------------------------------------------------*/
 RdMatrix RdMatrix::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {

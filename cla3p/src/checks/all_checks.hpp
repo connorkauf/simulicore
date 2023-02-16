@@ -21,8 +21,8 @@ void block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, 
 // 
 // Checks if permutation op is valid
 //
+void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq);
 void perm_ge_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq);
-void perm_syhe_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq);
 
 // 
 // Checks if (conjugate) transposition op is valid

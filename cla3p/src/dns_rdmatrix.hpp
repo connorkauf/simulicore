@@ -237,14 +237,14 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		RdMatrix permuteRight(const PermMatrix& Q) const;
 
 		/**
-		 * @brief Permutes a symmetric matrix.
+		 * @brief Permutes a matrix symmetrically.
 		 *
 		 * Creates a permuted copy @f$ (PAP^T) @f$ of the matrix @f$ A @f$.
 		 *
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		RdMatrix permute(const PermMatrix& P) const;
+		RdMatrix permuteMirror(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes a general matrix in-place.
@@ -275,13 +275,13 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		void ipermuteRight(const PermMatrix& Q);
 
 		/**
-		 * @brief Permutes a symmetric matrix in-place.
+		 * @brief Permutes a matrix symmetrically in-place.
 		 *
 		 * Replaces @f$ A @f$ with @f$ PAP^T @f$.
 		 *
 		 * @param[in] P The left and right side permutation matrix.
 		 */
-		void ipermute(const PermMatrix& P);
+		void ipermuteMirror(const PermMatrix& P);
 
 		/**
 		 * @brief Gets a submatrix copy.
