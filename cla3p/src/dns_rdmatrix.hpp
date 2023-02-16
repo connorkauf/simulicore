@@ -384,9 +384,9 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		static RdMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a random matrix.
+		 * @brief Creates a matrix with random values in (0,1).
 		 *
-		 * Creates a (nr x nc) general matrix with random values in (0,1).
+		 * Creates a (nr x nc) general matrix with random values.
 		 *
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
@@ -395,9 +395,9 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		static RdMatrix random(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a random matrix.
+		 * @brief Creates a matrix with random values in (0,1).
 		 *
-		 * Creates a (nr x nc) matrix with random values in (0,1).
+		 * Creates a (nr x nc) matrix with random values.
 		 *
 		 * @param[in] ptype The matrix property.
 		 * @param[in] nr The number of matrix rows.

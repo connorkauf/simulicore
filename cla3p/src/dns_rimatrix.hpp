@@ -231,12 +231,14 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		static RiMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
+		 * @brief Creates a matrix with random values in (0,100).
+		 * @copydetails cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
 		 */
 		static RiMatrix random(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
+		 * @brief Creates a matrix with random values in (0,100).
+		 * @copydetails cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
 		 */
 		static RiMatrix random(prop_t ptype, uint_t nr, uint_t nc);
 
