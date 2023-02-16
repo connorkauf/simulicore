@@ -47,6 +47,15 @@ class GenericObject : public UniversalMetaData {
 		//
 
 		/**
+		 * @brief Fills the object with a value.
+		 * 
+		 * Sets all entries of the object to a single value. 
+		 *
+		 * @param[in] val The value to be set.
+		 */
+		void fill(T val);
+
+		/**
 		 * @brief Clears the object.
 		 *
 		 * Deallocates owned data and resets all members.

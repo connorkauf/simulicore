@@ -94,6 +94,12 @@ template <typename T, typename Tr> const Property& GenericObject<T,Tr>::prop  ()
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
+void GenericObject<T,Tr>::fill(T val)
+{
+	bulk::dns::fill(prop().type(), rsize(), csize(), values(), ld(), val);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
 void GenericObject<T,Tr>::clear()
 {
 	if(owner()) {
