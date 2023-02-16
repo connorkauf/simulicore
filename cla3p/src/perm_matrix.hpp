@@ -79,7 +79,7 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		uint_t& operator()(uint_t i);
 
 		/**
-		 * @brief Matrix entry operator.
+		 * @brief Permutation matrix entry operator.
 		 * @param[in] i The number of the requested index.
 		 * @return A reference to the i-th element of the permutation.
 		 */
