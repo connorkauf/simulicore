@@ -5,6 +5,7 @@ set(CLA3P_SRC
 	types.cpp
 	dns_rdmatrix.cpp
 	dns_rfmatrix.cpp
+	dns_rimatrix.cpp
 	perm_matrix.cpp
 	)
 

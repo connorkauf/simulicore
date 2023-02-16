@@ -5,8 +5,9 @@
 //#include <omp.h>
 
 //#include "cla3p/src/types.hpp"
-//#include "cla3p/src/dns_rdmatrix.hpp"
+#include "cla3p/src/dns_rdmatrix.hpp"
 #include "cla3p/src/dns_rfmatrix.hpp"
+#include "cla3p/src/dns_rimatrix.hpp"
 #include "cla3p/src/perm_matrix.hpp"
 
 //#include "cla3p/src/bulk/dns.hpp"
@@ -29,11 +30,13 @@
 
 /*-------------------------------------------------*/
 
+using Matrix = cla3p::dns::RiMatrix;
+
 int main()
 {
 	cla3p::enable_dbg_messages();
 
-	cla3p::dns::RfMatrix A = cla3p::dns::RfMatrix::random(10,10);
+	Matrix A = Matrix::random(10,10);
 	cla3p::PermMatrix P = cla3p::PermMatrix::random(10);
 
 	std::cout << A.info("A");
