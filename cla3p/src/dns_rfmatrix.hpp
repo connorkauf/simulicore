@@ -1,5 +1,5 @@
-#ifndef CLA3P_DNS_RDMATRIX_HPP_
-#define CLA3P_DNS_RDMATRIX_HPP_
+#ifndef CLA3P_DNS_RFMATRIX_HPP_
+#define CLA3P_DNS_RFMATRIX_HPP_
 
 /** @file
  * The single precision real dense matrix definitions.
@@ -466,7 +466,7 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 
 /**
  * @class RfMGuard
- * @brief The double precision real dense matrix guard.
+ * @brief The single precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
  * Useful for protecting immutable data from being exposed.
@@ -520,4 +520,4 @@ class RfMGuard : private Guard<RfMatrix> {
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RfMatrix& mat);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_RDMATRIX_HPP_
+#endif // CLA3P_DNS_RFMATRIX_HPP_
