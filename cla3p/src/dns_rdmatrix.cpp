@@ -76,7 +76,7 @@ uint_t RdMatrix::ncols() const { return csize(); }
 uint_t          RdMatrix::ld  () const { return ThisObjectType::ld  (); }
 const Property& RdMatrix::prop() const { return ThisObjectType::prop(); }
 /*-------------------------------------------------*/
-void RdMatrix::scale(real_t coeff)
+void RdMatrix::scale(ThisDataType coeff)
 {
 	ThisObjectType::scaleWith(coeff);
 }
@@ -115,10 +115,10 @@ std::string RdMatrix::info(const std::string& msg) const
 	return ThisObjectType::info(true, msg, objTypeName(), dataTypeName(), precTypeName()); 
 }
 /*-------------------------------------------------*/
-real_t RdMatrix::normOne() const { return ThisObjectType::normOne(); }
-real_t RdMatrix::normInf() const { return ThisObjectType::normInf(); }
-real_t RdMatrix::normMax() const { return ThisObjectType::normMax(); }
-real_t RdMatrix::normFro() const { return ThisObjectType::normFro(); }
+ThisRealType RdMatrix::normOne() const { return ThisObjectType::normOne(); }
+ThisRealType RdMatrix::normInf() const { return ThisObjectType::normInf(); }
+ThisRealType RdMatrix::normMax() const { return ThisObjectType::normMax(); }
+ThisRealType RdMatrix::normFro() const { return ThisObjectType::normFro(); }
 /*-------------------------------------------------*/
 ThisDataType& RdMatrix::operator()(uint_t i, uint_t j)
 {

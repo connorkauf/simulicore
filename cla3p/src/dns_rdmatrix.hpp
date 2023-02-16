@@ -37,7 +37,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		/**
 		 * @brief The dimensional constructor.
 		 *
-		 * Constructs a general (nr x nc) RdMatrix with uninitialized values.
+		 * Constructs a general (nr x nc) matrix with uninitialized values.
 		 *
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
