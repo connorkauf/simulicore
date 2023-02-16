@@ -12,6 +12,8 @@ set(CLA3P_SRC
 set(CLA3P_HPP
 	types.hpp
 	dns_rdmatrix.hpp
+	dns_rfmatrix.hpp
+	dns_rimatrix.hpp
 	perm_matrix.hpp
 	)
 
