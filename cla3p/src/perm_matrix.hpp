@@ -17,11 +17,11 @@ namespace cla3p {
 /**
  * @class PermMatrix
  * @nosubgrouping
- * @brief The permutation matrix class (0-based).
+ * @brief The permutation matrix class.
  *
  * Permutation matrices are represented by an array of (unsigned) integers. @n
  * Their purpose is to rearrange indices using a predefined mapping. @n
- * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1].
+ * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1] (0-based indexing).
  */
 class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,uint_t> {
 

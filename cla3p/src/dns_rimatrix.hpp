@@ -147,7 +147,7 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix transpose() const;
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::permute(const PermMatrix& P, const PermMatrix& Q)
+		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		RiMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
 
@@ -162,12 +162,12 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix permuteRight(const PermMatrix& Q) const;
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::permuteMirror(const PermMatrix& P)
+		 * @copydoc cla3p::dns::RdMatrix::permuteMirror()
 		 */
 		RiMatrix permuteMirror(const PermMatrix& P) const;
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::ipermute(const PermMatrix& P, const PermMatrix& Q)
+		 * @copydoc cla3p::dns::RdMatrix::ipermute()
 		 */
 		void ipermute(const PermMatrix& P, const PermMatrix& Q);
 
@@ -182,7 +182,7 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		void ipermuteRight(const PermMatrix& Q);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::ipermute(const PermMatrix& P)
+		 * @copydoc cla3p::dns::RdMatrix::ipermuteMirror()
 		 */
 		void ipermuteMirror(const PermMatrix& P);
 
