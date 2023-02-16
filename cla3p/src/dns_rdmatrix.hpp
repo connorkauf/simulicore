@@ -474,6 +474,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 class RdMGuard : private Guard<RdMatrix> {
 
 	public:
+
 		/**
 		 * @brief The default constructor.
 		 *
