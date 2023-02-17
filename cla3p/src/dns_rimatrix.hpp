@@ -1,7 +1,8 @@
 #ifndef CLA3P_DNS_RIMATRIX_HPP_
 #define CLA3P_DNS_RIMATRIX_HPP_
 
-/** @file
+/** 
+ * @file
  * The integer dense matrix definitions.
  */
 
@@ -19,7 +20,7 @@ namespace dns {
 class RiMGuard;
 
 /**
- * @class RiMatrix
+ * @ingroup matrix_group
  * @nosubgrouping 
  * @brief The integer dense matrix object.
  */
@@ -58,9 +59,8 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 		/** 
 		 * @name Operators
+		 * @{
 		 */
-
-		/** @{ */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::operator=(RdMatrix&& other)
@@ -266,7 +266,7 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 /*-------------------------------------------------*/
 
 /**
- * @class RiMGuard
+ * @ingroup guard_group
  * @brief The integer dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -310,7 +310,8 @@ class RiMGuard : private Guard<RiMatrix> {
 /*-------------------------------------------------*/
 
 /**
- * @copydoc cla3p::dns::RdMGuard::operator<<()
+ * @ingroup stream_operator_group
+ * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RiMatrix& mat);
 /*-------------------------------------------------*/

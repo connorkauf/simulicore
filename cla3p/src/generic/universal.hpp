@@ -1,7 +1,8 @@
 #ifndef CLA3P_UNIVERSAL_HPP_
 #define CLA3P_UNIVERSAL_HPP_
 
-/** @file
+/** 
+ * @file
  * Basic object identification & meta data.
  */
 

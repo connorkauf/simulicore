@@ -1,7 +1,8 @@
 #ifndef CLA3P_DNS_RDMATRIX_HPP_
 #define CLA3P_DNS_RDMATRIX_HPP_
 
-/** @file
+/** 
+ * @file
  * The double precision real dense matrix definitions.
  */
 
@@ -19,7 +20,7 @@ namespace dns {
 class RdMGuard;
 
 /**
- * @class RdMatrix
+ * @ingroup matrix_group
  * @nosubgrouping 
  * @brief The double precision real dense matrix object.
  */
@@ -74,9 +75,8 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 		/** 
 		 * @name Operators
+		 * @{
 		 */
-
-		/** @{ */
 
 		/**
 		 * @brief The move assignment operator.
@@ -465,7 +465,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 /*-------------------------------------------------*/
 
 /**
- * @class RdMGuard
+ * @ingroup guard_group
  * @brief The double precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -516,6 +516,7 @@ class RdMGuard : private Guard<RdMatrix> {
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup stream_operator_group
  * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMatrix& mat);

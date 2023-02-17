@@ -1,7 +1,8 @@
 #ifndef CLA3P_GENERIC_DNS_HPP_
 #define CLA3P_GENERIC_DNS_HPP_
 
-/** @file
+/** 
+ * @file
  * Generic dense object definitions.
  */
 

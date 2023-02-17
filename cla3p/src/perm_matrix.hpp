@@ -1,7 +1,8 @@
 #ifndef CLA3P_PERM_MATRIX_HPP_
 #define CLA3P_PERM_MATRIX_HPP_
 
-/** @file
+/** 
+ * @file
  * The permutation matrix definitions.
  */
 
@@ -15,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @class PermMatrix
+ * @ingroup matrix_group
  * @nosubgrouping
  * @brief The permutation matrix class.
  *
@@ -60,9 +61,8 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 
 		/**
 		 * @name Operators
+		 * @{
 		 */
-
-		/** @{ */
 
 		/**
 		 * @brief The move assignment operator.
@@ -161,7 +161,8 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 /*-------------------------------------------------*/
 
 /**
- * @brief Writes to os the contents of mat
+ * @ingroup stream_operator_group
+ * @brief Writes to os the contents of permutation mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::PermMatrix& mat);
 /*-------------------------------------------------*/

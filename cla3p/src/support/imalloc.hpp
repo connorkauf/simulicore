@@ -1,7 +1,8 @@
 #ifndef CLA3P_IMALLOC_HPP_
 #define CLA3P_IMALLOC_HPP_
 
-/** @file
+/** 
+ * @file
  * Basic allocation features. The behaviour of each function is similar to the ones found in the standard.
  */
 

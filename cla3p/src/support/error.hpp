@@ -1,7 +1,8 @@
 #ifndef CLA3P_ERROR_HPP_
 #define CLA3P_ERROR_HPP_
 
-/** @file
+/** 
+ * @file
  * Basic error control features.
  */
 
@@ -15,6 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup exception_group
  * @brief Basic cla3p exception class.
  */
 class Exception : public std::exception {
@@ -42,6 +44,7 @@ class Exception : public std::exception {
 };
 
 /**
+ * @ingroup exception_group
  * @brief Consistency cla3p exception class.
  */
 class NoConsistency : public Exception {
@@ -58,6 +61,7 @@ class NoConsistency : public Exception {
 };
 
 /**
+ * @ingroup exception_group
  * @brief Invalid operation cla3p exception class.
  */
 class InvalidOp : public Exception {
@@ -74,6 +78,7 @@ class InvalidOp : public Exception {
 };
 
 /**
+ * @ingroup exception_group
  * @brief Numerical overflow cla3p exception class.
  */
 class Overflow : public Exception {
@@ -90,6 +95,7 @@ class Overflow : public Exception {
 };
 
 /**
+ * @ingroup exception_group
  * @brief Memory cla3p exception class.
  */
 class OutOfMemory : public Exception {
@@ -106,6 +112,7 @@ class OutOfMemory : public Exception {
 };
 
 /**
+ * @ingroup exception_group
  * @brief Out-of-bounds cla3p exception class.
  */
 class OutOfBounds : public Exception {

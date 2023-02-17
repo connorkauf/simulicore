@@ -1,7 +1,8 @@
 #ifndef CLA3P_TYPES_HPP_
 #define CLA3P_TYPES_HPP_
 
-/** @file
+/** 
+ * @file
  * Basic datatypes and enumerations
  */
 
@@ -27,11 +28,11 @@ using uint_t = unsigned int;
 #endif
 
 using nint_t = int;
-using real4_t = float; /**< Single precision real. */
-using real_t = double; /**< Double precision real. */
-using complex8_t = std::complex<real4_t>; /**< Single precision complex. */
-using complex_t = std::complex<real_t>; /**< Double precision complex. */
-using bulk_t = std::size_t; /**< Standard indexing. */
+/** @ingroup basic_datatypes_group */ using real4_t = float;                    /**< Single precision real. */
+/** @ingroup basic_datatypes_group */ using real_t = double;                    /**< Double precision real. */
+/** @ingroup basic_datatypes_group */ using complex8_t = std::complex<real4_t>; /**< Single precision complex. */
+/** @ingroup basic_datatypes_group */ using complex_t = std::complex<real_t>;   /**< Double precision complex. */
+/** @ingroup basic_datatypes_group */ using bulk_t = std::size_t;               /**< Standard indexing. */
 
 // TODO: move to a math header ???
 inline int_t conj(const int_t& i) { return i; }
@@ -51,7 +52,7 @@ inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
 /*-------------------------------------------------*/
 
 /**
- * @class Operation
+ * @ingroup basic_datatypes_group
  * @brief The operation class.
  */
 class Operation {
@@ -114,12 +115,16 @@ class Operation {
 	private:
 		op_t m_type;
 };
+
+/** 
+ * @ingroup basic_datatypes_group 
+ */
 using op_t = cla3p::Operation::op_t; /**< Use directly cla3p::op_t to declare an operation type. */
 
 /*-------------------------------------------------*/
 
 /**
- * @class Property
+ * @ingroup basic_datatypes_group
  * @brief The property class.
  */
 class Property {
@@ -208,6 +213,10 @@ class Property {
 	private:
 		prop_t m_type;
 };
+
+/** 
+ * @ingroup basic_datatypes_group 
+ */
 using prop_t = cla3p::Property::prop_t; /**< Use directly cla3p::prop_t to declare a property type. */
 
 /*-------------------------------------------------*/
@@ -215,11 +224,13 @@ using prop_t = cla3p::Property::prop_t; /**< Use directly cla3p::prop_t to decla
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup stream_operator_group
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op);
 
 /**
+ * @ingroup stream_operator_group
  * @brief Writes to os the type of prop.
  */
 std::ostream& operator<<(std::ostream& so, const cla3p::Property& prop);

@@ -1,7 +1,8 @@
 #ifndef CLA3P_DNS_RFMATRIX_HPP_
 #define CLA3P_DNS_RFMATRIX_HPP_
 
-/** @file
+/** 
+ * @file
  * The single precision real dense matrix definitions.
  */
 
@@ -19,7 +20,7 @@ namespace dns {
 class RfMGuard;
 
 /**
- * @class RfMatrix
+ * @ingroup matrix_group
  * @nosubgrouping 
  * @brief The single precision real dense matrix object.
  */
@@ -58,9 +59,8 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 
 		/** 
 		 * @name Operators
+		 * @{
 		 */
-
-		/** @{ */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::operator=(RdMatrix&& other)
@@ -284,7 +284,7 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 /*-------------------------------------------------*/
 
 /**
- * @class RfMGuard
+ * @ingroup guard_group
  * @brief The single precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -328,7 +328,8 @@ class RfMGuard : private Guard<RfMatrix> {
 /*-------------------------------------------------*/
 
 /**
- * @copydoc cla3p::dns::RdMGuard::operator<<()
+ * @ingroup stream_operator_group
+ * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RfMatrix& mat);
 /*-------------------------------------------------*/
