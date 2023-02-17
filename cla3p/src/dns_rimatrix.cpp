@@ -17,7 +17,7 @@ namespace dns {
 /*-------------------------------------------------*/
 using ThisDataType = int_t;
 using ThisRealType = int_t;
-using ThisObjectType = GenericObject<ThisDataType,ThisDataType>;
+using ThisObjectType = GenericObject<ThisDataType,ThisRealType>;
 using ThisGuardType = Guard<RiMatrix>;
 /*-------------------------------------------------*/
 #if defined (CLA3P_I64)

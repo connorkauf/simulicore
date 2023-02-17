@@ -32,7 +32,6 @@ PermMatrix::PermMatrix(uint_t n)
 	:
 		UniversalConstructor(),
 		ThisObjectType(prop_t::GENERAL, n, 1, n, false)
-
 {
 }
 /*-------------------------------------------------*/
@@ -93,7 +92,7 @@ ThisDataType& PermMatrix::operator()(uint_t i)
 		throw OutOfBounds(out_of_bounds_message(size(),i));
 	} // out-of-bounds
 
-  return values()[i];
+	return ThisObjectType::operator()(i,0);
 }
 /*-------------------------------------------------*/
 const ThisDataType& PermMatrix::operator()(uint_t i) const
@@ -102,7 +101,7 @@ const ThisDataType& PermMatrix::operator()(uint_t i) const
 		throw OutOfBounds(out_of_bounds_message(size(),i));
 	} // out-of-bounds
 
-  return values()[i];
+	return ThisObjectType::operator()(i,0);
 }
 /*-------------------------------------------------*/
 PermMatrix PermMatrix::init(uint_t n)
