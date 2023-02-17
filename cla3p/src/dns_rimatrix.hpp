@@ -20,7 +20,7 @@ namespace dns {
 class RiMGuard;
 
 /**
- * @ingroup matrix_group
+ * @ingroup dns_matrix_group
  * @nosubgrouping 
  * @brief The integer dense matrix object.
  */
@@ -266,7 +266,7 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup guard_group
+ * @ingroup dns_guard_group
  * @brief The integer dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 

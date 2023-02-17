@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup matrix_group
+ * @ingroup perm_matrix_group
  * @nosubgrouping
  * @brief The permutation matrix object.
  *

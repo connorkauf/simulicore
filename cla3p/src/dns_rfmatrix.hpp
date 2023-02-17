@@ -20,7 +20,7 @@ namespace dns {
 class RfMGuard;
 
 /**
- * @ingroup matrix_group
+ * @ingroup dns_matrix_group
  * @nosubgrouping 
  * @brief The single precision real dense matrix object.
  */
@@ -284,7 +284,7 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 /*-------------------------------------------------*/
 
 /**
- * @ingroup guard_group
+ * @ingroup dns_guard_group
  * @brief The single precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
