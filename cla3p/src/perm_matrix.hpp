@@ -18,7 +18,7 @@ namespace cla3p {
 /**
  * @ingroup matrix_group
  * @nosubgrouping
- * @brief The permutation matrix class.
+ * @brief The permutation matrix object.
  *
  * Permutation matrices are represented by an array of (unsigned) integers. @n
  * Their purpose is to rearrange indices using a predefined mapping. @n
