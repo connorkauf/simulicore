@@ -13,6 +13,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup allocator_group
  * @brief The default cla3p allocator.
  *
  * Allocates size bytes of uninitialized storage.
@@ -23,6 +24,7 @@ namespace cla3p {
 void* i_malloc(bulk_t size);
 
 /**
+ * @ingroup allocator_group
  * @brief The default cla3p allocator.
  *
  * Allocates (nmemb x size) bytes of uninitialized storage.
@@ -34,6 +36,7 @@ void* i_malloc(bulk_t size);
 void* i_malloc(bulk_t nmemb, bulk_t size);
 
 /**
+ * @ingroup allocator_group
  * @brief The default cla3p allocator.
  *
  * Allocates (nmemb x size) bytes of storage and initializes it to all bits zero.
@@ -45,6 +48,7 @@ void* i_malloc(bulk_t nmemb, bulk_t size);
 void* i_calloc(bulk_t nmemb, bulk_t size);
 
 /**
+ * @ingroup allocator_group
  * @brief Reallocates the given area of memory.
  *
  * @param[in] ptr The pointer to the memory area to be reallocated.
@@ -54,6 +58,7 @@ void* i_calloc(bulk_t nmemb, bulk_t size);
 void* i_realloc(void *ptr, bulk_t size);
 
 /**
+ * @ingroup allocator_group
  * @brief Reallocates the given area of memory.
  *
  * @param[in] ptr The pointer to the memory area to be reallocated.
@@ -64,6 +69,7 @@ void* i_realloc(void *ptr, bulk_t size);
 void* i_realloc(void *ptr, bulk_t nmemb, bulk_t size);
 
 /**
+ * @ingroup allocator_group
  * @brief The default cla3p deallocator.
  *
  * Deallocates the space previously allocated by i_malloc, i_calloc, or i_realloc.

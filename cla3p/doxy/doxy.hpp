@@ -15,5 +15,9 @@
  */
 
 /**
+ * @defgroup allocator_group Allocators
+ */
+
+/**
  * @defgroup exception_group Exceptions
  */
