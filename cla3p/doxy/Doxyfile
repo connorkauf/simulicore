@@ -608,7 +608,7 @@ HIDE_SCOPE_NAMES       = NO
 # YES the compound reference will be hidden.
 # The default value is: NO.
 
-HIDE_COMPOUND_REFERENCE= YES
+HIDE_COMPOUND_REFERENCE= NO
 
 # If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of
 # the files that are included by a file in the documentation of that file.
@@ -2413,7 +2413,7 @@ COLLABORATION_GRAPH    = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GROUP_GRAPHS           = YES
+GROUP_GRAPHS           = NO
 
 # If the UML_LOOK tag is set to YES, doxygen will generate inheritance and
 # collaboration diagrams in a style similar to the OMG's Unified Modeling
@@ -2482,7 +2482,7 @@ INCLUDE_GRAPH          = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDED_BY_GRAPH      = YES
+INCLUDED_BY_GRAPH      = NO
 
 # If the CALL_GRAPH tag is set to YES then doxygen will generate a call
 # dependency graph for every global function or class method.

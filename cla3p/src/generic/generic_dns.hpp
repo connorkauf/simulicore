@@ -1,11 +1,6 @@
 #ifndef CLA3P_GENERIC_DNS_HPP_
 #define CLA3P_GENERIC_DNS_HPP_
 
-/** 
- * @file
- * Generic dense object definitions.
- */
-
 #include <string>
 
 #include "../types.hpp"
