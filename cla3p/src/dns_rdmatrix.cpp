@@ -8,22 +8,28 @@
 // cla3p
 
 /*-------------------------------------------------*/
-using ThisDataType = cla3p::real_t;
-using ThisRealType = cla3p::real_t;
-using ThisObjectType = cla3p::dns::GenericObject<ThisDataType,ThisRealType>;
-using ThisGuardType = cla3p::Guard<cla3p::dns::RdMatrix>;
+namespace cla3p {
+namespace dns {
+/*-------------------------------------------------*/
+using ThisDataType = real_t;
+using ThisRealType = real_t;
+using ThisObjectType = GenericObject<ThisDataType,ThisRealType>;
+using ThisGuardType = Guard<RdMatrix>;
+/*-------------------------------------------------*/
+static prop_t propcheck(prop_t ptype)
+{
+	return (ptype == prop_t::HERMITIAN ? prop_t::SYMMETRIC : ptype);
+}
+/*-------------------------------------------------*/
+} // namespace dns
+} // namespace cla3p
 /*-------------------------------------------------*/
 #define XxMatrix RdMatrix
 #define XxMGuard RdMGuard
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::REAL, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/
-static cla3p::prop_t propcheck(cla3p::prop_t ptype)
-{
-	return (ptype == cla3p::prop_t::HERMITIAN ? cla3p::prop_t::SYMMETRIC : ptype);
-}
-/*-------------------------------------------------*/
-#include "dns_xxmatrix.hpp"
-#include "dns_flmatrix.hpp"
+#include "dns_xxmatrix_source.hpp"
+#include "dns_flmatrix_source.hpp"
 /*-------------------------------------------------*/
 #undef XxMatrix
 #undef XxMGuard
