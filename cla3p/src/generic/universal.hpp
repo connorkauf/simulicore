@@ -83,7 +83,7 @@ class UniversalMetaData {
 		 *
 		 * Makes the object no longer responsible for content deallocation. @n
 		 * Use with caution as it may lead to memory leaks if the contents are not deallocated by the user. @n
-		 * Deallocate automatically allocated data using i_free().
+		 * Deallocate auto-allocated data using i_free().
 		 */
 		void unbind();
 

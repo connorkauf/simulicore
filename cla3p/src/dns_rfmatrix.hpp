@@ -20,13 +20,24 @@ namespace dns {
 class RfMGuard;
 
 /**
- * @ingroup dns_matrix_group
+ * @ingroup dense_matrix_group
  * @nosubgrouping 
  * @brief The single precision real dense matrix object.
  */
 class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_t> {
 
 	public:
+
+		// no copy
+		RfMatrix(const RfMatrix&) = delete;
+		RfMatrix& operator=(const RfMatrix&) = delete;
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Constructors
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix()
@@ -44,18 +55,18 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		RfMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
+		 */
+		RfMatrix(RfMatrix&& other);
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::~RdMatrix()
 		 */
 		~RfMatrix();
 
-		// no copy
-		RfMatrix(const RfMatrix&) = delete;
-		RfMatrix& operator=(const RfMatrix&) = delete;
+		/** @} */
 
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
-		 */
-		RfMatrix(RfMatrix&& other);
+		// -------------------------------------------------------------------------------
 
 		/** 
 		 * @name Operators
@@ -79,9 +90,12 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 
 		/** @} */
 
-		// 
-		// non inherited args
-		//
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Arguments
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::nrows()
@@ -103,14 +117,18 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 */
 		const Property& prop() const;
 
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Operations
+		 * @{
+		 */
+
 		// 
 		// callcable from empty
 		//
-
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::scale()
-		 */
-		void scale(real4_t coeff);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::copy()
@@ -136,6 +154,11 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @copydoc cla3p::dns::RdMatrix::info()
 		 */
 		std::string info(const std::string& msg = "") const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::scale()
+		 */
+		void scale(real4_t coeff);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::normOne()
@@ -226,9 +249,14 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const RfMatrix& src);
 
-		// 
-		// static initializers
-		//
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Creators/Generators
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::init(uint_t nr, uint_t nc)
@@ -279,12 +307,14 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
 		static RfMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const real4_t *vals, uint_t ldv);
+
+		/** @} */
 };
 
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dns_guard_group
+ * @ingroup dense_guard_group
  * @brief The single precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 

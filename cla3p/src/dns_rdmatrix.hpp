@@ -20,13 +20,24 @@ namespace dns {
 class RdMGuard;
 
 /**
- * @ingroup dns_matrix_group
+ * @ingroup dense_matrix_group
  * @nosubgrouping 
  * @brief The double precision real dense matrix object.
  */
 class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 	public:
+
+		// no copy
+		RdMatrix(const RdMatrix&) = delete;
+		RdMatrix& operator=(const RdMatrix&) = delete;
+
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Constructors
+		 * @{
+		 */
 
 		/**
 		 * @brief The default constructor.
@@ -58,20 +69,21 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
 
 		/**
-		 * @brief Destroys the matrix.
-		 */
-		~RdMatrix();
-
-		// no copy
-		RdMatrix(const RdMatrix&) = delete;
-		RdMatrix& operator=(const RdMatrix&) = delete;
-
-		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a matrix with the contents of other, other is destroyed.
 		 */
 		RdMatrix(RdMatrix&& other);
+
+		/**
+		 *
+		 * @brief Destroys the matrix.
+		 */
+		~RdMatrix();
+
+		/** @} */
+
+		// -------------------------------------------------------------------------------
 
 		/** 
 		 * @name Operators
@@ -103,9 +115,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 		/** @} */
 
-		// 
-		// non inherited args
-		//
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Arguments
+		 * @{
+		 */
 
 		/**
 		 * @brief The matrix rows.
@@ -131,15 +146,18 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 */
 		const Property& prop() const;
 
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Operations
+		 * @{
+		 */
+
 		// 
 		// callcable from empty
 		//
-
-		/**
-		 * @brief Scales matrix by coeff.
-		 * @param[in] coeff The scaling coefficient.
-		 */
-		void scale(real_t coeff);
 
 		/**
 		 * @brief Copies a matrix.
@@ -170,6 +188,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] msg Set a header identifier.
 		 */
 		std::string info(const std::string& msg = "") const;
+
+		/**
+		 * @brief Scales matrix by coeff.
+		 * @param[in] coeff The scaling coefficient.
+		 */
+		void scale(real_t coeff);
 
 		/**
 		 * @brief Matrix 1-norm.
@@ -333,9 +357,14 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src);
 
-		// 
-		// static initializers
-		//
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Creators/Generators
+		 * @{
+		 */
 
 		/**
 		 * @brief Creates a matrix.
@@ -435,7 +464,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		static RdMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind);
 
 		/**
-		 * @brief Creates a general matrix guard from aux data.
+		 * @brief Creates a guard from aux data.
 		 *
 		 * Creates a guarded (nr x nc) general matrix from bulk data.
 		 *
@@ -460,12 +489,14 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @return The newly created guard.
 		 */
 		static RdMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv);
+
+		/** @} */
 };
 
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dns_guard_group
+ * @ingroup dense_guard_group
  * @brief The double precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 

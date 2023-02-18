@@ -20,13 +20,24 @@ namespace dns {
 class RiMGuard;
 
 /**
- * @ingroup dns_matrix_group
+ * @ingroup dense_matrix_group
  * @nosubgrouping 
  * @brief The integer dense matrix object.
  */
 class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 	public:
+
+		// no copy
+		RiMatrix(const RiMatrix&) = delete;
+		RiMatrix& operator=(const RiMatrix&) = delete;
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Constructors
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix()
@@ -44,18 +55,18 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
+		 */
+		RiMatrix(RiMatrix&& other);
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::~RdMatrix()
 		 */
 		~RiMatrix();
 
-		// no copy
-		RiMatrix(const RiMatrix&) = delete;
-		RiMatrix& operator=(const RiMatrix&) = delete;
+		/** @} */
 
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
-		 */
-		RiMatrix(RiMatrix&& other);
+		// -------------------------------------------------------------------------------
 
 		/** 
 		 * @name Operators
@@ -79,9 +90,12 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 		/** @} */
 
-		// 
-		// non inherited args
-		//
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Arguments
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::nrows()
@@ -103,14 +117,18 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 */
 		const Property& prop() const;
 
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Operations
+		 * @{
+		 */
+
 		// 
 		// callcable from empty
 		//
-
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::scale()
-		 */
-		void scale(int_t coeff);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::copy()
@@ -136,6 +154,11 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @copydoc cla3p::dns::RdMatrix::info()
 		 */
 		std::string info(const std::string& msg = "") const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::scale()
+		 */
+		void scale(int_t coeff);
 
 		// 
 		// not callcable from empty
@@ -206,9 +229,14 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const RiMatrix& src);
 
-		// 
-		// static initializers
-		//
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/**
+		 * @name Creators/Generators
+		 * @{
+		 */
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::init(uint_t nr, uint_t nc)
@@ -261,12 +289,14 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
 		static RiMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
+
+		/** @} */
 };
 
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dns_guard_group
+ * @ingroup dense_guard_group
  * @brief The integer dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
