@@ -306,7 +306,7 @@ void GenericObject<T,Tr>::gePermuteIp(const PermMatrix& P, const PermMatrix& Q)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteTo(tmp, P, Q);
-	bulk::dns::copy(tmp.prop().type(), tmp.rsize(), tmp.csize(), tmp.values(), tmp.ld(), values(), ld());
+	setBlock(tmp, 0, 0);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -314,7 +314,7 @@ void GenericObject<T,Tr>::gePermuteIpLeft(const PermMatrix& P)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteToLeft(tmp, P);
-	bulk::dns::copy(tmp.prop().type(), tmp.rsize(), tmp.csize(), tmp.values(), tmp.ld(), values(), ld());
+	setBlock(tmp, 0, 0);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -322,7 +322,7 @@ void GenericObject<T,Tr>::gePermuteIpRight(const PermMatrix& Q)
 {
 	GenericObject<T,Tr> tmp;
 	gePermuteToRight(tmp, Q);
-	bulk::dns::copy(tmp.prop().type(), tmp.rsize(), tmp.csize(), tmp.values(), tmp.ld(), values(), ld());
+	setBlock(tmp, 0, 0);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -330,7 +330,7 @@ void GenericObject<T,Tr>::xxPermuteIpMirror(const PermMatrix& P)
 {
 	GenericObject<T,Tr> tmp;
 	xxPermuteToMirror(tmp, P);
-	bulk::dns::copy(tmp.prop().type(), tmp.rsize(), tmp.csize(), tmp.values(), tmp.ld(), values(), ld());
+	setBlock(tmp, 0, 0);
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -373,24 +373,14 @@ template <typename T, typename Tr>
 void GenericObject<T,Tr>::zeroCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim)
 {
 	blankCreator(ptype, nr, nc, ldim);
-	bulk::dns::zero(
-			this->prop().type(), 
-			this->rsize(), 
-			this->csize(), 
-			this->values(), 
-			this->ld());
+	bulk::dns::zero(prop().type(), rsize(), csize(), values(), ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim)
 {
 	blankCreator(ptype, nr, nc, ldim);
-	bulk::dns::rand(
-			this->prop().type(), 
-			this->rsize(), 
-			this->csize(), 
-			this->values(), 
-			this->ld());
+	bulk::dns::rand(prop().type(), rsize(), csize(), values(), ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
