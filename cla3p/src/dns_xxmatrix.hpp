@@ -6,6 +6,12 @@
 #include "support/utils.hpp"
 #include "perm_matrix.hpp"
 /*-------------------------------------------------*/
+//
+//
+// Common functionality for floating point & integer dense matrices
+//
+//
+/*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/

@@ -23,17 +23,7 @@ static cla3p::prop_t propcheck(cla3p::prop_t ptype)
 }
 /*-------------------------------------------------*/
 #include "dns_xxmatrix.hpp"
-/*-------------------------------------------------*/
-namespace cla3p {
-namespace dns {
-
-ThisRealType XxMatrix::normOne() const { return ThisObjectType::normOne(); }
-ThisRealType XxMatrix::normInf() const { return ThisObjectType::normInf(); }
-ThisRealType XxMatrix::normMax() const { return ThisObjectType::normMax(); }
-ThisRealType XxMatrix::normFro() const { return ThisObjectType::normFro(); }
-
-} // namespace dns
-} // namespace cla3p
+#include "dns_flmatrix.hpp"
 /*-------------------------------------------------*/
 #undef XxMatrix
 #undef XxMGuard
