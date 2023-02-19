@@ -6,6 +6,8 @@ set(CLA3P_SRC
 	dns_rdmatrix.cpp
 	dns_rfmatrix.cpp
 	dns_rimatrix.cpp
+	dns_cdmatrix.cpp
+	dns_cfmatrix.cpp
 	perm_matrix.cpp
 	)
 
@@ -14,6 +16,8 @@ set(CLA3P_HPP
 	dns_rdmatrix.hpp
 	dns_rfmatrix.hpp
 	dns_rimatrix.hpp
+	dns_cdmatrix.hpp
+	dns_cfmatrix.hpp
 	perm_matrix.hpp
 	)
 
