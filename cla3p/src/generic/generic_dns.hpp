@@ -13,6 +13,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
+ * @nosubgrouping 
  * @brief The basic dense object generic class.
  *
  * All dense objects inherit from this class.
@@ -25,6 +26,11 @@ class GenericObject : public UniversalMetaData {
 		// 
 		// inherited args
 		//
+
+		/** 
+		 * @name Inherited dns members
+		 * @{
+		 */
 
 		/**
 		 * @brief The values array.
@@ -70,6 +76,8 @@ class GenericObject : public UniversalMetaData {
 		 * @return The string containing the formatted numerical values of the object.
 		 */
 		std::string printToString(uint_t nsd = 3) const;
+
+		/** @} */
 
 	protected:
 		GenericObject();

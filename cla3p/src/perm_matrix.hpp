@@ -27,6 +27,16 @@ namespace cla3p {
 class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,uint_t> {
 
 	public:
+
+		// no copy
+		PermMatrix(const PermMatrix&) = delete;
+		PermMatrix& operator=(const PermMatrix&) = delete;
+		
+		/** 
+		 * @name Constructors
+		 * @{
+		 */
+
 		/**
 		 * @brief The default constructor.
 		 *
@@ -44,20 +54,20 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		PermMatrix(uint_t n);
 
 		/**
-		 * @brief Destroys the permutation matrix.
-		 */
-		~PermMatrix();
-
-		// no copy
-		PermMatrix(const PermMatrix&) = delete;
-		PermMatrix& operator=(const PermMatrix&) = delete;
-
-		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a permutation matrix with the contents of other, other is destroyed.
 		 */
 		PermMatrix(PermMatrix&& other);
+
+		/**
+		 * @brief Destroys the permutation matrix.
+		 */
+		~PermMatrix();
+
+		/** @} */
+
+		// -------------------------------------------------------------------------------
 
 		/**
 		 * @name Operators
@@ -87,9 +97,12 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 
 		/** @} */
 
-		// 
-		// non inherited args
-		//
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Arguments
+		 * @{
+		 */
 
 		/**
 		 * @brief The permutation size.
@@ -97,9 +110,25 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		 */
 		uint_t size() const;
 
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Operations
+		 * @{
+		 */
+
 		// 
 		// callcable from empty
 		//
+
+		/**
+		 * @brief Prints permutation matrix information to a string.
+		 * @param[in] msg Set a header identifier.
+		 * @return A string containing the permutation matrix information
+		 */
+		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @brief Copies the permutation matrix.
@@ -119,21 +148,19 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		 */
 		PermMatrix inverse() const;
 
-		/**
-		 * @brief Prints permutation matrix information to a string.
-		 * @param[in] msg Set a header identifier.
-		 * @return A string containing the permutation matrix information
-		 */
-		std::string info(const std::string& msg = "") const;
-
 		// 
 		// not callcable from empty
 		// ...
 		//
 
-		// 
-		// static initializers (basic)
-		//
+		/** @} */
+
+		// -------------------------------------------------------------------------------
+
+		/** 
+		 * @name Creators/Generators
+		 * @{
+		 */
 
 		/**
 		 * @brief Creates a permutation matrix.
@@ -154,6 +181,8 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		 * @return The newly created permutation matrix.
 		 */
 		static PermMatrix random(uint_t n);
+
+		/** @} */
 };
 
 /*-------------------------------------------------*/

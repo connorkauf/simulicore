@@ -54,6 +54,7 @@ class UniversalMetaTypes {
 /*-------------------------------------------------*/
 
 /**
+ * @nosubgrouping 
  * @brief The universal metadata class.
  *
  * All objects inherit from this class.
@@ -61,6 +62,11 @@ class UniversalMetaTypes {
 class UniversalMetaData {
 
 	public:
+
+		/** 
+		 * @name Inherited universal members
+		 * @{
+		 */
 
 		/**
 		 * @brief Test whether object is empty.
@@ -86,6 +92,8 @@ class UniversalMetaData {
 		 * Deallocate auto-allocated data using i_free().
 		 */
 		void unbind();
+
+		/** @} */
 
 	protected:
 		UniversalMetaData();

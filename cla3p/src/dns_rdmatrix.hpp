@@ -160,6 +160,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		//
 
 		/**
+		 * @brief Prints matrix information.
+		 * @param[in] msg Set a header identifier.
+		 */
+		std::string info(const std::string& msg = "") const;
+
+		/**
 		 * @brief Copies a matrix.
 		 * @return A deep copy of the matrix.
 		 */
@@ -182,12 +188,6 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @return A guard of the matrix.
 		 */
 		RdMGuard clone() const;
-
-		/**
-		 * @brief Prints matrix information.
-		 * @param[in] msg Set a header identifier.
-		 */
-		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @brief Scales matrix by coeff.

@@ -131,6 +131,11 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		//
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::info()
+		 */
+		std::string info(const std::string& msg = "") const;
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::copy()
 		 */
 		RiMatrix copy() const;
@@ -149,11 +154,6 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @copydoc cla3p::dns::RdMatrix::clone() const
 		 */
 		RiMGuard clone() const;
-
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::info()
-		 */
-		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()

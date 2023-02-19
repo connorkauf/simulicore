@@ -131,6 +131,11 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		//
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::info()
+		 */
+		std::string info(const std::string& msg = "") const;
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::copy()
 		 */
 		RfMatrix copy() const;
@@ -149,11 +154,6 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @copydoc cla3p::dns::RdMatrix::clone() const
 		 */
 		RfMGuard clone() const;
-
-		/**
-		 * @copydoc cla3p::dns::RdMatrix::info()
-		 */
-		std::string info(const std::string& msg = "") const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()
