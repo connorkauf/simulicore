@@ -369,6 +369,78 @@ void GenericObject<T,Tr>::setBlock(const GenericObject<T,Tr>& src, uint_t ibgn, 
 	bulk::dns::copy(src.prop().type(), src.rsize(), src.csize(), src.values(), src.ld(), bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld());
 }
 /*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::getRealBlock(GenericObject<Tr,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	prop_t blptype = block_op_consistency_check(prop().type(), rsize(), csize(), ibgn, jbgn, ni, nj);
+	prop_t ptype = blptype;
+
+	if(blptype == prop_t::HERMITIAN) {
+		blptype = prop_t::SYMMETRIC;
+	}
+
+	trg.blankCreator(blptype, ni, nj, ni);
+	bulk::dns::get_real(ptype, ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), trg.values(), trg.ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::getImagBlock(GenericObject<Tr,Tr>& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	prop_t blptype = block_op_consistency_check(prop().type(), rsize(), csize(), ibgn, jbgn, ni, nj);
+	prop_t ptype = blptype;
+
+	if(blptype == prop_t::HERMITIAN) {
+		throw InvalidOp("Skew matrices are not yet supported");
+	}
+
+	trg.blankCreator(blptype, ni, nj, ni);
+	bulk::dns::get_imag(ptype, ni, nj, bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld(), trg.values(), trg.ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::setRealBlock(const GenericObject<Tr,Tr>& src, uint_t ibgn, uint_t jbgn)
+{
+	real_block_op_consistency_check(src.prop().type(), prop().type(), rsize(), csize(), ibgn, jbgn, src.rsize(), src.csize());
+
+	bulk::dns::set_real(src.prop().type(), src.rsize(), src.csize(), src.values(), src.ld(), bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::setImagBlock(const GenericObject<Tr,Tr>& src, uint_t ibgn, uint_t jbgn)
+{
+	imag_block_op_consistency_check(src.prop().type(), prop().type(), rsize(), csize(), ibgn, jbgn, src.rsize(), src.csize());
+
+	bulk::dns::set_imag(src.prop().type(), src.rsize(), src.csize(), src.values(), src.ld(), bulk::dns::ptrmv(ld(),values(),ibgn,jbgn), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::getRealPart(GenericObject<Tr,Tr>& trg) const
+{
+	getRealBlock(trg, 0, 0, rsize(), csize());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::getImagPart(GenericObject<Tr,Tr>& trg) const
+{
+	getImagBlock(trg, 0, 0, rsize(), csize());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::setRealPart(const GenericObject<Tr,Tr>& src)
+{
+	op_similarity_check(prop().type(), rsize(), csize(), src.prop().type(), src.rsize(), src.csize());
+
+	setRealBlock(src, 0, 0);
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::setImagPart(const GenericObject<Tr,Tr>& src)
+{
+	op_similarity_check(prop().type(), rsize(), csize(), src.prop().type(), src.rsize(), src.csize());
+
+	setImagBlock(src, 0, 0);
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

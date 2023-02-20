@@ -184,6 +184,114 @@ void copy(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, com
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template <typename T, typename Tr>
+static void get_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+{
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+#if 0
+	bool lower = Property(ptype).is_lower();
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+#endif
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static void set_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+{
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+#if 0
+	bool lower = Property(ptype).is_lower();
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+#endif
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static void get_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+{
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+#if 0
+	bool lower = Property(ptype).is_lower();
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+#endif
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static void set_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+{
+	if(!m || !n) return;
+
+	dns_consistency_check(ptype, m, n, a, lda);
+
+#if 0
+	bool lower = Property(ptype).is_lower();
+
+	for(uint_t j = 0; j < n; j++) {
+		uint_t ibgn = lower ? j : 0;
+		for(uint_t i = ibgn; i < m; i++) {
+			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+#endif
+}
+/*-------------------------------------------------*/
+void get_real(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void get_imag(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void set_real(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void set_imag(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void get_real(prop_t ptype, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_real(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_imag(prop_t ptype, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_imag(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+/*-------------------------------------------------*/
+void set_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template <typename T>
 static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff);
 /*-------------------------------------------------*/

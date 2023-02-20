@@ -16,20 +16,25 @@ void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint
 {
 	Property prop(ptype);
 
-	if(!m || !n) 
+	if(!m || !n) {
 		throw NoConsistency(msg::invalid_dimensions());
+	}
 
-	if(!a) 
+	if(!a) {
 		throw NoConsistency(msg::invalid_pointer());
+	}
 
-	if(lda < m) 
+	if(lda < m) {
 		throw NoConsistency(msg::invalid_leading_dimension());
+	}
 
-	if(!prop.is_valid()) 
+	if(!prop.is_valid()) {
 		throw NoConsistency(msg::invalid_property());
+	}
 
-	if(prop.is_lower() && m != n) 
+	if(prop.is_lower() && m != n) {
 		throw NoConsistency(msg::invalid_property_for_square());
+	}
 }
 /*-------------------------------------------------*/
 #if 0
@@ -58,6 +63,9 @@ prop_t block_op_consistency_check(
 		uint_t ni, 
 		uint_t nj)
 {
+	//
+	// Used for when getting a block
+	//
 	prop_t ret = ptype;
 
 	uint_t iend = ibgn + ni;
@@ -102,10 +110,61 @@ void block_op_consistency_check(
 		uint_t ni, 
 		uint_t nj)
 {
+	//
+	// Used for when setting a block
+	//
 	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blptype != block_ptype) {
-		throw NoConsistency("Invalid block property for block operation");
+		throw NoConsistency(msg::invalid_property() + " for block operation");
+	}
+}
+/*-------------------------------------------------*/
+void real_block_op_consistency_check(
+		prop_t block_ptype, 
+		prop_t ptype, 
+		uint_t nrows, 
+		uint_t ncols, 
+		uint_t ibgn, 
+		uint_t jbgn, 
+		uint_t ni, 
+		uint_t nj)
+{
+	//
+	// Used for when setting a real object as a real part of a complex object
+	//
+	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
+
+	if(blptype == prop_t::HERMITIAN) {
+		blptype = prop_t::SYMMETRIC;
+	}
+
+	if(blptype != block_ptype) {
+		throw NoConsistency(msg::invalid_property() + " for block operation");
+	}
+}
+/*-------------------------------------------------*/
+void imag_block_op_consistency_check(
+		prop_t block_ptype, 
+		prop_t ptype, 
+		uint_t nrows, 
+		uint_t ncols, 
+		uint_t ibgn, 
+		uint_t jbgn, 
+		uint_t ni, 
+		uint_t nj)
+{
+	//
+	// Used for when setting a real object as a imag part of a complex object
+	//
+	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
+
+	if(blptype == prop_t::HERMITIAN) {
+		throw InvalidOp("Input should be a skew matrix. Skew matrices are not yet supported");
+	}
+
+	if(blptype != block_ptype) {
+		throw NoConsistency(msg::invalid_property() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
@@ -128,6 +187,17 @@ void transp_op_consistency_check(prop_t ptype, bool conjop)
 {
 	if(ptype != prop_t::GENERAL) {
 		throw InvalidOp(std::string(conjop ? "Conjugate t" : "T") + "ranspositions are applied on non-empty general matrices");
+	}
+}
+/*-------------------------------------------------*/
+void op_similarity_check(prop_t ptype1, uint_t nrows1, uint_t ncols1, prop_t ptype2, uint_t nrows2, uint_t ncols2)
+{
+	if(nrows1 != nrows2 || ncols1 != ncols2) {
+		throw NoConsistency(msg::invalid_dimensions());
+	}
+
+	if(ptype1 != ptype2) {
+		throw NoConsistency(msg::invalid_property());
 	}
 }
 /*-------------------------------------------------*/

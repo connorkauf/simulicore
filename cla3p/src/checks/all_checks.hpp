@@ -17,6 +17,8 @@ void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint
 //
 prop_t block_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 void block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+void real_block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+void imag_block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 // 
 // Checks if permutation op is valid
@@ -28,6 +30,11 @@ void perm_ge_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint
 // Checks if (conjugate) transposition op is valid
 //
 void transp_op_consistency_check(prop_t ptype, bool conjop);
+
+// 
+// Checks if input is similar (dims & prop)
+//
+void op_similarity_check(prop_t ptype1, uint_t nrows1, uint_t ncols1, prop_t ptype2, uint_t nrows2, uint_t ncols2);
 
 /*-------------------------------------------------*/
 } // namespace cla3p

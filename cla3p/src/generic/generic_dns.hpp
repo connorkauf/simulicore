@@ -139,6 +139,16 @@ class GenericObject : public UniversalMetaData {
 		void getBlockReference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 		void setBlock(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
 
+		void getRealBlock(GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void getImagBlock(GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void setRealBlock(const GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn);
+		void setImagBlock(const GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn);
+
+		void getRealPart(GenericObject<Tr,Tr>&) const;
+		void getImagPart(GenericObject<Tr,Tr>&) const;
+		void setRealPart(const GenericObject<Tr,Tr>&);
+		void setImagPart(const GenericObject<Tr,Tr>&);
+
 		// creators
 		void  blankCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
 		void   zeroCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
@@ -152,6 +162,9 @@ class GenericObject : public UniversalMetaData {
 
 		void defaults();
 		void creator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner);
+
+		template <typename U, typename Ur>
+		friend class GenericObject;
 };
 /*-------------------------------------------------*/
 } // namespace dns

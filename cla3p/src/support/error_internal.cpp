@@ -63,10 +63,10 @@ std::string out_of_bounds(uint_t n, uint_t i)
 /*-------------------------------------------------*/
 static const std::string const_msg_unknown                     = "Unknown status";
 static const std::string const_msg_success                     = "Success";
-static const std::string const_msg_invalid_dimensions          = "Invalid/mismatching dimensions";
-static const std::string const_msg_invalid_pointer             = "Invalid pointer";
+static const std::string const_msg_invalid_dimensions          = "Invalid/mismatching dimension(s)";
+static const std::string const_msg_invalid_pointer             = "Invalid pointer(s)";
 static const std::string const_msg_invalid_leading_dimension   = "Invalid leading dimension";
-static const std::string const_msg_invalid_property            = "Invalid property";
+static const std::string const_msg_invalid_property            = "Invalid/mismatching property(/ies)";
 static const std::string const_msg_invalid_property_for_square = "Property requires square matrix";
 static const std::string const_msg_empty_object                = "Empty object(s) detected";
 static const std::string const_msg_op_not_allowed              = "This operation is not allowed";
