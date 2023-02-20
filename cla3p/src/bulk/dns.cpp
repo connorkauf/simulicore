@@ -8,6 +8,7 @@
 
 // cla3p
 #include "../checks/all_checks.hpp"
+#include "../proxies/blas_proxy.hpp"
 #include "../proxies/lapack_proxy.hpp"
 #include "../proxies/mkl_proxy.hpp"
 #include "../support/error.hpp"
@@ -610,6 +611,14 @@ real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
+/*-------------------------------------------------*/
+int_t   norm_euc(uint_t, const int_t *) { throw Exception("Integer norms not implemented"); return 0; }
+uint_t  norm_euc(uint_t, const uint_t*) { throw Exception("Integer norms not implemented"); return 0; }
+/*-------------------------------------------------*/
+real_t  norm_euc(uint_t n, const real_t     *a) { return blas::nrm2(n, a, 1); }
+real4_t norm_euc(uint_t n, const real4_t    *a) { return blas::nrm2(n, a, 1); }
+real_t  norm_euc(uint_t n, const complex_t  *a) { return blas::nrm2(n, a, 1); }
+real4_t norm_euc(uint_t n, const complex8_t *a) { return blas::nrm2(n, a, 1); }
 /*-------------------------------------------------*/
 template <typename T>
 static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)

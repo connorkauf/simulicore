@@ -145,6 +145,13 @@ real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
+int_t   norm_euc(uint_t n, const int_t *a); // dummy functions, throw exception
+uint_t  norm_euc(uint_t n, const uint_t *a); // dummy functions, throw exception
+real_t  norm_euc(uint_t n, const real_t *a);
+real4_t norm_euc(uint_t n, const real4_t *a);
+real_t  norm_euc(uint_t n, const complex_t *a);
+real4_t norm_euc(uint_t n, const complex8_t *a);
+
 // prop: GENERAL             B = P*A*Q     if P,Q is nullptr, the identity perm is used
 // prop: SYMMETRIC/HERMITIAN B = P*A*P^{T} Q is not referenced
 #define permute_macro(typeout, typein) \

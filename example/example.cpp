@@ -5,6 +5,7 @@
 //#include <omp.h>
 
 //#include "cla3p/src/types.hpp"
+#include "cla3p/src/dns_rdvector.hpp"
 #include "cla3p/src/dns_rdmatrix.hpp"
 #include "cla3p/src/dns_rfmatrix.hpp"
 #include "cla3p/src/dns_rimatrix.hpp"
@@ -38,7 +39,12 @@ int main()
 	cla3p::dns::RfMatrix Af = cla3p::dns::RfMatrix::random(10,10);
 	cla3p::dns::RiMatrix Ai = cla3p::dns::RiMatrix::random(10,10);
 
+	cla3p::dns::RdVector Xd = cla3p::dns::RdVector::random(10);
+
 	cla3p::PermMatrix P = cla3p::PermMatrix::random(10);
+
+	std::cout << Xd.info("Ad");
+	std::cout << Xd;
 
 	std::cout << Ad.info("Ad") << Af.info("Af") << Ai.info("Ai");
 	std::cout << Ad << Af << Ai;
@@ -47,10 +53,12 @@ int main()
 	std::cout << P;
 	std::cout << P.inverse();
 
+	Xd.fill(1);
 	Ad.fill(1);
 	Af.fill(1);
 	Ai.fill(1);
 
+	std::cout << Xd;
 	std::cout << Ad << Af << Ai;
 
 	return 0;

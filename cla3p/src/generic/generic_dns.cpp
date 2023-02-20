@@ -9,6 +9,7 @@
 #include "../bulk/dns.hpp"
 #include "../bulk/dns_io.hpp"
 #include "../checks/all_checks.hpp"
+#include "../support/error.hpp"
 #include "../support/utils.hpp"
 #include "../support/imalloc.hpp"
 #include "../perm_matrix.hpp"
@@ -228,6 +229,15 @@ template <typename T, typename Tr>
 Tr GenericObject<T,Tr>::normFro() const
 { 
 	return bulk::dns::norm_fro(prop().type(), rsize(), csize(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+Tr GenericObject<T,Tr>::normEuc() const
+{ 
+	if(csize() > 1) {
+		throw Exception("Euclidian norm is applied on single column objects only");
+	} // csize
+	return bulk::dns::norm_euc(rsize(), values());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

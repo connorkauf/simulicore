@@ -116,6 +116,7 @@ class GenericObject : public UniversalMetaData {
 		Tr normInf() const;
 		Tr normMax() const;
 		Tr normFro() const;
+		Tr normEuc() const;
 
 		T& operator()(uint_t i, uint_t j);
 		const T& operator()(uint_t i, uint_t j) const;

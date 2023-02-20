@@ -7,6 +7,16 @@
  */
 
 /**
+ * @defgroup vector_group Vectors
+ *
+ * @defgroup dense_vector_group Dense
+ * @ingroup vector_group
+ *
+ * @defgroup sparse_vector_group Sparse
+ * @ingroup vector_group
+ */
+
+/**
  * @defgroup matrix_group Matrices
  *
  * @defgroup dense_matrix_group Dense
