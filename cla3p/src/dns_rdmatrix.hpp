@@ -466,7 +466,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		/**
 		 * @brief Creates a guard from aux data.
 		 *
-		 * Creates a guarded (nr x nc) general matrix from bulk data.
+		 * Creates a (nr x nc) guarded general matrix from bulk data.
 		 *
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
@@ -479,7 +479,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		/**
 		 * @brief Creates a matrix guard from aux data.
 		 *
-		 * Creates a guarded (nr x nc) general matrix from bulk data.
+		 * Creates a (nr x nc) guarded general matrix from bulk data.
 		 *
 		 * @param[in] ptype The matrix property.
 		 * @param[in] nr The number of matrix rows.
