@@ -5,6 +5,7 @@ set(CLA3P_SRC
 	types.cpp
 	dns_rdvector.cpp
 	dns_rfvector.cpp
+	dns_rivector.cpp
 	dns_rdmatrix.cpp
 	dns_rfmatrix.cpp
 	dns_rimatrix.cpp
@@ -17,6 +18,7 @@ set(CLA3P_HPP
 	types.hpp
 	dns_rdvector.hpp
 	dns_rfvector.hpp
+	dns_rivector.hpp
 	dns_rdmatrix.hpp
 	dns_rfmatrix.hpp
 	dns_rimatrix.hpp
