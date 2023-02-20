@@ -3,32 +3,13 @@
 #-----------------------------------------------
 set(CLA3P_SRC
 	types.cpp
-	dns_rdvector.cpp
-	dns_rfvector.cpp
-	dns_rivector.cpp
-	dns_cdvector.cpp
-	dns_cfvector.cpp
-	dns_rdmatrix.cpp
-	dns_rfmatrix.cpp
-	dns_rimatrix.cpp
-	dns_cdmatrix.cpp
-	dns_cfmatrix.cpp
-	perm_matrix.cpp
 	)
 
 set(CLA3P_HPP
 	types.hpp
-	dns_rdvector.hpp
-	dns_rfvector.hpp
-	dns_rivector.hpp
-	dns_cdvector.hpp
-	dns_cfvector.hpp
-	dns_rdmatrix.hpp
-	dns_rfmatrix.hpp
-	dns_rimatrix.hpp
-	dns_cdmatrix.hpp
-	dns_cfmatrix.hpp
-	perm_matrix.hpp
+	support.hpp
+	dense.hpp
+	perms.hpp
 	)
 
 #-----------------------------------------------
@@ -39,6 +20,8 @@ add_subdirectory(checks)
 add_subdirectory(proxies)
 add_subdirectory(support)
 add_subdirectory(generic)
+add_subdirectory(dense)
+add_subdirectory(perms)
 
 #-----------------------------------------------
 # target setup

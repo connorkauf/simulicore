@@ -8,9 +8,9 @@
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
-#include "generic/guard.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

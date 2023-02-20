@@ -1,36 +1,36 @@
-#ifndef CLA3P_DNS_RIMATRIX_HPP_
-#define CLA3P_DNS_RIMATRIX_HPP_
+#ifndef CLA3P_DNS_RFMATRIX_HPP_
+#define CLA3P_DNS_RFMATRIX_HPP_
 
 /** 
  * @file
- * The integer dense matrix definitions.
+ * The single precision real dense matrix definitions.
  */
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
-#include "generic/guard.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
-class RiMGuard;
+class RfMGuard;
 
 /**
  * @ingroup dense_matrix_group
  * @nosubgrouping 
- * @brief The integer dense matrix object.
+ * @brief The single precision real dense matrix object.
  */
-class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
+class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_t> {
 
 	public:
 
 		// no copy
-		RiMatrix(const RiMatrix&) = delete;
-		RiMatrix& operator=(const RiMatrix&) = delete;
+		RfMatrix(const RfMatrix&) = delete;
+		RfMatrix& operator=(const RfMatrix&) = delete;
 
 		// -------------------------------------------------------------------------------
 
@@ -42,27 +42,27 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix()
 		 */
-		RiMatrix();
+		RfMatrix();
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(uint_t nr, uint_t nc)
 		 */
-		RiMatrix(uint_t nr, uint_t nc);
+		RfMatrix(uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
 		 */
-		RiMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
+		RfMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
 		 */
-		RiMatrix(RiMatrix&& other);
+		RfMatrix(RfMatrix&& other);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::~RdMatrix()
 		 */
-		~RiMatrix();
+		~RfMatrix();
 
 		/** @} */
 
@@ -76,17 +76,17 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::operator=(RdMatrix&& other)
 		 */
-		RiMatrix& operator=(RiMatrix&& other);
+		RfMatrix& operator=(RfMatrix&& other);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::operator()()
 		 */
-		int_t& operator()(uint_t i, uint_t j);
+		real4_t& operator()(uint_t i, uint_t j);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::operator()()
 		 */
-		const int_t& operator()(uint_t i, uint_t j) const;
+		const real4_t& operator()(uint_t i, uint_t j) const;
 
 		/** @} */
 
@@ -138,27 +138,47 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::copy()
 		 */
-		RiMatrix copy() const;
+		RfMatrix copy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::move()
 		 */
-		RiMatrix move();
+		RfMatrix move();
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::clone()
 		 */
-		RiMatrix clone();
+		RfMatrix clone();
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::clone() const
 		 */
-		RiMGuard clone() const;
+		RfMGuard clone() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()
 		 */
-		void scale(int_t coeff);
+		void scale(real4_t coeff);
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::normOne()
+		 */
+		real4_t normOne() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::normInf()
+		 */
+		real4_t normInf() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::normMax()
+		 */
+		real4_t normMax() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::normFro()
+		 */
+		real4_t normFro() const;
 
 		// 
 		// not callcable from empty
@@ -167,27 +187,27 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::transpose()
 		 */
-		RiMatrix transpose() const;
+		RfMatrix transpose() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
-		RiMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
+		RfMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::permuteLeft()
 		 */
-		RiMatrix permuteLeft(const PermMatrix& P) const;
+		RfMatrix permuteLeft(const PermMatrix& P) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::permuteRight()
 		 */
-		RiMatrix permuteRight(const PermMatrix& Q) const;
+		RfMatrix permuteRight(const PermMatrix& Q) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::permuteMirror()
 		 */
-		RiMatrix permuteMirror(const PermMatrix& P) const;
+		RfMatrix permuteMirror(const PermMatrix& P) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::ipermute()
@@ -212,22 +232,22 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::block()
 		 */
-		RiMatrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		RfMatrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 		 */
-		RiMatrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		RfMatrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 		 */
-		RiMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		RfMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::setBlock()
 		 */
-		void setBlock(uint_t ibgn, uint_t jbgn, const RiMatrix& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const RfMatrix& src);
 
 		/** @} */
 
@@ -241,54 +261,52 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::init(uint_t nr, uint_t nc)
 		 */
-		static RiMatrix init(uint_t nr, uint_t nc);
+		static RfMatrix init(uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix init(prop_t ptype, uint_t nr, uint_t nc);
+		static RfMatrix init(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::zero(uint_t nr, uint_t nc)
 		 */
-		static RiMatrix zero(uint_t nr, uint_t nc);
+		static RfMatrix zero(uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
+		static RfMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix with random values in (0,100).
-		 * @copydetails cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
 		 */
-		static RiMatrix random(uint_t nr, uint_t nc);
+		static RfMatrix random(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix with random values in (0,100).
-		 * @copydetails cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix random(prop_t ptype, uint_t nr, uint_t nc);
+		static RfMatrix random(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, real_t *vals, uint_t ldv)
 		 */
-		static RiMatrix wrap(uint_t nr, uint_t nc, int_t *vals, uint_t ldv);
+		static RfMatrix wrap(uint_t nr, uint_t nc, real4_t *vals, uint_t ldv);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
 		 */
-		static RiMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, int_t *vals, uint_t ldv, bool bind);
+		static RfMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, real4_t *vals, uint_t ldv, bool bind);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
-		static RiMGuard wrap(uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
+		static RfMGuard wrap(uint_t nr, uint_t nc, const real4_t *vals, uint_t ldv);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
-		static RiMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
+		static RfMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const real4_t *vals, uint_t ldv);
 
 		/** @} */
 };
@@ -297,41 +315,41 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 /**
  * @ingroup dense_guard_group
- * @brief The integer dense matrix guard.
+ * @brief The single precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class RiMGuard : private Guard<RiMatrix> {
+class RfMGuard : private Guard<RfMatrix> {
 
 	public:
 
 		/**
 		 * @copydoc cla3p::dns::RdMGuard::RdMGuard()
 		 */
-		RiMGuard();
+		RfMGuard();
 
 		/**
 		 * @copydoc cla3p::dns::RdMGuard::~RdMGuard()
 		 */
-		~RiMGuard();
+		~RfMGuard();
 
 		/**
 		 * @copydoc cla3p::dns::RdMGuard::RdMGuard(const RdMGuard& other);
 		 */
-		RiMGuard(const RiMGuard& other);
+		RfMGuard(const RfMGuard& other);
 
 		/**
 		 * @copydoc cla3p::dns::RdMGuard::operator=(const RdMGuard& other);
 		 */
-		RiMGuard& operator=(const RiMGuard& other);
+		RfMGuard& operator=(const RfMGuard& other);
 
 		/**
 		 * @copydoc cla3p::dns::RdMGuard::mat()
 		 */
-		const RiMatrix& mat() const;
+		const RfMatrix& mat() const;
 
-		friend class RiMatrix;
+		friend class RfMatrix;
 };
 
 /*-------------------------------------------------*/
@@ -343,7 +361,7 @@ class RiMGuard : private Guard<RiMatrix> {
  * @ingroup stream_operator_group
  * @brief Writes to os the contents of mat
  */
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::RiMatrix& mat);
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RfMatrix& mat);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_RIMATRIX_HPP_
+#endif // CLA3P_DNS_RFMATRIX_HPP_

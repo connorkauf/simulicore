@@ -1,10 +1,10 @@
 #ifndef CLA3P_DNS_XXVECTOR_HPP_
 #define CLA3P_DNS_XXVECTOR_HPP_
 /*-------------------------------------------------*/
-#include "support/error.hpp"
-#include "support/error_internal.hpp"
-#include "support/utils.hpp"
-#include "perm_matrix.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
+#include "../support/utils.hpp"
+#include "../perms/perm_matrix.hpp"
 /*-------------------------------------------------*/
 //
 //

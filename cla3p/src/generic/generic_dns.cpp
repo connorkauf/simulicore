@@ -12,7 +12,7 @@
 #include "../support/error.hpp"
 #include "../support/utils.hpp"
 #include "../support/imalloc.hpp"
-#include "../perm_matrix.hpp"
+#include "../perms/perm_matrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

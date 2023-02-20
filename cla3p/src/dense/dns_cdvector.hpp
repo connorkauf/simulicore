@@ -1,36 +1,36 @@
-#ifndef CLA3P_DNS_RDVECTOR_HPP_
-#define CLA3P_DNS_RDVECTOR_HPP_
+#ifndef CLA3P_DNS_CDVECTOR_HPP_
+#define CLA3P_DNS_CDVECTOR_HPP_
 
 /** 
  * @file
- * The double precision real dense vector definitions.
+ * The double precision complex dense vector definitions.
  */
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
-#include "generic/guard.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
-class RdVGuard;
+class CdVGuard;
 
 /**
  * @ingroup dense_vector_group
  * @nosubgrouping 
- * @brief The double precision real dense vector object.
+ * @brief The double precision complex dense vector object.
  */
-class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
+class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real_t> {
 
 	public:
 
 		// no copy
-		RdVector(const RdVector&) = delete;
-		RdVector& operator=(const RdVector&) = delete;
+		CdVector(const CdVector&) = delete;
+		CdVector& operator=(const CdVector&) = delete;
 
 		// -------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Constructs an empty vector.
 		 */
-		RdVector();
+		CdVector();
 
 		/**
 		 * @brief The dimensional constructor.
@@ -53,20 +53,20 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * @param[in] n The vector size.
 		 */
-		RdVector(uint_t n);
+		CdVector(uint_t n);
 
 		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
-		RdVector(RdVector&& other);
+		CdVector(CdVector&& other);
 
 		/**
 		 *
 		 * @brief Destroys the vector.
 		 */
-		~RdVector();
+		~CdVector();
 
 		/** @} */
 
@@ -82,21 +82,21 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		RdVector& operator=(RdVector&& other);
+		CdVector& operator=(CdVector&& other);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		real_t& operator()(uint_t i);
+		complex_t& operator()(uint_t i);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		const real_t& operator()(uint_t i) const;
+		const complex_t& operator()(uint_t i) const;
 
 		/** @} */
 
@@ -136,31 +136,31 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @brief Copies a vector.
 		 * @return A deep copy of the vector.
 		 */
-		RdVector copy() const;
+		CdVector copy() const;
 
 		/**
 		 * @brief Moves a vector.
 		 * @return A shallow copy of the vector, original vector is destroyed.
 		 */
-		RdVector move();
+		CdVector move();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A shallow copy of the vector, original vector is unchanged.
 		 */
-		RdVector clone();
+		CdVector clone();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A guard of the vector.
 		 */
-		RdVGuard clone() const;
+		CdVGuard clone() const;
 
 		/**
 		 * @brief Scales vector by coeff.
 		 * @param[in] coeff The scaling coefficient.
 		 */
-		void scale(real_t coeff);
+		void scale(complex_t coeff);
 
 		/**
 		 * @brief Vector 1-norm.
@@ -192,7 +192,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		RdVector permuteLeft(const PermMatrix& P) const;
+		CdVector permuteLeft(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -212,7 +212,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] ni The size of the requested block.
 		 * @return A copy of a portion of the vector.
 		 */
-		RdVector block(uint_t ibgn, uint_t ni) const;
+		CdVector block(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -223,7 +223,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] ni The size of the requested block.
 		 * @return A reference to a portion of the vector.
 		 */
-		RdVector rblock(uint_t ibgn, uint_t ni);
+		CdVector rblock(uint_t ibgn, uint_t ni);
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -234,7 +234,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] ni The size of the requested block.
 		 * @return A guarded reference to a portion of the vector.
 		 */
-		RdVGuard rblock(uint_t ibgn, uint_t ni) const;
+		CdVGuard rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Sets a subvector.
@@ -244,7 +244,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, const RdVector& src);
+		void setBlock(uint_t ibgn, const CdVector& src);
 
 		/** @} */
 
@@ -263,7 +263,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RdVector init(uint_t n);
+		static CdVector init(uint_t n);
 
 		/**
 		 * @brief Creates a zero vector.
@@ -273,7 +273,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RdVector zero(uint_t n);
+		static CdVector zero(uint_t n);
 
 		/**
 		 * @brief Creates a vector with random values in (0,1).
@@ -283,7 +283,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RdVector random(uint_t n);
+		static CdVector random(uint_t n);
 
 		/**
 		 * @brief Creates a vector from aux data.
@@ -295,7 +295,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
 		 * @return The newly created vector.
 		 */
-		static RdVector wrap(uint_t n, real_t *vals, bool bind);
+		static CdVector wrap(uint_t n, complex_t *vals, bool bind);
 
 		/**
 		 * @brief Creates a guard from aux data.
@@ -306,7 +306,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] vals The array containing the vector values.
 		 * @return The newly created guard.
 		 */
-		static RdVGuard wrap(uint_t n, const real_t *vals);
+		static CdVGuard wrap(uint_t n, const complex_t *vals);
 
 		/** @} */
 };
@@ -315,12 +315,12 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 
 /**
  * @ingroup dense_guard_group
- * @brief The double precision real dense vector guard.
+ * @brief The double precision complex dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class RdVGuard : private Guard<RdVector> {
+class CdVGuard : private Guard<CdVector> {
 
 	public:
 
@@ -329,34 +329,34 @@ class RdVGuard : private Guard<RdVector> {
 		 *
 		 * Constructs an empty guard.
 		 */
-		RdVGuard();
+		CdVGuard();
 
 		/**
 		 * @brief Destroys the guard.
 		 */
-		~RdVGuard();
+		~CdVGuard();
 
 		/**
 		 * @brief The copy constructor.
 		 *
 		 * Constructs a guard with a clone of the contents of other.
 		 */
-		RdVGuard(const RdVGuard& other);
+		CdVGuard(const CdVGuard& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
 		 * Replaces the contents of guard with a clone of the contents of other.
 		 */
-		RdVGuard& operator=(const RdVGuard& other);
+		CdVGuard& operator=(const CdVGuard& other);
 
 		/**
 		 * @brief The vector being guarded.
 		 * @return A constant reference to the vector being guarded.
 		 */
-		const RdVector& vec() const;
+		const CdVector& vec() const;
 
-		friend class RdVector;
+		friend class CdVector;
 };
 
 /*-------------------------------------------------*/
@@ -368,7 +368,7 @@ class RdVGuard : private Guard<RdVector> {
  * @ingroup stream_operator_group
  * @brief Writes to os the contents of vec
  */
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdVector& vec);
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::CdVector& vec);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_RDVECTOR_HPP_
+#endif // CLA3P_DNS_CDVECTOR_HPP_

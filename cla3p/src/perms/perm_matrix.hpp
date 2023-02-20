@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

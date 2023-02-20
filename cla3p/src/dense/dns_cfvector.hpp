@@ -1,36 +1,36 @@
-#ifndef CLA3P_DNS_RFVECTOR_HPP_
-#define CLA3P_DNS_RFVECTOR_HPP_
+#ifndef CLA3P_DNS_CFVECTOR_HPP_
+#define CLA3P_DNS_CFVECTOR_HPP_
 
 /** 
  * @file
- * The single precision real dense vector definitions.
+ * The single precision complex dense vector definitions.
  */
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
-#include "generic/guard.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
-class RfVGuard;
+class CfVGuard;
 
 /**
  * @ingroup dense_vector_group
  * @nosubgrouping 
- * @brief The single precision real dense vector object.
+ * @brief The single precision complex dense vector object.
  */
-class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_t> {
+class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,real4_t> {
 
 	public:
 
 		// no copy
-		RfVector(const RfVector&) = delete;
-		RfVector& operator=(const RfVector&) = delete;
+		CfVector(const CfVector&) = delete;
+		CfVector& operator=(const CfVector&) = delete;
 
 		// -------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 *
 		 * Constructs an empty vector.
 		 */
-		RfVector();
+		CfVector();
 
 		/**
 		 * @brief The dimensional constructor.
@@ -53,20 +53,20 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 *
 		 * @param[in] n The vector size.
 		 */
-		RfVector(uint_t n);
+		CfVector(uint_t n);
 
 		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
-		RfVector(RfVector&& other);
+		CfVector(CfVector&& other);
 
 		/**
 		 *
 		 * @brief Destroys the vector.
 		 */
-		~RfVector();
+		~CfVector();
 
 		/** @} */
 
@@ -82,21 +82,21 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		RfVector& operator=(RfVector&& other);
+		CfVector& operator=(CfVector&& other);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		real4_t& operator()(uint_t i);
+		complex8_t& operator()(uint_t i);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		const real4_t& operator()(uint_t i) const;
+		const complex8_t& operator()(uint_t i) const;
 
 		/** @} */
 
@@ -136,31 +136,31 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @brief Copies a vector.
 		 * @return A deep copy of the vector.
 		 */
-		RfVector copy() const;
+		CfVector copy() const;
 
 		/**
 		 * @brief Moves a vector.
 		 * @return A shallow copy of the vector, original vector is destroyed.
 		 */
-		RfVector move();
+		CfVector move();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A shallow copy of the vector, original vector is unchanged.
 		 */
-		RfVector clone();
+		CfVector clone();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A guard of the vector.
 		 */
-		RfVGuard clone() const;
+		CfVGuard clone() const;
 
 		/**
 		 * @brief Scales vector by coeff.
 		 * @param[in] coeff The scaling coefficient.
 		 */
-		void scale(real4_t coeff);
+		void scale(complex8_t coeff);
 
 		/**
 		 * @brief Vector 1-norm.
@@ -192,7 +192,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		RfVector permuteLeft(const PermMatrix& P) const;
+		CfVector permuteLeft(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -212,7 +212,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] ni The size of the requested block.
 		 * @return A copy of a portion of the vector.
 		 */
-		RfVector block(uint_t ibgn, uint_t ni) const;
+		CfVector block(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -223,7 +223,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] ni The size of the requested block.
 		 * @return A reference to a portion of the vector.
 		 */
-		RfVector rblock(uint_t ibgn, uint_t ni);
+		CfVector rblock(uint_t ibgn, uint_t ni);
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -234,7 +234,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] ni The size of the requested block.
 		 * @return A guarded reference to a portion of the vector.
 		 */
-		RfVGuard rblock(uint_t ibgn, uint_t ni) const;
+		CfVGuard rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Sets a subvector.
@@ -244,7 +244,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, const RfVector& src);
+		void setBlock(uint_t ibgn, const CfVector& src);
 
 		/** @} */
 
@@ -263,7 +263,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RfVector init(uint_t n);
+		static CfVector init(uint_t n);
 
 		/**
 		 * @brief Creates a zero vector.
@@ -273,7 +273,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RfVector zero(uint_t n);
+		static CfVector zero(uint_t n);
 
 		/**
 		 * @brief Creates a vector with random values in (0,1).
@@ -283,7 +283,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RfVector random(uint_t n);
+		static CfVector random(uint_t n);
 
 		/**
 		 * @brief Creates a vector from aux data.
@@ -295,7 +295,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
 		 * @return The newly created vector.
 		 */
-		static RfVector wrap(uint_t n, real4_t *vals, bool bind);
+		static CfVector wrap(uint_t n, complex8_t *vals, bool bind);
 
 		/**
 		 * @brief Creates a guard from aux data.
@@ -306,7 +306,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @param[in] vals The array containing the vector values.
 		 * @return The newly created guard.
 		 */
-		static RfVGuard wrap(uint_t n, const real4_t *vals);
+		static CfVGuard wrap(uint_t n, const complex8_t *vals);
 
 		/** @} */
 };
@@ -315,12 +315,12 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 
 /**
  * @ingroup dense_guard_group
- * @brief The single precision real dense vector guard.
+ * @brief The single precision complex dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class RfVGuard : private Guard<RfVector> {
+class CfVGuard : private Guard<CfVector> {
 
 	public:
 
@@ -329,34 +329,34 @@ class RfVGuard : private Guard<RfVector> {
 		 *
 		 * Constructs an empty guard.
 		 */
-		RfVGuard();
+		CfVGuard();
 
 		/**
 		 * @brief Destroys the guard.
 		 */
-		~RfVGuard();
+		~CfVGuard();
 
 		/**
 		 * @brief The copy constructor.
 		 *
 		 * Constructs a guard with a clone of the contents of other.
 		 */
-		RfVGuard(const RfVGuard& other);
+		CfVGuard(const CfVGuard& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
 		 * Replaces the contents of guard with a clone of the contents of other.
 		 */
-		RfVGuard& operator=(const RfVGuard& other);
+		CfVGuard& operator=(const CfVGuard& other);
 
 		/**
 		 * @brief The vector being guarded.
 		 * @return A constant reference to the vector being guarded.
 		 */
-		const RfVector& vec() const;
+		const CfVector& vec() const;
 
-		friend class RfVector;
+		friend class CfVector;
 };
 
 /*-------------------------------------------------*/
@@ -368,7 +368,7 @@ class RfVGuard : private Guard<RfVector> {
  * @ingroup stream_operator_group
  * @brief Writes to os the contents of vec
  */
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::RfVector& vec);
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::CfVector& vec);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_RFVECTOR_HPP_
+#endif // CLA3P_DNS_CFVECTOR_HPP_

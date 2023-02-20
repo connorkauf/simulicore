@@ -6,9 +6,9 @@
 // 3rd
 
 // cla3p
-#include "support/error.hpp"
-#include "support/error_internal.hpp"
-#include "support/utils.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
+#include "../support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

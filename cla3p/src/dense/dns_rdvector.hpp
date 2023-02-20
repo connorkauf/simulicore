@@ -1,36 +1,36 @@
-#ifndef CLA3P_DNS_RIVECTOR_HPP_
-#define CLA3P_DNS_RIVECTOR_HPP_
+#ifndef CLA3P_DNS_RDVECTOR_HPP_
+#define CLA3P_DNS_RDVECTOR_HPP_
 
 /** 
  * @file
- * The integer dense vector definitions.
+ * The double precision real dense vector definitions.
  */
 
 #include <string>
 
-#include "types.hpp"
-#include "generic/generic_dns.hpp"
-#include "generic/guard.hpp"
+#include "../types.hpp"
+#include "../generic/generic_dns.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 class PermMatrix;
 namespace dns {
 /*-------------------------------------------------*/
-class RiVGuard;
+class RdVGuard;
 
 /**
  * @ingroup dense_vector_group
  * @nosubgrouping 
- * @brief The integer dense vector object.
+ * @brief The double precision real dense vector object.
  */
-class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
+class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t> {
 
 	public:
 
 		// no copy
-		RiVector(const RiVector&) = delete;
-		RiVector& operator=(const RiVector&) = delete;
+		RdVector(const RdVector&) = delete;
+		RdVector& operator=(const RdVector&) = delete;
 
 		// -------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 *
 		 * Constructs an empty vector.
 		 */
-		RiVector();
+		RdVector();
 
 		/**
 		 * @brief The dimensional constructor.
@@ -53,20 +53,20 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 *
 		 * @param[in] n The vector size.
 		 */
-		RiVector(uint_t n);
+		RdVector(uint_t n);
 
 		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
-		RiVector(RiVector&& other);
+		RdVector(RdVector&& other);
 
 		/**
 		 *
 		 * @brief Destroys the vector.
 		 */
-		~RiVector();
+		~RdVector();
 
 		/** @} */
 
@@ -82,21 +82,21 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		RiVector& operator=(RiVector&& other);
+		RdVector& operator=(RdVector&& other);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		int_t& operator()(uint_t i);
+		real_t& operator()(uint_t i);
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The index number of the requested entry
 		 * @return A reference to the i-th element of the vector.
 		 */
-		const int_t& operator()(uint_t i) const;
+		const real_t& operator()(uint_t i) const;
 
 		/** @} */
 
@@ -136,31 +136,49 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @brief Copies a vector.
 		 * @return A deep copy of the vector.
 		 */
-		RiVector copy() const;
+		RdVector copy() const;
 
 		/**
 		 * @brief Moves a vector.
 		 * @return A shallow copy of the vector, original vector is destroyed.
 		 */
-		RiVector move();
+		RdVector move();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A shallow copy of the vector, original vector is unchanged.
 		 */
-		RiVector clone();
+		RdVector clone();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A guard of the vector.
 		 */
-		RiVGuard clone() const;
+		RdVGuard clone() const;
 
 		/**
 		 * @brief Scales vector by coeff.
 		 * @param[in] coeff The scaling coefficient.
 		 */
-		void scale(int_t coeff);
+		void scale(real_t coeff);
+
+		/**
+		 * @brief Vector 1-norm.
+		 * @return The 1-norm of the vector.
+		 */
+		real_t normOne() const;
+
+		/**
+		 * @brief Vector infinite norm.
+		 * @return The infinite norm of the vector.
+		 */
+		real_t normInf() const;
+
+		/**
+		 * @brief Vector Euclidian norm.
+		 * @return The Euclidian norm of the vector.
+		 */
+		real_t normEuc() const;
 
 		// 
 		// not callcable from empty
@@ -174,7 +192,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		RiVector permuteLeft(const PermMatrix& P) const;
+		RdVector permuteLeft(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -194,7 +212,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A copy of a portion of the vector.
 		 */
-		RiVector block(uint_t ibgn, uint_t ni) const;
+		RdVector block(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -205,7 +223,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A reference to a portion of the vector.
 		 */
-		RiVector rblock(uint_t ibgn, uint_t ni);
+		RdVector rblock(uint_t ibgn, uint_t ni);
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -216,7 +234,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A guarded reference to a portion of the vector.
 		 */
-		RiVGuard rblock(uint_t ibgn, uint_t ni) const;
+		RdVGuard rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Sets a subvector.
@@ -226,7 +244,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, const RiVector& src);
+		void setBlock(uint_t ibgn, const RdVector& src);
 
 		/** @} */
 
@@ -245,7 +263,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RiVector init(uint_t n);
+		static RdVector init(uint_t n);
 
 		/**
 		 * @brief Creates a zero vector.
@@ -255,7 +273,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RiVector zero(uint_t n);
+		static RdVector zero(uint_t n);
 
 		/**
 		 * @brief Creates a vector with random values in (0,1).
@@ -265,7 +283,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static RiVector random(uint_t n);
+		static RdVector random(uint_t n);
 
 		/**
 		 * @brief Creates a vector from aux data.
@@ -277,7 +295,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
 		 * @return The newly created vector.
 		 */
-		static RiVector wrap(uint_t n, int_t *vals, bool bind);
+		static RdVector wrap(uint_t n, real_t *vals, bool bind);
 
 		/**
 		 * @brief Creates a guard from aux data.
@@ -288,7 +306,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @param[in] vals The array containing the vector values.
 		 * @return The newly created guard.
 		 */
-		static RiVGuard wrap(uint_t n, const int_t *vals);
+		static RdVGuard wrap(uint_t n, const real_t *vals);
 
 		/** @} */
 };
@@ -297,12 +315,12 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 /**
  * @ingroup dense_guard_group
- * @brief The integer dense vector guard.
+ * @brief The double precision real dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
  * Useful for protecting immutable data from being exposed.
  */
-class RiVGuard : private Guard<RiVector> {
+class RdVGuard : private Guard<RdVector> {
 
 	public:
 
@@ -311,34 +329,34 @@ class RiVGuard : private Guard<RiVector> {
 		 *
 		 * Constructs an empty guard.
 		 */
-		RiVGuard();
+		RdVGuard();
 
 		/**
 		 * @brief Destroys the guard.
 		 */
-		~RiVGuard();
+		~RdVGuard();
 
 		/**
 		 * @brief The copy constructor.
 		 *
 		 * Constructs a guard with a clone of the contents of other.
 		 */
-		RiVGuard(const RiVGuard& other);
+		RdVGuard(const RdVGuard& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
 		 * Replaces the contents of guard with a clone of the contents of other.
 		 */
-		RiVGuard& operator=(const RiVGuard& other);
+		RdVGuard& operator=(const RdVGuard& other);
 
 		/**
 		 * @brief The vector being guarded.
 		 * @return A constant reference to the vector being guarded.
 		 */
-		const RiVector& vec() const;
+		const RdVector& vec() const;
 
-		friend class RiVector;
+		friend class RdVector;
 };
 
 /*-------------------------------------------------*/
@@ -350,7 +368,7 @@ class RiVGuard : private Guard<RiVector> {
  * @ingroup stream_operator_group
  * @brief Writes to os the contents of vec
  */
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::RiVector& vec);
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdVector& vec);
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_RIVECTOR_HPP_
+#endif // CLA3P_DNS_RDVECTOR_HPP_
