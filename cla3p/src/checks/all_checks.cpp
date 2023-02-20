@@ -12,30 +12,24 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-static status_t dns_input_consistency_status(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
+void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	Property prop(ptype);
 
-	if(!m || !n) return status_t::ERROR_DIM;
+	if(!m || !n) 
+		throw NoConsistency(msg::invalid_dimensions());
 
-	if(!a) return status_t::ERROR_PTR;
+	if(!a) 
+		throw NoConsistency(msg::invalid_pointer());
 
-	if(lda < m) return status_t::ERROR_LD;
+	if(lda < m) 
+		throw NoConsistency(msg::invalid_leading_dimension());
 
-	if(!prop.is_valid()) return status_t::ERROR_PROP;
+	if(!prop.is_valid()) 
+		throw NoConsistency(msg::invalid_property());
 
-	if(prop.is_lower() && m != n) return status_t::ERROR_PRSQ;
-
-	return status_t::SUCCESS;
-}
-/*-------------------------------------------------*/
-void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
-{
-	status_t stype = dns_input_consistency_status(ptype, m, n, a, lda);
-	Status status(stype);
-	if(!status.success()) {
-		throw NoConsistency(status.message());
-	}
+	if(prop.is_lower() && m != n) 
+		throw NoConsistency(msg::invalid_property_for_square());
 }
 /*-------------------------------------------------*/
 #if 0
@@ -118,7 +112,7 @@ void block_op_consistency_check(
 void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
 	if(nrows != np || ncols != nq) {
-		throw NoConsistency(msg_invalid_dimensions() + " for permute operation");
+		throw NoConsistency(msg::invalid_dimensions() + " for permute operation");
 	}
 }
 /*-------------------------------------------------*/

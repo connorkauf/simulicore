@@ -102,7 +102,7 @@ std::string XxMatrix::info(const std::string& msg) const
 ThisDataType& XxMatrix::operator()(uint_t i, uint_t j)
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+		throw OutOfBounds(msg::out_of_bounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return ThisObjectType::operator()(i,j);
@@ -111,7 +111,7 @@ ThisDataType& XxMatrix::operator()(uint_t i, uint_t j)
 const ThisDataType& XxMatrix::operator()(uint_t i, uint_t j) const
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(out_of_bounds_message(nrows(),ncols(),i,j));
+		throw OutOfBounds(msg::out_of_bounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return ThisObjectType::operator()(i,j);

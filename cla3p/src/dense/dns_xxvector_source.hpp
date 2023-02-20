@@ -91,7 +91,7 @@ std::string XxVector::info(const std::string& msg) const
 ThisDataType& XxVector::operator()(uint_t i)
 {
 	if(i >= size()) {
-		throw OutOfBounds(out_of_bounds_message(size(),i));
+		throw OutOfBounds(msg::out_of_bounds(size(),i));
 	} // out-of-bounds
 
 	return ThisObjectType::operator()(i,0);
@@ -100,7 +100,7 @@ ThisDataType& XxVector::operator()(uint_t i)
 const ThisDataType& XxVector::operator()(uint_t i) const
 {
 	if(i >= size()) {
-		throw OutOfBounds(out_of_bounds_message(size(),i));
+		throw OutOfBounds(msg::out_of_bounds(size(),i));
 	} // out-of-bounds
 
 	return ThisObjectType::operator()(i,0);

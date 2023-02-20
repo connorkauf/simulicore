@@ -90,16 +90,16 @@ transpose_macro(void, complex8_t);
 
 #define conjugate_transpose_macro(typeout, typein) \
 typeout conjugate_transpose(uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, typein coeff = 1)
-conjugate_transpose_macro(void, int_t); // same as transpose
-conjugate_transpose_macro(void, uint_t); // same as transpose
-conjugate_transpose_macro(void, real_t); // same as transpose
-conjugate_transpose_macro(void, real4_t); // same as transpose
+conjugate_transpose_macro(void, int_t); // exception
+conjugate_transpose_macro(void, uint_t); // exception
+conjugate_transpose_macro(void, real_t); // exception
+conjugate_transpose_macro(void, real4_t); // exception
 conjugate_transpose_macro(void, complex_t);
 conjugate_transpose_macro(void, complex8_t);
 #undef transpose_macro
 
-void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // scale only
-void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // scale only
+void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // exception
+void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // exception
 void conjugate(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff = 1.);
 void conjugate(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff = 1.);
 
@@ -108,22 +108,20 @@ void sy2ge(uint_t n, real4_t *a, uint_t lda);
 void sy2ge(uint_t n, complex_t *a, uint_t lda);
 void sy2ge(uint_t n, complex8_t *a, uint_t lda);
 
-void he2ge(uint_t n, real_t *a, uint_t lda); // same as sy2ge
-void he2ge(uint_t n, real4_t *a, uint_t lda); // same as sy2ge
+void he2ge(uint_t n, real_t *a, uint_t lda); // exception
+void he2ge(uint_t n, real4_t *a, uint_t lda); // exception
 void he2ge(uint_t n, complex_t *a, uint_t lda);
 void he2ge(uint_t n, complex8_t *a, uint_t lda);
 
-// dummy functions, throw exception
-int_t norm_one(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda);
-int_t norm_inf(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda);
-int_t norm_max(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda);
-int_t norm_fro(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda);
+int_t norm_one(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_inf(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_max(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_fro(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
 
-// dummy functions, throw exception
-uint_t norm_one(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda);
-uint_t norm_inf(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda);
-uint_t norm_max(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda);
-uint_t norm_fro(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda);
+uint_t norm_one(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_inf(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_max(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_fro(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
 
 real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
 real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
@@ -145,8 +143,8 @@ real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
-int_t   norm_euc(uint_t n, const int_t *a); // dummy functions, throw exception
-uint_t  norm_euc(uint_t n, const uint_t *a); // dummy functions, throw exception
+int_t   norm_euc(uint_t n, const int_t *a); // exception
+uint_t  norm_euc(uint_t n, const uint_t *a); // exception
 real_t  norm_euc(uint_t n, const real_t *a);
 real4_t norm_euc(uint_t n, const real4_t *a);
 real_t  norm_euc(uint_t n, const complex_t *a);

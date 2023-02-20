@@ -135,6 +135,9 @@ static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, 
 template <typename T>
 static void naive_copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
+	// 
+	// TODO: more efficiently
+	//
 	if(!m || !n) return;
 
 	dns_consistency_check(ptype, m, n, a, lda);
@@ -238,6 +241,9 @@ static void scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coe
 template <typename T>
 static void naive_scale_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
+	// 
+	// TODO: more efficiently
+	//
 	if(!m || !n) return;
 
 	dns_consistency_check(ptype, m, n, a, lda);
@@ -283,6 +289,9 @@ static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uin
 template <typename T>
 static void naive_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
+	// 
+	// TODO: more efficiently
+	//
 	if(!m || !n) return;
 
 	for(uint_t j = 0; j < n; j++) {
@@ -332,28 +341,24 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
+void conjugate_transpose(uint_t, uint_t, const int_t*, uint_t, int_t*, uint_t, int_t)
 { 
-	WarningNoReach();
-	transpose(m, n, a, lda, b, ldb, coeff); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
+void conjugate_transpose(uint_t, uint_t, const uint_t*, uint_t, uint_t*, uint_t, uint_t)
 { 
-	WarningNoReach();
-	transpose(m, n, a, lda, b, ldb, coeff); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+void conjugate_transpose(uint_t, uint_t, const real_t*, uint_t, real_t*, uint_t, real_t)
 { 
-	WarningNoReach();
-	transpose(m, n, a, lda, b, ldb, coeff); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t)
 { 
-	WarningNoReach();
-	transpose(m, n, a, lda, b, ldb, coeff); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
@@ -411,16 +416,14 @@ static void conjugate_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T
 	} // lower
 }
 /*-------------------------------------------------*/
-void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff)
+void conjugate(prop_t, uint_t, uint_t, real_t*, uint_t, real_t)
 {
-	WarningNoReach();
-	scale(ptype, m, n, a, lda, coeff);
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
-void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff)
+void conjugate(prop_t, uint_t, uint_t, real4_t*, uint_t, real4_t)
 {
-	WarningNoReach();
-	scale(ptype, m, n, a, lda, coeff);
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
 void conjugate(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
@@ -502,16 +505,14 @@ void sy2ge(uint_t n, complex8_t *a, uint_t lda)
 	syhe2ge_tmpl(n, a, lda, false); 
 }
 /*-------------------------------------------------*/
-void he2ge(uint_t n, real_t *a, uint_t lda)
+void he2ge(uint_t, real_t*, uint_t)
 { 
-	WarningNoReach();
-	sy2ge(n, a, lda); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
-void he2ge(uint_t n, real4_t *a, uint_t lda)
+void he2ge(uint_t, real4_t*, uint_t)
 { 
-	WarningNoReach();
-	sy2ge(n, a, lda); 
+	throw Exception(msg::op_not_allowed());
 }
 /*-------------------------------------------------*/
 void he2ge(uint_t n, complex_t *a, uint_t lda)
@@ -582,15 +583,15 @@ static Tout norm_fro_tmpl(prop_t ptype, uint_t m, uint_t n, const Tin *a, uint_t
 	return 0.;
 }
 /*-------------------------------------------------*/
-int_t norm_one(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-int_t norm_inf(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-int_t norm_max(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-int_t norm_fro(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+int_t norm_one(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_inf(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_max(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_fro(prop_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
 /*-------------------------------------------------*/
-uint_t norm_one(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-uint_t norm_inf(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-uint_t norm_max(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
-uint_t norm_fro(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception("Integer norms not implemented"); return 0; }
+uint_t norm_one(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_inf(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_max(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_fro(prop_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
 /*-------------------------------------------------*/
 real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_one_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
 real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_inf_tmpl<real_t,real_t>(ptype,m,n,a,lda); }
@@ -612,8 +613,8 @@ real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t l
 real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,m,n,a,lda); }
 /*-------------------------------------------------*/
-int_t   norm_euc(uint_t, const int_t *) { throw Exception("Integer norms not implemented"); return 0; }
-uint_t  norm_euc(uint_t, const uint_t*) { throw Exception("Integer norms not implemented"); return 0; }
+int_t  norm_euc(uint_t, const int_t *) { throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_euc(uint_t, const uint_t*) { throw Exception(msg::op_not_allowed()); return 0; }
 /*-------------------------------------------------*/
 real_t  norm_euc(uint_t n, const real_t     *a) { return blas::nrm2(n, a, 1); }
 real4_t norm_euc(uint_t n, const real4_t    *a) { return blas::nrm2(n, a, 1); }

@@ -39,20 +39,24 @@ bool show_dbg_messages();
 void Warning_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 void Error_with_args(const std::string& msg, const char *file, const char *fun, nint_t line);
 
+namespace msg {
 
-std::string out_of_bounds_message(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string out_of_bounds_message(uint_t n, uint_t i);
+std::string out_of_bounds(uint_t m, uint_t n, uint_t i, uint_t j);
+std::string out_of_bounds(uint_t n, uint_t i);
 
-const std::string& msg_unknown();
-const std::string& msg_success();
-const std::string& msg_invalid_dimensions();
-const std::string& msg_invalid_pointer();
-const std::string& msg_invalid_leading_dimension();
-const std::string& msg_invalid_property();
-const std::string& msg_invalid_property_for_square();
-const std::string& msg_empty_object();
+const std::string& unknown();
+const std::string& success();
+const std::string& invalid_dimensions();
+const std::string& invalid_pointer();
+const std::string& invalid_leading_dimension();
+const std::string& invalid_property();
+const std::string& invalid_property_for_square();
+const std::string& empty_object();
+const std::string& op_not_allowed();
 
+} // namespace msg
 
+#if 0
 class Status {
 
 	public:
@@ -81,6 +85,7 @@ class Status {
 		status_t m_type;
 };
 using status_t = Status::status_t;
+#endif
 
 /*-------------------------------------------------*/
 } // namespace cla3p
