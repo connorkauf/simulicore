@@ -3,7 +3,7 @@
 
 /** 
  * @file
- * The double precision complex dense matrix definitions.
+ * The single precision complex dense matrix definitions.
  */
 
 #include <string>
@@ -22,7 +22,7 @@ class CfMGuard;
 /**
  * @ingroup dense_matrix_group
  * @nosubgrouping 
- * @brief The double precision complex dense matrix object.
+ * @brief The single precision complex dense matrix object.
  */
 class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,real4_t> {
 
@@ -34,50 +34,33 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 
 		// -------------------------------------------------------------------------------
 
-		/** 
+		/**
 		 * @name Constructors
 		 * @{
 		 */
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty matrix.
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix()
 		 */
 		CfMatrix();
 
 		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs a general (nr x nc) matrix with uninitialized values.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(uint_t nr, uint_t nc)
 		 */
 		CfMatrix(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief The advanced constructor.
-		 *
-		 * Constructs a (nr x nc) matrix with advanced options.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] wipe Set all matrix values to zero.
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
 		 */
 		CfMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
 
 		/**
-		 * @brief The move constructor.
-		 *
-		 * Constructs a matrix with the contents of other, other is destroyed.
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
 		 */
 		CfMatrix(CfMatrix&& other);
 
 		/**
-		 *
-		 * @brief Destroys the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::~RdMatrix()
 		 */
 		~CfMatrix();
 
@@ -91,25 +74,17 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		 */
 
 		/**
-		 * @brief The move assignment operator.
-		 *
-		 * Replaces the contents with those of other, other is destroyed.
+		 * @copydoc cla3p::dns::RdMatrix::operator=(RdMatrix&& other)
 		 */
 		CfMatrix& operator=(CfMatrix&& other);
 
 		/**
-		 * @brief Matrix entry operator.
-		 * @param[in] i The row number of the requested entry
-		 * @param[in] j The column number of the requested entry
-		 * @return A reference to the (i,j)-th element of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::operator()()
 		 */
 		complex8_t& operator()(uint_t i, uint_t j);
 
 		/**
-		 * @brief Matrix entry operator.
-		 * @param[in] i The row number of the requested entry
-		 * @param[in] j The column number of the requested entry
-		 * @return A reference to the (i,j)-th element of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::operator()()
 		 */
 		const complex8_t& operator()(uint_t i, uint_t j) const;
 
@@ -117,32 +92,28 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 
 		// -------------------------------------------------------------------------------
 
-		/** 
+		/**
 		 * @name Arguments
 		 * @{
 		 */
 
 		/**
-		 * @brief The matrix rows.
-		 * @return The number of matrix rows.
+		 * @copydoc cla3p::dns::RdMatrix::nrows()
 		 */
 		uint_t nrows() const;
 
 		/**
-		 * @brief The matrix columns.
-		 * @return The number of matrix columns.
+		 * @copydoc cla3p::dns::RdMatrix::ncols()
 		 */
 		uint_t ncols() const;
 
 		/**
-		 * @brief The matrix leading dimension.
-		 * @return The leading dimension of the matrix (column-major: ld() @f$ \geq @f$ nrows()).
+		 * @copydoc cla3p::dns::RdMatrix::ld()
 		 */
 		uint_t ld() const;
 
 		/**
-		 * @brief The matrix property.
-		 * @return The property that characterizes the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::prop()
 		 */
 		const Property& prop() const;
 
@@ -150,7 +121,7 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 
 		// -------------------------------------------------------------------------------
 
-		/** 
+		/**
 		 * @name Operations
 		 * @{
 		 */
@@ -160,62 +131,52 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		//
 
 		/**
-		 * @brief Prints matrix information.
-		 * @param[in] msg Set a header identifier.
+		 * @copydoc cla3p::dns::RdMatrix::info()
 		 */
 		std::string info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Copies a matrix.
-		 * @return A deep copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::copy()
 		 */
 		CfMatrix copy() const;
 
 		/**
-		 * @brief Moves a matrix.
-		 * @return A shallow copy of the matrix, original matrix is destroyed.
+		 * @copydoc cla3p::dns::RdMatrix::move()
 		 */
 		CfMatrix move();
 
 		/**
-		 * @brief Clones a matrix.
-		 * @return A shallow copy of the matrix, original matrix is unchanged.
+		 * @copydoc cla3p::dns::RdMatrix::clone()
 		 */
 		CfMatrix clone();
 
 		/**
-		 * @brief Clones a matrix.
-		 * @return A guard of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::clone() const
 		 */
 		CfMGuard clone() const;
 
 		/**
-		 * @brief Scales matrix by coeff.
-		 * @param[in] coeff The scaling coefficient.
+		 * @copydoc cla3p::dns::RdMatrix::scale()
 		 */
 		void scale(complex8_t coeff);
 
 		/**
-		 * @brief Matrix 1-norm.
-		 * @return The 1-norm of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::normOne()
 		 */
 		real4_t normOne() const;
 
 		/**
-		 * @brief Matrix infinite norm.
-		 * @return The infinite norm of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::normInf()
 		 */
 		real4_t normInf() const;
 
 		/**
-		 * @brief Matrix max norm.
-		 * @return The maximum norm of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::normMax()
 		 */
 		real4_t normMax() const;
 
 		/**
-		 * @brief Matrix Frobenius norm.
-		 * @return The Frobenius norm of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::normFro()
 		 */
 		real4_t normFro() const;
 
@@ -224,136 +185,67 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		//
 
 		/**
-		 * @brief Transposes a general matrix.
-		 * @return The transposed copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::transpose()
 		 */
 		CfMatrix transpose() const;
 
 		/**
-		 * @brief Permutes a general matrix.
-		 *
-		 * Creates a permuted copy @f$ (PAQ) @f$ of the matrix @f$ A @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @param[in] Q The right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		CfMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
 
 		/**
-		 * @brief Permutes the rows of a general matrix.
-		 *
-		 * Creates a permuted copy @f$ (PA) @f$ of the matrix @f$ A @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::permuteLeft()
 		 */
 		CfMatrix permuteLeft(const PermMatrix& P) const;
 
 		/**
-		 * @brief Permutes the columns of a general matrix.
-		 *
-		 * Creates a permuted copy @f$ (AQ) @f$ of the matrix @f$ A @f$.
-		 *
-		 * @param[in] Q The right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::permuteRight()
 		 */
 		CfMatrix permuteRight(const PermMatrix& Q) const;
 
 		/**
-		 * @brief Permutes a matrix symmetrically.
-		 *
-		 * Creates a permuted copy @f$ (PAP^T) @f$ of the matrix @f$ A @f$.
-		 *
-		 * @param[in] P The left and right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::permuteMirror()
 		 */
 		CfMatrix permuteMirror(const PermMatrix& P) const;
 
 		/**
-		 * @brief Permutes a general matrix in-place.
-		 *
-		 * Replaces @f$ A @f$ with @f$ PAQ @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @param[in] Q The right side permutation matrix.
+		 * @copydoc cla3p::dns::RdMatrix::ipermute()
 		 */
 		void ipermute(const PermMatrix& P, const PermMatrix& Q);
 
 		/**
-		 * @brief Permutes the rows of a general matrix in-place.
-		 *
-		 * Replaces @f$ A @f$ with @f$ PA @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
+		 * @copydoc cla3p::dns::RdMatrix::ipermuteLeft()
 		 */
 		void ipermuteLeft(const PermMatrix& P);
 
 		/**
-		 * @brief Permutes the columns of a general matrix in-place.
-		 *
-		 * Replaces @f$ A @f$ with @f$ AQ @f$.
-		 *
-		 * @param[in] Q The right side permutation matrix.
+		 * @copydoc cla3p::dns::RdMatrix::ipermuteRight()
 		 */
 		void ipermuteRight(const PermMatrix& Q);
 
 		/**
-		 * @brief Permutes a matrix symmetrically in-place.
-		 *
-		 * Replaces @f$ A @f$ with @f$ PAP^T @f$.
-		 *
-		 * @param[in] P The left and right side permutation matrix.
+		 * @copydoc cla3p::dns::RdMatrix::ipermuteMirror()
 		 */
 		void ipermuteMirror(const PermMatrix& P);
 
 		/**
-		 * @brief Gets a submatrix copy.
-		 *
-		 * Gets a copy of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
-		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
-		 * @param[in] ni The number of rows of the requested block.
-		 * @param[in] nj The number of columns of the requested block.
-		 * @return A copy of a portion of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::block()
 		 */
 		CfMatrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
-		 * @brief Gets a submatrix reference.
-		 *
-		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
-		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
-		 * @param[in] ni The number of rows of the requested block.
-		 * @param[in] nj The number of columns of the requested block.
-		 * @return A reference to a portion of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 		 */
 		CfMatrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
-		 * @brief Gets a submatrix reference.
-		 *
-		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
-		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
-		 * @param[in] ni The number of rows of the requested block.
-		 * @param[in] nj The number of columns of the requested block.
-		 * @return A guarded reference to a portion of the matrix.
+		 * @copydoc cla3p::dns::RdMatrix::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 		 */
 		CfMGuard rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
-		 * @brief Sets a submatrix.
-		 *
-		 * Copies the contents of a block in the matrix, starting at (ibgn, jbgn)
-		 *
-		 * @param[in] ibgn The matrix row that src will be placed.
-		 * @param[in] jbgn The matrix column that src will be placed.
-		 * @param[in] src The block to be placed.
+		 * @copydoc cla3p::dns::RdMatrix::setBlock()
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const CfMatrix& src);
 
@@ -361,132 +253,58 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 
 		// -------------------------------------------------------------------------------
 
-		/** 
+		/**
 		 * @name Creators/Generators
 		 * @{
 		 */
 
 		/**
-		 * @brief Creates a matrix.
-		 *
-		 * Creates a (nr x nc) general matrix with uninitialized values.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::init(uint_t nr, uint_t nc)
 		 */
 		static CfMatrix init(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix.
-		 *
-		 * Creates a (nr x nc) matrix with uninitialized values.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc)
 		 */
 		static CfMatrix init(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a zero matrix.
-		 *
-		 * Creates a (nr x nc) general matrix with all values set to zero.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::zero(uint_t nr, uint_t nc)
 		 */
 		static CfMatrix zero(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a zero matrix.
-		 *
-		 * Creates a (nr x nc) matrix with all values set to zero.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc)
 		 */
 		static CfMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix with random values in (0,1).
-		 *
-		 * Creates a (nr x nc) general matrix with random values.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
 		 */
 		static CfMatrix random(uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix with random values in (0,1).
-		 *
-		 * Creates a (nr x nc) matrix with random values.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
 		 */
 		static CfMatrix random(prop_t ptype, uint_t nr, uint_t nc);
 
 		/**
-		 * @brief Creates a matrix from aux data.
-		 *
-		 * Creates a (nr x nc) general matrix from bulk data.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] vals The array containing the matrix values in column-major ordering.
-		 * @param[in] ldv The leading dimension of the vals array.
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, real_t *vals, uint_t ldv)
 		 */
 		static CfMatrix wrap(uint_t nr, uint_t nc, complex8_t *vals, uint_t ldv);
 
 		/**
-		 * @brief Creates a matrix from aux data.
-		 *
-		 * Creates a (nr x nc) matrix from bulk data.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] vals The array containing the matrix values in column-major ordering.
-		 * @param[in] ldv The leading dimension of the vals array.
-		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
-		 * @return The newly created matrix.
+		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
 		 */
 		static CfMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, complex8_t *vals, uint_t ldv, bool bind);
 
 		/**
-		 * @brief Creates a guard from aux data.
-		 *
-		 * Creates a guarded (nr x nc) general matrix from bulk data.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] vals The array containing the matrix values in column-major ordering.
-		 * @param[in] ldv The leading dimension of the vals array.
-		 * @return The newly created guard.
+		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
 		static CfMGuard wrap(uint_t nr, uint_t nc, const complex8_t *vals, uint_t ldv);
 
 		/**
-		 * @brief Creates a matrix guard from aux data.
-		 *
-		 * Creates a guarded (nr x nc) general matrix from bulk data.
-		 *
-		 * @param[in] ptype The matrix property.
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] vals The array containing the matrix values in column-major ordering.
-		 * @param[in] ldv The leading dimension of the vals array.
-		 * @return The newly created guard.
+		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
 		static CfMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const complex8_t *vals, uint_t ldv);
 
@@ -497,7 +315,7 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 
 /**
  * @ingroup dense_guard_group
- * @brief The double precision complex dense matrix guard.
+ * @brief The single precision complex dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
  * Useful for protecting immutable data from being exposed.
@@ -507,34 +325,27 @@ class CfMGuard : private Guard<CfMatrix> {
 	public:
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty guard.
+		 * @copydoc cla3p::dns::RdMGuard::RdMGuard()
 		 */
 		CfMGuard();
 
 		/**
-		 * @brief Destroys the guard.
+		 * @copydoc cla3p::dns::RdMGuard::~RdMGuard()
 		 */
 		~CfMGuard();
 
 		/**
-		 * @brief The copy constructor.
-		 *
-		 * Constructs a guard with a clone of the contents of other.
+		 * @copydoc cla3p::dns::RdMGuard::RdMGuard(const RdMGuard& other);
 		 */
 		CfMGuard(const CfMGuard& other);
 
 		/**
-		 * @brief The copy assignment operator.
-		 *
-		 * Replaces the contents of guard with a clone of the contents of other.
+		 * @copydoc cla3p::dns::RdMGuard::operator=(const RdMGuard& other);
 		 */
 		CfMGuard& operator=(const CfMGuard& other);
 
 		/**
-		 * @brief The matrix being guarded.
-		 * @return A constant reference to the matrix being guarded.
+		 * @copydoc cla3p::dns::RdMGuard::mat()
 		 */
 		const CfMatrix& mat() const;
 
