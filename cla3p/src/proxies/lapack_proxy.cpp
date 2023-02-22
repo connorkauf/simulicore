@@ -14,6 +14,37 @@
 namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
+#define laset_macro(typeout, typein, prefix) \
+typeout laset(char uplo, int_t m, int_t n, typein alpha, typein beta, typein *a, int_t lda) \
+{ \
+	return LAPACKE_##prefix##laset(LAPACK_COL_MAJOR, uplo, m, n, alpha, beta, a, lda); \
+}
+laset_macro(int_t, real_t    , d)
+laset_macro(int_t, real4_t   , s)
+laset_macro(int_t, complex_t , z)
+laset_macro(int_t, complex8_t, c)
+#undef laset_macro
+/*-------------------------------------------------*/
+#define lacpy_macro(typeout, typein, prefix) \
+typeout lacpy(char uplo, int_t m, int_t n, const typein *a, int_t lda, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##lacpy(LAPACK_COL_MAJOR, uplo, m, n, a, lda, b, ldb); \
+}
+lacpy_macro(int_t, real_t    , d)
+lacpy_macro(int_t, real4_t   , s)
+lacpy_macro(int_t, complex_t , z)
+lacpy_macro(int_t, complex8_t, c)
+#undef lacpy_macro
+/*-------------------------------------------------*/
+#define lacp2_macro(typeout, rtypein, ctypein, prefix) \
+typeout lacp2(char uplo, int_t m, int_t n, const rtypein *a, int_t lda, ctypein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##lacp2(LAPACK_COL_MAJOR, uplo, m, n, a, lda, b, ldb); \
+}
+lacp2_macro(int_t, real_t , complex_t , z)
+lacp2_macro(int_t, real4_t, complex8_t, c)
+#undef lacp2_macro
+/*-------------------------------------------------*/
 #define lange_macro(typeout, typein, prefix) \
 typeout lange(char norm, int_t m, int_t n, const typein *a, int_t lda) \
 { \
