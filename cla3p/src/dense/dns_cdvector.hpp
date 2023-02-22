@@ -40,31 +40,22 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 */
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty vector.
+		 * @copydoc cla3p::dns::RdVector::RdVector()
 		 */
 		CdVector();
 
 		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs a n-sized vector with uninitialized values.
-		 *
-		 * @param[in] n The vector size.
+		 * @copydoc cla3p::dns::RdVector::RdVector(uint_t n)
 		 */
 		CdVector(uint_t n);
 
 		/**
-		 * @brief The move constructor.
-		 *
-		 * Constructs a vector with the contents of other, other is destroyed.
+		 * @copydoc cla3p::dns::RdVector::RdVector(RdVector&& other)
 		 */
 		CdVector(CdVector&& other);
 
 		/**
-		 *
-		 * @brief Destroys the vector.
+		 * @copydoc cla3p::dns::RdVector::~RdVector()
 		 */
 		~CdVector();
 
@@ -78,23 +69,17 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 */
 
 		/**
-		 * @brief The move assignment operator.
-		 *
-		 * Replaces the contents with those of other, other is destroyed.
+		 * @copydoc cla3p::dns::RdVector::operator=(RdVector&& other)
 		 */
 		CdVector& operator=(CdVector&& other);
 
 		/**
-		 * @brief Vector entry operator.
-		 * @param[in] i The index number of the requested entry
-		 * @return A reference to the i-th element of the vector.
+		 * @copydoc cla3p::dns::RdVector::operator()()
 		 */
 		complex_t& operator()(uint_t i);
 
 		/**
-		 * @brief Vector entry operator.
-		 * @param[in] i The index number of the requested entry
-		 * @return A reference to the i-th element of the vector.
+		 * @copydoc cla3p::dns::RdVector::operator()()
 		 */
 		const complex_t& operator()(uint_t i) const;
 
@@ -108,8 +93,7 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 */
 
 		/**
-		 * @brief The vector size.
-		 * @return The number of the vector entries.
+		 * @copydoc cla3p::dns::RdVector::size()
 		 */
 		uint_t size() const;
 
@@ -127,56 +111,47 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		//
 
 		/**
-		 * @brief Prints vector information.
-		 * @param[in] msg Set a header identifier.
+		 * @copydoc cla3p::dns::RdVector::info()
 		 */
 		std::string info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Copies a vector.
-		 * @return A deep copy of the vector.
+		 * @copydoc cla3p::dns::RdVector::copy()
 		 */
 		CdVector copy() const;
 
 		/**
-		 * @brief Moves a vector.
-		 * @return A shallow copy of the vector, original vector is destroyed.
+		 * @copydoc cla3p::dns::RdVector::move()
 		 */
 		CdVector move();
 
 		/**
-		 * @brief Clones a vector.
-		 * @return A shallow copy of the vector, original vector is unchanged.
+		 * @copydoc cla3p::dns::RdVector::clone()
 		 */
 		CdVector clone();
 
 		/**
-		 * @brief Clones a vector.
-		 * @return A guard of the vector.
+		 * @copydoc cla3p::dns::RdVector::clone() const
 		 */
 		CdVGuard clone() const;
 
 		/**
-		 * @brief Scales vector by coeff.
-		 * @param[in] coeff The scaling coefficient.
+		 * @copydoc cla3p::dns::RdVector::scale()
 		 */
 		void scale(complex_t coeff);
 
 		/**
-		 * @brief Vector 1-norm.
-		 * @return The 1-norm of the vector.
+		 * @copydoc cla3p::dns::RdVector::normOne()
 		 */
 		real_t normOne() const;
 
 		/**
-		 * @brief Vector infinite norm.
-		 * @return The infinite norm of the vector.
+		 * @copydoc cla3p::dns::RdVector::normInf()
 		 */
 		real_t normInf() const;
 
 		/**
-		 * @brief Vector Euclidian norm.
-		 * @return The Euclidian norm of the vector.
+		 * @copydoc cla3p::dns::RdVector::normEuc()
 		 */
 		real_t normEuc() const;
 
@@ -185,64 +160,32 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		//
 
 		/**
-		 * @brief Permutes the entries of a vector
-		 *
-		 * Creates a permuted copy @f$ (PX) @f$ of the vector @f$ X @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of the vector.
+		 * @copydoc cla3p::dns::RdVector::permuteLeft()
 		 */
 		CdVector permuteLeft(const PermMatrix& P) const;
 
 		/**
-		 * @brief Permutes the entries of a vector in-place.
-		 *
-		 * Replaces @f$ X @f$ with @f$ PX @f$.
-		 *
-		 * @param[in] P The left side permutation matrix.
+		 * @copydoc cla3p::dns::RdVector::ipermuteLeft()
 		 */
 		void ipermuteLeft(const PermMatrix& P);
 
 		/**
-		 * @brief Gets a subvector copy.
-		 *
-		 * Gets a copy of a ni-sized block of the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A copy of a portion of the vector.
+		 * @copydoc cla3p::dns::RdVector::block()
 		 */
 		CdVector block(uint_t ibgn, uint_t ni) const;
 
 		/**
-		 * @brief Gets a subvector reference.
-		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A reference to a portion of the vector.
+		 * @copydoc cla3p::dns::RdVector::rblock(uint_t ibgn, uint_t ni)
 		 */
 		CdVector rblock(uint_t ibgn, uint_t ni);
 
 		/**
-		 * @brief Gets a subvector reference.
-		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A guarded reference to a portion of the vector.
+		 * @copydoc cla3p::dns::RdVector::rblock(uint_t ibgn, uint_t ni) const
 		 */
 		CdVGuard rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
-		 * @brief Sets a subvector.
-		 *
-		 * Copies the contents of a block in the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that src will be placed.
-		 * @param[in] src The block to be placed.
+		 * @copydoc cla3p::dns::RdVector::setBlock()
 		 */
 		void setBlock(uint_t ibgn, const CdVector& src);
 
@@ -256,55 +199,27 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 */
 
 		/**
-		 * @brief Creates a vector.
-		 *
-		 * Creates a n-sized vector with uninitialized values.
-		 *
-		 * @param[in] n The vector size.
-		 * @return The newly created vector.
+		 * @copydoc cla3p::dns::RdVector::init()
 		 */
 		static CdVector init(uint_t n);
 
 		/**
-		 * @brief Creates a zero vector.
-		 *
-		 * Creates a n-sized vector with all values set to zero.
-		 *
-		 * @param[in] n The vector size.
-		 * @return The newly created vector.
+		 * @copydoc cla3p::dns::RdVector::zero()
 		 */
 		static CdVector zero(uint_t n);
 
 		/**
-		 * @brief Creates a vector with random values in (0,1).
-		 *
-		 * Creates a n-sized vector with random values.
-		 *
-		 * @param[in] n The vector size.
-		 * @return The newly created vector.
+		 * @copydoc cla3p::dns::RdVector::random()
 		 */
 		static CdVector random(uint_t n);
 
 		/**
-		 * @brief Creates a vector from aux data.
-		 *
-		 * Creates a n-sized vector from bulk data.
-		 *
-		 * @param[in] n The vector size.
-		 * @param[in] vals The array containing the vector values.
-		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
-		 * @return The newly created vector.
+		 * @copydoc cla3p::dns::RdVector::wrap(uint_t n, real_t *vals, bool bind)
 		 */
 		static CdVector wrap(uint_t n, complex_t *vals, bool bind);
 
 		/**
-		 * @brief Creates a guard from aux data.
-		 *
-		 * Creates a n-sized guarded vector from bulk data.
-		 *
-		 * @param[in] n The vector size.
-		 * @param[in] vals The array containing the vector values.
-		 * @return The newly created guard.
+		 * @copydoc cla3p::dns::RdVector::wrap(uint_t n, const real_t *vals)
 		 */
 		static CdVGuard wrap(uint_t n, const complex_t *vals);
 
@@ -325,34 +240,27 @@ class CdVGuard : private Guard<CdVector> {
 	public:
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty guard.
+		 * @copydoc cla3p::dns::RdVGuard::RdVGuard()
 		 */
 		CdVGuard();
 
 		/**
-		 * @brief Destroys the guard.
+		 * @copydoc cla3p::dns::RdVGuard::~RdVGuard()
 		 */
 		~CdVGuard();
 
 		/**
-		 * @brief The copy constructor.
-		 *
-		 * Constructs a guard with a clone of the contents of other.
+		 * @copydoc cla3p::dns::RdVGuard::RdVGuard(const RdVGuard& other)
 		 */
 		CdVGuard(const CdVGuard& other);
 
 		/**
-		 * @brief The copy assignment operator.
-		 *
-		 * Replaces the contents of guard with a clone of the contents of other.
+		 * @copydoc cla3p::dns::RdVGuard::operator=(const RdVGuard& other);
 		 */
 		CdVGuard& operator=(const CdVGuard& other);
 
 		/**
-		 * @brief The vector being guarded.
-		 * @return A constant reference to the vector being guarded.
+		 * @copydoc cla3p::dns::RdVGuard::vec()
 		 */
 		const CdVector& vec() const;
 
