@@ -32,7 +32,20 @@ inline T& entry(uint_t lda, T *a, uint_t i, uint_t j)
 // Set all entries to val
 //
 #define fill_macro(typeout, typein) \
-typeout fill(prop_t ptype, uint_t m, uint_t n, typein *a, uint_t lda, typein val)
+typeout fill(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, typein val)
+fill_macro(void, int_t);
+fill_macro(void, uint_t);
+fill_macro(void, real_t);
+fill_macro(void, real4_t);
+fill_macro(void, complex_t);
+fill_macro(void, complex8_t);
+#undef fill_macro
+
+//
+// Set all entries to val (separate diagonal)
+//
+#define fill_macro(typeout, typein) \
+typeout fill(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, typein val, typein dval)
 fill_macro(void, int_t);
 fill_macro(void, uint_t);
 fill_macro(void, real_t);
@@ -45,9 +58,9 @@ fill_macro(void, complex8_t);
 // Set all entries to zero
 //
 template <typename T>
-void zero(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda)
+void zero(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
-	fill(ptype, m, n, a, lda, 0);
+	fill(uplo, m, n, a, lda, 0);
 }
 
 //
@@ -58,7 +71,7 @@ T* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
 {
 	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));
 	if(wipe) {
-		zero(prop_t::GENERAL, m, n, ret, lda);
+		zero(uplo_t::F, m, n, ret, lda);
 	} // wipe
 	return ret;
 }
@@ -67,7 +80,7 @@ T* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
 // Set random values
 //
 #define rand_macro(typeout, typein, rtypein, lowval, highval) \
-typeout rand(prop_t ptype, uint_t m, uint_t n, typein *a, uint_t lda, rtypein low = lowval, rtypein high = highval)
+typeout rand(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, rtypein low = lowval, rtypein high = highval)
 rand_macro(void, int_t     , int_t  , 0, 100);
 rand_macro(void, uint_t    , uint_t , 0, 100);
 rand_macro(void, real_t    , real_t , 0,   1);
@@ -80,7 +93,7 @@ rand_macro(void, complex8_t, real4_t, 0,   1);
 // Copy
 //
 #define copy_macro(typeout, typein) \
-typeout copy(prop_t ptype, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, typein coeff = 1)
+typeout copy(uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, typein coeff = 1)
 copy_macro(void, int_t);
 copy_macro(void, uint_t);
 copy_macro(void, real_t);
@@ -93,7 +106,7 @@ copy_macro(void, complex8_t);
 // Get real part from complex
 //
 #define get_real_macro(typeout, typein, rtypein) \
-typeout get_real(prop_t ptype, uint_t m, uint_t n, const typein *a, uint_t lda, rtypein *b, uint_t ldb)
+typeout get_real(uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, rtypein *b, uint_t ldb)
 get_real_macro(void, int_t     , int_t  ); // exception
 get_real_macro(void, uint_t    , uint_t ); // exception
 get_real_macro(void, real_t    , real_t ); // exception
@@ -106,7 +119,7 @@ get_real_macro(void, complex8_t, real4_t);
 // Get imag part from complex
 //
 #define get_imag_macro(typeout, typein, rtypein) \
-typeout get_imag(prop_t ptype, uint_t m, uint_t n, const typein *a, uint_t lda, rtypein *b, uint_t ldb)
+typeout get_imag(uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, rtypein *b, uint_t ldb)
 get_imag_macro(void, int_t     , int_t  ); // exception
 get_imag_macro(void, uint_t    , uint_t ); // exception
 get_imag_macro(void, real_t    , real_t ); // exception
@@ -119,7 +132,7 @@ get_imag_macro(void, complex8_t, real4_t);
 // Set real part to complex
 //
 #define set_real_macro(typeout, typein, rtypein) \
-typeout set_real(prop_t ptype, uint_t m, uint_t n, const rtypein *a, uint_t lda, typein *b, uint_t ldb)
+typeout set_real(uplo_t uplo, uint_t m, uint_t n, const rtypein *a, uint_t lda, typein *b, uint_t ldb)
 set_real_macro(void, int_t     , int_t  ); // exception
 set_real_macro(void, uint_t    , uint_t ); // exception
 set_real_macro(void, real_t    , real_t ); // exception
@@ -132,7 +145,7 @@ set_real_macro(void, complex8_t, real4_t);
 // Set imag part to complex
 //
 #define set_imag_macro(typeout, typein, rtypein) \
-typeout set_imag(prop_t ptype, uint_t m, uint_t n, const rtypein *a, uint_t lda, typein *b, uint_t ldb)
+typeout set_imag(uplo_t uplo, uint_t m, uint_t n, const rtypein *a, uint_t lda, typein *b, uint_t ldb)
 set_imag_macro(void, int_t     , int_t  ); // exception
 set_imag_macro(void, uint_t    , uint_t ); // exception
 set_imag_macro(void, real_t    , real_t ); // exception

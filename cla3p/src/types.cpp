@@ -52,29 +52,32 @@ const std::string& Operation::name() const
 	if(type() == op_t::C) return oname_ctop;
 
 	throw Exception("Unknown operation");
+	return oname_noop;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 Property::Property()
-	: m_type(prop_t::NONE)
+	: m_type(prop_t::NONE), m_uplo(uplo_t::F)
 {
 }
 /*-------------------------------------------------*/
 Property::Property(const Property& other)
-	: m_type(other.type())
+	: m_type(other.type()), m_uplo(other.uplo())
 {
 }
 /*-------------------------------------------------*/
 Property& Property::operator=(const Property& other)
 {
 	m_type = other.type();
+	m_uplo = other.uplo();
 	return *this;
 }
 /*-------------------------------------------------*/
-Property::Property(prop_t ptype)
-	: m_type(ptype)
+Property::Property(prop_t type, uplo_t uplo)
+	: m_type(type), m_uplo(uplo)
 {
+	check();
 }
 /*-------------------------------------------------*/
 Property::~Property()
@@ -86,19 +89,43 @@ prop_t Property::type() const
 	return m_type;
 }
 /*-------------------------------------------------*/
-const std::string pname_none      = "None"     ;
-const std::string pname_general   = "General"  ;
-const std::string pname_symmetric = "Symmetric";
-const std::string pname_hermitian = "Hermitian";
+uplo_t Property::uplo() const
+{
+	return m_uplo;
+}
+/*-------------------------------------------------*/
+void Property::check() const
+{
+	if(is_general() && !is_full()) {
+		throw NoConsistency("Bad type/uplo combo");
+	} 
+	if(!is_general() && is_full()) {
+		throw NoConsistency("Bad type/uplo combo");
+	} 
+}
+/*-------------------------------------------------*/
+const std::string pname_none = "None";
+/*-------------------------------------------------*/
+const std::string pname_general = "General";
+/*-------------------------------------------------*/
+const std::string pname_usymmetric = "Symmetric Upper";
+const std::string pname_lsymmetric = "Symmetric Lower";
+/*-------------------------------------------------*/
+const std::string pname_uhermitian = "Hermitian Upper";
+const std::string pname_lhermitian = "Hermitian Lower";
 /*-------------------------------------------------*/
 const std::string& Property::name() const
 {
-	if(type() == prop_t::NONE     ) return pname_none     ;
-	if(type() == prop_t::GENERAL  ) return pname_general  ;
-	if(type() == prop_t::SYMMETRIC) return pname_symmetric;
-	if(type() == prop_t::HERMITIAN) return pname_hermitian;
+	if(type() == prop_t::NONE) return pname_none;
 
-	throw Exception("Unknown property");
+	if(type() == prop_t::GENERAL   && uplo() == uplo_t::F) return pname_general;
+	if(type() == prop_t::SYMMETRIC && uplo() == uplo_t::U) return pname_usymmetric;
+	if(type() == prop_t::SYMMETRIC && uplo() == uplo_t::L) return pname_lsymmetric;
+	if(type() == prop_t::HERMITIAN && uplo() == uplo_t::U) return pname_uhermitian;
+	if(type() == prop_t::HERMITIAN && uplo() == uplo_t::L) return pname_lhermitian;
+
+	throw Exception("Unknown/Invalid property");
+	return pname_none;
 }
 /*-------------------------------------------------*/
 bool Property::is_valid() const
@@ -121,9 +148,19 @@ bool Property::is_hermitian() const
 	return (type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
+bool Property::is_full() const
+{
+	return (uplo() == uplo_t::F);
+}
+/*-------------------------------------------------*/
+bool Property::is_upper() const
+{
+	return (uplo() == uplo_t::U);
+}
+/*-------------------------------------------------*/
 bool Property::is_lower() const
 {
-	return (is_symmetric() || is_hermitian());
+	return (uplo() == uplo_t::L);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

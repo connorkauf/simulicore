@@ -28,267 +28,212 @@ static uint_t recursive_min_dim()
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-static void fill_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, T val)
+static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, T dval)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
+	int_t info = lapack::laset(uplo, m, n, val, dval, a, lda);
 
-	bool lower = Property(ptype).is_lower();
-
-	if(m == lda && !lower) {
-		std::fill_n(a, m * n, val);
-	} else {
-		for(uint_t j = 0; j < n; j++) {
-			uint_t ibgn = lower ?     j : 0;
-			uint_t ilen = lower ? m - j : m;
-			std::fill_n(ptrmv(lda,a,ibgn,j), ilen, val);
-		} // j
-	} // m = lda
+	if(info) {
+		throw Exception(lapack_error() + " (info:" + std::to_string(info) + ")");
+	} // info
 }
 /*-------------------------------------------------*/
-void fill(prop_t ptype, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ fill_tmpl(ptype, m, n, a, lda, val); }
-void fill(prop_t ptype, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ fill_tmpl(ptype, m, n, a, lda, val); }
-void fill(prop_t ptype, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){ fill_tmpl(ptype, m, n, a, lda, val); }
-void fill(prop_t ptype, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){ fill_tmpl(ptype, m, n, a, lda, val); }
-void fill(prop_t ptype, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){ fill_tmpl(ptype, m, n, a, lda, val); }
-void fill(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){ fill_tmpl(ptype, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+/*-------------------------------------------------*/
+void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val, int_t      dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val, uint_t     dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val, real_t     dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val, real4_t    dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val, complex_t  dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val, complex8_t dval){ fill_tmpl(uplo, m, n, a, lda, val); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename Tin, typename Tout>
-static void rand_tmpl(prop_t ptype, uint_t m, uint_t n, Tout *a, uint_t lda, 
-		Tin low, Tin high, const std::function<Tout (Tin low, Tin high)>& randfun)
+template <typename T, typename Tr>
+static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, 
+		Tr low, Tr high, const std::function<T (Tr low, Tr high)>& randfun)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
 	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
+		RowRange ir = irange(uplo, m, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(lda,a,i,j) = randfun(low, high);
 		} // j
 	} // j
-	
-	if(ptype == prop_t::HERMITIAN) {
-		for(uint_t j = 0; j < n; j++) {
-			setim(entry(lda,a,j,j), 0.);
-		} // j
-	} // hermitian
 }
 /*-------------------------------------------------*/
-void rand(prop_t ptype, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl<int_t  ,int_t     >(ptype, m, n, a, lda, low, high, irand); }
-void rand(prop_t ptype, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl<uint_t ,uint_t    >(ptype, m, n, a, lda, low, high, urand); }
-void rand(prop_t ptype, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t ,real_t    >(ptype, m, n, a, lda, low, high, drand); }
-void rand(prop_t ptype, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t,real4_t   >(ptype, m, n, a, lda, low, high, srand); }
-void rand(prop_t ptype, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t ,complex_t >(ptype, m, n, a, lda, low, high, zrand); }
-void rand(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t,complex8_t>(ptype, m, n, a, lda, low, high, crand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl<int_t     ,int_t  >(uplo, m, n, a, lda, low, high, irand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl<uint_t    ,uint_t >(uplo, m, n, a, lda, low, high, urand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t    ,real_t >(uplo, m, n, a, lda, low, high, drand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t   ,real4_t>(uplo, m, n, a, lda, low, high, srand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<complex_t ,real_t >(uplo, m, n, a, lda, low, high, zrand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<complex8_t,real4_t>(uplo, m, n, a, lda, low, high, crand); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff);
-/*-------------------------------------------------*/
-template <typename T>
-static void copy_recursive_tmpl(uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
-{
-	if(!n) return;
-
-	if(n < recursive_min_dim()) {
-
-		for(uint_t j = 0; j < n; j++) {
-			copy_tmpl(prop_t::GENERAL, n-j, 1, ptrmv(lda,a,j,j), lda, ptrmv(ldb,b,j,j), ldb, coeff);
-		} // j
-
-	} else {
-
-		uint_t n0 = n/2;
-		uint_t n1 = n - n0;
-
-		copy_recursive_tmpl(n0, ptrmv(lda,a, 0, 0), lda, ptrmv(ldb,b, 0, 0), ldb, coeff);
-		copy_recursive_tmpl(n1, ptrmv(lda,a,n0,n0), lda, ptrmv(ldb,b,n0,n0), ldb, coeff);
-
-		copy_tmpl(prop_t::GENERAL, n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(ldb,b,n0,0), ldb, coeff);
-
-	} // dim check
-}
-/*-------------------------------------------------*/
-template <typename T>
-static void copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
-	if(lower) {
-		copy_recursive_tmpl(n, a, lda, b, ldb, coeff);
-	} else {
+	if(uplo == uplo::F) {
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
-	} // lower
+	} else {
+		int_t info = lapack::lacpy(uplo, m, n, a, lda, b, ldb);
+		if(info) {
+			throw Exception(lapack_error() + " (info:" + std::to_string(info) + ")");
+		} // info
+	} // uplo
 }
 /*-------------------------------------------------*/
 template <typename T>
-static void naive_copy_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	// 
 	// TODO: more efficiently
 	//
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
 	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
+		RowRange ir = irange(uplo, m, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
 		} // i
 	} // j
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
 {
-	naive_copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	naive_copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
 {
-	naive_copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	naive_copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
 {
-	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
 { 
-	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
 {
-	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
-void copy(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
+void copy(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
 { 
-	copy_tmpl(ptype, m, n, a, lda, b, ldb, coeff); 
+	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-static void get_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
-	if(m == lda && m == ldb && !lower) {
-		blas::copy(m * n, reinterpret_cast<const Tr*>(a), 2, b, 1);
+	if(uplo == uplo_t::F) {
+		T one = 1;
+		mkl::omatcopy('C', 'N', m, n, one, reinterpret_cast<const Tr*>(a), 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			uint_t ilen = lower ? m - j : m;
-			blas::copy(ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)), 2, b, 1);
+			RowRange ir = irange(uplo, m, n, j);
+			blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)), 2, b, 1);
 		} // j
-	} // m = lda
+	}
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-static void set_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
-	if(m == lda && m == ldb && !lower) {
-		blas::copy(m * n, a, 1, reinterpret_cast<Tr*>(b), 2);
+	if(uplo == uplo_t::F) {
+		T one = 1;
+		mkl::omatcopy('C', 'N', m, n, one, 2, a, lda, 1, reinterpret_cast<const Tr*>(b), 2 * ldb);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			uint_t ilen = lower ? m - j : m;
-			blas::copy(ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)), 2);
+			RowRange ir = irange(uplo, m, n, j);
+			blas::copy(ir.ilen, a, 1, reinterpret_cast<const Tr*>(ptrmv(lda,b,j,j)), 2);
 		} // j
-	} // m = lda
+	}
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-static void get_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
-	if(m == lda && m == ldb && !lower) {
-		blas::copy(m * n, reinterpret_cast<const Tr*>(a) + 1, 2, b, 1);
+	if(uplo == uplo_t::F) {
+		T one = 1;
+		mkl::omatcopy('C', 'N', m, n, one, reinterpret_cast<const Tr*>(a) + 1, 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			uint_t ilen = lower ? m - j : m;
-			blas::copy(ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)) + 1, 2, b, 1);
+			RowRange ir = irange(uplo, m, n, j);
+			blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)) + 1, 2, b, 1);
 		} // j
-	} // m = lda
+	}
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-static void set_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
-	if(m == lda && m == ldb && !lower) {
-		blas::copy(m * n, a, 1, reinterpret_cast<Tr*>(b) + 1, 2);
+	if(uplo == uplo_t::F) {
+		T one = 1;
+		mkl::omatcopy('C', 'N', m, n, one, 2, a, lda, 1, reinterpret_cast<const Tr*>(b) + 1, 2 * ldb);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			uint_t ilen = lower ? m - j : m;
-			blas::copy(ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
+			RowRange ir = irange(uplo, m, n, j);
+			blas::copy(ir.ilen, a, 1, reinterpret_cast<const Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
 		} // j
-	} // m = lda
+	}
 }
 /*-------------------------------------------------*/
-void get_real(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void get_imag(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void set_real(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void set_imag(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void get_real(prop_t ptype, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_real(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_imag(prop_t ptype, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_imag(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_real(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_real(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
 /*-------------------------------------------------*/
-void set_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_real(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_real(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_imag(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_imag(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

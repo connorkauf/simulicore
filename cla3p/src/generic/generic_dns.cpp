@@ -463,6 +463,13 @@ void GenericObject<T,Tr>::randomCreator(prop_t ptype, uint_t nr, uint_t nc, uint
 {
 	blankCreator(ptype, nr, nc, ldim);
 	bulk::dns::rand(prop().type(), rsize(), csize(), values(), ld());
+#if 0
+	if(ptype == prop_t::HERMITIAN) {
+		for(uint_t j = 0; j < n; j++) {
+			setim(entry(lda,a,j,j), 0.);
+		} // j
+	} // hermitian
+#endif
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>

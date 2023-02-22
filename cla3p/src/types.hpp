@@ -138,8 +138,18 @@ class Property {
 		enum class prop_t {
 			NONE      = 0, /**< No property */
 			GENERAL      , /**< General (non-symmetric/non-hermitian matrix) */
-			SYMMETRIC    , /**< Symmetric (lower) matrix */
-			HERMITIAN      /**< Hermitian (lower) matrix */
+			SYMMETRIC    , /**< Symmetric matrix */
+			HERMITIAN      /**< Hermitian matrix */
+		};
+
+		/**
+		 * @enum uplo_t
+		 * @brief The fill type.
+		 */
+		enum class uplo_t : char {
+			F = 'F', /**< Both parts are filled */
+			U = 'U', /**< The upper part is filled */
+			L = 'L'  /**< The lower part is filled */
 		};
 
 		/**
@@ -152,9 +162,9 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an property with type ptype.
+		 * Constructs an property with type type and fill type uplo.
 		 */
-		explicit Property(prop_t ptype);
+		explicit Property(prop_t type, uplo_t uplo);
 
 		/**
 		 * @brief Destructs the property.
@@ -179,6 +189,11 @@ class Property {
 		 * @brief The property type.
 		 */
 		prop_t type() const;
+
+		/**
+		 * @brief The property fill type.
+		 */
+		uplo_t uplo() const;
 
 		/**
 		 * @brief The property name.
@@ -206,18 +221,35 @@ class Property {
 		bool is_hermitian() const;
 
 		/**
-		 * @brief Checks weather the property type refers to the lower triangular part of a matrix.
+		 * @brief Checks weather the entire matrix is used.
+		 */
+		bool is_full() const;
+
+		/**
+		 * @brief Checks weather the upper part of the matrix is used.
+		 */
+		bool is_upper() const;
+
+		/**
+		 * @brief Checks weather the lower part of the matrix is used.
 		 */
 		bool is_lower() const;
 
 	private:
 		prop_t m_type;
+		uplo_t m_uplo;
+
+		void check() const;
 };
 
 /** 
  * @ingroup basic_datatypes_group 
  */
 using prop_t = cla3p::Property::prop_t; /**< Use directly cla3p::prop_t to declare a property type. */
+/** 
+ * @ingroup basic_datatypes_group 
+ */
+using uplo_t = cla3p::Property::uplo_t; /**< Use directly cla3p::uplo_t to declare a fill type. */
 
 /*-------------------------------------------------*/
 } // namespace cla3p
