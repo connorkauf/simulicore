@@ -53,6 +53,7 @@ const std::string& invalid_property();
 const std::string& invalid_property_for_square();
 const std::string& empty_object();
 const std::string& op_not_allowed();
+const std::string& lapack_error();
 
 } // namespace msg
 
