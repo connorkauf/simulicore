@@ -9,6 +9,14 @@ namespace blas {
 /*-------------------------------------------------*/
 
 /*------------------ Level 1 ----------------------*/
+#define copy_macro(typeout, typein) \
+typeout copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy);
+copy_macro(void, real_t    )
+copy_macro(void, real4_t   )
+copy_macro(void, complex_t )
+copy_macro(void, complex8_t)
+#undef copy_macro
+
 #define nrm2_macro(typeout, typein) \
 typeout nrm2(int_t n, const typein *x, int_t incx);
 nrm2_macro(real_t , real_t    )
