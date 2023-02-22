@@ -11,7 +11,19 @@ namespace mkl {
 std::string version();
 
 #define omatcopy_macro(typeout, typein) \
-typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, const typein *a, bulk_t lda, typein *b, bulk_t ldb);
+typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
+		const typein *a, bulk_t lda, \
+		      typein *b, bulk_t ldb);
+omatcopy_macro(void, real_t    )
+omatcopy_macro(void, real4_t   )
+omatcopy_macro(void, complex_t )
+omatcopy_macro(void, complex8_t)
+#undef omatcopy_macro
+
+#define omatcopy_macro(typeout, typein) \
+typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
+		const typein *a, bulk_t lda, bulk_t stridea, \
+		      typein *b, bulk_t ldb, bulk_t strideb);
 omatcopy_macro(void, real_t    )
 omatcopy_macro(void, real4_t   )
 omatcopy_macro(void, complex_t )
