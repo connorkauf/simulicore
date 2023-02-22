@@ -191,16 +191,16 @@ static void get_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uin
 
 	dns_consistency_check(ptype, m, n, a, lda);
 
-#if 0
 	bool lower = Property(ptype).is_lower();
 
-	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
-			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-#endif
+	if(m == lda && m == ldb && !lower) {
+		blas::copy(m * n, reinterpret_cast<const Tr*>(a), 2, b, 1);
+	} else {
+		for(uint_t j = 0; j < n; j++) {
+			uint_t ilen = lower ? m - j : m;
+			blas::copy(ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)), 2, b, 1);
+		} // j
+	} // m = lda
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -210,16 +210,16 @@ static void set_real_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, ui
 
 	dns_consistency_check(ptype, m, n, a, lda);
 
-#if 0
 	bool lower = Property(ptype).is_lower();
 
-	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
-			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-#endif
+	if(m == lda && m == ldb && !lower) {
+		blas::copy(m * n, a, 1, reinterpret_cast<Tr*>(b), 2);
+	} else {
+		for(uint_t j = 0; j < n; j++) {
+			uint_t ilen = lower ? m - j : m;
+			blas::copy(ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)), 2);
+		} // j
+	} // m = lda
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -229,16 +229,16 @@ static void get_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const T *a, uin
 
 	dns_consistency_check(ptype, m, n, a, lda);
 
-#if 0
 	bool lower = Property(ptype).is_lower();
 
-	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
-			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-#endif
+	if(m == lda && m == ldb && !lower) {
+		blas::copy(m * n, reinterpret_cast<const Tr*>(a) + 1, 2, b, 1);
+	} else {
+		for(uint_t j = 0; j < n; j++) {
+			uint_t ilen = lower ? m - j : m;
+			blas::copy(ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)) + 1, 2, b, 1);
+		} // j
+	} // m = lda
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -248,37 +248,37 @@ static void set_imag_part_tmpl(prop_t ptype, uint_t m, uint_t n, const Tr *a, ui
 
 	dns_consistency_check(ptype, m, n, a, lda);
 
-#if 0
 	bool lower = Property(ptype).is_lower();
 
-	for(uint_t j = 0; j < n; j++) {
-		uint_t ibgn = lower ? j : 0;
-		for(uint_t i = ibgn; i < m; i++) {
-			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-#endif
+	if(m == lda && m == ldb && !lower) {
+		blas::copy(m * n, a, 1, reinterpret_cast<Tr*>(b) + 1, 2);
+	} else {
+		for(uint_t j = 0; j < n; j++) {
+			uint_t ilen = lower ? m - j : m;
+			blas::copy(ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
+		} // j
+	} // m = lda
 }
 /*-------------------------------------------------*/
-void get_real(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_real(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void get_imag(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void get_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void get_imag(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void set_real(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_real(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_real(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void set_imag(prop_t ptype, uint_t m, uint_t n, const int_t   *a, uint_t lda, int_t   *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t ptype, uint_t m, uint_t n, const uint_t  *a, uint_t lda, uint_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t ptype, uint_t m, uint_t n, const real_t  *a, uint_t lda, real_t  *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
-void set_imag(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void set_imag(prop_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
 void get_real(prop_t ptype, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
 void get_real(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
