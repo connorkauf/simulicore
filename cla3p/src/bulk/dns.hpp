@@ -158,7 +158,7 @@ set_imag_macro(void, complex8_t, real4_t);
 // Scale
 //
 #define scale_macro(typeout, typein) \
-typeout scale(prop_t ptype, uint_t m, uint_t n, typein *a, uint_t lda, typein coeff)
+typeout scale(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, typein coeff)
 scale_macro(void, int_t);
 scale_macro(void, uint_t);
 scale_macro(void, real_t);
@@ -196,59 +196,59 @@ conjugate_transpose_macro(void, complex8_t);
 //
 // Conjugations
 //
-void conjugate(prop_t ptype, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // exception
-void conjugate(prop_t ptype, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // exception
-void conjugate(prop_t ptype, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff = 1.);
-void conjugate(prop_t ptype, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff = 1.);
+void conjugate(uplo_t uplo, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // exception
+void conjugate(uplo_t uplo, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // exception
+void conjugate(uplo_t uplo, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff = 1.);
+void conjugate(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff = 1.);
 
 //
 // Symmetric to general
 //
-void sy2ge(uint_t n, real_t *a, uint_t lda);
-void sy2ge(uint_t n, real4_t *a, uint_t lda);
-void sy2ge(uint_t n, complex_t *a, uint_t lda);
-void sy2ge(uint_t n, complex8_t *a, uint_t lda);
+void sy2ge(uplo_t uplo, uint_t n, real_t *a, uint_t lda);
+void sy2ge(uplo_t uplo, uint_t n, real4_t *a, uint_t lda);
+void sy2ge(uplo_t uplo, uint_t n, complex_t *a, uint_t lda);
+void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda);
 
 //
 // Hermitian to general
 //
-void he2ge(uint_t n, real_t *a, uint_t lda); // exception
-void he2ge(uint_t n, real4_t *a, uint_t lda); // exception
-void he2ge(uint_t n, complex_t *a, uint_t lda);
-void he2ge(uint_t n, complex8_t *a, uint_t lda);
+void he2ge(uplo_t uplo, uint_t n, real_t *a, uint_t lda); // exception
+void he2ge(uplo_t uplo, uint_t n, real4_t *a, uint_t lda); // exception
+void he2ge(uplo_t uplo, uint_t n, complex_t *a, uint_t lda);
+void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda);
 
 //
 // Norms
 //
-int_t norm_one(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
-int_t norm_inf(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
-int_t norm_max(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
-int_t norm_fro(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
+int_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda); // exception
 
-uint_t norm_one(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
-uint_t norm_inf(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
-uint_t norm_max(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
-uint_t norm_fro(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
+uint_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda); // exception
 
-real_t norm_one(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
-real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
-real_t norm_max(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
-real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda);
+real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda);
 
-real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
-real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
-real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
-real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda);
 
-real_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
-real_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
-real_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
-real_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
 
-real4_t norm_one(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
-real4_t norm_inf(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
-real4_t norm_max(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
-real4_t norm_fro(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
+real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
 int_t   norm_euc(uint_t n, const int_t *a); // exception
 uint_t  norm_euc(uint_t n, const uint_t *a); // exception
@@ -264,7 +264,7 @@ real4_t norm_euc(uint_t n, const complex8_t *a);
 // prop: SYMMETRIC/HERMITIAN B = P*A*P^{T} Q is not referenced
 //
 #define permute_macro(typeout, typein) \
-typeout permute(prop_t ptype, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+typeout permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 permute_macro(void, int_t);
 permute_macro(void, uint_t);
 permute_macro(void, real_t);
