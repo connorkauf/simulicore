@@ -94,6 +94,11 @@ uplo_t Property::uplo() const
 	return m_uplo;
 }
 /*-------------------------------------------------*/
+char Property::cuplo() const
+{
+	return static_cast<char>(uplo());
+}
+/*-------------------------------------------------*/
 void Property::check() const
 {
 	if(is_general() && !is_full()) {
@@ -131,6 +136,11 @@ const std::string& Property::name() const
 bool Property::is_valid() const
 {
 	return (type() != prop_t::NONE);
+}
+/*-------------------------------------------------*/
+bool Property::isSquare() const
+{
+	return (type() == prop_t::SYMMETRIC || type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
 bool Property::is_general() const

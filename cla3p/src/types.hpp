@@ -196,6 +196,11 @@ class Property {
 		uplo_t uplo() const;
 
 		/**
+		 * @brief The property fill type as a char.
+		 */
+		char cuplo() const;
+
+		/**
 		 * @brief The property name.
 		 */
 		const std::string& name() const;
@@ -204,6 +209,11 @@ class Property {
 		 * @brief Checks weather the property has a valid type.
 		 */
 		bool is_valid() const;
+
+		/**
+		 * @brief Checks weather the property requires matrix to be square.
+		 */
+		bool isSquare() const;
 
 		/**
 		 * @brief Checks weather the property type is general.
