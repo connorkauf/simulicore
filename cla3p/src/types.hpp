@@ -162,6 +162,13 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
+		 * Constructs an property with type type and default fill type.
+		 */
+		explicit Property(prop_t type);
+
+		/**
+		 * @brief The member constructor.
+		 *
 		 * Constructs an property with type type and fill type uplo.
 		 */
 		explicit Property(prop_t type, uplo_t uplo);

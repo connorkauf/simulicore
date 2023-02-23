@@ -25,36 +25,37 @@ class Printer {
 		Printer(uint_t nsd, uint_t line_maxlen);
 		~Printer();
 
-		std::string printToString(uint_t m, uint_t n, const int_t *a, uint_t lda, bool lower);
-		std::string printToString(uint_t m, uint_t n, const uint_t *a, uint_t lda, bool lower);
-		std::string printToString(uint_t m, uint_t n, const real_t *a, uint_t lda, bool lower);
-		std::string printToString(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower);
-		std::string printToString(uint_t m, uint_t n, const complex_t *a, uint_t lda, bool lower);
-		std::string printToString(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
+		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
 		template <typename T>
-		void print(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		void print(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
 
 	private:
 		void reset();
 		void reserveStringSpace(uint_t m, uint_t n);
 
 		template <typename T>
-		std::string printToStringInt(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		std::string printToStringInt(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
 		template <typename T>
-		std::string printToStringReal(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		std::string printToStringReal(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
 		template <typename T>
-		std::string printToStringComplex(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		std::string printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
 		template <typename T>
-		void fillString(uint_t m, uint_t n, T *a, uint_t lda, bool lower);
+		void fillString(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
 		template <typename T>
-		void appendPage(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
+		void appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda);
 		template <typename T>
-		void appendIthRowOfPage(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower);
+		void appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda);
 
 		uint_t countColumnsPerPage(uint_t n);
 		void appendPageHeader(uint_t jbgn, uint_t jend);
 		void appendExtraSpaces();
+		void appendEmpty();
 		void appendElement(int_t a);
 		void appendElement(uint_t a);
 		void appendElement(real_t a);
@@ -143,6 +144,13 @@ void Printer::appendExtraSpaces()
 	} // extra_spaces
 }
 /*-------------------------------------------------*/
+void Printer::appendEmpty()
+{
+	nint_t nd = m_element_length_max;
+	std::sprintf(m_cbuff, "%*s", nd, "");
+	m_str.append(m_cbuff);
+}
+/*-------------------------------------------------*/
 void Printer::appendElement(int_t a)
 {
 	nint_t nd = m_element_length_max;
@@ -190,7 +198,7 @@ void Printer::appendElement(complex8_t a)
 }
 /*-------------------------------------------------*/
 template <typename T>
-void Printer::appendIthRowOfPage(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower)
+void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda)
 {
 	nint_t nd = m_row_numdigits;
 	std::sprintf(m_cbuff, "%*" _UFMT_ " |", nd, i);
@@ -198,7 +206,8 @@ void Printer::appendIthRowOfPage(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_
 
 	nd = m_nsd;
 	for(uint_t j = jbgn; j < jend; j++) {
-		if(lower && j > i) break;
+		if(uplo == uplo_t::U && j < i) appendEmpty();
+		if(uplo == uplo_t::L && j > i) break;
 		appendElement(entry(lda,a,i,j));
 	} // j
 
@@ -206,12 +215,12 @@ void Printer::appendIthRowOfPage(uint_t i, uint_t jbgn, uint_t jend, T *a, uint_
 }
 /*-------------------------------------------------*/
 template <typename T>
-void Printer::appendPage(uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda, bool lower)
+void Printer::appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda)
 {
 	appendPageHeader(jbgn, jend);
 	
 	for(uint_t i = 0; i < m; i++) {
-		appendIthRowOfPage(i, jbgn, jend, a, lda, lower);
+		appendIthRowOfPage(uplo, i, jbgn, jend, a, lda);
 	} // i
 
 	m_str.append("\n");
@@ -223,7 +232,7 @@ void Printer::reserveStringSpace(uint_t m, uint_t n)
 }
 /*-------------------------------------------------*/
 template <typename T>
-void Printer::fillString(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+void Printer::fillString(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	uint_t columns_per_page = countColumnsPerPage(n);
 
@@ -233,24 +242,24 @@ void Printer::fillString(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 	for(uint_t ipage = 0; ipage < num_pages; ipage++) {
 		uint_t jbgn = ipage * columns_per_page;
 		uint_t jend = jbgn + columns_per_page;
-		appendPage(m, jbgn, jend, a, lda, lower);
+		appendPage(uplo, m, jbgn, jend, a, lda);
 	} // ipage
 
 	if(rem_cols) {
 		uint_t jbgn = num_pages * columns_per_page;
 		uint_t jend = n;
-		appendPage(m, jbgn, jend, a, lda, lower);
+		appendPage(uplo, m, jbgn, jend, a, lda);
 	} // rem_cols
 }
 /*-------------------------------------------------*/
 template <typename T>
-static uint_t calc_max_ilen(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+static uint_t calc_max_ilen(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	uint_t maxlen = 0;
 
 	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			if(lower && j > i) break;
+		RowRange ir = irange(uplo, m, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			maxlen = std::max(maxlen, inumlen(entry(lda,a,i,j)));
 		} // i
 	} // j
@@ -259,24 +268,24 @@ static uint_t calc_max_ilen(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
 }
 /*-------------------------------------------------*/
 template <typename T>
-std::string Printer::printToStringInt(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+std::string Printer::printToStringInt(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
-	m_element_length = calc_max_ilen(m,n,a,lda,lower) + 2;
+	m_element_length = calc_max_ilen(uplo,m,n,a,lda) + 2;
 	m_element_length_max = std::max(m_element_length, m_col_numdigits + 1);
 
 	reserveStringSpace(m, n);
-	fillString(m, n, a, lda, lower);
+	fillString(uplo, m, n, a, lda);
 
 	return m_str;
 }
 /*-------------------------------------------------*/
-std::string Printer::printToString(uint_t m, uint_t n, const int_t  *a, uint_t lda, bool lower) { return printToStringInt(m, n, a, lda, lower); }
-std::string Printer::printToString(uint_t m, uint_t n, const uint_t *a, uint_t lda, bool lower) { return printToStringInt(m, n, a, lda, lower); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const int_t  *a, uint_t lda) { return printToStringInt(uplo, m, n, a, lda); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda) { return printToStringInt(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
 template <typename T>
-std::string Printer::printToStringReal(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+std::string Printer::printToStringReal(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -284,16 +293,16 @@ std::string Printer::printToStringReal(uint_t m, uint_t n, T *a, uint_t lda, boo
 	m_element_length_max = std::max(m_element_length, m_col_numdigits + 1);
 
 	reserveStringSpace(m, n);
-	fillString(m, n, a, lda, lower);
+	fillString(uplo, m, n, a, lda);
 
 	return m_str;
 }
 /*-------------------------------------------------*/
-std::string Printer::printToString(uint_t m, uint_t n, const real_t  *a, uint_t lda, bool lower) { return printToStringReal(m, n, a, lda, lower); }
-std::string Printer::printToString(uint_t m, uint_t n, const real4_t *a, uint_t lda, bool lower) { return printToStringReal(m, n, a, lda, lower); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda) { return printToStringReal(uplo, m, n, a, lda); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda) { return printToStringReal(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
 template <typename T>
-std::string Printer::printToStringComplex(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+std::string Printer::printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -301,108 +310,100 @@ std::string Printer::printToStringComplex(uint_t m, uint_t n, T *a, uint_t lda, 
 	m_element_length_max = std::max(m_element_length, m_col_numdigits + 1);
 
 	reserveStringSpace(m, n);
-	fillString(m, n, a, lda, lower);
+	fillString(uplo, m, n, a, lda);
 
 	return m_str;
 }
 /*-------------------------------------------------*/
-std::string Printer::printToString(uint_t m, uint_t n, const complex_t  *a, uint_t lda, bool lower) { return printToStringComplex(m, n, a, lda, lower); }
-std::string Printer::printToString(uint_t m, uint_t n, const complex8_t *a, uint_t lda, bool lower) { return printToStringComplex(m, n, a, lda, lower); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda) { return printToStringComplex(uplo, m, n, a, lda); }
+std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda) { return printToStringComplex(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
 template <typename T>
-void Printer::print(uint_t m, uint_t n, T *a, uint_t lda, bool lower)
+void Printer::print(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 {
-	std::string str = printToString(m, n, a, lda, lower);
+	std::string str = printToString(uplo, m, n, a, lda);
 	std::printf("%s", str.c_str());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-std::string print_to_string_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return "";
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
 	Printer printer(nsd, line_maxlen);
-	return printer.printToString(m, n, a, lda, lower);
+	return printer.printToString(uplo, m, n, a, lda);
 }
 /*-------------------------------------------------*/
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-std::string print_to_string(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	return print_to_string_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 template <typename T>
-void print_tmpl(prop_t ptype, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return;
 
-	dns_consistency_check(ptype, m, n, a, lda);
-
-	bool lower = Property(ptype).is_lower();
-
 	Printer printer(nsd, line_maxlen);
-	printer.print(m, n, a, lda, lower);
+	printer.print(uplo, m, n, a, lda);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const int_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-void print(prop_t ptype, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+void print(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
-	print_tmpl(ptype, m, n, a, lda, nsd, line_maxlen);
+	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
 } // namespace dns

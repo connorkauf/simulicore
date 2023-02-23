@@ -25,58 +25,54 @@ static uint_t recursive_min_dim()
 	return 256;
 }
 /*-------------------------------------------------*/
-template<typename T>
-static void recursive_op_uplo_sq(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, 
-		const std::function<void (uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)>& sqfun, 
-		const std::function<void (uint_t m   , uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)>& mnfun, void *extras)
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, T dval)
 {
-	if(!n) return;
+	if(!m || !n) return;
 
-	if(n < recursive_min_dim()) {
-
-		sqfun(uplo, n, a, lda, b, ldb, extras);
-
+	if(m == lda && uplo == uplo_t::F) {
+		std::fill_n(a, m * n, val);
 	} else {
+		for(uint_t j = 0; j < n; j++) {
+			RowRange ir = irange(uplo, m, j);
+			if(ir.ilen) {
+				std::fill_n(ptrmv(lda,a,ir.ibgn,j), ir.ilen, val);
+			} // ilen
+		} // j
+	} // m = lda
 
-		uint_t n0 = n/2;
-		uint_t n1 = n - n0;
-
-		recursive_op_uplo_sq(uplo, n0, a ? ptrmv(lda,a, 0, 0) : nullptr, lda, b ? ptrmv(ldb,b, 0, 0) : nullptr, ldb, sqfun, mnfun, extras);
-		recursive_op_uplo_sq(uplo, n1, a ? ptrmv(lda,a,n0,n0) : nullptr, lda, b ? ptrmv(ldb,b,n0,n0) : nullptr, ldb, sqfun, mnfun, extras);
-
-		if(uplo == uplo_t::U) mnfun(n0, n1, a ? ptrmv(lda,a,0,n0) : nullptr, lda, b ? ptrmv(ldb,b,0,n0) : nullptr, ldb, extras);
-		if(uplo == uplo_t::L) mnfun(n1, n0, a ? ptrmv(lda,a,n0,0) : nullptr, lda, b ? ptrmv(ldb,b,n0,0) : nullptr, ldb, extras);
-
-	} // dim check
+	for(uint_t j = 0; j < std::min(m,n); j++) {
+		entry(lda,a,j,j) = dval;
+	} // j
 }
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
 static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, T dval)
 {
 	if(!m || !n) return;
 
-	int_t info = lapack::laset(uplo, m, n, val, dval, a, lda);
+	int_t info = lapack::laset(static_cast<char>(uplo), m, n, val, dval, a, lda);
 
 	if(info) {
-		throw Exception(lapack_error() + " (info:" + std::to_string(info) + ")");
+		throw Exception(msg::lapack_error() + " (info:" + std::to_string(info) + ")");
 	} // info
 }
 /*-------------------------------------------------*/
-void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){ fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ naive_fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ naive_fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
 /*-------------------------------------------------*/
-void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val, int_t      dval){ fill_tmpl(uplo, m, n, a, lda, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val, uint_t     dval){ fill_tmpl(uplo, m, n, a, lda, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val, real_t     dval){ fill_tmpl(uplo, m, n, a, lda, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val, real4_t    dval){ fill_tmpl(uplo, m, n, a, lda, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val, complex_t  dval){ fill_tmpl(uplo, m, n, a, lda, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val, complex8_t dval){ fill_tmpl(uplo, m, n, a, lda, val); }
+void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val, int_t      dval){ naive_fill_tmpl(uplo, m, n, a, lda, val, dval); }
+void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val, uint_t     dval){ naive_fill_tmpl(uplo, m, n, a, lda, val, dval); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val, real_t     dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
+void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val, real4_t    dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val, complex_t  dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
+void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val, complex8_t dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -87,8 +83,8 @@ static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda,
 	if(!m || !n) return;
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, m, n, j);
-		for(int_t i = ir.ibgn; i < ir.iend; i++) {
+		RowRange ir = irange(uplo, m, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(lda,a,i,j) = randfun(low, high);
 		} // j
 	} // j
@@ -108,12 +104,12 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 {
 	if(!m || !n) return;
 
-	if(uplo == uplo::F) {
+	if(uplo == uplo_t::F) {
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
 	} else {
-		int_t info = lapack::lacpy(uplo, m, n, a, lda, b, ldb);
+		int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
 		if(info) {
-			throw Exception(lapack_error() + " (info:" + std::to_string(info) + ")");
+			throw Exception(msg::lapack_error() + " (info:" + std::to_string(info) + ")");
 		} // info
 	} // uplo
 }
@@ -127,8 +123,8 @@ static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t 
 	if(!m || !n) return;
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, m, n, j);
-		for(int_t i = ir.ibgn; i < ir.iend; i++) {
+		RowRange ir = irange(uplo, m, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(ldb,b,i,j) = coeff * entry(lda,a,i,j);
 		} // i
 	} // j
@@ -172,11 +168,10 @@ static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::F) {
-		T one = 1;
-		mkl::omatcopy('C', 'N', m, n, one, reinterpret_cast<const Tr*>(a), 2 * lda, 2, b, ldb, 1);
+		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a), 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, n, j);
+			RowRange ir = irange(uplo, m, j);
 			blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)), 2, b, 1);
 		} // j
 	}
@@ -188,12 +183,11 @@ static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::F) {
-		T one = 1;
-		mkl::omatcopy('C', 'N', m, n, one, 2, a, lda, 1, reinterpret_cast<const Tr*>(b), 2 * ldb);
+		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b), 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, n, j);
-			blas::copy(ir.ilen, a, 1, reinterpret_cast<const Tr*>(ptrmv(lda,b,j,j)), 2);
+			RowRange ir = irange(uplo, m, j);
+			blas::copy(ir.ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)), 2);
 		} // j
 	}
 }
@@ -204,11 +198,10 @@ static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::F) {
-		T one = 1;
-		mkl::omatcopy('C', 'N', m, n, one, reinterpret_cast<const Tr*>(a) + 1, 2 * lda, 2, b, ldb, 1);
+		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a) + 1, 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, n, j);
+			RowRange ir = irange(uplo, m, j);
 			blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)) + 1, 2, b, 1);
 		} // j
 	}
@@ -220,12 +213,11 @@ static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::F) {
-		T one = 1;
-		mkl::omatcopy('C', 'N', m, n, one, 2, a, lda, 1, reinterpret_cast<const Tr*>(b) + 1, 2 * ldb);
+		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b) + 1, 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, n, j);
-			blas::copy(ir.ilen, a, 1, reinterpret_cast<const Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
+			RowRange ir = irange(uplo, m, j);
+			blas::copy(ir.ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
 		} // j
 	}
 }
@@ -250,33 +242,42 @@ void set_imag(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) 
 void set_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
 void set_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void get_real(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_real(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void get_real(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void get_real(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
 /*-------------------------------------------------*/
-void set_real(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_real(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_imag(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
-void set_imag(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(ptype, m, n, a, lda, b, ldb); }
+void set_real(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void set_real(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void set_imag(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+void set_imag(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-void uplo_scale_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)
+template<typename T>
+static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coeff)
 {
-	T *coeff = static_cast<T*>(extras);
-	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, n, n, j);
-		mkl::imatcopy('C', 'N', ir.ilen, 1, *coeff, ptrmv(ldb,b,ir.ibgn,j), ldb, ldb);
-	} // j
-}
-/*-------------------------------------------------*/
-template <typename T>
-void full_scale_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)
-{
-	T *coeff = static_cast<T*>(extras);
-	mkl::imatcopy('C', 'N', m, n, *coeff, b, ldb, ldb);
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			RowRange ir = irange(uplo, n, j);
+			mkl::imatcopy('C', 'N', ir.ilen, 1, coeff, ptrmv(lda,a,ir.ibgn,j), lda, lda);
+		} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		recursive_scale_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		recursive_scale_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
+
+		if(uplo == uplo_t::U) scale(uplo_t::F, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
+		if(uplo == uplo_t::L) scale(uplo_t::F, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+
+	} // dim check
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -291,17 +292,17 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coef
 
 	T coeff_zero = 0;
 	if(coeff == coeff_zero) {
-		zero(ptype, m, n, a, lda);
+		zero(uplo, m, n, a, lda);
 		return;
 	} // coeff = 0
 	
 	if(uplo == uplo_t::F) {
-		full_scale_tmpl(m, n, nullptr, 0, a, lda, coeff);
+		mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
 	} else {
-		uint_t mindim = std::min(m,n);
-		recursive_op_uplo_sq<T>(uplo, mindim, nullptr, 0, a, lda, uplo_scale_tmpl, full_scale_tmpl, &coeff);
-		scale_tmpl(uplo_t::F, mindim, n, a, lda, coeff);
-		scale_tmpl(uplo_t::F, m, mindim, a, lda, coeff);
+		uint_t k = std::min(m,n);
+		recursive_scale_tmpl(uplo, k, a, lda, coeff);
+		scale(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+		scale(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
 	} // lower
 }
 /*-------------------------------------------------*/
@@ -325,7 +326,7 @@ static void naive_scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, 
 	} // coeff = 0
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, m, n, j);
+		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(lda,a,i,j) = coeff * entry(lda,a,i,j);
 		} // i
@@ -421,21 +422,30 @@ void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, co
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-void uplo_conjugate_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)
+template<typename T>
+static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coeff)
 {
-	T *coeff = static_cast<T*>(extras);
-	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, n, n, j);
-		mkl::imatcopy('C', 'R', ir.ilen, 1, *coeff, entry(ldb,b,ir.ibgn,j), ldb, ldb);
-	} // j
-}
-/*-------------------------------------------------*/
-template <typename T>
-void full_conjugate_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, void *extras)
-{
-	T *coeff = static_cast<T*>(extras);
-	mkl::imatcopy('C', 'R', m, n, *coeff, a, lda, lda);
+	if(!n) return;
+
+	if(n < recursive_min_dim()) {
+
+		for(uint_t j = 0; j < n; j++) {
+			RowRange ir = irange(uplo, n, j);
+			mkl::imatcopy('C', 'R', ir.ilen, 1, coeff, ptrmv(lda,a,ir.ibgn,j), lda, lda);
+		} // j
+
+	} else {
+
+		uint_t n0 = n/2;
+		uint_t n1 = n - n0;
+
+		recursive_conjugate_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		recursive_conjugate_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
+
+		if(uplo == uplo_t::U) conjugate(uplo_t::F, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
+		if(uplo == uplo_t::L) conjugate(uplo_t::F, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+
+	} // dim check
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -444,12 +454,12 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T 
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::F) {
-		full_conjugate_tmpl(m, n, nullptr, 0, a, lda, static_cast<void*>(&coeff));
+		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);
 	} else {
-		uint_t mindim = std::min(m,n);
-		recursive_op_uplo_sq<T>(uplo, mindim, nullptr, 0, a, lda, uplo_conjugate_tmpl<T>, full_conjugate_tmpl<T>, &coeff);
-		conjugate_tmpl(uplo_t::F, mindim, n, a, lda, coeff);
-		conjugate_tmpl(uplo_t::F, m, mindim, a, lda, coeff);
+		uint_t k = std::min(m,n);
+		recursive_conjugate_tmpl(uplo, k, a, lda, coeff);
+		conjugate(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+		conjugate(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
 	} // lower
 }
 /*-------------------------------------------------*/
@@ -480,15 +490,15 @@ static void syhe2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, bool
 
 		if(conjop) {
 			for(uint_t j = 0; j < n; j++) {
-				RowRange ir = irange(uplo, m, n, j);
-				for(int_t i = ir.ibgn; i < ir.iend; i++) {
+				RowRange ir = irange(uplo, n, j);
+				for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 					entry(lda,a,j,i) = conj(entry(lda,a,i,j));
 				} // i
 			} // j
 		} else {
 			for(uint_t j = 0; j < n; j++) {
-				RowRange ir = irange(uplo, m, n, j);
-				for(int_t i = ir.ibgn; i < ir.iend; i++) {
+				RowRange ir = irange(uplo, n, j);
+				for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 					entry(lda,a,j,i) = entry(lda,a,i,j);
 				} // i
 			} // j
@@ -662,8 +672,8 @@ static void permute_syhe_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *
 	T      Aij;
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, m, n, j);
-		for(int_t i = ir.ibgn; i < ir.iend; i++) {
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 
 			Pi  = P[i];
 			Pj  = P[j];

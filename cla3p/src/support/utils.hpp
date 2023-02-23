@@ -28,12 +28,12 @@ void fill_random_perm(uint_t n, uint_t *P);
 std::vector<uint_t> create_random_perm(uint_t n);
 
 typedef struct RowRange {
-	int_t ibgn;
-	int_t iend;
-	int_t ilen;
+	uint_t ibgn;
+	uint_t iend;
+	uint_t ilen;
 } RowRange;
 
-inline RowRange irange(uplo_t uplo, int_t m, int_t n, int_t j)
+inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 {
 	RowRange ret;
 	ret.ibgn = 0;
@@ -42,13 +42,13 @@ inline RowRange irange(uplo_t uplo, int_t m, int_t n, int_t j)
 
 	if(uplo == uplo_t::U) {
 		ret.ibgn = 0;
-		ret.iend = j+1;
-		ret.ilen = j+1;
+		ret.iend = std::min(j+1,m);
 	} else if(uplo == uplo_t::L) {
-		ret.ibgn = j;
+		ret.ibgn = std::min(j,m);
 		ret.iend = m;
-		ret.ilen = m-j;
 	} // uplo
+
+	ret.ilen = ret.iend - ret.ibgn;
 
 	return ret;
 }
