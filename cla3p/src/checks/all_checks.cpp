@@ -12,6 +12,13 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
+void square_check(uint_t m, uint_t n)
+{
+	if(m != n) {
+		throw NoConsistency(msg::invalid_property_for_square());
+	}
+}
+/*-------------------------------------------------*/
 void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	Property prop(ptype);
@@ -32,8 +39,8 @@ void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint
 		throw NoConsistency(msg::invalid_property());
 	}
 
-	if(prop.is_lower() && m != n) {
-		throw NoConsistency(msg::invalid_property_for_square());
+	if(prop.isSquare()) {
+		square_check(m, n);
 	}
 }
 /*-------------------------------------------------*/

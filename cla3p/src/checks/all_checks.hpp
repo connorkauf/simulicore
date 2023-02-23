@@ -8,6 +8,11 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 // 
+// Checks if m == n
+//
+void square_check(uint_t m, uint_t n);
+
+// 
 // Checks if dense input is valid
 //
 void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
