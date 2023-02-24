@@ -24,6 +24,8 @@ real4_t srand(real4_t low, real4_t high);
 complex_t zrand(real_t low, real_t high);
 complex8_t crand(real4_t low, real4_t high);
 
+uplo_t auto_uplo(prop_t ptype);
+
 void fill_random_perm(uint_t n, uint_t *P);
 std::vector<uint_t> create_random_perm(uint_t n);
 

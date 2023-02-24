@@ -19,10 +19,8 @@ void square_check(uint_t m, uint_t n)
 	}
 }
 /*-------------------------------------------------*/
-void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda)
+void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void *a, uint_t lda)
 {
-	Property prop(ptype);
-
 	if(!m || !n) {
 		throw NoConsistency(msg::invalid_dimensions());
 	}
@@ -61,8 +59,8 @@ static std::string block_op_dims_to_str(
 }
 #endif
 /*-------------------------------------------------*/
-prop_t block_op_consistency_check(
-		prop_t ptype, 
+Property block_op_consistency_check(
+		const Property& prop, 
 		uint_t nrows, 
 		uint_t ncols, 
 		uint_t ibgn, 
@@ -73,7 +71,8 @@ prop_t block_op_consistency_check(
 	//
 	// Used for when getting a block
 	//
-	prop_t ret = ptype;
+	prop_t ptype = prop.type();
+	uplo_t uplo  = prop.uplo();
 
 	uint_t iend = ibgn + ni;
 	uint_t jend = jbgn + nj;
@@ -81,8 +80,6 @@ prop_t block_op_consistency_check(
 	if(ibgn >= nrows || jbgn >= ncols || iend > nrows || jend > ncols) {
 		throw OutOfBounds("Block size exceeds matrix dimensions");
 	} // error
-
-	Property prop(ptype);
 
 	if(prop.is_lower()) {
 
@@ -94,22 +91,26 @@ prop_t block_op_consistency_check(
 			if(iend != jend) {
 				throw NoConsistency("Start of block on diagonal of Symmetric/Hermitian matrices should be associated with a diagonal block");
 			}
-			ret = ptype;
 		} else {
 			if(jend > ibgn + 1) {
 				throw NoConsistency("Block overlaps with upper part of Symmetric/Hermitian matrix");
 			}
-			ret = prop_t::GENERAL;
+			ptype = prop_t::GENERAL;
+			uplo  = uplo_t::F;
 		} // (non-)diag case
 
 	} // lower
 
-	return ret;
+	if(prop.is_upper()) {
+		throw InvalidOp("Block operations for upper mats not yet supported");
+	} // lower
+
+	return Property(ptype, uplo);
 }
 /*-------------------------------------------------*/
 void block_op_consistency_check(
-		prop_t block_ptype, 
-		prop_t ptype, 
+		const Property& block_prop, 
+		const Property& prop, 
 		uint_t nrows, 
 		uint_t ncols, 
 		uint_t ibgn, 
@@ -120,16 +121,16 @@ void block_op_consistency_check(
 	//
 	// Used for when setting a block
 	//
-	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
+	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
-	if(blptype != block_ptype) {
+	if(blprop != block_prop) {
 		throw NoConsistency(msg::invalid_property() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
 void real_block_op_consistency_check(
-		prop_t block_ptype, 
-		prop_t ptype, 
+		const Property& block_prop, 
+		const Property& prop, 
 		uint_t nrows, 
 		uint_t ncols, 
 		uint_t ibgn, 
@@ -140,20 +141,20 @@ void real_block_op_consistency_check(
 	//
 	// Used for when setting a real object as a real part of a complex object
 	//
-	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
+	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
-	if(blptype == prop_t::HERMITIAN) {
-		blptype = prop_t::SYMMETRIC;
+	if(blprop.is_hermitian()) {
+		blprop = Property(prop_t::SYMMETRIC, blprop.uplo());
 	}
 
-	if(blptype != block_ptype) {
+	if(blprop != block_prop) {
 		throw NoConsistency(msg::invalid_property() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
 void imag_block_op_consistency_check(
-		prop_t block_ptype, 
-		prop_t ptype, 
+		const Property& block_prop, 
+		const Property& prop, 
 		uint_t nrows, 
 		uint_t ncols, 
 		uint_t ibgn, 
@@ -164,13 +165,13 @@ void imag_block_op_consistency_check(
 	//
 	// Used for when setting a real object as a imag part of a complex object
 	//
-	prop_t blptype = block_op_consistency_check(ptype, nrows, ncols, ibgn, jbgn, ni, nj);
+	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
-	if(blptype == prop_t::HERMITIAN) {
-		throw InvalidOp("Input should be a skew matrix. Skew matrices are not yet supported");
+	if(blprop.type() == prop_t::HERMITIAN) {
+		throw InvalidOp("Block should be a skew matrix. Skew matrices are not yet supported");
 	}
 
-	if(blptype != block_ptype) {
+	if(blprop != block_prop) {
 		throw NoConsistency(msg::invalid_property() + " for block operation");
 	}
 }

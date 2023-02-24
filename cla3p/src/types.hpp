@@ -162,13 +162,6 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an property with type type and default fill type.
-		 */
-		explicit Property(prop_t type);
-
-		/**
-		 * @brief The member constructor.
-		 *
 		 * Constructs an property with type type and fill type uplo.
 		 */
 		explicit Property(prop_t type, uplo_t uplo);
@@ -191,6 +184,20 @@ class Property {
 		 * Replaces the contents of property with a copy of the contents of other.
 		 */
 		Property& operator=(const Property& other);
+
+		/**
+		 * @brief The compare operator.
+		 *
+		 * Checks if two propertyies are equal
+		 */
+		bool operator==(const Property& other);
+
+		/**
+		 * @brief The compare operator.
+		 *
+		 * Checks if two propertyies are not equal
+		 */
+		bool operator!=(const Property& other);
 
 		/**
 		 * @brief The property type.

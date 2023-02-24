@@ -150,6 +150,16 @@ real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl
 complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
 complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
+uplo_t auto_uplo(prop_t ptype)
+{
+	if(ptype == prop_t::GENERAL  ) return uplo_t::F;
+	if(ptype == prop_t::SYMMETRIC) return uplo_t::L;
+	if(ptype == prop_t::HERMITIAN) return uplo_t::L;
+
+	throw Exception();
+	return uplo_t::F;
+}
+/*-------------------------------------------------*/
 void fill_random_perm(uint_t n, uint_t *P)
 {
 	if(!n) return;

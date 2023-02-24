@@ -74,11 +74,14 @@ Property& Property::operator=(const Property& other)
 	return *this;
 }
 /*-------------------------------------------------*/
-Property::Property(prop_t type)
-	: m_type(type)
+bool Property::operator==(const Property& other)
 {
-	m_uplo = (type == prop_t::GENERAL ? uplo_t::F : uplo_t::L);
-	check();
+	return (m_type == other.type() && m_uplo == other.uplo());
+}
+/*-------------------------------------------------*/
+bool Property::operator!=(const Property& other)
+{
+	return !(*this == other);
 }
 /*-------------------------------------------------*/
 Property::Property(prop_t type, uplo_t uplo)

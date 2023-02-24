@@ -15,15 +15,16 @@ void square_check(uint_t m, uint_t n);
 // 
 // Checks if dense input is valid
 //
-void dns_consistency_check(prop_t ptype, uint_t m, uint_t n, const void *a, uint_t lda);
+void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void *a, uint_t lda);
 
 // 
 // Checks if block request is valid
 //
-prop_t block_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-void block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-void real_block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-void imag_block_op_consistency_check(prop_t block_ptype, prop_t ptype, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+Property block_op_consistency_check(const Property& prop, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+
+void      block_op_consistency_check(const Property& block_prop, const Property& prop, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+void real_block_op_consistency_check(const Property& block_prop, const Property& prop, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+void imag_block_op_consistency_check(const Property& block_prop, const Property& prop, uint_t nrows, uint_t ncols, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 // 
 // Checks if permutation op is valid
