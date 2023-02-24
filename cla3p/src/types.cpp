@@ -84,8 +84,8 @@ bool Property::operator!=(const Property& other)
 	return !(*this == other);
 }
 /*-------------------------------------------------*/
-Property::Property(prop_t type, uplo_t uplo)
-	: m_type(type), m_uplo(uplo)
+Property::Property(prop_t ptype, uplo_t ftype)
+	: m_type(ptype), m_uplo(ftype)
 {
 	check();
 }

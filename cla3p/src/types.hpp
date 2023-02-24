@@ -162,9 +162,9 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an property with type type and fill type uplo.
+		 * Constructs an property with type ptype and fill type ftype.
 		 */
-		explicit Property(prop_t type, uplo_t uplo);
+		explicit Property(prop_t ptype, uplo_t ftype);
 
 		/**
 		 * @brief Destructs the property.
