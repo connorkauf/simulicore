@@ -33,7 +33,7 @@ void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void 
 		throw NoConsistency(msg::invalid_leading_dimension());
 	}
 
-	if(!prop.is_valid()) {
+	if(!prop.isValid()) {
 		throw NoConsistency(msg::invalid_property());
 	}
 
@@ -81,7 +81,7 @@ Property block_op_consistency_check(
 		throw OutOfBounds("Block size exceeds matrix dimensions");
 	} // error
 
-	if(prop.is_lower()) {
+	if(prop.isLower()) {
 
 		if(jbgn > ibgn) {
 			throw NoConsistency("Start of block should be in lower part for Symmetric/Hermitian matrices");
@@ -101,7 +101,7 @@ Property block_op_consistency_check(
 
 	} // lower
 
-	if(prop.is_upper()) {
+	if(prop.isUpper()) {
 		throw InvalidOp("Block operations for upper mats not yet supported");
 	} // lower
 
@@ -143,7 +143,7 @@ void real_block_op_consistency_check(
 	//
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
-	if(blprop.is_hermitian()) {
+	if(blprop.isHermitian()) {
 		blprop = Property(prop_t::SYMMETRIC, blprop.uplo());
 	}
 
@@ -167,7 +167,7 @@ void imag_block_op_consistency_check(
 	//
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
-	if(blprop.type() == prop_t::HERMITIAN) {
+	if(blprop.isHermitian()) {
 		throw InvalidOp("Block should be a skew matrix. Skew matrices are not yet supported");
 	}
 

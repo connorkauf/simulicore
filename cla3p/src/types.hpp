@@ -222,7 +222,7 @@ class Property {
 		/**
 		 * @brief Checks weather the property has a valid type.
 		 */
-		bool is_valid() const;
+		bool isValid() const;
 
 		/**
 		 * @brief Checks weather the property requires matrix to be square.
@@ -232,32 +232,32 @@ class Property {
 		/**
 		 * @brief Checks weather the property type is general.
 		 */
-		bool is_general() const;
+		bool isGeneral() const;
 
 		/**
 		 * @brief Checks weather the property type is symmetric.
 		 */
-		bool is_symmetric() const;
+		bool isSymmetric() const;
 
 		/**
 		 * @brief Checks weather the property type is hermitian.
 		 */
-		bool is_hermitian() const;
+		bool isHermitian() const;
 
 		/**
 		 * @brief Checks weather the entire matrix is used.
 		 */
-		bool is_full() const;
+		bool isFull() const;
 
 		/**
 		 * @brief Checks weather the upper part of the matrix is used.
 		 */
-		bool is_upper() const;
+		bool isUpper() const;
 
 		/**
 		 * @brief Checks weather the lower part of the matrix is used.
 		 */
-		bool is_lower() const;
+		bool isLower() const;
 
 	private:
 		prop_t m_type;

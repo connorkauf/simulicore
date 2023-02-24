@@ -548,9 +548,9 @@ static Tout norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
-	/**/ if(prop.is_general()  ) return lapack::lange('1', m, n, a, lda);
-	else if(prop.is_symmetric()) return lapack::lansy('1', prop.cuplo(), n, a, lda);
-	else if(prop.is_hermitian()) return lapack::lanhe('1', prop.cuplo(), n, a, lda);
+	/**/ if(prop.isGeneral()  ) return lapack::lange('1', m, n, a, lda);
+	else if(prop.isSymmetric()) return lapack::lansy('1', prop.cuplo(), n, a, lda);
+	else if(prop.isHermitian()) return lapack::lanhe('1', prop.cuplo(), n, a, lda);
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;
@@ -562,9 +562,9 @@ static Tout norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
-	/**/ if(prop.is_general()  ) return lapack::lange('I', m, n, a, lda);
-	else if(prop.is_symmetric()) return lapack::lansy('I', prop.cuplo(), n, a, lda);
-	else if(prop.is_hermitian()) return lapack::lanhe('I', prop.cuplo(), n, a, lda);
+	/**/ if(prop.isGeneral()  ) return lapack::lange('I', m, n, a, lda);
+	else if(prop.isSymmetric()) return lapack::lansy('I', prop.cuplo(), n, a, lda);
+	else if(prop.isHermitian()) return lapack::lanhe('I', prop.cuplo(), n, a, lda);
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;
@@ -576,9 +576,9 @@ static Tout norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
-	/**/ if(prop.is_general()  ) return lapack::lange('M', m, n, a, lda);
-	else if(prop.is_symmetric()) return lapack::lansy('M', prop.cuplo(), n, a, lda);
-	else if(prop.is_hermitian()) return lapack::lanhe('M', prop.cuplo(), n, a, lda);
+	/**/ if(prop.isGeneral()  ) return lapack::lange('M', m, n, a, lda);
+	else if(prop.isSymmetric()) return lapack::lansy('M', prop.cuplo(), n, a, lda);
+	else if(prop.isHermitian()) return lapack::lanhe('M', prop.cuplo(), n, a, lda);
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;
@@ -590,9 +590,9 @@ static Tout norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
-	/**/ if(prop.is_general()  ) return lapack::lange('F', m, n, a, lda);
-	else if(prop.is_symmetric()) return lapack::lansy('F', prop.cuplo(), n, a, lda);
-	else if(prop.is_hermitian()) return lapack::lanhe('F', prop.cuplo(), n, a, lda);
+	/**/ if(prop.isGeneral()  ) return lapack::lange('F', m, n, a, lda);
+	else if(prop.isSymmetric()) return lapack::lansy('F', prop.cuplo(), n, a, lda);
+	else if(prop.isHermitian()) return lapack::lanhe('F', prop.cuplo(), n, a, lda);
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;
@@ -694,14 +694,14 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T 
 
 	Property prop(ptype, uplo);
 
-	if(prop.is_general()) {
+	if(prop.isGeneral()) {
 
 		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
 		else if( P && !Q) permute_ge_right_tmpl(m, n, a, lda, b, ldb, P);
 		else if(!P &&  Q) permute_ge_left_tmpl (m, n, a, lda, b, ldb, Q);
 		else              copy(uplo_t::F, m, n, a, lda, b, ldb);
 
-	} else if(prop.is_symmetric()) {
+	} else if(prop.isSymmetric()) {
 
 		square_check(m,n);
 
@@ -711,7 +711,7 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T 
 			copy(uplo, m, n, a, lda, b, ldb);
 		} // P
 
-	} else if(prop.is_hermitian()) {
+	} else if(prop.isHermitian()) {
 
 		square_check(m,n);
 

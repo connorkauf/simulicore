@@ -305,7 +305,7 @@ void GenericObject<T,Tr>::xxPermuteToMirror(GenericObject<T,Tr>& trg, const Perm
 	perm_op_consistency_check(rsize(), csize(), P.size(), P.size());
 
 	PermMatrix iP;
-	if(prop().is_general()) iP = P.inverse();
+	if(prop().isGeneral()) iP = P.inverse();
 
 	trg.blankCreator(prop().type(), rsize(), csize(), rsize());
 	bulk::dns::permute(prop().type(), prop().uplo(), rsize(), csize(), values(), ld(), trg.values(), trg.ld(), P.values(), iP.values());
@@ -374,7 +374,7 @@ void GenericObject<T,Tr>::getRealBlock(GenericObject<Tr,Tr>& trg, uint_t ibgn, u
 {
 	Property blprop = block_op_consistency_check(prop(), rsize(), csize(), ibgn, jbgn, ni, nj);
 
-	if(blprop.is_hermitian()) {
+	if(blprop.isHermitian()) {
 		blprop = Property(prop_t::SYMMETRIC, blprop.uplo());
 	}
 
@@ -387,7 +387,7 @@ void GenericObject<T,Tr>::getImagBlock(GenericObject<Tr,Tr>& trg, uint_t ibgn, u
 {
 	Property blprop = block_op_consistency_check(prop(), rsize(), csize(), ibgn, jbgn, ni, nj);
 
-	if(blprop.is_hermitian()) {
+	if(blprop.isHermitian()) {
 		throw InvalidOp("Skew matrices are not yet supported");
 	}
 

@@ -111,10 +111,10 @@ char Property::cuplo() const
 /*-------------------------------------------------*/
 void Property::check() const
 {
-	if(is_general() && !is_full()) {
+	if(isGeneral() && !isFull()) {
 		throw NoConsistency("Bad type/uplo combo");
 	} 
-	if(!is_general() && is_full()) {
+	if(!isGeneral() && isFull()) {
 		throw NoConsistency("Bad type/uplo combo");
 	} 
 }
@@ -143,7 +143,7 @@ const std::string& Property::name() const
 	return pname_none;
 }
 /*-------------------------------------------------*/
-bool Property::is_valid() const
+bool Property::isValid() const
 {
 	return (type() != prop_t::NONE);
 }
@@ -153,32 +153,32 @@ bool Property::isSquare() const
 	return (type() == prop_t::SYMMETRIC || type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
-bool Property::is_general() const
+bool Property::isGeneral() const
 {
 	return (type() == prop_t::GENERAL);
 }
 /*-------------------------------------------------*/
-bool Property::is_symmetric() const
+bool Property::isSymmetric() const
 {
 	return (type() == prop_t::SYMMETRIC);
 }
 /*-------------------------------------------------*/
-bool Property::is_hermitian() const
+bool Property::isHermitian() const
 {
 	return (type() == prop_t::HERMITIAN);
 }
 /*-------------------------------------------------*/
-bool Property::is_full() const
+bool Property::isFull() const
 {
 	return (uplo() == uplo_t::F);
 }
 /*-------------------------------------------------*/
-bool Property::is_upper() const
+bool Property::isUpper() const
 {
 	return (uplo() == uplo_t::U);
 }
 /*-------------------------------------------------*/
-bool Property::is_lower() const
+bool Property::isLower() const
 {
 	return (uplo() == uplo_t::L);
 }
