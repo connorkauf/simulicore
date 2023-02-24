@@ -13,13 +13,13 @@ void naive_gemm(uint_t m, uint_t n, uint_t k, real_t alpha,
 		real_t beta, real_t *c, uint_t ldc);
 /*-------------------------------------------------*/
 template <class T>
-real_t naive_norm_one(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
+real_t naive_norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	real_t ret = 0.;
 	T *b = bulk::dns::alloc<T>(m,n,m);
-	bulk::dns::copy(ptype, m, n, a, lda, b, m);
-	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(n,b,m);
-	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(n,b,m);
+	bulk::dns::copy(uplo, m, n, a, lda, b, m);
+	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(uplo,n,b,m);
+	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(uplo,n,b,m);
 	for(uint_t j = 0; j < n; j++) {
 		real_t jsum = 0.;
 		for(uint_t i = 0; i < m; i++) {
@@ -33,13 +33,13 @@ real_t naive_norm_one(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <class T>
-real_t naive_norm_inf(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
+real_t naive_norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	real_t ret = 0.;
 	T *b = bulk::dns::alloc<T>(m,n,m);
-	bulk::dns::copy(ptype, m, n, a, lda, b, m);
-	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(n,b,m);
-	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(n,b,m);
+	bulk::dns::copy(uplo, m, n, a, lda, b, m);
+	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(uplo, n,b,m);
+	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(uplo, n,b,m);
 	for(uint_t i = 0; i < m; i++) {
 		real_t isum = 0.;
 		for(uint_t j = 0; j < n; j++) {
@@ -53,13 +53,13 @@ real_t naive_norm_inf(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <class T>
-real_t naive_norm_max(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
+real_t naive_norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	real_t ret = 0.;
 	T *b = bulk::dns::alloc<T>(m,n,m);
-	bulk::dns::copy(ptype, m, n, a, lda, b, m);
-	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(n,b,m);
-	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(n,b,m);
+	bulk::dns::copy(uplo, m, n, a, lda, b, m);
+	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(uplo, n,b,m);
+	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(uplo, n,b,m);
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
 			real_t bij = std::abs(bulk::dns::entry(m,b,i,j));
@@ -71,13 +71,13 @@ real_t naive_norm_max(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <class T>
-real_t naive_norm_fro(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
+real_t naive_norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	real_t ret = 0.;
 	T *b = bulk::dns::alloc<T>(m,n,m);
-	bulk::dns::copy(ptype, m, n, a, lda, b, m);
-	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(n,b,m);
-	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(n,b,m);
+	bulk::dns::copy(uplo, m, n, a, lda, b, m);
+	if(ptype == prop_t::SYMMETRIC) bulk::dns::sy2ge(uplo,n,b,m);
+	if(ptype == prop_t::HERMITIAN) bulk::dns::he2ge(uplo,n,b,m);
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
 			real_t bij = std::abs(bulk::dns::entry(m,b,i,j));
@@ -89,12 +89,12 @@ real_t naive_norm_fro(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <class T>
-void naive_permute(prop_t ptype, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+void naive_permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 {
 	T *af = bulk::dns::alloc<T>(m,n,m);
-	bulk::dns::copy(ptype, m, n, a, lda, af, m);
-	if(ptype == prop_t::SYMMETRIC){ bulk::dns::sy2ge(n,af,m); Q = P; }
-	if(ptype == prop_t::HERMITIAN){ bulk::dns::he2ge(n,af,m); Q = P; }
+	bulk::dns::copy(uplo, m, n, a, lda, af, m);
+	if(ptype == prop_t::SYMMETRIC){ bulk::dns::sy2ge(uplo,n,af,m); Q = P; }
+	if(ptype == prop_t::HERMITIAN){ bulk::dns::he2ge(uplo,n,af,m); Q = P; }
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
 			uint_t Pi = P ? P[i] : i;

@@ -111,6 +111,7 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 		if(info) {
 			throw Exception(msg::lapack_error() + " (info:" + std::to_string(info) + ")");
 		} // info
+		scale(uplo, m, n, b, ldb, coeff);
 	} // uplo
 }
 /*-------------------------------------------------*/
@@ -301,9 +302,9 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coef
 	} else {
 		uint_t k = std::min(m,n);
 		recursive_scale_tmpl(uplo, k, a, lda, coeff);
-		scale(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
-		scale(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
-	} // lower
+		if(uplo == uplo_t::U) scale(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
+		if(uplo == uplo_t::L) scale(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+	} // uplo
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -458,8 +459,8 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T 
 	} else {
 		uint_t k = std::min(m,n);
 		recursive_conjugate_tmpl(uplo, k, a, lda, coeff);
-		conjugate(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
-		conjugate(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
+		if(uplo == uplo_t::U) conjugate(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
+		if(uplo == uplo_t::L) conjugate(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
 /*-------------------------------------------------*/
@@ -529,16 +530,20 @@ static void syhe2ge_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, bool conjop)
 	syhe2ge_recursive_tmpl(uplo, n, a, lda, conjop);
 }
 /*-------------------------------------------------*/
+void sy2ge(uplo_t uplo, uint_t n, int_t      *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
+void sy2ge(uplo_t uplo, uint_t n, uint_t     *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
 void sy2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
 void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
 void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
 void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, false); }
 /*-------------------------------------------------*/
+void he2ge(uplo_t, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
+void he2ge(uplo_t, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
 void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
 void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
-void he2ge(uplo_t uplo, int_t n, complex_t  *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, true); }
-void he2ge(uplo_t uplo, int_t n, complex8_t *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, true); }
+void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, true); }
+void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { syhe2ge_tmpl(uplo, n, a, lda, true); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

@@ -204,6 +204,8 @@ void conjugate(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, compl
 //
 // Symmetric to general
 //
+void sy2ge(uplo_t uplo, uint_t n, int_t *a, uint_t lda);
+void sy2ge(uplo_t uplo, uint_t n, uint_t *a, uint_t lda);
 void sy2ge(uplo_t uplo, uint_t n, real_t *a, uint_t lda);
 void sy2ge(uplo_t uplo, uint_t n, real4_t *a, uint_t lda);
 void sy2ge(uplo_t uplo, uint_t n, complex_t *a, uint_t lda);
@@ -212,6 +214,8 @@ void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda);
 //
 // Hermitian to general
 //
+void he2ge(uplo_t uplo, uint_t n, int_t *a, uint_t lda); // exception
+void he2ge(uplo_t uplo, uint_t n, uint_t *a, uint_t lda); // exception
 void he2ge(uplo_t uplo, uint_t n, real_t *a, uint_t lda); // exception
 void he2ge(uplo_t uplo, uint_t n, real4_t *a, uint_t lda); // exception
 void he2ge(uplo_t uplo, uint_t n, complex_t *a, uint_t lda);

@@ -8,45 +8,47 @@
 #include "cla3p/src/support.hpp"
 #include "cla3p/src/perms.hpp"
 
+#include "cla3p/src/bulk/dns.hpp"
+#include "cla3p/src/bulk/dns_io.hpp"
+#include "cla3p/src/proxies/lapack_proxy.hpp"
 #include "cla3p/src/support/error_internal.hpp"
 
+/*-------------------------------------------------*/
+template <typename T>
+void print_test()
+{
+	cla3p::uint_t m = 3;
+	cla3p::uint_t n = 101;
+	cla3p::uint_t lda = m + 10;
+
+	T *a = cla3p::bulk::dns::alloc<T>(m,n,lda);
+
+	cla3p::bulk::dns::fill(cla3p::uplo_t::F, lda, n, a, lda, 0);
+	cla3p::bulk::dns::print(cla3p::uplo_t::F, m, n, a, lda, 1);
+
+	//cla3p::bulk::dns::fill(cla3p::uplo_t::U, lda, n, a, lda, 1);
+	//cla3p::bulk::dns::print(cla3p::uplo_t::F, m, n, a, lda, 1);
+	//
+	//cla3p::bulk::dns::fill(cla3p::uplo_t::L, lda, n, a, lda, 2);
+	//cla3p::bulk::dns::print(cla3p::uplo_t::F, m, n, a, lda, 1);
+	//
+	//cla3p::bulk::dns::print(cla3p::uplo_t::U, m, n, a, lda);
+	//cla3p::bulk::dns::print(cla3p::uplo_t::L, m, n, a, lda, 1);
+
+	cla3p::i_free(a);
+}
 /*-------------------------------------------------*/
 
 int main()
 {
 	cla3p::enable_dbg_messages();
 
-	cla3p::uint_t n = 3;
-
-	cla3p::dns::RdMatrix Ad = cla3p::dns::RdMatrix::random(n,n);
-	cla3p::dns::RfMatrix Af = cla3p::dns::RfMatrix::random(n,n);
-	cla3p::dns::RiMatrix Ai = cla3p::dns::RiMatrix::random(n,n);
-
-	cla3p::dns::RdVector Xd = cla3p::dns::RdVector::random(n);
-	cla3p::dns::RfVector Xf = cla3p::dns::RfVector::random(n);
-	cla3p::dns::RiVector Xi = cla3p::dns::RiVector::random(n);
-
-	cla3p::PermMatrix P = cla3p::PermMatrix::random(n);
-
-	std::cout << Xd.info("Xd") << Xf.info("Xf") << Xi.info("Xi");
-	std::cout << Xd << Xf << Xi;
-
-	std::cout << Ad.info("Ad") << Af.info("Af") << Ai.info("Ai");
-	std::cout << Ad << Af << Ai;
-
-	std::cout << P.info("P");
-	std::cout << P;
-	std::cout << P.inverse();
-
-	Xd.fill(1);
-	Xf.fill(1);
-	Xi.fill(1);
-	Ad.fill(1);
-	Af.fill(1);
-	Ai.fill(1);
-
-	std::cout << Xd << Xf << Xi;
-	std::cout << Ad << Af << Ai;
+	print_test<cla3p::int_t>();
+	//print_test<cla3p::uint_t>();
+	//print_test<cla3p::real_t>();
+	//print_test<cla3p::real4_t>();
+	//print_test<cla3p::complex_t>();
+	//print_test<cla3p::complex8_t>();
 
 	return 0;
 }
