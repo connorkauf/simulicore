@@ -9,6 +9,13 @@
 #include "cla3p/src/bulk/dns.hpp"
 
 /*-------------------------------------------------*/
+uint_t  ddabs1(uint_t     x) { return          x ; }
+int_t   ddabs1(int_t      x) { return std::abs(x); }
+real_t  ddabs1(real_t     x) { return std::abs(x); }
+real4_t ddabs1(real4_t    x) { return std::abs(x); }
+real_t  ddabs1(complex_t  x) { return std::abs(x); }
+real4_t ddabs1(complex8_t x) { return std::abs(x); }
+/*-------------------------------------------------*/
 static real_t GetElem(uint_t lda, const real_t *a, uint_t i, uint_t j, op_t op)
 {
 	real_t ret = 0.;

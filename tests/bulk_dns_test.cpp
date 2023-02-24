@@ -17,16 +17,8 @@
 namespace cla3p {
 namespace tests {
 /*-------------------------------------------------*/
-real_t abs(uint_t x)
-{
-	return static_cast<real_t>(x);
-}
-/*-------------------------------------------------*/
-template <class T>
-real_t abs(T x)
-{
-	return static_cast<real_t>(std::abs(x));
-}
+static uint_t staticm = 0;
+static uint_t staticn = 0;
 /*-------------------------------------------------*/
 template <class T>
 static real_t cmptol()
@@ -109,7 +101,7 @@ static int_t naive_compare_vals(uplo_t uplo, uint_t m, uint_t n, bool trA, bool 
 			if(!trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,i,j));
 			if( trA && !conjA) aij =      bulk::dns::entry(lda,a,j,i) ;
 			if( trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,j,i));
-			real_t diff = abs(coeff * aij - bij);
+			real_t diff = ddabs<T,real_t>(coeff * aij - bij);
 			if(element_is_in_active_range(uplo,Brows,Bcols,i,j) && diff > cmptol<T>()) return 1;
 		} // i
 	} // j
@@ -125,7 +117,7 @@ static int_t naive_compare_upper_lower_part(bool conjop, uint_t n, const T *a, u
 			T aij = bulk::dns::entry(lda,a,i,j);
 			T aji = bulk::dns::entry(lda,a,j,i);
 			if(conjop && i > j) aij = conj(aij);
-			real_t diff = abs(aij - aji);
+			real_t diff = ddabs<T,real_t>(aij - aji);
 			if(element_is_in_active_range(uplo_t::F,n,n,i,j) && diff > cmptol<T>()) return 1;
 		} // i
 	} // j
@@ -151,8 +143,8 @@ static int_t test_zero_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda)
 template <class T>
 static int_t test_zero(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -189,8 +181,8 @@ static int_t test_fill_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda)
 template <class T>
 static int_t test_fill(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -225,8 +217,8 @@ static int_t test_rand_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda)
 template <class T>
 static int_t test_rand(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -266,8 +258,8 @@ static int_t test_copy_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t ld
 template <class T>
 static int_t test_copy(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -316,8 +308,8 @@ static int_t test_scale_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t l
 template <class T>
 static int_t test_scale(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -361,8 +353,8 @@ static int_t test_ctranspose_in(uint_t m, uint_t n, uint_t lda, uint_t ldb, T co
 template <class T>
 static int_t test_transpose(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -384,8 +376,8 @@ static int_t test_transpose(bool strict)
 template <class T>
 static int_t test_conjugate_transpose(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -426,8 +418,8 @@ static int_t test_conjugate_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint
 template <class T>
 static int_t test_conjugate(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -477,8 +469,8 @@ static int_t test_syhe2ge_in(bool conjop, uplo_t uplo, uint_t n, uint_t lda)
 template <class T>
 static int_t test_sy2ge(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = m;
 
 	{
 		uint_t lda = m;
@@ -498,8 +490,8 @@ static int_t test_sy2ge(bool strict)
 template <class T>
 static int_t test_he2ge(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = m;
 
 	{
 		uint_t lda = m;
@@ -523,7 +515,7 @@ enum class WhichNorm{
 	TEST_NRM_FRO    
 };
 /*-------------------------------------------------*/
-template <class T>
+template <class T, class Tr>
 static int_t test_nrm_in(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t lda, WhichNorm which)
 {
 	if(ptype == prop_t::HERMITIAN) {
@@ -546,134 +538,139 @@ static int_t test_nrm_in(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t l
 
 	T *a = naive_fill_vals<T>(m, n, lda, ref);
 	bulk::dns::rand(uplo, m, n, a, lda);
-	for(uint_t j = 0; j < n; j++) {
-		cla3p::setim(cla3p::bulk::dns::entry(lda,a,j,j),0);
-	} // j
+	if(ptype == prop_t::HERMITIAN) {
+		for(uint_t j = 0; j < n; j++) {
+			cla3p::setim(cla3p::bulk::dns::entry(lda,a,j,j),0);
+		} // j
+	}
 
-	real_t ret = 0.;
-	real_t ret2 = 0.;
+	Tr ret = 0.;
+	Tr ret2 = 0.;
 
 	if(which == WhichNorm::TEST_NRM_ONE) ret = bulk::dns::norm_one(ptype, uplo, m, n, a, lda);
 	if(which == WhichNorm::TEST_NRM_INF) ret = bulk::dns::norm_inf(ptype, uplo, m, n, a, lda);
 	if(which == WhichNorm::TEST_NRM_MAX) ret = bulk::dns::norm_max(ptype, uplo, m, n, a, lda);
 	if(which == WhichNorm::TEST_NRM_FRO) ret = bulk::dns::norm_fro(ptype, uplo, m, n, a, lda);
 
-	if(which == WhichNorm::TEST_NRM_ONE) ret2 = naive_norm_one(ptype, uplo, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_INF) ret2 = naive_norm_inf(ptype, uplo, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_MAX) ret2 = naive_norm_max(ptype, uplo, m, n, a, lda);
-	if(which == WhichNorm::TEST_NRM_FRO) ret2 = naive_norm_fro(ptype, uplo, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_ONE) ret2 = naive_norm_one<T,Tr>(ptype, uplo, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_INF) ret2 = naive_norm_inf<T,Tr>(ptype, uplo, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_MAX) ret2 = naive_norm_max<T,Tr>(ptype, uplo, m, n, a, lda);
+	if(which == WhichNorm::TEST_NRM_FRO) ret2 = naive_norm_fro<T,Tr>(ptype, uplo, m, n, a, lda);
 
-	real_t diff = abs(ret - ret2);
-	if(diff > cmptol<T>()) return 1;
+	real_t diff = ddabs<T,real_t>(ret - ret2) / ret2;
+	if(diff > cmptol<T>()){
+		std::cout << prop.name().c_str() << " " << m << " " << n << " " << ret << " " << ret2 << " " << diff << std::endl;
+		return 1;
+	}
 	i_free(a);
 
 	return 0;
 }
 /*-------------------------------------------------*/
-template <class T>
+template <class T, class Tr>
 static int_t test_nrmone(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
 	}
 
 	{
 		uint_t lda = m +  5;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_ONE)) fatal_error();
 	}
 
 	test_success();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <class T, class Tr>
 static int_t test_nrminf(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
 	}
 
 	{
 		uint_t lda = m +  5;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_INF)) fatal_error();
 	}
 
 	test_success();
 	test_success();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <class T, class Tr>
 static int_t test_nrmmax(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
 	}                                                            
                                                                
 	{                                                            
 		uint_t lda = m +  5;                                       
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_MAX)) fatal_error();
 	}
 
 	test_success();
 }
 /*-------------------------------------------------*/
-template <class T>
+template <class T, class Tr>
 static int_t test_nrmfro(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
 	}                                                            
                                                                
 	{                                                            
 		uint_t lda = m +  5;                                       
-		if(test_nrm_in<T>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
-		if(test_nrm_in<T>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::GENERAL  , uplo_t::F, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::U, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::SYMMETRIC, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
+		if(test_nrm_in<T,Tr>(prop_t::HERMITIAN, uplo_t::L, m, n, lda, WhichNorm::TEST_NRM_FRO)) fatal_error();
 	}
 
 	test_success();
@@ -733,8 +730,8 @@ static int_t test_perms_in(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t
 template <class T>
 static int_t test_perms(bool strict)
 {
-	uint_t m = 10;
-	uint_t n =  8;
+	uint_t m = staticm;
+	uint_t n = staticn;
 
 	{
 		uint_t lda = m;
@@ -795,8 +792,11 @@ static int_t test_perms(bool strict)
 	test_success();
 }
 /*-------------------------------------------------*/
-int_t bulk_dns(bool strict)
+static int_t bulk_dns_dims(bool strict, uint_t m, uint_t n)
 {
+	staticm = m;
+	staticn = n;
+
 	int_t numtests = 0;
 	int_t numfail = 0;
 
@@ -860,25 +860,25 @@ int_t bulk_dns(bool strict)
 	numfail += test_he2ge<cla3p::complex_t>(strict); numtests++;
 	numfail += test_he2ge<cla3p::complex8_t>(strict); numtests++;
 
-	numfail += test_nrmone<cla3p::real_t>(strict); numtests++;
-	numfail += test_nrmone<cla3p::real4_t>(strict); numtests++;
-	numfail += test_nrmone<cla3p::complex_t>(strict); numtests++;
-	numfail += test_nrmone<cla3p::complex8_t>(strict); numtests++;
+	numfail += test_nrmone<cla3p::real_t    ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmone<cla3p::real4_t   ,cla3p::real4_t>(strict); numtests++;
+	numfail += test_nrmone<cla3p::complex_t ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmone<cla3p::complex8_t,cla3p::real4_t>(strict); numtests++;
 
-	numfail += test_nrminf<cla3p::real_t>(strict); numtests++;
-	numfail += test_nrminf<cla3p::real4_t>(strict); numtests++;
-	numfail += test_nrminf<cla3p::complex_t>(strict); numtests++;
-	numfail += test_nrminf<cla3p::complex8_t>(strict); numtests++;
+	numfail += test_nrminf<cla3p::real_t    ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrminf<cla3p::real4_t   ,cla3p::real4_t>(strict); numtests++;
+	numfail += test_nrminf<cla3p::complex_t ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrminf<cla3p::complex8_t,cla3p::real4_t>(strict); numtests++;
 
-	numfail += test_nrmmax<cla3p::real_t>(strict); numtests++;
-	numfail += test_nrmmax<cla3p::real4_t>(strict); numtests++;
-	numfail += test_nrmmax<cla3p::complex_t>(strict); numtests++;
-	numfail += test_nrmmax<cla3p::complex8_t>(strict); numtests++;
+	numfail += test_nrmmax<cla3p::real_t    ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmmax<cla3p::real4_t   ,cla3p::real4_t>(strict); numtests++;
+	numfail += test_nrmmax<cla3p::complex_t ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmmax<cla3p::complex8_t,cla3p::real4_t>(strict); numtests++;
 
-	numfail += test_nrmfro<cla3p::real_t>(strict); numtests++;
-	numfail += test_nrmfro<cla3p::real4_t>(strict); numtests++;
-	numfail += test_nrmfro<cla3p::complex_t>(strict); numtests++;
-	numfail += test_nrmfro<cla3p::complex8_t>(strict); numtests++;
+	numfail += test_nrmfro<cla3p::real_t    ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmfro<cla3p::real4_t   ,cla3p::real4_t>(strict); numtests++;
+	numfail += test_nrmfro<cla3p::complex_t ,cla3p::real_t >(strict); numtests++;
+	numfail += test_nrmfro<cla3p::complex8_t,cla3p::real4_t>(strict); numtests++;
 
 	numfail += test_perms<cla3p::int_t>(strict); numtests++;
 	numfail += test_perms<cla3p::uint_t>(strict); numtests++;
@@ -888,6 +888,19 @@ int_t bulk_dns(bool strict)
 	numfail += test_perms<cla3p::complex8_t>(strict); numtests++;
 
 	print_summary();
+}
+/*-------------------------------------------------*/
+int_t bulk_dns(bool strict)
+{
+	uint_t m = 0;
+	uint_t n = 0;
+
+	m =    5; n =  8; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m =    8; n =  5; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m = 705; n = 699; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m = 793; n = 612; if(bulk_dns_dims(strict, m, n)) fatal_error();
+
+	test_success();
 }
 /*-------------------------------------------------*/
 } // namespace tests
