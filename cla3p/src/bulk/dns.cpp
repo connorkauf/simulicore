@@ -553,6 +553,11 @@ static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+
 	/**/ if(prop.isGeneral()  ) return lapack::lange('1', m, n, a, lda);
 	else if(prop.isSymmetric()) return lapack::lansy('1', prop.cuplo(), n, a, lda);
 	else if(prop.isHermitian()) return lapack::lanhe('1', prop.cuplo(), n, a, lda);
@@ -567,6 +572,11 @@ static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+
 	/**/ if(prop.isGeneral()  ) return lapack::lange('I', m, n, a, lda);
 	else if(prop.isSymmetric()) return lapack::lansy('I', prop.cuplo(), n, a, lda);
 	else if(prop.isHermitian()) return lapack::lanhe('I', prop.cuplo(), n, a, lda);
@@ -581,6 +591,11 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+
 	/**/ if(prop.isGeneral()  ) return lapack::lange('M', m, n, a, lda);
 	else if(prop.isSymmetric()) return lapack::lansy('M', prop.cuplo(), n, a, lda);
 	else if(prop.isHermitian()) return lapack::lanhe('M', prop.cuplo(), n, a, lda);
@@ -590,7 +605,7 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 }
 /*-------------------------------------------------*/
 //
-// FRO NORM FOR SYMMETRIC/HERMITIAN WRONG IN LAPACK FOR N >=128
+// FRO NORM FOR SYMMETRIC/HERMITIAN WRONG IN LAPACK FOR N >= 128
 // TODO: more efficient
 //
 template <typename T, typename Tr>
@@ -614,6 +629,11 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+
 	/**/ if(prop.isGeneral()  ) return lapack::lange('F', m, n, a, lda);
 	else if(prop.isSymmetric()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<T,Tr>(uplo, n, a, lda) : lapack::lansy('F', prop.cuplo(), n, a, lda));
 	else if(prop.isHermitian()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<T,Tr>(uplo, n, a, lda) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
@@ -717,6 +737,10 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T 
 	if(!m || !n) return;
 
 	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
 
 	if(prop.isGeneral()) {
 
