@@ -24,14 +24,14 @@ XxMatrix::XxMatrix()
 XxMatrix::XxMatrix(uint_t nr, uint_t nc)
 	:
 		UniversalConstructor(),
-		ThisObjectType(prop_t::GENERAL, nr, nc, nr, false)
+		ThisObjectType(Property(prop_t::GENERAL,uplo_t::F), nr, nc, nr, false)
 {
 }
 /*-------------------------------------------------*/
-XxMatrix::XxMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
+XxMatrix::XxMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe)
 	:
 		UniversalConstructor(),
-		ThisObjectType(propcheck(ptype), nr, nc, nr, wipe)
+		ThisObjectType(propcheck(pr), nr, nc, nr, wipe)
 {
 }
 /*-------------------------------------------------*/
@@ -190,62 +190,67 @@ void XxMatrix::setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix& src)
 /*-------------------------------------------------*/
 XxMatrix XxMatrix::init(uint_t nr, uint_t nc) 
 { 
-	return init(prop_t::GENERAL, nr, nc);
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	return init(pr, nr, nc);
 }
 /*-------------------------------------------------*/
-XxMatrix XxMatrix::init(prop_t ptype, uint_t nr, uint_t nc) 
+XxMatrix XxMatrix::init(const Property& pr, uint_t nr, uint_t nc) 
 { 
 	XxMatrix ret;
-	ret.blankCreator(propcheck(ptype), nr, nc, nr); 
+	ret.blankCreator(propcheck(pr), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxMatrix XxMatrix::zero(uint_t nr, uint_t nc) 
 { 
-	return zero(prop_t::GENERAL, nr, nc) ;
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	return zero(pr, nr, nc) ;
 }
 /*-------------------------------------------------*/
-XxMatrix XxMatrix::zero(prop_t ptype, uint_t nr, uint_t nc) 
+XxMatrix XxMatrix::zero(const Property& pr, uint_t nr, uint_t nc) 
 { 
 	XxMatrix ret;
-	ret.zeroCreator(propcheck(ptype), nr, nc, nr); 
+	ret.zeroCreator(propcheck(pr), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxMatrix XxMatrix::random(uint_t nr, uint_t nc) 
 { 
-	return random(prop_t::GENERAL, nr, nc);
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	return random(pr, nr, nc);
 }
 /*-------------------------------------------------*/
-XxMatrix XxMatrix::random(prop_t ptype, uint_t nr, uint_t nc) 
+XxMatrix XxMatrix::random(const Property& pr, uint_t nr, uint_t nc) 
 { 
 	XxMatrix ret;
-	ret.randomCreator(propcheck(ptype), nr, nc, nr); 
+	ret.randomCreator(propcheck(pr), nr, nc, nr); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxMatrix XxMatrix::wrap(uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv)
 {
-	return wrap(prop_t::GENERAL, nr, nc, vals, ldv, false);
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	return wrap(pr, nr, nc, vals, ldv, false);
 }
 /*-------------------------------------------------*/
-XxMatrix XxMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv, bool bind)
+XxMatrix XxMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, ThisDataType *vals, uint_t ldv, bool bind)
 {
 	XxMatrix ret;
-	ret.wrapCreator(propcheck(ptype), nr, nc, vals, ldv, bind); 
+	ret.wrapCreator(propcheck(pr), nr, nc, vals, ldv, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxMGuard XxMatrix::wrap(uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
 {
-	return wrap(prop_t::GENERAL, nr, nc, vals, ldv);
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	return wrap(pr, nr, nc, vals, ldv);
 }
 /*-------------------------------------------------*/
-XxMGuard XxMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
+XxMGuard XxMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, const ThisDataType *vals, uint_t ldv)
 {
 	XxMGuard ret;
 	ThisGuardType& trg = ret;
-	trg = XxMatrix::wrap(propcheck(ptype), nr, nc, const_cast<ThisDataType*>(vals), ldv, false);
+	trg = XxMatrix::wrap(propcheck(pr), nr, nc, const_cast<ThisDataType*>(vals), ldv, false);
 	return ret;
 }
 /*-------------------------------------------------*/

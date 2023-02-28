@@ -24,7 +24,7 @@ XxVector::XxVector()
 XxVector::XxVector(uint_t n)
 	:
 		UniversalConstructor(),
-		ThisObjectType(prop_t::GENERAL, n, 1, n, false)
+		ThisObjectType(Property(prop_t::GENERAL,uplo_t::F), n, 1, n, false)
 {
 }
 /*-------------------------------------------------*/
@@ -152,28 +152,32 @@ void XxVector::setBlock(uint_t ibgn, const XxVector& src)
 XxVector XxVector::init(uint_t n) 
 { 
 	XxVector ret;
-	ret.blankCreator(prop_t::GENERAL, n, 1, n); 
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	ret.blankCreator(pr, n, 1, n); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxVector XxVector::zero(uint_t n) 
 { 
 	XxVector ret;
-	ret.zeroCreator(prop_t::GENERAL, n, 1, n); 
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	ret.zeroCreator(pr, n, 1, n); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxVector XxVector::random(uint_t n) 
 { 
 	XxVector ret;
-	ret.randomCreator(prop_t::GENERAL, n, 1, n); 
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	ret.randomCreator(pr, n, 1, n); 
 	return ret.move();
 }
 /*-------------------------------------------------*/
 XxVector XxVector::wrap(uint_t n, ThisDataType *vals, bool bind)
 {
 	XxVector ret;
-	ret.wrapCreator(prop_t::GENERAL, n, 1, vals, n, bind); 
+	Property pr(prop_t::GENERAL,uplo_t::F);
+	ret.wrapCreator(pr, n, 1, vals, n, bind); 
 	return ret.move();
 }
 /*-------------------------------------------------*/

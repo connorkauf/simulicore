@@ -81,7 +81,7 @@ class GenericObject : public UniversalMetaData {
 
 	protected:
 		GenericObject();
-		GenericObject(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim, bool wipe);
+		GenericObject(const Property& pr, uint_t nr, uint_t nc, uint_t ldim, bool wipe);
 		~GenericObject();
 
 		// no copy
@@ -150,10 +150,10 @@ class GenericObject : public UniversalMetaData {
 		void setImagPart(const GenericObject<Tr,Tr>&);
 
 		// creators
-		void  blankCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
-		void   zeroCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
-		void randomCreator(prop_t ptype, uint_t nr, uint_t nc, uint_t ldim);
-		void   wrapCreator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool bind);
+		void  blankCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
+		void   zeroCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
+		void randomCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
+		void   wrapCreator(const Property& pr, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool bind);
 
 	private:
 		uint_t   m_ld    ;
@@ -161,7 +161,7 @@ class GenericObject : public UniversalMetaData {
 		Property m_prop  ;
 
 		void defaults();
-		void creator(prop_t ptype, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner);
+		void creator(const Property& pr, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner);
 
 		template <typename U, typename Ur>
 		friend class GenericObject;

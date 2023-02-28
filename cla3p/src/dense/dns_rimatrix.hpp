@@ -50,9 +50,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe)
 		 */
-		RiMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
+		RiMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
@@ -244,9 +244,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		static RiMatrix init(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::init(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix init(prop_t ptype, uint_t nr, uint_t nc);
+		static RiMatrix init(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::zero(uint_t nr, uint_t nc)
@@ -254,9 +254,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		static RiMatrix zero(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::zero(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
+		static RiMatrix zero(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a matrix with random values in (0,100).
@@ -266,9 +266,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 
 		/**
 		 * @brief Creates a matrix with random values in (0,100).
-		 * @copydetails cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydetails cla3p::dns::RdMatrix::random(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static RiMatrix random(prop_t ptype, uint_t nr, uint_t nc);
+		static RiMatrix random(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, real_t *vals, uint_t ldv)
@@ -276,9 +276,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		static RiMatrix wrap(uint_t nr, uint_t nc, int_t *vals, uint_t ldv);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
+		 * @copydoc cla3p::dns::RdMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
 		 */
-		static RiMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, int_t *vals, uint_t ldv, bool bind);
+		static RiMatrix wrap(const Property& pr, uint_t nr, uint_t nc, int_t *vals, uint_t ldv, bool bind);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
@@ -286,9 +286,9 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		static RiMGuard wrap(uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
+		 * @copydoc cla3p::dns::RdMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
-		static RiMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
+		static RiMGuard wrap(const Property& pr, uint_t nr, uint_t nc, const int_t *vals, uint_t ldv);
 
 		/** @} */
 };

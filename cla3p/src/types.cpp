@@ -111,14 +111,12 @@ char Property::cuplo() const
 /*-------------------------------------------------*/
 void Property::check() const
 {
-	if(isValid()) {
-		if(isGeneral() && !isFull()) {
-			throw NoConsistency("Bad type/uplo combo");
-		} 
-		if(!isGeneral() && isFull()) {
-			throw NoConsistency("Bad type/uplo combo");
-		} 
-	} // valid
+	if(isGeneral() && !isFull()) {
+		throw NoConsistency("Bad type/uplo combo");
+	} 
+	if(!isGeneral() && isFull()) {
+		throw NoConsistency("Bad type/uplo combo");
+	} 
 }
 /*-------------------------------------------------*/
 const std::string pname_none = "None";

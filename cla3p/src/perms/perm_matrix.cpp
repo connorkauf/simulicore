@@ -31,7 +31,7 @@ PermMatrix::PermMatrix()
 PermMatrix::PermMatrix(uint_t n)
 	:
 		UniversalConstructor(),
-		ThisObjectType(prop_t::GENERAL, n, 1, n, false)
+		ThisObjectType(Property(prop_t::GENERAL,uplo_t::F), n, 1, n, false)
 {
 }
 /*-------------------------------------------------*/
@@ -107,14 +107,16 @@ const ThisDataType& PermMatrix::operator()(uint_t i) const
 PermMatrix PermMatrix::init(uint_t n)
 {
 	PermMatrix ret;
-	ret.blankCreator(prop_t::GENERAL, n, 1, n);
+	Property pr(prop_t::GENERAL, uplo_t::F);
+	ret.blankCreator(pr, n, 1, n);
 	return ret.move();
 }
 /*-------------------------------------------------*/
 PermMatrix PermMatrix::random(uint_t n)
 {
 	PermMatrix ret;
-	ret.blankCreator(prop_t::GENERAL, n, 1, n);
+	Property pr(prop_t::GENERAL, uplo_t::F);
+	ret.blankCreator(pr, n, 1, n);
 	fill_random_perm(ret.size(), ret.values());
 	return ret.move();
 }

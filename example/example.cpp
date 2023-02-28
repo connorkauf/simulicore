@@ -69,6 +69,8 @@ int main()
 	C.setImagPart(A);
 	std::cout << C;
 
+	std::cout << A.info() << B.info() << C.info();
+
 	return 0;
 }
 /*-------------------------------------------------*/

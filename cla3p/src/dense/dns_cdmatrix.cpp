@@ -16,9 +16,9 @@ using ThisRealType = real_t;
 using ThisObjectType = GenericObject<ThisDataType,ThisRealType>;
 using ThisGuardType = Guard<CdMatrix>;
 /*-------------------------------------------------*/
-static prop_t propcheck(prop_t ptype)
+static Property propcheck(const Property& prop)
 {
-	return ptype;
+	return prop;
 }
 /*-------------------------------------------------*/
 } // namespace dns

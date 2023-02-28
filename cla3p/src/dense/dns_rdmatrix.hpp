@@ -61,12 +61,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Constructs a (nr x nc) matrix with advanced options.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] wipe Set all matrix values to zero.
 		 */
-		RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
+		RdMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe);
 
 		/**
 		 * @brief The move constructor.
@@ -382,12 +382,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Creates a (nr x nc) matrix with uninitialized values.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @return The newly created matrix.
 		 */
-		static RdMatrix init(prop_t ptype, uint_t nr, uint_t nc);
+		static RdMatrix init(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a zero matrix.
@@ -405,12 +405,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Creates a (nr x nc) matrix with all values set to zero.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @return The newly created matrix.
 		 */
-		static RdMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
+		static RdMatrix zero(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a matrix with random values in (0,1).
@@ -428,12 +428,12 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Creates a (nr x nc) matrix with random values.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @return The newly created matrix.
 		 */
-		static RdMatrix random(prop_t ptype, uint_t nr, uint_t nc);
+		static RdMatrix random(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @brief Creates a matrix from aux data.
@@ -453,7 +453,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Creates a (nr x nc) matrix from bulk data.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] vals The array containing the matrix values in column-major ordering.
@@ -461,7 +461,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
 		 * @return The newly created matrix.
 		 */
-		static RdMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind);
+		static RdMatrix wrap(const Property& pr, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind);
 
 		/**
 		 * @brief Creates a guard from aux data.
@@ -481,14 +481,14 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * Creates a (nr x nc) guarded general matrix from bulk data.
 		 *
-		 * @param[in] ptype The matrix property.
+		 * @param[in] pr The matrix property.
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] vals The array containing the matrix values in column-major ordering.
 		 * @param[in] ldv The leading dimension of the vals array.
 		 * @return The newly created guard.
 		 */
-		static RdMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv);
+		static RdMGuard wrap(const Property& pr, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv);
 
 		/** @} */
 };

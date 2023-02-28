@@ -16,9 +16,9 @@ using ThisRealType = real4_t;
 using ThisObjectType = GenericObject<ThisDataType,ThisRealType>;
 using ThisGuardType = Guard<RfMatrix>;
 /*-------------------------------------------------*/
-static prop_t propcheck(prop_t ptype)
+static Property propcheck(const Property& prop)
 {
-	return (ptype == prop_t::HERMITIAN ? prop_t::SYMMETRIC : ptype);
+	return (prop.isHermitian() ? Property(prop_t::SYMMETRIC,prop.uplo()) : prop);
 }
 /*-------------------------------------------------*/
 } // namespace dns

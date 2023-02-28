@@ -51,9 +51,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		CfMatrix(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe)
+		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe)
 		 */
-		CfMatrix(prop_t ptype, uint_t nr, uint_t nc, bool wipe);
+		CfMatrix(const Property& pr, uint_t nr, uint_t nc, bool wipe);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::RdMatrix(RdMatrix&& other)
@@ -305,9 +305,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		static CfMatrix init(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::init(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::init(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static CfMatrix init(prop_t ptype, uint_t nr, uint_t nc);
+		static CfMatrix init(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::zero(uint_t nr, uint_t nc)
@@ -315,9 +315,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		static CfMatrix zero(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::zero(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::zero(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static CfMatrix zero(prop_t ptype, uint_t nr, uint_t nc);
+		static CfMatrix zero(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::random(uint_t nr, uint_t nc)
@@ -325,9 +325,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		static CfMatrix random(uint_t nr, uint_t nc);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::random(prop_t ptype, uint_t nr, uint_t nc)
+		 * @copydoc cla3p::dns::RdMatrix::random(const Property& pr, uint_t nr, uint_t nc)
 		 */
-		static CfMatrix random(prop_t ptype, uint_t nr, uint_t nc);
+		static CfMatrix random(const Property& pr, uint_t nr, uint_t nc);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, real_t *vals, uint_t ldv)
@@ -335,9 +335,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		static CfMatrix wrap(uint_t nr, uint_t nc, complex8_t *vals, uint_t ldv);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
+		 * @copydoc cla3p::dns::RdMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, real_t *vals, uint_t ldv, bool bind)
 		 */
-		static CfMatrix wrap(prop_t ptype, uint_t nr, uint_t nc, complex8_t *vals, uint_t ldv, bool bind);
+		static CfMatrix wrap(const Property& pr, uint_t nr, uint_t nc, complex8_t *vals, uint_t ldv, bool bind);
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::wrap(uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
@@ -345,9 +345,9 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		static CfMGuard wrap(uint_t nr, uint_t nc, const complex8_t *vals, uint_t ldv);
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::wrap(prop_t ptype, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
+		 * @copydoc cla3p::dns::RdMatrix::wrap(const Property& pr, uint_t nr, uint_t nc, const real_t *vals, uint_t ldv)
 		 */
-		static CfMGuard wrap(prop_t ptype, uint_t nr, uint_t nc, const complex8_t *vals, uint_t ldv);
+		static CfMGuard wrap(const Property& pr, uint_t nr, uint_t nc, const complex8_t *vals, uint_t ldv);
 
 		/** @} */
 };
