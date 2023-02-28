@@ -84,16 +84,16 @@ Property block_op_consistency_check(
 	if(prop.isLower()) {
 
 		if(jbgn > ibgn) {
-			throw NoConsistency("Start of block should be in lower part for Symmetric/Hermitian matrices");
+			throw NoConsistency("Start of block should be in lower part for " + prop.name() + " matrices");
 		}
 
 		if(ibgn == jbgn) {
 			if(iend != jend) {
-				throw NoConsistency("Start of block on diagonal of Symmetric/Hermitian matrices should be associated with a diagonal block");
+				throw NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
 			}
 		} else {
 			if(jend > ibgn + 1) {
-				throw NoConsistency("Block overlaps with upper part of Symmetric/Hermitian matrix");
+				throw NoConsistency("Block overlaps with upper part of " + prop.name() + " matrix");
 			}
 			ptype = prop_t::GENERAL;
 			uplo  = uplo_t::F;
@@ -102,7 +102,23 @@ Property block_op_consistency_check(
 	} // lower
 
 	if(prop.isUpper()) {
-		throw InvalidOp("Block operations for upper mats not yet supported");
+
+		if(ibgn > jbgn) {
+			throw NoConsistency("Start of block should be in upper part for " + prop.name() + " matrices");
+		}
+
+		if(ibgn == jbgn) {
+			if(iend != jend) {
+				throw NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
+			}
+		} else {
+			if(iend > jbgn + 1) {
+				throw NoConsistency("Block overlaps with lower part of " + prop.name() + " matrix");
+			}
+			ptype = prop_t::GENERAL;
+			uplo  = uplo_t::F;
+		} // (non-)diag case
+
 	} // lower
 
 	return Property(ptype, uplo);
@@ -198,13 +214,13 @@ void transp_op_consistency_check(prop_t ptype, bool conjop)
 	}
 }
 /*-------------------------------------------------*/
-void op_similarity_check(prop_t ptype1, uint_t nrows1, uint_t ncols1, prop_t ptype2, uint_t nrows2, uint_t ncols2)
+void op_similarity_check(const Property& prop1, uint_t nrows1, uint_t ncols1, const Property&  prop2, uint_t nrows2, uint_t ncols2)
 {
 	if(nrows1 != nrows2 || ncols1 != ncols2) {
 		throw NoConsistency(msg::invalid_dimensions());
 	}
 
-	if(ptype1 != ptype2) {
+	if(prop1 != prop2) {
 		throw NoConsistency(msg::invalid_property());
 	}
 }

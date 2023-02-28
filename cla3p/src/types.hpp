@@ -190,14 +190,14 @@ class Property {
 		 *
 		 * Checks if two propertyies are equal
 		 */
-		bool operator==(const Property& other);
+		bool operator==(const Property& other) const;
 
 		/**
 		 * @brief The compare operator.
 		 *
 		 * Checks if two propertyies are not equal
 		 */
-		bool operator!=(const Property& other);
+		bool operator!=(const Property& other) const;
 
 		/**
 		 * @brief The property type.

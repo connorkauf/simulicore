@@ -40,7 +40,7 @@ void transp_op_consistency_check(prop_t ptype, bool conjop);
 // 
 // Checks if input is similar (dims & prop)
 //
-void op_similarity_check(prop_t ptype1, uint_t nrows1, uint_t ncols1, prop_t ptype2, uint_t nrows2, uint_t ncols2);
+void op_similarity_check(const Property& prop1, uint_t nrows1, uint_t ncols1, const Property& prop2, uint_t nrows2, uint_t ncols2);
 
 /*-------------------------------------------------*/
 } // namespace cla3p

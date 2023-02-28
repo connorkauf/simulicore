@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rfmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -248,6 +249,46 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		 * @copydoc cla3p::dns::RdMatrix::setBlock()
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const CfMatrix& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::realPart()
+		 */
+		RfMatrix realPart() const;
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::imagPart()
+		 */
+		RfMatrix imagPart() const;
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::setRealPart()
+		 */
+		void setRealPart(const RfMatrix& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::setImagPart()
+		 */
+		void setImagPart(const RfMatrix& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::realBlock()
+		 */
+		RfMatrix realBlock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::imagBlock()
+		 */
+		RfMatrix imagBlock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::setRealBlock()
+		 */
+		void setRealBlock(uint_t ibgn, uint_t jbgn, const RfMatrix& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdMatrix::setImagBlock()
+		 */
+		void setImagBlock(uint_t ibgn, uint_t jbgn, const RfMatrix& src);
 
 		/** @} */
 

@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rdmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -248,6 +249,74 @@ class CdMatrix : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 * @copydoc cla3p::dns::RdMatrix::setBlock()
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const CdMatrix& src);
+
+		/**
+		 * @brief Gets a copy of the real part of matrix.
+		 */
+		RdMatrix realPart() const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of matrix.
+		 */
+		RdMatrix imagPart() const;
+
+		/**
+		 * @brief Sets a matrix real part.
+		 */
+		void setRealPart(const RdMatrix& src);
+
+		/**
+		 * @brief Sets a matrix imaginary part.
+		 */
+		void setImagPart(const RdMatrix& src);
+
+		/**
+		 * @brief Gets a copy of the real part of a portion of matrix.
+		 *
+		 * Gets a copy of the real part of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
+		 *
+		 * @param[in] ibgn The matrix row that the requested part begins.
+		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @param[in] nj The number of columns of the requested block.
+		 * @return A copy of the real part of a portion of the matrix.
+		 */
+		RdMatrix realBlock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of a portion of matrix.
+		 *
+		 * Gets a copy of the imaginary part of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
+		 *
+		 * @param[in] ibgn The matrix row that the requested part begins.
+		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @param[in] nj The number of columns of the requested block.
+		 * @return A copy of the imaginary part of a portion of the matrix.
+		 */
+		RdMatrix imagBlock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+
+		/**
+		 * @brief Sets real part of a submatrix.
+		 *
+		 * Copies the contents of a block in the real part of the matrix, starting at (ibgn, jbgn)
+		 *
+		 * @param[in] ibgn The matrix row that src will be placed.
+		 * @param[in] jbgn The matrix column that src will be placed.
+		 * @param[in] src The block to be placed.
+		 */
+		void setRealBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src);
+
+		/**
+		 * @brief Sets imaginary part of a submatrix.
+		 *
+		 * Copies the contents of a block in the imaginary part of the matrix, starting at (ibgn, jbgn)
+		 *
+		 * @param[in] ibgn The matrix row that src will be placed.
+		 * @param[in] jbgn The matrix column that src will be placed.
+		 * @param[in] src The block to be placed.
+		 */
+		void setImagBlock(uint_t ibgn, uint_t jbgn, const RdMatrix& src);
 
 		/** @} */
 

@@ -74,12 +74,12 @@ Property& Property::operator=(const Property& other)
 	return *this;
 }
 /*-------------------------------------------------*/
-bool Property::operator==(const Property& other)
+bool Property::operator==(const Property& other) const
 {
 	return (m_type == other.type() && m_uplo == other.uplo());
 }
 /*-------------------------------------------------*/
-bool Property::operator!=(const Property& other)
+bool Property::operator!=(const Property& other) const
 {
 	return !(*this == other);
 }
@@ -111,12 +111,14 @@ char Property::cuplo() const
 /*-------------------------------------------------*/
 void Property::check() const
 {
-	if(isGeneral() && !isFull()) {
-		throw NoConsistency("Bad type/uplo combo");
-	} 
-	if(!isGeneral() && isFull()) {
-		throw NoConsistency("Bad type/uplo combo");
-	} 
+	if(isValid()) {
+		if(isGeneral() && !isFull()) {
+			throw NoConsistency("Bad type/uplo combo");
+		} 
+		if(!isGeneral() && isFull()) {
+			throw NoConsistency("Bad type/uplo combo");
+		} 
+	} // valid
 }
 /*-------------------------------------------------*/
 const std::string pname_none = "None";

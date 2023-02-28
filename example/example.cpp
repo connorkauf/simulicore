@@ -15,6 +15,7 @@
 #include "cla3p/src/support/utils.hpp"
 
 /*-------------------------------------------------*/
+#if 0
 template <typename T, typename Tr>
 static Tr naive_syhe_norm_fro_tmpl(cla3p::uplo_t uplo, cla3p::uint_t n, const T *a, cla3p::uint_t lda)
 {
@@ -49,13 +50,24 @@ void fro_test()
 
 	cla3p::i_free(a);
 }
+#endif
 /*-------------------------------------------------*/
 
 int main()
 {
 	cla3p::enable_dbg_messages();
 
-	fro_test<cla3p::real_t,cla3p::real_t>();
+	cla3p::uint_t n = 3;
+	cla3p::dns::CdMatrix C = cla3p::dns::CdMatrix::random(n,n);
+	std::cout << C;
+	cla3p::dns::RdMatrix A = C.realPart();
+	std::cout << A;
+	cla3p::dns::RdMatrix B = C.imagPart();
+	std::cout << B;
+
+	C.setRealPart(B);
+	C.setImagPart(A);
+	std::cout << C;
 
 	return 0;
 }

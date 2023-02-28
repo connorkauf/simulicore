@@ -426,7 +426,7 @@ void GenericObject<T,Tr>::getImagPart(GenericObject<Tr,Tr>& trg) const
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::setRealPart(const GenericObject<Tr,Tr>& src)
 {
-	op_similarity_check(prop().type(), rsize(), csize(), src.prop().type(), src.rsize(), src.csize());
+	op_similarity_check(prop(), rsize(), csize(), src.prop(), src.rsize(), src.csize());
 
 	setRealBlock(src, 0, 0);
 }
@@ -434,7 +434,7 @@ void GenericObject<T,Tr>::setRealPart(const GenericObject<Tr,Tr>& src)
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::setImagPart(const GenericObject<Tr,Tr>& src)
 {
-	op_similarity_check(prop().type(), rsize(), csize(), src.prop().type(), src.rsize(), src.csize());
+	op_similarity_check(prop(), rsize(), csize(), src.prop(), src.rsize(), src.csize());
 
 	setImagBlock(src, 0, 0);
 }

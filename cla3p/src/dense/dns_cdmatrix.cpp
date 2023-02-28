@@ -24,13 +24,16 @@ static prop_t propcheck(prop_t ptype)
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
+#define RxMatrix RdMatrix
 #define XxMatrix CdMatrix
 #define XxMGuard CdMGuard
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_MATRIX, DataType::COMPLEX, PrecisionType::DOUBLE)
 /*-------------------------------------------------*/
 #include "dns_xxmatrix_source.hpp"
+#include "dns_cxmatrix_source.hpp"
 #include "dns_flmatrix_source.hpp"
 /*-------------------------------------------------*/
+#undef RxMatrix
 #undef XxMatrix
 #undef XxMGuard
 #undef UniversalConstructor
