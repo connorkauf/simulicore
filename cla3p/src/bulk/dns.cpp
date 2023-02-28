@@ -589,6 +589,25 @@ static Tout norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	return 0.;
 }
 /*-------------------------------------------------*/
+//
+// FRO NORM FOR SYMMETRIC/HERMITIAN WRONG IN LAPACK FOR N >=128
+// TODO: more efficient
+//
+template <typename Tout, typename Tin>
+static Tout naive_syhe_norm_fro_tmpl(uplo_t uplo, uint_t n, const Tin *a, uint_t lda)
+{
+	Tout sum = 0;
+	Tout two = 2;
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			Tout aij = std::abs(entry(lda,a,i,j));
+			sum += (i != j) ? two * aij * aij : aij * aij;
+		} // i
+	} // j
+	return std::sqrt(sum);
+}
+/*-------------------------------------------------*/
 template <typename Tout, typename Tin>
 static Tout norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const Tin *a, uint_t lda)
 {
@@ -596,8 +615,8 @@ static Tout norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 
 	Property prop(ptype, uplo);
 	/**/ if(prop.isGeneral()  ) return lapack::lange('F', m, n, a, lda);
-	else if(prop.isSymmetric()) return lapack::lansy('F', prop.cuplo(), n, a, lda);
-	else if(prop.isHermitian()) return lapack::lanhe('F', prop.cuplo(), n, a, lda);
+	else if(prop.isSymmetric()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<Tout,Tin>(uplo, n, a, lda) : lapack::lansy('F', prop.cuplo(), n, a, lda));
+	else if(prop.isHermitian()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<Tout,Tin>(uplo, n, a, lda) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;

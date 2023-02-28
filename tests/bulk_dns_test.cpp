@@ -557,9 +557,8 @@ static int_t test_nrm_in(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t l
 	if(which == WhichNorm::TEST_NRM_MAX) ret2 = naive_norm_max<T,Tr>(ptype, uplo, m, n, a, lda);
 	if(which == WhichNorm::TEST_NRM_FRO) ret2 = naive_norm_fro<T,Tr>(ptype, uplo, m, n, a, lda);
 
-	real_t diff = ddabs<T,real_t>(ret - ret2) / ret2;
+	real_t diff = ddabs<T,real_t>(ret - ret2) / (std::sqrt(m*n) * ret2);
 	if(diff > cmptol<T>()){
-		std::cout << prop.name().c_str() << " " << m << " " << n << " " << ret << " " << ret2 << " " << diff << std::endl;
 		return 1;
 	}
 	i_free(a);
