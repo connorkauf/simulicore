@@ -19,13 +19,16 @@ using ThisGuardType = Guard<CfVector>;
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
+#define RxVector RfVector
 #define XxVector CfVector
 #define XxVGuard CfVGuard
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::COMPLEX, PrecisionType::SINGLE)
 /*-------------------------------------------------*/
 #include "dns_xxvector_source.hpp"
+#include "dns_cxvector_source.hpp"
 #include "dns_flvector_source.hpp"
 /*-------------------------------------------------*/
+#undef RxVector
 #undef XxVector
 #undef XxVGuard
 #undef UniversalConstructor

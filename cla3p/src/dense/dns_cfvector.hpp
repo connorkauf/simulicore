@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rfvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -188,6 +189,46 @@ class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		 * @copydoc cla3p::dns::RdVector::setBlock()
 		 */
 		void setBlock(uint_t ibgn, const CfVector& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::realPart()
+		 */
+		RfVector realPart() const;
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::imagPart()
+		 */
+		RfVector imagPart() const;
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::setRealPart()
+		 */
+		void setRealPart(const RfVector& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::setImagPart()
+		 */
+		void setImagPart(const RfVector& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::realBlock()
+		 */
+		RfVector realBlock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::imagBlock()
+		 */
+		RfVector imagBlock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::setRealBlock()
+		 */
+		void setRealBlock(uint_t ibgn, const RfVector& src);
+
+		/**
+		 * @copydoc cla3p::dns::CdVector::setImagBlock()
+		 */
+		void setImagBlock(uint_t ibgn, const RfVector& src);
 
 		/** @} */
 

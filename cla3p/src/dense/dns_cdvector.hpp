@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rdvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -188,6 +189,68 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 * @copydoc cla3p::dns::RdVector::setBlock()
 		 */
 		void setBlock(uint_t ibgn, const CdVector& src);
+
+		/**
+		 * @brief Gets a copy of the real part of vector.
+		 */
+		RdVector realPart() const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of vector.
+		 */
+		RdVector imagPart() const;
+
+		/**
+		 * @brief Sets a vector real part.
+		 */
+		void setRealPart(const RdVector& src);
+
+		/**
+		 * @brief Sets a vector imaginary part.
+		 */
+		void setImagPart(const RdVector& src);
+
+		/**
+		 * @brief Gets a copy of the real part of a portion of vector.
+		 *
+		 * Gets a copy of the real part of a ni-sized block of the vector, starting at ibgn.
+		 *
+		 * @param[in] ibgn The vector row that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @return A copy of the real part of a portion of the vector.
+		 */
+		RdVector realBlock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of a portion of vector.
+		 *
+		 * Gets a copy of the imaginary part of a ni-sized block of the vector, starting at ibgn.
+		 *
+		 * @param[in] ibgn The vector row that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @return A copy of the imaginary part of a portion of the vector.
+		 */
+		RdVector imagBlock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @brief Sets real part of a subvector.
+		 *
+		 * Copies the contents of a block in the real part of the vector, starting at ibgn.
+		 *
+		 * @param[in] ibgn The vector row that src will be placed.
+		 * @param[in] src The block to be placed.
+		 */
+		void setRealBlock(uint_t ibgn, const RdVector& src);
+
+		/**
+		 * @brief Sets imaginary part of a subvector.
+		 *
+		 * Copies the contents of a block in the imaginary part of the vector, starting at ibgn.
+		 *
+		 * @param[in] ibgn The vector row that src will be placed.
+		 * @param[in] src The block to be placed.
+		 */
+		void setImagBlock(uint_t ibgn, const RdVector& src);
 
 		/** @} */
 
