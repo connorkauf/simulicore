@@ -547,8 +547,8 @@ void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { syhe2ge_tmpl(uplo
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename Tout, typename Tin>
-static Tout norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const Tin *a, uint_t lda)
+template <typename T, typename Tr>
+static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -561,8 +561,8 @@ static Tout norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <typename Tout, typename Tin>
-static Tout norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const Tin *a, uint_t lda)
+template <typename T, typename Tr>
+static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -575,8 +575,8 @@ static Tout norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <typename Tout, typename Tin>
-static Tout norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const Tin *a, uint_t lda)
+template <typename T, typename Tr>
+static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -593,30 +593,30 @@ static Tout norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T
 // FRO NORM FOR SYMMETRIC/HERMITIAN WRONG IN LAPACK FOR N >=128
 // TODO: more efficient
 //
-template <typename Tout, typename Tin>
-static Tout naive_syhe_norm_fro_tmpl(uplo_t uplo, uint_t n, const Tin *a, uint_t lda)
+template <typename T, typename Tr>
+static Tr naive_syhe_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
 {
-	Tout sum = 0;
-	Tout two = 2;
+	Tr sum = 0;
+	Tr two = 2;
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			Tout aij = std::abs(entry(lda,a,i,j));
+			Tr aij = std::abs(entry(lda,a,i,j));
 			sum += (i != j) ? two * aij * aij : aij * aij;
 		} // i
 	} // j
 	return std::sqrt(sum);
 }
 /*-------------------------------------------------*/
-template <typename Tout, typename Tin>
-static Tout norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const Tin *a, uint_t lda)
+template <typename T, typename Tr>
+static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
 	/**/ if(prop.isGeneral()  ) return lapack::lange('F', m, n, a, lda);
-	else if(prop.isSymmetric()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<Tout,Tin>(uplo, n, a, lda) : lapack::lansy('F', prop.cuplo(), n, a, lda));
-	else if(prop.isHermitian()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<Tout,Tin>(uplo, n, a, lda) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
+	else if(prop.isSymmetric()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<T,Tr>(uplo, n, a, lda) : lapack::lansy('F', prop.cuplo(), n, a, lda));
+	else if(prop.isHermitian()) return (n >= 128 ? naive_syhe_norm_fro_tmpl<T,Tr>(uplo, n, a, lda) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
 	
 	throw Exception("Invalid property: " + prop.name());
 	return 0.;
@@ -642,15 +642,15 @@ real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a
 real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_max_tmpl<real4_t,real4_t>(ptype,uplo,m,n,a,lda); }
 real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,real4_t>(ptype,uplo,m,n,a,lda); }
 /*-------------------------------------------------*/
-real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_one_tmpl<real_t,complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_inf_tmpl<real_t,complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_max_tmpl<real_t,complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_fro_tmpl<real_t,complex_t>(ptype,uplo,m,n,a,lda); }
+real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_one_tmpl<complex_t,real_t>(ptype,uplo,m,n,a,lda); }
+real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_inf_tmpl<complex_t,real_t>(ptype,uplo,m,n,a,lda); }
+real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_max_tmpl<complex_t,real_t>(ptype,uplo,m,n,a,lda); }
+real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_fro_tmpl<complex_t,real_t>(ptype,uplo,m,n,a,lda); }
 /*-------------------------------------------------*/
-real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_one_tmpl<real4_t,complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<real4_t,complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<real4_t,complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<real4_t,complex8_t>(ptype,uplo,m,n,a,lda); }
+real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_one_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
+real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
+real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
+real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
 /*-------------------------------------------------*/
 int_t  norm_euc(uint_t, const int_t *) { throw Exception(msg::op_not_allowed()); return 0; }
 uint_t norm_euc(uint_t, const uint_t*) { throw Exception(msg::op_not_allowed()); return 0; }
