@@ -196,6 +196,11 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		CfMatrix ctranspose() const;
 
 		/**
+		 * @copydoc cla3p::dns::CdMatrix::iconjugate()
+		 */
+		void iconjugate();
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		CfMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;

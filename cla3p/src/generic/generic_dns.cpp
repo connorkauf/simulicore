@@ -271,6 +271,12 @@ void GenericObject<T,Tr>::ctransposeTo(GenericObject<T,Tr>& trg) const
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
+void GenericObject<T,Tr>::conjugateIp()
+{
+	bulk::dns::conjugate(prop().uplo(), rsize(), csize(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
 void GenericObject<T,Tr>::gePermuteTo(GenericObject<T,Tr>& trg, const PermMatrix& P, const PermMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), rsize(), csize(), P.size(), Q.size());

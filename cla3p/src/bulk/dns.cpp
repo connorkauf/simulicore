@@ -464,6 +464,8 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T 
 	} // lower
 }
 /*-------------------------------------------------*/
+void conjugate(uplo_t, uint_t, uint_t, int_t  *, uint_t, int_t  ) { throw Exception(msg::op_not_allowed()); }
+void conjugate(uplo_t, uint_t, uint_t, uint_t *, uint_t, uint_t ) { throw Exception(msg::op_not_allowed()); }
 void conjugate(uplo_t, uint_t, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::op_not_allowed()); }
 void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/

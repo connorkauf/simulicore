@@ -196,10 +196,15 @@ conjugate_transpose_macro(void, complex8_t);
 //
 // Conjugations
 //
-void conjugate(uplo_t uplo, uint_t m, uint_t n, real_t *a, uint_t lda, real_t coeff = 1.); // exception
-void conjugate(uplo_t uplo, uint_t m, uint_t n, real4_t *a, uint_t lda, real4_t coeff = 1.); // exception
-void conjugate(uplo_t uplo, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff = 1.);
-void conjugate(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff = 1.);
+#define conjugate_macro(typeout, typein) \
+typeout conjugate(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, typein coeff = 1)
+conjugate_macro(void, int_t); // exception
+conjugate_macro(void, uint_t); // exception
+conjugate_macro(void, real_t); // exception
+conjugate_macro(void, real4_t); // exception
+conjugate_macro(void, complex_t);
+conjugate_macro(void, complex8_t);
+#undef conjugate_macro
 
 //
 // Symmetric to general

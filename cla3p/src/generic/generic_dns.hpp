@@ -124,6 +124,7 @@ class GenericObject : public UniversalMetaData {
 		// not callcable from empty
 		void transposeTo(GenericObject<T,Tr>&) const;
 		void ctransposeTo(GenericObject<T,Tr>&) const;
+		void conjugateIp();
 
 		void gePermuteTo(GenericObject<T,Tr>&, const PermMatrix& P, const PermMatrix& Q) const;
 		void gePermuteToLeft(GenericObject<T,Tr>&, const PermMatrix& P) const;

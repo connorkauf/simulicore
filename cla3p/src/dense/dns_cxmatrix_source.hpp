@@ -17,6 +17,11 @@ XxMatrix XxMatrix::ctranspose() const
 	return ret.move();
 }
 /*-------------------------------------------------*/
+void XxMatrix::iconjugate()
+{
+	ThisObjectType::conjugateIp();
+}
+/*-------------------------------------------------*/
 RxMatrix XxMatrix::realPart() const
 {
 	RxMatrix ret;
