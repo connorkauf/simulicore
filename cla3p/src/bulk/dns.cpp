@@ -86,7 +86,7 @@ static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda,
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 			entry(lda,a,i,j) = randfun(low, high);
-		} // j
+		} // i
 	} // j
 }
 /*-------------------------------------------------*/
@@ -806,6 +806,53 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, 
 void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
 { 
 	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T *c, uint_t ldc)
+{
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			entry(ldc,c,i,j) += alpha * entry(lda,a,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void update_tmpl(uplo_t /*uplo*/, uint_t /*m*/, uint_t /*n*/, T /*alpha*/, const T * /*a*/, uint_t /*lda*/, T * /*c*/, uint_t /*ldc*/)
+{
+	// TODO: use axpy & imatcopy here
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, int_t *c, uint_t ldc) 
+{
+	naive_update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, uint_t *c, uint_t ldc)
+{
+	naive_update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, real_t *c, uint_t ldc)
+{
+	update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, real4_t *c, uint_t ldc)
+{
+	update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, complex_t *c, uint_t ldc)
+{
+	update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+void update(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, complex8_t *c, uint_t ldc)
+{
+	update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
 }
 /*-------------------------------------------------*/
 } // namespace dns

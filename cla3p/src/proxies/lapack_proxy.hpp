@@ -54,6 +54,8 @@ lanhe_macro(real_t , complex_t );
 lanhe_macro(real4_t, complex8_t);
 #undef lanhe_macro
 
+// TODO: ?lantr ?larnv
+
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p

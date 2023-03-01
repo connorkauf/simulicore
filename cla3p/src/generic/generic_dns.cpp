@@ -482,6 +482,20 @@ void GenericObject<T,Tr>::wrapCreator(const Property& pr, uint_t nr, uint_t nc, 
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template <typename T, typename Tr>
+void generic_dns_update(T alpha, const GenericObject<T,Tr>& U, GenericObject<T,Tr>& C)
+{
+	// TODO: implement
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void generic_dns_add(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B, GenericObject<T,Tr>& C)
+{
+	// TODO: implement
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 template class GenericObject<int_t,int_t>;
 template class GenericObject<uint_t,uint_t>;
 template class GenericObject<real_t,real_t>;
