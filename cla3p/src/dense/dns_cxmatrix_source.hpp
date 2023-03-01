@@ -10,6 +10,13 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
+XxMatrix XxMatrix::ctranspose() const
+{
+	XxMatrix ret;
+	ThisObjectType::ctransposeTo(ret);
+	return ret.move();
+}
+/*-------------------------------------------------*/
 RxMatrix XxMatrix::realPart() const
 {
 	RxMatrix ret;

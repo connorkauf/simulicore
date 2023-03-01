@@ -191,6 +191,12 @@ class CdMatrix : private UniversalMetaTypes, public GenericObject<complex_t,real
 		CdMatrix transpose() const;
 
 		/**
+		 * @brief Conjugate-transposes a general matrix.
+		 * @return The consjugate-transposed copy of the matrix.
+		 */
+		CdMatrix ctranspose() const;
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		CdMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;
