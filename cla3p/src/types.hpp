@@ -63,10 +63,10 @@ class Operation {
 		 * @enum op_t
 		 * @brief The operation type.
 		 */
-		enum class op_t {
-			N = 0, /**< No operation: @f$ op(A) = A @f$ */
-			T    , /**< Transpose operation: @f$ op(A) = A^T @f$ */
-			C      /**< Conjugate transpose operation: @f$ op(A) = A^H @f$ */
+		enum class op_t : char {
+			N = 'N', /**< No operation: @f$ op(A) = A @f$ */
+			T = 'T', /**< Transpose operation: @f$ op(A) = A^T @f$ */
+			C = 'C'  /**< Conjugate transpose operation: @f$ op(A) = A^H @f$ */
 		};
 
 		/**
@@ -106,6 +106,11 @@ class Operation {
 		 * @brief The operation type.
 		 */
 		op_t type() const;
+
+		/**
+		 * @brief The operation type as a char.
+		 */
+		char ctype() const;
 
 		/**
 		 * @brief The operation name.

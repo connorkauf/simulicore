@@ -41,6 +41,11 @@ op_t Operation::type() const
 	return m_type;
 }
 /*-------------------------------------------------*/
+char Operation::ctype() const
+{
+	return static_cast<char>(type());
+}
+/*-------------------------------------------------*/
 const std::string oname_noop = "No operation"  ;
 const std::string oname_trop = "Transpose";
 const std::string oname_ctop = "Conjugate transpose";
