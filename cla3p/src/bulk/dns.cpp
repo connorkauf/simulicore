@@ -820,9 +820,12 @@ static void naive_update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T 
 }
 /*-------------------------------------------------*/
 template <typename T>
-static void update_tmpl(uplo_t /*uplo*/, uint_t /*m*/, uint_t /*n*/, T /*alpha*/, const T * /*a*/, uint_t /*lda*/, T * /*c*/, uint_t /*ldc*/)
+static void update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T *c, uint_t ldc)
 {
-	// TODO: use axpy & imatcopy here
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		blas::axpy(ir.ilen, alpha, ptrmv(lda,a,ir.ibgn,j), 1, ptrmv(ldc,c,ir.ibgn,j), 1);
+	} // j
 }
 /*-------------------------------------------------*/
 void update(uplo_t uplo, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, int_t *c, uint_t ldc) 
@@ -853,6 +856,59 @@ void update(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a
 void update(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, complex8_t *c, uint_t ldc)
 {
 	update_tmpl(uplo, m, n, alpha, a, lda, c, ldc);
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T beta, const T *b, uint_t ldb, T *c, uint_t ldc)
+{
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			entry(ldc,c,i,j) = alpha * entry(lda,a,i,j) + beta * entry(ldb,b,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T beta, const T *b, uint_t ldb, T *c, uint_t ldc)
+{
+	if(uplo == uplo_t::F) {
+		mkl::omatadd('C', 'N', 'N', m, n, alpha, a, lda, beta, b, ldb, c, ldc);
+	} else {
+		zero(uplo, m, n, c, ldc);
+		update(uplo, m, n, alpha, a, lda, c, ldc);
+		update(uplo, m, n, beta , b, ldb, c, ldc);
+	} // uplo
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, int_t beta, const int_t *b, uint_t ldb, int_t *c, uint_t ldc) 
+{
+	naive_add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, uint_t beta, const uint_t *b, uint_t ldb, uint_t *c, uint_t ldc) 
+{
+	naive_add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, real_t beta, const real_t *b, uint_t ldb, real_t *c, uint_t ldc) 
+{
+	add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, real4_t beta, const real4_t *b, uint_t ldb, real4_t *c, uint_t ldc) 
+{
+	add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, complex_t beta, const complex_t *b, uint_t ldb, complex_t *c, uint_t ldc) 
+{
+	add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
+}
+/*-------------------------------------------------*/
+void add(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, complex8_t beta, const complex8_t *b, uint_t ldb, complex8_t *c, uint_t ldc) 
+{
+	add_tmpl(uplo, m, n, alpha, a, lda, beta, b, ldb, c, ldc); 
 }
 /*-------------------------------------------------*/
 } // namespace dns

@@ -326,6 +326,21 @@ update_macro(void, complex_t);
 update_macro(void, complex8_t);
 #undef update_macro
 
+//
+// Update: C = alpha * A + beta * B
+//
+#define add_macro(typeout, typein) \
+typeout add(uplo_t uplo, uint_t m, uint_t n, \
+		typein alpha, const typein *a, uint_t lda, \
+		typein beta , const typein *b, uint_t ldb, typein *c, uint_t ldc)
+add_macro(void, int_t);
+add_macro(void, uint_t);
+add_macro(void, real_t);
+add_macro(void, real4_t);
+add_macro(void, complex_t);
+add_macro(void, complex8_t);
+#undef add_macro
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
