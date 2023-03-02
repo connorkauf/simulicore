@@ -166,19 +166,11 @@ class GenericObject : public UniversalMetaData {
 
 		template <typename U, typename Ur>
 		friend class GenericObject;
+
+	public:
+		void updateSelf(T alpha, const GenericObject<T,Tr>& A);
+		void createFromSum(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B);
 };
-
-// 
-// C += alpha * A
-//
-template <typename T, typename Tr>
-void generic_dns_update(T alpha, const GenericObject<T,Tr>& A, GenericObject<T,Tr>& C);
-
-// 
-// C = alpha * A + beta * B
-//
-template <typename T, typename Tr>
-void generic_dns_add(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B, GenericObject<T,Tr>& C);
 
 /*-------------------------------------------------*/
 } // namespace dns

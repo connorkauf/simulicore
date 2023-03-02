@@ -480,18 +480,20 @@ void GenericObject<T,Tr>::wrapCreator(const Property& pr, uint_t nr, uint_t nc, 
 	creator(pr, nr, nc, vals, ldv, bind);
 }
 /*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
 template <typename T, typename Tr>
-void generic_dns_update(T alpha, const GenericObject<T,Tr>& U, GenericObject<T,Tr>& C)
+void GenericObject<T,Tr>::updateSelf(T alpha, const GenericObject<T,Tr>& A)
 {
-	// TODO: implement
+	op_similarity_check(prop(), rsize(), csize(), A.prop(), A.rsize(), A.csize());
+	bulk::dns::update(prop().uplo(), rsize(), csize(), alpha, A.values(), A.ld(), values(), ld());
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void generic_dns_add(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B, GenericObject<T,Tr>& C)
+void GenericObject<T,Tr>::createFromSum(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B)
 {
-	// TODO: implement
+	op_similarity_check(A.prop(), A.rsize(), A.csize(), B.prop(), B.rsize(), B.csize());
+
+	blankCreator(A.prop(), A.rsize(), A.csize(), A.rsize());
+	bulk::dns::add(prop().uplo(), rsize(), csize(), alpha, A.values(), A.ld(), beta , B.values(), B.ld(), values(), ld());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
