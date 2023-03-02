@@ -65,6 +65,17 @@ dotc_macro(complex_t , z)
 dotc_macro(complex8_t, c)
 #undef dotc_macro
 /*-------------------------------------------------*/
+#define axpy_macro(typeout, typein, prefix) \
+typeout axpy(int_t n, typein alpha, const typein *x, int_t incx, typein *y, int_t incy) \
+{ \
+	return prefix##axpy(&n, &alpha, x, &incx, y, &incy); \
+}
+axpy_macro(void, real_t    , d)
+axpy_macro(void, real4_t   , s)
+axpy_macro(void, complex_t , z)
+axpy_macro(void, complex8_t, c)
+#undef axpy_macro
+/*-------------------------------------------------*/
 } // namespace blas
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -55,7 +55,20 @@ imatcopy_macro(void, real_t    , d)
 imatcopy_macro(void, real4_t   , s)
 imatcopy_macro(void, complex_t , z)
 imatcopy_macro(void, complex8_t, c)
-#undef omatcopy_macro
+#undef imatcopy_macro
+/*-------------------------------------------------*/
+#define omatadd_macro(typeout, typein, prefix) \
+typeout omatadd(char ordering, char transa, char transb, bulk_t rows, bulk_t cols, \
+    typein alpha, const typein *A, bulk_t lda, \
+    typein beta , const typein *B, bulk_t ldb, typein *C, bulk_t ldc) \
+{ \
+	mkl_##prefix##omatadd(ordering, transa, transb, rows, cols, alpha, A, lda, beta , B, ldb, C, ldc); \
+}
+omatadd_macro(void, real_t    , d)
+omatadd_macro(void, real4_t   , s)
+omatadd_macro(void, complex_t , z)
+omatadd_macro(void, complex8_t, c)
+#undef omatadd_macro
 /*-------------------------------------------------*/
 } // namespace mkl
 } // namespace cla3p
