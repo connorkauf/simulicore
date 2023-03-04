@@ -170,6 +170,8 @@ class GenericObject : public UniversalMetaData {
 	public:
 		void updateSelf(T alpha, const GenericObject<T,Tr>& A);
 		void createFromSum(T alpha, const GenericObject<T,Tr>& A, T beta, const GenericObject<T,Tr>& B);
+		void updateSelfWithMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X);
+		void createFromMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X);
 };
 
 /*-------------------------------------------------*/

@@ -47,6 +47,33 @@ dns::RfMatrix add(real4_t    alpha, const dns::RfMatrix& srcA, real4_t    beta, 
 dns::CdMatrix add(complex_t  alpha, const dns::CdMatrix& srcA, complex_t  beta, const dns::CdMatrix& srcB) { return dns_add_tmpl(alpha, srcA, beta, srcB); }
 dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, const dns::CfMatrix& srcB) { return dns_add_tmpl(alpha, srcA, beta, srcB); }
 /*-------------------------------------------------*/
+template <typename T, typename Tmat, typename Tvec>
+void dns_update_with_mv_tmpl(const Operation& opA, T alpha, const Tmat& srcA, const Tvec& srcX, Tvec& trg)
+{
+	trg.updateSelfWithMatVec(opA, alpha, srcA, srcX);
+}
+/*-------------------------------------------------*/
+void matvec_mult(const Operation& opA, int_t      alpha, const dns::RiMatrix& srcA, const dns::RiVector& srcX, dns::RiVector& trg) { dns_update_with_mv_tmpl(opA, alpha, srcA, srcX, trg); }
+void matvec_mult(const Operation& opA, real_t     alpha, const dns::RdMatrix& srcA, const dns::RdVector& srcX, dns::RdVector& trg) { dns_update_with_mv_tmpl(opA, alpha, srcA, srcX, trg); }
+void matvec_mult(const Operation& opA, real4_t    alpha, const dns::RfMatrix& srcA, const dns::RfVector& srcX, dns::RfVector& trg) { dns_update_with_mv_tmpl(opA, alpha, srcA, srcX, trg); }
+void matvec_mult(const Operation& opA, complex_t  alpha, const dns::CdMatrix& srcA, const dns::CdVector& srcX, dns::CdVector& trg) { dns_update_with_mv_tmpl(opA, alpha, srcA, srcX, trg); }
+void matvec_mult(const Operation& opA, complex8_t alpha, const dns::CfMatrix& srcA, const dns::CfVector& srcX, dns::CfVector& trg) { dns_update_with_mv_tmpl(opA, alpha, srcA, srcX, trg); }
+/*-------------------------------------------------*/
+template <typename T, typename Tmat, typename Tvec>
+Tvec dns_mv_tmpl(const Operation& opA, T alpha, const Tmat& srcA, const Tvec& srcX)
+{
+	Tvec ret;
+	ret.createFromMatVec(opA, alpha, srcA, srcX);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+dns::RiVector matvec_mult(const Operation& opA, int_t      alpha, const dns::RiMatrix& srcA, const dns::RiVector& srcX) { return dns_mv_tmpl(opA, alpha, srcA, srcX); }
+dns::RdVector matvec_mult(const Operation& opA, real_t     alpha, const dns::RdMatrix& srcA, const dns::RdVector& srcX) { return dns_mv_tmpl(opA, alpha, srcA, srcX); }
+dns::RfVector matvec_mult(const Operation& opA, real4_t    alpha, const dns::RfMatrix& srcA, const dns::RfVector& srcX) { return dns_mv_tmpl(opA, alpha, srcA, srcX); }
+dns::CdVector matvec_mult(const Operation& opA, complex_t  alpha, const dns::CdMatrix& srcA, const dns::CdVector& srcX) { return dns_mv_tmpl(opA, alpha, srcA, srcX); }
+dns::CfVector matvec_mult(const Operation& opA, complex8_t alpha, const dns::CfMatrix& srcA, const dns::CfVector& srcX) { return dns_mv_tmpl(opA, alpha, srcA, srcX); }
+/*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
 /*-------------------------------------------------*/
+

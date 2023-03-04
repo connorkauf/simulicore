@@ -7,6 +7,7 @@
 
 // cla3p
 #include "../bulk/dns.hpp"
+#include "../bulk/dns_math.hpp"
 #include "../bulk/dns_io.hpp"
 #include "../checks/all_checks.hpp"
 #include "../support/error.hpp"
@@ -494,6 +495,25 @@ void GenericObject<T,Tr>::createFromSum(T alpha, const GenericObject<T,Tr>& A, T
 
 	blankCreator(A.prop(), A.rsize(), A.csize(), A.rsize());
 	bulk::dns::add(prop().uplo(), rsize(), csize(), alpha, A.values(), A.ld(), beta , B.values(), B.ld(), values(), ld());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::updateSelfWithMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X)
+{
+	matvec_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
+
+	bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::createFromMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X)
+{
+	Property prY(prop_t::GENERAL, uplo_t::F);
+	uint_t dimY = (opA.isTranspose() ? A.csize() : A.rsize());
+
+	zeroCreator(prY, dimY, 1, dimY);
+	matvec_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
+	bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

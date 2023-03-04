@@ -225,5 +225,27 @@ void op_similarity_check(const Property& prop1, uint_t nrows1, uint_t ncols1, co
 	}
 }
 /*-------------------------------------------------*/
+void matvec_mult_check(const Operation& opA, 
+		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
+		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
+		const Property& prY, uint_t nrowsY, uint_t ncolsY)
+{
+	if(ncolsX > 1 || ncolsY > 1) {
+		throw NoConsistency("X and Y must be vectors.");
+	}
+
+	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
+		throw NoConsistency(msg::invalid_property());
+	}
+	
+	if(opA.isTranspose() && (nrowsX != ncolsA || nrowsY != nrowsA)) {
+		throw NoConsistency(msg::invalid_dimensions());
+	}
+
+	if(!opA.isTranspose() && (nrowsX != nrowsA || nrowsY != ncolsA)) {
+		throw NoConsistency(msg::invalid_dimensions());
+	}
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

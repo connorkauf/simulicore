@@ -42,6 +42,14 @@ void transp_op_consistency_check(prop_t ptype, bool conjop);
 //
 void op_similarity_check(const Property& prop1, uint_t nrows1, uint_t ncols1, const Property& prop2, uint_t nrows2, uint_t ncols2);
 
+// 
+// Checks for matrix times vector compatibility
+//
+void matvec_mult_check(const Operation& opA, 
+		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
+		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
+		const Property& prY, uint_t nrowsY, uint_t ncolsY);
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
