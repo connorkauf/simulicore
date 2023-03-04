@@ -341,6 +341,19 @@ add_macro(void, complex_t);
 add_macro(void, complex8_t);
 #undef add_macro
 
+//
+// Update: y = beta * y + alpha * op(A) * x
+//
+#define matvec_macro(typeout, typein) \
+typeout matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, typein beta, typein *y)
+matvec_macro(void, int_t);
+matvec_macro(void, uint_t);
+matvec_macro(void, real_t);
+matvec_macro(void, real4_t);
+matvec_macro(void, complex_t);
+matvec_macro(void, complex8_t);
+#undef matvec_macro
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk

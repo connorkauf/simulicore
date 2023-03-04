@@ -79,11 +79,11 @@ axpy_macro(void, complex8_t, c)
 #undef axpy_macro
 /*-------------------------------------------------*/
 #define gemv_macro(typeout, typein, prefix) \
-typeout gemv(const char *trans, int_t m, int_t n, typein alpha, \
+typeout gemv(char trans, int_t m, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy) \
 { \
-	return prefix##gemv(trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	return prefix##gemv(&trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 gemv_macro(void, real_t    , d)
 gemv_macro(void, real4_t   , s)
@@ -92,10 +92,10 @@ gemv_macro(void, complex8_t, c)
 #undef gemv_macro
 /*-------------------------------------------------*/
 #define symv_macro(typeout, typein, prefix) \
-typeout symv(const char *uplo, int_t n, typein alpha, const typein *a, int_t lda, \
+typeout symv(char uplo, int_t n, typein alpha, const typein *a, int_t lda, \
 		const typein *x, int_t incx, typein beta, typein *y, int_t incy) \
 { \
-	return prefix##symv(uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	return prefix##symv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 symv_macro(void, real_t    , d)
 symv_macro(void, real4_t   , s)
@@ -103,12 +103,15 @@ symv_macro(void, complex_t , z)
 symv_macro(void, complex8_t, c)
 #undef symv_macro
 /*-------------------------------------------------*/
+void hemv(char, int_t, real_t , const real_t *, int_t, const real_t *, int_t, real_t , real_t *, int_t) { throw Exception(msg::op_not_allowed()); }
+void hemv(char, int_t, real4_t, const real4_t*, int_t, const real4_t*, int_t, real4_t, real4_t*, int_t) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
 #define hemv_macro(typeout, typein, prefix) \
-typeout hemv(const char *uplo, int_t n, typein alpha, \
+typeout hemv(char uplo, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy) \
 { \
-	return prefix##hemv(uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	return prefix##hemv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 hemv_macro(void, complex_t , z)
 hemv_macro(void, complex8_t, c)

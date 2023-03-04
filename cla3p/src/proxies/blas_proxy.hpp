@@ -54,7 +54,7 @@ axpy_macro(void, complex8_t);
 /*------------------ Level 2 ----------------------*/
 
 #define gemv_macro(typeout, typein) \
-typeout gemv(const char *trans, int_t m, int_t n, typein alpha, \
+typeout gemv(char trans, int_t m, int_t n, typein alpha, \
            const typein *a, int_t lda, const typein *x, int_t incx, \
            typein beta, typein *y, int_t incy)
 gemv_macro(void, real_t);
@@ -64,7 +64,7 @@ gemv_macro(void, complex8_t);
 #undef gemv_macro
 
 #define symv_macro(typeout, typein) \
-typeout symv(const char *uplo, int_t n, typein alpha, const typein *a, int_t lda, \
+typeout symv(char uplo, int_t n, typein alpha, const typein *a, int_t lda, \
            const typein *x, int_t incx, typein beta, typein *y, int_t incy)
 symv_macro(void, real_t);
 symv_macro(void, real4_t);
@@ -73,9 +73,11 @@ symv_macro(void, complex8_t);
 #undef symv_macro
 
 #define hemv_macro(typeout, typein) \
-typeout hemv(const char *uplo, int_t n, typein alpha, \
+typeout hemv(char uplo, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy)
+hemv_macro(void, real_t);
+hemv_macro(void, real4_t);
 hemv_macro(void, complex_t);
 hemv_macro(void, complex8_t);
 #undef hemv_macro
