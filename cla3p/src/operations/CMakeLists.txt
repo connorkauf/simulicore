@@ -3,10 +3,12 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
 	operations/math_ops.cpp
+	operations/operators.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_OPERATIONS_HPP 
 	math_ops.hpp
+	operators.hpp
 	)
 
 #-----------------------------------------------
