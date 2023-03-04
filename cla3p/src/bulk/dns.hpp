@@ -313,47 +313,6 @@ permute_macro(void, complex_t);
 permute_macro(void, complex8_t);
 #undef permute_macro
 
-//
-// Update: C += alpha * A
-//
-#define update_macro(typeout, typein) \
-typeout update(uplo_t uplo, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, typein *c, uint_t ldc)
-update_macro(void, int_t);
-update_macro(void, uint_t);
-update_macro(void, real_t);
-update_macro(void, real4_t);
-update_macro(void, complex_t);
-update_macro(void, complex8_t);
-#undef update_macro
-
-//
-// Update: C = alpha * A + beta * B
-//
-#define add_macro(typeout, typein) \
-typeout add(uplo_t uplo, uint_t m, uint_t n, \
-		typein alpha, const typein *a, uint_t lda, \
-		typein beta , const typein *b, uint_t ldb, typein *c, uint_t ldc)
-add_macro(void, int_t);
-add_macro(void, uint_t);
-add_macro(void, real_t);
-add_macro(void, real4_t);
-add_macro(void, complex_t);
-add_macro(void, complex8_t);
-#undef add_macro
-
-//
-// Update: y = beta * y + alpha * op(A) * x
-//
-#define matvec_macro(typeout, typein) \
-typeout matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, typein beta, typein *y)
-matvec_macro(void, int_t);
-matvec_macro(void, uint_t);
-matvec_macro(void, real_t);
-matvec_macro(void, real4_t);
-matvec_macro(void, complex_t);
-matvec_macro(void, complex8_t);
-#undef matvec_macro
-
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
