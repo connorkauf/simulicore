@@ -117,6 +117,11 @@ class Operation {
 		 */
 		const std::string& name() const;
 
+		/**
+		 * @brief Checks weather the operation is (conjugate) transpose
+		 */
+		bool isTranspose() const;
+
 	private:
 		op_t m_type;
 };
