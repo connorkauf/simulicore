@@ -247,5 +247,25 @@ void matvec_mult_check(const Operation& opA,
 	}
 }
 /*-------------------------------------------------*/
+void gematmat_mult_check(
+		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
+		const Property& prC, uint_t nrowsC, uint_t ncolsC)
+{
+	if(!prA.isGeneral() || !prB.isGeneral() || !prC.isGeneral()) {
+		throw NoConsistency(msg::invalid_property());
+	}
+
+	uint_t m = (opA.isTranspose() ? ncolsA : nrowsA);
+	uint_t n = (opB.isTranspose() ? nrowsB : ncolsB);
+
+	uint_t kA = (opA.isTranspose() ? nrowsA : ncolsA);
+	uint_t kB = (opB.isTranspose() ? ncolsB : nrowsB);
+
+	if(nrowsC != m || ncolsC != n || kA != kB) {
+		throw NoConsistency(msg::invalid_dimensions());
+	}
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

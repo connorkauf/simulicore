@@ -50,6 +50,14 @@ void matvec_mult_check(const Operation& opA,
 		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
 		const Property& prY, uint_t nrowsY, uint_t ncolsY);
 
+// 
+// Checks for matrix times matrix compatibility
+//
+void gematmat_mult_check(
+		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
+		const Property& prC, uint_t nrowsC, uint_t ncolsC);
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

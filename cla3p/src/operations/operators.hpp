@@ -1,5 +1,5 @@
-#ifndef CLA3P_OPERATIONS_HPP_
-#define CLA3P_OPERATIONS_HPP_
+#ifndef CLA3P_OPERATORS_HPP_
+#define CLA3P_OPERATORS_HPP_
 
 #include "../types.hpp"
 #include "../dense.hpp"
@@ -62,4 +62,4 @@ cla3p::dns::CfMatrix operator*(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfM
 
 /*-------------------------------------------------*/
 
-#endif // CLA3P_OPERATIONS_HPP_
+#endif // CLA3P_OPERATORS_HPP_

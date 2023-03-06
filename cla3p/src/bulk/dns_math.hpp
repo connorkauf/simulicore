@@ -50,6 +50,22 @@ matvec_macro(void, complex_t);
 matvec_macro(void, complex8_t);
 #undef matvec_macro
 
+//
+// Update: C = beta * C + alpha * opA(A) * opB(B)
+//
+#define gematmat_macro(typeout, typein) \
+typeout gematmat(uint_t m, uint_t n, uint_t k, typein alpha, \
+		op_t opA, const typein *a, uint_t lda, \
+		op_t opB, const typein *b, uint_t ldb, \
+		typein beta, typein *c, uint_t ldc)
+gematmat_macro(void, int_t);
+gematmat_macro(void, uint_t);
+gematmat_macro(void, real_t);
+gematmat_macro(void, real4_t);
+gematmat_macro(void, complex_t);
+gematmat_macro(void, complex8_t);
+#undef gematmat_macro
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk

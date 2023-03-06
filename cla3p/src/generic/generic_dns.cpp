@@ -506,12 +506,15 @@ void GenericObject<T,Tr>::updateSelfWithMatVec(T alpha, const Operation& opA, co
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-//void GenericObject<T,Tr>::updateSelfWithGeMatMat(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const Operation& opB, const GenericObject<T,Tr>& B)
-void GenericObject<T,Tr>::updateSelfWithGeMatMat(T, const Operation&, const GenericObject<T,Tr>&, const Operation&, const GenericObject<T,Tr>&)
+void GenericObject<T,Tr>::updateSelfWithGeMatMat(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const Operation& opB, const GenericObject<T,Tr>& B)
 {
-	//ge_matmat_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
-	//
-	//bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+	gematmat_mult_check(
+			A.prop(), A.rsize(), A.csize(), opA,
+			B.prop(), B.rsize(), B.csize(), opB,
+			prop(), rsize(), csize());
+
+	uint_t k = (opA.isTranspose() ? A.rsize() : A.csize());
+	bulk::dns::gematmat(rsize(), csize(), k, alpha, opA.type(), A.values(), A.ld(), opB.type(), B.values(), B.ld(), 1, values(), ld());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
