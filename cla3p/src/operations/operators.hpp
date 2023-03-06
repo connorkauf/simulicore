@@ -52,6 +52,12 @@ cla3p::dns::RdVector operator*(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdV
 cla3p::dns::RfVector operator*(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfVector& srcX);
 cla3p::dns::CdVector operator*(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdVector& srcX);
 cla3p::dns::CfVector operator*(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfVector& srcX);
+
+cla3p::dns::RiMatrix operator*(cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB);
+cla3p::dns::RdMatrix operator*(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB);
+cla3p::dns::RfMatrix operator*(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB);
+cla3p::dns::CdMatrix operator*(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB);
+cla3p::dns::CfMatrix operator*(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB);
 /** @} */
 
 /*-------------------------------------------------*/

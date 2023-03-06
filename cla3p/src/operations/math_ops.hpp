@@ -95,40 +95,84 @@ dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, 
  *
  * Performs the operation trg += alpha * opA(srcA) * srcX.
  *
- * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
  * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
  * @param[in] srcA The input matrix.
  * @param[in] srcX The input vector.
  * @param[in,out] trg The vector to be updated.
  *
  * @{
  */
-void mult(const Operation& opA, int_t      alpha, const dns::RiMatrix& srcA, const dns::RiVector& srcX, dns::RiVector& trg);
-void mult(const Operation& opA, real_t     alpha, const dns::RdMatrix& srcA, const dns::RdVector& srcX, dns::RdVector& trg);
-void mult(const Operation& opA, real4_t    alpha, const dns::RfMatrix& srcA, const dns::RfVector& srcX, dns::RfVector& trg);
-void mult(const Operation& opA, complex_t  alpha, const dns::CdMatrix& srcA, const dns::CdVector& srcX, dns::CdVector& trg);
-void mult(const Operation& opA, complex8_t alpha, const dns::CfMatrix& srcA, const dns::CfVector& srcX, dns::CfVector& trg);
+void mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const dns::RiVector& srcX, dns::RiVector& trg);
+void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const dns::RdVector& srcX, dns::RdVector& trg);
+void mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const dns::RfVector& srcX, dns::RfVector& trg);
+void mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const dns::CdVector& srcX, dns::CdVector& trg);
+void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const dns::CfVector& srcX, dns::CfVector& trg);
 /** @} */
 
 /**
  * @ingroup math_matvec_group
- * @brief Creates a vector with a matrix vector product.
+ * @brief Creates a vector from a matrix vector product.
  *
  * Performs the operation trg = alpha * opA(srcA) * srcX.
  *
- * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
  * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
  * @param[in] srcA The input matrix.
  * @param[in] srcX The input vector.
  * @return The resulting vector.
  *
  * @{
  */
-dns::RiVector mult(const Operation& opA, int_t      alpha, const dns::RiMatrix& srcA, const dns::RiVector& srcX);
-dns::RdVector mult(const Operation& opA, real_t     alpha, const dns::RdMatrix& srcA, const dns::RdVector& srcX);
-dns::RfVector mult(const Operation& opA, real4_t    alpha, const dns::RfMatrix& srcA, const dns::RfVector& srcX);
-dns::CdVector mult(const Operation& opA, complex_t  alpha, const dns::CdMatrix& srcA, const dns::CdVector& srcX);
-dns::CfVector mult(const Operation& opA, complex8_t alpha, const dns::CfMatrix& srcA, const dns::CfVector& srcX);
+dns::RiVector mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const dns::RiVector& srcX);
+dns::RdVector mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const dns::RdVector& srcX);
+dns::RfVector mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const dns::RfVector& srcX);
+dns::CdVector mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const dns::CdVector& srcX);
+dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const dns::CfVector& srcX);
+/** @} */
+
+/**
+ * @ingroup math_ge_matmat_group
+ * @brief Updates a general matrix with a general matrix matrix product.
+ *
+ * Performs the operation trg += alpha * opA(srcA) * opB(srcB).
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix srcA.
+ * @param[in] srcA The input general matrix.
+ * @param[in] opB The operation to be performed for matrix srcB.
+ * @param[in] srcB The input general matrix.
+ * @param[in,out] trg The matrix to be updated.
+ *
+ * @{
+ */
+void mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB, dns::RiMatrix& trg);
+void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB, dns::RdMatrix& trg);
+void mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB, dns::RfMatrix& trg);
+void mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB, dns::CdMatrix& trg);
+void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const Operation& opB, const dns::CfMatrix& srcB, dns::CfMatrix& trg);
+/** @} */
+
+/**
+ * @ingroup math_ge_matmat_group
+ * @brief Creates a general matrix from a general matrix matrix product.
+ *
+ * Performs the operation trg = alpha * opA(srcA) * opB(srcB).
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix srcA.
+ * @param[in] srcA The input general matrix.
+ * @param[in] opB The operation to be performed for matrix srcB.
+ * @param[in] srcB The input general matrix.
+ * @return The resulting matrix.
+ *
+ * @{
+ */
+dns::RiMatrix mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB);
+dns::RdMatrix mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB);
+dns::RfMatrix mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB);
+dns::CdMatrix mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB);
+dns::CfMatrix mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const Operation& opB, const dns::CfMatrix& srcB);
 /** @} */
 
 /*-------------------------------------------------*/

@@ -47,6 +47,9 @@
  *
  * @defgroup math_matvec_group Matrix Vector product
  * @ingroup math_operations_group
+ *
+ * @defgroup math_ge_matmat_group General Matrix Matrix product
+ * @ingroup math_operations_group
  */
 
 /**

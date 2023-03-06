@@ -498,7 +498,7 @@ void GenericObject<T,Tr>::createFromSum(T alpha, const GenericObject<T,Tr>& A, T
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::updateSelfWithMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X)
+void GenericObject<T,Tr>::updateSelfWithMatVec(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X)
 {
 	matvec_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
 
@@ -506,14 +506,12 @@ void GenericObject<T,Tr>::updateSelfWithMatVec(const Operation& opA, T alpha, co
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::createFromMatVec(const Operation& opA, T alpha, const GenericObject<T,Tr>& A, const GenericObject<T,Tr>& X)
+//void GenericObject<T,Tr>::updateSelfWithGeMatMat(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const Operation& opB, const GenericObject<T,Tr>& B)
+void GenericObject<T,Tr>::updateSelfWithGeMatMat(T, const Operation&, const GenericObject<T,Tr>&, const Operation&, const GenericObject<T,Tr>&)
 {
-	Property prY(prop_t::GENERAL, uplo_t::F);
-	uint_t dimY = (opA.isTranspose() ? A.csize() : A.rsize());
-
-	zeroCreator(prY, dimY, 1, dimY);
-	matvec_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
-	bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+	//ge_matmat_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
+	//
+	//bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
