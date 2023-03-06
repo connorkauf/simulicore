@@ -117,6 +117,71 @@ hemv_macro(void, complex_t , z)
 hemv_macro(void, complex8_t, c)
 #undef hemv_macro
 /*-------------------------------------------------*/
+#define trmv_macro(typeout, typein, prefix) \
+typeout trmv(char uplo, char transa, char diag, int_t n, \
+		const typein *a, int_t lda, typein *b, int_t incx) \
+{ \
+	return prefix##trmv(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
+}
+trmv_macro(void, real_t    , d)
+trmv_macro(void, real4_t   , s)
+trmv_macro(void, complex_t , z)
+trmv_macro(void, complex8_t, c)
+#undef trmv_macro
+/*-------------------------------------------------*/
+#define gemm_macro(typeout, typein, prefix) \
+typeout gemm(char transa, char transb, int_t m, int_t n, int_t k, \
+		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+		typein beta, typein *c, int_t ldc) \
+{ \
+	return prefix##gemm(&transa, &transb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+}
+gemm_macro(void, real_t    , d)
+gemm_macro(void, real4_t   , s)
+gemm_macro(void, complex_t , z)
+gemm_macro(void, complex8_t, c)
+#undef gemm_macro
+/*-------------------------------------------------*/
+#define symm_macro(typeout, typein, prefix) \
+typeout symm(char side, char uplo, int_t m, int_t n, \
+		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+		typein beta, typein *c, int_t ldc) \
+{ \
+	return prefix##symm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+}
+symm_macro(void, real_t    , d)
+symm_macro(void, real4_t   , s)
+symm_macro(void, complex_t , z)
+symm_macro(void, complex8_t, c)
+#undef symm_macro
+/*-------------------------------------------------*/
+void hemm(char, char, int_t, int_t, real_t , const real_t *, int_t, const real_t *, int_t, real_t , real_t *, int_t) { throw Exception(msg::op_not_allowed()); }
+void hemm(char, char, int_t, int_t, real4_t, const real4_t*, int_t, const real4_t*, int_t, real4_t, real4_t*, int_t) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+#define hemm_macro(typeout, typein, prefix) \
+typeout hemm(char side, char uplo, int_t m, int_t n, \
+		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+		typein beta, typein *c, int_t ldc) \
+{ \
+	return prefix##hemm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+}
+hemm_macro(void, complex_t , z)
+hemm_macro(void, complex8_t, c)
+#undef hemm_macro
+/*-------------------------------------------------*/
+#define trmm_macro(typeout, typein, prefix) \
+typeout trmm(char side, char uplo, char transa, char diag, \
+		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+		typein *b, int_t ldb) \
+{ \
+	return prefix##trmm(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
+}
+trmm_macro(void, real_t    , d)
+trmm_macro(void, real4_t   , s)
+trmm_macro(void, complex_t , z)
+trmm_macro(void, complex8_t, c)
+#undef trmm_macro
+/*-------------------------------------------------*/
 } // namespace blas
 } // namespace cla3p
 /*-------------------------------------------------*/
