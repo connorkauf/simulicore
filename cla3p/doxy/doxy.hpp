@@ -40,6 +40,26 @@
  */
 
 /**
+ * @defgroup math_operations_group Math operations
+ *
+ * @defgroup math_addition_group Addition
+ * @ingroup math_operations_group
+ *
+ * @defgroup math_matvec_group Matrix Vector product
+ * @ingroup math_operations_group
+ */
+
+/**
+ * @defgroup math_operators_group Math operators
+ *
+ * @defgroup op_addition_group Addition
+ * @ingroup math_operators_group
+ *
+ * @defgroup op_multiplication_group Multiplication
+ * @ingroup math_operators_group
+ */
+
+/**
  * @defgroup stream_operator_group Stream operators
  */
 
