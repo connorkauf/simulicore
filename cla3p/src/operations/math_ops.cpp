@@ -76,25 +76,25 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
 template <typename T, typename Tmat>
 static void dns_update_with_gemm_tmpl(T alpha, const Operation& opA, const Tmat& srcA, const Operation& opB, const Tmat& srcB, Tmat& trg)
 {
-	trg.updateSelfWithGeMatMat(alpha, opA, srcA, opB, srcB);
+	trg.updateSelfWithMatMat(alpha, opA, srcA, opB, srcB);
 }
 /*-------------------------------------------------*/
-void mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB, dns::RiMatrix& trg)
+void mult(int_t alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB, dns::RiMatrix& trg)
 {
 	dns_update_with_gemm_tmpl(alpha, opA, srcA, opB, srcB, trg);
 }
 /*-------------------------------------------------*/
-void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB, dns::RdMatrix& trg)
+void mult(real_t alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB, dns::RdMatrix& trg)
 {
 	dns_update_with_gemm_tmpl(alpha, opA, srcA, opB, srcB, trg);
 }
 /*-------------------------------------------------*/
-void mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB, dns::RfMatrix& trg)
+void mult(real4_t alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB, dns::RfMatrix& trg)
 {
 	dns_update_with_gemm_tmpl(alpha, opA, srcA, opB, srcB, trg);
 }
 /*-------------------------------------------------*/
-void mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB, dns::CdMatrix& trg)
+void mult(complex_t alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB, dns::CdMatrix& trg)
 {
 	dns_update_with_gemm_tmpl(alpha, opA, srcA, opB, srcB, trg);
 }
@@ -112,22 +112,22 @@ static Tmat dns_gemm_tmpl(T alpha, const Operation& opA, const Tmat& srcA, const
 	return ret.move();
 }
 /*-------------------------------------------------*/
-dns::RiMatrix mult(int_t      alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB)
+dns::RiMatrix mult(int_t alpha, const Operation& opA, const dns::RiMatrix& srcA, const Operation& opB, const dns::RiMatrix& srcB)
 {
 	return dns_gemm_tmpl(alpha, opA, srcA, opB, srcB);
 }
 /*-------------------------------------------------*/
-dns::RdMatrix mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB)
+dns::RdMatrix mult(real_t alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB)
 {
 	return dns_gemm_tmpl(alpha, opA, srcA, opB, srcB);
 }
 /*-------------------------------------------------*/
-dns::RfMatrix mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB)
+dns::RfMatrix mult(real4_t alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB)
 {
 	return dns_gemm_tmpl(alpha, opA, srcA, opB, srcB);
 }
 /*-------------------------------------------------*/
-dns::CdMatrix mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB)
+dns::CdMatrix mult(complex_t alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB)
 {
 	return dns_gemm_tmpl(alpha, opA, srcA, opB, srcB);
 }

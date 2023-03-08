@@ -502,19 +502,59 @@ void GenericObject<T,Tr>::updateSelfWithMatVec(T alpha, const Operation& opA, co
 {
 	matvec_mult_check(opA, A.prop(), A.rsize(), A.csize(), X.prop(), X.rsize(), X.csize(), prop(), rsize(), csize());
 
-	bulk::dns::matvec(prop().type(), prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+	if(A.prop().isGeneral()) {
+
+		bulk::dns::gem_x_vec(opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+
+	} else if(A.prop().isSymmetric()) {
+
+		bulk::dns::sym_x_vec(A.prop().uplo(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+
+	} else if(A.prop().isHermitian()) {
+
+		bulk::dns::hem_x_vec(A.prop().uplo(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
+
+	} else {
+
+		throw Exception();
+
+	} // property 
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
-void GenericObject<T,Tr>::updateSelfWithGeMatMat(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const Operation& opB, const GenericObject<T,Tr>& B)
+void GenericObject<T,Tr>::updateSelfWithMatMat(T alpha, const Operation& opA, const GenericObject<T,Tr>& A, const Operation& opB, const GenericObject<T,Tr>& B)
 {
-	gematmat_mult_check(
+	mat_x_mat_mult_check(
 			A.prop(), A.rsize(), A.csize(), opA,
 			B.prop(), B.rsize(), B.csize(), opB,
 			prop(), rsize(), csize());
 
-	uint_t k = (opA.isTranspose() ? A.rsize() : A.csize());
-	bulk::dns::gematmat(rsize(), csize(), k, alpha, opA.type(), A.values(), A.ld(), opB.type(), B.values(), B.ld(), 1, values(), ld());
+	if(A.prop().isGeneral() && B.prop().isGeneral()) {
+
+		uint_t k = (opA.isTranspose() ? A.rsize() : A.csize());
+		bulk::dns::gem_x_gem(rsize(), csize(), k, alpha, opA.type(), A.values(), A.ld(), opB.type(), B.values(), B.ld(), 1, values(), ld());
+
+	} else if(A.prop().isSymmetric() && B.prop().isGeneral()) {
+
+		bulk::dns::sym_x_gem(A.prop().uplo(), rsize(), csize(), alpha, A.values(), A.ld(), B.values(), B.ld(), 1, values(), ld());
+
+	} else if(A.prop().isHermitian() && B.prop().isGeneral()) {
+
+		bulk::dns::hem_x_gem(A.prop().uplo(), rsize(), csize(), alpha, A.values(), A.ld(), B.values(), B.ld(), 1, values(), ld());
+
+	} else if(A.prop().isGeneral() && B.prop().isSymmetric()) {
+
+		bulk::dns::gem_x_sym(B.prop().uplo(), rsize(), csize(), alpha, B.values(), B.ld(), A.values(), A.ld(), 1, values(), ld());
+
+	} else if(A.prop().isGeneral() && B.prop().isHermitian()) {
+
+		bulk::dns::gem_x_hem(B.prop().uplo(), rsize(), csize(), alpha, B.values(), B.ld(), A.values(), A.ld(), 1, values(), ld());
+
+	} else {
+
+		throw Exception();
+
+	} // property combos
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

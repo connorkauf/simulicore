@@ -225,46 +225,85 @@ void op_similarity_check(const Property& prop1, uint_t nrows1, uint_t ncols1, co
 	}
 }
 /*-------------------------------------------------*/
+static void mult_dim_check(
+		uint_t nrowsA, uint_t ncolsA, bool syheA, const Operation& opA, 
+		uint_t nrowsB, uint_t ncolsB, bool syheB, const Operation& opB, 
+		uint_t nrowsC, uint_t ncolsC)
+{
+	uint_t m = (syheA ? nrowsA : (opA.isTranspose() ? ncolsA : nrowsA));
+	uint_t n = (syheB ? ncolsB : (opB.isTranspose() ? nrowsB : ncolsB));
+
+	uint_t kA = (syheA ? ncolsA : (opA.isTranspose() ? nrowsA : ncolsA));
+	uint_t kB = (syheB ? nrowsB : (opB.isTranspose() ? ncolsB : nrowsB));
+
+	if(nrowsC != m || ncolsC != n || kA != kB) {
+		throw NoConsistency(msg::invalid_dimensions());
+	}
+}
+/*-------------------------------------------------*/
 void matvec_mult_check(const Operation& opA, 
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
 		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
 		const Property& prY, uint_t nrowsY, uint_t ncolsY)
 {
+	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
+		throw NoConsistency(msg::invalid_property());
+	}
+
+	bool syheA = (prA.isSymmetric() || prA.isHermitian());
+
 	if(ncolsX > 1 || ncolsY > 1) {
 		throw NoConsistency("X and Y must be vectors.");
 	}
 
-	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
-		throw NoConsistency(msg::invalid_property());
-	}
-	
-	if(opA.isTranspose() && (nrowsX != ncolsA || nrowsY != nrowsA)) {
-		throw NoConsistency(msg::invalid_dimensions());
-	}
-
-	if(!opA.isTranspose() && (nrowsX != nrowsA || nrowsY != ncolsA)) {
-		throw NoConsistency(msg::invalid_dimensions());
-	}
+	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsX, ncolsX, false, Operation(op_t::N), nrowsY, ncolsY);
 }
 /*-------------------------------------------------*/
-void gematmat_mult_check(
+void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		const Property& prC, uint_t nrowsC, uint_t ncolsC)
 {
-	if(!prA.isGeneral() || !prB.isGeneral() || !prC.isGeneral()) {
+	if(!prA.isValid() || !prB.isValid() || !prC.isValid()) {
 		throw NoConsistency(msg::invalid_property());
 	}
 
-	uint_t m = (opA.isTranspose() ? ncolsA : nrowsA);
-	uint_t n = (opB.isTranspose() ? nrowsB : ncolsB);
+	bool syheA = (prA.isSymmetric() || prA.isHermitian());
+	bool syheB = (prB.isSymmetric() || prB.isHermitian());
 
-	uint_t kA = (opA.isTranspose() ? nrowsA : ncolsA);
-	uint_t kB = (opB.isTranspose() ? ncolsB : nrowsB);
+	//
+	// Check dimensions
+	//
 
-	if(nrowsC != m || ncolsC != n || kA != kB) {
-		throw NoConsistency(msg::invalid_dimensions());
+	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsB, ncolsB, syheB, opB, nrowsC, ncolsC);
+
+	//
+	// Check property-operation combos
+	//
+
+	if(!prC.isGeneral()){
+		throw NoConsistency(msg::invalid_property());
 	}
+
+	if(prA.isGeneral() && prB.isGeneral()) return;
+
+	if(syheA && prB.isGeneral()) {
+		if(opB.isTranspose()) {
+			throw NoConsistency(msg::op_not_allowed());
+		} else {
+			return;
+		}
+	}
+
+	if(syheB && prA.isGeneral()) {
+		if(opA.isTranspose()) {
+			throw NoConsistency(msg::op_not_allowed());
+		} else {
+			return;
+		}
+	}
+
+	throw NoConsistency(msg::invalid_property());
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

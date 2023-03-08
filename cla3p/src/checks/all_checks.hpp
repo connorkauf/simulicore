@@ -53,7 +53,7 @@ void matvec_mult_check(const Operation& opA,
 // 
 // Checks for matrix times matrix compatibility
 //
-void gematmat_mult_check(
+void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		const Property& prC, uint_t nrowsC, uint_t ncolsC);

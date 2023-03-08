@@ -103,9 +103,6 @@ symv_macro(void, complex_t , z)
 symv_macro(void, complex8_t, c)
 #undef symv_macro
 /*-------------------------------------------------*/
-void hemv(char, int_t, real_t , const real_t *, int_t, const real_t *, int_t, real_t , real_t *, int_t) { throw Exception(msg::op_not_allowed()); }
-void hemv(char, int_t, real4_t, const real4_t*, int_t, const real4_t*, int_t, real4_t, real4_t*, int_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
 #define hemv_macro(typeout, typein, prefix) \
 typeout hemv(char uplo, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
@@ -154,9 +151,6 @@ symm_macro(void, real4_t   , s)
 symm_macro(void, complex_t , z)
 symm_macro(void, complex8_t, c)
 #undef symm_macro
-/*-------------------------------------------------*/
-void hemm(char, char, int_t, int_t, real_t , const real_t *, int_t, const real_t *, int_t, real_t , real_t *, int_t) { throw Exception(msg::op_not_allowed()); }
-void hemm(char, char, int_t, int_t, real4_t, const real4_t*, int_t, const real4_t*, int_t, real4_t, real4_t*, int_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
 #define hemm_macro(typeout, typein, prefix) \
 typeout hemm(char side, char uplo, int_t m, int_t n, \

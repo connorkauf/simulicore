@@ -8,6 +8,7 @@
 // cla3p
 #include "../checks/all_checks.hpp"
 #include "../support/error.hpp"
+#include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../proxies/blas_proxy.hpp"
 #include "../proxies/mkl_proxy.hpp"
@@ -126,14 +127,8 @@ void add(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a,
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-static void naive_matvec_tmpl(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+static void naive_gem_x_vec_tmpl(op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
-	Property prop(ptype, uplo);
-
-	if(prop.isSquare()) {
-		square_check(m, n);
-	}
-
 	T bzero = 0;
 
 	uint_t dimy = (opA == op_t::N ? m : n);
@@ -150,88 +145,173 @@ static void naive_matvec_tmpl(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uin
 	// 
 	// do the math
 	//
-	if(prop.isGeneral()) {
-		for(uint_t j = 0; j < n; j++) {
-			for(uint_t i = 0; i < m; i++) {
-				T aij = entry(lda,a,i,j);
-				if(opA == op_t::N) y[i] += alpha *      aij  * x[j];
-				if(opA == op_t::T) y[j] += alpha *      aij  * x[i];
-				if(opA == op_t::C) y[j] += alpha * conj(aij) * x[i];
-			} // i
-		} // j
-	} else if(prop.isSymmetric()) {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-				T aij = entry(lda,a,i,j);
-				y[i] += alpha * aij * x[j];
-				if(i != j) y[j] += alpha * aij * x[i];
-			} // i
-		} // j
-	} else if(prop.isHermitian()) {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-				T aij = entry(lda,a,i,j);
-				if(i != j) y[j] += alpha * conj(aij) * x[i];
-			} // i
-		} // j
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			T aij = entry(lda,a,i,j);
+			if(opA == op_t::N) y[i] += alpha *      aij  * x[j];
+			if(opA == op_t::T) y[j] += alpha *      aij  * x[i];
+			if(opA == op_t::C) y[j] += alpha * conj(aij) * x[i];
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void gem_x_vec_tmpl(op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+{
+	return blas::gemv(static_cast<char>(opA), m, n, alpha, a, lda, x, 1, beta, y, 1);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *x, int_t beta, int_t *y)
+{
+	naive_gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, const uint_t *x, uint_t beta, uint_t *y)
+{
+	naive_gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, const real_t *x, real_t beta, real_t *y)
+{
+	gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, const real4_t *x, real4_t beta, real4_t *y)
+{
+	gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *x, complex_t beta, complex_t *y)
+{
+	gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void gem_x_vec(op_t opA, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *x, complex8_t beta, complex8_t *y)
+{
+	gem_x_vec_tmpl(opA, m, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_sym_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+{
+	T bzero = 0;
+
+	// 
+	// scale y
+	//
+	if(beta == bzero) {
+		zero(uplo_t::F, n, 1, y, n);
 	} else {
-		throw Exception("Invalid property: " + prop.name());
-	}
+		scale(uplo_t::F, n, 1, y, n, beta);
+	} // beta
+
+	// 
+	// do the math
+	//
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			T aij = entry(lda,a,i,j);
+			y[i] += alpha * aij * x[j];
+			if(i != j) y[j] += alpha * aij * x[i];
+		} // i
+	} // j
 }
 /*-------------------------------------------------*/
 template <typename T>
-static void matvec_tmpl(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+static void sym_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
-	Property prop(ptype, uplo);
-	Operation op(opA);
+	return blas::symv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *x, int_t beta, int_t *y)
+{
+	naive_sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, const uint_t *x, uint_t beta, uint_t *y)
+{
+	naive_sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, real_t alpha, const real_t *a, uint_t lda, const real_t *x, real_t beta, real_t *y)
+{
+	sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, const real4_t *x, real4_t beta, real4_t *y)
+{
+	sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *x, complex_t beta, complex_t *y)
+{
+	sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+void sym_x_vec(uplo_t uplo, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *x, complex8_t beta, complex8_t *y)
+{
+	sym_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+#if 0
+template <typename T>
+static void naive_hem_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+{
+	T bzero = 0;
 
-	if(prop.isSquare()) {
-		square_check(m, n);
-	}
+	// 
+	// scale y
+	//
+	if(beta == bzero) {
+		zero(uplo_t::F, n, 1, y, n);
+	} else {
+		scale(uplo_t::F, n, 1, y, n, beta);
+	} // beta
 
-	/**/ if(prop.isGeneral()  ) return blas::gemv(op.ctype(), m, n, alpha, a, lda, x, 1, beta, y, 1);
-	else if(prop.isSymmetric()) return blas::symv(prop.cuplo(), n, alpha, a, lda, x, 1, beta, y, 1);
-	else if(prop.isHermitian()) return blas::hemv(prop.cuplo(), n, alpha, a, lda, x, 1, beta, y, 1);
-	
-	throw Exception("Invalid property: " + prop.name());
+	// 
+	// do the math
+	//
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			T aij = entry(lda,a,i,j);
+			y[i] += alpha * aij * x[j];
+			if(i != j) y[j] += alpha * conj(aij) * x[i];
+		} // i
+	} // j
+}
+#endif
+/*-------------------------------------------------*/
+template <typename T>
+static void hem_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
+{
+	return blas::hemv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
 }
 /*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *x, int_t beta, int_t *y)
+void hem_x_vec(uplo_t, uint_t, int_t  , const int_t*  , uint_t, const int_t*  , int_t  , int_t*  ) { throw Exception(msg::op_not_allowed()); }
+void hem_x_vec(uplo_t, uint_t, uint_t , const uint_t* , uint_t, const uint_t* , uint_t , uint_t* ) { throw Exception(msg::op_not_allowed()); }
+void hem_x_vec(uplo_t, uint_t, real_t , const real_t* , uint_t, const real_t* , real_t , real_t* ) { throw Exception(msg::op_not_allowed()); }
+void hem_x_vec(uplo_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, real4_t, real4_t*) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void hem_x_vec(uplo_t uplo, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *x, complex_t beta, complex_t *y)
 {
-	naive_matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
+	hem_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
 }
 /*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, const uint_t *x, uint_t beta, uint_t *y)
+void hem_x_vec(uplo_t uplo, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *x, complex8_t beta, complex8_t *y)
 {
-	naive_matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
-}
-/*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, const real_t *x, real_t beta, real_t *y)
-{
-	matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
-}
-/*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, const real4_t *x, real4_t beta, real4_t *y)
-{
-	matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
-}
-/*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *x, complex_t beta, complex_t *y)
-{
-	matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
-}
-/*-------------------------------------------------*/
-void matvec(prop_t ptype, uplo_t uplo, op_t opA, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *x, complex8_t beta, complex8_t *y)
-{
-	matvec_tmpl(ptype, uplo, opA, m, n, alpha, a, lda, x, beta, y);
+	hem_x_vec_tmpl(uplo, n, alpha, a, lda, x, beta, y);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-static void naive_gematmat_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA, const T *a, uint_t lda, op_t opB, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+static void naive_gem_x_gem_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA, const T *a, uint_t lda, op_t opB, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
 {
 	T bzero = 0;
 
@@ -265,39 +345,177 @@ static void naive_gematmat_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA,
 }
 /*-------------------------------------------------*/
 template <typename T>
-static void gematmat_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA, const T *a, uint_t lda, op_t opB, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+static void gem_x_gem_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA, const T *a, uint_t lda, op_t opB, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
 {
 	blas::gemm(static_cast<char>(opA), static_cast<char>(opB), m, n, k, alpha, a, lda, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, int_t alpha, op_t opA, const int_t *a, uint_t lda, op_t opB, const int_t *b, uint_t ldb, int_t beta, int_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, int_t alpha, op_t opA, const int_t *a, uint_t lda, op_t opB, const int_t *b, uint_t ldb, int_t beta, int_t *c, uint_t ldc)
 {
-	naive_gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	naive_gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, uint_t alpha, op_t opA, const uint_t *a, uint_t lda, op_t opB, const uint_t *b, uint_t ldb, uint_t beta, uint_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, uint_t alpha, op_t opA, const uint_t *a, uint_t lda, op_t opB, const uint_t *b, uint_t ldb, uint_t beta, uint_t *c, uint_t ldc)
 {
-	naive_gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	naive_gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, real_t alpha, op_t opA, const real_t *a, uint_t lda, op_t opB, const real_t *b, uint_t ldb, real_t beta, real_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, real_t alpha, op_t opA, const real_t *a, uint_t lda, op_t opB, const real_t *b, uint_t ldb, real_t beta, real_t *c, uint_t ldc)
 {
-	gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, real4_t alpha, op_t opA, const real4_t *a, uint_t lda, op_t opB, const real4_t *b, uint_t ldb, real4_t beta, real4_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, real4_t alpha, op_t opA, const real4_t *a, uint_t lda, op_t opB, const real4_t *b, uint_t ldb, real4_t beta, real4_t *c, uint_t ldc)
 {
-	gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, complex_t alpha, op_t opA, const complex_t *a, uint_t lda, op_t opB, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, complex_t alpha, op_t opA, const complex_t *a, uint_t lda, op_t opB, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
 {
-	gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gematmat(uint_t m, uint_t n, uint_t k, complex8_t alpha, op_t opA, const complex8_t *a, uint_t lda, op_t opB, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, complex8_t alpha, op_t opA, const complex8_t *a, uint_t lda, op_t opB, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
 {
-	gematmat_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+	gem_x_gem_tmpl(m, n, k, alpha, opA, a, lda, opB, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_sym_x_gem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	for(uint_t j = 0; j < n; j++) {
+		sym_x_vec(uplo, m, alpha, a, lda, ptrmv(ldb,b,0,j), beta, ptrmv(ldc,c,0,j));
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void sym_x_gem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	blas::symm('L', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *b, uint_t ldb, int_t beta, int_t *c, uint_t ldc)
+{
+	naive_sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, const uint_t *b, uint_t ldb, uint_t beta, uint_t *c, uint_t ldc)
+{
+	naive_sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, const real_t *b, uint_t ldb, real_t beta, real_t *c, uint_t ldc)
+{
+	sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, const real4_t *b, uint_t ldb, real4_t beta, real4_t *c, uint_t ldc)
+{
+	sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
+{
+	sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
+{
+	sym_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void naive_gem_x_sym_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	for(uint_t j = 0; j < n; j++) {
+		hem_x_vec(uplo, m, alpha, a, lda, ptrmv(ldb,b,0,j), beta, ptrmv(ldc,c,0,j));
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T>
+static void gem_x_sym_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	blas::symm('R', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *b, uint_t ldb, int_t beta, int_t *c, uint_t ldc)
+{
+	naive_gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, uint_t alpha, const uint_t *a, uint_t lda, const uint_t *b, uint_t ldb, uint_t beta, uint_t *c, uint_t ldc)
+{
+	naive_gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, real_t alpha, const real_t *a, uint_t lda, const real_t *b, uint_t ldb, real_t beta, real_t *c, uint_t ldc)
+{
+	gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, real4_t alpha, const real4_t *a, uint_t lda, const real4_t *b, uint_t ldb, real4_t beta, real4_t *c, uint_t ldc)
+{
+	gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
+{
+	gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
+{
+	gem_x_sym_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void hem_x_gem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	blas::hemm('L', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void hem_x_gem(uplo_t, uint_t, uint_t, int_t  , const int_t*  , uint_t, const int_t*  , uint_t, int_t  , int_t*  , uint_t) { throw Exception(msg::op_not_allowed()); }
+void hem_x_gem(uplo_t, uint_t, uint_t, uint_t , const uint_t* , uint_t, const uint_t* , uint_t, uint_t , uint_t* , uint_t) { throw Exception(msg::op_not_allowed()); }
+void hem_x_gem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw Exception(msg::op_not_allowed()); }
+void hem_x_gem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
+{
+	hem_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
+{
+	hem_x_gem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void gem_x_hem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
+{
+	blas::hemm('R', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_hem(uplo_t, uint_t, uint_t, int_t  , const int_t*  , uint_t, const int_t*  , uint_t, int_t  , int_t*  , uint_t) { throw Exception(msg::op_not_allowed()); }
+void gem_x_hem(uplo_t, uint_t, uint_t, uint_t , const uint_t* , uint_t, const uint_t* , uint_t, uint_t , uint_t* , uint_t) { throw Exception(msg::op_not_allowed()); }
+void gem_x_hem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw Exception(msg::op_not_allowed()); }
+void gem_x_hem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+/*-------------------------------------------------*/
+void gem_x_hem(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
+{
+	gem_x_hem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+void gem_x_hem(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t *a, uint_t lda, const complex8_t *b, uint_t ldb, complex8_t beta, complex8_t *c, uint_t ldc)
+{
+	gem_x_hem_tmpl(uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
 } // namespace dns

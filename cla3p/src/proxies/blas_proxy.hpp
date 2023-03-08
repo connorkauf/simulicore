@@ -9,6 +9,7 @@ namespace blas {
 /*-------------------------------------------------*/
 
 /*------------------ Level 1 ----------------------*/
+
 #define copy_macro(typeout, typein) \
 typeout copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy)
 copy_macro(void, real_t);
@@ -76,8 +77,6 @@ symv_macro(void, complex8_t);
 typeout hemv(char uplo, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy)
-hemv_macro(void, real_t); // exception
-hemv_macro(void, real4_t); // exception
 hemv_macro(void, complex_t);
 hemv_macro(void, complex8_t);
 #undef hemv_macro
@@ -117,8 +116,6 @@ symm_macro(void, complex8_t);
 typeout hemm(char side, char uplo, int_t m, int_t n, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
 		typein beta, typein *c, int_t ldc)
-hemm_macro(void, real_t); // exception
-hemm_macro(void, real4_t); // exception
 hemm_macro(void, complex_t);
 hemm_macro(void, complex8_t);
 #undef hemm_macro

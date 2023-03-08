@@ -132,16 +132,24 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
 /** @} */
 
 /**
- * @ingroup math_ge_matmat_group
- * @brief Updates a general matrix with a general matrix matrix product.
+ * @ingroup math_matmat_group
+ * @brief Updates a general matrix with a matrix matrix product.
  *
  * Performs the operation trg += alpha * opA(srcA) * opB(srcB).
+ * Valid combinations are the following:
+ @verbatim
+  srcA: GENERAL     srcB: GENERAL
+  srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
+  srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
+@endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA.
- * @param[in] srcA The input general matrix.
+ * @param[in] srcA The input matrix.
  * @param[in] opB The operation to be performed for matrix srcB.
- * @param[in] srcB The input general matrix.
+ * @param[in] srcB The input matrix.
  * @param[in,out] trg The matrix to be updated.
  *
  * @{
@@ -154,16 +162,24 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
 /** @} */
 
 /**
- * @ingroup math_ge_matmat_group
- * @brief Creates a general matrix from a general matrix matrix product.
+ * @ingroup math_matmat_group
+ * @brief Creates a general matrix from a matrix matrix product.
  *
  * Performs the operation trg = alpha * opA(srcA) * opB(srcB).
+ * Valid combinations are the following:
+ @verbatim
+  srcA: GENERAL     srcB: GENERAL
+  srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
+  srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
+@endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA.
- * @param[in] srcA The input general matrix.
+ * @param[in] srcA The input matrix.
  * @param[in] opB The operation to be performed for matrix srcB.
- * @param[in] srcB The input general matrix.
+ * @param[in] srcB The input matrix.
  * @return The resulting matrix.
  *
  * @{
