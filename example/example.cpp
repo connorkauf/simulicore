@@ -21,10 +21,11 @@ int main()
 
 	cla3p::dns::RiMatrix A = cla3p::dns::RiMatrix::random(10,5);
 	cla3p::dns::RiMatrix B = cla3p::dns::RiMatrix::random(5,10);
-	std::cout << A << B;
+	std::cout << A.info("A") << A;
+	std::cout << B.info("B") << B;
 
 	cla3p::dns::RiMatrix C = A * B;
-	std::cout << C;
+	std::cout << C.info("C") << C;
 
 	return 0;
 }

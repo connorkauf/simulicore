@@ -158,7 +158,7 @@ static void naive_gem_x_vec_tmpl(op_t opA, uint_t m, uint_t n, T alpha, const T 
 template <typename T>
 static void gem_x_vec_tmpl(op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
-	return blas::gemv(static_cast<char>(opA), m, n, alpha, a, lda, x, 1, beta, y, 1);
+	blas::gemv(static_cast<char>(opA), m, n, alpha, a, lda, x, 1, beta, y, 1);
 }
 /*-------------------------------------------------*/
 void gem_x_vec(op_t opA, uint_t m, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *x, int_t beta, int_t *y)
@@ -223,7 +223,7 @@ static void naive_sym_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uin
 template <typename T>
 static void sym_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
-	return blas::symv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
+	blas::symv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
 }
 /*-------------------------------------------------*/
 void sym_x_vec(uplo_t uplo, uint_t n, int_t alpha, const int_t *a, uint_t lda, const int_t *x, int_t beta, int_t *y)
@@ -290,7 +290,7 @@ static void naive_hem_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uin
 template <typename T>
 static void hem_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
-	return blas::hemv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
+	blas::hemv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
 }
 /*-------------------------------------------------*/
 void hem_x_vec(uplo_t, uint_t, int_t  , const int_t*  , uint_t, const int_t*  , int_t  , int_t*  ) { throw Exception(msg::op_not_allowed()); }
@@ -431,8 +431,31 @@ void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8
 template <typename T>
 static void naive_gem_x_sym_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
 {
+	T bzero = 0;
+
+	// 
+	// scale y
+	//
+	if(beta == bzero) {
+		zero(uplo_t::F, m, n, c, ldc);
+	} else {
+		scale(uplo_t::F, m, n, c, ldc, beta);
+	} // beta
+
+	// 
+	// do the math
+	//
 	for(uint_t j = 0; j < n; j++) {
-		hem_x_vec(uplo, m, alpha, a, lda, ptrmv(ldb,b,0,j), beta, ptrmv(ldc,c,0,j));
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			for(uint_t k = 0; k < m; k++) {
+				T aij = entry(lda,a,i,j);
+				T bki = entry(ldb,b,k,i);
+				T bkj = entry(ldb,b,k,j);
+				entry(ldc,c,k,i) += alpha * aij * bkj;
+				if(i != j) entry(ldc,c,k,j) += alpha * aij * bki;
+			} // k
+		} // i
 	} // j
 }
 /*-------------------------------------------------*/
