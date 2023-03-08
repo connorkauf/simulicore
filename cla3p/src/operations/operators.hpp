@@ -1,6 +1,11 @@
 #ifndef CLA3P_OPERATORS_HPP_
 #define CLA3P_OPERATORS_HPP_
 
+/**
+ * @file
+ * Global math operator definitions
+ */
+
 #include "../types.hpp"
 #include "../dense.hpp"
 
