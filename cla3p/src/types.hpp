@@ -147,9 +147,11 @@ class Property {
 		 */
 		enum class prop_t {
 			NONE      = 0, /**< No property */
-			GENERAL      , /**< General (non-symmetric/non-hermitian matrix) */
+			GENERAL      , /**< General matrix */
 			SYMMETRIC    , /**< Symmetric matrix */
-			HERMITIAN      /**< Hermitian matrix */
+			HERMITIAN    , /**< Hermitian matrix */
+			TRIANGULAR   , /**< Triangular/trapezoidal matrix */
+			SKEW           /**< Skew matrix */
 		};
 
 		/**
@@ -253,6 +255,16 @@ class Property {
 		 * @brief Checks weather the property type is hermitian.
 		 */
 		bool isHermitian() const;
+
+		/**
+		 * @brief Checks weather the property type is triangular/trapezoidal.
+		 */
+		bool isTriangular() const;
+
+		/**
+		 * @brief Checks weather the property type is skew.
+		 */
+		bool isSkew() const;
 
 		/**
 		 * @brief Checks weather the entire matrix is used.
