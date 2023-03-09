@@ -233,6 +233,19 @@ he2ge_macro(void, complex8_t);
 #undef he2ge_macro
 
 //
+// Skew to general
+//
+#define sk2ge_macro(typeout, typein) \
+typeout sk2ge(uplo_t uplo, uint_t n, typein *a, uint_t lda)
+sk2ge_macro(void, int_t);
+sk2ge_macro(void, uint_t); // exception
+sk2ge_macro(void, real_t);
+sk2ge_macro(void, real4_t);
+sk2ge_macro(void, complex_t);
+sk2ge_macro(void, complex8_t);
+#undef sk2ge_macro
+
+//
 // Norm 1
 //
 #define norm_one_macro(typeout, typein) \
@@ -300,8 +313,8 @@ norm_euc_macro(real4_t, complex8_t);
 //
 // Permutations
 //
-// prop: GENERAL             B = P*A*Q     if P,Q is nullptr, the identity perm is used
-// prop: SYMMETRIC/HERMITIAN B = P*A*P^{T} Q is not referenced
+// prop: GENERAL                  B = P*A*Q     if P,Q is nullptr, the identity perm is used
+// prop: SYMMETRIC/HERMITIAN/SKEW B = P*A*P^{T} Q is not referenced
 //
 #define permute_macro(typeout, typein) \
 typeout permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const uint_t *P, const uint_t *Q)
