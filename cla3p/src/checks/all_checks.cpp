@@ -184,7 +184,7 @@ void imag_block_op_consistency_check(
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blprop.isHermitian()) {
-		throw InvalidOp("Block should be a skew matrix. Skew matrices are not yet supported");
+		blprop = Property(prop_t::SKEW, blprop.uplo());
 	}
 
 	if(blprop != block_prop) {

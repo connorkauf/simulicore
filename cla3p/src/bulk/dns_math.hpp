@@ -80,6 +80,19 @@ hem_x_vec_macro(void, complex8_t);
 #undef hem_x_vec_macro
 
 //
+// Update: y = alpha * opA(A) * x
+//
+#define trm_x_vec_macro(typeout, typein) \
+typeout trm_x_vec(uplo_t uplo, op_t opA, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, const typein *x, typein *y)
+trm_x_vec_macro(void, int_t);
+trm_x_vec_macro(void, uint_t);
+trm_x_vec_macro(void, real_t);
+trm_x_vec_macro(void, real4_t);
+trm_x_vec_macro(void, complex_t);
+trm_x_vec_macro(void, complex8_t);
+#undef trm_x_vec_macro
+
+//
 // Update: C = beta * C + alpha * opA(A) * opB(B)
 // C(m x n)
 //
@@ -163,6 +176,23 @@ gem_x_hem_macro(void, real4_t); // exception
 gem_x_hem_macro(void, complex_t);
 gem_x_hem_macro(void, complex8_t);
 #undef gem_x_hem_macro
+
+//
+// Update: C = alpha * opA(A) * B
+// C(m x n)
+//
+#define trm_x_gem_macro(typeout, typein) \
+typeout trm_x_gem(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, typein alpha, \
+		const typein *a, uint_t lda, \
+		const typein *b, uint_t ldb, \
+		typein *c, uint_t ldc)
+trm_x_gem_macro(void, int_t);
+trm_x_gem_macro(void, uint_t);
+trm_x_gem_macro(void, real_t);
+trm_x_gem_macro(void, real4_t);
+trm_x_gem_macro(void, complex_t);
+trm_x_gem_macro(void, complex8_t);
+#undef trm_x_gem_macro
 
 /*-------------------------------------------------*/
 } // namespace dns

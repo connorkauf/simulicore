@@ -96,7 +96,16 @@ template <typename T, typename Tr> const Property& GenericObject<T,Tr>::prop  ()
 template <typename T, typename Tr>
 void GenericObject<T,Tr>::fill(T val)
 {
-	bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val);
+	if(prop().isHermitian()) {
+		T diag = val;
+		setim(diag,0);
+		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val, diag);
+	} else if(prop().isSkew()) {
+		T diag = 0;
+		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val, diag);
+	} else {
+		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val);
+	}
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
@@ -393,7 +402,7 @@ void GenericObject<T,Tr>::getImagBlock(GenericObject<Tr,Tr>& trg, uint_t ibgn, u
 	Property blprop = block_op_consistency_check(prop(), rsize(), csize(), ibgn, jbgn, ni, nj);
 
 	if(blprop.isHermitian()) {
-		throw InvalidOp("Skew matrices are not yet supported");
+		blprop = Property(prop_t::SKEW, blprop.uplo());
 	}
 
 	trg.blankCreator(blprop, ni, nj, ni);
@@ -469,9 +478,13 @@ void GenericObject<T,Tr>::randomCreator(const Property& pr, uint_t nr, uint_t nc
 
 	if(prop().isHermitian()) {
 		for(uint_t j = 0; j < nc; j++) {
-			setim((*this)(j,j), 0.);
+			setim((*this)(j,j), 0);
 		} // j
-	} // hermitian
+	} else if (prop().isSkew()) {
+		for(uint_t j = 0; j < nc; j++) {
+			(*this)(j,j) = 0;
+		} // j
+	} // diagonal handling
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
