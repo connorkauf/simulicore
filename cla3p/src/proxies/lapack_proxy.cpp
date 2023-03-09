@@ -14,6 +14,17 @@
 namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
+#define larnv_macro(typeout, typein, prefix) \
+typeout larnv(int_t idist, int_t* iseed, int_t n, typein* x) \
+{ \
+	return LAPACKE_##prefix##larnv(idist, iseed, n, x); \
+}
+larnv_macro(int_t, real_t    , d)
+larnv_macro(int_t, real4_t   , s)
+larnv_macro(int_t, complex_t , z)
+larnv_macro(int_t, complex8_t, c)
+#undef larnv_macro
+/*-------------------------------------------------*/
 #define laset_macro(typeout, typein, prefix) \
 typeout laset(char uplo, int_t m, int_t n, typein alpha, typein beta, typein *a, int_t lda) \
 { \
@@ -78,6 +89,17 @@ typeout lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 lanhe_macro(real_t , complex_t , z)
 lanhe_macro(real4_t, complex8_t, c)
 #undef lanhe_macro
+/*-------------------------------------------------*/
+#define lantr_macro(typeout, typein, prefix) \
+typeout lantr(char norm, char uplo, char diag, int_t m, int_t n, const typein* a, int_t lda) \
+{ \
+	return LAPACKE_##prefix##lantr(LAPACK_COL_MAJOR, norm, uplo, diag, m, n, a, lda); \
+}
+lantr_macro(real_t , real_t    , d)
+lantr_macro(real4_t, real4_t   , s)
+lantr_macro(real_t , complex_t , z)
+lantr_macro(real4_t, complex8_t, c)
+#undef lantr_macro
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p

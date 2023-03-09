@@ -8,6 +8,14 @@ namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
 
+#define larnv_macro(typeout, typein) \
+typeout larnv(int_t idist, int_t* iseed, int_t n, typein* x)
+larnv_macro(int_t, real_t);
+larnv_macro(int_t, real4_t);
+larnv_macro(int_t, complex_t);
+larnv_macro(int_t, complex8_t);
+#undef larnv_macro
+
 #define laset_macro(typeout, typein) \
 typeout laset(char uplo, int_t m, int_t n, typein alpha, typein beta, typein *a, int_t lda)
 laset_macro(int_t, real_t);
@@ -54,7 +62,13 @@ lanhe_macro(real_t , complex_t);
 lanhe_macro(real4_t, complex8_t);
 #undef lanhe_macro
 
-// TODO: ?lantr ?larnv
+#define lantr_macro(typeout, typein) \
+typeout lantr(char norm, char uplo, char diag, int_t m, int_t n, const typein* a, int_t lda)
+lantr_macro(real_t , real_t);
+lantr_macro(real4_t, real4_t);
+lantr_macro(real_t , complex_t);
+lantr_macro(real4_t, complex8_t);
+#undef lantr_macro
 
 /*-------------------------------------------------*/
 } // namespace lapack
