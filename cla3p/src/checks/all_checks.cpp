@@ -287,7 +287,7 @@ void mat_x_mat_mult_check(
 
 	if(prA.isGeneral() && prB.isGeneral()) return;
 
-	if(syheA && prB.isGeneral()) {
+	if((syheA || prA.isTriangular()) && prB.isGeneral()) {
 		if(opB.isTranspose()) {
 			throw NoConsistency(msg::op_not_allowed());
 		} else {
@@ -295,7 +295,7 @@ void mat_x_mat_mult_check(
 		}
 	}
 
-	if(syheB && prA.isGeneral()) {
+	if((syheB || prB.isTriangular()) && prA.isGeneral()) {
 		if(opA.isTranspose()) {
 			throw NoConsistency(msg::op_not_allowed());
 		} else {

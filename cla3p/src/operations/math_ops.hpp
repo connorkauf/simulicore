@@ -146,8 +146,10 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
   srcA: GENERAL     srcB: GENERAL
   srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
   srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: TRIANGULAR  srcB: GENERAL                             opB: must be set to N
   srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
   srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
+  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N
 @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -176,8 +178,10 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
   srcA: GENERAL     srcB: GENERAL
   srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
   srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
+  srcA: TRIANGULAR  srcB: GENERAL                             opB: must be set to N
   srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
   srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
+  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N
 @endverbatim
  *
  * @param[in] alpha The scaling coefficient.

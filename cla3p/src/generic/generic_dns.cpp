@@ -527,6 +527,12 @@ void GenericObject<T,Tr>::updateSelfWithMatVec(T alpha, const Operation& opA, co
 
 		bulk::dns::hem_x_vec(A.prop().uplo(), A.csize(), alpha, A.values(), A.ld(), X.values(), 1, values());
 
+	} else if(A.prop().isTriangular()) {
+
+		GenericObject<T,Tr> tmp(Property(prop_t::GENERAL,uplo_t::F), rsize(), csize(), rsize(), false);
+		bulk::dns::trm_x_vec(A.prop().uplo(), opA.type(), A.rsize(), A.csize(), alpha, A.values(), A.ld(), X.values(), tmp.values());
+		updateSelf(1, tmp);
+
 	} else {
 
 		throw Exception();
@@ -562,6 +568,18 @@ void GenericObject<T,Tr>::updateSelfWithMatMat(T alpha, const Operation& opA, co
 	} else if(A.prop().isGeneral() && B.prop().isHermitian()) {
 
 		bulk::dns::gem_x_hem(B.prop().uplo(), rsize(), csize(), alpha, B.values(), B.ld(), A.values(), A.ld(), 1, values(), ld());
+
+	} else if(A.prop().isTriangular() && B.prop().isGeneral()) {
+
+		GenericObject<T,Tr> tmp(Property(prop_t::GENERAL,uplo_t::F), rsize(), csize(), rsize(), false);
+		bulk::dns::trm_x_gem(A.prop().uplo(), opA.type(), rsize(), csize(), B.rsize(), alpha, A.values(), A.ld(), B.values(), B.ld(), tmp.values(), tmp.ld());
+		updateSelf(1, tmp);
+
+	} else if(A.prop().isGeneral() && B.prop().isTriangular()) {
+
+		GenericObject<T,Tr> tmp(Property(prop_t::GENERAL,uplo_t::F), rsize(), csize(), rsize(), false);
+		bulk::dns::gem_x_trm(B.prop().uplo(), opB.type(), rsize(), csize(), A.rsize(), alpha, B.values(), B.ld(), A.values(), A.ld(), tmp.values(), tmp.ld());
+		updateSelf(1, tmp);
 
 	} else {
 
