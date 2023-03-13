@@ -619,9 +619,24 @@ void trm_x_gem(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, complex8_t a
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
-//void naive_gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
-void naive_gem_x_trm_tmpl(uplo_t, op_t, uint_t, uint_t, uint_t, T, const T*, uint_t, const T*, uint_t, T*, uint_t)
+void naive_gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	uint_t nrA = (opA == op_t::N ? k : n);
+	uint_t ncA = (opA == op_t::N ? n : k);
+
+	zero(uplo_t::F, m, n, c, ldc);
+
+	for(uint_t l = 0; l < m; l++) {
+		for(uint_t j = 0; j < ncA; j++) {
+			RowRange ir = irange(uplo, nrA, j);
+			for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+				T aij = entry(lda,a,i,j);
+				if(opA == op_t::N) entry(ldc,c,l,j) += alpha *      aij  * entry(ldb,b,l,i);
+				if(opA == op_t::T) entry(ldc,c,l,i) += alpha *      aij  * entry(ldb,b,l,j);
+				if(opA == op_t::C) entry(ldc,c,l,i) += alpha * conj(aij) * entry(ldb,b,l,j);
+			} // i
+		} // j
+	} // l
 }
 /*-------------------------------------------------*/
 template <typename T>
