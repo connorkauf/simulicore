@@ -194,6 +194,23 @@ trm_x_gem_macro(void, complex_t);
 trm_x_gem_macro(void, complex8_t);
 #undef trm_x_gem_macro
 
+//
+// Update: C = alpha * B * opA(A)
+// C(m x n)
+//
+#define gem_x_trm_macro(typeout, typein) \
+typeout gem_x_trm(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, typein alpha, \
+		const typein *a, uint_t lda, \
+		const typein *b, uint_t ldb, \
+		typein *c, uint_t ldc)
+gem_x_trm_macro(void, int_t);
+gem_x_trm_macro(void, uint_t);
+gem_x_trm_macro(void, real_t);
+gem_x_trm_macro(void, real4_t);
+gem_x_trm_macro(void, complex_t);
+gem_x_trm_macro(void, complex8_t);
+#undef gem_x_trm_macro
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
