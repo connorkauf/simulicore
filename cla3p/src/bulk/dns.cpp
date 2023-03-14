@@ -512,8 +512,6 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 {
 	if(!n) return;
 
-	const T negative_one = -1;
-
 	if(n < recursive_min_dim()) {
 
 		for(uint_t j = 0; j < n; j++) {
@@ -524,6 +522,18 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 				} // off diagonals
 			} // i
 		} // j
+
+		if(ptype == prop_t::HERMITIAN) {
+			for(uint_t j = 0; j < n; j++) {
+				setim(entry(lda,a,j,j),0);
+			} // j
+		}
+
+		if(ptype == prop_t::SKEW) {
+			for(uint_t j = 0; j < n; j++) {
+				entry(lda,a,j,j) = 0;
+			} // j
+		}
 
 	} else {
 
@@ -545,8 +555,8 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 
 		} else if(ptype == prop_t::SKEW) {
 
-			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, negative_one);
-			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, negative_one);
+			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, -1);
+			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, -1);
 
 		} else {
 
@@ -585,6 +595,26 @@ void sk2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, 
 void sk2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
 void sk2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
 void sk2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+{
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange_complement(uplo, m, j);
+		if(ir.ilen) {
+			zero(uplo_t::F, ir.ilen, 1, ptrmv(lda,a,ir.ibgn,j), lda);
+		} // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

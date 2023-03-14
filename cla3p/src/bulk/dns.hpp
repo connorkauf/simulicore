@@ -246,6 +246,19 @@ sk2ge_macro(void, complex8_t);
 #undef sk2ge_macro
 
 //
+// Triangular to general
+//
+#define tr2ge_macro(typeout, typein) \
+typeout tr2ge(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda)
+tr2ge_macro(void, int_t);
+tr2ge_macro(void, uint_t);
+tr2ge_macro(void, real_t);
+tr2ge_macro(void, real4_t);
+tr2ge_macro(void, complex_t);
+tr2ge_macro(void, complex8_t);
+#undef tr2ge_macro
+
+//
 // Norm 1
 //
 #define norm_one_macro(typeout, typein) \
