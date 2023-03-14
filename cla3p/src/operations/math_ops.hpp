@@ -140,17 +140,20 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
  * @ingroup math_matmat_group
  * @brief Updates a general matrix with a matrix matrix product.
  *
- * Performs the operation trg += alpha * opA(srcA) * opB(srcB).
+ * Performs the operation:
+ @verbatim
+ trg += alpha * opA(srcA) * opB(srcB)
+ @endverbatim
  * Valid combinations are the following:
  @verbatim
-  srcA: GENERAL     srcB: GENERAL
+  srcA: GENERAL     srcB: GENERAL     opA: unconstrained      opB: unconstrained
   srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
   srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: TRIANGULAR  srcB: GENERAL                             opB: must be set to N
+  srcA: TRIANGULAR  srcB: GENERAL     opA: unconstrained      opB: must be set to N
   srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
   srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N
-@endverbatim
+  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N   opB: unconstrained
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA.
@@ -172,17 +175,20 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
  * @ingroup math_matmat_group
  * @brief Creates a general matrix from a matrix matrix product.
  *
- * Performs the operation trg = alpha * opA(srcA) * opB(srcB).
+ * Performs the operation:
+ @verbatim
+ trg = alpha * opA(srcA) * opB(srcB)
+ @endverbatim
  * Valid combinations are the following:
  @verbatim
-  srcA: GENERAL     srcB: GENERAL
+  srcA: GENERAL     srcB: GENERAL     opA: unconstrained      opB: unconstrained
   srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
   srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: TRIANGULAR  srcB: GENERAL                             opB: must be set to N
+  srcA: TRIANGULAR  srcB: GENERAL     opA: unconstrained      opB: must be set to N
   srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
   srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N
-@endverbatim
+  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N   opB: unconstrained
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA.
