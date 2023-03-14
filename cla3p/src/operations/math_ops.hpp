@@ -18,7 +18,10 @@ namespace ops {
  * @ingroup math_addition_group
  * @brief Vector update.
  *
- * Performs the operation trg += alpha * src.
+ * Performs the operation:
+ @verbatim
+ trg += alpha * src
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] src The input vector.
@@ -37,7 +40,10 @@ void update(complex8_t alpha, const dns::CfVector& src, dns::CfVector& trg);
  * @ingroup math_addition_group
  * @brief Matrix update.
  *
- * Performs the operation trg += alpha * src.
+ * Performs the operation:
+ @verbatim
+ trg += alpha * src
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] src The input matrix.
@@ -56,7 +62,10 @@ void update(complex8_t alpha, const dns::CfMatrix& src, dns::CfMatrix& trg);
  * @ingroup math_addition_group
  * @brief Vector sum.
  *
- * Performs the operation trg = alpha * srcA + beta * srcB.
+ * Performs the operation:
+ @verbatim
+ trg = alpha * srcA + beta * srcB
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient for srcA.
  * @param[in] srcA The first input vector.
@@ -77,7 +86,10 @@ dns::CfVector add(complex8_t alpha, const dns::CfVector& srcA, complex8_t beta, 
  * @ingroup math_addition_group
  * @brief Matrix sum.
  *
- * Performs the operation trg = alpha * srcA + beta * srcB.
+ * Performs the operation:
+ @verbatim
+ trg = alpha * srcA + beta * srcB
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient for srcA.
  * @param[in] srcA The first input matrix.
@@ -98,7 +110,10 @@ dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, 
  * @ingroup math_matvec_group
  * @brief Updates a vector with a matrix vector product.
  *
- * Performs the operation trg += alpha * opA(srcA) * srcX.
+ * Performs the operation:
+ @verbatim
+ trg += alpha * opA(srcA) * srcX
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
@@ -119,7 +134,10 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
  * @ingroup math_matvec_group
  * @brief Creates a vector from a matrix vector product.
  *
- * Performs the operation trg = alpha * opA(srcA) * srcX.
+ * Performs the operation:
+ @verbatim
+ trg = alpha * opA(srcA) * srcX
+ @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
