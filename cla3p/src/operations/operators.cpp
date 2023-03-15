@@ -84,11 +84,11 @@ cla3p::dns::RfMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::
 cla3p::dns::CdMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CdMatrix& srcA){ return srcA.permuteLeft(srcP); }
 cla3p::dns::CfMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CfMatrix& srcA){ return srcA.permuteLeft(srcP); }
 
-cla3p::dns::RiMatrix operator*(const cla3p::dns::RiMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
-cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
-cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
-cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
-cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::RiMatrix operator*(const cla3p::dns::RiMatrix& srcA, const cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
 
 
 /*-------------------------------------------------*/
