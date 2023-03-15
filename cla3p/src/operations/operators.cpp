@@ -36,41 +36,60 @@ void operator-=(cla3p::dns::RfMatrix& trg, const cla3p::dns::RfMatrix& src) { cl
 void operator-=(cla3p::dns::CdMatrix& trg, const cla3p::dns::CdMatrix& src) { cla3p::ops::update(-1, src, trg); }
 void operator-=(cla3p::dns::CfMatrix& trg, const cla3p::dns::CfMatrix& src) { cla3p::ops::update(-1, src, trg); }
 
-cla3p::dns::RiVector operator+(cla3p::dns::RiVector& srcA, const cla3p::dns::RiVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::RdVector operator+(cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::RfVector operator+(cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::CdVector operator+(cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::CfVector operator+(cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RiVector operator+(const cla3p::dns::RiVector& srcA, const cla3p::dns::RiVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RdVector operator+(const cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RfVector operator+(const cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::CdVector operator+(const cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::CfVector operator+(const cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
 
-cla3p::dns::RiMatrix operator+(cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::RdMatrix operator+(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::RfMatrix operator+(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::CdMatrix operator+(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
-cla3p::dns::CfMatrix operator+(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RiMatrix operator+(const cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RdMatrix operator+(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::RfMatrix operator+(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::CdMatrix operator+(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
+cla3p::dns::CfMatrix operator+(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::add(1, srcA, 1, srcB); }
 
-cla3p::dns::RiVector operator-(cla3p::dns::RiVector& srcA, const cla3p::dns::RiVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::RdVector operator-(cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::RfVector operator-(cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::CdVector operator-(cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::CfVector operator-(cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RiVector operator-(const cla3p::dns::RiVector& srcA, const cla3p::dns::RiVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RdVector operator-(const cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RfVector operator-(const cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::CdVector operator-(const cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::CfVector operator-(const cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
 
-cla3p::dns::RiMatrix operator-(cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::RdMatrix operator-(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::RfMatrix operator-(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::CdMatrix operator-(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
-cla3p::dns::CfMatrix operator-(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RiMatrix operator-(const cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RdMatrix operator-(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::RfMatrix operator-(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::CdMatrix operator-(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+cla3p::dns::CfMatrix operator-(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
 
-cla3p::dns::RiVector operator*(cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
-cla3p::dns::RdVector operator*(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
-cla3p::dns::RfVector operator*(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
-cla3p::dns::CdVector operator*(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
-cla3p::dns::CfVector operator*(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
+cla3p::dns::RiVector operator*(const cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
+cla3p::dns::RdVector operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
+cla3p::dns::RfVector operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
+cla3p::dns::CdVector operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
+cla3p::dns::CfVector operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfVector& srcX) { return cla3p::ops::mult(1, noOp, srcA, srcX); }
 
-cla3p::dns::RiMatrix operator*(cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
-cla3p::dns::RdMatrix operator*(cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
-cla3p::dns::RfMatrix operator*(cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
-cla3p::dns::CdMatrix operator*(cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
-cla3p::dns::CfMatrix operator*(cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+cla3p::dns::RiMatrix operator*(const cla3p::dns::RiMatrix& srcA, const cla3p::dns::RiMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::mult(1, noOp, srcA, noOp, srcB); }
+
+cla3p::dns::RiVector operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RiVector& srcX){ return srcX.permute(srcP); }
+cla3p::dns::RdVector operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RdVector& srcX){ return srcX.permute(srcP); }
+cla3p::dns::RfVector operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RfVector& srcX){ return srcX.permute(srcP); }
+cla3p::dns::CdVector operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CdVector& srcX){ return srcX.permute(srcP); }
+cla3p::dns::CfVector operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CfVector& srcX){ return srcX.permute(srcP); }
+
+cla3p::dns::RiMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RiMatrix& srcA){ return srcA.permuteLeft(srcP); }
+cla3p::dns::RdMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RdMatrix& srcA){ return srcA.permuteLeft(srcP); }
+cla3p::dns::RfMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::RfMatrix& srcA){ return srcA.permuteLeft(srcP); }
+cla3p::dns::CdMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CdMatrix& srcA){ return srcA.permuteLeft(srcP); }
+cla3p::dns::CfMatrix operator*(const cla3p::PermMatrix& srcP, const cla3p::dns::CfMatrix& srcA){ return srcA.permuteLeft(srcP); }
+
+cla3p::dns::RiMatrix operator*(const cla3p::dns::RiMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, cla3p::PermMatrix& srcP){ return srcA.permuteRight(srcP); }
+
 
 /*-------------------------------------------------*/
 

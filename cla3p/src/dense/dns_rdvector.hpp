@@ -192,7 +192,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		RdVector permuteLeft(const PermMatrix& P) const;
+		RdVector permute(const PermMatrix& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -201,7 +201,7 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 */
-		void ipermuteLeft(const PermMatrix& P);
+		void ipermute(const PermMatrix& P);
 
 		/**
 		 * @brief Gets a subvector copy.

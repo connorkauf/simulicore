@@ -160,14 +160,14 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		//
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::permuteLeft()
+		 * @copydoc cla3p::dns::RdVector::permute()
 		 */
-		RfVector permuteLeft(const PermMatrix& P) const;
+		RfVector permute(const PermMatrix& P) const;
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::ipermuteLeft()
+		 * @copydoc cla3p::dns::RdVector::ipermute()
 		 */
-		void ipermuteLeft(const PermMatrix& P);
+		void ipermute(const PermMatrix& P);
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::block()

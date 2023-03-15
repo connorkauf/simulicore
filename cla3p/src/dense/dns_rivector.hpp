@@ -145,14 +145,14 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		//
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::permuteLeft()
+		 * @copydoc cla3p::dns::RdVector::permute()
 		 */
-		RiVector permuteLeft(const PermMatrix& P) const;
+		RiVector permute(const PermMatrix& P) const;
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::ipermuteLeft()
+		 * @copydoc cla3p::dns::RdVector::ipermute()
 		 */
-		void ipermuteLeft(const PermMatrix& P);
+		void ipermute(const PermMatrix& P);
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::block()

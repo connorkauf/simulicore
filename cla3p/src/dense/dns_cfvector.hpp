@@ -161,14 +161,14 @@ class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		//
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::permuteLeft()
+		 * @copydoc cla3p::dns::RdVector::permute()
 		 */
-		CfVector permuteLeft(const PermMatrix& P) const;
+		CfVector permute(const PermMatrix& P) const;
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::ipermuteLeft()
+		 * @copydoc cla3p::dns::RdVector::ipermute()
 		 */
-		void ipermuteLeft(const PermMatrix& P);
+		void ipermute(const PermMatrix& P);
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::block()

@@ -108,14 +108,14 @@ const ThisDataType& XxVector::operator()(uint_t i) const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-XxVector XxVector::permuteLeft(const PermMatrix& P) const
+XxVector XxVector::permute(const PermMatrix& P) const
 {
 	XxVector ret;
 	ThisObjectType::gePermuteToLeft(ret, P);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-void XxVector::ipermuteLeft(const PermMatrix& P) 
+void XxVector::ipermute(const PermMatrix& P) 
 { 
 	return ThisObjectType::gePermuteIpLeft(P);
 }

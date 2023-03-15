@@ -55,10 +55,13 @@
 /**
  * @defgroup math_operators_group Math operators
  *
- * @defgroup op_addition_group Addition
+ * @defgroup op_addition_group Addition/Subtraction
  * @ingroup math_operators_group
  *
  * @defgroup op_multiplication_group Multiplication
+ * @ingroup math_operators_group
+ *
+ * @defgroup op_permutation_group Permutation
  * @ingroup math_operators_group
  */
 
