@@ -115,6 +115,11 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 {
 	if(!m || !n) return;
 
+	if(coeff == T(0)) {
+		zero(uplo, m, n, b, ldb);
+		return;
+	} // coeff = 0
+
 	if(uplo == uplo_t::F) {
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
 	} else {
@@ -133,6 +138,11 @@ static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t 
 	// TODO: more efficiently
 	//
 	if(!m || !n) return;
+
+	if(coeff == T(0)) {
+		zero(uplo, m, n, b, ldb);
+		return;
+	} // coeff = 0
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
@@ -307,13 +317,11 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coef
 {
 	if(!m || !n) return;
 
-	T coeff_one = 1;
-	if(coeff == coeff_one) {
+	if(coeff == T(1)) {
 		return;
 	} // coeff = 1
 
-	T coeff_zero = 0;
-	if(coeff == coeff_zero) {
+	if(coeff == T(0)) {
 		zero(uplo, m, n, a, lda);
 		return;
 	} // coeff = 0
@@ -336,13 +344,11 @@ static void naive_scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, 
 	//
 	if(!m || !n) return;
 
-	T coeff_one = 1;
-	if(coeff == coeff_one) {
+	if(coeff == T(1)) {
 		return;
 	} // coeff = 1
 
-	T coeff_zero = 0;
-	if(coeff == coeff_zero) {
+	if(coeff == T(0)) {
 		zero(uplo, m, n, a, lda);
 		return;
 	} // coeff = 0
@@ -369,6 +375,11 @@ static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uin
 {
 	if(!m || !n) return;
 
+	if(coeff == T(0)) {
+		zero(uplo_t::F, n, m, b, ldb);
+		return;
+	} // coeff = 0
+
 	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
@@ -379,6 +390,11 @@ static void naive_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *
 	// TODO: more efficiently
 	//
 	if(!m || !n) return;
+
+	if(coeff == T(0)) {
+		zero(uplo_t::F, n, m, b, ldb);
+		return;
+	} // coeff = 0
 
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -423,6 +439,11 @@ template <typename T>
 static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
 {
 	if(!m || !n) return;
+
+	if(coeff == T(0)) {
+		zero(uplo_t::F, n, m, b, ldb);
+		return;
+	} // coeff = 0
 
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
@@ -476,6 +497,11 @@ template <typename T>
 static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
 {
 	if(!m || !n) return;
+
+	if(coeff == T(0)) {
+		zero(uplo, m, n, a, lda);
+		return;
+	} // coeff = 0
 
 	if(uplo == uplo_t::F) {
 		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);

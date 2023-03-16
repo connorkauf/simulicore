@@ -22,6 +22,8 @@ namespace dns {
 template <typename T>
 static void naive_update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T *c, uint_t ldc)
 {
+	if(alpha == T(0)) return;
+
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
@@ -33,6 +35,8 @@ static void naive_update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T 
 template <typename T>
 static void update_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T *c, uint_t ldc)
 {
+	if(alpha == T(0)) return;
+
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		blas::axpy(ir.ilen, alpha, ptrmv(lda,a,ir.ibgn,j), 1, ptrmv(ldc,c,ir.ibgn,j), 1);
@@ -74,6 +78,11 @@ void update(uplo_t uplo, uint_t m, uint_t n, complex8_t alpha, const complex8_t 
 template <typename T>
 static void naive_add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T beta, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	if(alpha == T(0) && beta == T(0)) {
+		zero(uplo, m, n, c, ldc);
+		return;
+	} // alpha = 0 & beta = 0
+
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
@@ -85,6 +94,11 @@ static void naive_add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a,
 template <typename T>
 static void add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, T beta, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	if(alpha == T(0) && beta == T(0)) {
+		zero(uplo, m, n, c, ldc);
+		return;
+	} // alpha = 0 & beta = 0
+
 	if(uplo == uplo_t::F) {
 		mkl::omatadd('C', 'N', 'N', m, n, alpha, a, lda, beta, b, ldb, c, ldc);
 	} else {
@@ -131,6 +145,8 @@ static void naive_gem_x_vec_tmpl(op_t opA, uint_t m, uint_t n, T alpha, const T 
 {
 	uint_t dimy = (opA == op_t::N ? m : n);
 	scale(uplo_t::F, dimy, 1, y, dimy, beta);
+
+	if(alpha == T(0)) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -184,6 +200,8 @@ template <typename T>
 static void naive_sym_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T beta, T *y)
 {
 	scale(uplo_t::F, n, 1, y, n, beta);
+
+	if(alpha == T(0)) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, n, j);
@@ -279,6 +297,8 @@ static void naive_trm_x_vec_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, T al
 	uint_t dimy = (opA == op_t::N ? m : n);
 	zero(uplo_t::F, dimy, 1, y, dimy);
 
+	if(alpha == T(0)) return;
+
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
@@ -293,6 +313,12 @@ static void naive_trm_x_vec_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, T al
 template <typename T>
 static void trm_x_vec_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *x, T *y)
 {
+	if(alpha == T(0)) {
+		uint_t dimy = (opA == op_t::N ? m : n);
+		zero(uplo_t::F, dimy, 1, y, dimy);
+		return;
+	} // alpha = 0
+
 	uint_t mindim = std::min(m,n);
 
 	if(opA == op_t::N) {
@@ -352,6 +378,8 @@ template <typename T>
 static void naive_gem_x_gem_tmpl(uint_t m, uint_t n, uint_t k, T alpha, op_t opA, const T *a, uint_t lda, op_t opB, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
 {
 	scale(uplo_t::F, m, n, c, ldc, beta);
+
+	if(alpha == T(0)) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -458,6 +486,8 @@ template <typename T>
 static void naive_gem_x_sym_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T beta, T *c, uint_t ldc)
 {
 	scale(uplo_t::F, m, n, c, ldc, beta);
+
+	if(alpha == T(0)) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, n, j);
@@ -571,11 +601,16 @@ void naive_trm_x_gem_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T
 template <typename T>
 void trm_x_gem_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	if(alpha == T(0)) {
+		zero(uplo_t::F, m, n, c, ldc);
+		return;
+	} // alpha = 0
+
 	uint_t mindim = std::min(m,k);
 
-		copy(uplo_t::F, mindim, n, b, ldb, c, ldc, alpha);
-		if(m > k) zero(uplo_t::F, m-k, n, ptrmv(ldc,c,k,0), ldc);
-		blas::trmm('L', static_cast<char>(uplo), static_cast<char>(opA), 'N', mindim, n, 1, a, lda, c, ldc);
+	copy(uplo_t::F, mindim, n, b, ldb, c, ldc, alpha);
+	if(m > k) zero(uplo_t::F, m-k, n, ptrmv(ldc,c,k,0), ldc);
+	blas::trmm('L', static_cast<char>(uplo), static_cast<char>(opA), 'N', mindim, n, 1, a, lda, c, ldc);
 
 	if(opA == op_t::N) {
 		if(m > k && uplo == uplo_t::L) gem_x_gem(m-k, n, k, alpha, opA, ptrmv(lda,a,k,0), lda, op_t::N,           b     , ldb, 1, ptrmv(ldc,c,k,0), ldc);
@@ -621,10 +656,12 @@ void trm_x_gem(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, complex8_t a
 template <typename T>
 void naive_gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	zero(uplo_t::F, m, n, c, ldc);
+
+	if(alpha == T(0)) return;
+
 	uint_t nrA = (opA == op_t::N ? k : n);
 	uint_t ncA = (opA == op_t::N ? n : k);
-
-	zero(uplo_t::F, m, n, c, ldc);
 
 	for(uint_t l = 0; l < m; l++) {
 		for(uint_t j = 0; j < ncA; j++) {
@@ -642,6 +679,11 @@ void naive_gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T
 template <typename T>
 void gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
+	if(alpha == T(0)) {
+		zero(uplo_t::F, m, n, c, ldc);
+		return;
+	} // alpha = 0
+
 	uint_t mindim = std::min(n,k);
 
 	copy(uplo_t::F, m, mindim, b, ldb, c, ldc, alpha);
