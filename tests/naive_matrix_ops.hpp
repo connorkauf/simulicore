@@ -40,7 +40,7 @@ void naive_gemm(uint_t m, uint_t n, uint_t k, T alpha,
 {
 	for(uint_t i = 0; i < m; i++) {
 		for(uint_t j = 0; j < n; j++) {
-			T sum = 0.;
+			T sum = 0;
 			for(uint_t l = 0; l < k; l++) {
 				T aa = GetElem(lda,a,i,l,opA);
 				T bb = GetElem(ldb,b,l,j,opB);
