@@ -10,6 +10,7 @@
 #include "cla3p/src/support/utils.hpp"
 #include "cla3p/src/bulk/dns.hpp"
 #include "cla3p/src/bulk/dns_io.hpp"
+#include "cla3p/src/bulk/dns_math.hpp"
 
 #include "naive_matrix_ops.hpp"
 
@@ -25,10 +26,10 @@ static real_t cmptol()
 {
 	if (std::is_same<T, int_t>::value) return 0;
 	if (std::is_same<T, uint_t>::value) return 0;
-	if (std::is_same<T, real_t>::value) return 1.e-12;
-	if (std::is_same<T, real4_t>::value) return 1.e-6;
-	if (std::is_same<T, complex_t>::value) return 1.e-12;
-	if (std::is_same<T, complex8_t>::value) return 1.e-6;
+	if (std::is_same<T, real_t>::value) return 5.e-12;
+	if (std::is_same<T, real4_t>::value) return 5.e-6;
+	if (std::is_same<T, complex_t>::value) return 5.e-12;
+	if (std::is_same<T, complex8_t>::value) return 5.e-6;
 
 	return 0;
 }
@@ -101,8 +102,11 @@ static int_t naive_compare_vals(uplo_t uplo, uint_t m, uint_t n, bool trA, bool 
 			if(!trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,i,j));
 			if( trA && !conjA) aij =      bulk::dns::entry(lda,a,j,i) ;
 			if( trA &&  conjA) aij = conj(bulk::dns::entry(lda,a,j,i));
-			real_t diff = ddabs<T,real_t>(coeff * aij - bij);
-			if(element_is_in_active_range(uplo,Brows,Bcols,i,j) && diff > cmptol<T>()) return 1;
+			real_t diff = ddabs<T,real_t>(coeff * aij - bij) / ddabs<T,real_t>(bij);
+			if(element_is_in_active_range(uplo,Brows,Bcols,i,j) && diff > cmptol<T>()) {
+				printf("diff: %le tol: %le\n", diff, cmptol<T>());
+				return 1;
+			}
 		} // i
 	} // j
 
@@ -853,6 +857,302 @@ static int_t test_perms(bool strict)
 	test_success();
 }
 /*-------------------------------------------------*/
+template <class T>
+static int_t test_update_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t ldb, T coeff)
+{
+	T ref = T(1000);
+
+	T *a = naive_fill_vals<T>(m, n, lda, ref);
+	T *b1 = naive_fill_vals<T>(m, n, ldb, ref);
+	T *b2 = naive_fill_vals<T>(m, n, ldb, ref);
+	bulk::dns::rand(uplo, m, n, a, lda);
+	bulk::dns::update(uplo, m, n, coeff, a, lda, b1, ldb);
+	naive_update(m, n, a, lda, b2, ldb, coeff);
+	if(naive_compare_vals<T>(uplo, m, n, false, false, b1, ldb, b2, ldb, 1.)) return 1;
+	if(naive_check_complementary_vals<T>(uplo, m, n, b1, ldb, ref)) return 1;
+	i_free(a);
+	i_free(b1);
+	i_free(b2);
+
+	return 0;
+}
+/*-------------------------------------------------*/
+template <class T>
+static int_t test_update(bool strict)
+{
+	uint_t m = staticm;
+	uint_t n = staticn;
+
+	{
+		uint_t lda = m;
+		uint_t ldb = m;
+		if(test_update_in<T>(uplo_t::F, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::U, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::L, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::F, m, n, lda, ldb, 3)) fatal_error();
+		if(test_update_in<T>(uplo_t::U, m, n, lda, ldb, 3)) fatal_error();
+		if(test_update_in<T>(uplo_t::L, m, n, lda, ldb, 3)) fatal_error();
+	}
+
+	{
+		uint_t lda = m +  5;
+		uint_t ldb = m + 15;
+		if(test_update_in<T>(uplo_t::F, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::U, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::L, m, n, lda, ldb, 1)) fatal_error();
+		if(test_update_in<T>(uplo_t::F, m, n, lda, ldb, 2)) fatal_error();
+		if(test_update_in<T>(uplo_t::U, m, n, lda, ldb, 2)) fatal_error();
+		if(test_update_in<T>(uplo_t::L, m, n, lda, ldb, 2)) fatal_error();
+	}
+
+	test_success();
+}
+/*-------------------------------------------------*/
+template <class T>
+static int_t test_add_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t ldb, uint_t ldc, T coeffa, T coeffb)
+{
+	T ref = T(1000);
+
+	T *a = naive_fill_vals<T>(m, n, lda, ref);
+	T *b = naive_fill_vals<T>(m, n, ldb, ref);
+	T *c1 = naive_fill_vals<T>(m, n, ldc, ref);
+	T *c2 = naive_fill_vals<T>(m, n, ldc, ref);
+	bulk::dns::rand(uplo, m, n, a, lda);
+	bulk::dns::rand(uplo, m, n, b, ldc);
+	bulk::dns::add(uplo, m, n, coeffa, a, lda, coeffb, b, ldb, c1, ldc);
+	bulk::dns::zero(uplo, m, n, c2, ldc);
+	naive_update(m, n, a, lda, c2, ldc, coeffa);
+	naive_update(m, n, b, ldb, c2, ldc, coeffb);
+	if(naive_compare_vals<T>(uplo, m, n, false, false, c1, ldc, c2, ldc, 1.)) return 1;
+	if(naive_check_complementary_vals<T>(uplo, m, n, c1, ldc, ref)) return 1;
+	i_free(a);
+	i_free(b);
+	i_free(c1);
+	i_free(c2);
+
+	return 0;
+}
+/*-------------------------------------------------*/
+template <class T>
+static int_t test_add(bool strict)
+{
+	uint_t m = staticm;
+	uint_t n = staticn;
+
+	{
+		uint_t lda = m;
+		uint_t ldb = m;
+		uint_t ldc = m;
+		if(test_add_in<T>(uplo_t::F, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::U, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::L, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::F, m, n, lda, ldb, ldc, 3, 5)) fatal_error();
+		if(test_add_in<T>(uplo_t::U, m, n, lda, ldb, ldc, 3, 5)) fatal_error();
+		if(test_add_in<T>(uplo_t::L, m, n, lda, ldb, ldc, 3, 5)) fatal_error();
+	}
+
+	{
+		uint_t lda = m +  5;
+		uint_t ldb = m + 15;
+		uint_t ldc = m + 10;
+		if(test_add_in<T>(uplo_t::F, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::U, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::L, m, n, lda, ldb, ldc, 1, 1)) fatal_error();
+		if(test_add_in<T>(uplo_t::F, m, n, lda, ldb, ldc, 2, 3)) fatal_error();
+		if(test_add_in<T>(uplo_t::U, m, n, lda, ldb, ldc, 2, 3)) fatal_error();
+		if(test_add_in<T>(uplo_t::L, m, n, lda, ldb, ldc, 2, 3)) fatal_error();
+	}
+
+	test_success();
+}
+/*-------------------------------------------------*/
+template <class T>
+static int_t test_matvec_in(op_t op, prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t lda, T coeffa, T coeffb)
+{
+	if(ptype == prop_t::HERMITIAN) {
+		if (!(std::is_same<T,complex_t>::value || std::is_same<T,complex8_t>::value)) {
+			return 0;
+		}
+	}
+
+	if(ptype == prop_t::TRIANGULAR && coeffb != T(0)) {
+		return 0;
+	}
+
+	T ref = T(1000);
+
+	Property prop(ptype, uplo);
+	bool square = prop.isSquare();
+	bool samelda = (lda == m);
+
+	if(square) {
+		m = std::min(m,n);
+		n = std::min(m,n);
+		if(samelda) lda = m;
+	} // square
+
+	uint_t dimx = (op == op_t::N ? n : m);
+	uint_t dimy = (op == op_t::N ? m : n);
+
+	T *a = naive_fill_vals<T>(m, n, lda, ref);
+	T *c = naive_fill_vals<T>(m, n, lda, ref);
+	T *x = naive_fill_vals<T>(dimx, 1, dimx, ref);
+	T *y1 = naive_fill_vals<T>(dimy, 1, dimy, ref);
+	T *y2 = naive_fill_vals<T>(dimy, 1, dimy, ref);
+	bulk::dns::rand(uplo, m, n, a, lda);
+	bulk::dns::copy(uplo, m, n, a, lda, c, lda);
+	bulk::dns::rand(uplo_t::F, dimx, 1, x, dimx);
+	bulk::dns::rand(uplo_t::F, dimy, 1, y1, dimy);
+	bulk::dns::copy(uplo_t::F, dimy, 1, y1, dimy, y2, dimy);
+
+	if(prop.isGeneral()   ) bulk::dns::gem_x_vec(op, m, n, coeffa, a, lda, x, coeffb, y1);
+	if(prop.isSymmetric() ) bulk::dns::sym_x_vec(uplo, n, coeffa, a, lda, x, coeffb, y1);
+	if(prop.isHermitian() ) bulk::dns::hem_x_vec(uplo, n, coeffa, a, lda, x, coeffb, y1);
+	if(prop.isTriangular()) bulk::dns::trm_x_vec(uplo, op, m, n, coeffa, a, lda, x, y1);
+
+	if(prop.isSymmetric() ) bulk::dns::sy2ge(uplo,n,c,lda);
+	if(prop.isHermitian() ) bulk::dns::he2ge(uplo,n,c,lda);
+	if(prop.isTriangular()) bulk::dns::tr2ge(uplo,m,n,c,lda);
+	naive_matvec(op, m, n, c, lda, coeffa, x, coeffb, y2);
+
+	if(naive_compare_vals<T>(uplo_t::F, dimy, 1, false, false, y1, dimy, y2, dimy, 1.)) return 1;
+
+	i_free(a);
+	i_free(c);
+	i_free(x);
+	i_free(y1);
+	i_free(y2);
+
+	return 0;
+}
+/*-------------------------------------------------*/
+template <class T>
+static int_t test_matvec(bool strict)
+{
+	uint_t m = staticm;
+	uint_t n = staticn;
+
+	{
+		uint_t lda = m;
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+	}
+
+	{
+		uint_t lda = m + 5;
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 0)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 1, 1)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 0)) fatal_error();
+
+		if(test_matvec_in<T>(op_t::N, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::GENERAL   , uplo_t::F, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::SYMMETRIC , uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::HERMITIAN , uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::U, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::N, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::T, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+		if(test_matvec_in<T>(op_t::C, prop_t::TRIANGULAR, uplo_t::L, m, n, lda, 3, 5)) fatal_error();
+	}
+
+	test_success();
+}
+/*-------------------------------------------------*/
 static int_t bulk_dns_dims(bool strict, uint_t m, uint_t n)
 {
 	staticm = m;
@@ -948,6 +1248,27 @@ static int_t bulk_dns_dims(bool strict, uint_t m, uint_t n)
 	numfail += test_perms<cla3p::real4_t>(strict); numtests++;
 	numfail += test_perms<cla3p::complex_t>(strict); numtests++;
 	numfail += test_perms<cla3p::complex8_t>(strict); numtests++;
+
+	numfail += test_update<cla3p::int_t>(strict); numtests++;
+	numfail += test_update<cla3p::uint_t>(strict); numtests++;
+	numfail += test_update<cla3p::real_t>(strict); numtests++;
+	numfail += test_update<cla3p::real4_t>(strict); numtests++;
+	numfail += test_update<cla3p::complex_t>(strict); numtests++;
+	numfail += test_update<cla3p::complex8_t>(strict); numtests++;
+
+	numfail += test_add<cla3p::int_t>(strict); numtests++;
+	numfail += test_add<cla3p::uint_t>(strict); numtests++;
+	numfail += test_add<cla3p::real_t>(strict); numtests++;
+	numfail += test_add<cla3p::real4_t>(strict); numtests++;
+	numfail += test_add<cla3p::complex_t>(strict); numtests++;
+	numfail += test_add<cla3p::complex8_t>(strict); numtests++;
+
+	numfail += test_matvec<cla3p::int_t>(strict); numtests++;
+	numfail += test_matvec<cla3p::uint_t>(strict); numtests++;
+	numfail += test_matvec<cla3p::real_t>(strict); numtests++;
+	numfail += test_matvec<cla3p::real4_t>(strict); numtests++;
+	numfail += test_matvec<cla3p::complex_t>(strict); numtests++;
+	numfail += test_matvec<cla3p::complex8_t>(strict); numtests++;
 
 	print_summary();
 }

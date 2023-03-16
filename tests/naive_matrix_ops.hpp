@@ -20,10 +20,37 @@ Tr ddabs(T x)
 	return ddabs1(x);
 }
 /*-------------------------------------------------*/
-void naive_gemm(uint_t m, uint_t n, uint_t k, real_t alpha,
-		Operation opA, const real_t *a, uint_t lda,
-		Operation opB, const real_t *b, uint_t ldb,
-		real_t beta, real_t *c, uint_t ldc);
+template <class T>
+static T GetElem(uint_t lda, const T *a, uint_t i, uint_t j, op_t op)
+{
+	T ret = 0.;
+
+	/**/ if(op == op_t::N) ret =      bulk::dns::entry(lda,a,i,j) ;
+	else if(op == op_t::T) ret =      bulk::dns::entry(lda,a,j,i) ;
+	else if(op == op_t::C) ret = conj(bulk::dns::entry(lda,a,j,i));
+
+	return ret;
+}
+/*-------------------------------------------------*/
+template <class T>
+void naive_gemm(uint_t m, uint_t n, uint_t k, T alpha,
+		op_t opA, const T *a, uint_t lda,
+		op_t opB, const T *b, uint_t ldb,
+		T beta, T *c, uint_t ldc)
+{
+	for(uint_t i = 0; i < m; i++) {
+		for(uint_t j = 0; j < n; j++) {
+			T sum = 0.;
+			for(uint_t l = 0; l < k; l++) {
+				T aa = GetElem(lda,a,i,l,opA);
+				T bb = GetElem(ldb,b,l,j,opB);
+				sum += alpha * aa * bb;
+			} // l
+			bulk::dns::entry(ldc,c,i,j) = (beta == T(0) ? 0 : bulk::dns::entry(ldc,c,i,j) * beta);
+			bulk::dns::entry(ldc,c,i,j) += sum;
+		} // j
+	} // i
+}
 /*-------------------------------------------------*/
 template <class T, class Tr>
 Tr naive_norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
@@ -116,6 +143,24 @@ void naive_permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, ui
 		} // i
 	} // j
 	i_free(af);
+}
+/*-------------------------------------------------*/
+template <class T>
+void naive_update(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+{
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			bulk::dns::entry(ldb,b,i,j) += coeff * bulk::dns::entry(lda,a,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <class T>
+void naive_matvec(op_t op, uint_t m, uint_t n, const T* a, uint_t lda, T alpha, const T *x, T beta, T *y)
+{
+	uint_t dimx = (op == op_t::N ? n : m);
+	uint_t dimy = (op == op_t::N ? m : n);
+	naive_gemm(dimy, 1, dimx, alpha, op, a, lda, op_t::N, x, dimx, beta, y, dimy);
 }
 /*-------------------------------------------------*/
 
