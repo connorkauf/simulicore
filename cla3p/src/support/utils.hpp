@@ -71,7 +71,7 @@ inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 		ret.iend = m;
 	} else if(uplo == uplo_t::L) {
 		ret.ibgn = 0;
-		ret.iend = std::min(j,m-1);
+		ret.iend = std::min(j,m);
 	} // uplo
 
 	ret.ilen = ret.iend - ret.ibgn;
