@@ -286,6 +286,68 @@ static int_t test_copy(bool strict)
 	test_success();
 }
 /*-------------------------------------------------*/
+template <class T, class Tr>
+static int_t test_real_imag_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t ldb)
+{
+	T cref = T(1000);
+	Tr rref = Tr(1000);
+
+	uint_t ldar = (ldb == m ? m : ldb + 10);
+	uint_t ldai = (ldb == m ? m : ldb + 12);
+
+	T *a = naive_fill_vals<T>(m, n, lda, cref);
+	T *b = naive_fill_vals<T>(m, n, ldb, cref);
+	Tr *a_real = naive_fill_vals<Tr>(m, n, ldar, rref);
+	Tr *a_imag = naive_fill_vals<Tr>(m, n, ldai, rref);
+	bulk::dns::rand(uplo, m, n, a, lda);
+	bulk::dns::get_real(uplo, m, n, a, lda, a_real, ldar);
+	bulk::dns::get_imag(uplo, m, n, a, lda, a_imag, ldai);
+	bulk::dns::set_real(uplo, m, n, a_real, ldar, b, ldb);
+	bulk::dns::set_imag(uplo, m, n, a_imag, ldai, b, ldb);
+	if(naive_compare_vals<T>(uplo, m, n, false, false, a, lda, b, ldb, 1)) return 1;
+	if(naive_check_complementary_vals<T>(uplo, m, n, a, lda, cref)) return 1;
+	if(naive_check_complementary_vals<T>(uplo, m, n, b, ldb, cref)) return 1;
+	if(naive_check_complementary_vals<Tr>(uplo, m, n, a_real, ldar, rref)) return 1;
+	if(naive_check_complementary_vals<Tr>(uplo, m, n, a_imag, ldai, rref)) return 1;
+	i_free(a);
+	i_free(b);
+	i_free(a_real);
+	i_free(a_imag);
+
+	return 0;
+}
+/*-------------------------------------------------*/
+template <class T, class Tr>
+static int_t test_real_imag(bool strict)
+{
+	uint_t m = staticm;
+	uint_t n = staticn;
+
+	{
+		uint_t lda = m;
+		uint_t ldb = m;
+		if(test_real_imag_in<T,Tr>(uplo_t::F, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::U, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::L, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::F, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::U, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::L, m, n, lda, ldb)) fatal_error();
+	}
+
+	{
+		uint_t lda = m +  5;
+		uint_t ldb = m + 15;
+		if(test_real_imag_in<T,Tr>(uplo_t::F, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::U, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::L, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::F, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::U, m, n, lda, ldb)) fatal_error();
+		if(test_real_imag_in<T,Tr>(uplo_t::L, m, n, lda, ldb)) fatal_error();
+	}
+
+	test_success();
+}
+/*-------------------------------------------------*/
 template <class T>
 static int_t test_scale_in(uplo_t uplo, uint_t m, uint_t n, uint_t lda, uint_t ldb, T coeff)
 {
@@ -827,7 +889,8 @@ static int_t bulk_dns_dims(bool strict, uint_t m, uint_t n)
 	numfail += test_copy<cla3p::complex_t>(strict); numtests++;
 	numfail += test_copy<cla3p::complex8_t>(strict); numtests++;
 
-	// TODO: real/imag parts tests
+	numfail += test_real_imag<cla3p::complex_t,cla3p::real_t>(strict); numtests++;
+	numfail += test_real_imag<cla3p::complex8_t,cla3p::real4_t>(strict); numtests++;
 
 	numfail += test_scale<cla3p::int_t>(strict); numtests++;
 	numfail += test_scale<cla3p::uint_t>(strict); numtests++;
@@ -898,6 +961,11 @@ int_t bulk_dns(bool strict)
 	m =    8; n =  5; if(bulk_dns_dims(strict, m, n)) fatal_error();
 	m = 705; n = 699; if(bulk_dns_dims(strict, m, n)) fatal_error();
 	m = 793; n = 612; if(bulk_dns_dims(strict, m, n)) fatal_error();
+
+	m =   1; n =   8; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m =   5; n =   1; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m = 705; n =   1; if(bulk_dns_dims(strict, m, n)) fatal_error();
+	m =   1; n = 612; if(bulk_dns_dims(strict, m, n)) fatal_error();
 
 	test_success();
 }

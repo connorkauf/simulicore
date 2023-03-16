@@ -42,9 +42,9 @@ inline real4_t conj(const real4_t& s) { return s; }
 inline complex_t conj(const complex_t& z) { return std::conj(z); }
 inline complex8_t conj(const complex8_t& c) { return std::conj(c); }
 
-inline void setim(int_t&, int_t ) { }
+inline void setim(int_t&, int_t) { }
 inline void setim(uint_t&, uint_t) { }
-inline void setim(real_t&, real_t ) { }
+inline void setim(real_t&, real_t) { }
 inline void setim(real4_t&, real4_t) { }
 inline void setim(complex_t& z, real_t d) { z.imag(d); }
 inline void setim(complex8_t& c, real4_t s) { c.imag(s); }

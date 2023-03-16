@@ -185,7 +185,7 @@ static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)), 2, b, 1);
+				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 			} // ilen
 		} // j
 	}
@@ -202,7 +202,7 @@ static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)), 2);
+				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<Tr*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
 			} // ilen
 		} // j
 	}
@@ -219,7 +219,7 @@ static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,j,j)) + 1, 2, b, 1);
+				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 			} // ilen
 		} // j
 	}
@@ -236,7 +236,7 @@ static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, a, 1, reinterpret_cast<Tr*>(ptrmv(lda,b,j,j)) + 1, 2);
+				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<Tr*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
 			} // ilen
 		} // j
 	}
