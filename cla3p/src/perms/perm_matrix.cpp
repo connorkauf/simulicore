@@ -112,6 +112,15 @@ PermMatrix PermMatrix::init(uint_t n)
 	return ret.move();
 }
 /*-------------------------------------------------*/
+PermMatrix PermMatrix::identity(uint_t n)
+{
+	PermMatrix ret;
+	Property pr(prop_t::GENERAL, uplo_t::F);
+	ret.blankCreator(pr, n, 1, n);
+	fill_identity_perm(ret.size(), ret.values());
+	return ret.move();
+}
+/*-------------------------------------------------*/
 PermMatrix PermMatrix::random(uint_t n)
 {
 	PermMatrix ret;

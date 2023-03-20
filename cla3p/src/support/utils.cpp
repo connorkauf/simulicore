@@ -160,13 +160,18 @@ uplo_t auto_uplo(prop_t ptype)
 	return uplo_t::F;
 }
 /*-------------------------------------------------*/
+void fill_identity_perm(uint_t n, uint_t *P)
+{
+	for(uint_t i = 0; i < n; i++) {
+		P[i] = i;
+	} // i
+}
+/*-------------------------------------------------*/
 void fill_random_perm(uint_t n, uint_t *P)
 {
 	if(!n) return;
 
-	for(uint_t i = 0; i < n; i++) {
-		P[i] = i;
-	} // i
+	fill_identity_perm(n, P);
 
 	uint_t ilen = n;
 	for(uint_t i = 0; i < n - 1; i++) {

@@ -26,6 +26,7 @@ complex8_t crand(real4_t low, real4_t high);
 
 uplo_t auto_uplo(prop_t ptype);
 
+void fill_identity_perm(uint_t n, uint_t *P);
 void fill_random_perm(uint_t n, uint_t *P);
 std::vector<uint_t> create_random_perm(uint_t n);
 

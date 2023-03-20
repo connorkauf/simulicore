@@ -173,6 +173,16 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 		static PermMatrix init(uint_t n);
 
 		/**
+		 * @brief Creates an identity permutation matrix
+		 *
+		 * Creates an n-sized permutation matrix with P(i) = i.
+		 *
+		 * @param[in] n The permutation matrix size.
+		 * @return The newly created permutation matrix.
+		 */
+		static PermMatrix identity(uint_t n);
+
+		/**
 		 * @brief Creates a random permutation matrix
 		 *
 		 * Creates an n-sized permutation matrix with randomly rearranged indexes.
