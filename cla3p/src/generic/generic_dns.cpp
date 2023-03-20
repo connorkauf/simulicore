@@ -287,6 +287,47 @@ void GenericObject<T,Tr>::conjugateIp()
 }
 /*-------------------------------------------------*/
 template <typename T, typename Tr>
+void GenericObject<T,Tr>::convertToGeneral(GenericObject<T,Tr>& trg) const
+{
+	copyTo(trg);
+	trg.convertToGeneralIp();
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+void GenericObject<T,Tr>::convertToGeneralIp()
+{
+	if(prop().isGeneral()) {
+
+		// do nothing
+
+	} else if(prop().isSymmetric()) {
+
+		bulk::dns::sy2ge(prop().uplo(), csize(), values(), ld());
+		setProp(Property(prop_t::GENERAL,uplo_t::F));
+
+	} else if(prop().isHermitian()) {
+
+		bulk::dns::he2ge(prop().uplo(), csize(), values(), ld());
+		setProp(Property(prop_t::GENERAL,uplo_t::F));
+
+	} else if(prop().isTriangular()) {
+
+		bulk::dns::tr2ge(prop().uplo(), rsize(), csize(), values(), ld());
+		setProp(Property(prop_t::GENERAL,uplo_t::F));
+
+	} else if(prop().isSkew()) {
+
+		bulk::dns::sk2ge(prop().uplo(), csize(), values(), ld());
+		setProp(Property(prop_t::GENERAL,uplo_t::F));
+
+	} else {
+
+		throw Exception();
+
+	} // property 
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
 void GenericObject<T,Tr>::gePermuteTo(GenericObject<T,Tr>& trg, const PermMatrix& P, const PermMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), rsize(), csize(), P.size(), Q.size());

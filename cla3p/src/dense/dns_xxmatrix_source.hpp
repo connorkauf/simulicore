@@ -126,6 +126,18 @@ XxMatrix XxMatrix::transpose() const
 	return ret.move();
 }
 /*-------------------------------------------------*/
+XxMatrix XxMatrix::general() const
+{
+	XxMatrix ret;
+	ThisObjectType::convertToGeneral(ret);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+void XxMatrix::igeneral()
+{
+	ThisObjectType::convertToGeneralIp();
+}
+/*-------------------------------------------------*/
 XxMatrix XxMatrix::permute(const PermMatrix& P, const PermMatrix& Q) const
 {
 	XxMatrix ret;

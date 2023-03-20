@@ -190,6 +190,16 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		RfMatrix transpose() const;
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::general()
+		 */
+		RfMatrix general() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::igeneral()
+		 */
+		void igeneral();
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		RfMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;

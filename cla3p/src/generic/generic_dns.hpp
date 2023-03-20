@@ -128,6 +128,9 @@ class GenericObject : public UniversalMetaData {
 		void ctransposeTo(GenericObject<T,Tr>&) const;
 		void conjugateIp();
 
+		void convertToGeneral(GenericObject<T,Tr>&) const;
+		void convertToGeneralIp();
+
 		void gePermuteTo(GenericObject<T,Tr>&, const PermMatrix& P, const PermMatrix& Q) const;
 		void gePermuteToLeft(GenericObject<T,Tr>&, const PermMatrix& P) const;
 		void gePermuteToRight(GenericObject<T,Tr>&, const PermMatrix& Q) const;

@@ -202,6 +202,16 @@ class CdMatrix : private UniversalMetaTypes, public GenericObject<complex_t,real
 		void iconjugate();
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::general()
+		 */
+		CdMatrix general() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::igeneral()
+		 */
+		void igeneral();
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		CdMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;

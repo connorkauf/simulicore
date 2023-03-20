@@ -201,6 +201,16 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		void iconjugate();
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::general()
+		 */
+		CfMatrix general() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::igeneral()
+		 */
+		void igeneral();
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		CfMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;

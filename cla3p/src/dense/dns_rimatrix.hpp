@@ -170,6 +170,16 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix transpose() const;
 
 		/**
+		 * @copydoc cla3p::dns::RdMatrix::general()
+		 */
+		RiMatrix general() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdMatrix::igeneral()
+		 */
+		void igeneral();
+
+		/**
 		 * @copydoc cla3p::dns::RdMatrix::permute()
 		 */
 		RiMatrix permute(const PermMatrix& P, const PermMatrix& Q) const;

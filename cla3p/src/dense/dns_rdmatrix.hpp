@@ -230,6 +230,17 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		RdMatrix transpose() const;
 
 		/**
+		 * @brief Converts a matrix to general.
+		 * @return A copy of the matrix with general property.
+		 */
+		RdMatrix general() const;
+
+		/**
+		 * @brief Converts a matrix to general in-place.
+		 */
+		void igeneral();
+
+		/**
 		 * @brief Permutes a general matrix.
 		 *
 		 * Creates a permuted copy @f$ (PAQ) @f$ of the matrix @f$ A @f$.
