@@ -2,7 +2,6 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC
-	types.cpp
 	)
 
 set(CLA3P_HPP
@@ -16,6 +15,7 @@ set(CLA3P_HPP
 #-----------------------------------------------
 # sub-directory setup
 #-----------------------------------------------
+add_subdirectory(types)
 add_subdirectory(bulk)
 add_subdirectory(checks)
 add_subdirectory(proxies)
