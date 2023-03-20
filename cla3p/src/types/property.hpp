@@ -14,6 +14,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup basic_datatypes_group 
  * @enum prop_t
  * @brief The property type.
  */
@@ -27,6 +28,7 @@ enum class prop_t {
 };
 
 /**
+ * @ingroup basic_datatypes_group 
  * @enum uplo_t
  * @brief The fill type.
  */

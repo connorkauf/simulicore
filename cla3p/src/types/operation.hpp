@@ -14,6 +14,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
+ * @ingroup basic_datatypes_group 
  * @enum op_t
  * @brief The operation type.
  */
