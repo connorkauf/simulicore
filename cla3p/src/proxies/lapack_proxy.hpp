@@ -78,6 +78,14 @@ getrf_macro(int_t, complex_t);
 getrf_macro(int_t, complex8_t);
 #undef getrf_macro
 
+#define getrs_macro(typeout, typein) \
+typeout getrs(char trans, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb)
+getrs_macro(int_t, real_t);
+getrs_macro(int_t, real4_t);
+getrs_macro(int_t, complex_t);
+getrs_macro(int_t, complex8_t);
+#undef getrs_macro
+
 #define sytrf_macro(typeout, typein) \
 typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv)
 sytrf_macro(int_t, real_t);
@@ -85,6 +93,14 @@ sytrf_macro(int_t, real4_t);
 sytrf_macro(int_t, complex_t);
 sytrf_macro(int_t, complex8_t);
 #undef sytrf_macro
+
+#define sytrs_macro(typeout, typein) \
+typeout sytrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb)
+sytrs_macro(int_t, real_t);
+sytrs_macro(int_t, real4_t);
+sytrs_macro(int_t, complex_t);
+sytrs_macro(int_t, complex8_t);
+#undef sytrs_macro
 
 #define hetrf_macro(typeout, typein) \
 typeout hetrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv)
@@ -94,6 +110,14 @@ hetrf_macro(int_t, complex_t);
 hetrf_macro(int_t, complex8_t);
 #undef hetrf_macro
 
+#define hetrs_macro(typeout, typein) \
+typeout hetrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb)
+hetrs_macro(int_t, real_t); // exception
+hetrs_macro(int_t, real4_t); // exception
+hetrs_macro(int_t, complex_t);
+hetrs_macro(int_t, complex8_t);
+#undef hetrs_macro
+
 #define potrf_macro(typeout, typein) \
 typeout potrf(char uplo, int_t n, typein *a, int_t lda)
 potrf_macro(int_t, real_t);
@@ -101,6 +125,14 @@ potrf_macro(int_t, real4_t);
 potrf_macro(int_t, complex_t);
 potrf_macro(int_t, complex8_t);
 #undef potrf_macro
+
+#define potrs_macro(typeout, typein) \
+typeout potrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, typein *b, int_t ldb)
+potrs_macro(int_t, real_t);
+potrs_macro(int_t, real4_t);
+potrs_macro(int_t, complex_t);
+potrs_macro(int_t, complex8_t);
+#undef potrs_macro
 
 /*-------------------------------------------------*/
 } // namespace lapack
