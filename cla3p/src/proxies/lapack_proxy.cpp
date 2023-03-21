@@ -157,8 +157,8 @@ hetrf_macro(int_t, complex_t , z)
 hetrf_macro(int_t, complex8_t, c)
 #undef hetrf_macro
 /*-------------------------------------------------*/
-int_t hetrs(char, int_t, int_t, const real_t *, int_t, int_t*, real_t *, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t hetrs(char, int_t, int_t, const real4_t*, int_t, int_t*, real4_t*, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrs(char, int_t, int_t, const real_t *, int_t, const int_t*, real_t *, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrs(char, int_t, int_t, const real4_t*, int_t, const int_t*, real4_t*, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
 /*-------------------------------------------------*/
 #define hetrs_macro(typeout, typein, prefix) \
 typeout hetrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb) \
