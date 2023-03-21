@@ -191,6 +191,17 @@ potrs_macro(int_t, complex_t , z)
 potrs_macro(int_t, complex8_t, c)
 #undef potrs_macro
 /*-------------------------------------------------*/
+#define trtrs_macro(typeout, typein, prefix) \
+typeout trtrs(char uplo, char trans, char diag, int_t n, int_t nrhs, const typein *a, int_t lda, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##trtrs(LAPACK_COL_MAJOR, uplo, trans, diag, n, nrhs, a, lda, b, ldb); \
+}
+trtrs_macro(int_t, real_t    , d)
+trtrs_macro(int_t, real4_t   , s)
+trtrs_macro(int_t, complex_t , z)
+trtrs_macro(int_t, complex8_t, c)
+#undef trtrs_macro
+/*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
 /*-------------------------------------------------*/

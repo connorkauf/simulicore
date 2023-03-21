@@ -134,6 +134,14 @@ potrs_macro(int_t, complex_t);
 potrs_macro(int_t, complex8_t);
 #undef potrs_macro
 
+#define trtrs_macro(typeout, typein) \
+typeout trtrs(char uplo, char trans, char diag, int_t n, int_t nrhs, const typein *a, int_t lda, typein *b, int_t ldb)
+trtrs_macro(int_t, real_t);
+trtrs_macro(int_t, real4_t);
+trtrs_macro(int_t, complex_t);
+trtrs_macro(int_t, complex8_t);
+#undef trtrs_macro
+
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
