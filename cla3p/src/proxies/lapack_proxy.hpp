@@ -70,6 +70,38 @@ lantr_macro(real_t , complex_t);
 lantr_macro(real4_t, complex8_t);
 #undef lantr_macro
 
+#define getrf_macro(typeout, typein) \
+typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv)
+getrf_macro(int_t, real_t);
+getrf_macro(int_t, real4_t);
+getrf_macro(int_t, complex_t);
+getrf_macro(int_t, complex8_t);
+#undef getrf_macro
+
+#define sytrf_macro(typeout, typein) \
+typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv)
+sytrf_macro(int_t, real_t);
+sytrf_macro(int_t, real4_t);
+sytrf_macro(int_t, complex_t);
+sytrf_macro(int_t, complex8_t);
+#undef sytrf_macro
+
+#define hetrf_macro(typeout, typein) \
+typeout hetrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv)
+hetrf_macro(int_t, real_t); // exception
+hetrf_macro(int_t, real4_t); // exception
+hetrf_macro(int_t, complex_t);
+hetrf_macro(int_t, complex8_t);
+#undef hetrf_macro
+
+#define potrf_macro(typeout, typein) \
+typeout potrf(char uplo, int_t n, typein *a, int_t lda)
+potrf_macro(int_t, real_t);
+potrf_macro(int_t, real4_t);
+potrf_macro(int_t, complex_t);
+potrf_macro(int_t, complex8_t);
+#undef potrf_macro
+
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
