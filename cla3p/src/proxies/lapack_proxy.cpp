@@ -101,6 +101,74 @@ lantr_macro(real_t , complex_t , z)
 lantr_macro(real4_t, complex8_t, c)
 #undef lantr_macro
 /*-------------------------------------------------*/
+#define getrf_macro(typeout, typein, prefix) \
+typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##getrf(LAPACK_COL_MAJOR, m, n, a, lda, ipiv); \
+}
+getrf_macro(int_t, real_t    , d)
+getrf_macro(int_t, real4_t   , s)
+getrf_macro(int_t, complex_t , z)
+getrf_macro(int_t, complex8_t, c)
+#undef getrf_macro
+/*-------------------------------------------------*/
+#define sytrf_macro(typeout, typein, prefix) \
+typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##sytrf(LAPACK_COL_MAJOR, uplo, n, a, lda, ipiv); \
+}
+sytrf_macro(int_t, real_t    , d)
+sytrf_macro(int_t, real4_t   , s)
+sytrf_macro(int_t, complex_t , z)
+sytrf_macro(int_t, complex8_t, c)
+#undef sytrf_macro
+/*-------------------------------------------------*/
+int_t hetrf(char, int_t, real_t *, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrf(char, int_t, real4_t*, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+/*-------------------------------------------------*/
+#define hetrf_macro(typeout, typein, prefix) \
+typeout hetrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##hetrf(LAPACK_COL_MAJOR, uplo, n, a, lda, ipiv); \
+}
+hetrf_macro(int_t, complex_t , z)
+hetrf_macro(int_t, complex8_t, c)
+#undef hetrf_macro
+/*-------------------------------------------------*/
+#define potrf_macro(typeout, typein, prefix) \
+typeout potrf(char uplo, int_t n, typein *a, int_t lda) \
+{ \
+	return LAPACKE_##prefix##potrf(LAPACK_COL_MAJOR, uplo, n, a, lda); \
+}
+potrf_macro(int_t, real_t    , d)
+potrf_macro(int_t, real4_t   , s)
+potrf_macro(int_t, complex_t , z)
+potrf_macro(int_t, complex8_t, c)
+#undef potrf_macro
+/*-------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
 /*-------------------------------------------------*/
