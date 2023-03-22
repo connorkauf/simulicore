@@ -1,20 +1,21 @@
-#ifndef CLA3P_LAPACK_SOLVERS_HPP_
-#define CLA3P_LAPACK_SOLVERS_HPP_
+// this file inc
+#include "dns_custom_lsolvers.hpp"
 
-/**
- * @file
- * Lapack linear solvers
- */
+// system
 
-//#include "../types.hpp"
-//#include "../dense.hpp"
+// 3rd
+
+// cla3p
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace cla3p {
+namespace dns {
 /*-------------------------------------------------*/
 
+
+
 /*-------------------------------------------------*/
+} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_LAPACK_SOLVERS_HPP_

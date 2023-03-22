@@ -53,6 +53,14 @@
  */
 
 /**
+ * @defgroup linear_solvers_group Linear Solvers
+ *
+ * @defgroup dense_linear_solvers_group Dense
+ * @ingroup linear_solvers_group
+ *
+ */
+
+/**
  * @defgroup math_operators_group Math operators
  *
  * @defgroup op_addition_group Addition/Subtraction
@@ -63,6 +71,9 @@
  *
  * @defgroup op_permutation_group Permutation
  * @ingroup math_operators_group
+ *
+ * @defgroup op_linear_solution_group Linear Solution
+ * @ingroup math_operators_group
  */
 
 /**
@@ -72,3 +83,4 @@
 /**
  * @defgroup exception_group Exceptions
  */
+

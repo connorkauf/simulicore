@@ -10,6 +10,7 @@ set(CLA3P_HPP
 	dense.hpp
 	perms.hpp
 	operations.hpp
+	linsol.hpp
 	)
 
 #-----------------------------------------------
