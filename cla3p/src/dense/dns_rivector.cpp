@@ -21,6 +21,8 @@ using ThisGuardType = Guard<RiVector>;
 /*-------------------------------------------------*/
 #define XxVector RiVector
 #define XxVGuard RiVGuard
+#define XxMatrix RiMatrix
+#define XxMGuard RiMGuard
 #if defined (CLA3P_I64)
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::INT, PrecisionType::DOUBLE)
 #else
@@ -31,4 +33,6 @@ using ThisGuardType = Guard<RiVector>;
 /*-------------------------------------------------*/
 #undef XxVector
 #undef XxVGuard
+#undef XxMatrix
+#undef XxMGuard
 #undef UniversalConstructor

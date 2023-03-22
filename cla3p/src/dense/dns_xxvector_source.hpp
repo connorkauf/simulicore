@@ -83,6 +83,31 @@ XxVGuard XxVector::clone() const
 	return ret;
 }
 /*-------------------------------------------------*/
+XxMatrix XxVector::matrix() const
+{
+	XxMatrix ret;
+	ThisObjectType::copyTo(ret);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+XxMatrix XxVector::rmatrix()
+{
+	XxMatrix ret;
+	ThisObjectType::cloneTo(ret);
+	return ret.move();
+}
+/*-------------------------------------------------*/
+XxMGuard XxVector::rmatrix() const
+{
+	XxMGuard ret;
+
+	if(!empty()) {
+		ret = XxMatrix::wrap(size(), 1, values(), size());
+	} // non-empty
+
+	return ret;
+}
+/*-------------------------------------------------*/
 std::string XxVector::info(const std::string& msg) const
 { 
 	return ThisObjectType::info(false, msg, objTypeName(), dataTypeName(), precTypeName()); 

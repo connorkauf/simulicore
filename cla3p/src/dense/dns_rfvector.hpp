@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rfmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -134,6 +135,21 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		 * @copydoc cla3p::dns::RdVector::clone() const
 		 */
 		RfVGuard clone() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::matrix()
+		 */
+		RfMatrix matrix() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix()
+		 */
+		RfMatrix rmatrix();
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix() const
+		 */
+		RfMGuard rmatrix() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::scale()
