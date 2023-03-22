@@ -22,6 +22,8 @@ using ThisGuardType = Guard<CfVector>;
 #define RxVector RfVector
 #define XxVector CfVector
 #define XxVGuard CfVGuard
+#define XxMatrix CfMatrix
+#define XxMGuard CfMGuard
 #define UniversalConstructor() UniversalMetaTypes(ObjectType::DNS_VECTOR, DataType::COMPLEX, PrecisionType::SINGLE)
 /*-------------------------------------------------*/
 #include "dns_xxvector_source.hpp"
@@ -31,4 +33,6 @@ using ThisGuardType = Guard<CfVector>;
 #undef RxVector
 #undef XxVector
 #undef XxVGuard
+#undef XxMatrix
+#undef XxMGuard
 #undef UniversalConstructor

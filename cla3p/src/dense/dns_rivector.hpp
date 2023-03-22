@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rimatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -134,6 +135,21 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		 * @copydoc cla3p::dns::RdVector::clone() const
 		 */
 		RiVGuard clone() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::matrix()
+		 */
+		RiMatrix matrix() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix()
+		 */
+		RiMatrix rmatrix();
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix() const
+		 */
+		RiMGuard rmatrix() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::scale()

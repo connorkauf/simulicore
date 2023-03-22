@@ -12,6 +12,7 @@
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
 #include "../dense/dns_rdvector.hpp"
+#include "../dense/dns_cdmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -135,6 +136,21 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		 * @copydoc cla3p::dns::RdVector::clone() const
 		 */
 		CdVGuard clone() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::matrix()
+		 */
+		CdMatrix matrix() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix()
+		 */
+		CdMatrix rmatrix();
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix() const
+		 */
+		CdMGuard rmatrix() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::scale()

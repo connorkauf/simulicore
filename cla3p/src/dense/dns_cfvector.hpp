@@ -12,6 +12,7 @@
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
 #include "../dense/dns_rfvector.hpp"
+#include "../dense/dns_cfmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -135,6 +136,21 @@ class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		 * @copydoc cla3p::dns::RdVector::clone() const
 		 */
 		CfVGuard clone() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::matrix()
+		 */
+		CfMatrix matrix() const;
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix()
+		 */
+		CfMatrix rmatrix();
+
+		/**
+		 * @copydoc cla3p::dns::RdVector::rmatrix() const
+		 */
+		CfMGuard rmatrix() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::scale()

@@ -11,6 +11,7 @@
 #include "../types.hpp"
 #include "../generic/generic_dns.hpp"
 #include "../generic/guard.hpp"
+#include "../dense/dns_rdmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -155,6 +156,24 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @return A guard of the vector.
 		 */
 		RdVGuard clone() const;
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A copy of the vector as matrix.
+		 */
+		RdMatrix matrix() const;
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A reference of the vector as matrix.
+		 */
+		RdMatrix rmatrix();
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A reference of the vector as matrix guard.
+		 */
+		RdMGuard rmatrix() const;
 
 		/**
 		 * @brief Scales vector by coeff.
