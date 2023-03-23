@@ -9,7 +9,7 @@
 #include "../dense.hpp"
 #include "../proxies/lapack_proxy.hpp"
 #include "../support/error.hpp"
-#include "../support/error_internal.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -22,102 +22,69 @@ DefaultLSolver<T>::DefaultLSolver()
 }
 /*-------------------------------------------------*/
 template <typename T>
+DefaultLSolver<T>::DefaultLSolver(uint_t n)
+{
+	defaults();
+	reserve(n);
+}
+/*-------------------------------------------------*/
+template <typename T>
 DefaultLSolver<T>::~DefaultLSolver()
 {
-	clear_privately();
+	clearPrivately();
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::defaults()
 {
-	reset_info();
-	reset_decomp_flg();
+	info() = 0;
 }
 /*-------------------------------------------------*/
-template <typename T>       int_t               DefaultLSolver<T>::info  () const { return m_info;   }
-template <typename T>       T&                  DefaultLSolver<T>::factor()       { return m_factor; }
+template <typename T> int_t&              DefaultLSolver<T>::info  (){ return m_info;   }
+template <typename T> T&                  DefaultLSolver<T>::factor(){ return m_factor; }
+template <typename T> T&                  DefaultLSolver<T>::buffer(){ return m_buffer; }
+template <typename T> std::vector<int_t>& DefaultLSolver<T>::ipiv1 (){ return m_ipiv1;  }
+/*-------------------------------------------------*/
+template <typename T> const int_t&              DefaultLSolver<T>::info  () const { return m_info;   }
 template <typename T> const T&                  DefaultLSolver<T>::factor() const { return m_factor; }
-template <typename T>       std::vector<int_t>& DefaultLSolver<T>::ipiv1 ()       { return m_ipiv1;  }
+template <typename T> const T&                  DefaultLSolver<T>::buffer() const { return m_buffer; }
 template <typename T> const std::vector<int_t>& DefaultLSolver<T>::ipiv1 () const { return m_ipiv1;  }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::clear_privately()
+void DefaultLSolver<T>::clearPrivately()
 {
 	factor().clear();
+	buffer().clear();
 	ipiv1().clear();
 
 	defaults();
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::reset_info()
+void DefaultLSolver<T>::reserve(uint_t n)
 {
-	m_info = 0;
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::reset_decomp_flg()
-{
-	m_decomp_success = false;
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::update_decomp_flg()
-{
-	if(!info()) {
-		m_decomp_success = true;
-	} // info successful
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::check_decomp_info() const
-{
-	if(info()) {
-		throw Exception(msg::lapack_error() + " info: " + std::to_string(info()));
-	} // info
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::check_decomp_input(const T& mat) const
-{
-	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian());
-
-	if(mat.empty()) {
-		throw InvalidOp("Input matrix is empty");
-	} else if(!supported_prop) {
-		throw InvalidOp(mat.prop().name() + " not supported for linear decomposition");
-	} // valid prop
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::check_solve_input(const T& rhs) const
-{
-	if(!factor().prop().isValid()) {
-		throw InvalidOp("Decomposition stage is not performed");
-	} // valid prop
-
-	bool supported_prop = rhs.prop().isGeneral();
-
-	if(rhs.empty()) {
-		throw InvalidOp("Input rhs matrix is empty");
-	} else if(!supported_prop) {
-		throw InvalidOp(rhs.prop().name() + " not supported for rhs in linear solution stage");
-	} // valid prop
+	if(buffer().nrows() < n && buffer().ncols() < n) {
+		buffer().clear();
+		buffer() = T::init(n, n);
+	}
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::absorbInput(const T& mat)
 {
-	bool mat_fits_in_factor = (
-			factor().prop()  == mat.prop()  && 
-			factor().nrows() == mat.nrows() && 
-			factor().ncols() == mat.ncols() );
+	bool mat_fits_in_buffer = (buffer().nrows() >= mat.nrows() && buffer().ncols() >= mat.ncols());
 
-	if(mat_fits_in_factor) {
+	if(mat_fits_in_buffer) {
+
+		// create a compatible factor using buffer & copy mat
+		factor() = T::wrap(mat.prop(), mat.nrows(), mat.ncols(), buffer().values(), mat.nrows(), false);
 		factor().setBlock(0, 0, mat);
+
 	} else {
+
 		factor() = mat.copy();
-	} // overwrite/fresh copy
+
+	} // use buffer or fresh copy
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -126,20 +93,17 @@ void DefaultLSolver<T>::fdecompose()
 	if(factor().prop().isGeneral()) {
 
 		ipiv1().resize(std::min(factor().nrows(), factor().ncols()));
-		m_info = lapack::getrf(factor().nrows(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-		update_decomp_flg();
+		info() = lapack::getrf(factor().nrows(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
 
 	} else if(factor().prop().isSymmetric()) {
 
 		ipiv1().resize(factor().ncols());
-		m_info = lapack::sytrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-		update_decomp_flg();
+		info() = lapack::sytrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
 
 	} else if(factor().prop().isHermitian()) {
 
 		ipiv1().resize(factor().ncols());
-		m_info = lapack::hetrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-		update_decomp_flg();
+		info() = lapack::hetrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
 
 	} else {
 
@@ -147,7 +111,7 @@ void DefaultLSolver<T>::fdecompose()
 
 	} // prop
 
-	check_decomp_info();
+	lapack_info_check(info());
 }
 /*-------------------------------------------------*/
 /*----------------   VIRTUALS   -------------------*/
@@ -155,15 +119,14 @@ void DefaultLSolver<T>::fdecompose()
 template <typename T>
 void DefaultLSolver<T>::clear()
 {
-	clear_privately();
+	clearPrivately();
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::decompose(const T& mat)
 {
-	reset_info();
-	reset_decomp_flg();
-	check_decomp_input(mat);
+	factor().clear();
+	default_decomp_input_check(mat);
 	absorbInput(mat);
 	fdecompose();
 }
@@ -171,9 +134,8 @@ void DefaultLSolver<T>::decompose(const T& mat)
 template <typename T>
 void DefaultLSolver<T>::idecompose(T& mat)
 {
-	reset_info();
-	reset_decomp_flg();
-	check_decomp_input(mat);
+	factor().clear();
+	default_decomp_input_check(mat);
 	factor() = mat.move();
 	fdecompose();
 }
@@ -181,7 +143,11 @@ void DefaultLSolver<T>::idecompose(T& mat)
 template <typename T>
 void DefaultLSolver<T>::solve(T& rhs) const
 {
-	check_solve_input(rhs);
+	default_solve_input_check(rhs);
+
+	if(factor().empty()) {
+		throw InvalidOp("Decomposition stage is not performed");
+	} // empty factor
 
 	int_t info = 0;
 
@@ -203,9 +169,7 @@ void DefaultLSolver<T>::solve(T& rhs) const
 
 	} // prop
 
-	if(info) {
-		throw Exception("info: " + std::to_string(info));
-	}
+	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

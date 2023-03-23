@@ -37,9 +37,21 @@ class DefaultLSolver {
 		DefaultLSolver();
 
 		/**
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a preallocated solver object with n^2 buffered size.
+		 */
+		DefaultLSolver(uint_t n);
+
+		/**
 		 * @brief Destroys the solver.
 		 */
 		~DefaultLSolver();
+
+		/**
+		 * @brief Allocates a (n x n) workspace for out-of-place decompositions.
+		 */
+		virtual void reserve(uint_t n);
 
 		/**
 		 * @brief Clears the solver.
@@ -65,27 +77,26 @@ class DefaultLSolver {
 		virtual void solve(T& rhs) const;
 
 	protected:
-		int_t info() const;
+		int_t& info();
+		const int_t& info() const;
 		T& factor();
 		const T& factor() const;
 		std::vector<int_t>& ipiv1();
 		const std::vector<int_t>& ipiv1() const;
 
+		void absorbInput(const T& mat);
+
 	private:
 		int_t m_info;
-		bool m_decomp_success;
 		T m_factor;
+		T m_buffer;
 		std::vector<int_t> m_ipiv1;
 
+		T& buffer();
+		const T& buffer() const;
+
 		void defaults();
-		void clear_privately();
-		void reset_info();
-		void reset_decomp_flg();
-		void update_decomp_flg();
-		void check_decomp_info() const;
-		void check_decomp_input(const T&) const;
-		void check_solve_input(const T&) const;
-		void absorbInput(const T&);
+		void clearPrivately();
 		void fdecompose();
 };
 

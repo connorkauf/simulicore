@@ -20,17 +20,29 @@ static void linsol_test()
 {
 	cla3p::uint_t n = 10;
 	cla3p::uint_t nrhs = 5;
-	cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::L);
+	//cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::L);
+	//cla3p::Property prA(cla3p::prop_t::GENERAL, cla3p::uplo_t::F);
+	cla3p::Property prA(cla3p::prop_t::TRIANGULAR, cla3p::uplo_t::U);
 
-	const T A = T::random(prA, n, n);
-	const T B = T::random(n, nrhs);
+
+	T A = T::random(prA, n, n);
+	T B = T::random(n, nrhs);
+
+	for(cla3p::uint_t i = 0; i < n; i++) A(i,i) *= 1000;
+
 	std::cout << A << B;
 
-	T X = B / A;
-	std::cout << (B - A * X).normInf() << std::endl;
+	cla3p::dns::DefaultLSolver<T> def;
+	cla3p::dns::SpdCholesky<T> llt;
 
-	X = B.copy();
-	X /= A;
+	cla3p::dns::DefaultLSolver<T>& solver = llt;
+
+	T X = B.copy();
+
+	solver.reserve(n);
+	solver.decompose(A);
+	solver.solve(X);
+
 	std::cout << (B - A * X).normInf() << std::endl;
 }
 /*-------------------------------------------------*/
