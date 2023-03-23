@@ -73,6 +73,10 @@ void default_decomp_input_check(const T& mat)
 	} else if(!supported_prop) {
 		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for linear decomposition");
 	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
 }
 
 template <typename T>
@@ -89,6 +93,10 @@ void llt_decomp_input_check(const T& mat)
 	} else if(!supported_prop) {
 		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for SPD Cholesky decomposition");
 	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
 }
 
 // 
