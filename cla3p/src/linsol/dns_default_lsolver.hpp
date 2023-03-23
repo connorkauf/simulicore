@@ -68,16 +68,23 @@ class DefaultLSolver {
 		int_t info() const;
 		T& factor();
 		const T& factor() const;
-		std::vector<int_t>& ipiv();
-		const std::vector<int_t>& ipiv() const;
+		std::vector<int_t>& ipiv1();
+		const std::vector<int_t>& ipiv1() const;
 
 	private:
 		int_t m_info;
+		bool m_decomp_success;
 		T m_factor;
-		std::vector<int_t> m_ipiv;
+		std::vector<int_t> m_ipiv1;
 
 		void defaults();
-		void check(int_t info) const;
+		void clear_privately();
+		void reset_info();
+		void reset_decomp_flg();
+		void update_decomp_flg();
+		void check_decomp_info() const;
+		void check_decomp_input(const T&) const;
+		void check_solve_input(const T&) const;
 		void absorbInput(const T&);
 		void fdecompose();
 };
