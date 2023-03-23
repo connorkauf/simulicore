@@ -3,12 +3,12 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
 	linsol/dns_default_lsolver.cpp
-	linsol/dns_custom_lsolvers.cpp
+	linsol/dns_llt_lsolver.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_LINSOL_HPP 
 	dns_default_lsolver.hpp
-	dns_custom_lsolvers.hpp
+	dns_llt_lsolver.hpp
 	)
 
 #-----------------------------------------------
