@@ -123,6 +123,32 @@ getrs_macro(int_t, complex_t , z)
 getrs_macro(int_t, complex8_t, c)
 #undef getrs_macro
 /*-------------------------------------------------*/
+#define getc2_macro(typeout, typein, prefix) \
+typeout getc2(int_t n, typein *a, int_t lda, int_t *ipiv, int_t *jpiv) \
+{ \
+	int_t info = 0; \
+	prefix##getc2(&n, a, &lda, ipiv, jpiv, &info); \
+	return info; \
+}
+getc2_macro(int_t, real_t    , d)
+getc2_macro(int_t, real4_t   , s)
+getc2_macro(int_t, complex_t , z)
+getc2_macro(int_t, complex8_t, c)
+#undef getc2_macro
+/*-------------------------------------------------*/
+#define gesc2_macro(typeout, rtypein, typein, prefix) \
+typeout gesc2(int_t n, const typein *a, int_t lda, typein *rhs, const int_t *ipiv, const int_t *jpiv, rtypein *scale) \
+{ \
+	int_t info = 0; \
+	prefix##gesc2(&n, a, &lda, rhs, ipiv, jpiv, scale); \
+	return info; \
+}
+gesc2_macro(int_t, real_t , real_t    , d)
+gesc2_macro(int_t, real4_t, real4_t   , s)
+gesc2_macro(int_t, real_t , complex_t , z)
+gesc2_macro(int_t, real4_t, complex8_t, c)
+#undef gesc2_macro
+/*-------------------------------------------------*/
 #define sytrf_macro(typeout, typein, prefix) \
 typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
 { \

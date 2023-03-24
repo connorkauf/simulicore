@@ -86,6 +86,22 @@ getrs_macro(int_t, complex_t);
 getrs_macro(int_t, complex8_t);
 #undef getrs_macro
 
+#define getc2_macro(typeout, typein) \
+typeout getc2(int_t n, typein *a, int_t lda, int_t *ipiv, int_t *jpiv)
+getc2_macro(int_t, real_t);
+getc2_macro(int_t, real4_t);
+getc2_macro(int_t, complex_t);
+getc2_macro(int_t, complex8_t);
+#undef getc2_macro
+
+#define gesc2_macro(typeout, rtypein, typein) \
+typeout gesc2(int_t n, const typein *a, int_t lda, typein *rhs, const int_t *ipiv, const int_t *jpiv, rtypein *scale)
+gesc2_macro(int_t, real_t, real_t);
+gesc2_macro(int_t, real4_t, real4_t);
+gesc2_macro(int_t, real_t, complex_t);
+gesc2_macro(int_t, real4_t, complex8_t);
+#undef gesc2_macro
+
 #define sytrf_macro(typeout, typein) \
 typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv)
 sytrf_macro(int_t, real_t);
