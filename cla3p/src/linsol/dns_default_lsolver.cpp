@@ -18,125 +18,48 @@ namespace dns {
 template <typename T>
 DefaultLSolver<T>::DefaultLSolver()
 {
-	defaults();
 }
 /*-------------------------------------------------*/
 template <typename T>
 DefaultLSolver<T>::DefaultLSolver(uint_t n)
 {
-	defaults();
 	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T>
 DefaultLSolver<T>::~DefaultLSolver()
 {
-	clearPrivately();
+	clear();
 }
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::defaults()
-{
-	info() = 0;
-}
-/*-------------------------------------------------*/
-template <typename T> int_t&              DefaultLSolver<T>::info  (){ return m_info;   }
-template <typename T> T&                  DefaultLSolver<T>::factor(){ return m_factor; }
-template <typename T> T&                  DefaultLSolver<T>::buffer(){ return m_buffer; }
-template <typename T> std::vector<int_t>& DefaultLSolver<T>::ipiv1 (){ return m_ipiv1;  }
-/*-------------------------------------------------*/
-template <typename T> const int_t&              DefaultLSolver<T>::info  () const { return m_info;   }
-template <typename T> const T&                  DefaultLSolver<T>::factor() const { return m_factor; }
-template <typename T> const T&                  DefaultLSolver<T>::buffer() const { return m_buffer; }
-template <typename T> const std::vector<int_t>& DefaultLSolver<T>::ipiv1 () const { return m_ipiv1;  }
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::clearPrivately()
-{
-	factor().clear();
-	buffer().clear();
-	ipiv1().clear();
-
-	defaults();
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::absorbInput(const T& mat)
-{
-	bool mat_fits_in_buffer = (buffer().nrows() >= mat.nrows() && buffer().ncols() >= mat.ncols());
-
-	if(mat_fits_in_buffer) {
-
-		// create a compatible factor using buffer & copy mat
-		factor() = T::wrap(mat.prop(), mat.nrows(), mat.ncols(), buffer().values(), mat.nrows(), false);
-		factor().setBlock(0, 0, mat);
-
-	} else {
-
-		factor() = mat.copy();
-
-	} // use buffer or fresh copy
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::fdecompose()
-{
-	if(factor().prop().isGeneral()) {
-
-		ipiv1().resize(std::min(factor().nrows(), factor().ncols()));
-		info() = lapack::getrf(factor().nrows(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-
-	} else if(factor().prop().isSymmetric()) {
-
-		ipiv1().resize(factor().ncols());
-		info() = lapack::sytrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-
-	} else if(factor().prop().isHermitian()) {
-
-		ipiv1().resize(factor().ncols());
-		info() = lapack::hetrf(factor().prop().cuplo(), factor().ncols(), factor().values(), factor().ld(), ipiv1().data());
-
-	} else {
-
-		throw Exception("Unreachable");
-
-	} // prop
-
-	lapack_info_check(info());
-}
-/*-------------------------------------------------*/
-/*----------------   VIRTUALS   -------------------*/
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::reserve(uint_t n)
 {
-	if(buffer().nrows() < n && buffer().ncols() < n) {
-		buffer().clear();
-		buffer() = T::init(n, n);
-	}
+	this->reserveBuffer(n);
+	this->reserveIpiv(n);
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::clear()
 {
-	clearPrivately();
+	this->clearAll();
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::decompose(const T& mat)
 {
-	factor().clear();
+	this->factor().clear();
 	default_decomp_input_check(mat);
-	absorbInput(mat);
+	this->absorbInput(mat);
 	fdecompose();
 }
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::idecompose(T& mat)
 {
-	factor().clear();
+	this->factor().clear();
 	default_decomp_input_check(mat);
-	factor() = mat.move();
+	this->factor() = mat.move();
 	fdecompose();
 }
 /*-------------------------------------------------*/
@@ -145,23 +68,46 @@ void DefaultLSolver<T>::solve(T& rhs) const
 {
 	default_solve_input_check(rhs);
 
-	if(factor().empty()) {
+	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
 	} // empty factor
 
 	int_t info = 0;
 
-	if(factor().prop().isGeneral()) {
+	if(this->factor().prop().isGeneral()) {
 
-		info = lapack::getrs('N', factor().ncols(), rhs.ncols(), factor().values(), factor().ld(), ipiv1().data(), rhs.values(), rhs.ld());
+		info = lapack::getrs('N', 
+				this->factor().ncols(), 
+				rhs.ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data(), 
+				rhs.values(), 
+				rhs.ld());
 
-	} else if(factor().prop().isSymmetric()) {
+	} else if(this->factor().prop().isSymmetric()) {
 
-		info = lapack::sytrs(factor().prop().cuplo(), factor().ncols(), rhs.ncols(), factor().values(), factor().ld(), ipiv1().data(), rhs.values(), rhs.ld());
+		info = lapack::sytrs(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				rhs.ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data(), 
+				rhs.values(), 
+				rhs.ld());
 
-	} else if(factor().prop().isHermitian()) {
+	} else if(this->factor().prop().isHermitian()) {
 
-		info = lapack::hetrs(factor().prop().cuplo(), factor().ncols(), rhs.ncols(), factor().values(), factor().ld(), ipiv1().data(), rhs.values(), rhs.ld());
+		info = lapack::hetrs(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				rhs.ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data(), 
+				rhs.values(), 
+				rhs.ld());
 
 	} else {
 
@@ -170,6 +116,51 @@ void DefaultLSolver<T>::solve(T& rhs) const
 	} // prop
 
 	lapack_info_check(info);
+}
+/*-------------------------------------------------*/
+template <typename T>
+void DefaultLSolver<T>::fdecompose()
+{
+	if(this->factor().prop().isGeneral()) {
+
+		this->ipiv1().resize(std::min(this->factor().nrows(), this->factor().ncols()));
+
+		this->info() = lapack::getrf(
+				this->factor().nrows(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else if(this->factor().prop().isSymmetric()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		this->info() = lapack::sytrf(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else if(this->factor().prop().isHermitian()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		this->info() = lapack::hetrf(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else {
+
+		throw Exception("Unreachable");
+
+	} // prop
+
+	lapack_info_check(this->info());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

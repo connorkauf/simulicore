@@ -2,11 +2,13 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
+	linsol/dns_lsolver_base.cpp
 	linsol/dns_default_lsolver.cpp
 	linsol/dns_llt_lsolver.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_LINSOL_HPP 
+	dns_lsolver_base.hpp
 	dns_default_lsolver.hpp
 	dns_llt_lsolver.hpp
 	)
