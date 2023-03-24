@@ -21,9 +21,9 @@ static void linsol_test()
 	cla3p::uint_t n = 10;
 	cla3p::uint_t nrhs = 5;
 	//cla3p::Property prA(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::L);
-	//cla3p::Property prA(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::U);
+	cla3p::Property prA(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::U);
 	//cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::L);
-	cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::U);
+	//cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::U);
 	//cla3p::Property prA(cla3p::prop_t::GENERAL, cla3p::uplo_t::F);
 
 
@@ -37,8 +37,9 @@ static void linsol_test()
 	cla3p::dns::LSolverAuto<T> def;
 	cla3p::dns::LSolverLLt<T> llt;
 	cla3p::dns::LSolverLDLt<T> ldlt;
+	cla3p::dns::LSolverLU<T> lu;
 
-	cla3p::dns::LSolverBase<T>& solver = ldlt;
+	cla3p::dns::LSolverBase<T>& solver = lu;
 
 	T X = B.copy();
 

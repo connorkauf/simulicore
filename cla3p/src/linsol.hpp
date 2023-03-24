@@ -5,5 +5,6 @@
 #include "linsol/dns_auto_lsolver.hpp"
 #include "linsol/dns_llt_lsolver.hpp"
 #include "linsol/dns_ldlt_lsolver.hpp"
+#include "linsol/dns_lu_lsolver.hpp"
 
 #endif // CLA3P_LINSOL_HPP_
