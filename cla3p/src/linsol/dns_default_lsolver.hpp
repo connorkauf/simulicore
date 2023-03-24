@@ -6,9 +6,7 @@
  * Default class for dense linear solvers
  */
 
-#include <vector>
-
-#include "../types.hpp"
+#include "dns_lsolver_base.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -21,7 +19,7 @@ namespace dns {
  * @brief The default linear solver for dense matrices.
  */
 template <typename T>
-class DefaultLSolver {
+class DefaultLSolver : public LSolverBase<T> {
 
 	public:
 
@@ -51,52 +49,29 @@ class DefaultLSolver {
 		/**
 		 * @brief Allocates a (n x n) workspace for out-of-place decompositions.
 		 */
-		virtual void reserve(uint_t n);
+		void reserve(uint_t n);
 
 		/**
-		 * @brief Clears the solver.
+		 * @copydoc cla3p::dns::LSolverBase::clear()
 		 */
-		virtual void clear();
+		void clear() override;
 
 		/**
-		 * @brief Performs matrix decomposition.
-		 * @param[in] mat The matrix to be decomposed.
+		 * @copydoc cla3p::dns::LSolverBase::decompose()
 		 */
-		virtual void decompose(const T& mat);
+		void decompose(const T& mat) override;
 
 		/**
-		 * @brief Performs in-place matrix decomposition.
-		 * @param[in] mat The matrix to be decomposed, destroyed after the operation.
+		 * @copydoc cla3p::dns::LSolverBase::idecompose()
 		 */
-		virtual void idecompose(T& mat);
+		void idecompose(T& mat) override;
 
 		/**
-		 * @brief Performs in-place matrix solution.
-		 * @param[in] rhs The right hand side matrix, overwritten with the solution.
+		 * @copydoc cla3p::dns::LSolverBase::solve()
 		 */
-		virtual void solve(T& rhs) const;
-
-	protected:
-		int_t& info();
-		const int_t& info() const;
-		T& factor();
-		const T& factor() const;
-		std::vector<int_t>& ipiv1();
-		const std::vector<int_t>& ipiv1() const;
-
-		void absorbInput(const T& mat);
+		void solve(T& rhs) const override;
 
 	private:
-		int_t m_info;
-		T m_factor;
-		T m_buffer;
-		std::vector<int_t> m_ipiv1;
-
-		T& buffer();
-		const T& buffer() const;
-
-		void defaults();
-		void clearPrivately();
 		void fdecompose();
 };
 

@@ -16,77 +16,89 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T>
-SpdCholesky<T>::SpdCholesky()
+LSolverLLt<T>::LSolverLLt()
 {
 }
 /*-------------------------------------------------*/
 template <typename T>
-SpdCholesky<T>::SpdCholesky(uint_t n)
-	: DefaultLSolver<T>(n)
+LSolverLLt<T>::LSolverLLt(uint_t n)
 {
+	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T>
-SpdCholesky<T>::~SpdCholesky()
+LSolverLLt<T>::~LSolverLLt()
 {
-	DefaultLSolver<T>::clear();
+	clear();
 }
 /*-------------------------------------------------*/
 template <typename T>
-void SpdCholesky<T>::decompose(const T& mat)
+void LSolverLLt<T>::reserve(uint_t n)
 {
-	DefaultLSolver<T>::factor().clear();
+	this->reserveBuffer(n);
+}
+/*-------------------------------------------------*/
+template <typename T>
+void LSolverLLt<T>::clear()
+{
+	this->clearAll();
+}
+/*-------------------------------------------------*/
+template <typename T>
+void LSolverLLt<T>::decompose(const T& mat)
+{
+	this->factor().clear();
 	llt_decomp_input_check(mat);
-	DefaultLSolver<T>::absorbInput(mat);
+	this->absorbInput(mat);
 	fdecompose();
 }
 /*-------------------------------------------------*/
 template <typename T>
-void SpdCholesky<T>::idecompose(T& mat)
+void LSolverLLt<T>::idecompose(T& mat)
 {
-	DefaultLSolver<T>::factor().clear();
+	this->factor().clear();
 	llt_decomp_input_check(mat);
-	DefaultLSolver<T>::factor() = mat.move();
+	this->factor() = mat.move();
 	fdecompose();
 }
 /*-------------------------------------------------*/
 template <typename T>
-void SpdCholesky<T>::solve(T& rhs) const
+void LSolverLLt<T>::solve(T& rhs) const
 {
 	default_solve_input_check(rhs);
-
-	if(DefaultLSolver<T>::factor().empty()) {
+	
+	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
 	} // empty factor
 	
 	int_t info = lapack::potrs(
-			DefaultLSolver<T>::factor().prop().cuplo(), 
-			DefaultLSolver<T>::factor().ncols(), 
+			this->factor().prop().cuplo(), 
+			this->factor().ncols(), 
 			rhs.ncols(), 
-			DefaultLSolver<T>::factor().values(), 
-			DefaultLSolver<T>::factor().ld(), rhs.values(), rhs.ld());
+			this->factor().values(), 
+			this->factor().ld(), rhs.values(), rhs.ld());
 	
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T>
-void SpdCholesky<T>::fdecompose()
+void LSolverLLt<T>::fdecompose()
 {
-	DefaultLSolver<T>::info() = lapack::potrf(
-			DefaultLSolver<T>::factor().prop().cuplo(), 
-			DefaultLSolver<T>::factor().ncols(), 
-			DefaultLSolver<T>::factor().values(), 
-			DefaultLSolver<T>::factor().ld());
-
-	lapack_info_check(DefaultLSolver<T>::info());
+	this->info() = lapack::potrf(
+			this->factor().prop().cuplo(), 
+			this->factor().ncols(), 
+			this->factor().values(), 
+			this->factor().ld());
+	
+	lapack_info_check(this->info());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template class SpdCholesky<RdMatrix>;
-template class SpdCholesky<RfMatrix>;
-template class SpdCholesky<CdMatrix>;
-template class SpdCholesky<CfMatrix>;
+template class LSolverLLt<RdMatrix>;
+template class LSolverLLt<RfMatrix>;
+template class LSolverLLt<CdMatrix>;
+template class LSolverLLt<CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

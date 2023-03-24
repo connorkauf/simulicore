@@ -6,7 +6,7 @@
  * Custom dense linear solvers
  */
 
-#include "dns_default_lsolver.hpp"
+#include "dns_lsolver_base.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -19,48 +19,55 @@ namespace dns {
  * @brief The definite Cholesky (LL') linear solver for dense matrices.
  */
 template <typename T>
-class SpdCholesky : public DefaultLSolver<T> {
+class LSolverLLt : public LSolverBase<T> {
 
 	public:
 
 		// no copy
-		SpdCholesky(const SpdCholesky&) = delete;
-		SpdCholesky& operator=(const SpdCholesky&) = delete;
+		LSolverLLt(const LSolverLLt&) = delete;
+		LSolverLLt& operator=(const LSolverLLt&) = delete;
 
 		/**
 		 * @brief The default constructor.
 		 *
 		 * Constructs an empty solver object.
 		 */
-		SpdCholesky();
+		LSolverLLt();
 
 		/**
 		 * @brief The dimensional constructor.
 		 *
 		 * Constructs a preallocated solver object with n^2 buffered size.
 		 */
-		SpdCholesky(uint_t n);
+		LSolverLLt(uint_t n);
 
 		/**
 		 * @brief Destroys the solver.
 		 */
-		~SpdCholesky();
+		~LSolverLLt();
 
 		/**
-		 * @brief Performs matrix decomposition.
-		 * @param[in] mat The matrix to be decomposed.
+		 * @brief Allocates a (n x n) workspace for out-of-place decompositions.
+		 */
+		void reserve(uint_t n);
+
+		/**
+		 * @copydoc cla3p::dns::LSolverBase::clear()
+		 */
+		void clear() override;
+
+		/**
+		 * @copydoc cla3p::dns::LSolverBase::decompose()
 		 */
 		void decompose(const T& mat) override;
 
 		/**
-		 * @brief Performs in-place matrix decomposition.
-		 * @param[in] mat The matrix to be decomposed, destroyed after the operation.
+		 * @copydoc cla3p::dns::LSolverBase::idecompose()
 		 */
 		void idecompose(T& mat) override;
 
 		/**
-		 * @brief Performs in-place matrix solution.
-		 * @param[in] rhs The right hand side matrix, overwritten with the solution.
+		 * @copydoc cla3p::dns::LSolverBase::solve()
 		 */
 		void solve(T& rhs) const override;
 

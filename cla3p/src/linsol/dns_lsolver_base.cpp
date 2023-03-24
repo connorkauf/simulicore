@@ -8,8 +8,6 @@
 // cla3p
 #include "../dense.hpp"
 #include "../proxies/lapack_proxy.hpp"
-#include "../support/error.hpp"
-#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
