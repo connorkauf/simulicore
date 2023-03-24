@@ -61,15 +61,6 @@ void DefaultLSolver<T>::clearPrivately()
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::reserve(uint_t n)
-{
-	if(buffer().nrows() < n && buffer().ncols() < n) {
-		buffer().clear();
-		buffer() = T::init(n, n);
-	}
-}
-/*-------------------------------------------------*/
-template <typename T>
 void DefaultLSolver<T>::absorbInput(const T& mat)
 {
 	bool mat_fits_in_buffer = (buffer().nrows() >= mat.nrows() && buffer().ncols() >= mat.ncols());
@@ -115,6 +106,15 @@ void DefaultLSolver<T>::fdecompose()
 }
 /*-------------------------------------------------*/
 /*----------------   VIRTUALS   -------------------*/
+/*-------------------------------------------------*/
+template <typename T>
+void DefaultLSolver<T>::reserve(uint_t n)
+{
+	if(buffer().nrows() < n && buffer().ncols() < n) {
+		buffer().clear();
+		buffer() = T::init(n, n);
+	}
+}
 /*-------------------------------------------------*/
 template <typename T>
 void DefaultLSolver<T>::clear()
