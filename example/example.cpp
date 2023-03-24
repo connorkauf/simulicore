@@ -30,7 +30,9 @@ static void linsol_test()
 	T A = T::random(prA, n, n);
 	T B = T::random(n, nrhs);
 
-	for(cla3p::uint_t i = 0; i < n; i++) A(i,i) *= 1000;
+	//for(cla3p::uint_t i = 0; i < n; i++) A(i,i) *= 1000;
+
+	B.scale(1.e-10);
 
 	//std::cout << A << B;
 
@@ -38,8 +40,9 @@ static void linsol_test()
 	cla3p::dns::LSolverLLt<T> llt;
 	cla3p::dns::LSolverLDLt<T> ldlt;
 	cla3p::dns::LSolverLU<T> lu;
+	cla3p::dns::LSolverCompleteLU<T> clu;
 
-	cla3p::dns::LSolverBase<T>& solver = lu;
+	cla3p::dns::LSolverBase<T>& solver = clu;
 
 	T X = B.copy();
 
@@ -47,7 +50,7 @@ static void linsol_test()
 	solver.decompose(A);
 	solver.solve(X);
 
-	std::cout << (B - A * X).normInf() << std::endl;
+	std::cout << (B - A * X).normInf() / B.normInf() << std::endl;
 }
 /*-------------------------------------------------*/
 

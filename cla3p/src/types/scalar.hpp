@@ -50,6 +50,11 @@ inline real4_t conj(const real4_t& s) { return s; }
 inline complex_t conj(const complex_t& z) { return std::conj(z); }
 inline complex8_t conj(const complex8_t& c) { return std::conj(c); }
 
+inline real_t  getRe(const real_t& d) { return d; }
+inline real4_t getRe(const real4_t& f) { return f; }
+inline real_t  getRe(const complex_t& z) { return z.real(); }
+inline real4_t getRe(const complex8_t& c) { return c.real(); }
+
 inline void setim(real_t&, real_t) { }
 inline void setim(real4_t&, real4_t) { }
 inline void setim(complex_t& z, real_t d) { z.imag(d); }
