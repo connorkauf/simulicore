@@ -1,9 +1,9 @@
-#ifndef CLA3P_DNS_LLT_LSOLVER_HPP_
-#define CLA3P_DNS_LLT_LSOLVER_HPP_
+#ifndef CLA3P_DNS_LDLT_LSOLVER_HPP_
+#define CLA3P_DNS_LDLT_LSOLVER_HPP_
 
 /**
  * @file
- * Cholesky LLt dense linear solver
+ * LDLt dense linear solver
  */
 
 #include "dns_lsolver_base.hpp"
@@ -16,35 +16,35 @@ namespace dns {
 /**
  * @ingroup dense_linear_solvers_group
  * @nosubgrouping
- * @brief The definite Cholesky (LL') linear solver for dense matrices.
+ * @brief The indefinite Cholesky (LDL') linear solver for dense matrices.
  */
 template <typename T>
-class LSolverLLt : public LSolverBase<T> {
+class LSolverLDLt : public LSolverBase<T> {
 
 	public:
 
 		// no copy
-		LSolverLLt(const LSolverLLt&) = delete;
-		LSolverLLt& operator=(const LSolverLLt&) = delete;
+		LSolverLDLt(const LSolverLDLt&) = delete;
+		LSolverLDLt& operator=(const LSolverLDLt&) = delete;
 
 		/**
 		 * @brief The default constructor.
 		 *
 		 * Constructs an empty solver object.
 		 */
-		LSolverLLt();
+		LSolverLDLt();
 
 		/**
 		 * @brief The dimensional constructor.
 		 *
 		 * Constructs a preallocated solver object with n^2 buffered size.
 		 */
-		LSolverLLt(uint_t n);
+		LSolverLDLt(uint_t n);
 
 		/**
 		 * @brief Destroys the solver.
 		 */
-		~LSolverLLt();
+		~LSolverLDLt();
 
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::reserve(uint_t n)
@@ -75,4 +75,4 @@ class LSolverLLt : public LSolverBase<T> {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_LLT_LSOLVER_HPP_
+#endif // CLA3P_DNS_LDLT_LSOLVER_HPP_
