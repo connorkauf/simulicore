@@ -7,7 +7,7 @@
 
 // cla3p
 #include "math_ops.hpp"
-#include "../linsol/dns_default_lsolver.hpp"
+#include "../linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
 static const cla3p::Operation noOp = cla3p::Operation(cla3p::op_t::N);
@@ -106,7 +106,7 @@ cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::Pe
 template <typename T>
 static void default_linear_solution_ip(const T& A, T& X)
 {
-	cla3p::dns::DefaultLSolver<T> solver;
+	cla3p::dns::LSolverAuto<T> solver;
 	solver.decompose(A);
 	solver.solve(X);
 }

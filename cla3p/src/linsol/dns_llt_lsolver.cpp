@@ -29,19 +29,13 @@ LSolverLLt<T>::LSolverLLt(uint_t n)
 template <typename T>
 LSolverLLt<T>::~LSolverLLt()
 {
-	clear();
+	this->clear();
 }
 /*-------------------------------------------------*/
 template <typename T>
 void LSolverLLt<T>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
-}
-/*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::clear()
-{
-	this->clearAll();
 }
 /*-------------------------------------------------*/
 template <typename T>

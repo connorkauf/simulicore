@@ -1,9 +1,9 @@
-#ifndef CLA3P_DNS_DEFAULT_LSOLVER_HPP_
-#define CLA3P_DNS_DEFAULT_LSOLVER_HPP_
+#ifndef CLA3P_DNS_AUTO_LSOLVER_HPP_
+#define CLA3P_DNS_AUTO_LSOLVER_HPP_
 
 /**
  * @file
- * Default class for dense linear solvers
+ * Auto detect method class for dense linear solvers
  */
 
 #include "dns_lsolver_base.hpp"
@@ -16,45 +16,40 @@ namespace dns {
 /**
  * @ingroup dense_linear_solvers_group
  * @nosubgrouping
- * @brief The default linear solver for dense matrices.
+ * @brief The linear solver for dense matrices with auto method detection.
  */
 template <typename T>
-class DefaultLSolver : public LSolverBase<T> {
+class LSolverAuto : public LSolverBase<T> {
 
 	public:
 
 		// no copy
-		DefaultLSolver(const DefaultLSolver&) = delete;
-		DefaultLSolver& operator=(const DefaultLSolver&) = delete;
+		LSolverAuto(const LSolverAuto&) = delete;
+		LSolverAuto& operator=(const LSolverAuto&) = delete;
 
 		/**
 		 * @brief The default constructor.
 		 *
 		 * Constructs an empty solver object.
 		 */
-		DefaultLSolver();
+		LSolverAuto();
 
 		/**
 		 * @brief The dimensional constructor.
 		 *
 		 * Constructs a preallocated solver object with n^2 buffered size.
 		 */
-		DefaultLSolver(uint_t n);
+		LSolverAuto(uint_t n);
 
 		/**
 		 * @brief Destroys the solver.
 		 */
-		~DefaultLSolver();
+		~LSolverAuto();
 
 		/**
-		 * @brief Allocates a (n x n) workspace for out-of-place decompositions.
+		 * @copydoc cla3p::dns::LSolverBase::reserve(uint_t n)
 		 */
-		void reserve(uint_t n);
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::clear()
-		 */
-		void clear() override;
+		void reserve(uint_t n) override;
 
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::decompose()
@@ -80,4 +75,4 @@ class DefaultLSolver : public LSolverBase<T> {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_DEFAULT_LSOLVER_HPP_
+#endif // CLA3P_DNS_AUTO_LSOLVER_HPP_

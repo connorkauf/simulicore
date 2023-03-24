@@ -1,5 +1,5 @@
 // this file inc
-#include "dns_default_lsolver.hpp"
+#include "dns_auto_lsolver.hpp"
 
 // system
 
@@ -16,37 +16,31 @@ namespace cla3p {
 namespace dns { 
 /*-------------------------------------------------*/
 template <typename T>
-DefaultLSolver<T>::DefaultLSolver()
+LSolverAuto<T>::LSolverAuto()
 {
 }
 /*-------------------------------------------------*/
 template <typename T>
-DefaultLSolver<T>::DefaultLSolver(uint_t n)
+LSolverAuto<T>::LSolverAuto(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T>
-DefaultLSolver<T>::~DefaultLSolver()
+LSolverAuto<T>::~LSolverAuto()
 {
-	clear();
+	this->clear();
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::reserve(uint_t n)
+void LSolverAuto<T>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 	this->reserveIpiv(n);
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::clear()
-{
-	this->clearAll();
-}
-/*-------------------------------------------------*/
-template <typename T>
-void DefaultLSolver<T>::decompose(const T& mat)
+void LSolverAuto<T>::decompose(const T& mat)
 {
 	this->factor().clear();
 	default_decomp_input_check(mat);
@@ -55,7 +49,7 @@ void DefaultLSolver<T>::decompose(const T& mat)
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::idecompose(T& mat)
+void LSolverAuto<T>::idecompose(T& mat)
 {
 	this->factor().clear();
 	default_decomp_input_check(mat);
@@ -64,7 +58,7 @@ void DefaultLSolver<T>::idecompose(T& mat)
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::solve(T& rhs) const
+void LSolverAuto<T>::solve(T& rhs) const
 {
 	default_solve_input_check(rhs);
 
@@ -119,7 +113,7 @@ void DefaultLSolver<T>::solve(T& rhs) const
 }
 /*-------------------------------------------------*/
 template <typename T>
-void DefaultLSolver<T>::fdecompose()
+void LSolverAuto<T>::fdecompose()
 {
 	if(this->factor().prop().isGeneral()) {
 
@@ -165,10 +159,10 @@ void DefaultLSolver<T>::fdecompose()
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template class DefaultLSolver<RdMatrix>;
-template class DefaultLSolver<RfMatrix>;
-template class DefaultLSolver<CdMatrix>;
-template class DefaultLSolver<CfMatrix>;
+template class LSolverAuto<RdMatrix>;
+template class LSolverAuto<RfMatrix>;
+template class LSolverAuto<CdMatrix>;
+template class LSolverAuto<CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
