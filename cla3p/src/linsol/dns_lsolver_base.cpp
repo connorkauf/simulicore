@@ -22,7 +22,7 @@ LSolverBase<T>::LSolverBase()
 template <typename T>
 LSolverBase<T>::~LSolverBase()
 {
-	clearAll();
+	clear();
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -42,6 +42,17 @@ template <typename T> const T&                  LSolverBase<T>::factor() const {
 template <typename T> const T&                  LSolverBase<T>::buffer() const { return m_buffer; }
 template <typename T> const std::vector<int_t>& LSolverBase<T>::ipiv1 () const { return m_ipiv1;  }
 template <typename T> const std::vector<int_t>& LSolverBase<T>::jpiv1 () const { return m_jpiv1;  }
+/*-------------------------------------------------*/
+template <typename T>
+void LSolverBase<T>::reserve(uint_t)
+{
+}
+/*-------------------------------------------------*/
+template <typename T>
+void LSolverBase<T>::clear()
+{
+	clearAll();
+}
 /*-------------------------------------------------*/
 template <typename T>
 void LSolverBase<T>::reserveBuffer(uint_t n)

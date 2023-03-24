@@ -20,9 +20,11 @@ static void linsol_test()
 {
 	cla3p::uint_t n = 10;
 	cla3p::uint_t nrhs = 5;
-	cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::L);
-	//cla3p::Property prA(cla3p::prop_t::GENERAL, cla3p::uplo_t::F);
-	//cla3p::Property prA(cla3p::prop_t::TRIANGULAR, cla3p::uplo_t::U);
+	//cla3p::Property prA(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::L);
+	//cla3p::Property prA(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::U);
+	//cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::L);
+	//cla3p::Property prA(cla3p::prop_t::SYMMETRIC, cla3p::uplo_t::U);
+	cla3p::Property prA(cla3p::prop_t::GENERAL, cla3p::uplo_t::F);
 
 
 	T A = T::random(prA, n, n);
@@ -30,15 +32,16 @@ static void linsol_test()
 
 	for(cla3p::uint_t i = 0; i < n; i++) A(i,i) *= 1000;
 
-	std::cout << A << B;
+	//std::cout << A << B;
 
-	cla3p::dns::DefaultLSolver<T> def(n);
-	cla3p::dns::LSolverLLt<T> llt(n);
+	cla3p::dns::LSolverAuto<T> def;
+	cla3p::dns::LSolverLLt<T> llt;
 
-	cla3p::dns::LSolverBase<T>& solver = llt;
+	cla3p::dns::LSolverBase<T>& solver = def;
 
 	T X = B.copy();
 
+	solver.reserve(n);
 	solver.decompose(A);
 	solver.solve(X);
 
@@ -49,9 +52,9 @@ static void linsol_test()
 int main()
 {
 	linsol_test<cla3p::dns::RdMatrix>();
-	//linsol_test<cla3p::dns::RfMatrix>();
-	//linsol_test<cla3p::dns::CdMatrix>();
-	//linsol_test<cla3p::dns::CfMatrix>();
+	linsol_test<cla3p::dns::RfMatrix>();
+	linsol_test<cla3p::dns::CdMatrix>();
+	linsol_test<cla3p::dns::CfMatrix>();
 
 	return 0;
 }

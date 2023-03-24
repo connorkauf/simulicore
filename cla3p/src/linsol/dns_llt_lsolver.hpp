@@ -47,14 +47,9 @@ class LSolverLLt : public LSolverBase<T> {
 		~LSolverLLt();
 
 		/**
-		 * @brief Allocates a (n x n) workspace for out-of-place decompositions.
+		 * @copydoc cla3p::dns::LSolverBase::reserve(uint_t n)
 		 */
-		void reserve(uint_t n);
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::clear()
-		 */
-		void clear() override;
+		void reserve(uint_t n) override;
 
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::decompose()

@@ -33,9 +33,14 @@ class LSolverBase {
 		~LSolverBase();
 
 		/**
+		 * @brief Allocates internal buffers.
+		 */
+		virtual void reserve(uint_t n);
+
+		/**
 		 * @brief Clears the solver internal data.
 		 */
-		virtual void clear() = 0;
+		virtual void clear();
 
 		/**
 		 * @brief Performs matrix decomposition.
