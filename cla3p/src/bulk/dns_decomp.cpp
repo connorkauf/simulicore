@@ -89,8 +89,8 @@ void itrsm_lun(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			int_t k = i;
 
 			if(k > 0) {
-				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,i+1,0), ldb, ptrmv(ldb,b,0,0), ldb);
 				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i  ), 1, ptrmv(ldb,b,i  ,0), ldb, ptrmv(ldb,b,0,0), ldb);
+				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,i+1,0), ldb, ptrmv(ldb,b,0,0), ldb);
 			} // ger
 
 		} // ipiv
@@ -199,8 +199,8 @@ void itrsm_llt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			int_t k = n - (i+2);
 
 			if(k > 0) {
-				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,i+2,0), ldb, ptrmv(lda,a,i+2,i+1), 1, 1, ptrmv(ldb,b,i+1,0), ldb);
 				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,i+2,0), ldb, ptrmv(lda,a,i+2,i  ), 1, 1, ptrmv(ldb,b,i  ,0), ldb);
+				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,i+2,0), ldb, ptrmv(lda,a,i+2,i+1), 1, 1, ptrmv(ldb,b,i+1,0), ldb);
 			} // gemv
 
 			if(ip != i+1) {
@@ -279,8 +279,8 @@ void itrsm_rln(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			int_t k = n - (i+2);
 
 			if(k > 0) {
-				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,i+2), ldb, ptrmv(lda,a,i+2,i+1), 1, 1, ptrmv(ldb,b,0,i+1), 1);
 				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,i+2), ldb, ptrmv(lda,a,i+2,i  ), 1, 1, ptrmv(ldb,b,0,i  ), 1);
+				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,i+2), ldb, ptrmv(lda,a,i+2,i+1), 1, 1, ptrmv(ldb,b,0,i+1), 1);
 			} // gemv
 
 			if(ip != i+1) {
@@ -481,8 +481,8 @@ void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			int_t k = i;
 
 			if(k > 0) {
-				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i+1), 1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,0,0), ldb);
 				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i  ), 1, ptrmv(lda,a,0,i  ), 1, ptrmv(ldb,b,0,0), ldb);
+				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i+1), 1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,0,0), ldb);
 			} // ger
 
 		} // ipiv
