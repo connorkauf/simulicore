@@ -59,11 +59,11 @@ void LSolverLLt<T>::idecompose(T& mat)
 template <typename T>
 void LSolverLLt<T>::solve(T& rhs) const
 {
-	default_solve_input_check(rhs);
-	
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
 	} // empty factor
+	
+	default_solve_input_check(this->factor().ncols(), rhs);
 	
 	int_t info = lapack::potrs(
 			this->factor().prop().cuplo(), 

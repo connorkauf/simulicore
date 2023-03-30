@@ -135,9 +135,13 @@ void lu_decomp_input_check(const T& mat)
 // Checks for matrix solution
 //
 template <typename T>
-void default_solve_input_check(const T& rhs)
+void default_solve_input_check(uint_t n, const T& rhs)
 {
 	bool supported_prop = rhs.prop().isGeneral();
+
+	if(rhs.nrows() != n) {
+		throw InvalidOp("Mismatching dimensions for linear solution stage");
+	} // dim check
 
 	if(rhs.empty()) {
 		throw InvalidOp("Input rhs matrix is empty");
