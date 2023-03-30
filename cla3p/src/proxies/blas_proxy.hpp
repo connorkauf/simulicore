@@ -18,6 +18,14 @@ copy_macro(void, complex_t);
 copy_macro(void, complex8_t);
 #undef copy_macro
 
+#define swap_macro(typeout, typein) \
+typeout swap(int_t n, typein *x, int_t incx, typein *y, int_t incy)
+swap_macro(void, real_t);
+swap_macro(void, real4_t);
+swap_macro(void, complex_t);
+swap_macro(void, complex8_t);
+#undef swap_macro
+
 #define nrm2_macro(typeout, typein) \
 typeout nrm2(int_t n, const typein *x, int_t incx)
 nrm2_macro(real_t , real_t);
@@ -89,6 +97,27 @@ trmv_macro(void, real4_t);
 trmv_macro(void, complex_t);
 trmv_macro(void, complex8_t);
 #undef trmv_macro
+
+#define ger_macro(typeout, typein) \
+typeout ger(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+ger_macro(void, real_t);
+ger_macro(void, real4_t);
+#undef ger_macro
+
+#define geru_macro(typeout, typein) \
+typeout geru(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+geru_macro(void, complex_t);
+geru_macro(void, complex8_t);
+#undef geru_macro
+
+#define gerc_macro(typeout, typein) \
+typeout gerc(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+gerc_macro(void, complex_t);
+gerc_macro(void, complex8_t);
+#undef gerc_macro
 
 /*------------------ Level 3 ----------------------*/
 
