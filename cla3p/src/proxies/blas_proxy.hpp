@@ -26,6 +26,16 @@ swap_macro(void, complex_t);
 swap_macro(void, complex8_t);
 #undef swap_macro
 
+#define scal_macro(typeout, atypein, typein) \
+typeout scal(int_t n, atypein alpha, typein *x, int_t incx)
+scal_macro(void, real_t, real_t);
+scal_macro(void, real4_t, real4_t);
+scal_macro(void, real_t, complex_t);
+scal_macro(void, real4_t, complex8_t);
+scal_macro(void, complex_t, complex_t);
+scal_macro(void, complex8_t, complex8_t);
+#undef scal_macro
+
 #define nrm2_macro(typeout, typein) \
 typeout nrm2(int_t n, const typein *x, int_t incx)
 nrm2_macro(real_t , real_t);
