@@ -61,11 +61,11 @@ void LSolverCompleteLU<T>::idecompose(T& mat)
 template <typename T>
 void LSolverCompleteLU<T>::solve(T& rhs) const
 {
-	default_solve_input_check(rhs);
-
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
 	} // empty factor
+
+	default_solve_input_check(this->factor().ncols(), rhs);
 
 	if(this->factor().prop().isGeneral()) {
 
