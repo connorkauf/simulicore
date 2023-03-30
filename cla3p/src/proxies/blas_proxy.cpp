@@ -36,6 +36,19 @@ swap_macro(void, complex_t , z)
 swap_macro(void, complex8_t, c)
 #undef swap_macro
 /*-------------------------------------------------*/
+#define scal_macro(typeout, atypein, typein, prefix) \
+typeout scal(int_t n, atypein alpha, typein *x, int_t incx) \
+{ \
+	prefix##scal(&n, &alpha, x, &incx); \
+}
+scal_macro(void, real_t    , real_t    , d );
+scal_macro(void, real4_t   , real4_t   , s );
+scal_macro(void, real_t    , complex_t , zd);
+scal_macro(void, real4_t   , complex8_t, cs);
+scal_macro(void, complex_t , complex_t , z );
+scal_macro(void, complex8_t, complex8_t, c );
+#undef scal_macro
+/*-------------------------------------------------*/
 #define nrm2_macro(typeout, typein, rprefix, cprefix) \
 typeout nrm2(int_t n, const typein *x, int_t incx) \
 { \
