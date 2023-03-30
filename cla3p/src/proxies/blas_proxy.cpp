@@ -17,13 +17,24 @@ namespace blas {
 #define copy_macro(typeout, typein, prefix) \
 typeout copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy) \
 { \
-	return prefix##copy(&n, x, &incx, y, &incy); \
+	prefix##copy(&n, x, &incx, y, &incy); \
 }
 copy_macro(void, real_t    , d)
 copy_macro(void, real4_t   , s)
 copy_macro(void, complex_t , z)
 copy_macro(void, complex8_t, c)
 #undef copy_macro
+/*-------------------------------------------------*/
+#define swap_macro(typeout, typein, prefix) \
+typeout swap(int_t n, typein *x, int_t incx, typein *y, int_t incy) \
+{ \
+	prefix##swap(&n, x, &incx, y, &incy); \
+}
+swap_macro(void, real_t    , d)
+swap_macro(void, real4_t   , s)
+swap_macro(void, complex_t , z)
+swap_macro(void, complex8_t, c)
+#undef swap_macro
 /*-------------------------------------------------*/
 #define nrm2_macro(typeout, typein, rprefix, cprefix) \
 typeout nrm2(int_t n, const typein *x, int_t incx) \
@@ -70,7 +81,7 @@ dotc_macro(complex8_t, c)
 #define axpy_macro(typeout, typein, prefix) \
 typeout axpy(int_t n, typein alpha, const typein *x, int_t incx, typein *y, int_t incy) \
 { \
-	return prefix##axpy(&n, &alpha, x, &incx, y, &incy); \
+	prefix##axpy(&n, &alpha, x, &incx, y, &incy); \
 }
 axpy_macro(void, real_t    , d)
 axpy_macro(void, real4_t   , s)
@@ -83,7 +94,7 @@ typeout gemv(char trans, int_t m, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy) \
 { \
-	return prefix##gemv(&trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	prefix##gemv(&trans, &m, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 gemv_macro(void, real_t    , d)
 gemv_macro(void, real4_t   , s)
@@ -95,7 +106,7 @@ gemv_macro(void, complex8_t, c)
 typeout symv(char uplo, int_t n, typein alpha, const typein *a, int_t lda, \
 		const typein *x, int_t incx, typein beta, typein *y, int_t incy) \
 { \
-	return prefix##symv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	prefix##symv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 symv_macro(void, real_t    , d)
 symv_macro(void, real4_t   , s)
@@ -108,7 +119,7 @@ typeout hemv(char uplo, int_t n, typein alpha, \
 		const typein *a, int_t lda, const typein *x, int_t incx, \
 		typein beta, typein *y, int_t incy) \
 { \
-	return prefix##hemv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
+	prefix##hemv(&uplo, &n, &alpha, a, &lda, x, &incx, &beta, y, &incy); \
 }
 hemv_macro(void, complex_t , z)
 hemv_macro(void, complex8_t, c)
@@ -118,7 +129,7 @@ hemv_macro(void, complex8_t, c)
 typeout trmv(char uplo, char transa, char diag, int_t n, \
 		const typein *a, int_t lda, typein *b, int_t incx) \
 { \
-	return prefix##trmv(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
+	prefix##trmv(&uplo, &transa, &diag, &n, a, &lda, b, &incx); \
 }
 trmv_macro(void, real_t    , d)
 trmv_macro(void, real4_t   , s)
@@ -126,12 +137,42 @@ trmv_macro(void, complex_t , z)
 trmv_macro(void, complex8_t, c)
 #undef trmv_macro
 /*-------------------------------------------------*/
+#define ger_macro(typeout, typein, prefix) \
+typeout ger(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda) \
+{ \
+	prefix##ger(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
+}
+ger_macro(void, real_t , d)
+ger_macro(void, real4_t, s)
+#undef ger_macro
+/*-------------------------------------------------*/
+#define geru_macro(typeout, typein, prefix) \
+typeout geru(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda) \
+{ \
+	prefix##geru(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
+}
+geru_macro(void, complex_t , z)
+geru_macro(void, complex8_t, c)
+#undef geru_macro
+/*-------------------------------------------------*/
+#define gerc_macro(typeout, typein, prefix) \
+typeout gerc(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda) \
+{ \
+	prefix##gerc(&m, &n, &alpha, x, &incx, y, &incy, a, &lda); \
+}
+gerc_macro(void, complex_t , z)
+gerc_macro(void, complex8_t, c)
+#undef geru_macro
+/*-------------------------------------------------*/
 #define gemm_macro(typeout, typein, prefix) \
 typeout gemm(char transa, char transb, int_t m, int_t n, int_t k, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
 		typein beta, typein *c, int_t ldc) \
 { \
-	return prefix##gemm(&transa, &transb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+	prefix##gemm(&transa, &transb, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 gemm_macro(void, real_t    , d)
 gemm_macro(void, real4_t   , s)
@@ -144,7 +185,7 @@ typeout symm(char side, char uplo, int_t m, int_t n, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
 		typein beta, typein *c, int_t ldc) \
 { \
-	return prefix##symm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+	prefix##symm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 symm_macro(void, real_t    , d)
 symm_macro(void, real4_t   , s)
@@ -157,7 +198,7 @@ typeout hemm(char side, char uplo, int_t m, int_t n, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
 		typein beta, typein *c, int_t ldc) \
 { \
-	return prefix##hemm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+	prefix##hemm(&side, &uplo, &m, &n, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
 }
 hemm_macro(void, complex_t , z)
 hemm_macro(void, complex8_t, c)
@@ -168,7 +209,7 @@ typeout trmm(char side, char uplo, char transa, char diag, \
 		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
 		typein *b, int_t ldb) \
 { \
-	return prefix##trmm(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
+	prefix##trmm(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
 }
 trmm_macro(void, real_t    , d)
 trmm_macro(void, real4_t   , s)
