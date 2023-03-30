@@ -56,6 +56,48 @@ void itrsm_lln(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 	} // i
 }
 /*-------------------------------------------------*/
+void itrsm_lun(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	if(!n || !nrhs) return;
+
+	for(int_t i = n-1; i >= 0; i--) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,i,0), ldb, ptrmv(ldb,b,ip,0), ldb);
+			} // swap
+
+			int_t k = i;
+
+			if(k > 0) {
+				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i), 1, ptrmv(ldb,b,i,0), ldb, ptrmv(ldb,b,0,0), ldb);
+			} // ger
+
+		} else if(ipiv1[i] < 0) {
+
+			i--;
+
+			int_t ip = - ipiv1[i] - 1;
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,i,0), ldb, ptrmv(ldb,b,ip,0), ldb);
+			} // swap
+
+			int_t k = i;
+
+			if(k > 0) {
+				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,i+1,0), ldb, ptrmv(ldb,b,0,0), ldb);
+				blas::ger(k, nrhs, -1, ptrmv(lda,a,0,i  ), 1, ptrmv(ldb,b,i  ,0), ldb, ptrmv(ldb,b,0,0), ldb);
+			} // ger
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
 static int_t itrsm_lxd(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
 {
 	if(uplo != 'L' && uplo != 'U') {
@@ -125,6 +167,11 @@ int_t itrsm_lld(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_
 	return itrsm_lxd('L', n, a, lda, nrhs, b, ldb, ipiv1);
 }
 /*-------------------------------------------------*/
+int_t itrsm_lud(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	return itrsm_lxd('U', n, a, lda, nrhs, b, ldb, ipiv1);
+}
+/*-------------------------------------------------*/
 void itrsm_llt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
 {
 	if(!n || !nrhs) return;
@@ -165,6 +212,46 @@ void itrsm_llt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 	} // i
 }
 /*-------------------------------------------------*/
+void itrsm_lut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	if(!n || !nrhs) return;
+
+	for(int_t i = 0; i < n; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+			int_t k = i;
+
+			if(k > 0) {
+				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i), 1, 1, ptrmv(ldb,b,i,0), ldb);
+			} // gemv
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,i,0), ldb, ptrmv(ldb,b,ip,0), ldb);
+			} // swap
+
+		} else if(ipiv1[i] < 0) {
+
+			int_t ip = - ipiv1[i] - 1;
+			int_t k = i;
+
+			if(k > 0) {
+				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i  ), 1, 1, ptrmv(ldb,b,i  ,0), ldb);
+				blas::gemv('T', k, nrhs, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i+1), 1, 1, ptrmv(ldb,b,i+1,0), ldb);
+			} // gemv
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,i,0), ldb, ptrmv(ldb,b,ip,0), ldb);
+			} // swap
+
+			i++;
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
 void itrsm_rln(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
 {
 	if(!n || !nrhs) return;
@@ -199,6 +286,46 @@ void itrsm_rln(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			if(ip != i+1) {
 				blas::swap(nrhs, ptrmv(ldb,b,0,i+1), 1, ptrmv(ldb,b,0,ip), 1);
 			} // swap
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+void itrsm_run(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	if(!n || !nrhs) return;
+
+	for(int_t i = 0; i < n; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+			int_t k = i;
+
+			if(k > 0) {
+				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i), 1, 1, ptrmv(ldb,b,0,i), 1);
+			} // gemv
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,0,i), 1, ptrmv(ldb,b,0,ip), 1);
+			} // swap
+
+		} else if(ipiv1[i] < 0) {
+
+			int_t ip = - ipiv1[i] - 1;
+			int_t k = i;
+
+			if(k > 0) {
+				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i  ), 1, 1, ptrmv(ldb,b,0,i  ), 1);
+				blas::gemv('N', nrhs, k, -1, ptrmv(ldb,b,0,0), ldb, ptrmv(lda,a,0,i+1), 1, 1, ptrmv(ldb,b,0,i+1), 1);
+			} // gemv
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,0,i), 1, ptrmv(ldb,b,0,ip), 1);
+			} // swap
+
+			i++;
 
 		} // ipiv
 
@@ -274,6 +401,11 @@ int_t itrsm_rld(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_
 	return itrsm_rxd('L', n, a, lda, nrhs, b, ldb, ipiv1);
 }
 /*-------------------------------------------------*/
+int_t itrsm_rud(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	return itrsm_rxd('U', n, a, lda, nrhs, b, ldb, ipiv1);
+}
+/*-------------------------------------------------*/
 void itrsm_rlt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
 {
 	if(!n || !nrhs) return;
@@ -310,6 +442,48 @@ void itrsm_rlt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 			} // ger
 
 			i++;
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+{
+	if(!n || !nrhs) return;
+
+	for(int_t i = n-1; i >= 0; i--) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,0,i), 1, ptrmv(ldb,b,0,ip), 1);
+			} // swap
+
+			int_t k = i;
+
+			if(k > 0) {
+				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i), 1, ptrmv(lda,a,0,i), 1, ptrmv(ldb,b,0,0), ldb);
+			} // ger
+
+		} else if(ipiv1[i] < 0) {
+
+			i--;
+
+			int_t ip = - ipiv1[i] - 1;
+
+			if(ip != i) {
+				blas::swap(nrhs, ptrmv(ldb,b,0,i), 1, ptrmv(ldb,b,0,ip), 1);
+			} // swap
+
+			int_t k = i;
+
+			if(k > 0) {
+				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i+1), 1, ptrmv(lda,a,0,i+1), 1, ptrmv(ldb,b,0,0), ldb);
+				blas::ger(nrhs, k, -1, ptrmv(ldb,b,0,i  ), 1, ptrmv(lda,a,0,i  ), 1, ptrmv(ldb,b,0,0), ldb);
+			} // ger
 
 		} // ipiv
 
