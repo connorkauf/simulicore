@@ -12,31 +12,97 @@
 #include "cla3p/src/bulk/dns_io.hpp"
 #include "cla3p/src/bulk/dns_math.hpp"
 #include "cla3p/src/bulk/dns_decomp.hpp"
+#include "cla3p/src/proxies/blas_proxy.hpp"
 #include "cla3p/src/proxies/lapack_proxy.hpp"
 #include "cla3p/src/support/utils.hpp"
 #include "cla3p/src/support/error_internal.hpp"
 #endif
 /*-------------------------------------------------*/
+#if 0
+static std::vector<cla3p::uint_t> ipiv2iperm(const std::vector<cla3p::int_t>& ipiv)
+{
+	cla3p::int_t n = ipiv.size();
+
+	std::vector<cla3p::uint_t> ret(n);
+	std::vector<cla3p::uint_t> tmp(n);
+
+	for(cla3p::int_t i = 0; i < n; i++) tmp[i] = i;
+
+	for(cla3p::int_t i = 0; i < n; i++) {
+
+		if(ipiv[i] > 0) {
+
+			cla3p::int_t ip = ipiv[i] - 1;
+			if(i != ip) std::swap(tmp[i], tmp[ip]);
+
+		} else if(ipiv[i] < 0) {
+
+			cla3p::int_t ip = - ipiv[i] - 1;
+			if(i+1 != ip) std::swap(tmp[i+1], tmp[ip]);
+
+			i++;
+		}
+
+	} // i
+
+#if 1
+	for(cla3p::int_t i = 0; i < n; i++) ret[tmp[i]] = i;
+	return ret;
+#else
+	return tmp;
+#endif
+}
+#endif
+/*-------------------------------------------------*/
+#if 0
+static cla3p::dns::RdMatrix zero_2x2_off_diag_element(const cla3p::dns::RdMatrix& F, const std::vector<cla3p::int_t>& ipiv)
+{
+	cla3p::int_t n = ipiv.size();
+	cla3p::dns::RdMatrix ret = F.copy();
+
+	for(cla3p::int_t i = 0; i < n; i++) {
+
+		if(ipiv[i] < 0) {
+			cla3p::int_t k = - ipiv[i] - 1;
+			//cla3p::int_t k = i;
+			ret(k+1,k) = 0;
+			ret(k,k+1) = 0;
+			i++;
+		}
+
+	} // i
+
+	return ret.move();
+}
+#endif
+/*-------------------------------------------------*/
 static void check_custom_trsm(cla3p::uplo_t uplo)
 {
-	cla3p::uint_t n = 100;
+	cla3p::uint_t n = 50;
 	cla3p::uint_t nrhs = 5;
 
 	cla3p::Property prA(cla3p::prop_t::SYMMETRIC, uplo);
 
-	const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(prA, n, n);
-	const cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(n, nrhs);
+	cla3p::dns::RdMatrix G = cla3p::dns::RdMatrix::random(prA, n+20, n+20);
+	cla3p::dns::RdMatrix A = G.rblock(0,0,n,n); //cla3p::dns::RdMatrix::random(prA, n, n);
+	cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(n, nrhs);
+
+	//for(cla3p::uint_t i = 0; i < n; i++) A(i,i) = std::abs(A(i,i)) * 20;
 
 	cla3p::dns::RdMatrix X1 = B.copy();
 	cla3p::dns::RdMatrix X2 = B.copy();
 	cla3p::dns::RdMatrix X3 = B.transpose();
+	cla3p::dns::RdMatrix X4 = B.copy();
 
 	std::vector<cla3p::int_t> ipiv(n);
 	cla3p::dns::RdMatrix F = A.copy();
 	cla3p::lapack::sytrf(prA.cuplo(), n, F.values(), F.ld(), ipiv.data());
 
 	cla3p::bulk::dns::print(cla3p::uplo_t::F, 1, n, ipiv.data(), 1);
+	//std::vector<cla3p::uint_t> iperm = ipiv2iperm(ipiv);
+	//cla3p::bulk::dns::print(cla3p::uplo_t::F, 1, n, iperm.data(), 1);
 
+#if 1
 	cla3p::lapack::sytrs(prA.cuplo(), n, nrhs, F.values(), F.ld(), ipiv.data(), X1.values(), X1.ld());
 
 	if(prA.isLower()) {
@@ -58,10 +124,40 @@ static void check_custom_trsm(cla3p::uplo_t uplo)
 		cla3p::bulk::dns::itrsm_rud(n, F.values(), F.ld(), nrhs, X3.values(), X3.ld(), ipiv.data());
 		cla3p::bulk::dns::itrsm_run(n, F.values(), F.ld(), nrhs, X3.values(), X3.ld(), ipiv.data());
 	}
+#endif
+
+	{
+		if(prA.isLower()) {
+			cla3p::dns::RdMatrix tmp = F.copy();
+			cla3p::bulk::dns::itrperm(prA.cuplo(), n, tmp.values(), tmp.ld(), ipiv.data());
+			{
+				cla3p::bulk::dns::igeperm('F','N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
+				cla3p::blas::trsm('L', prA.cuplo(), 'N', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
+				cla3p::bulk::dns::itrsm_lld(n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
+				cla3p::blas::trsm('L', prA.cuplo(), 'T', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
+				cla3p::bulk::dns::igeperm('B', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
+			}
+		}
+
+		if(prA.isUpper()) {
+			cla3p::dns::RdMatrix tmp = F.copy();
+			cla3p::bulk::dns::itrperm(prA.cuplo(), n, tmp.values(), tmp.ld(), ipiv.data());
+			{
+				cla3p::blas::trsm('L', prA.cuplo(), 'N', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
+				cla3p::bulk::dns::igeperm('B','N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
+
+				cla3p::bulk::dns::itrsm_lud(n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
+
+				cla3p::bulk::dns::igeperm('F', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
+				cla3p::blas::trsm('L', prA.cuplo(), 'T', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
+			}
+		}
+	}
 
 	std::cout << (B - A * X1).normInf() / B.normInf() << std::endl;
 	std::cout << (B - A * X2).normInf() / B.normInf() << std::endl;
 	std::cout << (B - A * X3.transpose()).normInf() / B.normInf() << std::endl;
+	std::cout << (B - A * X4).normInf() / B.normInf() << std::endl;
 }
 /*-------------------------------------------------*/
 template <typename T>
@@ -105,8 +201,8 @@ static void linsol_test()
 
 int main()
 {
-	check_custom_trsm(cla3p::uplo_t::L);
 	check_custom_trsm(cla3p::uplo_t::U);
+	check_custom_trsm(cla3p::uplo_t::L);
 	return 0;
 
 	linsol_test<cla3p::dns::RdMatrix>();

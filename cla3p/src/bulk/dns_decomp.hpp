@@ -49,6 +49,12 @@ int_t itrsm_rud(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_
 void itrsm_rlt(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1);
 void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1);
 
+//
+// tr: Apply ipiv to a and zero 2x2 off diag
+// ge: Apply ipiv to a left side
+//
+void itrperm(char uplo, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
+void igeperm(char order, char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
 
 /*-------------------------------------------------*/
 } // namespace dns
