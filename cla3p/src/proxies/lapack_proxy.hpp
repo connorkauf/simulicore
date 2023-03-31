@@ -70,6 +70,14 @@ lantr_macro(real_t , complex_t);
 lantr_macro(real4_t, complex8_t);
 #undef lantr_macro
 
+#define laswp_macro(typeout, typein) \
+typeout laswp(int_t n, typein *a, int_t lda, int_t k1, int_t k2, const int_t* ipiv, int_t incx)
+laswp_macro(int_t, real_t);
+laswp_macro(int_t, real4_t);
+laswp_macro(int_t, complex_t);
+laswp_macro(int_t, complex8_t);
+#undef laswp_macro
+
 #define getrf_macro(typeout, typein) \
 typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv)
 getrf_macro(int_t, real_t);
