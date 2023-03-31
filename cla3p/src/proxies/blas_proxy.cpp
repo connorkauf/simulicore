@@ -230,6 +230,19 @@ trmm_macro(void, complex_t , z)
 trmm_macro(void, complex8_t, c)
 #undef trmm_macro
 /*-------------------------------------------------*/
+#define trsm_macro(typeout, typein, prefix) \
+typeout trsm(char side, char uplo, char transa, char diag, \
+		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+		typein *b, int_t ldb) \
+{ \
+	prefix##trsm(&side, &uplo, &transa, &diag, &m, &n, &alpha, a, &lda, b, &ldb); \
+}
+trsm_macro(void, real_t    , d)
+trsm_macro(void, real4_t   , s)
+trsm_macro(void, complex_t , z)
+trsm_macro(void, complex8_t, c)
+#undef trsm_macro
+/*-------------------------------------------------*/
 } // namespace blas
 } // namespace cla3p
 /*-------------------------------------------------*/

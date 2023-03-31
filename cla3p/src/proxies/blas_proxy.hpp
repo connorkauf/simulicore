@@ -169,6 +169,16 @@ trmm_macro(void, complex_t);
 trmm_macro(void, complex8_t);
 #undef trmm_macro
 
+#define trsm_macro(typeout, typein) \
+typeout trsm(char side, char uplo, char transa, char diag, \
+		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+		typein *b, int_t ldb)
+trsm_macro(void, real_t);
+trsm_macro(void, real4_t);
+trsm_macro(void, complex_t);
+trsm_macro(void, complex8_t);
+#undef trsm_macro
+
 /*-------------------------------------------------*/
 } // namespace blas
 } // namespace cla3p
