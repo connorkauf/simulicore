@@ -101,6 +101,17 @@ lantr_macro(real_t , complex_t , z)
 lantr_macro(real4_t, complex8_t, c)
 #undef lantr_macro
 /*-------------------------------------------------*/
+#define laswp_macro(typeout, typein, prefix) \
+typeout laswp(int_t n, typein *a, int_t lda, int_t k1, int_t k2, const int_t* ipiv, int_t incx) \
+{ \
+	return LAPACKE_##prefix##laswp(LAPACK_COL_MAJOR, n, a, lda, k1, k2, ipiv, incx); \
+}
+laswp_macro(int_t, real_t    , d);
+laswp_macro(int_t, real4_t   , s);
+laswp_macro(int_t, complex_t , z);
+laswp_macro(int_t, complex8_t, c);
+#undef laswp_macro
+/*-------------------------------------------------*/
 #define getrf_macro(typeout, typein, prefix) \
 typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv) \
 { \
