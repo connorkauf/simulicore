@@ -490,6 +490,240 @@ void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 	} // i
 }
 /*-------------------------------------------------*/
+static void itrperm_lower(int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+{
+	if(!n) return;
+
+	for(int_t i = 0; i < n; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			for(int_t k = i+1; k < n; k++) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i), entry(lda,a,kp,i));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k+1) {
+						std::swap(entry(lda,a,k+1,i), entry(lda,a,kp,i));
+					} // swap
+					k++;
+				} // ipiv
+			} // k
+
+		} else if(ipiv1[i] < 0) {
+
+			for(int_t k = i+2; k < n; k++) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k,i+1), entry(lda,a,kp,i+1));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k+1) {
+						std::swap(entry(lda,a,k+1,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k+1,i+1), entry(lda,a,kp,i+1));
+					} // swap
+					k++;
+				} // ipiv
+			} // k
+
+			entry(lda,a,i+1,i) = 0;
+
+			i++;
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+//static void itrperm_upper(int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+static void itrperm_upper(int_t, real_t*, int_t, const int_t*)
+{
+#if 0
+
+
+	// FIXME : DOESN'T WORK!!!
+
+
+	if(!n) return;
+
+#if 0
+	for(int_t i = 0; i < n; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			for(int_t k = 0; k < i; k++) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i), entry(lda,a,kp,i));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i), entry(lda,a,kp,i));
+					} // swap
+					k++;
+				} // ipiv
+			} // k
+
+		} else if(ipiv1[i] < 0) {
+
+			for(int_t k = 0; k < i; k++) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k,i+1), entry(lda,a,kp,i+1));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k,i+1), entry(lda,a,kp,i+1));
+					} // swap
+					k++;
+				} // ipiv
+			} // k
+
+			entry(lda,a,i,i+1) = 0;
+
+			i++;
+
+		} // ipiv
+
+	} // i
+#else
+	for(int_t i = n-1; i >= 0; i--) {
+	//for(int_t i = 0; i < n; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			for(int_t k = i-1; k >= 0; k--) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i), entry(lda,a,kp,i));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					if(ipiv1[k-1] != ipiv1[k]) throw cla3p::Exception("IPIV ERROR");
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k-1) {
+						std::swap(entry(lda,a,k-1,i), entry(lda,a,kp,i));
+					} // swap
+					k--;
+				} // ipiv
+			} // k
+
+		} else if(ipiv1[i] < 0) {
+
+			if(ipiv1[i-1] != ipiv1[i]) throw cla3p::Exception("IPIV ERROR");
+
+			i--;
+
+			for(int_t k = i-1; k >= 0; k--) {
+				if(ipiv1[k] > 0) {
+					int_t kp = ipiv1[k] - 1;
+					if(kp != k) {
+						std::swap(entry(lda,a,k,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k,i+1), entry(lda,a,kp,i+1));
+					} // swap
+				} else if(ipiv1[k] < 0) {
+					if(ipiv1[k-1] != ipiv1[k]) throw cla3p::Exception("IPIV ERROR");
+					int_t kp = - ipiv1[k] - 1;
+					if(kp != k-1) {
+						std::swap(entry(lda,a,k-1,i  ), entry(lda,a,kp,i  ));
+						std::swap(entry(lda,a,k-1,i+1), entry(lda,a,kp,i+1));
+					} // swap
+					k--;
+				} // ipiv
+			} // k
+
+			entry(lda,a,i,i+1) = 0;
+
+		} // ipiv
+
+	} // i
+#endif
+
+
+
+
+
+#endif
+}
+/*-------------------------------------------------*/
+void itrperm(char uplo, int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+{
+	if(uplo == 'L') itrperm_lower(n, a, lda, ipiv1);
+	if(uplo == 'U') itrperm_upper(n, a, lda, ipiv1);
+}
+/*-------------------------------------------------*/
+static void igeperm_forward(char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+{
+	if(!m || !n) return;
+
+	for(int_t i = 0; i < m; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+
+			if(ip != i && trans == 'N') blas::swap(n, ptrmv(lda,a,i,0), lda, ptrmv(lda,a,ip,0), lda);
+			if(ip != i && trans == 'T') blas::swap(n, ptrmv(lda,a,0,i),   1, ptrmv(lda,a,0,ip),   1);
+
+		} else if(ipiv1[i] < 0) {
+
+			int_t ip = - ipiv1[i] - 1;
+
+			if(ip != i+1 && trans == 'N') blas::swap(n, ptrmv(lda,a,i+1,0), lda, ptrmv(lda,a,ip,0), lda);
+			if(ip != i+1 && trans == 'T') blas::swap(n, ptrmv(lda,a,0,i+1),   1, ptrmv(lda,a,0,ip),   1);
+
+			i++;
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+static void igeperm_backward(char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+{
+	if(!m || !n) return;
+
+	for(int_t i = m-1; i >= 0; i--) {
+
+		if(ipiv1[i] > 0) {
+
+			int_t ip = ipiv1[i] - 1;
+
+			if(ip != i && trans == 'N') blas::swap(n, ptrmv(lda,a,i,0), lda, ptrmv(lda,a,ip,0), lda);
+			if(ip != i && trans == 'T') blas::swap(n, ptrmv(lda,a,0,i),   1, ptrmv(lda,a,0,ip),   1);
+
+		} else if(ipiv1[i] < 0) {
+
+			i--;
+
+			int_t ip = - ipiv1[i] - 1;
+
+			if(ip != i+1 && trans == 'N') blas::swap(n, ptrmv(lda,a,i+1,0), lda, ptrmv(lda,a,ip,0), lda);
+			if(ip != i+1 && trans == 'T') blas::swap(n, ptrmv(lda,a,0,i+1),   1, ptrmv(lda,a,0,ip),   1);
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+void igeperm(char order, char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1)
+{
+	if(order == 'F') igeperm_forward (trans, m, n, a, lda, ipiv1);
+	if(order == 'B') igeperm_backward(trans, m, n, a, lda, ipiv1);
+}
+/*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
 } // namespace cla3p
