@@ -798,6 +798,99 @@ int_t qr_blocksize(int_t m, int_t n)
 	return ret;
 }
 /*-------------------------------------------------*/
+static void initialize_workspace(int_t m, int_t n, const real_t *a, int_t lda, int_t *pvt, real_t *vn1, real_t *vn2)
+{
+	for(int_t j = 0; j < n; j++) {
+		vn1[j] = blas::nrm2(m, ptrmv(lda,a,0,j), 1);
+		vn2[j] = vn1[j];
+		pvt[j] = j;
+	} // j
+}
+/*-------------------------------------------------*/
+static void shift_pvt(int_t ibgn, int_t iend, int_t *pvt, int_t val)
+{
+	for(int_t i = ibgn; i < iend; i++) {
+		pvt[i] += val;
+	} // i
+}
+/*-------------------------------------------------*/
+static int_t check_break(int_t ibgn, int_t iend, const real_t *a, int_t lda, real_t tol)
+{
+	real_t vmax = std::abs(entry(lda,a,0,0));
+
+	for(int_t i = ibgn; i < iend; i++) {
+		if(std::abs(entry(lda,a,i,i)) < vmax * tol) {
+			return i;
+		} // tol
+	} // i
+
+	return 0;
+}
+/*-------------------------------------------------*/
+int_t qr_partial(int_t *offset, int_t m, int_t n, real_t *a, int_t lda, int_t *pvt, real_t *tau, real_t tol, int_t nb, real_t *work)
+{
+	int_t ret = 0;
+
+	if(!m || !n) return ret;
+
+	if(m < n) return (-2);
+
+	uint_t icnt = 0;
+	real_t *vn1 = work + icnt; icnt += n;
+	real_t *vn2 = work + icnt; icnt += n;
+	real_t *aux = work + icnt; icnt += nb;
+	real_t *f   = work + icnt; //icnt += n * nb;
+
+	int_t start = *offset;
+
+	if(!start) {
+		initialize_workspace(m, n, a, lda, pvt, vn1, vn2);
+	} // 1st call
+
+	shift_pvt(start, n, pvt, 1);
+
+	for(;;) {
+
+		int_t rem = n - *offset;
+
+		if(rem >= nb) {
+
+			int_t kb = 0;
+			lapack::laqps(m, n - *offset, *offset, nb, &kb, ptrmv(lda,a,0,*offset), lda,
+					pvt + *offset,
+					tau + *offset,
+					vn1 + *offset,
+					vn2 + *offset,
+					aux, f, n - *offset);
+			ret = check_break(*offset, *offset + kb, a, lda, tol);
+			*offset += kb;
+			if(ret) break;
+
+		} else {
+
+			if(rem) {
+				lapack::laqp2(m, n - *offset, *offset, ptrmv(lda,a,0,*offset), lda,
+						pvt + *offset,
+						tau + *offset,
+						vn1 + *offset,
+						vn2 + *offset,
+						aux);
+				ret = check_break(*offset, *offset + rem, a, lda, tol);
+				*offset += rem;
+				if(ret) break;
+			} // rem
+
+			break;
+
+		} // rem
+
+	} // inf for
+
+	shift_pvt(start, n, pvt, -1);
+
+	return (ret ? ret : n);
+}
+/*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
 } // namespace cla3p

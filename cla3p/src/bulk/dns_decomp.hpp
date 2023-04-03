@@ -96,6 +96,17 @@ void igerk(char uplo, int_t m, int_t n, int_t k, real_t alpha,
 		const real_t *y, int_t ldy, const int_t *ipiv1, 
 		real_t *c, int ldc, real_t *work);
 
+//
+// offset : on entry, the starting column, on exit the number of columns factored
+// a      : input matrix (m x n) m >=n
+// nb     : block size (get by calling qr_blocksize())
+// pvt    : pivoting vector 0-based (n)
+// tau    : coeff vector (n)
+// work   : workspace (2*n + (n+1)*nb)
+// return : number of columns to keep such that abs(Rii) >= tol * abs(R00)
+//          < 0 on error
+//
+int_t qr_partial(int_t *offset, int_t m, int_t n, real_t *a, int_t lda, int_t *pvt, real_t *tau, real_t tol, int_t nb, real_t *work);
 int_t qr_blocksize(int_t m, int_t n);
 
 /*-------------------------------------------------*/
