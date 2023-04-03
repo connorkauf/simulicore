@@ -128,18 +128,11 @@ static void check_custom_trsm(cla3p::uplo_t uplo)
 
 	{
 		if(prA.isLower()) {
-			cla3p::dns::RdMatrix tmp = F.copy();
-			cla3p::bulk::dns::itrperm(prA.cuplo(), n, tmp.values(), tmp.ld(), ipiv.data());
-			{
-				cla3p::bulk::dns::igeperm(1, 'F', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
-				cla3p::blas::trsm('L', prA.cuplo(), 'N', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
-				cla3p::bulk::dns::itrsm_lld(n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
-				cla3p::blas::trsm('L', prA.cuplo(), 'T', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
-				cla3p::bulk::dns::igeperm(1, 'B', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
-			}
+			cla3p::bulk::dns::itrsm_left_blas3('L', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
 		}
 
 		if(prA.isUpper()) {
+#if 0
 			cla3p::dns::RdMatrix tmp = F.copy();
 			cla3p::bulk::dns::itrperm(prA.cuplo(), n, tmp.values(), tmp.ld(), ipiv.data());
 			{
@@ -151,6 +144,9 @@ static void check_custom_trsm(cla3p::uplo_t uplo)
 				cla3p::blas::trsm('L', prA.cuplo(), 'T', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
 				cla3p::bulk::dns::igeperm(0, 'F', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
 			}
+#else
+			cla3p::bulk::dns::itrsm_left_blas3('U', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
+#endif
 		}
 	}
 
