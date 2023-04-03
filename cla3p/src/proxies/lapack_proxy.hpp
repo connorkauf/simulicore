@@ -80,6 +80,24 @@ laswp_macro(int_t, complex_t);
 laswp_macro(int_t, complex8_t);
 #undef laswp_macro
 
+#define laqp2_macro(typeout, rtypein, typein) \
+typeout laqp2(int_t m, int_t n, int_t offset, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *work)
+laqp2_macro(void, real_t, real_t);
+laqp2_macro(void, real4_t, real4_t);
+laqp2_macro(void, real_t, complex_t);
+laqp2_macro(void, real4_t, complex8_t);
+#undef laqp2_macro
+
+#define laqps_macro(typeout, rtypein, typein) \
+typeout laqps(int_t m, int_t n, int_t offset, int_t nb, int_t *kb, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *auxv, typein *f, int_t ldf)
+laqps_macro(void, real_t, real_t);
+laqps_macro(void, real4_t, real4_t);
+laqps_macro(void, real_t, complex_t);
+laqps_macro(void, real4_t, complex8_t);
+#undef laqps_macro
+
 #define getrf_macro(typeout, typein) \
 typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv)
 getrf_macro(int_t, real_t);
