@@ -96,13 +96,11 @@ static void check_custom_trsm(cla3p::uplo_t uplo)
 
 	std::vector<cla3p::int_t> ipiv(n);
 	cla3p::dns::RdMatrix F = A.copy();
+	cla3p::dns::RdMatrix W = A.copy();
 	cla3p::lapack::sytrf(prA.cuplo(), n, F.values(), F.ld(), ipiv.data());
 
 	cla3p::bulk::dns::print(cla3p::uplo_t::F, 1, n, ipiv.data(), 1);
-	//std::vector<cla3p::uint_t> iperm = ipiv2iperm(ipiv);
-	//cla3p::bulk::dns::print(cla3p::uplo_t::F, 1, n, iperm.data(), 1);
 
-#if 1
 	cla3p::lapack::sytrs(prA.cuplo(), n, nrhs, F.values(), F.ld(), ipiv.data(), X1.values(), X1.ld());
 
 	if(prA.isLower()) {
@@ -124,29 +122,14 @@ static void check_custom_trsm(cla3p::uplo_t uplo)
 		cla3p::bulk::dns::itrsm_rud(n, F.values(), F.ld(), nrhs, X3.values(), X3.ld(), ipiv.data());
 		cla3p::bulk::dns::itrsm_run(n, F.values(), F.ld(), nrhs, X3.values(), X3.ld(), ipiv.data());
 	}
-#endif
 
 	{
 		if(prA.isLower()) {
-			cla3p::bulk::dns::itrsm_left_blas3('L', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
+			cla3p::bulk::dns::itrsm_left_blas3('L', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data(), W.values());
 		}
 
 		if(prA.isUpper()) {
-#if 0
-			cla3p::dns::RdMatrix tmp = F.copy();
-			cla3p::bulk::dns::itrperm(prA.cuplo(), n, tmp.values(), tmp.ld(), ipiv.data());
-			{
-				cla3p::bulk::dns::igeperm(0, 'B', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
-				cla3p::blas::trsm('L', prA.cuplo(), 'N', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
-
-				cla3p::bulk::dns::itrsm_lud(n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
-
-				cla3p::blas::trsm('L', prA.cuplo(), 'T', 'U', n, nrhs, 1, tmp.values(), tmp.ld(), X4.values(), X4.ld());
-				cla3p::bulk::dns::igeperm(0, 'F', 'N', n, nrhs, X4.values(), X4.ld(), ipiv.data());
-			}
-#else
-			cla3p::bulk::dns::itrsm_left_blas3('U', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data());
-#endif
+			cla3p::bulk::dns::itrsm_left_blas3('U', n, F.values(), F.ld(), nrhs, X4.values(), X4.ld(), ipiv.data(), W.values());
 		}
 	}
 
