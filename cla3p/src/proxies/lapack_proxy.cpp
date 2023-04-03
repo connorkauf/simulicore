@@ -117,6 +117,30 @@ laswp_macro(int_t, complex_t , z);
 laswp_macro(int_t, complex8_t, c);
 #undef laswp_macro
 /*-------------------------------------------------*/
+#define laqp2_macro(typeout, rtypein, typein, prefix) \
+typeout laqp2(int_t m, int_t n, int_t offset, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *work) \
+{ \
+	prefix##laqp2(&m, &n, &offset, a, &lda, jpvt, tau, vn1, vn2, work); \
+}
+laqp2_macro(void, real_t , real_t    , d);
+laqp2_macro(void, real4_t, real4_t   , s);
+laqp2_macro(void, real_t , complex_t , z);
+laqp2_macro(void, real4_t, complex8_t, c);
+#undef laqp2_macro
+/*-------------------------------------------------*/
+#define laqps_macro(typeout, rtypein, typein, prefix) \
+typeout laqps(int_t m, int_t n, int_t offset, int_t nb, int_t *kb, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *auxv, typein *f, int_t ldf) \
+{ \
+	prefix##laqps(&m, &n, &offset, &nb, kb, a, &lda, jpvt, tau, vn1, vn2, auxv, f, &ldf); \
+}
+laqps_macro(void, real_t , real_t    , d);
+laqps_macro(void, real4_t, real4_t   , s);
+laqps_macro(void, real_t , complex_t , z);
+laqps_macro(void, real4_t, complex8_t, c);
+#undef laqps_macro
+/*-------------------------------------------------*/
 #define getrf_macro(typeout, typein, prefix) \
 typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv) \
 { \
