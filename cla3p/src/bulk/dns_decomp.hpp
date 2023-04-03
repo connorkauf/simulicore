@@ -56,6 +56,11 @@ void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 void itrperm(char uplo, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
 void igeperm(int_t off, char order, char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
 
+//
+// example for using itrperm() & igeperm()
+//
+void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1);
+
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk
