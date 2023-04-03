@@ -7,6 +7,7 @@
 
 // cla3p
 #include "../proxies/blas_proxy.hpp"
+#include "../proxies/lapack_proxy.hpp"
 #include "dns.hpp"
 
 /*-------------------------------------------------*/
@@ -682,10 +683,9 @@ void igeperm(int_t off, char order, char trans, int_t m, int_t n, real_t *a, int
 	if(order == 'B') igeperm_backward(off, trans, m, n, a, lda, ipiv1);
 }
 /*-------------------------------------------------*/
-void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1)
+void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1, real_t *work)
 {
 	int_t ldw = n;
-	real_t *work = alloc<real_t>(n,n,ldw);
 
 	if(uplo == 'L') {
 		copy(uplo_t::L, n, n, a, lda, work, ldw);
@@ -714,8 +714,88 @@ void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs
 		blas::trsm('L', uplo, 'T', 'U', n, nrhs, 1, work, ldw, b, ldb);
 		igeperm(0, 'F', 'N', n, nrhs, b, ldb, ipiv1);
 	} // lower
+}
+/*-------------------------------------------------*/
+void iscal(char uplo, int_t n, int_t k, const real_t *d, int_t ldd, const real_t *x, int_t ldx, real_t *y, int_t ldy, const int_t *ipiv1)
+{
+	if(!n || !k) return;
 
-	i_free(work);
+	copy(uplo_t::F, n, k, x, ldx, y, ldy);
+
+	for(int_t i = 0; i < k; i++) {
+
+		if(ipiv1[i] > 0) {
+
+			blas::scal(n, entry(ldd,d,i,i), ptrmv(ldy,y,0,i), 1);
+
+		} else if(ipiv1[i] < 0) {
+
+			real_t dOffDiag = (uplo == 'L' ? entry(ldd,d,i+1,i): entry(ldd,d,i,i+1));
+
+			real_t D[4];
+			D[0] = entry(ldd,d,i,i);
+			D[1] = dOffDiag;
+			D[2] = dOffDiag;
+			D[3] = entry(ldd,d,i+1,i+1);
+
+			blas::gemm('N', 'N', n, 2, 2, 1, ptrmv(ldx,x,0,i), ldx, D, 2, 0, ptrmv(ldy,y,0,i), ldy);
+
+			i++;
+
+		} // ipiv
+
+	} // i
+}
+/*-------------------------------------------------*/
+void isyrk(char uplo, int_t n, int_t k, real_t alpha,
+    const real_t *d, int_t ldd,
+    const real_t *x, int_t ldx, const int_t *ipiv1,
+    real_t *c, int ldc, real_t *work)
+{
+	if(!n || !k) return;
+
+	int_t ldw = n;
+
+	iscal(uplo, n, k, d, ldd, x, ldx, work, ldw, ipiv1);
+
+	blas::gemmt(uplo, 'N', 'T', n, k, alpha, work, ldw, x, ldx, 1, c, ldc);
+}
+/*-------------------------------------------------*/
+void igerk(char uplo, int_t m, int_t n, int_t k, real_t alpha,
+    const real_t *d, int_t ldd,
+    const real_t *x, int_t ldx,
+    const real_t *y, int_t ldy, const int_t *ipiv1,
+    real_t *c, int ldc, real_t *work)
+{
+	if(m < n) {
+
+		// C += alpha * (X * D) * Y'
+
+		int_t ldw = m;
+		iscal(uplo, m, k, d, ldd, x, ldx, work, ldw, ipiv1);
+		blas::gemm('N', 'T', m, n, k, alpha, work, ldw, y, ldy, 1, c, ldc);
+
+	} else {
+
+		// C += alpha * X * (Y * D)'
+
+		int_t ldw = n;
+		iscal(uplo, n, k, d, ldd, y, ldy, work, ldw, ipiv1);
+		blas::gemm('N', 'T', m, n, k, alpha, y, ldy, work, ldw, 1, c, ldc);
+
+	} // min dim
+}
+/*-------------------------------------------------*/
+int_t qr_blocksize(int_t m, int_t n)
+{
+	int_t default_ret = 24;
+	int_t ret = lapack::laenv(1, "DGEQRF", " ", m, n, -1, -1);
+
+	if(ret < 0) {
+		ret = std::min(default_ret, n);
+	} // error
+
+	return ret;
 }
 /*-------------------------------------------------*/
 } // namespace dns

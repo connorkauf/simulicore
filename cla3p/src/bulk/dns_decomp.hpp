@@ -58,8 +58,45 @@ void igeperm(int_t off, char order, char trans, int_t m, int_t n, real_t *a, int
 
 //
 // example for using itrperm() & igeperm()
+// work(n x n)
 //
-void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1);
+void itrsm_left_blas3(char uplo, int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t ldb, const int_t *ipiv1, real_t *work);
+
+//
+// Y = X * D
+// D(k x k)
+// X(n x k)
+// Y(n x k)
+//
+void iscal(char uplo, int_t n, int_t k, const real_t *d, int_t ldd, const real_t *x, int_t ldx, real_t *y, int_t ldy, const int_t *ipiv1);
+
+//
+// C += alpha * X * D * X'
+// C(n x n)
+// D(k x k)
+// X(n x k)
+// work(n x k)
+//
+void isyrk(char uplo, int_t n, int_t k, real_t alpha, 
+		const real_t *d, int_t ldd, 
+		const real_t *x, int_t ldx, const int_t *ipiv1, 
+		real_t *c, int ldc, real_t *work);
+
+//
+// C += alpha * X * D * Y'
+// C(m x n)
+// D(k x k)
+// X(m x k)
+// Y(n x k)
+// work(min(m,n) x k)
+//
+void igerk(char uplo, int_t m, int_t n, int_t k, real_t alpha, 
+		const real_t *d, int_t ldd, 
+		const real_t *x, int_t ldx, 
+		const real_t *y, int_t ldy, const int_t *ipiv1, 
+		real_t *c, int ldc, real_t *work);
+
+int_t qr_blocksize(int_t m, int_t n);
 
 /*-------------------------------------------------*/
 } // namespace dns
