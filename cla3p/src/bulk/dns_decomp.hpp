@@ -54,7 +54,7 @@ void itrsm_rut(int_t n, const real_t *a, int_t lda, int_t nrhs, real_t *b, int_t
 // ge: Apply ipiv to a left side
 //
 void itrperm(char uplo, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
-void igeperm(char order, char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
+void igeperm(int_t off, char order, char trans, int_t m, int_t n, real_t *a, int_t lda, const int_t *ipiv1);
 
 /*-------------------------------------------------*/
 } // namespace dns
