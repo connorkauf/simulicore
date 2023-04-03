@@ -193,6 +193,19 @@ gemm_macro(void, complex_t , z)
 gemm_macro(void, complex8_t, c)
 #undef gemm_macro
 /*-------------------------------------------------*/
+#define gemmt_macro(typeout, typein, prefix) \
+typeout gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
+		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+		typein beta, typein *c, int_t ldc) \
+{ \
+	prefix##gemmt(&uplo, &transa, &transb, &n, &k, &alpha, a, &lda, b, &ldb, &beta, c, &ldc); \
+}
+gemmt_macro(void, real_t    , d)
+gemmt_macro(void, real4_t   , s)
+gemmt_macro(void, complex_t , z)
+gemmt_macro(void, complex8_t, c)
+#undef gemmt_macro
+/*-------------------------------------------------*/
 #define symm_macro(typeout, typein, prefix) \
 typeout symm(char side, char uplo, int_t m, int_t n, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \

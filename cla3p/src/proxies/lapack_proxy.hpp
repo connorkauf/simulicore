@@ -8,6 +8,8 @@ namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
 
+int_t laenv(int_t ispec, const char *name, const char *opts, int_t n1, int_t n2, int_t n3, int_t n4);
+
 #define larnv_macro(typeout, typein) \
 typeout larnv(int_t idist, int_t* iseed, int_t n, typein* x)
 larnv_macro(int_t, real_t);

@@ -141,6 +141,16 @@ gemm_macro(void, complex_t);
 gemm_macro(void, complex8_t);
 #undef gemm_macro
 
+#define gemmt_macro(typeout, typein) \
+typeout gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
+           typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+           typein beta, typein *c, int_t ldc)
+gemmt_macro(void, real_t);
+gemmt_macro(void, real4_t);
+gemmt_macro(void, complex_t);
+gemmt_macro(void, complex8_t);
+#undef gemmt_macro
+
 #define symm_macro(typeout, typein) \
 typeout symm(char side, char uplo, int_t m, int_t n, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
