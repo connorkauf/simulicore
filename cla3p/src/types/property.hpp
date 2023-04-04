@@ -56,7 +56,7 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an property with type ptype and fill type ftype.
+		 * Constructs a property with type ptype and fill type ftype.
 		 */
 		explicit Property(prop_t ptype, uplo_t ftype);
 
@@ -82,14 +82,14 @@ class Property {
 		/**
 		 * @brief The compare operator.
 		 *
-		 * Checks if two propertyies are equal
+		 * Checks if two properties are equal
 		 */
 		bool operator==(const Property& other) const;
 
 		/**
 		 * @brief The compare operator.
 		 *
-		 * Checks if two propertyies are not equal
+		 * Checks if two properties are not equal
 		 */
 		bool operator!=(const Property& other) const;
 

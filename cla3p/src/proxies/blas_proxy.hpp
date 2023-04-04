@@ -18,6 +18,24 @@ copy_macro(void, complex_t);
 copy_macro(void, complex8_t);
 #undef copy_macro
 
+#define swap_macro(typeout, typein) \
+typeout swap(int_t n, typein *x, int_t incx, typein *y, int_t incy)
+swap_macro(void, real_t);
+swap_macro(void, real4_t);
+swap_macro(void, complex_t);
+swap_macro(void, complex8_t);
+#undef swap_macro
+
+#define scal_macro(typeout, atypein, typein) \
+typeout scal(int_t n, atypein alpha, typein *x, int_t incx)
+scal_macro(void, real_t, real_t);
+scal_macro(void, real4_t, real4_t);
+scal_macro(void, real_t, complex_t);
+scal_macro(void, real4_t, complex8_t);
+scal_macro(void, complex_t, complex_t);
+scal_macro(void, complex8_t, complex8_t);
+#undef scal_macro
+
 #define nrm2_macro(typeout, typein) \
 typeout nrm2(int_t n, const typein *x, int_t incx)
 nrm2_macro(real_t , real_t);
@@ -90,6 +108,27 @@ trmv_macro(void, complex_t);
 trmv_macro(void, complex8_t);
 #undef trmv_macro
 
+#define ger_macro(typeout, typein) \
+typeout ger(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+ger_macro(void, real_t);
+ger_macro(void, real4_t);
+#undef ger_macro
+
+#define geru_macro(typeout, typein) \
+typeout geru(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+geru_macro(void, complex_t);
+geru_macro(void, complex8_t);
+#undef geru_macro
+
+#define gerc_macro(typeout, typein) \
+typeout gerc(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
+		const typein *y, int_t incy, typein *a, int_t lda)
+gerc_macro(void, complex_t);
+gerc_macro(void, complex8_t);
+#undef gerc_macro
+
 /*------------------ Level 3 ----------------------*/
 
 #define gemm_macro(typeout, typein) \
@@ -101,6 +140,16 @@ gemm_macro(void, real4_t);
 gemm_macro(void, complex_t);
 gemm_macro(void, complex8_t);
 #undef gemm_macro
+
+#define gemmt_macro(typeout, typein) \
+typeout gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
+           typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
+           typein beta, typein *c, int_t ldc)
+gemmt_macro(void, real_t);
+gemmt_macro(void, real4_t);
+gemmt_macro(void, complex_t);
+gemmt_macro(void, complex8_t);
+#undef gemmt_macro
 
 #define symm_macro(typeout, typein) \
 typeout symm(char side, char uplo, int_t m, int_t n, \
@@ -129,6 +178,16 @@ trmm_macro(void, real4_t);
 trmm_macro(void, complex_t);
 trmm_macro(void, complex8_t);
 #undef trmm_macro
+
+#define trsm_macro(typeout, typein) \
+typeout trsm(char side, char uplo, char transa, char diag, \
+		int_t m, int_t n, typein alpha, const typein *a, int_t lda, \
+		typein *b, int_t ldb)
+trsm_macro(void, real_t);
+trsm_macro(void, real4_t);
+trsm_macro(void, complex_t);
+trsm_macro(void, complex8_t);
+#undef trsm_macro
 
 /*-------------------------------------------------*/
 } // namespace blas

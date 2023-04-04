@@ -10,6 +10,7 @@ set(CLA3P_HPP
 	dense.hpp
 	perms.hpp
 	operations.hpp
+	linsol.hpp
 	)
 
 #-----------------------------------------------
@@ -24,6 +25,7 @@ add_subdirectory(generic)
 add_subdirectory(dense)
 add_subdirectory(perms)
 add_subdirectory(operations)
+add_subdirectory(linsol)
 
 #-----------------------------------------------
 # target setup

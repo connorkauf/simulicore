@@ -14,6 +14,11 @@
 namespace cla3p {
 namespace lapack {
 /*-------------------------------------------------*/
+int_t laenv(int_t ispec, const char *name, const char *opts, int_t n1, int_t n2, int_t n3, int_t n4)
+{
+	return ilaenv(&ispec, name, opts, &n1, &n2, &n3, &n4);
+}
+/*-------------------------------------------------*/
 #define larnv_macro(typeout, typein, prefix) \
 typeout larnv(int_t idist, int_t* iseed, int_t n, typein* x) \
 { \
@@ -100,6 +105,168 @@ lantr_macro(real4_t, real4_t   , s)
 lantr_macro(real_t , complex_t , z)
 lantr_macro(real4_t, complex8_t, c)
 #undef lantr_macro
+/*-------------------------------------------------*/
+#define laswp_macro(typeout, typein, prefix) \
+typeout laswp(int_t n, typein *a, int_t lda, int_t k1, int_t k2, const int_t* ipiv, int_t incx) \
+{ \
+	return LAPACKE_##prefix##laswp(LAPACK_COL_MAJOR, n, a, lda, k1, k2, ipiv, incx); \
+}
+laswp_macro(int_t, real_t    , d);
+laswp_macro(int_t, real4_t   , s);
+laswp_macro(int_t, complex_t , z);
+laswp_macro(int_t, complex8_t, c);
+#undef laswp_macro
+/*-------------------------------------------------*/
+#define laqp2_macro(typeout, rtypein, typein, prefix) \
+typeout laqp2(int_t m, int_t n, int_t offset, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *work) \
+{ \
+	prefix##laqp2(&m, &n, &offset, a, &lda, jpvt, tau, vn1, vn2, work); \
+}
+laqp2_macro(void, real_t , real_t    , d);
+laqp2_macro(void, real4_t, real4_t   , s);
+laqp2_macro(void, real_t , complex_t , z);
+laqp2_macro(void, real4_t, complex8_t, c);
+#undef laqp2_macro
+/*-------------------------------------------------*/
+#define laqps_macro(typeout, rtypein, typein, prefix) \
+typeout laqps(int_t m, int_t n, int_t offset, int_t nb, int_t *kb, typein *a, int_t lda, \
+		int_t *jpvt, typein *tau, rtypein *vn1, rtypein *vn2, typein *auxv, typein *f, int_t ldf) \
+{ \
+	prefix##laqps(&m, &n, &offset, &nb, kb, a, &lda, jpvt, tau, vn1, vn2, auxv, f, &ldf); \
+}
+laqps_macro(void, real_t , real_t    , d);
+laqps_macro(void, real4_t, real4_t   , s);
+laqps_macro(void, real_t , complex_t , z);
+laqps_macro(void, real4_t, complex8_t, c);
+#undef laqps_macro
+/*-------------------------------------------------*/
+#define getrf_macro(typeout, typein, prefix) \
+typeout getrf(int_t m, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##getrf(LAPACK_COL_MAJOR, m, n, a, lda, ipiv); \
+}
+getrf_macro(int_t, real_t    , d)
+getrf_macro(int_t, real4_t   , s)
+getrf_macro(int_t, complex_t , z)
+getrf_macro(int_t, complex8_t, c)
+#undef getrf_macro
+/*-------------------------------------------------*/
+#define getrs_macro(typeout, typein, prefix) \
+typeout getrs(char trans, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##getrs(LAPACK_COL_MAJOR, trans, n, nrhs, a, lda, ipiv, b, ldb); \
+}
+getrs_macro(int_t, real_t    , d)
+getrs_macro(int_t, real4_t   , s)
+getrs_macro(int_t, complex_t , z)
+getrs_macro(int_t, complex8_t, c)
+#undef getrs_macro
+/*-------------------------------------------------*/
+#define getc2_macro(typeout, typein, prefix) \
+typeout getc2(int_t n, typein *a, int_t lda, int_t *ipiv, int_t *jpiv) \
+{ \
+	int_t info = 0; \
+	prefix##getc2(&n, a, &lda, ipiv, jpiv, &info); \
+	return info; \
+}
+getc2_macro(int_t, real_t    , d)
+getc2_macro(int_t, real4_t   , s)
+getc2_macro(int_t, complex_t , z)
+getc2_macro(int_t, complex8_t, c)
+#undef getc2_macro
+/*-------------------------------------------------*/
+#define gesc2_macro(typeout, rtypein, typein, prefix) \
+typeout gesc2(int_t n, const typein *a, int_t lda, typein *rhs, const int_t *ipiv, const int_t *jpiv, rtypein *scale) \
+{ \
+	int_t info = 0; \
+	prefix##gesc2(&n, a, &lda, rhs, ipiv, jpiv, scale); \
+	return info; \
+}
+gesc2_macro(int_t, real_t , real_t    , d)
+gesc2_macro(int_t, real4_t, real4_t   , s)
+gesc2_macro(int_t, real_t , complex_t , z)
+gesc2_macro(int_t, real4_t, complex8_t, c)
+#undef gesc2_macro
+/*-------------------------------------------------*/
+#define sytrf_macro(typeout, typein, prefix) \
+typeout sytrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##sytrf(LAPACK_COL_MAJOR, uplo, n, a, lda, ipiv); \
+}
+sytrf_macro(int_t, real_t    , d)
+sytrf_macro(int_t, real4_t   , s)
+sytrf_macro(int_t, complex_t , z)
+sytrf_macro(int_t, complex8_t, c)
+#undef sytrf_macro
+/*-------------------------------------------------*/
+#define sytrs_macro(typeout, typein, prefix) \
+typeout sytrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##sytrs(LAPACK_COL_MAJOR, uplo, n, nrhs, a, lda, ipiv, b, ldb); \
+}
+sytrs_macro(int_t, real_t    , d)
+sytrs_macro(int_t, real4_t   , s)
+sytrs_macro(int_t, complex_t , z)
+sytrs_macro(int_t, complex8_t, c)
+#undef sytrs_macro
+/*-------------------------------------------------*/
+int_t hetrf(char, int_t, real_t *, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrf(char, int_t, real4_t*, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+/*-------------------------------------------------*/
+#define hetrf_macro(typeout, typein, prefix) \
+typeout hetrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
+{ \
+	return LAPACKE_##prefix##hetrf(LAPACK_COL_MAJOR, uplo, n, a, lda, ipiv); \
+}
+hetrf_macro(int_t, complex_t , z)
+hetrf_macro(int_t, complex8_t, c)
+#undef hetrf_macro
+/*-------------------------------------------------*/
+int_t hetrs(char, int_t, int_t, const real_t *, int_t, const int_t*, real_t *, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrs(char, int_t, int_t, const real4_t*, int_t, const int_t*, real4_t*, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
+/*-------------------------------------------------*/
+#define hetrs_macro(typeout, typein, prefix) \
+typeout hetrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##hetrs(LAPACK_COL_MAJOR, uplo, n, nrhs, a, lda, ipiv, b, ldb); \
+}
+hetrs_macro(int_t, complex_t , z)
+hetrs_macro(int_t, complex8_t, c)
+#undef hetrs_macro
+/*-------------------------------------------------*/
+#define potrf_macro(typeout, typein, prefix) \
+typeout potrf(char uplo, int_t n, typein *a, int_t lda) \
+{ \
+	return LAPACKE_##prefix##potrf(LAPACK_COL_MAJOR, uplo, n, a, lda); \
+}
+potrf_macro(int_t, real_t    , d)
+potrf_macro(int_t, real4_t   , s)
+potrf_macro(int_t, complex_t , z)
+potrf_macro(int_t, complex8_t, c)
+#undef potrf_macro
+/*-------------------------------------------------*/
+#define potrs_macro(typeout, typein, prefix) \
+typeout potrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##potrs(LAPACK_COL_MAJOR, uplo, n, nrhs, a, lda, b, ldb); \
+}
+potrs_macro(int_t, real_t    , d)
+potrs_macro(int_t, real4_t   , s)
+potrs_macro(int_t, complex_t , z)
+potrs_macro(int_t, complex8_t, c)
+#undef potrs_macro
+/*-------------------------------------------------*/
+#define trtrs_macro(typeout, typein, prefix) \
+typeout trtrs(char uplo, char trans, char diag, int_t n, int_t nrhs, const typein *a, int_t lda, typein *b, int_t ldb) \
+{ \
+	return LAPACKE_##prefix##trtrs(LAPACK_COL_MAJOR, uplo, trans, diag, n, nrhs, a, lda, b, ldb); \
+}
+trtrs_macro(int_t, real_t    , d)
+trtrs_macro(int_t, real4_t   , s)
+trtrs_macro(int_t, complex_t , z)
+trtrs_macro(int_t, complex8_t, c)
+#undef trtrs_macro
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p

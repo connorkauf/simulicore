@@ -40,7 +40,7 @@
  */
 
 /**
- * @defgroup math_operations_group Math operations
+ * @defgroup math_operations_group Math Operations
  *
  * @defgroup math_addition_group Addition
  * @ingroup math_operations_group
@@ -53,7 +53,15 @@
  */
 
 /**
- * @defgroup math_operators_group Math operators
+ * @defgroup linear_solvers_group Linear Solvers
+ *
+ * @defgroup dense_linear_solvers_group Dense
+ * @ingroup linear_solvers_group
+ *
+ */
+
+/**
+ * @defgroup math_operators_group Algebra Operators
  *
  * @defgroup op_addition_group Addition/Subtraction
  * @ingroup math_operators_group
@@ -63,12 +71,16 @@
  *
  * @defgroup op_permutation_group Permutation
  * @ingroup math_operators_group
+ *
+ * @defgroup op_linear_solution_group Linear Solution
+ * @ingroup math_operators_group
  */
 
 /**
- * @defgroup stream_operator_group Stream operators
+ * @defgroup stream_operator_group Stream Operators
  */
 
 /**
  * @defgroup exception_group Exceptions
  */
+

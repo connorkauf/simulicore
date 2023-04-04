@@ -306,5 +306,19 @@ void mat_x_mat_mult_check(
 	throw NoConsistency(msg::invalid_property());
 }
 /*-------------------------------------------------*/
+void lapack_info_check(int_t info)
+{
+	if(info > 0) {
+
+		// TODO: separate exception for numerical ???
+		throw Exception(msg::lapack_error() + " info: " + std::to_string(info));
+
+	} else if(info < 0) {
+
+		throw Exception(msg::lapack_error() + " info: " + std::to_string(info));
+
+	}
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

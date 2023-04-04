@@ -2,6 +2,8 @@
 #define CLA3P_GENERIC_CHECKS_HPP_
 
 #include "../types.hpp"
+#include "../dense.hpp"
+#include "../support/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -57,6 +59,101 @@ void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		const Property& prC, uint_t nrowsC, uint_t ncolsC);
+
+// 
+// Checks for matrix decomposition
+//
+template <typename T>
+void default_decomp_input_check(const T& mat)
+{
+	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian());
+
+	if(mat.empty()) {
+		throw InvalidOp("Input matrix is empty");
+	} else if(!supported_prop) {
+		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for linear decomposition");
+	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
+}
+
+template <typename T>
+void llt_decomp_input_check(const T& mat)
+{
+	bool supported_prop = (
+			(std::is_same<T,dns::RdMatrix>::value && mat.prop().isSymmetric()) || 
+			(std::is_same<T,dns::RfMatrix>::value && mat.prop().isSymmetric()) || 
+			(std::is_same<T,dns::CdMatrix>::value && mat.prop().isHermitian()) || 
+			(std::is_same<T,dns::CfMatrix>::value && mat.prop().isHermitian()) ); 
+
+	if(mat.empty()) {
+		throw InvalidOp("Input matrix is empty");
+	} else if(!supported_prop) {
+		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for PD Cholesky (LL') decomposition");
+	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
+}
+
+template <typename T>
+void ldlt_decomp_input_check(const T& mat)
+{
+	bool supported_prop = (mat.prop().isSymmetric() || mat.prop().isHermitian()); 
+
+	if(mat.empty()) {
+		throw InvalidOp("Input matrix is empty");
+	} else if(!supported_prop) {
+		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for NPD Cholesky (LDL') decomposition");
+	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
+}
+
+template <typename T>
+void lu_decomp_input_check(const T& mat)
+{
+	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian()); 
+
+	if(mat.empty()) {
+		throw InvalidOp("Input matrix is empty");
+	} else if(!supported_prop) {
+		throw InvalidOp("Matrices with property " + mat.prop().name() + " not supported for LU decomposition");
+	} // valid prop
+
+	if(mat.nrows() != mat.ncols()) {
+		throw InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
+}
+
+// 
+// Checks for matrix solution
+//
+template <typename T>
+void default_solve_input_check(uint_t n, const T& rhs)
+{
+	bool supported_prop = rhs.prop().isGeneral();
+
+	if(rhs.nrows() != n) {
+		throw InvalidOp("Mismatching dimensions for linear solution stage");
+	} // dim check
+
+	if(rhs.empty()) {
+		throw InvalidOp("Input rhs matrix is empty");
+	} else if(!supported_prop) {
+		throw InvalidOp(rhs.prop().name() + " not supported for rhs in linear solution stage");
+	} // valid prop
+}
+
+// 
+// Checks for lapack numerical error
+//
+void lapack_info_check(int_t info);
 
 /*-------------------------------------------------*/
 } // namespace cla3p
