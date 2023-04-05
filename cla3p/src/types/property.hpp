@@ -27,6 +27,8 @@ enum class prop_t {
 	SKEW           /**< Skew matrix */
 };
 
+/*-------------------------------------------------*/
+
 /**
  * @ingroup basic_datatypes_group 
  * @enum uplo_t
@@ -37,6 +39,8 @@ enum class uplo_t : char {
 	U = 'U', /**< The upper part is filled */
 	L = 'L'  /**< The lower part is filled */
 };
+
+/*-------------------------------------------------*/
 
 /**
  * @ingroup basic_datatypes_group
@@ -169,6 +173,13 @@ class Property {
 
 		void check() const;
 };
+
+/*-------------------------------------------------*/
+
+inline Property defaultProperty()
+{
+	return Property(prop_t::GENERAL, uplo_t::F);
+}
 
 /*-------------------------------------------------*/
 } // namespace cla3p
