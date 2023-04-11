@@ -86,13 +86,30 @@ sy2ge_macro(void, complex8_t);
 #define he2ge_macro(typeout, typein) \
 typeout he2ge(uplo_t uplo, uint_t n, const uint_t *colptr, const uint_t *rowidx, const typein *values, \
 		uint_t *colptr_out, uint_t *rowidx_out, typein *values_out)
-he2ge_macro(void, int_t);
-he2ge_macro(void, uint_t);
-he2ge_macro(void, real_t);
-he2ge_macro(void, real4_t);
+he2ge_macro(void, int_t); // exception
+he2ge_macro(void, uint_t); // exception
+he2ge_macro(void, real_t); // exception
+he2ge_macro(void, real4_t); // exception
 he2ge_macro(void, complex_t);
 he2ge_macro(void, complex8_t);
 #undef he2ge_macro
+
+// FIXME: move this to types or whatever
+enum class dup_t {
+	SUM  = 0,
+	PROD    ,
+	AMAX    ,
+	AMIN     
+};
+
+#define remove_duplicates_macro(typeout, typein) \
+typeout remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, typein *values, dup_t op)
+remove_duplicates_macro(void, int_t);
+remove_duplicates_macro(void, real_t);
+remove_duplicates_macro(void, real4_t);
+remove_duplicates_macro(void, complex_t);
+remove_duplicates_macro(void, complex8_t);
+#undef remove_duplicates_macro
 
 /*-------------------------------------------------*/
 } // namespace csc
