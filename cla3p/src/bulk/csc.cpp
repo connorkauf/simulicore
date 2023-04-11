@@ -353,6 +353,64 @@ he2ge_macro(void, complex_t)
 he2ge_macro(void, complex8_t)
 #undef he2ge_macro
 /*-------------------------------------------------*/
+template <typename T>
+static inline void apply_op(T& v, const T& u, dup_t op)
+{
+	/**/ if(op == dup_t::SUM ) v += u;
+	else if(op == dup_t::PROD) v *= u;
+	else if(op == dup_t::AMAX) v = std::max(std::abs(v), std::abs(u));
+	else if(op == dup_t::AMIN) v = std::max(std::abs(v), std::abs(u));
+}
+/*-------------------------------------------------*/
+template <typename T>
+void remove_duplicates_tmpl(uint_t n, uint_t *colptr, uint_t *rowidx, T *values, dup_t op)
+{
+	for(uint_t j = 0; j < n; j++) {
+
+		uint_t ibgn = colptr[j];
+		uint_t iend = colptr[j+1];
+
+		colptr[j] = (j > 0 ? colptr[j-1] : 0);
+
+		uint_t ilen = iend - ibgn;
+
+		if(!ilen) continue;
+
+		uint_t iref = rowidx[ibgn];
+
+		rowidx[colptr[j]] = rowidx[ibgn];
+		values[colptr[j]] = values[ibgn];
+		colptr[j]++;
+
+		for(uint_t irow = ibgn + 1; irow < iend; irow++) {
+
+			uint_t i = rowidx[irow];
+			T      v = values[irow];
+
+			if(i == iref) {
+				apply_op<T>(values[colptr[j]-1], v, op);
+			} else {
+				rowidx[colptr[j]] = i;
+				values[colptr[j]] = v;
+				colptr[j]++;
+				iref = i;
+			} // dup check
+
+		} // irow
+
+	} // j
+
+	colptr[n] = colptr[n-1];
+
+	unroll(n, colptr);
+}
+/*-------------------------------------------------*/
+void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, int_t      *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
+void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, real_t     *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
+void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, real4_t    *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
+void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, complex_t  *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
+void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, complex8_t *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
+/*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
 } // namespace cla3p
