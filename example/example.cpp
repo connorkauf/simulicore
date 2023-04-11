@@ -12,6 +12,7 @@
 #include "cla3p/src/bulk/dns_io.hpp"
 #include "cla3p/src/bulk/dns_math.hpp"
 #include "cla3p/src/bulk/dns_decomp.hpp"
+#include "cla3p/src/bulk/csc.hpp"
 #include "cla3p/src/proxies/blas_proxy.hpp"
 #include "cla3p/src/proxies/lapack_proxy.hpp"
 #include "cla3p/src/support/utils.hpp"
@@ -180,6 +181,25 @@ static void linsol_test()
 
 int main()
 {
+
+	{
+		cla3p::uint_t n = 4;
+		cla3p::uint_t IA[] = {0,   2,     4,          7,  8};
+		cla3p::uint_t JA[] = { 0,  1, 3,  1,  4,  2,  3,  5};
+		cla3p::real_t  A[] = {10, 20, 4, 30, 70, 50, 60, 80};
+
+		cla3p::bulk::csc::print(n, IA, JA, A, 15);
+
+		cla3p::bulk::csc::sort_by_ridx(n, IA, JA, A);
+
+		cla3p::bulk::csc::print(n, IA, JA, A, 15);
+
+		return 0;
+	}
+
+
+
+
 	check_custom_trsm(cla3p::uplo_t::U);
 	check_custom_trsm(cla3p::uplo_t::L);
 	return 0;

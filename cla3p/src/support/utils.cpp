@@ -150,6 +150,66 @@ real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl
 complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
 complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, int_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, "%*" _DFMT_ , nd, val);
+	} else {
+		std::sprintf(buff, "%" _DFMT_ , val);
+	} // nsd
+}
+/*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, uint_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, "%*" _UFMT_ , nd, val);
+	} else {
+		std::sprintf(buff, "%" _UFMT_ , val);
+	} // nsd
+}
+/*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, real_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, " % .*le", nd, val);
+	} else {
+		std::sprintf(buff, " % .le", val);
+	} // nsd
+}
+/*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, real4_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, " % .*e", nd, val);
+	} else {
+		std::sprintf(buff, " % .e", val);
+	} // nsd
+}
+/*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, complex_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, " (% .*le,% .*le)", nd, val.real(), nd, val.imag());
+	} else {
+		std::sprintf(buff, " (% .le,% .le)", val.real(), val.imag());
+	} // nsd
+}
+/*-------------------------------------------------*/
+void val2char(char *buff, uint_t nsd, complex8_t val)
+{
+	if(nsd) {
+		nint_t nd = nsd;
+		std::sprintf(buff, " (% .*e,% .*e)", nd, val.real(), nd, val.imag());
+	} else {
+		std::sprintf(buff, " (% .e,% .e)", val.real(), val.imag());
+	} // nsd
+}
+/*-------------------------------------------------*/
 uplo_t auto_uplo(prop_t ptype)
 {
 	if(ptype == prop_t::GENERAL  ) return uplo_t::F;

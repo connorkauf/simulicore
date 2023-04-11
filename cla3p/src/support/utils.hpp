@@ -24,6 +24,13 @@ real4_t srand(real4_t low, real4_t high);
 complex_t zrand(real_t low, real_t high);
 complex8_t crand(real4_t low, real4_t high);
 
+void val2char(char *buff, uint_t nsd, int_t val);
+void val2char(char *buff, uint_t nsd, uint_t val);
+void val2char(char *buff, uint_t nsd, real_t val);
+void val2char(char *buff, uint_t nsd, real4_t val);
+void val2char(char *buff, uint_t nsd, complex_t val);
+void val2char(char *buff, uint_t nsd, complex8_t val);
+
 uplo_t auto_uplo(prop_t ptype);
 
 void fill_identity_perm(uint_t n, uint_t *P);

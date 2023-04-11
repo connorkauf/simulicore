@@ -191,7 +191,7 @@ conjugate_transpose_macro(void, real_t); // exception
 conjugate_transpose_macro(void, real4_t); // exception
 conjugate_transpose_macro(void, complex_t);
 conjugate_transpose_macro(void, complex8_t);
-#undef transpose_macro
+#undef conjugate_transpose_macro
 
 //
 // Conjugations
