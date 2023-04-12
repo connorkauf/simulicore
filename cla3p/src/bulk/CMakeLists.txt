@@ -7,6 +7,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	bulk/dns_math.cpp
 	bulk/dns_decomp.cpp
 	bulk/csc.cpp
+	bulk/lowrank.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_BULK_HPP 

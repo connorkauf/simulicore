@@ -411,6 +411,128 @@ void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, real4_t    *val
 void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, complex_t  *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
 void remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, complex8_t *values, dup_t op) { return remove_duplicates_tmpl(n, colptr, rowidx, values, op); }
 /*-------------------------------------------------*/
+template <typename T, typename Tr>
+static Tr norm_one_tmpl(prop_t, uplo_t, uint_t m, uint_t n, const uint_t*, const uint_t*, const T*)
+//static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const T *values)
+{
+  if(!m || !n) return 0;
+	return 0;
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static Tr norm_inf_tmpl(prop_t, uplo_t, uint_t m, uint_t n, const uint_t*, const uint_t*, const T*)
+//static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const T *values)
+{
+  if(!m || !n) return 0;
+	return 0;
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static Tr norm_max_tmpl(prop_t, uplo_t, uint_t m, uint_t n, const uint_t*, const uint_t*, const T*)
+//static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const T *values)
+{
+  if(!m || !n) return 0;
+	return 0;
+}
+/*-------------------------------------------------*/
+template <typename T, typename Tr>
+static Tr norm_fro_tmpl(prop_t, uplo_t, uint_t m, uint_t n, const uint_t*, const uint_t*, const T*)
+//static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const T *values)
+{
+  if(!m || !n) return 0;
+	return 0;
+}
+/*-------------------------------------------------*/
+int_t norm_one(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_max(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+/*-------------------------------------------------*/
+uint_t norm_one(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const uint_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const uint_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_max(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const uint_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+uint_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const uint_t*, const uint_t*, const uint_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+/*-------------------------------------------------*/
+real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real_t *values)
+{ 
+	return norm_one_tmpl<real_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real_t *values)
+{ 
+	return norm_inf_tmpl<real_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real_t *values)
+{ 
+	return norm_max_tmpl<real_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real_t *values)
+{ 
+	return norm_fro_tmpl<real_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real4_t *values)
+{ 
+	return norm_one_tmpl<real4_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real4_t *values)
+{ 
+	return norm_inf_tmpl<real4_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real4_t *values)
+{ 
+	return norm_max_tmpl<real4_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const real4_t *values)
+{ 
+	return norm_fro_tmpl<real4_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex_t *values)
+{ 
+	return norm_one_tmpl<complex_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex_t *values)
+{ 
+	return norm_inf_tmpl<complex_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex_t *values)
+{ 
+	return norm_max_tmpl<complex_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex_t *values)
+{ 
+	return norm_fro_tmpl<complex_t,real_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex8_t *values)
+{ 
+	return norm_one_tmpl<complex8_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex8_t *values)
+{ 
+	return norm_inf_tmpl<complex8_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex8_t *values)
+{ 
+	return norm_max_tmpl<complex8_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
+real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *colptr, const uint_t *rowidx, const complex8_t *values)
+{ 
+	return norm_fro_tmpl<complex8_t,real4_t>(ptype, uplo, m, n, colptr, rowidx, values); 
+}
+/*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
 } // namespace cla3p

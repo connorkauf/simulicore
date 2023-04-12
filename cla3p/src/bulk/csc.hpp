@@ -111,6 +111,46 @@ remove_duplicates_macro(void, complex_t);
 remove_duplicates_macro(void, complex8_t);
 #undef remove_duplicates_macro
 
+#define norm_one_macro(typeout, typein) \
+typeout norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t *colptr, uint_t *rowidx, const typein *values)
+norm_one_macro(int_t  , int_t); // exception
+norm_one_macro(uint_t , uint_t); // exception
+norm_one_macro(real_t , real_t);
+norm_one_macro(real4_t, real4_t);
+norm_one_macro(real_t , complex_t);
+norm_one_macro(real4_t, complex8_t);
+#undef norm_one_macro
+
+#define norm_inf_macro(typeout, typein) \
+typeout norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t *colptr, uint_t *rowidx, const typein *values)
+norm_inf_macro(int_t  , int_t); // exception
+norm_inf_macro(uint_t , uint_t); // exception
+norm_inf_macro(real_t , real_t);
+norm_inf_macro(real4_t, real4_t);
+norm_inf_macro(real_t , complex_t);
+norm_inf_macro(real4_t, complex8_t);
+#undef norm_inf_macro
+
+#define norm_max_macro(typeout, typein) \
+typeout norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t *colptr, uint_t *rowidx, const typein *values)
+norm_max_macro(int_t  , int_t); // exception
+norm_max_macro(uint_t , uint_t); // exception
+norm_max_macro(real_t , real_t);
+norm_max_macro(real4_t, real4_t);
+norm_max_macro(real_t , complex_t);
+norm_max_macro(real4_t, complex8_t);
+#undef norm_max_macro
+
+#define norm_fro_macro(typeout, typein) \
+typeout norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t *colptr, uint_t *rowidx, const typein *values)
+norm_fro_macro(int_t  , int_t); // exception
+norm_fro_macro(uint_t , uint_t); // exception
+norm_fro_macro(real_t , real_t);
+norm_fro_macro(real4_t, real4_t);
+norm_fro_macro(real_t , complex_t);
+norm_fro_macro(real4_t, complex8_t);
+#undef norm_fro_macro
+
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
