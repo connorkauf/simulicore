@@ -268,6 +268,18 @@ trtrs_macro(int_t, complex_t , z)
 trtrs_macro(int_t, complex8_t, c)
 #undef trtrs_macro
 /*-------------------------------------------------*/
+#define gesvd_macro(typeout, rtypein, typein, prefix) \
+typeout gesvd(char jobu, char jobvt, int_t m, int_t n, typein *a, int_t lda, \
+    rtypein *s, typein *u, int_t ldu, typein *vt, int_t ldvt, rtypein *superb) \
+{ \
+	return LAPACKE_##prefix##gesvd(LAPACK_COL_MAJOR, jobu, jobvt, m, n, a, lda, s, u, ldu, vt, ldvt, superb); \
+}
+gesvd_macro(int_t, real_t , real_t    , d)
+gesvd_macro(int_t, real4_t, real4_t   , s)
+gesvd_macro(int_t, real_t , complex_t , z)
+gesvd_macro(int_t, real4_t, complex8_t, c)
+#undef gesvd_macro
+/*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
 /*-------------------------------------------------*/
