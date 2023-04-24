@@ -10,6 +10,30 @@ namespace blas {
 
 /*------------------ Level 1 ----------------------*/
 
+#define iamax_macro(typeout, typein) \
+typeout iamax(int_t n, const typein *x, int_t incx)
+iamax_macro(int_t, real_t);
+iamax_macro(int_t, real4_t);
+iamax_macro(int_t, complex_t);
+iamax_macro(int_t, complex8_t);
+#undef iamax_macro
+
+#define iamin_macro(typeout, typein) \
+typeout iamin(int_t n, const typein *x, int_t incx)
+iamin_macro(int_t, real_t);
+iamin_macro(int_t, real4_t);
+iamin_macro(int_t, complex_t);
+iamin_macro(int_t, complex8_t);
+#undef iamin_macro
+
+#define asum_macro(typeout, typein) \
+typeout asum(int_t n, const typein *x, int_t incx)
+asum_macro(real_t, real_t);
+asum_macro(real4_t, real4_t);
+asum_macro(real_t, complex_t);
+asum_macro(real4_t, complex8_t);
+#undef asum_macro
+
 #define copy_macro(typeout, typein) \
 typeout copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy)
 copy_macro(void, real_t);
