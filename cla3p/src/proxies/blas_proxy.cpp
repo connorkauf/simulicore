@@ -14,6 +14,39 @@
 namespace cla3p {
 namespace blas {
 /*-------------------------------------------------*/
+#define iamax_macro(typeout, typein, prefix) \
+typeout iamax(int_t n, const typein *x, int_t incx) \
+{ \
+	return (i##prefix##amax(&n, x, &incx) - 1); \
+}
+iamax_macro(int_t, real_t    , d);
+iamax_macro(int_t, real4_t   , s);
+iamax_macro(int_t, complex_t , z);
+iamax_macro(int_t, complex8_t, c);
+#undef iamax_macro
+/*-------------------------------------------------*/
+#define iamin_macro(typeout, typein, prefix) \
+typeout iamin(int_t n, const typein *x, int_t incx) \
+{ \
+	return (i##prefix##amin(&n, x, &incx) - 1); \
+}
+iamin_macro(int_t, real_t    , d);
+iamin_macro(int_t, real4_t   , s);
+iamin_macro(int_t, complex_t , z);
+iamin_macro(int_t, complex8_t, c);
+#undef iamin_macro
+/*-------------------------------------------------*/
+#define asum_macro(typeout, typein, rprefix, prefix) \
+typeout asum(int_t n, const typein *x, int_t incx) \
+{ \
+	return rprefix##prefix##asum(&n, x, &incx); \
+}
+asum_macro(real_t , real_t    ,  , d);
+asum_macro(real4_t, real4_t   ,  , s);
+asum_macro(real_t , complex_t , d, z);
+asum_macro(real4_t, complex8_t, s, c);
+#undef asum_macro
+/*-------------------------------------------------*/
 #define copy_macro(typeout, typein, prefix) \
 typeout copy(int_t n, const typein *x, int_t incx, typein *y, int_t incy) \
 { \
@@ -49,10 +82,10 @@ scal_macro(void, complex_t , complex_t , z );
 scal_macro(void, complex8_t, complex8_t, c );
 #undef scal_macro
 /*-------------------------------------------------*/
-#define nrm2_macro(typeout, typein, rprefix, cprefix) \
+#define nrm2_macro(typeout, typein, rprefix, prefix) \
 typeout nrm2(int_t n, const typein *x, int_t incx) \
 { \
-	return rprefix##cprefix##nrm2(&n, x, &incx); \
+	return rprefix##prefix##nrm2(&n, x, &incx); \
 }
 nrm2_macro(real_t , real_t    ,  , d)
 nrm2_macro(real4_t, real4_t   ,  , s)

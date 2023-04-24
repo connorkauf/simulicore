@@ -52,8 +52,8 @@ lacpy_macro(int_t, complex_t , z)
 lacpy_macro(int_t, complex8_t, c)
 #undef lacpy_macro
 /*-------------------------------------------------*/
-#define lacp2_macro(typeout, rtypein, ctypein, prefix) \
-typeout lacp2(char uplo, int_t m, int_t n, const rtypein *a, int_t lda, ctypein *b, int_t ldb) \
+#define lacp2_macro(typeout, rtypein, typein, prefix) \
+typeout lacp2(char uplo, int_t m, int_t n, const rtypein *a, int_t lda, typein *b, int_t ldb) \
 { \
 	return LAPACKE_##prefix##lacp2(LAPACK_COL_MAJOR, uplo, m, n, a, lda, b, ldb); \
 }
