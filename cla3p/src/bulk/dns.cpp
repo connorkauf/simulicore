@@ -844,7 +844,7 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 template <typename T, typename Tr>
 static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
 {
-	if(!m || !n) return 0.;
+	if(!m || !n) return 0;
 
 	Property prop(ptype, uplo);
 
@@ -876,7 +876,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	} // property
 	
 	throw Exception("Invalid property: " + prop.name());
-	return 0.;
+	return 0;
 }
 /*-------------------------------------------------*/
 int_t norm_one(prop_t, uplo_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }

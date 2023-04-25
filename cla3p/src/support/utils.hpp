@@ -87,6 +87,14 @@ inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 	return ret;
 }
 
+inline bool coord_in_range(uplo_t uplo, uint_t i, uint_t j)
+{
+	/**/ if(uplo == uplo_t::U && i > j) return false;
+	else if(uplo == uplo_t::L && i < j) return false;
+
+	return true;
+}
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
