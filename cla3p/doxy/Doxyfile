@@ -51,7 +51,7 @@ PROJECT_BRIEF          = "Compact Linear Algebra Parallel Portable Package"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = /home/konstantinos/Pictures/cla3p_4_h55.png
+PROJECT_LOGO           = /home/connor/Pictures/cla3p_96x96.png
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is

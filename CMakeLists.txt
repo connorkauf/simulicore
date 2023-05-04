@@ -70,9 +70,10 @@ endif()
 # mkl setup
 add_definitions(-DMKL_Complex8=std::complex<float>)
 add_definitions(-DMKL_Complex16=std::complex<double>)
-set(MKL_ROOT /home/konstantinos/Development/3rd/intel/oneapi/mkl/2023.0.0)
+set(MKL_ROOT /home/connor/Development/3rd/intel/mkl_23.1.0)
+set(ICC_ROOT /home/connor/Development/3rd/intel/compiler_23.1.0)
 set(IOMP5_LIB 
-	-L/home/konstantinos/Development/3rd/intel/oneapi/compiler/2023.0.0/linux/compiler/lib/intel64_lin
+	-L${ICC_ROOT}/lib/intel64_lin
 	-liomp5)
 set(MKL_INC ${MKL_ROOT}/include)
 if(CLA3P_USE_I64)
