@@ -70,34 +70,7 @@ endif()
 # mkl setup
 add_definitions(-DMKL_Complex8=std::complex<float>)
 add_definitions(-DMKL_Complex16=std::complex<double>)
-set(MKL_ROOT /home/connor/Development/3rd/intel/mkl_23.1.0)
-set(ICC_ROOT /home/connor/Development/3rd/intel/compiler_23.1.0)
-set(IOMP5_LIB 
-	-L${ICC_ROOT}/lib/intel64_lin
-	-liomp5)
-set(MKL_INC ${MKL_ROOT}/include)
-if(CLA3P_USE_I64)
-	message(STATUS "Configuring Intel MKL (64bit integers)...")
-	add_definitions(-DMKL_ILP64)
-	set(MKL_LIB 
-		-L${MKL_ROOT}/lib/intel64 
-		-Wl,--no-as-needed 
-		-lmkl_intel_ilp64 
-		-lmkl_intel_thread 
-		-lmkl_core 
-		${IOMP5_LIB}
-		-lpthread -lm -ldl)
-else()
-	message(STATUS "Configuring Intel MKL (32bit integers)...")
-	set(MKL_LIB 
-		-L${MKL_ROOT}/lib/intel64 
-		-Wl,--no-as-needed 
-		-lmkl_intel_lp64 
-		-lmkl_intel_thread 
-		-lmkl_core 
-		${IOMP5_LIB}
-		-lpthread -lm -ldl)
-endif()
+include(3rd/cmake.mkl.in)
 message(STATUS "MKL INCLUDE: ${MKL_INC}")
 message(STATUS "MKL LIBRARY: ${MKL_LIB}")
 
@@ -125,6 +98,7 @@ endif()
 add_subdirectory(cmpi)
 add_subdirectory(cla3p)
 
+add_subdirectory(3rd)
 add_subdirectory(tests)
 add_subdirectory(example)
 
