@@ -13,7 +13,7 @@
 /*-------------------------------------------------*/
 
 /**
- * @ingroup op_addition_group
+ * @ingroup operators_addsub
  * @brief Updates an entity with another compatible entity.
  * @{
  */
@@ -43,7 +43,7 @@ void operator-=(cla3p::dns::CfMatrix& trg, const cla3p::dns::CfMatrix& src);
 /** @} */
 
 /**
- * @ingroup op_addition_group
+ * @ingroup operators_addsub
  * @brief Adds two compatible entities.
  * @{
  */
@@ -61,7 +61,7 @@ cla3p::dns::CfMatrix operator+(const cla3p::dns::CfMatrix& srcA, const cla3p::dn
 /** @} */
 
 /**
- * @ingroup op_addition_group
+ * @ingroup operators_addsub
  * @brief Subtracts two compatible entities.
  * @{
  */
@@ -79,7 +79,7 @@ cla3p::dns::CfMatrix operator-(const cla3p::dns::CfMatrix& srcA, const cla3p::dn
 /** @} */
 
 /**
- * @ingroup op_multiplication_group
+ * @ingroup operators_mult
  * @brief Multiplies two compatible entities.
  * @{
  */
@@ -97,7 +97,7 @@ cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::dn
 /** @} */
 
 /**
- * @ingroup op_permutation_group
+ * @ingroup operators_perm
  * @brief Multiplies permutation matrix with a compatible entity.
  * @{
  */
@@ -122,7 +122,7 @@ cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::Pe
 /** @} */
 
 /**
- * @ingroup op_linear_solution_group
+ * @ingroup operators_lsol
  * @brief Performs linear solution X = A^{-1} * B.
  * @{
  */
@@ -140,7 +140,7 @@ cla3p::dns::CfMatrix operator/(const cla3p::dns::CfMatrix& srcX, const cla3p::dn
 /** @} */
 
 /**
- * @ingroup op_linear_solution_group
+ * @ingroup operators_lsol
  * @brief Overwrites srcX with the solution A^{-1} * srcX.
  * @{
  */

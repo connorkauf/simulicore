@@ -14,7 +14,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_linear_solvers_group
+ * @ingroup dense_linear_solvers
  * @nosubgrouping
  * @brief The partial pivoting LU linear solver for dense matrices.
  */

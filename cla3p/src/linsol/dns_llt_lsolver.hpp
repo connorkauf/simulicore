@@ -14,7 +14,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_linear_solvers_group
+ * @ingroup dense_linear_solvers
  * @nosubgrouping
  * @brief The definite Cholesky (LL') linear solver for dense matrices.
  */

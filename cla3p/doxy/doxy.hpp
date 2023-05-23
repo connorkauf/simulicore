@@ -1,86 +1,77 @@
 /**
- * @defgroup basic_datatypes_group Basic Datatypes
+ * @defgroup basic_datatypes Basic Datatypes
  */
 
 /**
- * @defgroup allocator_group Allocators
+ * @defgroup allocators Allocators
  */
 
 /**
- * @defgroup vector_group Vectors
+ * @defgroup vectors Vectors
  *
- * @defgroup dense_vector_group Dense
- * @ingroup vector_group
- *
- * @defgroup sparse_vector_group Sparse
- * @ingroup vector_group
+ * @defgroup dense_vectors Dense
+ * @ingroup vectors
  */
 
 /**
- * @defgroup matrix_group Matrices
+ * @defgroup matrices Matrices
  *
- * @defgroup dense_matrix_group Dense
- * @ingroup matrix_group
+ * @defgroup dense_matrices Dense
+ * @ingroup matrices
  *
- * @defgroup sparse_matrix_group Sparse
- * @ingroup matrix_group
- *
- * @defgroup perm_matrix_group Permutation
- * @ingroup matrix_group
+ * @defgroup perm_matrices Permutation
+ * @ingroup matrices
  */
 
 /**
- * @defgroup guard_group Guards
+ * @defgroup guards Guards
  *
- * @defgroup dense_guard_group Dense
- * @ingroup guard_group
- *
- * @defgroup csc_guard_group Sparse
- * @ingroup guard_group
+ * @defgroup dense_guards Dense
+ * @ingroup guards
  */
 
 /**
- * @defgroup math_operations_group Math Operations
+ * @defgroup math_operations Math Operations
  *
- * @defgroup math_addition_group Addition
- * @ingroup math_operations_group
+ * @defgroup math_op_matadd Addition
+ * @ingroup math_operations
  *
- * @defgroup math_matvec_group Matrix Vector product
- * @ingroup math_operations_group
+ * @defgroup math_op_matvec Matrix Vector product
+ * @ingroup math_operations
  *
- * @defgroup math_matmat_group Matrix Matrix product
- * @ingroup math_operations_group
+ * @defgroup math_op_matmat Matrix Matrix product
+ * @ingroup math_operations
  */
 
 /**
- * @defgroup linear_solvers_group Linear Solvers
+ * @defgroup linear_solvers Linear Solvers
  *
- * @defgroup dense_linear_solvers_group Dense
- * @ingroup linear_solvers_group
+ * @defgroup dense_linear_solvers Dense
+ * @ingroup linear_solvers
  *
  */
 
 /**
- * @defgroup math_operators_group Algebra Operators
+ * @defgroup math_operators Algebra Operators
  *
- * @defgroup op_addition_group Addition/Subtraction
- * @ingroup math_operators_group
+ * @defgroup operators_addsub Addition/Subtraction
+ * @ingroup math_operators
  *
- * @defgroup op_multiplication_group Multiplication
- * @ingroup math_operators_group
+ * @defgroup operators_mult Multiplication
+ * @ingroup math_operators
  *
- * @defgroup op_permutation_group Permutation
- * @ingroup math_operators_group
+ * @defgroup operators_perm Permutation
+ * @ingroup math_operators
  *
- * @defgroup op_linear_solution_group Linear Solution
- * @ingroup math_operators_group
+ * @defgroup operators_lsol Linear Solution
+ * @ingroup math_operators
  */
 
 /**
- * @defgroup stream_operator_group Stream Operators
+ * @defgroup stream_operators Stream Operators
  */
 
 /**
- * @defgroup exception_group Exceptions
+ * @defgroup exceptions Exceptions
  */
 

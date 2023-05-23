@@ -20,7 +20,7 @@ namespace dns {
 class RdMGuard;
 
 /**
- * @ingroup dense_matrix_group
+ * @ingroup dense_matrices
  * @nosubgrouping 
  * @brief The double precision real dense matrix object.
  */
@@ -507,7 +507,7 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The double precision real dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -558,7 +558,7 @@ class RdMGuard : private Guard<RdMatrix> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RdMatrix& mat);

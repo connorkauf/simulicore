@@ -94,14 +94,6 @@ he2ge_macro(void, complex_t);
 he2ge_macro(void, complex8_t);
 #undef he2ge_macro
 
-// FIXME: move this to types or whatever
-enum class dup_t {
-	SUM  = 0,
-	PROD    ,
-	AMAX    ,
-	AMIN     
-};
-
 #define remove_duplicates_macro(typeout, typein) \
 typeout remove_duplicates(uint_t n, uint_t *colptr, uint_t *rowidx, typein *values, dup_t op)
 remove_duplicates_macro(void, int_t);
