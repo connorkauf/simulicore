@@ -9,6 +9,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 set(CLA3P_TYPES_HPP 
 	integer.hpp
 	scalar.hpp
+	enums.hpp
 	operation.hpp
 	property.hpp
 	)

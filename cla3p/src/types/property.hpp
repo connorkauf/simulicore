@@ -9,37 +9,10 @@
 #include <ostream>
 #include <string>
 
+#include "enums.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
-/*-------------------------------------------------*/
-
-/**
- * @ingroup basic_datatypes_group 
- * @enum prop_t
- * @brief The property type.
- */
-enum class prop_t {
-	NONE      = 0, /**< No property */
-	GENERAL      , /**< General matrix */
-	SYMMETRIC    , /**< Symmetric matrix */
-	HERMITIAN    , /**< Hermitian matrix */
-	TRIANGULAR   , /**< Triangular/trapezoidal matrix */
-	SKEW           /**< Skew matrix */
-};
-
-/*-------------------------------------------------*/
-
-/**
- * @ingroup basic_datatypes_group 
- * @enum uplo_t
- * @brief The fill type.
- */
-enum class uplo_t : char {
-	F = 'F', /**< Both parts are filled */
-	U = 'U', /**< The upper part is filled */
-	L = 'L'  /**< The lower part is filled */
-};
-
 /*-------------------------------------------------*/
 
 /**
