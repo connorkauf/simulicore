@@ -22,7 +22,7 @@ namespace dns {
 class CfVGuard;
 
 /**
- * @ingroup dense_vector_group
+ * @ingroup dense_vectors
  * @nosubgrouping 
  * @brief The single precision complex dense vector object.
  */
@@ -286,7 +286,7 @@ class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The single precision complex dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
@@ -330,7 +330,7 @@ class CfVGuard : private Guard<CfVector> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of vec
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::CfVector& vec);

@@ -14,31 +14,31 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @brief Single precision real.
  */
 using real4_t = float;
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @brief Double precision real.
  */
 using real_t = double;
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @brief Single precision complex.
  */
 using complex8_t = std::complex<real4_t>;
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @brief Double precision complex.
  */
 using complex_t = std::complex<real_t>;
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @brief Standard indexing.
  */
 using bulk_t = std::size_t;

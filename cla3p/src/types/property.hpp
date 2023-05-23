@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes_group
+ * @ingroup basic_datatypes
  * @brief The property class.
  */
 class Property {
@@ -159,7 +159,7 @@ inline Property defaultProperty()
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the type of prop.
  */
 std::ostream& operator<<(std::ostream& so, const cla3p::Property& prop);

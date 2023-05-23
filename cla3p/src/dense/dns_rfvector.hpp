@@ -21,7 +21,7 @@ namespace dns {
 class RfVGuard;
 
 /**
- * @ingroup dense_vector_group
+ * @ingroup dense_vectors
  * @nosubgrouping 
  * @brief The single precision real dense vector object.
  */
@@ -245,7 +245,7 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The single precision real dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
@@ -289,7 +289,7 @@ class RfVGuard : private Guard<RfVector> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of vec
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RfVector& vec);

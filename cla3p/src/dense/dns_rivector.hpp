@@ -21,7 +21,7 @@ namespace dns {
 class RiVGuard;
 
 /**
- * @ingroup dense_vector_group
+ * @ingroup dense_vectors
  * @nosubgrouping 
  * @brief The integer dense vector object.
  */
@@ -230,7 +230,7 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The integer dense vector guard.
  *
  * The vector guard class is a vector wrapper class. 
@@ -274,7 +274,7 @@ class RiVGuard : private Guard<RiVector> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of vec
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RiVector& vec);

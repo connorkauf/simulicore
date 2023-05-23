@@ -15,7 +15,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup math_addition_group
+ * @ingroup math_op_matadd
  * @brief Vector update.
  *
  * Performs the operation:
@@ -37,7 +37,7 @@ void update(complex8_t alpha, const dns::CfVector& src, dns::CfVector& trg);
 /** @} */
 
 /**
- * @ingroup math_addition_group
+ * @ingroup math_op_matadd
  * @brief Matrix update.
  *
  * Performs the operation:
@@ -59,7 +59,7 @@ void update(complex8_t alpha, const dns::CfMatrix& src, dns::CfMatrix& trg);
 /** @} */
 
 /**
- * @ingroup math_addition_group
+ * @ingroup math_op_matadd
  * @brief Vector sum.
  *
  * Performs the operation:
@@ -83,7 +83,7 @@ dns::CfVector add(complex8_t alpha, const dns::CfVector& srcA, complex8_t beta, 
 /** @} */
 
 /**
- * @ingroup math_addition_group
+ * @ingroup math_op_matadd
  * @brief Matrix sum.
  *
  * Performs the operation:
@@ -107,7 +107,7 @@ dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, 
 /** @} */
 
 /**
- * @ingroup math_matvec_group
+ * @ingroup math_op_matvec
  * @brief Updates a vector with a matrix vector product.
  *
  * Performs the operation:
@@ -131,7 +131,7 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
 /** @} */
 
 /**
- * @ingroup math_matvec_group
+ * @ingroup math_op_matvec
  * @brief Creates a vector from a matrix vector product.
  *
  * Performs the operation:
@@ -155,7 +155,7 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
 /** @} */
 
 /**
- * @ingroup math_matmat_group
+ * @ingroup math_op_matmat
  * @brief Updates a general matrix with a matrix matrix product.
  *
  * Performs the operation:
@@ -190,7 +190,7 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
 /** @} */
 
 /**
- * @ingroup math_matmat_group
+ * @ingroup math_op_matmat
  * @brief Creates a general matrix from a matrix matrix product.
  *
  * Performs the operation:

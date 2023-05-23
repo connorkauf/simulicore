@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup perm_matrix_group
+ * @ingroup perm_matrices
  * @nosubgrouping
  * @brief The permutation matrix object.
  *
@@ -200,7 +200,7 @@ class PermMatrix : private UniversalMetaTypes, public dns::GenericObject<uint_t,
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::PermMatrix& mat);

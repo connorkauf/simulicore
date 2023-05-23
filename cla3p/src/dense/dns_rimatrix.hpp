@@ -20,7 +20,7 @@ namespace dns {
 class RiMGuard;
 
 /**
- * @ingroup dense_matrix_group
+ * @ingroup dense_matrices
  * @nosubgrouping 
  * @brief The integer dense matrix object.
  */
@@ -306,7 +306,7 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The integer dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -350,7 +350,7 @@ class RiMGuard : private Guard<RiMatrix> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::RiMatrix& mat);

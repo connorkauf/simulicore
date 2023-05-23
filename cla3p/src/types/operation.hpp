@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes_group
+ * @ingroup basic_datatypes
  * @brief The operation class.
  */
 class Operation {
@@ -85,7 +85,7 @@ class Operation {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op);

@@ -21,7 +21,7 @@ namespace dns {
 class CfMGuard;
 
 /**
- * @ingroup dense_matrix_group
+ * @ingroup dense_matrices
  * @nosubgrouping 
  * @brief The single precision complex dense matrix object.
  */
@@ -375,7 +375,7 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_guard_group
+ * @ingroup dense_guards
  * @brief The single precision complex dense matrix guard.
  *
  * The matrix guard class is a matrix wrapper class. 
@@ -419,7 +419,7 @@ class CfMGuard : private Guard<CfMatrix> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operator_group
+ * @ingroup stream_operators
  * @brief Writes to os the contents of mat
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::dns::CfMatrix& mat);

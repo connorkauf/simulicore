@@ -11,7 +11,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @enum prop_t
  * @brief The property type.
  */
@@ -25,7 +25,7 @@ enum class prop_t {
 };
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @enum uplo_t
  * @brief The fill type.
  */
@@ -36,7 +36,7 @@ enum class uplo_t : char {
 };
 
 /**
- * @ingroup basic_datatypes_group 
+ * @ingroup basic_datatypes 
  * @enum op_t
  * @brief The operation type.
  */
@@ -44,6 +44,13 @@ enum class op_t : char {
 	N = 'N', /**< No operation: @f$ op(A) = A @f$ */
 	T = 'T', /**< Transpose operation: @f$ op(A) = A^T @f$ */
 	C = 'C'  /**< Conjugate transpose operation: @f$ op(A) = A^H @f$ */
+};
+
+enum class dup_t {
+	SUM  = 0,
+	PROD    ,
+	AMAX    ,
+	AMIN     
 };
 
 /*-------------------------------------------------*/

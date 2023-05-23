@@ -16,7 +16,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_linear_solvers_group
+ * @ingroup dense_linear_solvers
  * @nosubgrouping
  * @brief The abstract linear solver base for dense matrices.
  */
