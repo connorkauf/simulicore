@@ -12,13 +12,14 @@ class Guard {
 	public:
 		Guard();
 		~Guard();
+
 		Guard(const Guard<T>&);
 		Guard<T>& operator=(const Guard<T>&);
+
 		Guard(const T&);
 		Guard<T>& operator=(const T&);
 
-	protected:
-		const T& obj() const;
+		const T& get() const;
 
 	protected:
 		T m_obj;
@@ -38,31 +39,31 @@ Guard<T>::~Guard()
 template <typename T>
 Guard<T>::Guard(const Guard<T>& src)
 {
-	*this = src.obj();
+	*this = src.get();
 }
 /*-------------------------------------------------*/
 template <typename T>
-Guard<T>& Guard<T>::operator=(const Guard<T>& src)
+Guard<T>& Guard<T>::operator=(const Guard<T>& other)
 {
-	*this = src.obj();
+	*this = other.get();
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T>
-Guard<T>::Guard(const T& mat)
+Guard<T>::Guard(const T& obj)
 {
-	m_obj = const_cast<T&>(mat).clone();
+	m_obj = const_cast<T&>(obj).clone();
 }
 /*-------------------------------------------------*/
 template <typename T>
-Guard<T>& Guard<T>::operator=(const T& mat)
+Guard<T>& Guard<T>::operator=(const T& obj)
 {
-	m_obj = const_cast<T&>(mat).clone();
+	m_obj = const_cast<T&>(obj).clone();
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T>
-const T& Guard<T>::obj() const
+const T& Guard<T>::get() const
 {
 	return m_obj;
 }
