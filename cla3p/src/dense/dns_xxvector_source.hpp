@@ -237,7 +237,7 @@ XxVGuard& XxVGuard::operator=(const XxVGuard& other)
 /*-------------------------------------------------*/
 const XxVector& XxVGuard::vec() const
 { 
-	return ThisGuardType::obj(); 
+	return ThisGuardType::get(); 
 }
 /*-------------------------------------------------*/
 } // namespace dns

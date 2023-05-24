@@ -289,7 +289,7 @@ XxMGuard& XxMGuard::operator=(const XxMGuard& other)
 /*-------------------------------------------------*/
 const XxMatrix& XxMGuard::mat() const
 { 
-	return ThisGuardType::obj(); 
+	return ThisGuardType::get(); 
 }
 /*-------------------------------------------------*/
 } // namespace dns
