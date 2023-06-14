@@ -1,4 +1,5 @@
 #include <iostream>
+#include <istream>
 #include <vector>
 
 #include "cla3p/src/dense.hpp"
@@ -178,9 +179,67 @@ static void linsol_test()
 	std::cout << (B - A * X).normInf() / B.normInf() << std::endl;
 }
 /*-------------------------------------------------*/
+template <typename T, typename SelfReturnType>
+class Foo {
+
+	public:
+		Foo():m_x(0){};
+		~Foo(){};
+
+		SelfReturnType copy() const 
+		{
+			SelfReturnType ret;
+			ret.m_x = m_x;
+			return ret;
+		}
+
+		void print() const 
+		{
+			std::cout << "Foo.x = " << m_x << std::endl;
+		}
+
+	protected:
+		void setX(const T& x)
+		{
+			m_x = x;
+		}
+
+	private:
+		T m_x;
+};
+/*-------------------------------------------------*/
+template <typename T, typename SelfReturnType>
+class Bar : public Foo<T,SelfReturnType> 
+{
+	public: 
+		Bar() = default;
+		~Bar() = default; 
+};
+/*-------------------------------------------------*/
+template <typename T>
+class BarFinal : public Bar<T,BarFinal<T>> 
+{
+	public: 
+		BarFinal() = default;
+		~BarFinal() = default; 
+
+		BarFinal(const T& x)
+		{
+			Foo<T,BarFinal<T>>::setX(x);
+		}
+};
+/*-------------------------------------------------*/
+using Barf = BarFinal<float>;
+/*-------------------------------------------------*/
 
 int main()
 {
+	Barf bf1(5.f);
+	bf1.print();
+	Barf bf2 = bf1.copy();
+	bf2.print();
+
+	return 0;
 
 	{
 		cla3p::uint_t n = 4;
