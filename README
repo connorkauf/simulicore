@@ -1,0 +1,9 @@
+Build using 32bit integers:
+---------------------------
+./config.sh
+./build.sh
+
+Build using 64bit integers:
+---------------------------
+./config.sh -DCLA3P_USE_I64=true
+./build.sh

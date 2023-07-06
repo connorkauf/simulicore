@@ -34,7 +34,7 @@ message("CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
-set(CLA3P_USE_I64 1)
+message("CLA3P_USE_I64: ${CLA3P_USE_I64}")
 
 if(CLA3P_USE_I64)
 	add_definitions(-DCLA3P_I64)
@@ -96,6 +96,10 @@ else()
 set(CMPI_LIB "cmpi_pre")
 set(CLA3P_LIB "cla3p_pre")
 endif()
+message(STATUS "CMPI_LIB: ${CMPI_LIB}")
+message(STATUS "CLA3P_LIB: ${CLA3P_LIB}")
+
+#-----------------------------------------------
 
 add_subdirectory(cmpi)
 add_subdirectory(cla3p)
