@@ -4,6 +4,7 @@ message(STATUS "Configuring ${CMPI_LIB}...")
 # set module root
 #-----------------------------------------------
 set(CMPI_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "CMPI_ROOT: ${CMPI_ROOT}")
 
 #-----------------------------------------------
 # sub-directory setup
