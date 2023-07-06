@@ -10,7 +10,7 @@ add_executable(${BIN_NAME} example.cpp)
 # dependencies setup
 #-----------------------------------------------
 target_include_directories(${BIN_NAME} PRIVATE 
-	${CLA3P_PROJECT_ROOT}
+	${COMPACT_SUITE_ROOT}
 	${MKL_INC}
 	)
 
