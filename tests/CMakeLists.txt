@@ -24,7 +24,7 @@ add_executable(${BIN_NAME} ${CLA3P_TEST_SRC})
 # dependencies setup
 #-----------------------------------------------
 target_include_directories(${BIN_NAME} PRIVATE 
-	${CLA3P_PROJECT_ROOT}
+	${COMPACT_SUITE_ROOT}
 	${MKL_INC}
 	)
 

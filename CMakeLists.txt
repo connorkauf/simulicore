@@ -22,12 +22,14 @@ message("Build type: ${CMAKE_BUILD_TYPE}")
 #-----------------------------------------------
 # set project root
 #-----------------------------------------------
-set(CLA3P_PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+set(COMPACT_SUITE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+message("COMPACT_SUITE_ROOT: ${COMPACT_SUITE_ROOT}")
 
 #-----------------------------------------------
 # set install location
 #-----------------------------------------------
-set(CMAKE_INSTALL_PREFIX "${CLA3P_PROJECT_ROOT}/install")
+set(CMAKE_INSTALL_PREFIX "${COMPACT_SUITE_ROOT}/install")
+message("CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
 # set global definitions
