@@ -5,12 +5,14 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	generic/universal.cpp
 	generic/guard.cpp
 	generic/generic_dns.cpp
+	generic/array2d.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_GENERIC_HPP 
 	universal.hpp
 	guard.hpp
 	generic_dns.hpp
+	array2d.hpp
 	)
 
 #-----------------------------------------------

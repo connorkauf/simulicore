@@ -232,8 +232,43 @@ class BarFinal : public Bar<T,BarFinal<T>>
 using Barf = BarFinal<float>;
 /*-------------------------------------------------*/
 
+class Base 
+{
+	public:
+		virtual void foo() = 0;
+		int get(){ return m_i; }
+		void set(int i){ m_i = i; }
+
+	private:
+		int m_i;
+};
+
+class Der : public Base
+{
+	public:
+		//virtual void foo2() = 0;
+		void lala(){}
+	protected:
+};
+
+class Der2 : public Der
+{
+	public:
+		void foo(){std::cout << "der2 foo():: " << get() << std::endl;}
+};
+
+
+/*-------------------------------------------------*/
+
 int main()
 {
+
+	Der2 d2;
+	d2.foo();
+	d2.lala();
+	
+	return 0;
+
 	Barf bf1(5.f);
 	bf1.print();
 	Barf bf2 = bf1.copy();
