@@ -6,9 +6,9 @@
 // 3rd
 
 // cla3p
-//#include "../bulk/dns.hpp"
+#include "../bulk/dns.hpp"
+#include "../bulk/dns_io.hpp"
 //#include "../bulk/dns_math.hpp"
-//#include "../bulk/dns_io.hpp"
 //#include "../checks/all_checks.hpp"
 //#include "../support/error.hpp"
 //#include "../support/utils.hpp"
@@ -82,6 +82,17 @@ const T_Scalar* Array2D<T_Scalar>::values() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void Array2D<T_Scalar>::alloc(uint_t nr, uint_t nc)
+{
+	clear();
+	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nr);
+
+	setRsize(nr);
+	setCsize(nc);
+	setValues(vals);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void Array2D<T_Scalar>::clear()
 {
 	i_free(values());
@@ -94,106 +105,61 @@ bool Array2D<T_Scalar>::empty() const
 	return (!rsize() || !csize());
 }
 /*-------------------------------------------------*/
-#if 0
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::defaults()
+template <typename T_Scalar>
+void Array2D<T_Scalar>::fill(T_Scalar val)
 {
-	UniversalMetaData::defaults();
-
-	Property prop;
-
-	setLd    (0);
-	setValues(nullptr);
-	setProp  (prop);
+	bulk::dns::fill(uplo_t::F, rsize(), csize(), values(), rsize(), val);
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::creator(const Property& pr, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool owner)
+template <typename T_Scalar>
+void Array2D<T_Scalar>::print(uint_t nsd) const
 {
-	dns_consistency_check(pr, nr, nc, vals, ldv);
-
-	// meta data
-	setAllMeta(nr, nc, owner);
-
-	// additional
-	setValues(vals);
-	setLd    (ldv );
-	setProp  (pr);
+	bulk::dns::print(uplo_t::F, rsize(), csize(), values(), rsize(), nsd);
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::fill(T val)
+template <typename T_Scalar>
+std::string Array2D<T_Scalar>::toString(uint_t nsd) const
 {
-	if(prop().isHermitian()) {
-		T diag = val;
-		setim(diag,0);
-		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val, diag);
-	} else if(prop().isSkew()) {
-		T diag = 0;
-		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val, diag);
-	} else {
-		bulk::dns::fill(prop().uplo(), rsize(), csize(), values(), ld(), val);
-	}
+	return bulk::dns::print_to_string(uplo_t::F, rsize(), csize(), values(), rsize(), nsd);
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::clear()
+template <typename T_Scalar>
+void Array2D<T_Scalar>::copyTo(Array2D<T_Scalar>& trg) const
 {
-	if(owner()) {
-		i_free(values());
-	} // owner
-
-	defaults();
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::scaleWith(T coeff)
-{
-	bulk::dns::scale(prop().uplo(), rsize(), csize(), values(), ld(), coeff);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::copyTo(GenericObject<T,Tr>& trg) const
-{
-	if(this == &trg) return; // do not apply on self 
+	if(this == &trg) return; // do not apply on self
 
 	if(!empty()) {
-		trg.blankCreator(prop(), rsize(), csize(), rsize());
-		bulk::dns::copy(prop().uplo(), rsize(), csize(), values(), ld(), trg.values(), trg.ld());
+		trg.alloc(rsize(), csize());
+		bulk::dns::copy(uplo_t::F, rsize(), csize(), values(), rsize(), trg.values(), trg.rsize());
 	} else {
 		trg.clear();
-	}// (!)empty
+	} // (!)empty
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::moveTo(GenericObject<T,Tr>& trg)
+template <typename T_Scalar>
+void Array2D<T_Scalar>::copyToShallow(Array2D<T_Scalar>& trg)
 {
-	if(this == &trg) return; // do not apply on self 
+	if(this == &trg) return; // do not apply on self
 
 	trg.clear();
-
-	if(!empty()) {
-		trg.creator(prop(), rsize(), csize(), values(), ld(), owner());
-	} // !empty
-
-	unbind();
-	clear();
+	trg.setRsize(rsize());
+	trg.setCsize(csize());
+	trg.setValues(values());
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::cloneTo(GenericObject<T,Tr>& trg)
+template <typename T_Scalar>
+T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j)
 {
-	if(this == &trg) return; // do not apply on self 
-
-	trg.clear();
-
-	if(!empty()) {
-		trg.creator(prop(), rsize(), csize(), values(), ld(), false);
-	} // !empty
+	return bulk::dns::entry(rsize(), values(), i, j);
 }
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+const T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j) const
+{
+	return bulk::dns::entry(rsize(), values(), i, j);
+}
+/*-------------------------------------------------*/
+#if 0
 template <typename T, typename Tr>
 std::string GenericObject<T,Tr>::info(bool is2D,
 		const std::string& msg, 
@@ -231,62 +197,6 @@ std::string GenericObject<T,Tr>::info(bool is2D,
 	return ss.str();
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-void GenericObject<T,Tr>::print(uint_t nsd) const
-{
-	bulk::dns::print(prop().uplo(), rsize(), csize(), values(), ld(), nsd);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-std::string GenericObject<T,Tr>::printToString(uint_t nsd) const
-{
-	return bulk::dns::print_to_string(prop().uplo(), rsize(), csize(), values(), ld(), nsd);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-Tr GenericObject<T,Tr>::normOne() const
-{ 
-	return bulk::dns::norm_one(prop().type(), prop().uplo(), rsize(), csize(), values(), ld());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-Tr GenericObject<T,Tr>::normInf() const
-{ 
-	return bulk::dns::norm_inf(prop().type(), prop().uplo(), rsize(), csize(), values(), ld());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-Tr GenericObject<T,Tr>::normMax() const
-{ 
-	return bulk::dns::norm_max(prop().type(), prop().uplo(), rsize(), csize(), values(), ld());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-Tr GenericObject<T,Tr>::normFro() const
-{ 
-	return bulk::dns::norm_fro(prop().type(), prop().uplo(), rsize(), csize(), values(), ld());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-Tr GenericObject<T,Tr>::normEuc() const
-{ 
-	if(csize() > 1) {
-		throw Exception("Euclidian norm is applied on single column objects only");
-	} // csize
-	return bulk::dns::norm_euc(rsize(), values());
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-T& GenericObject<T,Tr>::operator()(uint_t i, uint_t j)
-{
-	return bulk::dns::entry(ld(), values(), i, j);
-}
-/*-------------------------------------------------*/
-template <typename T, typename Tr>
-const T& GenericObject<T,Tr>::operator()(uint_t i, uint_t j) const
-{
-	return bulk::dns::entry(ld(), values(), i, j);
-}
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
