@@ -32,6 +32,19 @@ Array2D<T_Scalar>::~Array2D()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+Array2D<T_Scalar>::Array2D(Array2D<T_Scalar>&& src)
+{
+	src.moveTo(*this);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+Array2D<T_Scalar>& Array2D<T_Scalar>::operator=(Array2D<T_Scalar>&& src)
+{
+	src.moveTo(*this);
+	return *this;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void Array2D<T_Scalar>::defaults()
 {
 	setRsize(0);
@@ -145,6 +158,15 @@ void Array2D<T_Scalar>::copyToShallow(Array2D<T_Scalar>& trg)
 	trg.setRsize(rsize());
 	trg.setCsize(csize());
 	trg.setValues(values());
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void Array2D<T_Scalar>::moveTo(Array2D<T_Scalar>& trg)
+{
+	copyToShallow(trg);
+
+	setValues(nullptr);
+	clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
