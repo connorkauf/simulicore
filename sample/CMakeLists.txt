@@ -1,10 +1,10 @@
 #-----------------------------------------------
 # target setup
 #-----------------------------------------------
-set(BIN_NAME "example")
+set(BIN_NAME "sample")
 set(BSH_NAME "${BIN_NAME}.sh")
 
-add_executable(${BIN_NAME} example.cpp)
+add_executable(${BIN_NAME} sample.cpp)
 
 #-----------------------------------------------
 # dependencies setup

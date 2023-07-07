@@ -106,7 +106,7 @@ add_subdirectory(cla3p)
 
 add_subdirectory(3rd)
 add_subdirectory(tests)
-add_subdirectory(example)
+add_subdirectory(sample)
 
 #-----------------------------------------------
 # end
