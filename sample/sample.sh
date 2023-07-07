@@ -13,4 +13,4 @@ else
 	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CLA3P_LIB}:${CMPI_LIB}:${MKL_LIB}:${IOMP5_LIB}
 fi
 
-exec ${ROOT_DIR}/example $@
+exec ${ROOT_DIR}/sample $@
