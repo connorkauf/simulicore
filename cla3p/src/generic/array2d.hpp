@@ -21,6 +21,14 @@ class Array2D {
 		Array2D();
 		~Array2D();
 
+		// no copy
+		Array2D(const Array2D<T_Scalar>&) = delete;
+		Array2D<T_Scalar>& operator=(const Array2D<T_Scalar>&) = delete;
+
+		// move
+		Array2D(Array2D<T_Scalar>&&);
+		Array2D<T_Scalar>& operator=(Array2D<T_Scalar>&&);
+
 		/**
 		 * @brief The row size.
 		 * @return The number of rows in the 2D Array.
@@ -77,6 +85,7 @@ class Array2D {
 		void clear();
 		void copyTo(Array2D<T_Scalar>&) const;
 		void copyToShallow(Array2D<T_Scalar>&);
+		void moveTo(Array2D<T_Scalar>&);
 
 		virtual T_Scalar& operator()(uint_t i, uint_t j);
 		virtual const T_Scalar& operator()(uint_t i, uint_t j) const;
