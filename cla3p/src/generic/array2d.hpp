@@ -53,52 +53,36 @@ class Array2D {
 		/**
 		 * @brief Fills the object with a value.
 		 *
-		 * Sets all entries of the object to a single value.@n
-		 * Imaginary part of diagonal is set to zero for Hermitian cases.@n
-		 * Diagonal is set to zero for Skew cases.
+		 * Sets all entries of the object to a single value.
 		 *
 		 * @param[in] val The value to be set.
 		 */
-		virtual void fill(T_Scalar val) = 0;
+		virtual void fill(T_Scalar val);
 
 		/**
 		 * @brief Prints the contents of the object.
 		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
 		 */
-		virtual void print(uint_t nsd = 3) const = 0;
+		virtual void print(uint_t nsd = 3) const;
 
 		/**
 		 * @brief Prints the contents of the object to a string.
 		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
 		 * @return The string containing the formatted numerical values of the object.
 		 */
-		virtual std::string toString(uint_t nsd = 3) const = 0;
+		virtual std::string toString(uint_t nsd = 3) const;
 
 	protected:
-
-		/**
-		 * @brief Clears the object.
-		 *
-		 * Deallocates data and resets all members.
-		 */
+		void alloc(uint_t, uint_t);
 		void clear();
+		void copyTo(Array2D<T_Scalar>&) const;
+		void copyToShallow(Array2D<T_Scalar>&);
 
-	protected:
+		virtual T_Scalar& operator()(uint_t i, uint_t j);
+		virtual const T_Scalar& operator()(uint_t i, uint_t j) const;
+
 #if 0
-		// no copy
-		GenericObject(const GenericObject<T,Tr>&) = delete;
-		GenericObject<T,Tr>& operator=(const GenericObject<T,Tr>&) = delete;
-
-		// move
-		GenericObject(GenericObject<T,Tr>&&);
-		GenericObject<T,Tr>& operator=(GenericObject<T,Tr>&&);
-
-		// callable from empty
-		void scaleWith(T coeff);
-		void copyTo(GenericObject<T,Tr>&) const;
-		void moveTo(GenericObject<T,Tr>&);
-		void cloneTo(GenericObject<T,Tr>&);
-
+	protected:
 		std::string info(bool is2D,
 				const std::string&,
 				const std::string&,
