@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../types.hpp"
+#include "../generic/ownership.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -15,7 +16,7 @@ namespace dns {
  * @brief A basic 2D array class.
  */
 template <typename T_Scalar>
-class Array2D {
+class Array2D : public Ownership{
 
 	public:
 		Array2D();
@@ -29,17 +30,9 @@ class Array2D {
 		Array2D(Array2D<T_Scalar>&&);
 		Array2D<T_Scalar>& operator=(Array2D<T_Scalar>&&);
 
-		/**
-		 * @brief The row size.
-		 * @return The number of rows in the 2D Array.
-		 */
 		uint_t rsize() const;
-
-		/**
-		 * @brief The column size.
-		 * @return The number of columns in the 2D Array.
-		 */
 		uint_t csize() const;
+		uint_t lsize() const;
 
 		/**
 		 * @brief The values array.
@@ -81,78 +74,34 @@ class Array2D {
 		virtual std::string toString(uint_t nsd = 3) const;
 
 	protected:
-		void alloc(uint_t, uint_t);
+		void alloc(uint_t, uint_t, uint_t);
 		void clear();
+
 		void copyTo(Array2D<T_Scalar>&) const;
+		void copyToAllocated(Array2D<T_Scalar>&) const;
 		void copyToShallow(Array2D<T_Scalar>&);
 		void moveTo(Array2D<T_Scalar>&);
+
+		void permuteToLeftRight(Array2D<T_Scalar>& trg, const uint_t *P, const uint_t *Q) const;
+		void permuteToLeft(Array2D<T_Scalar>& trg, const uint_t *P) const;
+		void permuteToRight(Array2D<T_Scalar>& trg, const uint_t *Q) const;
+
+		void permuteIpLeftRight(const uint_t *P, const uint_t *Q);
+		void permuteIpLeft(const uint_t *P);
+		void permuteIpRight(const uint_t *Q);
 
 		virtual T_Scalar& operator()(uint_t i, uint_t j);
 		virtual const T_Scalar& operator()(uint_t i, uint_t j) const;
 
-#if 0
-	protected:
-		std::string info(bool is2D,
-				const std::string&,
-				const std::string&,
-				const std::string&,
-				const std::string&) const;
-
-		Tr normOne() const;
-		Tr normInf() const;
-		Tr normMax() const;
-		Tr normFro() const;
-		Tr normEuc() const;
-
-		T& operator()(uint_t i, uint_t j);
-		const T& operator()(uint_t i, uint_t j) const;
-
-		// not callcable from empty
-		void transposeTo(GenericObject<T,Tr>&) const;
-		void ctransposeTo(GenericObject<T,Tr>&) const;
-		void conjugateIp();
-
-		void convertToGeneral(GenericObject<T,Tr>&) const;
-		void convertToGeneralIp();
-
-		void gePermuteTo(GenericObject<T,Tr>&, const PermMatrix& P, const PermMatrix& Q) const;
-		void gePermuteToLeft(GenericObject<T,Tr>&, const PermMatrix& P) const;
-		void gePermuteToRight(GenericObject<T,Tr>&, const PermMatrix& Q) const;
-		void xxPermuteToMirror(GenericObject<T,Tr>&, const PermMatrix& P) const;
-
-		void gePermuteIp(const PermMatrix& P, const PermMatrix& Q);
-		void gePermuteIpLeft(const PermMatrix& P);
-		void gePermuteIpRight(const PermMatrix& Q);
-		void xxPermuteIpMirror(const PermMatrix& P);
-
-		void getBlock(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void getBlockReference(GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-		void setBlock(const GenericObject<T,Tr>&, uint_t ibgn, uint_t jbgn);
-
-		void getRealBlock(GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void getImagBlock(GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void setRealBlock(const GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn);
-		void setImagBlock(const GenericObject<Tr,Tr>&, uint_t ibgn, uint_t jbgn);
-
-		void getRealPart(GenericObject<Tr,Tr>&) const;
-		void getImagPart(GenericObject<Tr,Tr>&) const;
-		void setRealPart(const GenericObject<Tr,Tr>&);
-		void setImagPart(const GenericObject<Tr,Tr>&);
-
-		// creators
-		void  blankCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
-		void   zeroCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
-		void randomCreator(const Property& pr, uint_t nr, uint_t nc, uint_t ldim);
-		void   wrapCreator(const Property& pr, uint_t nr, uint_t nc, T *vals, uint_t ldv, bool bind);
-#endif
-
 	private:
 		uint_t    m_rsize;
 		uint_t    m_csize;
+		uint_t    m_lsize;
 		T_Scalar* m_values;
 
 		void setRsize(uint_t);
 		void setCsize(uint_t);
+		void setLsize(uint_t);
 		void setValues(T_Scalar*);
 
 		void defaults();
