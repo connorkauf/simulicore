@@ -220,14 +220,19 @@ uplo_t auto_uplo(prop_t ptype)
 	return uplo_t::F;
 }
 /*-------------------------------------------------*/
-void fill_identity_perm(uint_t n, uint_t *P)
+template <typename T>
+static void fill_identity_perm_tmpl(uint_t n, T *P)
 {
 	for(uint_t i = 0; i < n; i++) {
-		P[i] = i;
+		P[i] = static_cast<T>(i);
 	} // i
 }
 /*-------------------------------------------------*/
-void fill_random_perm(uint_t n, uint_t *P)
+void fill_identity_perm(uint_t n, uint_t *P){ fill_identity_perm_tmpl(n, P); }
+void fill_identity_perm(uint_t n,  int_t *P){ fill_identity_perm_tmpl(n, P); }
+/*-------------------------------------------------*/
+template <typename T>
+static void fill_random_perm_tmpl(uint_t n, T *P)
 {
 	if(!n) return;
 
@@ -241,12 +246,8 @@ void fill_random_perm(uint_t n, uint_t *P)
 	} // i
 }
 /*-------------------------------------------------*/
-std::vector<uint_t> create_random_perm(uint_t n)
-{
-	std::vector<uint_t> ret(n);
-	fill_random_perm(n, ret.data());
-	return ret;
-}
+void fill_random_perm(uint_t n, uint_t *P) { fill_random_perm_tmpl(n, P); }
+void fill_random_perm(uint_t n,  int_t *P) { fill_random_perm_tmpl(n, P); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

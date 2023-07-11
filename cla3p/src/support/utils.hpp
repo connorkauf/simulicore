@@ -34,8 +34,17 @@ void val2char(char *buff, uint_t nsd, complex8_t val);
 uplo_t auto_uplo(prop_t ptype);
 
 void fill_identity_perm(uint_t n, uint_t *P);
+void fill_identity_perm(uint_t n, int_t *P);
 void fill_random_perm(uint_t n, uint_t *P);
-std::vector<uint_t> create_random_perm(uint_t n);
+void fill_random_perm(uint_t n, int_t *P);
+
+template <typename T>
+std::vector<T> create_random_perm(uint_t n)
+{
+	std::vector<T> ret(n);
+	fill_random_perm(n, ret.data());
+	return ret;
+}
 
 typedef struct RowRange {
 	uint_t ibgn;

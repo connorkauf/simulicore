@@ -789,8 +789,8 @@ static int_t test_perms_in(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, uint_t
 	} // square
 
 	{
-		std::vector<uint_t> vecP = create_random_perm(m);
-		std::vector<uint_t> vecQ = create_random_perm(n);
+		std::vector<uint_t> vecP = create_random_perm<uint_t>(m);
+		std::vector<uint_t> vecQ = create_random_perm<uint_t>(n);
 		const uint_t *P = (nullP ? nullptr : vecP.data());
 		const uint_t *Q = (nullQ ? nullptr : vecQ.data());
 		T *a = naive_fill_vals<T>(m, n, lda, ref);
