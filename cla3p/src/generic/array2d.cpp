@@ -13,7 +13,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 Array2D<T_Scalar>::Array2D()
@@ -265,6 +264,5 @@ template class Array2D<real4_t>;
 template class Array2D<complex_t>;
 template class Array2D<complex8_t>;
 /*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/

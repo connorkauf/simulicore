@@ -8,7 +8,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns {
 /*-------------------------------------------------*/
 
 /**
@@ -16,7 +15,7 @@ namespace dns {
  * @brief A basic 2D array class.
  */
 template <typename T_Scalar>
-class Array2D : public Ownership{
+class Array2D : public Ownership {
 
 	public:
 		Array2D();
@@ -108,7 +107,6 @@ class Array2D : public Ownership{
 };
 
 /*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 
