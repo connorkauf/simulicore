@@ -195,6 +195,7 @@ void Array2D<T_Scalar>::moveTo(Array2D<T_Scalar>& trg)
 {
 	copyToShallow(trg);
 	trg.setOwner(owner());
+	unbind();
 	clear();
 }
 /*-------------------------------------------------*/
@@ -220,15 +221,23 @@ void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const uint_t 
 template <typename T_Scalar>
 void Array2D<T_Scalar>::permuteToLeft(Array2D<T_Scalar>& trg, const uint_t *P) const
 {
+#if 0
 	trg.alloc(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P, nullptr);
+#else
+	permuteToLeftRight(trg, P, nullptr);
+#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void Array2D<T_Scalar>::permuteToRight(Array2D<T_Scalar>& trg, const uint_t *Q) const
 {
+#if 0
 	trg.alloc(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), nullptr, Q);
+#else
+	permuteToLeftRight(trg, nullptr, Q);
+#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
