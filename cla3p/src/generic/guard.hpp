@@ -1,69 +1,106 @@
 #ifndef CLA3P_GUARD_HPP_
 #define CLA3P_GUARD_HPP_
 
+/**
+ * @file
+ * The Guard class
+ */
+
 #include "../types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
-template <typename T>
+/**
+* @ingroup guard
+* @brief Prevents an object from being changed.
+*
+* Useful for protecting immutable data from being exposed.
+*/
+
+template <typename T_Object>
 class Guard {
 
 	public:
+
+		/**
+		 * @brief The default constructor.
+		 *
+		 * Constructs an empty guard.
+		 */
 		Guard();
+
+		/**
+		 * @brief Destroys the guard.
+		 */
 		~Guard();
 
-		Guard(const Guard<T>&);
-		Guard<T>& operator=(const Guard<T>&);
+		/**
+		 * @brief The copy constructor.
+		 *
+		 * Constructs a guard with a referenced copy of the contents of other.
+		 */
+		Guard(const Guard<T_Object>&);
 
-		Guard(const T&);
-		Guard<T>& operator=(const T&);
+		/**
+		 * @brief The copy assignment operator.
+		 *
+		 * Replaces the contents of guard with a referenced copy of the contents of other.
+		 */
+		Guard<T_Object>& operator=(const Guard<T_Object>&);
 
-		const T& get() const;
+		Guard(const T_Object&);
+		Guard<T_Object>& operator=(const T_Object&);
+
+		/**
+		 * @brief The object being guarded.
+		 * @return A constant reference to the object being guarded.
+		 */
+		const T_Object& get() const;
 
 	protected:
-		T m_obj;
+		T_Object m_obj;
 };
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>::Guard()
+template <typename T_Object>
+Guard<T_Object>::Guard()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>::~Guard()
+template <typename T_Object>
+Guard<T_Object>::~Guard()
 {
 	m_obj.clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>::Guard(const Guard<T>& src)
+template <typename T_Object>
+Guard<T_Object>::Guard(const Guard<T_Object>& src)
 {
 	*this = src.get();
 }
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>& Guard<T>::operator=(const Guard<T>& other)
+template <typename T_Object>
+Guard<T_Object>& Guard<T_Object>::operator=(const Guard<T_Object>& other)
 {
 	*this = other.get();
 	return *this;
 }
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>::Guard(const T& obj)
+template <typename T_Object>
+Guard<T_Object>::Guard(const T_Object& obj)
 {
-	m_obj = const_cast<T&>(obj).rcopy();
+	m_obj = const_cast<T_Object&>(obj).rcopy();
 }
 /*-------------------------------------------------*/
-template <typename T>
-Guard<T>& Guard<T>::operator=(const T& obj)
+template <typename T_Object>
+Guard<T_Object>& Guard<T_Object>::operator=(const T_Object& obj)
 {
-	m_obj = const_cast<T&>(obj).rcopy();
+	m_obj = const_cast<T_Object&>(obj).rcopy();
 	return *this;
 }
 /*-------------------------------------------------*/
-template <typename T>
-const T& Guard<T>::get() const
+template <typename T_Object>
+const T_Object& Guard<T_Object>::get() const
 {
 	return m_obj;
 }
