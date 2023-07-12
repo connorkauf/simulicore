@@ -6,7 +6,16 @@
 
 namespace cla3p {
 
+/**
+ * @ingroup perm_matrices
+ * @brief Integer Permutation Matrix.
+ */
 using PiMatrix = PxMatrix<int_t>;
+
+/**
+ * @ingroup perm_matrices
+ * @brief Unsigned Integer Permutation Matrix.
+ */
 using PuMatrix = PxMatrix<uint_t>;
 
 } // namespace cla3p
