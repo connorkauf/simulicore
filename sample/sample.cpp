@@ -1,6 +1,7 @@
 #include <iostream>
 #include <istream>
 #include <vector>
+#include <type_traits>
 
 #include "cla3p/src/dense.hpp"
 #include "cla3p/src/support.hpp"
@@ -179,41 +180,42 @@ static void linsol_test()
 	std::cout << (B - A * X).normInf() / B.normInf() << std::endl;
 }
 /*-------------------------------------------------*/
-template <typename T, typename SelfReturnType>
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T>
 class Foo {
 
 	public:
-		Foo():m_x(0){};
+		Foo(){};
 		~Foo(){};
 
-		SelfReturnType copy() const 
-		{
-			SelfReturnType ret;
-			ret.m_x = m_x;
-			return ret;
-		}
-
-		void print() const 
-		{
-			std::cout << "Foo.x = " << m_x << std::endl;
-		}
-
 	protected:
-		void setX(const T& x)
+		void copyTo(Foo<T>& trg) const 
 		{
-			m_x = x;
+			print();
+			trg.print();
 		}
 
-	private:
-		T m_x;
+		virtual void print() const 
+		{
+			std::cout << "Foo" << std::endl;
+		}
 };
 /*-------------------------------------------------*/
 template <typename T, typename SelfReturnType>
-class Bar : public Foo<T,SelfReturnType> 
+class Bar : public Foo<T> 
 {
 	public: 
 		Bar() = default;
 		~Bar() = default; 
+
+		SelfReturnType copy() const 
+		{
+			SelfReturnType ret;
+			Foo<T>& tmp = ret;
+			Foo<T>::copyTo(tmp);
+			return ret;
+		}
 };
 /*-------------------------------------------------*/
 template <typename T>
@@ -223,15 +225,16 @@ class BarFinal : public Bar<T,BarFinal<T>>
 		BarFinal() = default;
 		~BarFinal() = default; 
 
-		BarFinal(const T& x)
+		void print() const
 		{
-			Foo<T,BarFinal<T>>::setX(x);
+			std::cout << "Bar" << std::endl;
 		}
 };
 /*-------------------------------------------------*/
 using Barf = BarFinal<float>;
 /*-------------------------------------------------*/
 
+#if 0
 class Base 
 {
 	public:
@@ -256,6 +259,7 @@ class Der2 : public Der
 	public:
 		void foo(){std::cout << "der2 foo():: " << get() << std::endl;}
 };
+#endif
 
 
 /*-------------------------------------------------*/
@@ -263,16 +267,36 @@ class Der2 : public Der
 int main()
 {
 
-	Der2 d2;
-	d2.foo();
-	d2.lala();
-	
+	cla3p::real_t c = 1;
+	//cla3p::complex_t c = 1;
+	std::cout << c << std::endl;
+	cla3p::complex_t::value_type r = 2;
+	std::cout << r << std::endl;
+
+	std::cout << "is_floating_point: " << std::is_floating_point<cla3p::complex_t>::value << std::endl;
+
 	return 0;
 
-	Barf bf1(5.f);
-	bf1.print();
+
+
+	cla3p::PuMatrix P = cla3p::PuMatrix::random(5);
+	std::cout << P.info() << P << std::endl;
+
+	cla3p::PuMatrix Q = P.move();
+	std::cout << P.info() << P << std::endl;
+	std::cout << Q.info() << Q << std::endl;
+
+	cla3p::PiMatrix P2 = cla3p::PiMatrix::random(5);
+	std::cout << P2.info() << P2 << std::endl;
+
+	cla3p::PiMatrix Q2 = P2.move();
+	std::cout << P2.info() << P2 << std::endl;
+	std::cout << Q2.info() << Q2 << std::endl;
+
+	return 0;
+
+	Barf bf1;
 	Barf bf2 = bf1.copy();
-	bf2.print();
 
 	return 0;
 
