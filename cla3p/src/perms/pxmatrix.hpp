@@ -11,6 +11,7 @@
 
 #include "../types.hpp"
 #include "../generic/array2d.hpp"
+#include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -62,7 +63,7 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		PxMatrix& operator=(PxMatrix<T_Scalar>&& other);
+		PxMatrix<T_Scalar>& operator=(PxMatrix<T_Scalar>&& other);
 
 		/**
 		 * @brief Destroys the permutation matrix.
@@ -100,25 +101,37 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 * @brief Copies the permutation matrix.
 		 * @return A deep copy of the permutation matrix.
 		 */
-		PxMatrix copy() const;
+		PxMatrix<T_Scalar> copy() const;
 
 		/**
 		 * @brief Copies the permutation matrix.
 		 * @return A shallow copy of the permutation matrix.
 		 */
-		PxMatrix rcopy();
+		PxMatrix<T_Scalar> rcopy();
+
+		/**
+		 * @brief Copies the permutation matrix.
+		 * @return A shallow copy of the permutation matrix.
+		 */
+		Guard<PxMatrix<T_Scalar>> rcopy() const;
 
 		/**
 		 * @brief Moves the permutation matrix.
 		 * @return A shallow copy of the permutation matrix, original matrix is destroyed.
 		 */
-		PxMatrix move();
+		PxMatrix<T_Scalar> move();
 
 		/**
 		 * @brief The inverse permutation matrix.
 		 * @return The inverse (transpose) of the permutation matrix.
 		 */
-		PxMatrix inverse() const;
+		PxMatrix<T_Scalar> inverse() const;
+
+		/**
+		 * @brief Permutes a permutation matrix.
+		 * @return The permutated permutation matrix (P * (*this)).
+		 */
+		PxMatrix<T_Scalar> permute(const PxMatrix<T_Scalar>& P) const;
 
 		/** 
 		 * @name Creators/Generators
