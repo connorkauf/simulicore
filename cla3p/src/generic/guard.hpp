@@ -6,8 +6,6 @@
  * The Guard class
  */
 
-#include "../types.hpp"
-
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
@@ -40,17 +38,28 @@ class Guard {
 		 *
 		 * Constructs a guard with a referenced copy of the contents of other.
 		 */
-		Guard(const Guard<T_Object>&);
+		Guard(const Guard<T_Object>& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
 		 * Replaces the contents of guard with a referenced copy of the contents of other.
 		 */
-		Guard<T_Object>& operator=(const Guard<T_Object>&);
+		Guard<T_Object>& operator=(const Guard<T_Object>& other);
 
-		Guard(const T_Object&);
-		Guard<T_Object>& operator=(const T_Object&);
+		/**
+		 * @brief The input constructor.
+		 *
+		 * Constructs guard with a referenced copy of obj.
+		 */
+		Guard(const T_Object& obj);
+
+		/**
+		 * @brief The input assignment operator.
+		 *
+		 * Constructs guard with a referenced copy of obj.
+		 */
+		Guard<T_Object>& operator=(const T_Object& obj);
 
 		/**
 		 * @brief The object being guarded.
@@ -74,9 +83,9 @@ Guard<T_Object>::~Guard()
 }
 /*-------------------------------------------------*/
 template <typename T_Object>
-Guard<T_Object>::Guard(const Guard<T_Object>& src)
+Guard<T_Object>::Guard(const Guard<T_Object>& other)
 {
-	*this = src.get();
+	*this = other.get();
 }
 /*-------------------------------------------------*/
 template <typename T_Object>
