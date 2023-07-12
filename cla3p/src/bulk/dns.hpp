@@ -329,14 +329,20 @@ norm_euc_macro(real4_t, complex8_t);
 // prop: GENERAL                  B = P*A*Q     if P,Q is nullptr, the identity perm is used
 // prop: SYMMETRIC/HERMITIAN/SKEW B = P*A*P^{T} Q is not referenced
 //
-#define permute_macro(typeout, typein) \
-typeout permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const uint_t *P, const uint_t *Q)
-permute_macro(void, int_t);
-permute_macro(void, uint_t);
-permute_macro(void, real_t);
-permute_macro(void, real4_t);
-permute_macro(void, complex_t);
-permute_macro(void, complex8_t);
+#define permute_macro(typeout, typein, itypein) \
+typeout permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const itypein *P, const itypein *Q)
+permute_macro(void, int_t     , uint_t);
+permute_macro(void, uint_t    , uint_t);
+permute_macro(void, real_t    , uint_t);
+permute_macro(void, real4_t   , uint_t);
+permute_macro(void, complex_t , uint_t);
+permute_macro(void, complex8_t, uint_t);
+permute_macro(void, int_t     ,  int_t);
+permute_macro(void, uint_t    ,  int_t);
+permute_macro(void, real_t    ,  int_t);
+permute_macro(void, real4_t   ,  int_t);
+permute_macro(void, complex_t ,  int_t);
+permute_macro(void, complex8_t,  int_t);
 #undef permute_macro
 
 /*-------------------------------------------------*/

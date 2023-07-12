@@ -917,8 +917,8 @@ real4_t norm_euc(uint_t n, const real4_t    *a) { return blas::nrm2(n, a, 1); }
 real_t  norm_euc(uint_t n, const complex_t  *a) { return blas::nrm2(n, a, 1); }
 real4_t norm_euc(uint_t n, const complex8_t *a) { return blas::nrm2(n, a, 1); }
 /*-------------------------------------------------*/
-template <typename T>
-static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P)
+template <typename T_Scalar, typename T_Int>
+static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -927,16 +927,16 @@ static void permute_ge_right_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T 
 	} // j
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void permute_ge_left_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *Q)
+template <typename T_Scalar, typename T_Int>
+static void permute_ge_left_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		copy(uplo_t::F, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
 	} // j
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void permute_ge_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+template <typename T_Scalar, typename T_Int>
+static void permute_ge_both_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -945,12 +945,12 @@ static void permute_ge_both_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *
 	} // j
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, prop_t ptype)
+template <typename T_Scalar, typename T_Int>
+static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, prop_t ptype)
 {
 	uint_t Pi;
 	uint_t Pj;
-	T      Aij;
+	T_Scalar Aij;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, n, j);
@@ -968,8 +968,8 @@ static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, T *b,
 	} // j
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+template <typename T_Scalar, typename T_Int>
+static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, const T_Int *Q)
 {
 	if(!m || !n) return;
 
@@ -1029,6 +1029,36 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, 
 }
 /*-------------------------------------------------*/
 void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const uint_t *P, const uint_t *Q)
+{ 
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, const int_t *P, const int_t *Q)
+{
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, const int_t *P, const int_t *Q)
+{
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, const int_t *P, const int_t *Q)
+{
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, const int_t *P, const int_t *Q)
+{
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, const int_t *P, const int_t *Q)
+{
+	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
+}
+/*-------------------------------------------------*/
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, const int_t *P, const int_t *Q)
 { 
 	permute_tmpl(ptype, uplo, m, n, a, lda, b, ldb, P, Q); 
 }
