@@ -52,13 +52,13 @@ Guard<T>& Guard<T>::operator=(const Guard<T>& other)
 template <typename T>
 Guard<T>::Guard(const T& obj)
 {
-	m_obj = const_cast<T&>(obj).clone();
+	m_obj = const_cast<T&>(obj).rcopy();
 }
 /*-------------------------------------------------*/
 template <typename T>
 Guard<T>& Guard<T>::operator=(const T& obj)
 {
-	m_obj = const_cast<T&>(obj).clone();
+	m_obj = const_cast<T&>(obj).rcopy();
 	return *this;
 }
 /*-------------------------------------------------*/

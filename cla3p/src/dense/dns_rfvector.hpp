@@ -127,14 +127,14 @@ class RfVector : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		RfVector move();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone()
+		 * @copydoc cla3p::dns::RdVector::rcopy()
 		 */
-		RfVector clone();
+		RfVector rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone() const
+		 * @copydoc cla3p::dns::RdVector::rcopy() const
 		 */
-		RfVGuard clone() const;
+		RfVGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::matrix()

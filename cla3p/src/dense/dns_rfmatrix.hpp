@@ -146,14 +146,14 @@ class RfMatrix : private UniversalMetaTypes, public GenericObject<real4_t,real4_
 		RfMatrix move();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone()
+		 * @copydoc cla3p::dns::RdMatrix::rcopy()
 		 */
-		RfMatrix clone();
+		RfMatrix rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone() const
+		 * @copydoc cla3p::dns::RdMatrix::rcopy() const
 		 */
-		RfMGuard clone() const;
+		RfMGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()

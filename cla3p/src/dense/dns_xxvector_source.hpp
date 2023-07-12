@@ -68,14 +68,14 @@ XxVector XxVector::move()
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVector XxVector::clone()
+XxVector XxVector::rcopy()
 {
 	XxVector ret;
 	ThisObjectType::cloneTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-XxVGuard XxVector::clone() const
+XxVGuard XxVector::rcopy() const
 {
 	XxVGuard ret;
 	ThisGuardType& trg = ret;

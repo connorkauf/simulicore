@@ -127,14 +127,14 @@ class RiVector : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiVector move();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone()
+		 * @copydoc cla3p::dns::RdVector::rcopy()
 		 */
-		RiVector clone();
+		RiVector rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone() const
+		 * @copydoc cla3p::dns::RdVector::rcopy() const
 		 */
-		RiVGuard clone() const;
+		RiVGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::matrix()
