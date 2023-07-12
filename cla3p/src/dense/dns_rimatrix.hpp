@@ -146,14 +146,14 @@ class RiMatrix : private UniversalMetaTypes, public GenericObject<int_t,int_t> {
 		RiMatrix move();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone()
+		 * @copydoc cla3p::dns::RdMatrix::rcopy()
 		 */
-		RiMatrix clone();
+		RiMatrix rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone() const
+		 * @copydoc cla3p::dns::RdMatrix::rcopy() const
 		 */
-		RiMGuard clone() const;
+		RiMGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()

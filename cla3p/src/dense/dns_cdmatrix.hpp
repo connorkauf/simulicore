@@ -147,14 +147,14 @@ class CdMatrix : private UniversalMetaTypes, public GenericObject<complex_t,real
 		CdMatrix move();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone()
+		 * @copydoc cla3p::dns::RdMatrix::rcopy()
 		 */
-		CdMatrix clone();
+		CdMatrix rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone() const
+		 * @copydoc cla3p::dns::RdMatrix::rcopy() const
 		 */
-		CdMGuard clone() const;
+		CdMGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()

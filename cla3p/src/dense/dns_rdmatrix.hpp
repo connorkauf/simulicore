@@ -181,13 +181,13 @@ class RdMatrix : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @brief Clones a matrix.
 		 * @return A shallow copy of the matrix, original matrix is unchanged.
 		 */
-		RdMatrix clone();
+		RdMatrix rcopy();
 
 		/**
 		 * @brief Clones a matrix.
 		 * @return A guard of the matrix.
 		 */
-		RdMGuard clone() const;
+		RdMGuard rcopy() const;
 
 		/**
 		 * @brief Scales matrix by coeff.
@@ -532,14 +532,14 @@ class RdMGuard : private Guard<RdMatrix> {
 		/**
 		 * @brief The copy constructor.
 		 *
-		 * Constructs a guard with a clone of the contents of other.
+		 * Constructs a guard with a rcopy of the contents of other.
 		 */
 		RdMGuard(const RdMGuard& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of guard with a clone of the contents of other.
+		 * Replaces the contents of guard with a rcopy of the contents of other.
 		 */
 		RdMGuard& operator=(const RdMGuard& other);
 

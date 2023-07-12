@@ -147,14 +147,14 @@ class CfMatrix : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		CfMatrix move();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone()
+		 * @copydoc cla3p::dns::RdMatrix::rcopy()
 		 */
-		CfMatrix clone();
+		CfMatrix rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdMatrix::clone() const
+		 * @copydoc cla3p::dns::RdMatrix::rcopy() const
 		 */
-		CfMGuard clone() const;
+		CfMGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdMatrix::scale()

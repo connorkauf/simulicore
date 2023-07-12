@@ -128,14 +128,14 @@ class CfVector : private UniversalMetaTypes, public GenericObject<complex8_t,rea
 		CfVector move();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone()
+		 * @copydoc cla3p::dns::RdVector::rcopy()
 		 */
-		CfVector clone();
+		CfVector rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone() const
+		 * @copydoc cla3p::dns::RdVector::rcopy() const
 		 */
-		CfVGuard clone() const;
+		CfVGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::matrix()

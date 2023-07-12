@@ -149,13 +149,13 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		 * @brief Clones a vector.
 		 * @return A shallow copy of the vector, original vector is unchanged.
 		 */
-		RdVector clone();
+		RdVector rcopy();
 
 		/**
 		 * @brief Clones a vector.
 		 * @return A guard of the vector.
 		 */
-		RdVGuard clone() const;
+		RdVGuard rcopy() const;
 
 		/**
 		 * @brief Converts a vector to a matrix.
@@ -358,14 +358,14 @@ class RdVGuard : private Guard<RdVector> {
 		/**
 		 * @brief The copy constructor.
 		 *
-		 * Constructs a guard with a clone of the contents of other.
+		 * Constructs a guard with a rcopy of the contents of other.
 		 */
 		RdVGuard(const RdVGuard& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of guard with a clone of the contents of other.
+		 * Replaces the contents of guard with a rcopy of the contents of other.
 		 */
 		RdVGuard& operator=(const RdVGuard& other);
 

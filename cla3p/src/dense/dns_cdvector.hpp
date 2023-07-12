@@ -128,14 +128,14 @@ class CdVector : private UniversalMetaTypes, public GenericObject<complex_t,real
 		CdVector move();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone()
+		 * @copydoc cla3p::dns::RdVector::rcopy()
 		 */
-		CdVector clone();
+		CdVector rcopy();
 
 		/**
-		 * @copydoc cla3p::dns::RdVector::clone() const
+		 * @copydoc cla3p::dns::RdVector::rcopy() const
 		 */
-		CdVGuard clone() const;
+		CdVGuard rcopy() const;
 
 		/**
 		 * @copydoc cla3p::dns::RdVector::matrix()

@@ -79,14 +79,14 @@ XxMatrix XxMatrix::move()
 	return ret;
 }
 /*-------------------------------------------------*/
-XxMatrix XxMatrix::clone()
+XxMatrix XxMatrix::rcopy()
 {
 	XxMatrix ret;
 	ThisObjectType::cloneTo(ret);
 	return ret.move();
 }
 /*-------------------------------------------------*/
-XxMGuard XxMatrix::clone() const
+XxMGuard XxMatrix::rcopy() const
 {
 	XxMGuard ret;
 	ThisGuardType& trg = ret;
