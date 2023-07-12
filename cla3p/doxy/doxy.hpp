@@ -31,6 +31,10 @@
  */
 
 /**
+ * @defgroup guard Guard
+ */
+
+/**
  * @defgroup math_operations Math Operations
  *
  * @defgroup math_op_matadd Addition
