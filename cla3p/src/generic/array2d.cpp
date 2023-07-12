@@ -219,25 +219,10 @@ void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const uint_t 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteToLeft(Array2D<T_Scalar>& trg, const uint_t *P) const
+void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const int_t *P, const int_t *Q) const
 {
-#if 0
 	trg.alloc(rsize(), csize(), rsize());
-	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P, nullptr);
-#else
-	permuteToLeftRight(trg, P, nullptr);
-#endif
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteToRight(Array2D<T_Scalar>& trg, const uint_t *Q) const
-{
-#if 0
-	trg.alloc(rsize(), csize(), rsize());
-	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), nullptr, Q);
-#else
-	permuteToLeftRight(trg, nullptr, Q);
-#endif
+	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P, Q);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -249,18 +234,10 @@ void Array2D<T_Scalar>::permuteIpLeftRight(const uint_t *P, const uint_t *Q)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteIpLeft(const uint_t *P)
+void Array2D<T_Scalar>::permuteIpLeftRight(const int_t *P, const int_t *Q)
 {
 	Array2D<T_Scalar> tmp;
-	permuteToLeft(tmp, P);
-	tmp.copyToAllocated(*this);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteIpRight(const uint_t *Q)
-{
-	Array2D<T_Scalar> tmp;
-	permuteToRight(tmp, Q);
+	permuteToLeftRight(tmp, P, Q);
 	tmp.copyToAllocated(*this);
 }
 /*-------------------------------------------------*/

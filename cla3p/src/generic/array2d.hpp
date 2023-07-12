@@ -51,6 +51,13 @@ class Array2D : public Ownership {
 		bool empty() const;
 
 		/**
+		 * @brief Clears the object.
+		 *
+		 * Deallocates owned data and resets all members.
+		 */
+		virtual void clear();
+
+		/**
 		 * @brief Fills the object with a value.
 		 *
 		 * Sets all entries of the object to a single value.
@@ -74,7 +81,6 @@ class Array2D : public Ownership {
 
 	protected:
 		void alloc(uint_t, uint_t, uint_t);
-		void clear();
 
 		void copyTo(Array2D<T_Scalar>&) const;
 		void copyToAllocated(Array2D<T_Scalar>&) const;
@@ -82,12 +88,16 @@ class Array2D : public Ownership {
 		void moveTo(Array2D<T_Scalar>&);
 
 		void permuteToLeftRight(Array2D<T_Scalar>& trg, const uint_t *P, const uint_t *Q) const;
-		void permuteToLeft(Array2D<T_Scalar>& trg, const uint_t *P) const;
-		void permuteToRight(Array2D<T_Scalar>& trg, const uint_t *Q) const;
+		void permuteToLeftRight(Array2D<T_Scalar>& trg, const int_t *P, const int_t *Q) const;
+
+		template <typename T_Int> void permuteToLeft(Array2D<T_Scalar>& trg, const T_Int *P) const { permuteToLeftRight(trg, P, nullptr); }
+		template <typename T_Int> void permuteToRight(Array2D<T_Scalar>& trg, const T_Int *Q) const { permuteToLeftRight(trg, nullptr, Q); }
 
 		void permuteIpLeftRight(const uint_t *P, const uint_t *Q);
-		void permuteIpLeft(const uint_t *P);
-		void permuteIpRight(const uint_t *Q);
+		void permuteIpLeftRight(const int_t *P, const int_t *Q);
+
+		template <typename T_Int> void permuteIpLeft(const uint_t *P) { permuteIpLeftRight(P, nullptr); }
+		template <typename T_Int> void permuteIpRight(const uint_t *Q) { permuteIpLeftRight(nullptr, Q); }
 
 		virtual T_Scalar& operator()(uint_t i, uint_t j);
 		virtual const T_Scalar& operator()(uint_t i, uint_t j) const;
