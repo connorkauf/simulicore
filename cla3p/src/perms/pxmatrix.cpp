@@ -9,6 +9,7 @@
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -105,6 +106,13 @@ PxMatrix<T_Scalar> PxMatrix<T_Scalar>::rcopy()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+Guard<PxMatrix<T_Scalar>> PxMatrix<T_Scalar>::rcopy() const
+{
+	Guard<PxMatrix<T_Scalar>> ret = *this;
+  return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 PxMatrix<T_Scalar> PxMatrix<T_Scalar>::move()
 {
 	PxMatrix<T_Scalar> ret;
@@ -121,6 +129,16 @@ PxMatrix<T_Scalar> PxMatrix<T_Scalar>::inverse() const
 		ret((*this)(i)) = i;
 	} // i
 
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+PxMatrix<T_Scalar> PxMatrix<T_Scalar>::permute(const PxMatrix<T_Scalar>& P) const
+{
+	perm_op_consistency_check(size(), 1, P.size(), 1);
+
+	PxMatrix<T_Scalar> ret;
+	Array2D<T_Scalar>::permuteToLeft(ret, P.values());
 	return ret;
 }
 /*-------------------------------------------------*/
