@@ -15,6 +15,8 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	# new hierarchy
 	dense/dns_xxobject.cpp
 	dense/dns_xxvector.cpp
+	dense/dns_rxvector.cpp
+	dense/dns_cxvector.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_DENSE_HPP 
@@ -31,6 +33,8 @@ set(CLA3P_DENSE_HPP
 	# new hierarchy
 	dns_xxobject.hpp
 	dns_xxvector.hpp
+	dns_rxvector.hpp
+	dns_cxvector.hpp
 	)
 
 #-----------------------------------------------
