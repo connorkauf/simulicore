@@ -1,15 +1,12 @@
 #include <iostream>
-#include <istream>
-#include <vector>
-#include <type_traits>
 
+#if 0
 #include "cla3p/src/dense.hpp"
 #include "cla3p/src/support.hpp"
 #include "cla3p/src/perms.hpp"
 #include "cla3p/src/operations.hpp"
 #include "cla3p/src/linsol.hpp"
 
-#if 1
 #include "cla3p/src/bulk/dns.hpp"
 #include "cla3p/src/bulk/dns_io.hpp"
 #include "cla3p/src/bulk/dns_math.hpp"
@@ -20,7 +17,18 @@
 #include "cla3p/src/support/utils.hpp"
 #include "cla3p/src/support/error_internal.hpp"
 #endif
+
+#include "cla3p/src/dense2.hpp"
 /*-------------------------------------------------*/
+
+
+
+
+#if 0
+
+
+
+
 #if 0
 static std::vector<cla3p::uint_t> ipiv2iperm(const std::vector<cla3p::int_t>& ipiv)
 {
@@ -262,70 +270,19 @@ class Der2 : public Der
 #endif
 
 
+
+
+#endif
+
+
+
 /*-------------------------------------------------*/
 
 int main()
 {
 
-	cla3p::real_t c = 1;
-	//cla3p::complex_t c = 1;
-	std::cout << c << std::endl;
-	cla3p::complex_t::value_type r = 2;
-	std::cout << r << std::endl;
-
-	std::cout << "is_floating_point: " << std::is_floating_point<cla3p::complex_t>::value << std::endl;
-
-	return 0;
-
-
-
-	cla3p::PuMatrix P = cla3p::PuMatrix::random(5);
-	std::cout << P.info() << P << std::endl;
-
-	cla3p::PuMatrix Q = P.move();
-	std::cout << P.info() << P << std::endl;
-	std::cout << Q.info() << Q << std::endl;
-
-	cla3p::PiMatrix P2 = cla3p::PiMatrix::random(5);
-	std::cout << P2.info() << P2 << std::endl;
-
-	cla3p::PiMatrix Q2 = P2.move();
-	std::cout << P2.info() << P2 << std::endl;
-	std::cout << Q2.info() << Q2 << std::endl;
-
-	return 0;
-
-	Barf bf1;
-	Barf bf2 = bf1.copy();
-
-	return 0;
-
-	{
-		cla3p::uint_t n = 4;
-		cla3p::uint_t IA[] = {0,   2,     4,          7,  8};
-		cla3p::uint_t JA[] = { 0,  1, 3,  1,  4,  2,  3,  5};
-		cla3p::real_t  A[] = {10, 20, 4, 30, 70, 50, 60, 80};
-
-		cla3p::bulk::csc::print(n, IA, JA, A, 15);
-
-		cla3p::bulk::csc::sort_by_ridx(n, IA, JA, A);
-
-		cla3p::bulk::csc::print(n, IA, JA, A, 15);
-
-		return 0;
-	}
-
-
-
-
-	check_custom_trsm(cla3p::uplo_t::U);
-	check_custom_trsm(cla3p::uplo_t::L);
-	return 0;
-
-	linsol_test<cla3p::dns::RdMatrix>();
-	linsol_test<cla3p::dns::RfMatrix>();
-	linsol_test<cla3p::dns::CdMatrix>();
-	linsol_test<cla3p::dns::CfMatrix>();
+	cla3p::dns::RdVector V1;
+	cla3p::dns::RdVector V2 = V1.copy();
 
 	return 0;
 }
