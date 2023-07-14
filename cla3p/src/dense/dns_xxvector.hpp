@@ -10,22 +10,22 @@ namespace dns {
 
 /**
  * @nosubgrouping 
- * @brief A dense object base class.
+ * @brief A dense vector class.
  */
-template <typename T_Scalar, typename T_RScalar>
-class XxVector : public XxObject<T_Scalar,T_RScalar> {
+template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
+class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 
 	public:
 		XxVector();
 		~XxVector();
 
 		// no copy
-		XxVector(const XxVector<T_Scalar,T_RScalar>&) = delete;
-		XxVector<T_Scalar,T_RScalar>& operator=(const XxVector<T_Scalar,T_RScalar>&) = delete;
+		XxVector(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
 
 		// move
-		XxVector(XxVector<T_Scalar,T_RScalar>&&) = default;
-		XxVector<T_Scalar,T_RScalar>& operator=(XxVector<T_Scalar,T_RScalar>&&) = default;
+		XxVector(XxVector<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
+		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
 
 		/**
 		 * @brief Vector Euclidian norm.

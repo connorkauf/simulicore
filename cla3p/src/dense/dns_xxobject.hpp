@@ -12,7 +12,7 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense object base class.
  */
-template <typename T_Scalar, typename T_RScalar>
+template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
 class XxObject : public Array2D<T_Scalar> {
 
 	public:
@@ -20,12 +20,18 @@ class XxObject : public Array2D<T_Scalar> {
 		~XxObject();
 
 		// no copy
-		XxObject(const XxObject<T_Scalar,T_RScalar>&) = delete;
-		XxObject<T_Scalar,T_RScalar>& operator=(const XxObject<T_Scalar,T_RScalar>&) = delete;
+		XxObject(const XxObject<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+		XxObject<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxObject<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
 
 		// move
-		XxObject(XxObject<T_Scalar,T_RScalar>&&) = default;
-		XxObject<T_Scalar,T_RScalar>& operator=(XxObject<T_Scalar,T_RScalar>&&) = default;
+		XxObject(XxObject<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
+		XxObject<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxObject<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
+
+		/**
+		 * @brief Copies an object.
+		 * @return A deep copy of the object.
+		 */
+		virtual T_ReturnType copy() const;
 
 		/**
 		 * @brief Scales matrix by coeff.

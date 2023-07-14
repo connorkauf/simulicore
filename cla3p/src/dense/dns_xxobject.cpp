@@ -6,25 +6,35 @@
 // 3rd
 
 // cla3p
+#include "../dense2.hpp"
 #include "../bulk/dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxObjectTmpl XxObject<T_Scalar,T_RScalar>
+#define XxObjectTmpl XxObject<T_Scalar,T_RScalar,T_ReturnType>
+#define XxObjectTlst template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 XxObjectTmpl::XxObject()
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 XxObjectTmpl::~XxObject()
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
+T_ReturnType XxObjectTmpl::copy() const
+{
+	T_ReturnType ret;
+	Array2D<T_Scalar>::copyTo(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
 	bulk::dns::scale(uplo_t::F, 
@@ -34,7 +44,7 @@ void XxObjectTmpl::scale(T_Scalar val)
 			Array2D<T_Scalar>::lsize(), val);
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 T_RScalar XxObjectTmpl::normOne() const
 { 
 	return bulk::dns::norm_one(prop_t::GENERAL, uplo_t::F, 
@@ -44,7 +54,7 @@ T_RScalar XxObjectTmpl::normOne() const
 			Array2D<T_Scalar>::lsize());
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 T_RScalar XxObjectTmpl::normInf() const
 { 
 	return bulk::dns::norm_inf(prop_t::GENERAL, uplo_t::F, 
@@ -54,7 +64,7 @@ T_RScalar XxObjectTmpl::normInf() const
 			Array2D<T_Scalar>::lsize());
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 T_RScalar XxObjectTmpl::normMax() const
 { 
 	return bulk::dns::norm_max(prop_t::GENERAL, uplo_t::F, 
@@ -64,7 +74,7 @@ T_RScalar XxObjectTmpl::normMax() const
 			Array2D<T_Scalar>::lsize());
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar, typename T_RScalar>
+XxObjectTlst
 T_RScalar XxObjectTmpl::normFro() const
 { 
 	return bulk::dns::norm_fro(prop_t::GENERAL, uplo_t::F, 
@@ -77,11 +87,16 @@ T_RScalar XxObjectTmpl::normFro() const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #undef XxObjectTmpl
+#undef XxObjectTlst
 /*-------------------------------------------------*/
-template class XxObject<real_t    ,real_t >;
-template class XxObject<real4_t   ,real4_t>;
-template class XxObject<complex_t ,real_t >;
-template class XxObject<complex8_t,real4_t>;
+template class XxObject<real_t ,real_t , RdVector>;
+template class XxObject<real4_t,real4_t, RfVector>;
+//template class XxObject<real_t  ,real_t , RdMatrix>;
+//template class XxObject<real4_t ,real4_t, RfMatrix>;
+template class XxObject<complex_t ,real_t , CdVector>;
+template class XxObject<complex8_t,real4_t, CfVector>;
+//template class XxObject<complex_t ,real_t , CdMatrix>;
+//template class XxObject<complex8_t,real4_t, CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
