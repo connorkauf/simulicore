@@ -1,10 +1,6 @@
 #ifndef CLA3P_DNS_XXOBJECT_HPP_
 #define CLA3P_DNS_XXOBJECT_HPP_
 
-//#include <string>
-#include <type_traits>
-
-#include "../types.hpp"
 #include "../generic/array2d.hpp"
 
 /*-------------------------------------------------*/
@@ -16,7 +12,7 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense object base class.
  */
-template <typename T_Scalar, typename T_RScalar/*, typename T_ReturnType*/>
+template <typename T_Scalar, typename T_RScalar>
 class XxObject : public Array2D<T_Scalar> {
 
 	public:
