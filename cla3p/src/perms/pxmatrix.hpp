@@ -176,8 +176,8 @@ class PxMatrix : public Array2D<T_Scalar> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operators
- * @brief Writes to os the contents of mat
+ * @ingroup perm_matrices
+ * @brief Writes to os the contents of mat.
  */
 template <typename T_Scalar>
 std::ostream& operator<<(std::ostream& os, const cla3p::PxMatrix<T_Scalar>& mat)

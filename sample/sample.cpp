@@ -281,8 +281,10 @@ class Der2 : public Der
 int main()
 {
 
-	cla3p::dns::RdVector V1;
-	cla3p::dns::RdVector V2 = V1.copy();
+	cla3p::dns::RdVector2 V1;
+	cla3p::dns::RdVector2 V2 = V1.copy();
+
+	std::cout << V2;
 
 	return 0;
 }

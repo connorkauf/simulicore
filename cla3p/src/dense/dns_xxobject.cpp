@@ -27,14 +27,6 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::copy() const
-{
-	T_ReturnType ret;
-	Array2D<T_Scalar>::copyTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
 	bulk::dns::scale(uplo_t::F, 
@@ -89,12 +81,12 @@ T_RScalar XxObjectTmpl::normFro() const
 #undef XxObjectTmpl
 #undef XxObjectTlst
 /*-------------------------------------------------*/
-template class XxObject<real_t ,real_t , RdVector>;
-template class XxObject<real4_t,real4_t, RfVector>;
+template class XxObject<real_t ,real_t , RdVector2>;
+template class XxObject<real4_t,real4_t, RfVector2>;
 //template class XxObject<real_t  ,real_t , RdMatrix>;
 //template class XxObject<real4_t ,real4_t, RfMatrix>;
-template class XxObject<complex_t ,real_t , CdVector>;
-template class XxObject<complex8_t,real4_t, CfVector>;
+template class XxObject<complex_t ,real_t , CdVector2>;
+template class XxObject<complex8_t,real4_t, CfVector2>;
 //template class XxObject<complex_t ,real_t , CdMatrix>;
 //template class XxObject<complex8_t,real4_t, CfMatrix>;
 /*-------------------------------------------------*/

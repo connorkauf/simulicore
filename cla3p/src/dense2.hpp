@@ -11,25 +11,25 @@ namespace dns {
  * @ingroup dense_vectors
  * @brief Double precision real vector.
  */
-using RdVector = RxVector<real_t>;
+using RdVector2 = RxVector<real_t>;
 
 /**
  * @ingroup dense_vectors
  * @brief Single precision real vector.
  */
-using RfVector = RxVector<real4_t>;
+using RfVector2 = RxVector<real4_t>;
 
 /**
  * @ingroup dense_vectors
  * @brief Double precision complex vector.
  */
-using CdVector = CxVector<complex_t,real_t>;
+using CdVector2 = CxVector<complex_t,real_t>;
 
 /**
  * @ingroup dense_vectors
  * @brief Single precision complex vector.
  */
-using CfVector = CxVector<complex8_t,real4_t>;
+using CfVector2 = CxVector<complex8_t,real4_t>;
 
 } // namespace dns
 } // namespace cla3p

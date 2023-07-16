@@ -105,16 +105,23 @@ const T_Scalar* Array2D<T_Scalar>::values() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::alloc(uint_t nr, uint_t nc, uint_t nl)
+void Array2D<T_Scalar>::creator(uint_t nr, uint_t nc, uint_t nl)
+{
+	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
+	wrapper(nr, nc, vals, nl, true);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl, bool bind)
 {
 	clear();
-	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
-	setOwner(true);
 
 	setRsize(nr);
 	setCsize(nc);
 	setLsize(nl);
 	setValues(vals);
+
+	setOwner(bind);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -157,7 +164,7 @@ void Array2D<T_Scalar>::copyTo(Array2D<T_Scalar>& trg) const
 	if(this == &trg) return; // do not apply on self
 
 	if(!empty()) {
-		trg.alloc(rsize(), csize(), lsize());
+		trg.creator(rsize(), csize(), lsize());
 		copyToAllocated(trg);
 	} else {
 		trg.clear();
@@ -214,14 +221,14 @@ const T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j) const
 template <typename T_Scalar>
 void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const uint_t *P, const uint_t *Q) const
 {
-	trg.alloc(rsize(), csize(), rsize());
+	trg.creator(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P, Q);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const int_t *P, const int_t *Q) const
 {
-	trg.alloc(rsize(), csize(), rsize());
+	trg.creator(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P, Q);
 }
 /*-------------------------------------------------*/

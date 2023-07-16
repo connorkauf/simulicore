@@ -8,6 +8,7 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -34,15 +35,103 @@ T_RScalar XxVectorTmpl::normEuc() const
 			Array2D<T_Scalar>::values());
 }
 /*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::copy() const
+{
+	T_ReturnType ret;
+	Array2D<T_Scalar>::copyTo(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::rcopy()
+{
+	T_ReturnType ret;
+	Array2D<T_Scalar>::copyToShallow(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+Guard<T_ReturnType> XxVectorTmpl::rcopy() const
+{
+	T_ReturnType tmp;
+	const_cast<XxVectorTmpl&>(*this).copyToShallow(tmp);
+	Guard<T_ReturnType> ret = tmp;
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::move()
+{
+	T_ReturnType ret;
+	Array2D<T_Scalar>::moveTo(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
+{
+	block_op_consistency_check(
+			defaultProperty(), 
+			Array2D<T_Scalar>::rsize(), 
+			Array2D<T_Scalar>::csize(), 
+			ibgn, 0, ni, 1);
+	
+	T_ReturnType ret;
+	ret.creator(ni, 1, ni);
+
+	bulk::dns::copy(uplo_t::F, ni, 1, 
+			bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0), Array2D<T_Scalar>::lsize(), 
+			ret.values(), ret.lsize());
+
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
+{
+	block_op_consistency_check(
+			defaultProperty(), 
+			Array2D<T_Scalar>::rsize(), 
+			Array2D<T_Scalar>::csize(), 
+			ibgn, 0, ni, 1);
+
+	T_ReturnType ret = wrap(ni, Array2D<T_Scalar>::values() + ibgn, false);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
+{
+	Guard<T_ReturnType> ret = wrap(ni, Array2D<T_Scalar>::values() + ibgn);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
+{
+	T_ReturnType ret;
+	ret.wrapper(n, 1, vals, n, bind);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
+{
+	T_ReturnType tmp = wrap(n, const_cast<T_Scalar*>(vals), false);
+	Guard<T_ReturnType> ret = tmp;
+	return ret;
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #undef XxVectorTmpl
 #undef XxVectorTlst
 /*-------------------------------------------------*/
-template class XxVector<real_t,real_t,RdVector>;
-template class XxVector<real4_t,real4_t,RfVector>;
-template class XxVector<complex_t,real_t,CdVector>;
-template class XxVector<complex8_t,real4_t,CfVector>;
+template class XxVector<real_t,real_t,RdVector2>;
+template class XxVector<real4_t,real4_t,RfVector2>;
+template class XxVector<complex_t,real_t,CdVector2>;
+template class XxVector<complex8_t,real4_t,CfVector2>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
