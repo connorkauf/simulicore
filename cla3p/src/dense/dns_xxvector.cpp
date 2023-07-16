@@ -8,6 +8,7 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
+#include "../support/utils.hpp"
 #include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
@@ -25,6 +26,32 @@ XxVectorTmpl::XxVector()
 XxVectorTlst
 XxVectorTmpl::~XxVector()
 {
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+uint_t XxVectorTmpl::size() const
+{
+	return Array2D<T_Scalar>::rsize();
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+std::string XxVectorTmpl::info(const std::string& msg) const
+{ 
+	std::string top;
+	std::string bottom;
+	fill_info_margins(msg, top, bottom);
+
+	std::stringstream ss;
+
+	ss << top << "\n";
+
+	ss << "  Size................. " << size() << "\n";
+	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
+	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner()) << "\n";
+
+	ss << bottom << "\n";
+
+	return ss.str();
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -104,6 +131,24 @@ XxVectorTlst
 Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
 	Guard<T_ReturnType> ret = wrap(ni, Array2D<T_Scalar>::values() + ibgn);
+	return ret;
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::init(uint_t n)
+{
+	T_ReturnType ret;
+	ret.creator(n, 1, n);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::random(uint_t n)
+{
+	T_ReturnType ret = init(n);
+	bulk::dns::rand(uplo_t::F, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
 	return ret;
 }
 /*-------------------------------------------------*/

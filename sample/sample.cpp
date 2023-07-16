@@ -281,10 +281,13 @@ class Der2 : public Der
 int main()
 {
 
-	cla3p::dns::RdVector2 V1;
+	//cla3p::real_t vals[10] = {1};
+	//cla3p::dns::RdVector2 V1 = cla3p::dns::RdVector2::wrap(10, vals, false);
+	cla3p::dns::RdVector2 V1 = cla3p::dns::RdVector2::random(10);
 	cla3p::dns::RdVector2 V2 = V1.copy();
 
-	std::cout << V2;
+	std::cout << V1.info("V1") << V1;
+	std::cout << V2.info("V2") << V2;
 
 	return 0;
 }
