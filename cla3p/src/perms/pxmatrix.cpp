@@ -22,7 +22,7 @@ PxMatrix<T_Scalar>::PxMatrix()
 template <typename T_Scalar>
 PxMatrix<T_Scalar>::PxMatrix(uint_t n)
 {
-	Array2D<T_Scalar>::alloc(n, 1, n);
+	Array2D<T_Scalar>::creator(n, 1, n);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

@@ -55,7 +55,7 @@ class Array2D : public Ownership {
 		 *
 		 * Deallocates owned data and resets all members.
 		 */
-		virtual void clear();
+		void clear();
 
 		/**
 		 * @brief Fills the object with a value.
@@ -80,7 +80,8 @@ class Array2D : public Ownership {
 		virtual std::string toString(uint_t nsd = 3) const;
 
 	protected:
-		void alloc(uint_t, uint_t, uint_t);
+		void creator(uint_t nr, uint_t nc, uint_t nl);
+		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl, bool bind);
 
 		void copyTo(Array2D<T_Scalar>&) const;
 		void copyToAllocated(Array2D<T_Scalar>&) const;
