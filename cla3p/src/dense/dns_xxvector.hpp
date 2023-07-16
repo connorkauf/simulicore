@@ -29,6 +29,18 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
 
 		/**
+		 * @brief The vector size.
+		 * @return The number of the vector entries.
+		 */
+		uint_t size() const;
+
+		/**
+		 * @brief Prints vector information.
+		 * @param[in] msg Set a header identifier.
+		 */
+		std::string info(const std::string& msg = "") const;
+
+		/**
 		 * @brief Copies a vector.
 		 * @return A deep copy of the vector.
 		 */
@@ -90,6 +102,26 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @return A guarded reference to a portion of the vector.
 		 */
 		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @brief Creates a vector.
+		 *
+		 * Creates a n-sized vector with uninitialized values.
+		 *
+		 * @param[in] n The vector size.
+		 * @return The newly created vector.
+		 */
+		static T_ReturnType init(uint_t n);
+
+		/**
+		 * @brief Creates a vector with random values in (0,1).
+		 *
+		 * Creates a n-sized vector with random values.
+		 *
+		 * @param[in] n The vector size.
+		 * @return The newly created vector.
+		 */
+		static T_ReturnType random(uint_t n);
 
 		/**
 		 * @brief Creates a vector from aux data.
