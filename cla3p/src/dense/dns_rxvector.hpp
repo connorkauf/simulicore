@@ -16,16 +16,40 @@ template <typename T_Scalar>
 class RxVector : public XxVector<T_Scalar,T_Scalar,RxVector<T_Scalar>> {
 
 	public:
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::XxVector()
+		 */
 		RxVector();
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::XxVector(uint_t n)
+		 */
+		explicit RxVector(uint_t n);
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::~XxVector()
+		 */
 		~RxVector();
 
 		// no copy
 		RxVector(const RxVector<T_Scalar>&) = delete;
 		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>&) = delete;
 
-		// move
-		RxVector(RxVector<T_Scalar>&&) = default;
-		RxVector<T_Scalar>& operator=(RxVector<T_Scalar>&&) = default;
+		/**
+		 * @copydoc cla3p::dns::XxVector::XxVector(XxVector&& other)
+		 */
+		RxVector(RxVector<T_Scalar>&& other) = default;
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::operator=(XxVector&& other)
+		 */
+		RxVector<T_Scalar>& operator=(RxVector<T_Scalar>&& other) = default;
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)
+		 */
+		void operator=(T_Scalar val);
 
 };
 

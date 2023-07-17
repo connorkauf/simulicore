@@ -17,16 +17,54 @@ template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
 class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 
 	public:
+
+		/**
+		 * @brief The default constructor.
+		 *
+		 * Constructs an empty vector.
+		 */
 		XxVector();
+
+		/**
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a n-sized vector with uninitialized values.
+		 *
+		 * @param[in] n The vector size.
+		 */
+		explicit XxVector(uint_t n);
+
+		/**
+		 * @brief Destroys the vector.
+		 */
 		~XxVector();
 
 		// no copy
 		XxVector(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
 		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
 
-		// move
-		XxVector(XxVector<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
-		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&&) = default;
+		/**
+		 * @brief The move constructor.
+		 *
+		 * Constructs a vector with the contents of other, other is destroyed.
+		 */
+		XxVector(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+
+		/**
+		 * @brief The move assignment operator.
+		 *
+		 * Replaces the contents with those of other, other is destroyed.
+		 */
+		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+
+		/**
+		 * @brief The value setter operator.
+		 *
+		 * Sets all entries of the vector to a single value.
+		 *
+		 * @param[in] val The value to be set.
+		 */
+		void operator=(T_Scalar val);
 
 		/**
 		 * @brief The vector size.

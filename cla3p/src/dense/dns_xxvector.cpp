@@ -24,8 +24,20 @@ XxVectorTmpl::XxVector()
 }
 /*-------------------------------------------------*/
 XxVectorTlst
+XxVectorTmpl::XxVector(uint_t n)
+{
+	Array2D<T_Scalar>::creator(n, 1, n);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
 XxVectorTmpl::~XxVector()
 {
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::operator=(T_Scalar val)
+{
+	Array2D<T_Scalar>::fill(val);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
