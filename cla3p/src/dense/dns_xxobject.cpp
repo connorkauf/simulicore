@@ -26,6 +26,7 @@ XxObjectTmpl::~XxObject()
 {
 }
 /*-------------------------------------------------*/
+#if 0
 XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
@@ -75,6 +76,7 @@ T_RScalar XxObjectTmpl::normFro() const
 			Array2D<T_Scalar>::values(), 
 			Array2D<T_Scalar>::lsize());
 }
+#endif
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
