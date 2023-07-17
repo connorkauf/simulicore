@@ -35,12 +35,17 @@ class PxMatrix : public Array2D<T_Scalar> {
 		PxMatrix(const PxMatrix<T_Scalar>&) = delete;
 		PxMatrix& operator=(const PxMatrix<T_Scalar>&) = delete;
 
+		/** 
+		 * @name Constructors
+		 * @{
+		 */
+
 		/**
 		 * @brief The default constructor.
 		 *
 		 * Constructs an empty permutation matrix.
 		 */
-		PxMatrix();
+		explicit PxMatrix();
 
 		/**
 		 * @brief The dimensional constructor.
@@ -49,7 +54,7 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * @param[in] n The permutation matrix size.
 		 */
-		PxMatrix(uint_t n);
+		explicit PxMatrix(uint_t n);
 
 		/**
 		 * @brief The move constructor.
@@ -59,16 +64,23 @@ class PxMatrix : public Array2D<T_Scalar> {
 		PxMatrix(PxMatrix<T_Scalar>&& other);
 
 		/**
+		 * @brief Destroys the permutation matrix.
+		 */
+		~PxMatrix();
+
+		/** @} */
+
+		/** 
+		 * @name Operators
+		 * @{
+		 */
+
+		/**
 		 * @brief The move assignment operator.
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
 		PxMatrix<T_Scalar>& operator=(PxMatrix<T_Scalar>&& other);
-
-		/**
-		 * @brief Destroys the permutation matrix.
-		 */
-		~PxMatrix();
 
 		/**
 		 * @brief Permutation matrix entry operator.
@@ -84,11 +96,25 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 */
 		const T_Scalar& operator()(uint_t i) const;
 
+		/** @} */
+
+		/** 
+		 * @name Arguments
+		 * @{
+		 */
+
 		/**
 		 * @brief The permutation size.
 		 * @return The number of permutation size.
 		 */
 		uint_t size() const;
+
+		/** @} */
+
+		/** 
+		 * @name Public Member Functions
+		 * @{
+		 */
 
 		/**
 		 * @brief Prints permutation matrix information to a string.
@@ -132,6 +158,8 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 * @return The permutated permutation matrix (P * (*this)).
 		 */
 		PxMatrix<T_Scalar> permute(const PxMatrix<T_Scalar>& P) const;
+
+		/** @} */
 
 		/** 
 		 * @name Creators/Generators

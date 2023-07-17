@@ -29,7 +29,7 @@ class CxVector : public XxVector<T_Scalar,T_RScalar,CxVector<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxVector::XxVector()
 		 */
-		CxVector();
+		explicit CxVector();
 
 		/**
 		 * @copydoc cla3p::dns::XxVector::XxVector(uint_t n)
