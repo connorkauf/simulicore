@@ -32,7 +32,7 @@ class XxVector : public Array2D<T_Scalar> {
 		 *
 		 * Constructs an empty vector.
 		 */
-		XxVector();
+		explicit XxVector();
 
 		/**
 		 * @brief The dimensional constructor.
@@ -184,6 +184,16 @@ class XxVector : public Array2D<T_Scalar> {
 		 * @return A guarded reference to a portion of the vector.
 		 */
 		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t ni) const;
+
+		/**
+		 * @brief Sets a subvector.
+		 *
+		 * Copies the contents of src in the vector, starting at ibgn.
+		 *
+		 * @param[in] ibgn The vector index that src will be placed.
+		 * @param[in] src The vector to be placed.
+		 */
+		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_RScalar,T_ReturnType>& src);
 
 		/** @} */
 

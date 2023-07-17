@@ -140,20 +140,7 @@ T_RScalar XxVectorTmpl::normEuc() const
 XxVectorTlst
 T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 {
-	block_op_consistency_check(
-			defaultProperty(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			ibgn, 0, ni, 1);
-	
-	T_ReturnType ret;
-	ret.creator(ni, 1, ni);
-
-	bulk::dns::copy(uplo_t::F, ni, 1, 
-			bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0), Array2D<T_Scalar>::lsize(), 
-			ret.values(), ret.lsize());
-
-	return ret;
+	return rblock(ibgn,ni).get().copy();
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -165,15 +152,31 @@ T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 			Array2D<T_Scalar>::csize(), 
 			ibgn, 0, ni, 1);
 
-	T_ReturnType ret = wrap(ni, Array2D<T_Scalar>::values() + ibgn, false);
+	T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
+
+	T_ReturnType ret = wrap(ni, p_vi, false);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
-	Guard<T_ReturnType> ret = wrap(ni, Array2D<T_Scalar>::values() + ibgn);
+	block_op_consistency_check(
+			defaultProperty(), 
+			Array2D<T_Scalar>::rsize(), 
+			Array2D<T_Scalar>::csize(), 
+			ibgn, 0, ni, 1);
+
+	const T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
+	Guard<T_ReturnType> ret = wrap(ni, p_vi);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
+{
+	XxVectorTmpl tmp = rblock(ibgn, src.rsize());
+	src.copyToAllocated(tmp);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
