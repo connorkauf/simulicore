@@ -6,7 +6,6 @@
 // 3rd
 
 // cla3p
-//#include "../bulk/dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -21,8 +20,20 @@ RxVectorTmpl::RxVector()
 }
 /*-------------------------------------------------*/
 RxVectorTlst
+RxVectorTmpl::RxVector(uint_t n)
+	: RxVectorTmpl::XxVector(n)
+{
+}
+/*-------------------------------------------------*/
+RxVectorTlst
 RxVectorTmpl::~RxVector()
 {
+}
+/*-------------------------------------------------*/
+RxVectorTlst
+void RxVectorTmpl::operator=(T_Scalar val)
+{
+	RxVectorTmpl::XxVector::operator=(val);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

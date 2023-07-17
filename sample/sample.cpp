@@ -283,8 +283,21 @@ int main()
 
 	//cla3p::real_t vals[10] = {1};
 	//cla3p::dns::RdVector2 V1 = cla3p::dns::RdVector2::wrap(10, vals, false);
-	cla3p::dns::RdVector2 V1 = cla3p::dns::RdVector2::random(10);
-	cla3p::dns::RdVector2 V2 = V1.copy();
+	//cla3p::dns::RdVector2 V1 = cla3p::dns::RdVector2::random(10);
+
+	cla3p::dns::XxVector<cla3p::real_t,cla3p::real_t,cla3p::dns::RdVector2> foo(10);
+	std::cout << foo.info("foo") << foo;
+	foo = 5;
+	std::cout << foo.info("foo") << foo;
+
+	//return 0;
+
+	cla3p::dns::RdVector2 V1(10);
+	std::cout << V1.info("V1") << V1;
+	V1 = 5;
+	std::cout << V1.info("V1") << V1;
+
+	cla3p::dns::RdVector2 V2 = V1.move();
 
 	std::cout << V1.info("V1") << V1;
 	std::cout << V2.info("V2") << V2;

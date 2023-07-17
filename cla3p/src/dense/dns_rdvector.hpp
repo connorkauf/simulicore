@@ -64,7 +64,6 @@ class RdVector : private UniversalMetaTypes, public GenericObject<real_t,real_t>
 		RdVector(RdVector&& other);
 
 		/**
-		 *
 		 * @brief Destroys the vector.
 		 */
 		~RdVector();

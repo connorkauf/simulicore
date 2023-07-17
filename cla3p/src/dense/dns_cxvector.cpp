@@ -20,8 +20,20 @@ CxVectorTmpl::CxVector()
 }
 /*-------------------------------------------------*/
 CxVectorTlst
+CxVectorTmpl::CxVector(uint_t n)
+	: CxVectorTmpl::XxVector(n)
+{
+}
+/*-------------------------------------------------*/
+CxVectorTlst
 CxVectorTmpl::~CxVector()
 {
+}
+/*-------------------------------------------------*/
+CxVectorTlst
+void CxVectorTmpl::operator=(T_Scalar val)
+{
+	CxVectorTmpl::XxVector::operator=(val);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
