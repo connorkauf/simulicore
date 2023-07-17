@@ -1,7 +1,7 @@
 #ifndef CLA3P_DNS_XXVECTOR_HPP_
 #define CLA3P_DNS_XXVECTOR_HPP_
 
-#include "../dense/dns_xxobject.hpp"
+#include "../generic/array2d.hpp"
 #include "../generic/guard.hpp"
 
 /*-------------------------------------------------*/
@@ -14,9 +14,18 @@ namespace dns {
  * @brief A dense vector class.
  */
 template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
+class XxVector : public Array2D<T_Scalar> {
 
 	public:
+
+		// no copy
+		XxVector(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+
+		/** 
+		 * @name Constructors
+		 * @{
+		 */
 
 		/**
 		 * @brief The default constructor.
@@ -35,20 +44,23 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		explicit XxVector(uint_t n);
 
 		/**
-		 * @brief Destroys the vector.
-		 */
-		~XxVector();
-
-		// no copy
-		XxVector(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
-		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
-
-		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
 		XxVector(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+
+		/**
+		 * @brief Destroys the vector.
+		 */
+		~XxVector();
+
+		/** @} */
+
+		/** 
+		 * @name Operators
+		 * @{
+		 */
 
 		/**
 		 * @brief The move assignment operator.
@@ -66,11 +78,25 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 */
 		void operator=(T_Scalar val);
 
+		/** @} */
+
+		/** 
+		 * @name Arguments
+		 * @{
+		 */
+
 		/**
 		 * @brief The vector size.
 		 * @return The number of the vector entries.
 		 */
 		uint_t size() const;
+
+		/** @} */
+
+		/** 
+		 * @name Public Member Functions
+		 * @{
+		 */
 
 		/**
 		 * @brief Prints vector information.
@@ -101,6 +127,24 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @return A shallow copy of the vector, original vector is destroyed.
 		 */
 		T_ReturnType move();
+
+		/**
+		 * @brief Scales the vector by coeff.
+		 * @param[in] val The scaling coefficient.
+		 */
+		void scale(T_Scalar val);
+
+		/**
+		 * @brief Vector 1-norm.
+		 * @return The 1-norm of the vector.
+		 */
+		T_RScalar normOne() const;
+
+		/**
+		 * @brief Vector infinite norm.
+		 * @return The infinite norm of the vector.
+		 */
+		T_RScalar normInf() const;
 
 		/**
 		 * @brief Vector Euclidian norm.
@@ -140,6 +184,13 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @return A guarded reference to a portion of the vector.
 		 */
 		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t ni) const;
+
+		/** @} */
+
+		/** 
+		 * @name Creators/Generators
+		 * @{
+		 */
 
 		/**
 		 * @brief Creates a vector.
@@ -183,6 +234,8 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @return The newly created guard.
 		 */
 		static Guard<T_ReturnType> wrap(uint_t n, const T_Scalar *vals);
+
+		/** @} */
 
 };
 

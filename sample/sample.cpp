@@ -289,6 +289,7 @@ int main()
 	std::cout << foo.info("foo") << foo;
 	foo = 5;
 	std::cout << foo.info("foo") << foo;
+	//std::cout << foo(5,0) << std::endl;
 
 	//return 0;
 

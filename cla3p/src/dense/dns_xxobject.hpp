@@ -31,31 +31,31 @@ class XxObject : public Array2D<T_Scalar> {
 		 * @brief Scales matrix by coeff.
 		 * @param[in] val The scaling coefficient.
 		 */
-		virtual void scale(T_Scalar val);
+		//virtual void scale(T_Scalar val);
 
 		/**
 		 * @brief Matrix 1-norm.
 		 * @return The 1-norm of the matrix.
 		 */
-		virtual T_RScalar normOne() const;
+		//virtual T_RScalar normOne() const;
 
 		/**
 		 * @brief Matrix infinite norm.
 		 * @return The infinite norm of the matrix.
 		 */
-		virtual T_RScalar normInf() const;
+		//virtual T_RScalar normInf() const;
 
 		/**
 		 * @brief Matrix max norm.
 		 * @return The maximum norm of the matrix.
 		 */
-		virtual T_RScalar normMax() const;
+		//virtual T_RScalar normMax() const;
 
 		/**
 		 * @brief Matrix Frobenius norm.
 		 * @return The Frobenius norm of the matrix.
 		 */
-		virtual T_RScalar normFro() const;
+		//virtual T_RScalar normFro() const;
 
 };
 
