@@ -135,11 +135,15 @@ PxMatrix<T_Scalar> PxMatrix<T_Scalar>::inverse() const
 template <typename T_Scalar>
 PxMatrix<T_Scalar> PxMatrix<T_Scalar>::permute(const PxMatrix<T_Scalar>& P) const
 {
-	perm_op_consistency_check(size(), 1, P.size(), 1);
-
 	PxMatrix<T_Scalar> ret;
-	Array2D<T_Scalar>::permuteToLeft(ret, P.values());
+	Array2D<T_Scalar>::permuteToLeft(ret, P);
 	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void PxMatrix<T_Scalar>::ipermute(const PxMatrix<T_Scalar>& P)
+{
+	Array2D<T_Scalar>::permuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -168,7 +172,6 @@ PxMatrix<T_Scalar> PxMatrix<T_Scalar>::random(uint_t n)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
-template class PxMatrix<uint_t>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

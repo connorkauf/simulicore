@@ -3,6 +3,7 @@
 
 #include "../generic/array2d.hpp"
 #include "../generic/guard.hpp"
+#include "../perms.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -68,6 +69,18 @@ class XxVector : public Array2D<T_Scalar> {
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
 		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+
+		/**
+		 * @brief Vector entry operator.
+		 * @param[in] i The number of the requested index.
+		 * @return A reference to the i-th element of the vector.
+		 */
+		T_Scalar& operator()(uint_t i);
+
+		/**
+		 * @copydoc cla3p::dns::XxVector::operator()(uint_t i)
+		 */
+		const T_Scalar& operator()(uint_t i) const;
 
 		/**
 		 * @brief The value setter operator.
@@ -151,6 +164,25 @@ class XxVector : public Array2D<T_Scalar> {
 		 * @return The Euclidian norm of the vector.
 		 */
 		T_RScalar normEuc() const;
+
+		/**
+		 * @brief Permutes the entries of a vector
+		 *
+		 * Creates a permuted copy @f$ (PX) @f$ of the vector @f$ X @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 * @return The permuted copy of the vector.
+		 */
+		T_ReturnType permute(const PiMatrix& P) const;
+
+		/**
+		 * @brief Permutes the entries of a vector in-place.
+		 *
+		 * Replaces @f$ X @f$ with @f$ PX @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 */
+		void ipermute(const PiMatrix& P);
 
 		/**
 		 * @brief Gets a subvector copy.

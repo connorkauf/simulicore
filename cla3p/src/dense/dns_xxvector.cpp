@@ -8,6 +8,8 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../checks/all_checks.hpp"
 
@@ -32,6 +34,26 @@ XxVectorTmpl::XxVector(uint_t n)
 XxVectorTlst
 XxVectorTmpl::~XxVector()
 {
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_Scalar& XxVectorTmpl::operator()(uint_t i)
+{
+	if(i >= size()) {
+		throw OutOfBounds(msg::out_of_bounds(size(),i));
+	} // out-of-bounds
+
+	return Array2D<T_Scalar>::operator()(i,0);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
+{
+	if(i >= size()) {
+		throw OutOfBounds(msg::out_of_bounds(size(),i));
+	} // out-of-bounds
+
+	return Array2D<T_Scalar>::operator()(i,0);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -135,6 +157,20 @@ T_RScalar XxVectorTmpl::normEuc() const
 	return bulk::dns::norm_euc(
 			Array2D<T_Scalar>::rsize(), 
 			Array2D<T_Scalar>::values());
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
+{
+	T_ReturnType ret;
+	Array2D<T_Scalar>::permuteToLeft(ret, P);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::ipermute(const PiMatrix& P) 
+{ 
+	Array2D<T_Scalar>::permuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
