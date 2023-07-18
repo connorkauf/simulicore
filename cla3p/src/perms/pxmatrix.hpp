@@ -155,9 +155,18 @@ class PxMatrix : public Array2D<T_Scalar> {
 
 		/**
 		 * @brief Permutes a permutation matrix.
+		 *
+		 * @param[in] P The left side permutation matrix.
 		 * @return The permutated permutation matrix (P * (*this)).
 		 */
 		PxMatrix<T_Scalar> permute(const PxMatrix<T_Scalar>& P) const;
+
+		/**
+		 * @brief Permutes a permutation matrix in-place.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 */
+		void ipermute(const PxMatrix<T_Scalar>& P);
 
 		/** @} */
 

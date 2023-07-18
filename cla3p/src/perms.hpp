@@ -12,12 +12,6 @@ namespace cla3p {
  */
 using PiMatrix = PxMatrix<int_t>;
 
-/**
- * @ingroup perm_matrices
- * @brief Unsigned Integer Permutation Matrix.
- */
-using PuMatrix = PxMatrix<uint_t>;
-
 } // namespace cla3p
 
 #endif // CLA3P_PERMS_HPP_

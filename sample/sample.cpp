@@ -293,12 +293,23 @@ int main()
 	V1 = -1;
 	V2 =  3;
 
+
 	std::cout << V1.info("V1") << V1;
 	std::cout << V2.info("V2") << V2;
+
+	std::cout << V1(3) << std::endl;
+	std::cout << V1(2) << std::endl;
+	std::cout << V2(5) << std::endl;
+
+	return 0;
 
 	V1.setBlock(2,V2);
 
 	std::cout << V1.info("V1") << V1;
+
+	cla3p::dns::RdVector2 V3 = V1.rcopy();
+	std::cout << V1.info("V1") << V1;
+	std::cout << V3.info("V3") << V3;
 
 	return 0;
 }
