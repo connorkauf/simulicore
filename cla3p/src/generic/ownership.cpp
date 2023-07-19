@@ -29,6 +29,11 @@ void Ownership::setOwner(bool owner)
 	m_owner = owner; 
 }
 /*-------------------------------------------------*/
+void Ownership::clear()
+{
+	defaults();
+}
+/*-------------------------------------------------*/
 void Ownership::defaults()
 {
 	setOwner(false);

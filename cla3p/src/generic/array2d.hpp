@@ -56,7 +56,7 @@ class Array2D : public Ownership {
 		 *
 		 * Deallocates owned data and resets all members.
 		 */
-		void clear();
+		virtual void clear();
 
 		/**
 		 * @brief Fills the object with a value.
@@ -105,12 +105,12 @@ class Array2D : public Ownership {
 		uint_t    m_lsize;
 		T_Scalar* m_values;
 
+		void defaults();
+
 		void setRsize(uint_t);
 		void setCsize(uint_t);
 		void setLsize(uint_t);
 		void setValues(T_Scalar*);
-
-		void defaults();
 };
 
 /*-------------------------------------------------*/

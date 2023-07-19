@@ -39,10 +39,12 @@ class Ownership {
 	protected:
 		void setOwner(bool owner);
 
-		void defaults();
+		void clear();
 
 	private:
 		bool m_owner;
+
+		void defaults();
 };
 
 /*-------------------------------------------------*/
