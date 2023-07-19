@@ -3,6 +3,8 @@
 
 #include "dense/dns_rxvector.hpp"
 #include "dense/dns_cxvector.hpp"
+#include "dense/dns_rxmatrix.hpp"
+#include "dense/dns_cxmatrix.hpp"
 
 namespace cla3p {
 namespace dns {
@@ -27,7 +29,31 @@ using CdVector2 = CxVector<complex_t,real_t>;
 
 /**
  * @ingroup dense_vectors
- * @brief Single precision complex vector.
+ * @brief Double precision real vector.
+ */
+using RdMatrix2 = RxMatrix<real_t>;
+
+/**
+ * @ingroup dense_matrices
+ * @brief Single precision real matrix.
+ */
+using RfMatrix2 = RxMatrix<real4_t>;
+
+/**
+ * @ingroup dense_matrices
+ * @brief Double precision complex matrix.
+ */
+using CdMatrix2 = CxMatrix<complex_t,real_t>;
+
+/**
+ * @ingroup dense_matrices
+ * @brief Single precision complex matrix.
+ */
+using CfMatrix2 = CxMatrix<complex8_t,real4_t>;
+
+/**
+ * @ingroup dense_matrices
+ * @brief Single precision complex matrix.
  */
 using CfVector2 = CxVector<complex8_t,real4_t>;
 

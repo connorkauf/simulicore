@@ -16,6 +16,9 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	dense/dns_xxvector.cpp
 	dense/dns_rxvector.cpp
 	dense/dns_cxvector.cpp
+	dense/dns_xxmatrix.cpp
+	dense/dns_rxmatrix.cpp
+	dense/dns_cxmatrix.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_DENSE_HPP 
@@ -33,6 +36,9 @@ set(CLA3P_DENSE_HPP
 	dns_xxvector.hpp
 	dns_rxvector.hpp
 	dns_cxvector.hpp
+	dns_xxmatrix.hpp
+	dns_rxmatrix.hpp
+	dns_cxmatrix.hpp
 	)
 
 #-----------------------------------------------
