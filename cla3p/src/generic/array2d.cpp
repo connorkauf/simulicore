@@ -29,23 +29,21 @@ Array2D<T_Scalar>::~Array2D()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-Array2D<T_Scalar>::Array2D(Array2D<T_Scalar>&& src)
+Array2D<T_Scalar>::Array2D(Array2D<T_Scalar>&& other)
 {
-	src.moveTo(*this);
+	other.moveTo(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-Array2D<T_Scalar>& Array2D<T_Scalar>::operator=(Array2D<T_Scalar>&& src)
+Array2D<T_Scalar>& Array2D<T_Scalar>::operator=(Array2D<T_Scalar>&& other)
 {
-	src.moveTo(*this);
+	other.moveTo(*this);
 	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void Array2D<T_Scalar>::defaults()
 {
-	Ownership::defaults();
-
 	setRsize(0);
 	setCsize(0);
 	setLsize(0);
@@ -129,6 +127,8 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl,
 template <typename T_Scalar>
 void Array2D<T_Scalar>::clear()
 {
+	Ownership::clear();
+
 	if(owner()) {
 		i_free(values());
 	} // owner
