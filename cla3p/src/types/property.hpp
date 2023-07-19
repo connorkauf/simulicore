@@ -149,6 +149,13 @@ class Property {
 
 /*-------------------------------------------------*/
 
+inline Property noProperty()
+{
+	return Property(prop_t::NONE, uplo_t::F);
+}
+
+/*-------------------------------------------------*/
+
 inline Property defaultProperty()
 {
 	return Property(prop_t::GENERAL, uplo_t::F);
