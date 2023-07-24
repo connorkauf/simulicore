@@ -11,37 +11,48 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#if 0
-#define CxVectorTmpl CxVector<T_Scalar,T_RScalar>
-#define CxVectorTlst template <typename T_Scalar, typename T_RScalar>
+#define CxMatrixTmpl CxMatrix<T_Scalar,T_RScalar>
+#define CxMatrixTlst template <typename T_Scalar, typename T_RScalar>
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector()
+CxMatrixTlst
+CxMatrixTmpl::CxMatrix()
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(uint_t n)
-	: CxVectorTmpl::XxVector(n)
+CxMatrixTlst
+CxMatrixTmpl::CxMatrix(uint_t nr, uint_t nc, const Property& pr)
+	: CxMatrixTmpl::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::~CxVector()
+CxMatrixTlst
+CxMatrixTmpl::~CxMatrix()
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-void CxVectorTmpl::operator=(T_Scalar val)
+CxMatrixTlst
+CxMatrixTmpl::CxMatrix(CxMatrixTmpl&& /*other*/)
 {
-	CxVectorTmpl::XxVector::operator=(val);
+  // FIXME: implement
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
+CxMatrixTmpl& CxMatrixTmpl::operator=(CxMatrixTmpl&& /*other*/)
+{
+	// FIXME: implement
+	return *this;
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
+void CxMatrixTmpl::operator=(T_Scalar val)
+{
+	CxMatrixTmpl::XxMatrix::operator=(val);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-#undef CxVectorTmpl
-#undef CxVectorTlst
-#endif // 0
+#undef CxMatrixTmpl
+#undef CxMatrixTlst
 /*-------------------------------------------------*/
 template class CxMatrix<complex_t,real_t>;
 template class CxMatrix<complex8_t,real4_t>;

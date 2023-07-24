@@ -15,13 +15,11 @@ namespace dns {
 template <typename T_Scalar>
 class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
 
-#if 0
-
 	public:
 
 		// no copy
-		RxVector(const RxVector<T_Scalar>&) = delete;
-		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>&) = delete;
+		RxMatrix(const RxMatrix<T_Scalar>&) = delete;
+		RxMatrix<T_Scalar>& operator=(const RxMatrix<T_Scalar>&) = delete;
 
 		/**
 		 * @name Constructors
@@ -29,24 +27,24 @@ class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector()
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix()
 		 */
-		explicit RxVector();
+		explicit RxMatrix();
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(uint_t n)
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
 		 */
-		explicit RxVector(uint_t n);
+		explicit RxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(XxVector&& other)
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
 		 */
-		RxVector(RxVector<T_Scalar>&& other) = default;
+		RxMatrix(RxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::~XxVector()
+		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
 		 */
-		~RxVector();
+		~RxMatrix();
 
 		/** @} */
 
@@ -56,18 +54,16 @@ class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(XxVector&& other)
+		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		RxVector<T_Scalar>& operator=(RxVector<T_Scalar>&& other) = default;
+		RxMatrix<T_Scalar>& operator=(RxMatrix<T_Scalar>&& other);
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)
+		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
 		 */
 		void operator=(T_Scalar val);
 
 		/** @} */
-
-#endif
 
 };
 

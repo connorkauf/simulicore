@@ -8,10 +8,11 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
+#include "../bulk/dns_io.hpp"
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
-//#include "../support/utils.hpp"
-//#include "../checks/all_checks.hpp"
+#include "../support/utils.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -28,9 +29,9 @@ XxMatrixTmpl::XxMatrix()
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
+	: Array2D<T_Scalar>(nr, nc, nr)
 {
-	Array2D<T_Scalar>::creator(nr, nc, nr);
-	setProp(pr);
+	wrapperExtras(pr);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -129,9 +130,22 @@ const Property& XxMatrixTmpl::prop() const
 	return m_prop;
 }
 /*-------------------------------------------------*/
-#if 0
-XxVectorTlst
-std::string XxVectorTmpl::info(const std::string& msg) const
+XxMatrixTlst
+void XxMatrixTmpl::wrapperExtras(const Property& pr)
+{
+	property_compatibility_check(pr, nrows(), ncols());
+	setProp(pr);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::wrapper(const Property& pr, uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind)
+{
+	Array2D<T_Scalar>::wrapper(nr, nc, vals, ldv, bind);
+	wrapperExtras(pr);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+std::string XxMatrixTmpl::info(const std::string& msg) const
 { 
 	std::string top;
 	std::string bottom;
@@ -141,86 +155,138 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Size................. " << size() << "\n";
+	ss << "  Number of rows....... " << nrows()  << "\n";
+	ss << "  Number of columns.... " << ncols()  << "\n";
+	ss << "  Leading dimension.... " << ld()  << "\n";
 	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
-	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner()) << "\n";
+	ss << "  Property............. " << prop()  << "\n";
+	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner ()) << "\n";
 
 	ss << bottom << "\n";
 
 	return ss.str();
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::copy() const
+XxMatrixTlst
+void XxMatrixTmpl::print(uint_t nsd) const
+{
+	bulk::dns::print(
+			prop().uplo(), 
+			nrows(), 
+			ncols(), 
+			Array2D<T_Scalar>::values(), 
+			ld(), 
+			nsd);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+std::string XxMatrixTmpl::toString(uint_t nsd) const
+{
+	return bulk::dns::print_to_string(
+			prop().uplo(), 
+			nrows(), 
+			ncols(), 
+			Array2D<T_Scalar>::values(), 
+			ld(), 
+			nsd);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::copy() const
 {
 	T_ReturnType ret;
+	ret.setProp(prop());
 	Array2D<T_Scalar>::copyTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::rcopy()
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::rcopy()
 {
 	T_ReturnType ret;
+	ret.setProp(prop());
 	Array2D<T_Scalar>::copyToShallow(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::rcopy() const
+XxMatrixTlst
+Guard<T_ReturnType> XxMatrixTmpl::rcopy() const
 {
 	T_ReturnType tmp;
-	const_cast<XxVectorTmpl&>(*this).copyToShallow(tmp);
+	tmp.setProp(prop());
+	const_cast<XxMatrixTmpl&>(*this).copyToShallow(tmp);
 	Guard<T_ReturnType> ret = tmp;
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::move()
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::move()
 {
 	T_ReturnType ret;
+	ret.setProp(prop());
 	Array2D<T_Scalar>::moveTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::scale(T_Scalar val)
+XxMatrixTlst
+void XxMatrixTmpl::scale(T_Scalar val)
 {
-	bulk::dns::scale(uplo_t::F, 
+	bulk::dns::scale(prop().uplo(), 
 			Array2D<T_Scalar>::rsize(), 
 			Array2D<T_Scalar>::csize(), 
 			Array2D<T_Scalar>::values(), 
 			Array2D<T_Scalar>::lsize(), val);
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_RScalar XxVectorTmpl::normOne() const
+XxMatrixTlst
+T_RScalar XxMatrixTmpl::normOne() const
 { 
-	return bulk::dns::norm_one(prop_t::GENERAL, uplo_t::F, 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
+	return bulk::dns::norm_one(
+			prop().type(), 
+			prop().uplo(), 
+			nrows(), 
+			ncols(),
 			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize());
+			ld());
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_RScalar XxVectorTmpl::normInf() const
+XxMatrixTlst
+T_RScalar XxMatrixTmpl::normInf() const
 { 
-	return bulk::dns::norm_inf(prop_t::GENERAL, uplo_t::F, 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
+	return bulk::dns::norm_inf(
+			prop().type(), 
+			prop().uplo(), 
+			nrows(), 
+			ncols(),
 			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize());
+			ld());
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_RScalar XxVectorTmpl::normEuc() const
+XxMatrixTlst
+T_RScalar XxMatrixTmpl::normMax() const
 { 
-	return bulk::dns::norm_euc(
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::values());
+	return bulk::dns::norm_max(
+			prop().type(), 
+			prop().uplo(), 
+			nrows(), 
+			ncols(),
+			Array2D<T_Scalar>::values(), 
+			ld());
 }
 /*-------------------------------------------------*/
+XxMatrixTlst
+T_RScalar XxMatrixTmpl::normFro() const
+{ 
+	return bulk::dns::norm_fro(
+			prop().type(), 
+			prop().uplo(), 
+			nrows(), 
+			ncols(),
+			Array2D<T_Scalar>::values(), 
+			ld());
+}
+/*-------------------------------------------------*/
+#if 0
 XxVectorTlst
 T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
 {
@@ -276,41 +342,40 @@ void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
 	XxVectorTmpl tmp = rblock(ibgn, src.rsize());
 	src.copyToAllocated(tmp);
 }
+#endif // 0
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::init(uint_t n)
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::init(uint_t nr, uint_t nc, const Property& pr)
+{
+	T_ReturnType ret(nr, nc, pr);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::random(uint_t nr, uint_t nc, const Property& pr)
+{
+	T_ReturnType ret = init(nr, nc, pr);
+	bulk::dns::rand(ret.prop().uplo(), ret.nrows(), ret.ncols(), ret.values(), ret.ld());
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr)
 {
 	T_ReturnType ret;
-	ret.creator(n, 1, n);
+	ret.wrapper(pr, nr, nc, vals, ldv, bind);
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::random(uint_t n)
+XxMatrixTlst
+Guard<T_ReturnType> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr)
 {
-	T_ReturnType ret = init(n);
-	bulk::dns::rand(uplo_t::F, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
-{
-	T_ReturnType ret;
-	ret.wrapper(n, 1, vals, n, bind);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
-{
-	T_ReturnType tmp = wrap(n, const_cast<T_Scalar*>(vals), false);
+	T_ReturnType tmp = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
 	Guard<T_ReturnType> ret = tmp;
 	return ret;
 }
-#endif // 0
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

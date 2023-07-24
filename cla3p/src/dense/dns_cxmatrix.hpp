@@ -15,13 +15,11 @@ namespace dns {
 template <typename T_Scalar, typename T_RScalar>
 class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>> {
 
-#if 0
-
 	public:
 
 		// no copy
-		CxVector(const CxVector<T_Scalar,T_RScalar>&) = delete;
-		CxVector<T_Scalar,T_RScalar>& operator=(const CxVector<T_Scalar,T_RScalar>&) = delete;
+		CxMatrix(const CxMatrix<T_Scalar,T_RScalar>&) = delete;
+		CxMatrix<T_Scalar,T_RScalar>& operator=(const CxMatrix<T_Scalar,T_RScalar>&) = delete;
 
 		/**
 		 * @name Constructors
@@ -29,24 +27,24 @@ class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector()
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix()
 		 */
-		explicit CxVector();
+		explicit CxMatrix();
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(uint_t n)
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
 		 */
-		explicit CxVector(uint_t n);
+		explicit CxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(XxVector&& other)
+		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
 		 */
-		CxVector(CxVector<T_Scalar,T_RScalar>&&) = default;
+		CxMatrix(CxMatrix<T_Scalar,T_RScalar>&& other);
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::~XxVector()
+		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
 		 */
-		~CxVector();
+		~CxMatrix();
 
 		/** @} */
 
@@ -56,18 +54,16 @@ class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(XxVector&& other)
+		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		CxVector<T_Scalar,T_RScalar>& operator=(CxVector<T_Scalar,T_RScalar>&&) = default;
+		CxMatrix<T_Scalar,T_RScalar>& operator=(CxMatrix<T_Scalar,T_RScalar>&&);
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)
+		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
 		 */
 		void operator=(T_Scalar val);
 
 		/** @} */
-
-#endif // 0
 
 };
 

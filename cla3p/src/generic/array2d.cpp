@@ -23,6 +23,13 @@ Array2D<T_Scalar>::Array2D()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+Array2D<T_Scalar>::Array2D(uint_t nr, uint_t nc, uint_t nl)
+{
+	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
+	wrapper(nr, nc, vals, nl, true);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 Array2D<T_Scalar>::~Array2D()
 {
 	clear();
@@ -105,15 +112,10 @@ const T_Scalar* Array2D<T_Scalar>::values() const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::creator(uint_t nr, uint_t nc, uint_t nl)
-{
-	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
-	wrapper(nr, nc, vals, nl, true);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl, bool bind)
 {
+	dns_consistency_check(nr, nc, vals, nl);
+
 	clear();
 
 	setRsize(nr);
@@ -166,7 +168,7 @@ void Array2D<T_Scalar>::copyTo(Array2D<T_Scalar>& trg) const
 	if(this == &trg) return; // do not apply on self
 
 	if(!empty()) {
-		trg.creator(rsize(), csize(), lsize());
+		trg = Array2D<T_Scalar>(rsize(), csize(), lsize());
 		copyToAllocated(trg);
 	} else {
 		trg.clear();
@@ -225,7 +227,7 @@ void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const PiMatri
 {
 	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), P.size(), Q.size());
 
-	trg.creator(rsize(), csize(), rsize());
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), Q.values());
 }
 /*-------------------------------------------------*/
@@ -234,7 +236,7 @@ void Array2D<T_Scalar>::permuteToLeft(Array2D<T_Scalar>& trg, const PiMatrix& P)
 {
 	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), P.size(), csize());
 
-	trg.creator(rsize(), csize(), rsize());
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), nullptr);
 }
 /*-------------------------------------------------*/
@@ -243,7 +245,7 @@ void Array2D<T_Scalar>::permuteToRight(Array2D<T_Scalar>& trg, const PiMatrix& Q
 {
 	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), rsize(), Q.size());
 
-	trg.creator(rsize(), csize(), rsize());
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
 	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), nullptr, Q.values());
 }
 /*-------------------------------------------------*/

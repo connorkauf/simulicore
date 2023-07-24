@@ -1,6 +1,8 @@
 #ifndef CLA3P_DNS_XXVECTOR_HPP_
 #define CLA3P_DNS_XXVECTOR_HPP_
 
+#include <string>
+
 #include "../generic/array2d.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"

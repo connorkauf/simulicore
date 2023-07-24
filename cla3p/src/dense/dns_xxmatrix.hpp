@@ -1,6 +1,8 @@
 #ifndef CLA3P_DNS_XXMATRIX_HPP_
 #define CLA3P_DNS_XXMATRIX_HPP_
 
+#include <string>
+
 #include "../generic/array2d.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"
@@ -148,61 +150,80 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 */
 		void fill(T_Scalar val);
 
-#if 0
-
 		/**
-		 * @brief Prints vector information.
+		 * @brief Prints matrix information.
 		 * @param[in] msg Set a header identifier.
 		 */
 		std::string info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Copies a vector.
-		 * @return A deep copy of the vector.
+		 * @brief Prints the contents of the matrix.
+		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
+		 */
+		void print(uint_t nsd = 3) const;
+
+		/**
+		 * @brief Prints the contents of the matrix to a string.
+		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
+		 * @return The string containing the formatted numerical values of the object.
+		 */
+		std::string toString(uint_t nsd = 3) const;
+
+		/**
+		 * @brief Copies a matrix.
+		 * @return A deep copy of the matrix.
 		 */
 		T_ReturnType copy() const;
 
 		/**
-		 * @brief Clones a vector.
-		 * @return A shallow copy of the vector, original vector is unchanged.
+		 * @brief Clones a matrix.
+		 * @return A shallow copy of the matrix, original matrix is unchanged.
 		 */
 		T_ReturnType rcopy();
 
 		/**
-		 * @brief Clones a vector.
-		 * @return A guard of the vector.
+		 * @brief Clones a matrix.
+		 * @return A guard of the matrix.
 		 */
 		Guard<T_ReturnType> rcopy() const;
 
 		/**
-		 * @brief Moves a vector.
-		 * @return A shallow copy of the vector, original vector is destroyed.
+		 * @brief Moves a matrix.
+		 * @return A shallow copy of the matrix, original matrix is destroyed.
 		 */
 		T_ReturnType move();
 
 		/**
-		 * @brief Scales the vector by coeff.
+		 * @brief Scales the matrix by coeff.
 		 * @param[in] val The scaling coefficient.
 		 */
 		void scale(T_Scalar val);
 
 		/**
-		 * @brief Vector 1-norm.
-		 * @return The 1-norm of the vector.
+		 * @brief Matrix 1-norm.
+		 * @return The 1-norm of the matrix.
 		 */
 		T_RScalar normOne() const;
 
 		/**
-		 * @brief Vector infinite norm.
-		 * @return The infinite norm of the vector.
+		 * @brief Matrix infinite norm.
+		 * @return The infinite norm of the matrix.
 		 */
 		T_RScalar normInf() const;
 
 		/**
-		 * @brief Vector Euclidian norm.
-		 * @return The Euclidian norm of the vector.
+		 * @brief Matrix infinite norm.
+		 * @return The infinite norm of the matrix.
 		 */
-		T_RScalar normEuc() const;
+		T_RScalar normMax() const;
+
+		/**
+		 * @brief Matrix Frobenius norm.
+		 * @return The Frobenius norm of the matrix.
+		 */
+		T_RScalar normFro() const;
+
+#if 0
 
 		/**
 		 * @brief Permutes the entries of a vector
@@ -275,52 +296,59 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 * @{
 		 */
 
-#if 0
-
 		/**
-		 * @brief Creates a vector.
+		 * @brief Creates a matrix.
 		 *
-		 * Creates a n-sized vector with uninitialized values.
+		 * Creates a (nr x nc) matrix with uninitialized values.
 		 *
-		 * @param[in] n The vector size.
-		 * @return The newly created vector.
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] pr The matrix property.
+		 * @return The newly created matrix.
 		 */
-		static T_ReturnType init(uint_t n);
+		static T_ReturnType init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @brief Creates a vector with random values in (0,1).
+		 * @brief Creates a matrix with random values in (0,1).
 		 *
-		 * Creates a n-sized vector with random values.
+		 * Creates a (nr x nc) matrix with random values.
 		 *
-		 * @param[in] n The vector size.
-		 * @return The newly created vector.
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] pr The matrix property.
+		 * @return The newly created matrix.
 		 */
-		static T_ReturnType random(uint_t n);
+		static T_ReturnType random(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @brief Creates a vector from aux data.
+		 * @brief Creates a matrix from aux data.
 		 *
-		 * Creates a n-sized vector from bulk data.
+		 * Creates a (nr x nc) matrix from bulk data.
 		 *
-		 * @param[in] n The vector size.
-		 * @param[in] vals The array containing the vector values.
-		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
-		 * @return The newly created vector.
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] vals The array containing the matrix values in column-major ordering.
+		 * @param[in] ldv The leading dimension of the vals array.
+		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
+		 * @param[in] pr The matrix property.
+		 * @return The newly created matrix.
 		 */
-		static T_ReturnType wrap(uint_t n, T_Scalar *vals, bool bind);
+		static T_ReturnType wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr = defaultProperty());
 
 		/**
-		 * @brief Creates a guard from aux data.
+		 * @brief Creates a matrix guard from aux data.
 		 *
-		 * Creates a n-sized guarded vector from bulk data.
+		 * Creates a (nr x nc) matrix from bulk data.
 		 *
-		 * @param[in] n The vector size.
-		 * @param[in] vals The array containing the vector values.
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] vals The array containing the matrix values in column-major ordering.
+		 * @param[in] ldv The leading dimension of the vals array.
+		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
+		 * @param[in] pr The matrix property.
 		 * @return The newly created guard.
 		 */
-		static Guard<T_ReturnType> wrap(uint_t n, const T_Scalar *vals);
-
-#endif // 0
+		static Guard<T_ReturnType> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = defaultProperty());
 
 		/** @} */
 	
@@ -330,6 +358,10 @@ class XxMatrix : public Array2D<T_Scalar> {
 		void defaults();
 
 		void setProp(const Property&);
+
+		void wrapper(const Property& pr, uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind);
+		void wrapperExtras(const Property& pr);
+
 };
 
 /*-------------------------------------------------*/

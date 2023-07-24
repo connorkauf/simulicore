@@ -289,7 +289,6 @@ int main()
 	cla3p::dns::RdVector2 V1(10);
 	cla3p::dns::RdVector2 V2(3);
 
-
 	V1 = -1;
 	V2 =  3;
 
@@ -310,6 +309,13 @@ int main()
 	cla3p::dns::RdVector2 V3 = V1.rcopy();
 	std::cout << V1.info("V1") << V1;
 	std::cout << V3.info("V3") << V3;
+
+	//cla3p::dns::RdMatrix2 A1(10,10);
+	//cla3p::dns::RdMatrix2 A2(3,4);
+	//
+	//std::cout << A1.info("A1") << A1;
+	//std::cout << A2.info("A2") << A2;
+
 
 	return 0;
 }

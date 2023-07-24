@@ -27,8 +27,8 @@ XxVectorTmpl::XxVector()
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector(uint_t n)
+	: Array2D<T_Scalar>(n,1,n)
 {
-	Array2D<T_Scalar>::creator(n, 1, n);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -220,8 +220,7 @@ void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
 XxVectorTlst
 T_ReturnType XxVectorTmpl::init(uint_t n)
 {
-	T_ReturnType ret;
-	ret.creator(n, 1, n);
+	T_ReturnType ret(n);
 	return ret;
 }
 /*-------------------------------------------------*/
