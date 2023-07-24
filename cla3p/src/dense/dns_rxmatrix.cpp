@@ -10,38 +10,49 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
-#if 0
 /*-------------------------------------------------*/
-#define RxVectorTmpl RxVector<T_Scalar>
-#define RxVectorTlst template <typename T_Scalar>
+#define RxMatrixTmpl RxMatrix<T_Scalar>
+#define RxMatrixTlst template <typename T_Scalar>
 /*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl::RxVector()
+RxMatrixTlst
+RxMatrixTmpl::RxMatrix()
 {
 }
 /*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl::RxVector(uint_t n)
-	: RxVectorTmpl::XxVector(n)
+RxMatrixTlst
+RxMatrixTmpl::RxMatrix(uint_t nr, uint_t nc, const Property& pr)
+	: RxMatrixTmpl::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl::~RxVector()
+RxMatrixTlst
+RxMatrixTmpl::~RxMatrix()
 {
 }
 /*-------------------------------------------------*/
-RxVectorTlst
-void RxVectorTmpl::operator=(T_Scalar val)
+RxMatrixTlst
+RxMatrixTmpl::RxMatrix(RxMatrixTmpl&& /*other*/)
 {
-	RxVectorTmpl::XxVector::operator=(val);
+	// FIXME: implement
+}
+/*-------------------------------------------------*/
+RxMatrixTlst
+RxMatrixTmpl& RxMatrixTmpl::operator=(RxMatrixTmpl&& /*other*/)
+{
+	// FIXME: implement
+	return *this;
+}
+/*-------------------------------------------------*/
+RxMatrixTlst
+void RxMatrixTmpl::operator=(T_Scalar val)
+{
+	RxMatrixTmpl::XxMatrix::operator=(val);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-#undef RxVectorTmpl
-#undef RxVectorTlst
-#endif // 0
+#undef RxMatrixTmpl
+#undef RxMatrixTlst
 /*-------------------------------------------------*/
 template class RxMatrix<real_t>;
 template class RxMatrix<real4_t>;

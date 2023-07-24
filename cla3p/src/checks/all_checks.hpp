@@ -18,6 +18,8 @@ void square_check(uint_t m, uint_t n);
 // Checks if dense input is valid
 //
 void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void *a, uint_t lda);
+void dns_consistency_check(uint_t m, uint_t n, const void *a, uint_t lda);
+void property_compatibility_check(const Property& prop, uint_t m, uint_t n);
 
 // 
 // Checks if block request is valid

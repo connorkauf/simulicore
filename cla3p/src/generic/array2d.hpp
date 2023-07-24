@@ -19,7 +19,8 @@ template <typename T_Scalar>
 class Array2D : public Ownership {
 
 	public:
-		Array2D();
+		explicit Array2D();
+		explicit Array2D(uint_t nr, uint_t nc, uint_t nl);
 		~Array2D();
 
 		// no copy
@@ -81,7 +82,6 @@ class Array2D : public Ownership {
 		virtual std::string toString(uint_t nsd = 3) const;
 		
 	protected:
-		void creator(uint_t nr, uint_t nc, uint_t nl);
 		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl, bool bind);
 
 		void copyTo(Array2D<T_Scalar>&) const;

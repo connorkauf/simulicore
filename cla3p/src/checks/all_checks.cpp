@@ -19,7 +19,18 @@ void square_check(uint_t m, uint_t n)
 	}
 }
 /*-------------------------------------------------*/
-void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void *a, uint_t lda)
+void property_compatibility_check(const Property& prop, uint_t m, uint_t n)
+{
+	if(!prop.isValid()) {
+		throw NoConsistency(msg::invalid_property());
+	}
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+}
+/*-------------------------------------------------*/
+void dns_consistency_check(uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	if(!m || !n) {
 		throw NoConsistency(msg::invalid_dimensions());
@@ -32,14 +43,12 @@ void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void 
 	if(lda < m) {
 		throw NoConsistency(msg::invalid_leading_dimension());
 	}
-
-	if(!prop.isValid()) {
-		throw NoConsistency(msg::invalid_property());
-	}
-
-	if(prop.isSquare()) {
-		square_check(m, n);
-	}
+}
+/*-------------------------------------------------*/
+void dns_consistency_check(const Property& prop, uint_t m, uint_t n, const void *a, uint_t lda)
+{
+	dns_consistency_check(m, n, a, lda);
+	property_compatibility_check(prop, m, n);
 }
 /*-------------------------------------------------*/
 #if 0
