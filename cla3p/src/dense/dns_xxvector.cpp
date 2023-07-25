@@ -27,7 +27,7 @@ XxVectorTmpl::XxVector()
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector(uint_t n)
-	: Array2D<T_Scalar>(n,1,n)
+	: XxObject<T_Scalar,T_RScalar,T_ReturnType>(n, 1, n, defaultProperty())
 {
 }
 /*-------------------------------------------------*/
@@ -89,69 +89,6 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::copy() const
-{
-	T_ReturnType ret;
-	Array2D<T_Scalar>::copyTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::rcopy()
-{
-	T_ReturnType ret;
-	Array2D<T_Scalar>::copyToShallow(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::rcopy() const
-{
-	T_ReturnType tmp;
-	const_cast<XxVectorTmpl&>(*this).copyToShallow(tmp);
-	Guard<T_ReturnType> ret = tmp;
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::move()
-{
-	T_ReturnType ret;
-	Array2D<T_Scalar>::moveTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::scale(T_Scalar val)
-{
-	bulk::dns::scale(uplo_t::F, 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize(), val);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_RScalar XxVectorTmpl::normOne() const
-{ 
-	return bulk::dns::norm_one(prop_t::GENERAL, uplo_t::F, 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize());
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_RScalar XxVectorTmpl::normInf() const
-{ 
-	return bulk::dns::norm_inf(prop_t::GENERAL, uplo_t::F, 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize());
-}
-/*-------------------------------------------------*/
-XxVectorTlst
 T_RScalar XxVectorTmpl::normEuc() const
 { 
 	return bulk::dns::norm_euc(
@@ -163,14 +100,14 @@ XxVectorTlst
 T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
 {
 	T_ReturnType ret;
-	Array2D<T_Scalar>::permuteToLeft(ret, P);
+	Array2D<T_Scalar>::gePermuteToLeft(ret, P);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 void XxVectorTmpl::ipermute(const PiMatrix& P) 
 { 
-	Array2D<T_Scalar>::permuteIpLeft(P);
+	Array2D<T_Scalar>::gePermuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -236,7 +173,7 @@ XxVectorTlst
 T_ReturnType XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
 {
 	T_ReturnType ret;
-	ret.wrapper(n, 1, vals, n, bind);
+	ret.wrapper(n, 1, n, vals, bind, defaultProperty());
 	return ret;
 }
 /*-------------------------------------------------*/

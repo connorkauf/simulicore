@@ -23,10 +23,10 @@ Array2D<T_Scalar>::Array2D()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-Array2D<T_Scalar>::Array2D(uint_t nr, uint_t nc, uint_t nl)
+Array2D<T_Scalar>::Array2D(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
 {
 	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
-	wrapper(nr, nc, vals, nl, true);
+	wrapper(nr, nc, nl, vals, true, pr);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -55,6 +55,7 @@ void Array2D<T_Scalar>::defaults()
 	setCsize(0);
 	setLsize(0);
 	setValues(nullptr);
+	setProperty(noProperty());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar> 
@@ -79,6 +80,12 @@ template <typename T_Scalar>
 void Array2D<T_Scalar>::setValues(T_Scalar* vals) 
 { 
 	m_values = vals; 
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar> 
+void Array2D<T_Scalar>::setProperty(const Property& pr) 
+{ 
+	m_property = pr; 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar> 
@@ -111,10 +118,16 @@ const T_Scalar* Array2D<T_Scalar>::values() const
 	return m_values; 
 }
 /*-------------------------------------------------*/
+template <typename T_Scalar> 
+const Property& Array2D<T_Scalar>::property() const
+{ 
+	return m_property; 
+}
+/*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl, bool bind)
+void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr)
 {
-	dns_consistency_check(nr, nc, vals, nl);
+	dns_consistency_check(pr, nr, nc, vals, nl);
 
 	clear();
 
@@ -122,6 +135,7 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t nl,
 	setCsize(nc);
 	setLsize(nl);
 	setValues(vals);
+	setProperty(pr);
 
 	setOwner(bind);
 }
@@ -147,19 +161,19 @@ bool Array2D<T_Scalar>::empty() const
 template <typename T_Scalar>
 void Array2D<T_Scalar>::fill(T_Scalar val)
 {
-	bulk::dns::fill(uplo_t::F, rsize(), csize(), values(), lsize(), val);
+	bulk::dns::fill(property().uplo(), rsize(), csize(), values(), lsize(), val);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void Array2D<T_Scalar>::print(uint_t nsd) const
 {
-	bulk::dns::print(uplo_t::F, rsize(), csize(), values(), lsize(), nsd);
+	bulk::dns::print(property().uplo(), rsize(), csize(), values(), lsize(), nsd);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 std::string Array2D<T_Scalar>::toString(uint_t nsd) const
 {
-	return bulk::dns::print_to_string(uplo_t::F, rsize(), csize(), values(), lsize(), nsd);
+	return bulk::dns::print_to_string(property().uplo(), rsize(), csize(), values(), lsize(), nsd);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -168,7 +182,7 @@ void Array2D<T_Scalar>::copyTo(Array2D<T_Scalar>& trg) const
 	if(this == &trg) return; // do not apply on self
 
 	if(!empty()) {
-		trg = Array2D<T_Scalar>(rsize(), csize(), lsize());
+		trg = Array2D<T_Scalar>(rsize(), csize(), lsize(), property());
 		copyToAllocated(trg);
 	} else {
 		trg.clear();
@@ -180,10 +194,12 @@ void Array2D<T_Scalar>::copyToAllocated(Array2D<T_Scalar>& trg) const
 {
 	if(this == &trg) return; // do not apply on self
 
-	if(rsize() == trg.rsize() && csize() == trg.csize()) {
-		bulk::dns::copy(uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize());
+	bool areSame = (rsize() == trg.rsize() && csize() == trg.csize() && property().uplo() == trg.property().uplo());
+
+	if(areSame) {
+		bulk::dns::copy(property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize());
 	} else {
-		throw NoConsistency("Dimension mismatch when copying");
+		throw NoConsistency("Dimension and/or property mismatch when copying");
 	}
 }
 /*-------------------------------------------------*/
@@ -197,6 +213,7 @@ void Array2D<T_Scalar>::copyToShallow(Array2D<T_Scalar>& trg)
 	trg.setCsize(csize());
 	trg.setLsize(lsize());
 	trg.setValues(values());
+	trg.setProperty(property());
 
 	trg.unbind();
 }
@@ -223,53 +240,73 @@ const T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteToLeftRight(Array2D<T_Scalar>& trg, const PiMatrix& P, const PiMatrix& Q) const
+void Array2D<T_Scalar>::gePermuteToLeftRight(Array2D<T_Scalar>& trg, const PiMatrix& P, const PiMatrix& Q) const
 {
-	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), P.size(), Q.size());
+	perm_ge_op_consistency_check(property().type(), rsize(), csize(), P.size(), Q.size());
 
-	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
-	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), Q.values());
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize(), property());
+	bulk::dns::permute(property().type(), property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), Q.values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteToLeft(Array2D<T_Scalar>& trg, const PiMatrix& P) const
+void Array2D<T_Scalar>::gePermuteToLeft(Array2D<T_Scalar>& trg, const PiMatrix& P) const
 {
-	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), P.size(), csize());
+	perm_ge_op_consistency_check(property().type(), rsize(), csize(), P.size(), csize());
 
-	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
-	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), nullptr);
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize(), property());
+	bulk::dns::permute(property().type(), property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), nullptr);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteToRight(Array2D<T_Scalar>& trg, const PiMatrix& Q) const
+void Array2D<T_Scalar>::gePermuteToRight(Array2D<T_Scalar>& trg, const PiMatrix& Q) const
 {
-	perm_ge_op_consistency_check(prop_t::GENERAL, rsize(), csize(), rsize(), Q.size());
+	perm_ge_op_consistency_check(property().type(), rsize(), csize(), rsize(), Q.size());
 
-	trg = Array2D<T_Scalar>(rsize(), csize(), rsize());
-	bulk::dns::permute(prop_t::GENERAL, uplo_t::F, rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), nullptr, Q.values());
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize(), property());
+	bulk::dns::permute(property().type(), property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), nullptr, Q.values());
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteIpLeftRight(const PiMatrix& P, const PiMatrix& Q)
+void Array2D<T_Scalar>::xxPermuteToMirror(Array2D<T_Scalar>& trg, const PiMatrix& P) const
+{
+	perm_op_consistency_check(rsize(), csize(), P.size(), P.size());
+
+	PiMatrix iP;
+	if(property().isGeneral()) iP = P.inverse();
+
+	trg = Array2D<T_Scalar>(rsize(), csize(), rsize(), property());
+	bulk::dns::permute(property().type(), property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize(), P.values(), iP.values());
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void Array2D<T_Scalar>::gePermuteIpLeftRight(const PiMatrix& P, const PiMatrix& Q)
 {
 	Array2D<T_Scalar> tmp;
-	permuteToLeftRight(tmp, P, Q);
+	gePermuteToLeftRight(tmp, P, Q);
 	tmp.copyToAllocated(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteIpLeft(const PiMatrix& P)
+void Array2D<T_Scalar>::gePermuteIpLeft(const PiMatrix& P)
 {
 	Array2D<T_Scalar> tmp;
-	permuteToLeft(tmp, P);
+	gePermuteToLeft(tmp, P);
 	tmp.copyToAllocated(*this);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::permuteIpRight(const PiMatrix& Q)
+void Array2D<T_Scalar>::gePermuteIpRight(const PiMatrix& Q)
 {
 	Array2D<T_Scalar> tmp;
-	permuteToRight(tmp, Q);
+	gePermuteToRight(tmp, Q);
+	tmp.copyToAllocated(*this);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void Array2D<T_Scalar>::xxPermuteIpMirror(const PiMatrix& P)
+{
+	Array2D<T_Scalar> tmp;
+	xxPermuteToMirror(tmp, P);
 	tmp.copyToAllocated(*this);
 }
 /*-------------------------------------------------*/

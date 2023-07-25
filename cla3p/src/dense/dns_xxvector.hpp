@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../generic/array2d.hpp"
+#include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"
 
@@ -17,7 +17,7 @@ namespace dns {
  * @brief A dense vector class.
  */
 template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-class XxVector : public Array2D<T_Scalar> {
+class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 
 	public:
 
@@ -118,48 +118,6 @@ class XxVector : public Array2D<T_Scalar> {
 		 * @param[in] msg Set a header identifier.
 		 */
 		std::string info(const std::string& msg = "") const;
-
-		/**
-		 * @brief Copies a vector.
-		 * @return A deep copy of the vector.
-		 */
-		T_ReturnType copy() const;
-
-		/**
-		 * @brief Clones a vector.
-		 * @return A shallow copy of the vector, original vector is unchanged.
-		 */
-		T_ReturnType rcopy();
-
-		/**
-		 * @brief Clones a vector.
-		 * @return A guard of the vector.
-		 */
-		Guard<T_ReturnType> rcopy() const;
-
-		/**
-		 * @brief Moves a vector.
-		 * @return A shallow copy of the vector, original vector is destroyed.
-		 */
-		T_ReturnType move();
-
-		/**
-		 * @brief Scales the vector by coeff.
-		 * @param[in] val The scaling coefficient.
-		 */
-		void scale(T_Scalar val);
-
-		/**
-		 * @brief Vector 1-norm.
-		 * @return The 1-norm of the vector.
-		 */
-		T_RScalar normOne() const;
-
-		/**
-		 * @brief Vector infinite norm.
-		 * @return The infinite norm of the vector.
-		 */
-		T_RScalar normInf() const;
 
 		/**
 		 * @brief Vector Euclidian norm.
@@ -287,16 +245,5 @@ class XxVector : public Array2D<T_Scalar> {
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-
-/**
- * @ingroup dense_vectors
- * @brief Writes to os the contents of vec.
- */
-template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxVector<T_Scalar,T_RScalar,T_ReturnType>& vec)
-{
-  os << vec.toString();
-  return os;
-}
 
 #endif // CLA3P_DNS_XXVECTOR_HPP_
