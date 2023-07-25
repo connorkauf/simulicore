@@ -61,7 +61,7 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Constructs a permutation matrix with the contents of other, other is destroyed.
 		 */
-		PxMatrix(PxMatrix<T_Scalar>&& other);
+		PxMatrix(PxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @brief Destroys the permutation matrix.
@@ -80,7 +80,7 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		PxMatrix<T_Scalar>& operator=(PxMatrix<T_Scalar>&& other);
+		PxMatrix<T_Scalar>& operator=(PxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @brief Permutation matrix entry operator.

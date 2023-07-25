@@ -24,60 +24,17 @@ namespace dns {
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix()
 {
-	defaults();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
-	: Array2D<T_Scalar>(nr, nc, nr)
+	: XxObject<T_Scalar,T_RScalar,T_ReturnType>(nr, nc, nr, pr)
 {
-	wrapperExtras(pr);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::~XxMatrix()
 {
-	clear();
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-XxMatrixTmpl::XxMatrix(XxMatrixTmpl&& other)
-	: Array2D<T_Scalar>(std::move(other))
-{
-	other.clear();
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-XxMatrixTmpl& XxMatrixTmpl::operator=(XxMatrixTmpl&& other)
-{
-	Array2D<T_Scalar>::operator=(std::move(other));
-	other.clear();
-	return *this;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::defaults()
-{
-	setProp(noProperty());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::setProp(const Property& pr)
-{
-	m_prop = pr;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::clear()
-{
-	Array2D<T_Scalar>::clear();
-	defaults();
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::fill(T_Scalar val)
-{
-	bulk::dns::fill(prop().uplo(), nrows(), ncols(), Array2D<T_Scalar>::values(), ld(), val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -103,7 +60,7 @@ const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 XxMatrixTlst
 void XxMatrixTmpl::operator=(T_Scalar val)
 {
-	fill(val);
+	Array2D<T_Scalar>::fill(val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -127,21 +84,7 @@ uint_t XxMatrixTmpl::ld() const
 XxMatrixTlst
 const Property& XxMatrixTmpl::prop() const
 {
-	return m_prop;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::wrapperExtras(const Property& pr)
-{
-	property_compatibility_check(pr, nrows(), ncols());
-	setProp(pr);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::wrapper(const Property& pr, uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind)
-{
-	Array2D<T_Scalar>::wrapper(nr, nc, vals, ldv, bind);
-	wrapperExtras(pr);
+	return Array2D<T_Scalar>::property();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -165,101 +108,6 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 	ss << bottom << "\n";
 
 	return ss.str();
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::print(uint_t nsd) const
-{
-	bulk::dns::print(
-			prop().uplo(), 
-			nrows(), 
-			ncols(), 
-			Array2D<T_Scalar>::values(), 
-			ld(), 
-			nsd);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-std::string XxMatrixTmpl::toString(uint_t nsd) const
-{
-	return bulk::dns::print_to_string(
-			prop().uplo(), 
-			nrows(), 
-			ncols(), 
-			Array2D<T_Scalar>::values(), 
-			ld(), 
-			nsd);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_ReturnType XxMatrixTmpl::copy() const
-{
-	T_ReturnType ret;
-	ret.setProp(prop());
-	Array2D<T_Scalar>::copyTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_ReturnType XxMatrixTmpl::rcopy()
-{
-	T_ReturnType ret;
-	ret.setProp(prop());
-	Array2D<T_Scalar>::copyToShallow(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-Guard<T_ReturnType> XxMatrixTmpl::rcopy() const
-{
-	T_ReturnType tmp;
-	tmp.setProp(prop());
-	const_cast<XxMatrixTmpl&>(*this).copyToShallow(tmp);
-	Guard<T_ReturnType> ret = tmp;
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_ReturnType XxMatrixTmpl::move()
-{
-	T_ReturnType ret;
-	ret.setProp(prop());
-	Array2D<T_Scalar>::moveTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::scale(T_Scalar val)
-{
-	bulk::dns::scale(prop().uplo(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			Array2D<T_Scalar>::values(), 
-			Array2D<T_Scalar>::lsize(), val);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_RScalar XxMatrixTmpl::normOne() const
-{ 
-	return bulk::dns::norm_one(
-			prop().type(), 
-			prop().uplo(), 
-			nrows(), 
-			ncols(),
-			Array2D<T_Scalar>::values(), 
-			ld());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_RScalar XxMatrixTmpl::normInf() const
-{ 
-	return bulk::dns::norm_inf(
-			prop().type(), 
-			prop().uplo(), 
-			nrows(), 
-			ncols(),
-			Array2D<T_Scalar>::values(), 
-			ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -365,7 +213,7 @@ XxMatrixTlst
 T_ReturnType XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr)
 {
 	T_ReturnType ret;
-	ret.wrapper(pr, nr, nc, vals, ldv, bind);
+	ret.wrapper(nr, nc, ldv, vals, bind, pr);
 	return ret;
 }
 /*-------------------------------------------------*/

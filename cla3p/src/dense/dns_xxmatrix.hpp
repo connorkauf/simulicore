@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../generic/array2d.hpp"
+#include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"
 
@@ -17,7 +17,7 @@ namespace dns {
  * @brief A dense matrix class.
  */
 template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-class XxMatrix : public Array2D<T_Scalar> {
+class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 
 	public:
 
@@ -53,7 +53,7 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Constructs a matrix with the contents of other, other is destroyed.
 		 */
-		XxMatrix(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other);
+		XxMatrix(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Destroys the matrix.
@@ -72,7 +72,7 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other);
+		XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Matrix entry operator.
@@ -135,81 +135,10 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Clears the matrix.
-		 *
-		 * Deallocates owned data and resets all members.
-		 */
-		void clear();
-
-		/**
-		 * @brief Fills the matrix with a value.
-		 *
-		 * Sets all entries of the matrix to a single value.
-		 *
-		 * @param[in] val The value to be set.
-		 */
-		void fill(T_Scalar val);
-
-		/**
 		 * @brief Prints matrix information.
 		 * @param[in] msg Set a header identifier.
 		 */
 		std::string info(const std::string& msg = "") const;
-
-		/**
-		 * @brief Prints the contents of the matrix.
-		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
-		 */
-		void print(uint_t nsd = 3) const;
-
-		/**
-		 * @brief Prints the contents of the matrix to a string.
-		 * @param[in] nsd The number of significant digits (for real/complex types only, otherwise ignored).
-		 * @return The string containing the formatted numerical values of the object.
-		 */
-		std::string toString(uint_t nsd = 3) const;
-
-		/**
-		 * @brief Copies a matrix.
-		 * @return A deep copy of the matrix.
-		 */
-		T_ReturnType copy() const;
-
-		/**
-		 * @brief Clones a matrix.
-		 * @return A shallow copy of the matrix, original matrix is unchanged.
-		 */
-		T_ReturnType rcopy();
-
-		/**
-		 * @brief Clones a matrix.
-		 * @return A guard of the matrix.
-		 */
-		Guard<T_ReturnType> rcopy() const;
-
-		/**
-		 * @brief Moves a matrix.
-		 * @return A shallow copy of the matrix, original matrix is destroyed.
-		 */
-		T_ReturnType move();
-
-		/**
-		 * @brief Scales the matrix by coeff.
-		 * @param[in] val The scaling coefficient.
-		 */
-		void scale(T_Scalar val);
-
-		/**
-		 * @brief Matrix 1-norm.
-		 * @return The 1-norm of the matrix.
-		 */
-		T_RScalar normOne() const;
-
-		/**
-		 * @brief Matrix infinite norm.
-		 * @return The infinite norm of the matrix.
-		 */
-		T_RScalar normInf() const;
 
 		/**
 		 * @brief Matrix infinite norm.
@@ -344,23 +273,12 @@ class XxMatrix : public Array2D<T_Scalar> {
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] vals The array containing the matrix values in column-major ordering.
 		 * @param[in] ldv The leading dimension of the vals array.
-		 * @param[in] bind Binds the data to the matrix, the matrix will deallocate vals on destroy using i_free().
 		 * @param[in] pr The matrix property.
 		 * @return The newly created guard.
 		 */
 		static Guard<T_ReturnType> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = defaultProperty());
 
 		/** @} */
-	
-	private:
-		Property m_prop;
-
-		void defaults();
-
-		void setProp(const Property&);
-
-		void wrapper(const Property& pr, uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind);
-		void wrapperExtras(const Property& pr);
 
 };
 

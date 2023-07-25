@@ -21,21 +21,8 @@ PxMatrix<T_Scalar>::PxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 PxMatrix<T_Scalar>::PxMatrix(uint_t n)
-	: Array2D<T_Scalar>(n, 1, n)
+	: Array2D<T_Scalar>(n, 1, n, defaultProperty())
 {
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-PxMatrix<T_Scalar>::PxMatrix(PxMatrix<T_Scalar>&& other)
-	: Array2D<T_Scalar>(std::move(other))
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-PxMatrix<T_Scalar>& PxMatrix<T_Scalar>::operator=(PxMatrix<T_Scalar>&& other)
-{
-	Array2D<T_Scalar>::operator=(std::move(other));
-	return *this;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -136,14 +123,14 @@ template <typename T_Scalar>
 PxMatrix<T_Scalar> PxMatrix<T_Scalar>::permute(const PxMatrix<T_Scalar>& P) const
 {
 	PxMatrix<T_Scalar> ret;
-	Array2D<T_Scalar>::permuteToLeft(ret, P);
+	Array2D<T_Scalar>::gePermuteToLeft(ret, P);
 	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void PxMatrix<T_Scalar>::ipermute(const PxMatrix<T_Scalar>& P)
 {
-	Array2D<T_Scalar>::permuteIpLeft(P);
+	Array2D<T_Scalar>::gePermuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
