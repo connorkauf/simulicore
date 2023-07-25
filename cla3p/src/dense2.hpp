@@ -28,7 +28,7 @@ using RfVector2 = RxVector<real4_t>;
 using CdVector2 = CxVector<complex_t,real_t>;
 
 /**
- * @ingroup dense_vector
+ * @ingroup dense_vectors
  * @brief Single precision complex vector.
  */
 using CfVector2 = CxVector<complex8_t,real4_t>;
