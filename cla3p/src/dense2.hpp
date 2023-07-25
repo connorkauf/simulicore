@@ -28,8 +28,14 @@ using RfVector2 = RxVector<real4_t>;
 using CdVector2 = CxVector<complex_t,real_t>;
 
 /**
- * @ingroup dense_vectors
- * @brief Double precision real vector.
+ * @ingroup dense_vector
+ * @brief Single precision complex vector.
+ */
+using CfVector2 = CxVector<complex8_t,real4_t>;
+
+/**
+ * @ingroup dense_matrices
+ * @brief Double precision real matrix.
  */
 using RdMatrix2 = RxMatrix<real_t>;
 
@@ -50,12 +56,6 @@ using CdMatrix2 = CxMatrix<complex_t,real_t>;
  * @brief Single precision complex matrix.
  */
 using CfMatrix2 = CxMatrix<complex8_t,real4_t>;
-
-/**
- * @ingroup dense_matrices
- * @brief Single precision complex matrix.
- */
-using CfVector2 = CxVector<complex8_t,real4_t>;
 
 } // namespace dns
 } // namespace cla3p
