@@ -60,31 +60,31 @@ const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 XxMatrixTlst
 void XxMatrixTmpl::operator=(T_Scalar val)
 {
-	Array2D<T_Scalar>::fill(val);
+	this->fill(val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 uint_t XxMatrixTmpl::nrows() const
 {
-	return Array2D<T_Scalar>::rsize();
+	return this->rsize();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 uint_t XxMatrixTmpl::ncols() const
 {
-	return Array2D<T_Scalar>::csize();
+	return this->csize();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 uint_t XxMatrixTmpl::ld() const
 {
-	return Array2D<T_Scalar>::lsize();
+	return this->lsize();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 const Property& XxMatrixTmpl::prop() const
 {
-	return Array2D<T_Scalar>::property();
+	return this->property();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -98,12 +98,12 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Number of rows....... " << nrows()  << "\n";
-	ss << "  Number of columns.... " << ncols()  << "\n";
-	ss << "  Leading dimension.... " << ld()  << "\n";
-	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
-	ss << "  Property............. " << prop()  << "\n";
-	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner ()) << "\n";
+	ss << "  Number of rows....... " << nrows() << "\n";
+	ss << "  Number of columns.... " << ncols() << "\n";
+	ss << "  Leading dimension.... " << ld() << "\n";
+	ss << "  Values............... " << this->values() << "\n";
+	ss << "  Property............. " << prop() << "\n";
+	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";
 
 	ss << bottom << "\n";
 
@@ -118,7 +118,7 @@ T_RScalar XxMatrixTmpl::normMax() const
 			prop().uplo(), 
 			nrows(), 
 			ncols(),
-			Array2D<T_Scalar>::values(), 
+			this->values(), 
 			ld());
 }
 /*-------------------------------------------------*/
@@ -130,25 +130,67 @@ T_RScalar XxMatrixTmpl::normFro() const
 			prop().uplo(), 
 			nrows(), 
 			ncols(),
-			Array2D<T_Scalar>::values(), 
+			this->values(), 
 			ld());
 }
 /*-------------------------------------------------*/
-#if 0
-XxVectorTlst
-T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
 {
 	T_ReturnType ret;
-	Array2D<T_Scalar>::permuteToLeft(ret, P);
+	this->gePermuteToLeftRight(ret, P, Q);
 	return ret;
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::ipermute(const PiMatrix& P) 
-{ 
-	Array2D<T_Scalar>::permuteIpLeft(P);
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
+{
+	T_ReturnType ret;
+	this->gePermuteToLeft(ret, P);
+	return ret;
 }
 /*-------------------------------------------------*/
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
+{
+	T_ReturnType ret;
+	this->gePermuteToRight(ret, Q);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
+{
+	T_ReturnType ret;
+	this->xxPermuteToMirror(ret, P);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::ipermuteLeftRight(const PiMatrix& P, const PiMatrix& Q) 
+{ 
+	this->gePermuteIpLeftRight(P, Q);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::ipermuteLeft(const PiMatrix& P) 
+{ 
+	this->gePermuteIpLeft(P);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::ipermuteRight(const PiMatrix& Q) 
+{ 
+	this->gePermuteIpRight(Q);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::ipermuteMirror(const PiMatrix& P) 
+{ 
+	this->xxPermuteIpMirror(P);
+}
+/*-------------------------------------------------*/
+#if 0
 XxVectorTlst
 T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 {
@@ -160,11 +202,11 @@ T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 {
 	block_op_consistency_check(
 			defaultProperty(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
+			this->rsize(), 
+			this->csize(), 
 			ibgn, 0, ni, 1);
 
-	T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
+	T_Scalar *p_vi = bulk::dns::ptrmv(this->lsize(),this->values(),ibgn,0);
 
 	T_ReturnType ret = wrap(ni, p_vi, false);
 	return ret;
@@ -175,11 +217,11 @@ Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
 	block_op_consistency_check(
 			defaultProperty(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
+			this->rsize(), 
+			this->csize(), 
 			ibgn, 0, ni, 1);
 
-	const T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
+	const T_Scalar *p_vi = bulk::dns::ptrmv(this->lsize(),this->values(),ibgn,0);
 	Guard<T_ReturnType> ret = wrap(ni, p_vi);
 	return ret;
 }

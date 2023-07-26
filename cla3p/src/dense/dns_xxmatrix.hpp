@@ -152,6 +152,84 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 */
 		T_RScalar normFro() const;
 
+		/**
+		 * @brief Permutes a general matrix.
+		 *
+		 * Creates a permuted copy @f$ (PAQ) @f$ of the matrix @f$ A @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 * @param[in] Q The right side permutation matrix.
+		 * @return The permuted copy of the matrix.
+		 */
+		T_ReturnType permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const;
+
+		/**
+		 * @brief Permutes the rows of a general matrix.
+		 *
+		 * Creates a permuted copy @f$ (PA) @f$ of the matrix @f$ A @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 * @return The permuted copy of the matrix.
+		 */
+		T_ReturnType permuteLeft(const PiMatrix& P) const;
+
+		/**
+		 * @brief Permutes the columns of a general matrix.
+		 *
+		 * Creates a permuted copy @f$ (AQ) @f$ of the matrix @f$ A @f$.
+		 *
+		 * @param[in] Q The right side permutation matrix.
+		 * @return The permuted copy of the matrix.
+		 */
+		T_ReturnType permuteRight(const PiMatrix& Q) const;
+
+		/**
+		 * @brief Permutes a matrix symmetrically.
+		 *
+		 * Creates a permuted copy @f$ (PAP^T) @f$ of the matrix @f$ A @f$.
+		 *
+		 * @param[in] P The left and right side permutation matrix.
+		 * @return The permuted copy of the matrix.
+		 */
+		T_ReturnType permuteMirror(const PiMatrix& P) const;
+
+		/**
+		 * @brief Permutes a general matrix in-place.
+		 *
+		 * Replaces @f$ A @f$ with @f$ PAQ @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 * @param[in] Q The right side permutation matrix.
+		 */
+		void ipermuteLeftRight(const PiMatrix& P, const PiMatrix& Q);
+
+		/**
+		 * @brief Permutes the rows of a general matrix in-place.
+		 *
+		 * Replaces @f$ A @f$ with @f$ PA @f$.
+		 *
+		 * @param[in] P The left side permutation matrix.
+		 */
+		void ipermuteLeft(const PiMatrix& P);
+
+		/**
+		 * @brief Permutes the columns of a general matrix in-place.
+		 *
+		 * Replaces @f$ A @f$ with @f$ AQ @f$.
+		 *
+		 * @param[in] Q The right side permutation matrix.
+		 */
+		void ipermuteRight(const PiMatrix& Q);
+
+		/**
+		 * @brief Permutes a matrix symmetrically in-place.
+		 *
+		 * Replaces @f$ A @f$ with @f$ PAP^T @f$.
+		 *
+		 * @param[in] P The left and right side permutation matrix.
+		 */
+		void ipermuteMirror(const PiMatrix& P);
+
 #if 0
 
 		/**
