@@ -230,71 +230,55 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 */
 		void ipermuteMirror(const PiMatrix& P);
 
-#if 0
+		/**
+		 * @brief Gets a submatrix copy.
+		 *
+		 * Gets a copy of a (ni x nj) block of the matrix, starting at (ibgn, jbgn).
+		 *
+		 * @param[in] ibgn The matrix row that the requested part begins.
+		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @param[in] nj The number of columns of the requested block.
+		 * @return A copy of a portion of the matrix.
+		 */
+		T_ReturnType block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
-		 * @brief Permutes the entries of a vector
+		 * @brief Gets a submatrix reference.
 		 *
-		 * Creates a permuted copy @f$ (PX) @f$ of the vector @f$ X @f$.
+		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
 		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of the vector.
+		 * @param[in] ibgn The matrix row that the requested part begins.
+		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @param[in] nj The number of columns of the requested block.
+		 * @return A reference to a portion of the matrix.
 		 */
-		T_ReturnType permute(const PiMatrix& P) const;
+		T_ReturnType rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
-		 * @brief Permutes the entries of a vector in-place.
+		 * @brief Gets a submatrix reference.
 		 *
-		 * Replaces @f$ X @f$ with @f$ PX @f$.
+		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
 		 *
-		 * @param[in] P The left side permutation matrix.
+		 * @param[in] ibgn The matrix row that the requested part begins.
+		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ni The number of rows of the requested block.
+		 * @param[in] nj The number of columns of the requested block.
+		 * @return A guarded reference to a portion of the matrix.
 		 */
-		void ipermute(const PiMatrix& P);
+		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
-		 * @brief Gets a subvector copy.
+		 * @brief Sets a submatrix.
 		 *
-		 * Gets a copy of a ni-sized block of the vector, starting at ibgn.
+		 * Copies the contents of a block in the matrix, starting at (ibgn, jbgn)
 		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A copy of a portion of the vector.
+		 * @param[in] ibgn The matrix row that src will be placed.
+		 * @param[in] jbgn The matrix column that src will be placed.
+		 * @param[in] src The block to be placed.
 		 */
-		T_ReturnType block(uint_t ibgn, uint_t ni) const;
-
-		/**
-		 * @brief Gets a subvector reference.
-		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A reference to a portion of the vector.
-		 */
-		T_ReturnType rblock(uint_t ibgn, uint_t ni);
-
-		/**
-		 * @brief Gets a subvector reference.
-		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
-		 * @param[in] ni The size of the requested block.
-		 * @return A guarded reference to a portion of the vector.
-		 */
-		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t ni) const;
-
-		/**
-		 * @brief Sets a subvector.
-		 *
-		 * Copies the contents of src in the vector, starting at ibgn.
-		 *
-		 * @param[in] ibgn The vector index that src will be placed.
-		 * @param[in] src The vector to be placed.
-		 */
-		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_RScalar,T_ReturnType>& src);
-
-#endif
+		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& src);
 
 		/** @} */
 
@@ -364,16 +348,5 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-
-/**
- * @ingroup dense_matrices
- * @brief Writes to os the contents of mat.
- */
-template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& mat)
-{
-  os << mat.toString();
-  return os;
-}
 
 #endif // CLA3P_DNS_XXMATRIX_HPP_

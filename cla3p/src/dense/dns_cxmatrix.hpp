@@ -56,7 +56,7 @@ class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		CxMatrix<T_Scalar,T_RScalar>& operator=(CxMatrix<T_Scalar,T_RScalar>&&);
+		CxMatrix<T_Scalar,T_RScalar>& operator=(CxMatrix<T_Scalar,T_RScalar>&& other);
 
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
