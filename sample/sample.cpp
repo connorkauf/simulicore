@@ -1,26 +1,25 @@
 #include <iostream>
 
 #include "cla3p/src/dense.hpp"
+#include "cla3p/src/operations.hpp"
 
 /*-------------------------------------------------*/
 
 int main()
 {
 
-	cla3p::dns::RdVector V1 = cla3p::dns::RdVector::random(3);
+	cla3p::dns::RdVector V1(5);
+	cla3p::dns::RdVector V2(5);
 	V1 = 1;
-	V1(1) = 2;
+	V2 = 2;
 	std::cout << V1.info("V1") << V1;
-
-	cla3p::dns::RdVector V2 = V1.copy();
 	std::cout << V2.info("V2") << V2;
 
-	cla3p::dns::RdVector V3 = V2.rcopy();
+	cla3p::dns::RdVector V3 = V1 + V2;
 	std::cout << V3.info("V3") << V3;
 
-	cla3p::dns::RdVector V4 = V3.move();
+	V3 += V1;
 	std::cout << V3.info("V3") << V3;
-	std::cout << V4.info("V4") << V4;
 
 	return 0;
 }
