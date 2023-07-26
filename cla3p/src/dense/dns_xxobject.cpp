@@ -102,15 +102,14 @@ T_RScalar XxObjectTmpl::normInf() const
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-void XxObjectTmpl::getBlockCopy(XxObjectTmpl& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+T_ReturnType XxObjectTmpl::getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	XxObjectTmpl tmp;
-	const_cast<XxObjectTmpl&>(*this).getBlockReference(tmp, ibgn, jbgn, ni, nj);
-	tmp.copyTo(trg);
+	Guard<T_ReturnType> tmp = getBlockReference(ibgn, jbgn, ni, nj);
+	return tmp.get().copy();
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-void XxObjectTmpl::getBlockReference(XxObjectTmpl& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+T_ReturnType XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
 	block_op_consistency_check(
 			Array2D<T_Scalar>::property(),
@@ -123,14 +122,23 @@ void XxObjectTmpl::getBlockReference(XxObjectTmpl& trg, uint_t ibgn, uint_t jbgn
 			Array2D<T_Scalar>::values(),
 			ibgn, jbgn);
 	
-	trg.wrapper(ni, nj, Array2D<T_Scalar>::lsize(), p_vij, false, Array2D<T_Scalar>::property());
+	T_ReturnType ret;
+	ret.wrapper(ni, nj, Array2D<T_Scalar>::lsize(), p_vij, false, Array2D<T_Scalar>::property());
+	return ret;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+Guard<T_ReturnType> XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	T_ReturnType tmp = const_cast<XxObjectTmpl&>(*this).getBlockReference(ibgn, jbgn, ni, nj);
+	Guard<T_ReturnType> ret = tmp;
+	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
 void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbgn)
 {
-	XxObjectTmpl tmp;
-	getBlockReference(tmp, ibgn, jbgn, src.rsize(), src.csize());
+	T_ReturnType tmp = getBlockReference(ibgn, jbgn, src.rsize(), src.csize());
 	src.copyToAllocated(tmp);
 }
 /*-------------------------------------------------*/

@@ -79,8 +79,9 @@ class XxObject : public Array2D<T_Scalar> {
 		/** @} */
 
 	protected:
-		void getBlockCopy(XxObject<T_Scalar,T_RScalar,T_ReturnType>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void getBlockReference(XxObject<T_Scalar,T_RScalar,T_ReturnType>&, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		T_ReturnType getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		T_ReturnType getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		Guard<T_ReturnType> getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		void setBlockCopy(const XxObject<T_Scalar,T_RScalar,T_ReturnType>&, uint_t ibgn, uint_t jbgn);
 
 };

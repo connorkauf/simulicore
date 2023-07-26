@@ -118,18 +118,13 @@ T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 XxVectorTlst
 T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 {
-	T_ReturnType ret;
-	this->getBlockReference(ret, ibgn, 0, ni, 1);
-	return ret;
+	return this->getBlockReference(ibgn, 0, ni, 1);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
-	T_ReturnType tmp;
-	const_cast<XxVectorTmpl&>(*this).getBlockReference(tmp, ibgn, 0, ni, 1);
-	Guard<T_ReturnType> ret = tmp;
-	return ret;
+	return this->getBlockReference(ibgn, 0, ni, 1);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
