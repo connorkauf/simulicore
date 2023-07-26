@@ -8,6 +8,7 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -98,6 +99,39 @@ T_RScalar XxObjectTmpl::normInf() const
 			Array2D<T_Scalar>::csize(), 
 			Array2D<T_Scalar>::values(), 
 			Array2D<T_Scalar>::lsize());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::getBlockCopy(XxObjectTmpl& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+{
+	XxObjectTmpl tmp;
+	const_cast<XxObjectTmpl&>(*this).getBlockReference(tmp, ibgn, jbgn, ni, nj);
+	tmp.copyTo(trg);
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::getBlockReference(XxObjectTmpl& trg, uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+{
+	block_op_consistency_check(
+			Array2D<T_Scalar>::property(),
+			Array2D<T_Scalar>::rsize(),
+			Array2D<T_Scalar>::csize(),
+			ibgn, jbgn, ni, nj);
+	
+	T_Scalar *p_vij = bulk::dns::ptrmv(
+			Array2D<T_Scalar>::lsize(),
+			Array2D<T_Scalar>::values(),
+			ibgn, jbgn);
+	
+	trg.wrapper(ni, nj, Array2D<T_Scalar>::lsize(), p_vij, false, Array2D<T_Scalar>::property());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbgn)
+{
+	XxObjectTmpl tmp;
+	getBlockReference(tmp, ibgn, jbgn, src.rsize(), src.csize());
+	src.copyToAllocated(tmp);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

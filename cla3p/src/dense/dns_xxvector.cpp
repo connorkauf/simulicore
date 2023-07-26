@@ -11,7 +11,6 @@
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
-#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -119,37 +118,24 @@ T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 XxVectorTlst
 T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 {
-	block_op_consistency_check(
-			defaultProperty(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			ibgn, 0, ni, 1);
-
-	T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
-
-	T_ReturnType ret = wrap(ni, p_vi, false);
+	T_ReturnType ret;
+	this->getBlockReference(ret, ibgn, 0, ni, 1);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
-	block_op_consistency_check(
-			defaultProperty(), 
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::csize(), 
-			ibgn, 0, ni, 1);
-
-	const T_Scalar *p_vi = bulk::dns::ptrmv(Array2D<T_Scalar>::lsize(),Array2D<T_Scalar>::values(),ibgn,0);
-	Guard<T_ReturnType> ret = wrap(ni, p_vi);
+	T_ReturnType tmp;
+	const_cast<XxVectorTmpl&>(*this).getBlockReference(tmp, ibgn, 0, ni, 1);
+	Guard<T_ReturnType> ret = tmp;
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
 {
-	XxVectorTmpl tmp = rblock(ibgn, src.rsize());
-	src.copyToAllocated(tmp);
+	this->setBlockCopy(src, ibgn, 0);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -164,7 +150,7 @@ T_ReturnType XxVectorTmpl::init(uint_t n)
 XxVectorTlst
 T_ReturnType XxVectorTmpl::random(uint_t n)
 {
-	T_ReturnType ret = init(n);
+	T_ReturnType ret(n);
 	bulk::dns::rand(uplo_t::F, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
 	return ret;
 }
