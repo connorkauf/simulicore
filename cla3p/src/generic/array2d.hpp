@@ -87,6 +87,7 @@ class Array2D : public Ownership {
 		void wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr);
 
 		const Property& property() const;
+		Property& property();
 
 		void copyTo(Array2D<T_Scalar>&) const;
 		void copyToAllocated(Array2D<T_Scalar>&) const;
