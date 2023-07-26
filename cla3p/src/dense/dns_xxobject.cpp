@@ -7,7 +7,10 @@
 
 // cla3p
 #include "../dense.hpp"
+#include "../support/error.hpp"
+#include "../support/error_internal.hpp"
 #include "../bulk/dns.hpp"
+#include "../bulk/dns_math.hpp"
 #include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
@@ -31,6 +34,56 @@ XxObjectTmpl::XxObject(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
 XxObjectTlst
 XxObjectTmpl::~XxObject()
 {
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+T_ReturnType XxObjectTmpl::operator+(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+{
+	T_ReturnType ret;
+	ret.createFromScaledSum(1, *this, 1, other);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+T_ReturnType XxObjectTmpl::operator-(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+{
+	T_ReturnType ret;
+	ret.createFromScaledSum(1, *this, -1, other);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl& XxObjectTmpl::operator+=(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+{
+	updateWithScaledOther(1, other);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl& XxObjectTmpl::operator-=(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+{
+	updateWithScaledOther(-1, other);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl& XxObjectTmpl::operator*=(T_Scalar val)
+{
+	scale(val);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl& XxObjectTmpl::operator/=(T_Scalar val)
+{
+	if(val == T_Scalar(0)) {
+		throw InvalidOp(msg::division_by_zero());
+	}
+
+	T_Scalar one(1);
+	T_Scalar coeff = one / val;
+	scale(coeff);
+	return *this;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
@@ -140,6 +193,159 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 {
 	T_ReturnType tmp = getBlockReference(ibgn, jbgn, src.rsize(), src.csize());
 	src.copyToAllocated(tmp);
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::updateWithScaledOther(T_Scalar alpha, const XxObjectTmpl& other)
+{
+	op_similarity_check(
+			this->property(), 
+			this->rsize(), 
+			this->csize(), 
+			other.property(), 
+			other.rsize(), 
+			other.csize());
+
+	bulk::dns::update(
+			this->property().uplo(), 
+			this->rsize(), 
+			this->csize(), 
+			alpha, other.values(), other.lsize(), 
+			this->values(), 
+			this->lsize());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::createFromScaledSum(
+		T_Scalar alpha, const XxObjectTmpl& otherA,
+		T_Scalar beta, const XxObjectTmpl& otherB)
+{
+	op_similarity_check(
+			otherA.property(), otherA.rsize(), otherA.csize(), 
+			otherB.property(), otherB.rsize(), otherB.csize());
+
+	*this = XxObject(otherA.rsize(), otherA.csize(), otherA.rsize(), otherA.property());
+
+  bulk::dns::add(
+			this->property().uplo(), 
+			this->rsize(), 
+			this->csize(), 
+			alpha, otherA.values(), otherA.lsize(), 
+			beta, otherB.values(), otherB.lsize(), 
+			this->values(), 
+			this->lsize());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
+		const Operation& opA, const XxObjectTmpl& otherA,
+		const Operation& opB, const XxObjectTmpl& otherB)
+{
+	mat_x_mat_mult_check(
+			otherA.property(), otherA.rsize(), otherA.csize(), opA,
+			otherB.property(), otherB.rsize(), otherB.csize(), opB,
+			this->property(), 
+			this->rsize(), 
+			this->csize());
+
+	if(otherA.property().isGeneral() && otherB.property().isGeneral()) {
+
+		uint_t k = (opA.isTranspose() ? otherA.rsize() : otherA.csize());
+
+		bulk::dns::gem_x_gem(
+				this->rsize(), 
+				this->csize(), 
+				k, alpha, 
+				opA.type(), otherA.values(), otherA.lsize(), 
+				opB.type(), otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isSymmetric() && otherB.property().isGeneral()) {
+
+		bulk::dns::sym_x_gem(otherA.property().uplo(), 
+				this->rsize(), 
+				this->csize(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isHermitian() && otherB.property().isGeneral()) {
+
+		bulk::dns::hem_x_gem(
+				otherA.property().uplo(), 
+				this->rsize(), 
+				this->csize(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isGeneral() && otherB.property().isSymmetric()) {
+
+		bulk::dns::gem_x_sym(otherB.property().uplo(), 
+				this->rsize(), 
+				this->csize(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isGeneral() && otherB.property().isHermitian()) {
+
+		bulk::dns::gem_x_hem(otherB.property().uplo(), 
+				this->rsize(), 
+				this->csize(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isTriangular() && otherB.property().isGeneral()) {
+
+		XxObjectTmpl tmp(this->rsize(), this->csize(), this->rsize(), defaultProperty());
+
+		bulk::dns::trm_x_gem(otherA.property().uplo(), opA.type(), 
+				this->rsize(), 
+				this->csize(), 
+				otherB.rsize(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				tmp.values(), tmp.lsize());
+
+		updateWithScaledOther(1, tmp);
+
+	} else if(otherA.property().isGeneral() && otherB.property().isTriangular()) {
+
+		XxObjectTmpl tmp(this->rsize(), this->csize(), this->rsize(), defaultProperty());
+
+		bulk::dns::gem_x_trm(otherB.property().uplo(), opB.type(), 
+				this->rsize(), 
+				this->csize(), 
+				otherA.rsize(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				tmp.values(), tmp.lsize());
+
+		updateWithScaledOther(1, tmp);
+
+	} else {
+
+		throw Exception();
+
+	} // property combos
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

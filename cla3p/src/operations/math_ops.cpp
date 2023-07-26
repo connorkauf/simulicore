@@ -12,10 +12,9 @@ namespace cla3p {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Object>
-//static void dns_update_tmpl(T_Scalar alpha, const T_Object& src, T_Object& trg)
-static void dns_update_tmpl(T_Scalar, const T_Object&, T_Object&)
+static void dns_update_tmpl(T_Scalar alpha, const T_Object& src, T_Object& trg)
 {
-	//trg.updateSelf(alpha, src); // FIXME: implement
+	trg.updateWithScaledOther(alpha, src);
 }
 /*-------------------------------------------------*/
 void update(real_t     alpha, const dns::RdVector& src, dns::RdVector& trg) { dns_update_tmpl(alpha, src, trg); }
@@ -28,11 +27,10 @@ void update(complex_t  alpha, const dns::CdMatrix& src, dns::CdMatrix& trg) { dn
 void update(complex8_t alpha, const dns::CfMatrix& src, dns::CfMatrix& trg) { dns_update_tmpl(alpha, src, trg); }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Object>
-//static T_Object dns_add_tmpl(T_Scalar alpha, const T_Object& srcA, T_Scalar beta, const T_Object& srcB)
-static T_Object dns_add_tmpl(T_Scalar, const T_Object&, T_Scalar, const T_Object&)
+static T_Object dns_add_tmpl(T_Scalar alpha, const T_Object& srcA, T_Scalar beta, const T_Object& srcB)
 {
 	T_Object ret;
-	//ret.createFromSum(alpha, srcA, beta, srcB); // FIXME: implement
+	ret.createFromScaledSum(alpha, srcA, beta, srcB);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -72,10 +70,9 @@ dns::CdVector mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& 
 dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const dns::CfVector& srcX) { return dns_mv_tmpl(alpha, opA, srcA, srcX); }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Matrix>
-//static void dns_update_with_gemm_tmpl(T_Scalar alpha, const Operation& opA, const T_Matrix& srcA, const Operation& opB, const T_Matrix& srcB, T_Matrix& trg)
-static void dns_update_with_gemm_tmpl(T_Scalar, const Operation&, const T_Matrix&, const Operation&, const T_Matrix&, T_Matrix&)
+static void dns_update_with_gemm_tmpl(T_Scalar alpha, const Operation& opA, const T_Matrix& srcA, const Operation& opB, const T_Matrix& srcB, T_Matrix& trg)
 {
-	//trg.updateSelfWithMatMat(alpha, opA, srcA, opB, srcB); // FIXME: implement
+	trg.updateSelfWithScaledMatMat(alpha, opA, srcA, opB, srcB);
 }
 /*-------------------------------------------------*/
 void mult(real_t alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB, dns::RdMatrix& trg)

@@ -13,6 +13,7 @@
 static const cla3p::Operation noOp = cla3p::Operation(cla3p::op_t::N);
 /*-------------------------------------------------*/
 
+#if 0
 void operator+=(cla3p::dns::RdVector& trg, const cla3p::dns::RdVector& src) { cla3p::ops::update(1, src, trg); }
 void operator+=(cla3p::dns::RfVector& trg, const cla3p::dns::RfVector& src) { cla3p::ops::update(1, src, trg); }
 void operator+=(cla3p::dns::CdVector& trg, const cla3p::dns::CdVector& src) { cla3p::ops::update(1, src, trg); }
@@ -58,6 +59,7 @@ cla3p::dns::RdMatrix operator-(const cla3p::dns::RdMatrix& srcA, const cla3p::dn
 cla3p::dns::RfMatrix operator-(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
 cla3p::dns::CdMatrix operator-(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
 cla3p::dns::CfMatrix operator-(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB) { return cla3p::ops::add(1, srcA, -1, srcB); }
+#endif
 
 /*-------------------------------------------------*/
 
@@ -143,7 +145,7 @@ void operator/=(cla3p::dns::RfMatrix& srcX, const cla3p::dns::RfMatrix& srcA) { 
 void operator/=(cla3p::dns::CdMatrix& srcX, const cla3p::dns::CdMatrix& srcA) { default_linear_solution_ip(srcA, srcX); }
 void operator/=(cla3p::dns::CfMatrix& srcX, const cla3p::dns::CfMatrix& srcA) { default_linear_solution_ip(srcA, srcX); }
 
-#endif
+#endif // 0
 
 /*-------------------------------------------------*/
 
