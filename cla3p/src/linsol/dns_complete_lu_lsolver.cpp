@@ -15,33 +15,33 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <typename T>
-LSolverCompleteLU<T>::LSolverCompleteLU()
+template <typename T_Matrix>
+LSolverCompleteLU<T_Matrix>::LSolverCompleteLU()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverCompleteLU<T>::LSolverCompleteLU(uint_t n)
+template <typename T_Matrix>
+LSolverCompleteLU<T_Matrix>::LSolverCompleteLU(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverCompleteLU<T>::~LSolverCompleteLU()
+template <typename T_Matrix>
+LSolverCompleteLU<T_Matrix>::~LSolverCompleteLU()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverCompleteLU<T>::reserve(uint_t n)
+template <typename T_Matrix>
+void LSolverCompleteLU<T_Matrix>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 	this->reserveIpiv(n);
 	this->reserveJpiv(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverCompleteLU<T>::decompose(const T& mat)
+template <typename T_Matrix>
+void LSolverCompleteLU<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
 	lu_decomp_input_check(mat);
@@ -49,8 +49,8 @@ void LSolverCompleteLU<T>::decompose(const T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverCompleteLU<T>::idecompose(T& mat)
+template <typename T_Matrix>
+void LSolverCompleteLU<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
 	lu_decomp_input_check(mat);
@@ -58,8 +58,8 @@ void LSolverCompleteLU<T>::idecompose(T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverCompleteLU<T>::solve(T& rhs) const
+template <typename T_Matrix>
+void LSolverCompleteLU<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
@@ -70,12 +70,12 @@ void LSolverCompleteLU<T>::solve(T& rhs) const
 	if(this->factor().prop().isGeneral()) {
 
 		uint_t nrhs = rhs.ncols();
-		T scale(nrhs, 1);
+		T_Matrix scale(nrhs, 1);
 
 		for(uint_t k = 0; k < rhs.ncols(); k++) {
 
 			auto scale_k = getRe(scale(k,0));
-			T rhs_k = rhs.rblock(0, k, rhs.nrows(), 1); // TODO: replace with column functionality when implemented
+			T_Matrix rhs_k = rhs.rblock(0, k, rhs.nrows(), 1); // TODO: replace with column functionality when implemented
 
 			int_t info = lapack::gesc2(
 					this->factor().ncols(),
@@ -101,10 +101,10 @@ void LSolverCompleteLU<T>::solve(T& rhs) const
 	} // prop
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverCompleteLU<T>::fdecompose()
+template <typename T_Matrix>
+void LSolverCompleteLU<T_Matrix>::fdecompose()
 {
-	this->factor().igeneral();
+	//this->factor().igeneral();
 
 	if(this->factor().prop().isGeneral()) {
 

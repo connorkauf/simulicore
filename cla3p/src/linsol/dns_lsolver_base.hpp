@@ -20,7 +20,7 @@ namespace dns {
  * @nosubgrouping
  * @brief The abstract linear solver base for dense matrices.
  */
-template <typename T>
+template <typename T_Matrix>
 class LSolverBase {
 
 	public:
@@ -46,25 +46,25 @@ class LSolverBase {
 		 * @brief Performs matrix decomposition.
 		 * @param[in] mat The matrix to be decomposed.
 		 */
-		virtual void decompose(const T& mat) = 0;
+		virtual void decompose(const T_Matrix& mat) = 0;
 
 		/**
 		 * @brief Performs in-place matrix decomposition.
 		 * @param[in] mat The matrix to be decomposed, destroyed after the operation.
 		 */
-		virtual void idecompose(T& mat) = 0;
+		virtual void idecompose(T_Matrix& mat) = 0;
 
 		/**
 		 * @brief Performs in-place matrix solution.
 		 * @param[in] rhs The right hand side matrix, overwritten with the solution.
 		 */
-		virtual void solve(T& rhs) const = 0;
+		virtual void solve(T_Matrix& rhs) const = 0;
 
 	protected:
 		int_t& info();
 		const int_t& info() const;
-		T& factor();
-		const T& factor() const;
+		T_Matrix& factor();
+		const T_Matrix& factor() const;
 		std::vector<int_t>& ipiv1();
 		const std::vector<int_t>& ipiv1() const;
 		std::vector<int_t>& jpiv1();
@@ -73,18 +73,18 @@ class LSolverBase {
 		void reserveBuffer(uint_t n);
 		void reserveIpiv(uint_t n);
 		void reserveJpiv(uint_t n);
-		void absorbInput(const T& mat);
+		void absorbInput(const T_Matrix& mat);
 		void clearAll();
 
 	private:
 		int_t m_info;
-		T m_factor;
-		T m_buffer;
+		T_Matrix m_factor;
+		T_Matrix m_buffer;
 		std::vector<int_t> m_ipiv1;
 		std::vector<int_t> m_jpiv1;
 
-		T& buffer();
-		const T& buffer() const;
+		T_Matrix& buffer();
+		const T_Matrix& buffer() const;
 
 		void defaults();
 };

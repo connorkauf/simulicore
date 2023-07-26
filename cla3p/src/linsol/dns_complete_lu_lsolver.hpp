@@ -18,8 +18,8 @@ namespace dns {
  * @nosubgrouping
  * @brief The complete pivoting LU linear solver for dense matrices.
  */
-template <typename T>
-class LSolverCompleteLU : public LSolverBase<T> {
+template <typename T_Matrix>
+class LSolverCompleteLU : public LSolverBase<T_Matrix> {
 
 	public:
 
@@ -54,17 +54,17 @@ class LSolverCompleteLU : public LSolverBase<T> {
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::decompose()
 		 */
-		void decompose(const T& mat) override;
+		void decompose(const T_Matrix& mat) override;
 
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::idecompose()
 		 */
-		void idecompose(T& mat) override;
+		void idecompose(T_Matrix& mat) override;
 
 		/**
 		 * @copydoc cla3p::dns::LSolverBase::solve()
 		 */
-		void solve(T& rhs) const override;
+		void solve(T_Matrix& rhs) const override;
 
 	private:
 		void fdecompose();

@@ -15,32 +15,32 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLDLt<T>::LSolverLDLt()
+template <typename T_Matrix>
+LSolverLDLt<T_Matrix>::LSolverLDLt()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLDLt<T>::LSolverLDLt(uint_t n)
+template <typename T_Matrix>
+LSolverLDLt<T_Matrix>::LSolverLDLt(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLDLt<T>::~LSolverLDLt()
+template <typename T_Matrix>
+LSolverLDLt<T_Matrix>::~LSolverLDLt()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLDLt<T>::reserve(uint_t n)
+template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 	this->reserveIpiv(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLDLt<T>::decompose(const T& mat)
+template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
 	ldlt_decomp_input_check(mat);
@@ -48,8 +48,8 @@ void LSolverLDLt<T>::decompose(const T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLDLt<T>::idecompose(T& mat)
+template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
 	ldlt_decomp_input_check(mat);
@@ -57,8 +57,8 @@ void LSolverLDLt<T>::idecompose(T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLDLt<T>::solve(T& rhs) const
+template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
@@ -101,8 +101,8 @@ void LSolverLDLt<T>::solve(T& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLDLt<T>::fdecompose()
+template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::fdecompose()
 {
 	if(this->factor().prop().isSymmetric()) {
 

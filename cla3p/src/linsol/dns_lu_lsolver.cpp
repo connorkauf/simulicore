@@ -15,32 +15,32 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLU<T>::LSolverLU()
+template <typename T_Matrix>
+LSolverLU<T_Matrix>::LSolverLU()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLU<T>::LSolverLU(uint_t n)
+template <typename T_Matrix>
+LSolverLU<T_Matrix>::LSolverLU(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLU<T>::~LSolverLU()
+template <typename T_Matrix>
+LSolverLU<T_Matrix>::~LSolverLU()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLU<T>::reserve(uint_t n)
+template <typename T_Matrix>
+void LSolverLU<T_Matrix>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 	this->reserveIpiv(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLU<T>::decompose(const T& mat)
+template <typename T_Matrix>
+void LSolverLU<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
 	lu_decomp_input_check(mat);
@@ -48,8 +48,8 @@ void LSolverLU<T>::decompose(const T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLU<T>::idecompose(T& mat)
+template <typename T_Matrix>
+void LSolverLU<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
 	lu_decomp_input_check(mat);
@@ -57,8 +57,8 @@ void LSolverLU<T>::idecompose(T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLU<T>::solve(T& rhs) const
+template <typename T_Matrix>
+void LSolverLU<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
@@ -88,10 +88,10 @@ void LSolverLU<T>::solve(T& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLU<T>::fdecompose()
+template <typename T_Matrix>
+void LSolverLU<T_Matrix>::fdecompose()
 {
-	this->factor().igeneral();
+	//this->factor().igeneral();
 
 	if(this->factor().prop().isGeneral()) {
 
