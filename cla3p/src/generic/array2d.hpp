@@ -62,7 +62,9 @@ class Array2D : public Ownership {
 		/**
 		 * @brief Fills the object with a value.
 		 *
-		 * Sets all entries of the object to a single value.
+		 * Sets all entries of the object to a single value.@n
+		 * Imaginary part of diagonal is set to zero for Hermitian cases.@n
+		 * Diagonal is set to zero for Skew cases.
 		 *
 		 * @param[in] val The value to be set.
 		 */

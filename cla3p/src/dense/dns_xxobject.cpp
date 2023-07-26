@@ -8,10 +8,6 @@
 // cla3p
 #include "../dense2.hpp"
 #include "../bulk/dns.hpp"
-//#include "../support/error.hpp"
-//#include "../support/error_internal.hpp"
-//#include "../support/utils.hpp"
-//#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
