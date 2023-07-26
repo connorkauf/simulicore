@@ -15,32 +15,32 @@
 namespace cla3p {
 namespace dns { 
 /*-------------------------------------------------*/
-template <typename T>
-LSolverAuto<T>::LSolverAuto()
+template <typename T_Matrix>
+LSolverAuto<T_Matrix>::LSolverAuto()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverAuto<T>::LSolverAuto(uint_t n)
+template <typename T_Matrix>
+LSolverAuto<T_Matrix>::LSolverAuto(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverAuto<T>::~LSolverAuto()
+template <typename T_Matrix>
+LSolverAuto<T_Matrix>::~LSolverAuto()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverAuto<T>::reserve(uint_t n)
+template <typename T_Matrix>
+void LSolverAuto<T_Matrix>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 	this->reserveIpiv(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverAuto<T>::decompose(const T& mat)
+template <typename T_Matrix>
+void LSolverAuto<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
 	default_decomp_input_check(mat);
@@ -48,8 +48,8 @@ void LSolverAuto<T>::decompose(const T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverAuto<T>::idecompose(T& mat)
+template <typename T_Matrix>
+void LSolverAuto<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
 	default_decomp_input_check(mat);
@@ -57,8 +57,8 @@ void LSolverAuto<T>::idecompose(T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverAuto<T>::solve(T& rhs) const
+template <typename T_Matrix>
+void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
@@ -112,8 +112,8 @@ void LSolverAuto<T>::solve(T& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverAuto<T>::fdecompose()
+template <typename T_Matrix>
+void LSolverAuto<T_Matrix>::fdecompose()
 {
 	if(this->factor().prop().isGeneral()) {
 

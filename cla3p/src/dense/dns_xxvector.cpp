@@ -6,7 +6,7 @@
 // 3rd
 
 // cla3p
-#include "../dense2.hpp"
+#include "../dense.hpp"
 #include "../bulk/dns.hpp"
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
@@ -169,10 +169,10 @@ Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 #undef XxVectorTmpl
 #undef XxVectorTlst
 /*-------------------------------------------------*/
-template class XxVector<real_t,real_t,RdVector2>;
-template class XxVector<real4_t,real4_t,RfVector2>;
-template class XxVector<complex_t,real_t,CdVector2>;
-template class XxVector<complex8_t,real4_t,CfVector2>;
+template class XxVector<real_t,real_t,RdVector>;
+template class XxVector<real4_t,real4_t,RfVector>;
+template class XxVector<complex_t,real_t,CdVector>;
+template class XxVector<complex8_t,real4_t,CfVector>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

@@ -6,7 +6,7 @@
 // 3rd
 
 // cla3p
-#include "../dense2.hpp"
+#include "../dense.hpp"
 #include "../bulk/dns.hpp"
 #include "../checks/all_checks.hpp"
 
@@ -147,14 +147,14 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 #undef XxObjectTmpl
 #undef XxObjectTlst
 /*-------------------------------------------------*/
-template class XxObject<real_t,real_t,RdVector2>;
-template class XxObject<real4_t,real4_t,RfVector2>;
-template class XxObject<complex_t,real_t,CdVector2>;
-template class XxObject<complex8_t,real4_t,CfVector2>;
-template class XxObject<real_t,real_t,RdMatrix2>;
-template class XxObject<real4_t,real4_t,RfMatrix2>;
-template class XxObject<complex_t,real_t,CdMatrix2>;
-template class XxObject<complex8_t,real4_t,CfMatrix2>;
+template class XxObject<real_t,real_t,RdVector>;
+template class XxObject<real4_t,real4_t,RfVector>;
+template class XxObject<complex_t,real_t,CdVector>;
+template class XxObject<complex8_t,real4_t,CfVector>;
+template class XxObject<real_t,real_t,RdMatrix>;
+template class XxObject<real4_t,real4_t,RfMatrix>;
+template class XxObject<complex_t,real_t,CdMatrix>;
+template class XxObject<complex8_t,real4_t,CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

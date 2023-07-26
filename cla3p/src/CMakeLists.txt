@@ -8,7 +8,6 @@ set(CLA3P_HPP
 	types.hpp
 	support.hpp
 	dense.hpp
-	dense2.hpp
 	perms.hpp
 	operations.hpp
 	linsol.hpp

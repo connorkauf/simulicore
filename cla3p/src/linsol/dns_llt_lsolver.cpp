@@ -15,31 +15,31 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLLt<T>::LSolverLLt()
+template <typename T_Matrix>
+LSolverLLt<T_Matrix>::LSolverLLt()
 {
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLLt<T>::LSolverLLt(uint_t n)
+template <typename T_Matrix>
+LSolverLLt<T_Matrix>::LSolverLLt(uint_t n)
 {
 	reserve(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-LSolverLLt<T>::~LSolverLLt()
+template <typename T_Matrix>
+LSolverLLt<T_Matrix>::~LSolverLLt()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::reserve(uint_t n)
+template <typename T_Matrix>
+void LSolverLLt<T_Matrix>::reserve(uint_t n)
 {
 	this->reserveBuffer(n);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::decompose(const T& mat)
+template <typename T_Matrix>
+void LSolverLLt<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
 	llt_decomp_input_check(mat);
@@ -47,8 +47,8 @@ void LSolverLLt<T>::decompose(const T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::idecompose(T& mat)
+template <typename T_Matrix>
+void LSolverLLt<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
 	llt_decomp_input_check(mat);
@@ -56,8 +56,8 @@ void LSolverLLt<T>::idecompose(T& mat)
 	fdecompose();
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::solve(T& rhs) const
+template <typename T_Matrix>
+void LSolverLLt<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw InvalidOp("Decomposition stage is not performed");
@@ -75,8 +75,8 @@ void LSolverLLt<T>::solve(T& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void LSolverLLt<T>::fdecompose()
+template <typename T_Matrix>
+void LSolverLLt<T_Matrix>::fdecompose()
 {
 	this->info() = lapack::potrf(
 			this->factor().prop().cuplo(), 
