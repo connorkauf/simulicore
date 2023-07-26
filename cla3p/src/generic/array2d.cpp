@@ -55,7 +55,7 @@ void Array2D<T_Scalar>::defaults()
 	setCsize(0);
 	setLsize(0);
 	setValues(nullptr);
-	setProperty(noProperty());
+	property().clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar> 
@@ -120,6 +120,12 @@ const T_Scalar* Array2D<T_Scalar>::values() const
 /*-------------------------------------------------*/
 template <typename T_Scalar> 
 const Property& Array2D<T_Scalar>::property() const
+{ 
+	return m_property; 
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar> 
+Property& Array2D<T_Scalar>::property()
 { 
 	return m_property; 
 }
