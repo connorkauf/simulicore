@@ -190,49 +190,29 @@ void XxMatrixTmpl::ipermuteMirror(const PiMatrix& P)
 	this->xxPermuteIpMirror(P);
 }
 /*-------------------------------------------------*/
-#if 0
-XxVectorTlst
-T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	return rblock(ibgn,ni).get().copy();
+	return rblock(ibgn,jbgn,ni,nj).get().copy();
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
+XxMatrixTlst
+T_ReturnType XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
-	block_op_consistency_check(
-			defaultProperty(), 
-			this->rsize(), 
-			this->csize(), 
-			ibgn, 0, ni, 1);
-
-	T_Scalar *p_vi = bulk::dns::ptrmv(this->lsize(),this->values(),ibgn,0);
-
-	T_ReturnType ret = wrap(ni, p_vi, false);
-	return ret;
+	return this->getBlockReference(ibgn, jbgn, ni, nj);
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
+XxMatrixTlst
+Guard<T_ReturnType> XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	block_op_consistency_check(
-			defaultProperty(), 
-			this->rsize(), 
-			this->csize(), 
-			ibgn, 0, ni, 1);
-
-	const T_Scalar *p_vi = bulk::dns::ptrmv(this->lsize(),this->values(),ibgn,0);
-	Guard<T_ReturnType> ret = wrap(ni, p_vi);
-	return ret;
+	return this->getBlockReference(ibgn, jbgn, ni, nj);
 }
 /*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
+XxMatrixTlst
+void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const XxMatrixTmpl& src)
 {
-	XxVectorTmpl tmp = rblock(ibgn, src.rsize());
-	src.copyToAllocated(tmp);
+	this->setBlockCopy(src, ibgn, jbgn);
 }
-#endif // 0
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
