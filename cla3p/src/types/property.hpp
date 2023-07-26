@@ -59,16 +59,23 @@ class Property {
 		/**
 		 * @brief The compare operator.
 		 *
-		 * Checks if two properties are equal
+		 * Checks if two properties are equal.
 		 */
 		bool operator==(const Property& other) const;
 
 		/**
 		 * @brief The compare operator.
 		 *
-		 * Checks if two properties are not equal
+		 * Checks if two properties are not equal.
 		 */
 		bool operator!=(const Property& other) const;
+
+		/**
+		 * @brief Resets all members.
+		 *
+		 * Returns property to initial state.
+		 */
+		void clear();
 
 		/**
 		 * @brief The property type.
@@ -144,15 +151,9 @@ class Property {
 		prop_t m_type;
 		uplo_t m_uplo;
 
+		void defaults();
 		void check() const;
 };
-
-/*-------------------------------------------------*/
-
-inline Property noProperty()
-{
-	return Property(prop_t::NONE, uplo_t::F);
-}
 
 /*-------------------------------------------------*/
 

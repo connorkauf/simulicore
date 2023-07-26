@@ -12,8 +12,8 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 Property::Property()
-	: m_type(prop_t::NONE), m_uplo(uplo_t::F)
 {
+	defaults();
 }
 /*-------------------------------------------------*/
 Property::Property(const Property& other)
@@ -46,6 +46,17 @@ Property::Property(prop_t ptype, uplo_t ftype)
 /*-------------------------------------------------*/
 Property::~Property()
 {
+}
+/*-------------------------------------------------*/
+void Property::defaults()
+{
+	m_type = prop_t::NONE;
+	m_uplo = uplo_t::F;
+}
+/*-------------------------------------------------*/
+void Property::clear()
+{
+	defaults();
 }
 /*-------------------------------------------------*/
 prop_t Property::type() const
