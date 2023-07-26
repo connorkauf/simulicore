@@ -54,6 +54,7 @@ const std::string& invalid_property_for_square();
 const std::string& empty_object();
 const std::string& op_not_allowed();
 const std::string& lapack_error();
+const std::string& division_by_zero();
 
 } // namespace msg
 
