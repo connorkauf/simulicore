@@ -58,13 +58,13 @@ const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
 XxVectorTlst
 void XxVectorTmpl::operator=(T_Scalar val)
 {
-	Array2D<T_Scalar>::fill(val);
+	this->fill(val);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 uint_t XxVectorTmpl::size() const
 {
-	return Array2D<T_Scalar>::rsize();
+	return this->rsize();
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -79,8 +79,8 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 	ss << top << "\n";
 
 	ss << "  Size................. " << size() << "\n";
-	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
-	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner()) << "\n";
+	ss << "  Values............... " << this->values() << "\n";
+	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";
 
 	ss << bottom << "\n";
 
@@ -90,23 +90,21 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 XxVectorTlst
 T_RScalar XxVectorTmpl::normEuc() const
 { 
-	return bulk::dns::norm_euc(
-			Array2D<T_Scalar>::rsize(), 
-			Array2D<T_Scalar>::values());
+	return bulk::dns::norm_euc(size(), this->values());
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
 {
 	T_ReturnType ret;
-	Array2D<T_Scalar>::gePermuteToLeft(ret, P);
+	this->gePermuteToLeft(ret, P);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 void XxVectorTmpl::ipermute(const PiMatrix& P) 
 { 
-	Array2D<T_Scalar>::gePermuteIpLeft(P);
+	this->gePermuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
