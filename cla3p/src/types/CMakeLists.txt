@@ -2,6 +2,7 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
+	types/basic_traits.cpp
 	types/operation.cpp
 	types/property.cpp
 	PARENT_SCOPE)
@@ -9,6 +10,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 set(CLA3P_TYPES_HPP 
 	integer.hpp
 	scalar.hpp
+	basic_traits.hpp
 	enums.hpp
 	operation.hpp
 	property.hpp
