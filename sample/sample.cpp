@@ -27,6 +27,13 @@ int main()
 	cla3p::PiMatrix P = cla3p::PiMatrix::random(5);
 	std::cout << P.info("P") << P;
 
+	cla3p::BasicTypeTraits<cla3p::dns::RdVector>::element_type alpha = 0.1;
+
+	std::cout << alpha << std::endl;
+
+	cla3p::BasicTypeTraits<cla3p::dns::RdVector>::equivalent_matrix B(7,3);
+	B = 9;
+	std::cout << B.info("B") << B;
 
 	return 0;
 }
