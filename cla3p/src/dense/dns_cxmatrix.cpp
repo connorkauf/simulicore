@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "../types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -45,5 +46,14 @@ template class CxMatrix<complex_t>;
 template class CxMatrix<complex8_t>;
 /*-------------------------------------------------*/
 } // namespace dns
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+template<> const std::string& BasicTypeTraits<dns::CxMatrix<complex_t>>::type_name() { return stringDenseMatrix(); }
+template<> const std::string& BasicTypeTraits<dns::CxMatrix<complex8_t>>::type_name() { return stringDenseMatrix(); }
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

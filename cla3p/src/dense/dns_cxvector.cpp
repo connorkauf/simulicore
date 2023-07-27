@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "../types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -47,3 +48,14 @@ template class CxVector<complex8_t>;
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
+
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+template<> const std::string& BasicTypeTraits<dns::CxVector<complex_t>>::type_name() { return stringDenseVector(); }
+template<> const std::string& BasicTypeTraits<dns::CxVector<complex8_t>>::type_name() { return stringDenseVector(); }
+/*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+
