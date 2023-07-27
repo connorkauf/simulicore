@@ -12,14 +12,16 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense complex vector class.
  */
-template <typename T_Scalar, typename T_RScalar>
-class CxVector : public XxVector<T_Scalar,T_RScalar,CxVector<T_Scalar,T_RScalar>> {
+template <typename T_Scalar>
+class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
+
+	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 
 	public:
 
 		// no copy
-		CxVector(const CxVector<T_Scalar,T_RScalar>&) = delete;
-		CxVector<T_Scalar,T_RScalar>& operator=(const CxVector<T_Scalar,T_RScalar>&) = delete;
+		CxVector(const CxVector<T_Scalar>&) = delete;
+		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>&) = delete;
 
 		/**
 		 * @name Constructors
@@ -39,7 +41,7 @@ class CxVector : public XxVector<T_Scalar,T_RScalar,CxVector<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxVector::XxVector(XxVector&& other)
 		 */
-		CxVector(CxVector<T_Scalar,T_RScalar>&&) = default;
+		CxVector(CxVector<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxVector::~XxVector()
@@ -56,7 +58,7 @@ class CxVector : public XxVector<T_Scalar,T_RScalar,CxVector<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxVector::operator=(XxVector&& other)
 		 */
-		CxVector<T_Scalar,T_RScalar>& operator=(CxVector<T_Scalar,T_RScalar>&&) = default;
+		CxVector<T_Scalar>& operator=(CxVector<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)

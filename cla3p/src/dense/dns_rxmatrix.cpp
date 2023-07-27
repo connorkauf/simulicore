@@ -31,19 +31,6 @@ RxMatrixTmpl::~RxMatrix()
 }
 /*-------------------------------------------------*/
 RxMatrixTlst
-RxMatrixTmpl::RxMatrix(RxMatrixTmpl&& /*other*/)
-{
-	// FIXME: implement
-}
-/*-------------------------------------------------*/
-RxMatrixTlst
-RxMatrixTmpl& RxMatrixTmpl::operator=(RxMatrixTmpl&& /*other*/)
-{
-	// FIXME: implement
-	return *this;
-}
-/*-------------------------------------------------*/
-RxMatrixTlst
 void RxMatrixTmpl::operator=(T_Scalar val)
 {
 	RxMatrixTmpl::XxMatrix::operator=(val);

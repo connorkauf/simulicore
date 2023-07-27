@@ -16,14 +16,16 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense matrix class.
  */
-template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
+template <typename T_Scalar, typename T_ReturnType>
+class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
+
+	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 
 	public:
 
 		// no copy
-		XxMatrix(const XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
-		XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+		XxMatrix(const XxMatrix<T_Scalar,T_ReturnType>&) = delete;
+		XxMatrix<T_Scalar,T_ReturnType>& operator=(const XxMatrix<T_Scalar,T_ReturnType>&) = delete;
 
 		/** 
 		 * @name Constructors
@@ -53,7 +55,7 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 *
 		 * Constructs a matrix with the contents of other, other is destroyed.
 		 */
-		XxMatrix(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+		XxMatrix(XxMatrix<T_Scalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Destroys the matrix.
@@ -72,7 +74,7 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxMatrix<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+		XxMatrix<T_Scalar,T_ReturnType>& operator=(XxMatrix<T_Scalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Matrix entry operator.
@@ -280,7 +282,7 @@ class XxMatrix : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @param[in] jbgn The matrix column that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_RScalar,T_ReturnType>& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_ReturnType>& src);
 
 		/** @} */
 

@@ -16,14 +16,16 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense vector class.
  */
-template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
-class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
+template <typename T_Scalar, typename T_ReturnType>
+class XxVector : public XxObject<T_Scalar,T_ReturnType> {
+
+	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 
 	public:
 
 		// no copy
-		XxVector(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
-		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_RScalar,T_ReturnType>&) = delete;
+		XxVector(const XxVector<T_Scalar,T_ReturnType>&) = delete;
+		XxVector<T_Scalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_ReturnType>&) = delete;
 
 		/** 
 		 * @name Constructors
@@ -51,7 +53,7 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
-		XxVector(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+		XxVector(XxVector<T_Scalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Destroys the vector.
@@ -70,7 +72,7 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		XxVector<T_Scalar,T_RScalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_RScalar,T_ReturnType>&& other) = default;
+		XxVector<T_Scalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_ReturnType>&& other) = default;
 
 		/**
 		 * @brief Vector entry operator.
@@ -185,7 +187,7 @@ class XxVector : public XxObject<T_Scalar,T_RScalar,T_ReturnType> {
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The vector to be placed.
 		 */
-		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_RScalar,T_ReturnType>& src);
+		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_ReturnType>& src);
 
 		/** @} */
 
