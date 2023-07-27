@@ -4,26 +4,9 @@
 #include "cla3p/src/operations.hpp"
 
 /*-------------------------------------------------*/
-template <typename T>
-static void traitPrinter()
-{
-	std::cout << cla3p::BasicTypeTraits<T>::typeStr() << " " << cla3p::BasicTypeTraits<T>::precStr() << std::endl;
-}
-/*-------------------------------------------------*/
 
 int main()
 {
-	traitPrinter<cla3p::int_t>();
-	traitPrinter<cla3p::uint_t>();
-	traitPrinter<cla3p::real_t>();
-	traitPrinter<cla3p::real4_t>();
-	traitPrinter<cla3p::complex_t>();
-	traitPrinter<cla3p::complex8_t>();
-
-	traitPrinter<cla3p::BasicTypeTraits<cla3p::complex_t>::real_type>();
-
-	return 0;
-
 	cla3p::dns::RdVector V1(5);
 	cla3p::dns::RdVector V2(5);
 	V1 = 1;
@@ -36,6 +19,14 @@ int main()
 
 	V3 += V1;
 	std::cout << V3.info("V3") << V3;
+
+	cla3p::dns::RfMatrix A(5,3);
+	A = -1;
+	std::cout << A.info("A") << A;
+
+	cla3p::PiMatrix P = cla3p::PiMatrix::random(5);
+	std::cout << P.info("P") << P;
+
 
 	return 0;
 }

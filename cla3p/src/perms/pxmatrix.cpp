@@ -67,6 +67,8 @@ std::string PxMatrix<T_Scalar>::info(const std::string& msg) const
 
 	ss << top << "\n";
 
+	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::typeStr() << "\n";
+	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::precStr() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
 	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner()) << "\n";
