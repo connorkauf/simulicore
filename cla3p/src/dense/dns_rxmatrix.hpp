@@ -72,4 +72,22 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
+namespace cla3p {
+
+namespace dns {
+template <typename T_Scalar> class RxVector;
+} // namespace dns
+
+template<typename T_Scalar>
+class BasicTypeTraits<dns::RxMatrix<T_Scalar>> {
+  public:
+    using element_type = T_Scalar;
+    using equivalent_vector = dns::RxVector<T_Scalar>;
+    using equivalent_matrix = dns::RxMatrix<T_Scalar>;
+    using equivalent_real_vector = dns::RxVector<T_Scalar>;
+    using equivalent_real_matrix = dns::RxMatrix<T_Scalar>;
+};
+
+} // namespace cla3p
+
 #endif // CLA3P_DNS_RXMATRIX_HPP_

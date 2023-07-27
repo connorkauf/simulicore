@@ -6,6 +6,10 @@
  * Integer configuration
  */
 
+#include <string>
+
+#include "../types/basic_traits.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
@@ -31,6 +35,20 @@ inline uint_t conj(const uint_t& u) { return u; }
 
 inline void setim(int_t&, int_t) { }
 inline void setim(uint_t&, uint_t) { }
+
+/*-------------------------------------------------*/
+
+template<> class BasicTypeTraits<int_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+};
+
+template<> class BasicTypeTraits<uint_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+};
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -8,6 +8,9 @@
 
 #include <cstddef>
 #include <complex>
+#include <string>
+
+#include "../types/basic_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -59,6 +62,36 @@ inline void setim(real_t&, real_t) { }
 inline void setim(real4_t&, real4_t) { }
 inline void setim(complex_t& z, real_t d) { z.imag(d); }
 inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
+
+/*-------------------------------------------------*/
+
+template<> class BasicTypeTraits<real_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+    using real_type = real_t;
+};
+
+template<> class BasicTypeTraits<real4_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+    using real_type = real4_t;
+};
+
+template<> class BasicTypeTraits<complex_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+    using real_type = complex_t::value_type;
+};
+
+template<> class BasicTypeTraits<complex8_t> {
+  public:
+    static const std::string& typeStr();
+    static const std::string& precStr();
+    using real_type = complex8_t::value_type;
+};
 
 /*-------------------------------------------------*/
 } // namespace cla3p
