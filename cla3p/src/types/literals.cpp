@@ -24,5 +24,25 @@ const std::string& stringComplex() { return literal_stringComplex; }
 const std::string& stringSingle() { return literal_stringSingle; }
 const std::string& stringDouble() { return literal_stringSingle; }
 /*-------------------------------------------------*/
+static const std::string literal_stringDense = "Dense";
+static const std::string literal_stringSparseCsc = "Sparse (csc)";
+static const std::string literal_stringVector = "Vector";
+static const std::string literal_stringMatrix = "Matrix";
+/*-------------------------------------------------*/
+const std::string& stringDense() { return literal_stringDense; }
+const std::string& stringSparseCsc() { return literal_stringSparseCsc; }
+const std::string& stringVector() { return literal_stringVector; }
+const std::string& stringMatrix() { return literal_stringMatrix; }
+/*-------------------------------------------------*/
+static const std::string literal_stringPermutationMatrix = "Permutation Matrix";
+/*-------------------------------------------------*/
+const std::string& stringPermutationMatrix() { return literal_stringPermutationMatrix; }
+/*-------------------------------------------------*/
+static const std::string literal_stringDenseVector = "Dense Vector";
+static const std::string literal_stringDenseMatrix = "Dense Matrix";
+/*-------------------------------------------------*/
+const std::string& stringDenseVector() { return literal_stringDenseVector; }
+const std::string& stringDenseMatrix() { return literal_stringDenseMatrix; }
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

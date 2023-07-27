@@ -2,6 +2,7 @@
 #define CLA3P_DNS_RXVECTOR_HPP_
 
 #include "../dense/dns_xxvector.hpp"
+#include "../types/basic_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -72,22 +73,16 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
+/*-------------------------------------------------*/
 namespace cla3p { 
-
-namespace dns {
-template <typename T_Scalar> class RxMatrix;
-} // namespace dns
-
+/*-------------------------------------------------*/
 template<typename T_Scalar>
 class BasicTypeTraits<dns::RxVector<T_Scalar>> {
-  public:
-    using element_type = T_Scalar;
-    using equivalent_vector = dns::RxVector<T_Scalar>;
-    using equivalent_matrix = dns::RxMatrix<T_Scalar>;
-    using equivalent_real_vector = dns::RxVector<T_Scalar>;
-    using equivalent_real_matrix = dns::RxMatrix<T_Scalar>;
+	public:
+		static const std::string& type_name();
 };
-
+/*-------------------------------------------------*/
 } // namespace cla3p
+/*-------------------------------------------------*/
 
 #endif // CLA3P_DNS_RXVECTOR_HPP_

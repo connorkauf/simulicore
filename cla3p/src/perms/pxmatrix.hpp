@@ -12,6 +12,7 @@
 #include "../types.hpp"
 #include "../generic/array2d.hpp"
 #include "../generic/guard.hpp"
+#include "../types/basic_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -206,6 +207,14 @@ class PxMatrix : public Array2D<T_Scalar> {
 		static PxMatrix random(uint_t n);
 
 		/** @} */
+};
+
+/*-------------------------------------------------*/
+
+template<typename T_Scalar>
+class BasicTypeTraits<PxMatrix<T_Scalar>> {
+  public:
+    static const std::string& type_name();
 };
 
 /*-------------------------------------------------*/

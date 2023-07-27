@@ -40,14 +40,14 @@ inline void setim(uint_t&, uint_t) { }
 
 template<> class BasicTypeTraits<int_t> {
   public:
-    static const std::string& typeStr();
-    static const std::string& precStr();
+    static const std::string& type_name();
+    static const std::string& prec_name();
 };
 
 template<> class BasicTypeTraits<uint_t> {
   public:
-    static const std::string& typeStr();
-    static const std::string& precStr();
+    static const std::string& type_name();
+    static const std::string& prec_name();
 };
 
 /*-------------------------------------------------*/

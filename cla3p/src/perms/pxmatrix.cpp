@@ -10,6 +10,7 @@
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../checks/all_checks.hpp"
+#include "../types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -67,8 +68,9 @@ std::string PxMatrix<T_Scalar>::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::typeStr() << "\n";
-	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::precStr() << "\n";
+	ss << "  Object Type.......... " << BasicTypeTraits<PxMatrix<T_Scalar>>::type_name() << "\n";
+	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::type_name() << "\n";
+	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << Array2D<T_Scalar>::values() << "\n";
 	ss << "  Owner................ " << bool2yn(Array2D<T_Scalar>::owner()) << "\n";
@@ -161,6 +163,8 @@ PxMatrix<T_Scalar> PxMatrix<T_Scalar>::random(uint_t n)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
+/*-------------------------------------------------*/
+template<> const std::string& BasicTypeTraits<PxMatrix<int_t>>::type_name() { return stringPermutationMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

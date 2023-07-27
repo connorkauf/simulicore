@@ -91,7 +91,7 @@ std::string extract_filename(const std::string& path, const std::string& hint)
 /*-------------------------------------------------*/
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom)
 {
-	const bulk_t deflen = 42;
+	const bulk_t deflen = 44;
 	const bulk_t msglen = msg.size();
 
 	top.clear();

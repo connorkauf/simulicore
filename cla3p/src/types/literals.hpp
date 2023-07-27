@@ -14,6 +14,16 @@ const std::string& stringComplex();
 const std::string& stringSingle();
 const std::string& stringDouble();
 
+const std::string& stringDense();
+const std::string& stringSparseCsc();
+const std::string& stringVector();
+const std::string& stringMatrix();
+
+const std::string& stringPermutationMatrix();
+
+const std::string& stringDenseVector();
+const std::string& stringDenseMatrix();
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
