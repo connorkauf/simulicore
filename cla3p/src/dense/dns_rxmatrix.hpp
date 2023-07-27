@@ -13,7 +13,7 @@ namespace dns {
  * @brief A dense real vector class.
  */
 template <typename T_Scalar>
-class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
+class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 
 	public:
 
@@ -39,7 +39,7 @@ class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
 		 */
-		RxMatrix(RxMatrix<T_Scalar>&& other);
+		RxMatrix(RxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
@@ -56,7 +56,7 @@ class RxMatrix : public XxMatrix<T_Scalar,T_Scalar,RxMatrix<T_Scalar>> {
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		RxMatrix<T_Scalar>& operator=(RxMatrix<T_Scalar>&& other);
+		RxMatrix<T_Scalar>& operator=(RxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)

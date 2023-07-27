@@ -13,7 +13,7 @@ namespace dns {
  * @brief A dense real vector class.
  */
 template <typename T_Scalar>
-class RxVector : public XxVector<T_Scalar,T_Scalar,RxVector<T_Scalar>> {
+class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 
 	public:
 

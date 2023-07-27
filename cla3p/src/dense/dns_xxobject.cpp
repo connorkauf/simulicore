@@ -17,8 +17,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxObjectTmpl XxObject<T_Scalar,T_RScalar,T_ReturnType>
-#define XxObjectTlst template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
+#define XxObjectTmpl XxObject<T_Scalar,T_ReturnType>
+#define XxObjectTlst template <typename T_Scalar, typename T_ReturnType>
 /*-------------------------------------------------*/
 XxObjectTlst
 XxObjectTmpl::XxObject()
@@ -37,7 +37,7 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::operator+(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+T_ReturnType XxObjectTmpl::operator+(const XxObjectTmpl& other)
 {
 	T_ReturnType ret;
 	ret.createFromScaledSum(1, *this, 1, other);
@@ -45,7 +45,7 @@ T_ReturnType XxObjectTmpl::operator+(const XxObject<T_Scalar,T_RScalar,T_ReturnT
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::operator-(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+T_ReturnType XxObjectTmpl::operator-(const XxObjectTmpl& other)
 {
 	T_ReturnType ret;
 	ret.createFromScaledSum(1, *this, -1, other);
@@ -53,14 +53,14 @@ T_ReturnType XxObjectTmpl::operator-(const XxObject<T_Scalar,T_RScalar,T_ReturnT
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator+=(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+XxObjectTmpl& XxObjectTmpl::operator+=(const XxObjectTmpl& other)
 {
 	updateWithScaledOther(1, other);
 	return *this;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator-=(const XxObject<T_Scalar,T_RScalar,T_ReturnType>& other)
+XxObjectTmpl& XxObjectTmpl::operator-=(const XxObjectTmpl& other)
 {
 	updateWithScaledOther(-1, other);
 	return *this;
@@ -131,7 +131,7 @@ void XxObjectTmpl::scale(T_Scalar val)
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_RScalar XxObjectTmpl::normOne() const
+typename XxObjectTmpl::T_RScalar XxObjectTmpl::normOne() const
 { 
 	return bulk::dns::norm_one(
 			this->property().type(),
@@ -143,7 +143,7 @@ T_RScalar XxObjectTmpl::normOne() const
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_RScalar XxObjectTmpl::normInf() const
+typename XxObjectTmpl::T_RScalar XxObjectTmpl::normInf() const
 { 
 	return bulk::dns::norm_inf(
 			this->property().type(),
@@ -353,14 +353,14 @@ void XxObjectTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 #undef XxObjectTmpl
 #undef XxObjectTlst
 /*-------------------------------------------------*/
-template class XxObject<real_t,real_t,RdVector>;
-template class XxObject<real4_t,real4_t,RfVector>;
-template class XxObject<complex_t,real_t,CdVector>;
-template class XxObject<complex8_t,real4_t,CfVector>;
-template class XxObject<real_t,real_t,RdMatrix>;
-template class XxObject<real4_t,real4_t,RfMatrix>;
-template class XxObject<complex_t,real_t,CdMatrix>;
-template class XxObject<complex8_t,real4_t,CfMatrix>;
+template class XxObject<real_t,RdVector>;
+template class XxObject<real4_t,RfVector>;
+template class XxObject<complex_t,CdVector>;
+template class XxObject<complex8_t,CfVector>;
+template class XxObject<real_t,RdMatrix>;
+template class XxObject<real4_t,RfMatrix>;
+template class XxObject<complex_t,CdMatrix>;
+template class XxObject<complex8_t,CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

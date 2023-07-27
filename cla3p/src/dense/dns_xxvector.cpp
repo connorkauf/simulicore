@@ -16,8 +16,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxVectorTmpl XxVector<T_Scalar,T_RScalar,T_ReturnType>
-#define XxVectorTlst template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
+#define XxVectorTmpl XxVector<T_Scalar,T_ReturnType>
+#define XxVectorTlst template <typename T_Scalar, typename T_ReturnType>
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector()
@@ -26,7 +26,7 @@ XxVectorTmpl::XxVector()
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector(uint_t n)
-	: XxObject<T_Scalar,T_RScalar,T_ReturnType>(n, 1, n, defaultProperty())
+	: XxObject<T_Scalar,T_ReturnType>(n, 1, n, defaultProperty())
 {
 }
 /*-------------------------------------------------*/
@@ -88,7 +88,7 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_RScalar XxVectorTmpl::normEuc() const
+typename XxVectorTmpl::T_RScalar XxVectorTmpl::normEuc() const
 { 
 	return bulk::dns::norm_euc(size(), this->values());
 }
@@ -169,10 +169,10 @@ Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 #undef XxVectorTmpl
 #undef XxVectorTlst
 /*-------------------------------------------------*/
-template class XxVector<real_t,real_t,RdVector>;
-template class XxVector<real4_t,real4_t,RfVector>;
-template class XxVector<complex_t,real_t,CdVector>;
-template class XxVector<complex8_t,real4_t,CfVector>;
+template class XxVector<real_t,RdVector>;
+template class XxVector<real4_t,RfVector>;
+template class XxVector<complex_t,CdVector>;
+template class XxVector<complex8_t,CfVector>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

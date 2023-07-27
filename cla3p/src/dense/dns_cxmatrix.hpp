@@ -12,14 +12,14 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense complex vector class.
  */
-template <typename T_Scalar, typename T_RScalar>
-class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>> {
+template <typename T_Scalar>
+class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 
 	public:
 
 		// no copy
-		CxMatrix(const CxMatrix<T_Scalar,T_RScalar>&) = delete;
-		CxMatrix<T_Scalar,T_RScalar>& operator=(const CxMatrix<T_Scalar,T_RScalar>&) = delete;
+		CxMatrix(const CxMatrix<T_Scalar>&) = delete;
+		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>&) = delete;
 
 		/**
 		 * @name Constructors
@@ -39,7 +39,7 @@ class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
 		 */
-		CxMatrix(CxMatrix<T_Scalar,T_RScalar>&& other);
+		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
@@ -56,7 +56,7 @@ class CxMatrix : public XxMatrix<T_Scalar,T_RScalar,CxMatrix<T_Scalar,T_RScalar>
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		CxMatrix<T_Scalar,T_RScalar>& operator=(CxMatrix<T_Scalar,T_RScalar>&& other);
+		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)

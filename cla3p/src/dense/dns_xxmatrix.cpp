@@ -18,8 +18,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxMatrixTmpl XxMatrix<T_Scalar,T_RScalar,T_ReturnType>
-#define XxMatrixTlst template <typename T_Scalar, typename T_RScalar, typename T_ReturnType>
+#define XxMatrixTmpl XxMatrix<T_Scalar,T_ReturnType>
+#define XxMatrixTlst template <typename T_Scalar, typename T_ReturnType>
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix()
@@ -28,7 +28,7 @@ XxMatrixTmpl::XxMatrix()
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
-	: XxObject<T_Scalar,T_RScalar,T_ReturnType>(nr, nc, nr, pr)
+	: XxObject<T_Scalar,T_ReturnType>(nr, nc, nr, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -111,7 +111,7 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_RScalar XxMatrixTmpl::normMax() const
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
 { 
 	return bulk::dns::norm_max(
 			prop().type(), 
@@ -123,7 +123,7 @@ T_RScalar XxMatrixTmpl::normMax() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_RScalar XxMatrixTmpl::normFro() const
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 { 
 	return bulk::dns::norm_fro(
 			prop().type(), 
@@ -252,10 +252,10 @@ Guard<T_ReturnType> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *val
 #undef XxMatrixTmpl
 #undef XxMatrixTlst
 /*-------------------------------------------------*/
-template class XxMatrix<real_t,real_t,RdMatrix>;
-template class XxMatrix<real4_t,real4_t,RfMatrix>;
-template class XxMatrix<complex_t,real_t,CdMatrix>;
-template class XxMatrix<complex8_t,real4_t,CfMatrix>;
+template class XxMatrix<real_t,RdMatrix>;
+template class XxMatrix<real4_t,RfMatrix>;
+template class XxMatrix<complex_t,CdMatrix>;
+template class XxMatrix<complex8_t,CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
