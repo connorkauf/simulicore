@@ -17,8 +17,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxObjectTmpl XxObject<T_Scalar,T_ReturnType>
-#define XxObjectTlst template <typename T_Scalar, typename T_ReturnType>
+#define XxObjectTmpl XxObject<T_Scalar,T_Object>
+#define XxObjectTlst template <typename T_Scalar, typename T_Object>
 /*-------------------------------------------------*/
 XxObjectTlst
 XxObjectTmpl::XxObject()
@@ -37,17 +37,17 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::operator+(const XxObjectTmpl& other)
+T_Object XxObjectTmpl::operator+(const XxObjectTmpl& other)
 {
-	T_ReturnType ret;
+	T_Object ret;
 	ret.createFromScaledSum(1, *this, 1, other);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::operator-(const XxObjectTmpl& other)
+T_Object XxObjectTmpl::operator-(const XxObjectTmpl& other)
 {
-	T_ReturnType ret;
+	T_Object ret;
 	ret.createFromScaledSum(1, *this, -1, other);
 	return ret;
 }
@@ -87,34 +87,34 @@ XxObjectTmpl& XxObjectTmpl::operator/=(T_Scalar val)
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::copy() const
+T_Object XxObjectTmpl::copy() const
 {
-	T_ReturnType ret;
+	T_Object ret;
 	this->copyTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::rcopy()
+T_Object XxObjectTmpl::rcopy()
 {
-	T_ReturnType ret;
+	T_Object ret;
 	this->copyToShallow(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-Guard<T_ReturnType> XxObjectTmpl::rcopy() const
+Guard<T_Object> XxObjectTmpl::rcopy() const
 {
-	T_ReturnType tmp;
+	T_Object tmp;
 	const_cast<XxObjectTmpl&>(*this).copyToShallow(tmp);
-	Guard<T_ReturnType> ret = tmp;
+	Guard<T_Object> ret = tmp;
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::move()
+T_Object XxObjectTmpl::move()
 {
-	T_ReturnType ret;
+	T_Object ret;
 	this->moveTo(ret);
 	return ret;
 }
@@ -155,14 +155,14 @@ typename XxObjectTmpl::T_RScalar XxObjectTmpl::normInf() const
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+T_Object XxObjectTmpl::getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	Guard<T_ReturnType> tmp = getBlockReference(ibgn, jbgn, ni, nj);
+	Guard<T_Object> tmp = getBlockReference(ibgn, jbgn, ni, nj);
 	return tmp.get().copy();
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_ReturnType XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+T_Object XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
 	block_op_consistency_check(
 			this->property(),
@@ -175,23 +175,23 @@ T_ReturnType XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni
 			this->values(),
 			ibgn, jbgn);
 	
-	T_ReturnType ret;
+	T_Object ret;
 	ret.wrapper(ni, nj, this->lsize(), p_vij, false, this->property());
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-Guard<T_ReturnType> XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+Guard<T_Object> XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
-	T_ReturnType tmp = const_cast<XxObjectTmpl&>(*this).getBlockReference(ibgn, jbgn, ni, nj);
-	Guard<T_ReturnType> ret = tmp;
+	T_Object tmp = const_cast<XxObjectTmpl&>(*this).getBlockReference(ibgn, jbgn, ni, nj);
+	Guard<T_Object> ret = tmp;
 	return ret;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
 void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbgn)
 {
-	T_ReturnType tmp = getBlockReference(ibgn, jbgn, src.rsize(), src.csize());
+	T_Object tmp = getBlockReference(ibgn, jbgn, src.rsize(), src.csize());
 	src.copyToAllocated(tmp);
 }
 /*-------------------------------------------------*/

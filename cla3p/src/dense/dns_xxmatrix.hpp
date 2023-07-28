@@ -17,17 +17,17 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense matrix class.
  */
-template <typename T_Scalar, typename T_ReturnType>
-class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
+template <typename T_Scalar, typename T_Matrix>
+class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
-	using T_Vector = typename BasicTypeTraits<T_ReturnType>::vector_type;
+	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
 
 	public:
 
 		// no copy
-		XxMatrix(const XxMatrix<T_Scalar,T_ReturnType>&) = delete;
-		XxMatrix<T_Scalar,T_ReturnType>& operator=(const XxMatrix<T_Scalar,T_ReturnType>&) = delete;
+		XxMatrix(const XxMatrix<T_Scalar,T_Matrix>&) = delete;
+		XxMatrix<T_Scalar,T_Matrix>& operator=(const XxMatrix<T_Scalar,T_Matrix>&) = delete;
 
 		/** 
 		 * @name Constructors
@@ -57,7 +57,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 *
 		 * Constructs a matrix with the contents of other, other is destroyed.
 		 */
-		XxMatrix(XxMatrix<T_Scalar,T_ReturnType>&& other) = default;
+		XxMatrix(XxMatrix<T_Scalar,T_Matrix>&& other) = default;
 
 		/**
 		 * @brief Destroys the matrix.
@@ -76,7 +76,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		XxMatrix<T_Scalar,T_ReturnType>& operator=(XxMatrix<T_Scalar,T_ReturnType>&& other) = default;
+		XxMatrix<T_Scalar,T_Matrix>& operator=(XxMatrix<T_Scalar,T_Matrix>&& other) = default;
 
 		/**
 		 * @brief Matrix entry operator.
@@ -167,7 +167,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_ReturnType permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const;
+		T_Matrix permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const;
 
 		/**
 		 * @brief Permutes the rows of a general matrix.
@@ -177,7 +177,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_ReturnType permuteLeft(const PiMatrix& P) const;
+		T_Matrix permuteLeft(const PiMatrix& P) const;
 
 		/**
 		 * @brief Permutes the columns of a general matrix.
@@ -187,7 +187,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_ReturnType permuteRight(const PiMatrix& Q) const;
+		T_Matrix permuteRight(const PiMatrix& Q) const;
 
 		/**
 		 * @brief Permutes a matrix symmetrically.
@@ -197,7 +197,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_ReturnType permuteMirror(const PiMatrix& P) const;
+		T_Matrix permuteMirror(const PiMatrix& P) const;
 
 		/**
 		 * @brief Permutes a general matrix in-place.
@@ -247,7 +247,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] nj The number of columns of the requested block.
 		 * @return A copy of a portion of the matrix.
 		 */
-		T_ReturnType block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		T_Matrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Gets a submatrix reference.
@@ -260,7 +260,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] nj The number of columns of the requested block.
 		 * @return A reference to a portion of the matrix.
 		 */
-		T_ReturnType rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		T_Matrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
 		 * @brief Gets a submatrix reference.
@@ -273,7 +273,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] nj The number of columns of the requested block.
 		 * @return A guarded reference to a portion of the matrix.
 		 */
-		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		Guard<T_Matrix> rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Sets a submatrix.
@@ -284,7 +284,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] jbgn The matrix column that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_ReturnType>& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_Matrix>& src);
 
 		/**
 		 * @brief Gets a matrix column copy.
@@ -333,7 +333,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_ReturnType init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
 		 * @brief Creates a matrix with random values in (0,1).
@@ -345,7 +345,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_ReturnType random(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
 		 * @brief Creates a matrix from aux data.
@@ -360,7 +360,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_ReturnType wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr = defaultProperty());
+		static T_Matrix wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr = defaultProperty());
 
 		/**
 		 * @brief Creates a matrix guard from aux data.
@@ -374,7 +374,7 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created guard.
 		 */
-		static Guard<T_ReturnType> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = defaultProperty());
+		static Guard<T_Matrix> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = defaultProperty());
 
 		/** @} */
 

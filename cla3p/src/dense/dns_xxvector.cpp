@@ -16,8 +16,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxVectorTmpl XxVector<T_Scalar,T_ReturnType>
-#define XxVectorTlst template <typename T_Scalar, typename T_ReturnType>
+#define XxVectorTmpl XxVector<T_Scalar,T_Vector>
+#define XxVectorTlst template <typename T_Scalar, typename T_Vector>
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector()
@@ -26,7 +26,7 @@ XxVectorTmpl::XxVector()
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XxVector(uint_t n)
-	: XxObject<T_Scalar,T_ReturnType>(n, 1, n, defaultProperty())
+	: XxObject<T_Scalar,T_Vector>(n, 1, n, defaultProperty())
 {
 }
 /*-------------------------------------------------*/
@@ -78,7 +78,7 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Object Type.......... " << BasicTypeTraits<T_ReturnType>::type_name() << "\n";
+	ss << "  Object Type.......... " << BasicTypeTraits<T_Vector>::type_name() << "\n";
 	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::type_name() << "\n";
 	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
@@ -97,9 +97,9 @@ typename XxVectorTmpl::T_RScalar XxVectorTmpl::normEuc() const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::permute(const PiMatrix& P) const
+T_Vector XxVectorTmpl::permute(const PiMatrix& P) const
 {
-	T_ReturnType ret;
+	T_Vector ret;
 	this->gePermuteToLeft(ret, P);
 	return ret;
 }
@@ -111,19 +111,19 @@ void XxVectorTmpl::ipermute(const PiMatrix& P)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
+T_Vector XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 {
 	return rblock(ibgn,ni).get().copy();
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
+T_Vector XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 {
 	return this->getBlockReference(ibgn, 0, ni, 1);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
+Guard<T_Vector> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
 	return this->getBlockReference(ibgn, 0, ni, 1);
 }
@@ -155,32 +155,32 @@ Guard<typename XxVectorTmpl::T_Matrix> XxVectorTmpl::rmatrix() const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::init(uint_t n)
+T_Vector XxVectorTmpl::init(uint_t n)
 {
-	T_ReturnType ret(n);
+	T_Vector ret(n);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::random(uint_t n)
+T_Vector XxVectorTmpl::random(uint_t n)
 {
-	T_ReturnType ret(n);
+	T_Vector ret(n);
 	bulk::dns::rand(uplo_t::F, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_ReturnType XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
+T_Vector XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
 {
-	T_ReturnType ret;
+	T_Vector ret;
 	ret.wrapper(n, 1, n, vals, bind, defaultProperty());
 	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
+Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 {
-	Guard<T_ReturnType> ret = wrap(n, const_cast<T_Scalar*>(vals), false);
+	Guard<T_Vector> ret = wrap(n, const_cast<T_Scalar*>(vals), false);
 	return ret;
 }
 /*-------------------------------------------------*/

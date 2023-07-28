@@ -13,7 +13,7 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense object class.
  */
-template <typename T_Scalar, typename T_ReturnType>
+template <typename T_Scalar, typename T_Object>
 class XxObject : public Array2D<T_Scalar> {
 	
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
@@ -24,12 +24,12 @@ class XxObject : public Array2D<T_Scalar> {
 		~XxObject();
 
 		// no copy
-		XxObject(const XxObject<T_Scalar,T_ReturnType>&) = delete;
-		XxObject<T_Scalar,T_ReturnType>& operator=(const XxObject<T_Scalar,T_ReturnType>&) = delete;
+		XxObject(const XxObject<T_Scalar,T_Object>&) = delete;
+		XxObject<T_Scalar,T_Object>& operator=(const XxObject<T_Scalar,T_Object>&) = delete;
 
 		// move
-		XxObject(XxObject<T_Scalar,T_ReturnType>&& other) = default;
-		XxObject<T_Scalar,T_ReturnType>& operator=(XxObject<T_Scalar,T_ReturnType>&& other) = default;
+		XxObject(XxObject<T_Scalar,T_Object>&& other) = default;
+		XxObject<T_Scalar,T_Object>& operator=(XxObject<T_Scalar,T_Object>&& other) = default;
 
 		/** 
 		 * @name Operators
@@ -43,7 +43,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * @return The result of the operation *this + other.
 		 */
-		T_ReturnType operator+(const XxObject<T_Scalar,T_ReturnType>& other);
+		T_Object operator+(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
 		 * @brief Subtract operator.
@@ -52,21 +52,21 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * @return The result of the operation *this - other.
 		 */
-		T_ReturnType operator-(const XxObject<T_Scalar,T_ReturnType>& other);
+		T_Object operator-(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
 		 * @brief Update operator.
 		 *
 		 * Adds other to *this.
 		 */
-		XxObject<T_Scalar,T_ReturnType>& operator+=(const XxObject<T_Scalar,T_ReturnType>& other);
+		XxObject<T_Scalar,T_Object>& operator+=(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
 		 * @brief Update operator.
 		 *  
 		 * Subtracts other from *this.
 		 */
-		XxObject<T_Scalar,T_ReturnType>& operator-=(const XxObject<T_Scalar,T_ReturnType>& other);
+		XxObject<T_Scalar,T_Object>& operator-=(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
 		 * @brief Update operator.
@@ -74,7 +74,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *  
 		 * Scales *this by val.
 		 */
-		XxObject<T_Scalar,T_ReturnType>& operator*=(T_Scalar val);
+		XxObject<T_Scalar,T_Object>& operator*=(T_Scalar val);
 
 		/**
 		 * @brief Update operator.
@@ -82,7 +82,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *  
 		 * Scales *this by 1/val.
 		 */
-		XxObject<T_Scalar,T_ReturnType>& operator/=(T_Scalar val);
+		XxObject<T_Scalar,T_Object>& operator/=(T_Scalar val);
 
 		/** @} */
 
@@ -95,25 +95,25 @@ class XxObject : public Array2D<T_Scalar> {
 		 * @brief Copies an object.
 		 * @return A deep copy of the object.
 		 */
-		T_ReturnType copy() const;
+		T_Object copy() const;
 
 		/**
 		 * @brief Shallow-copies an object.
 		 * @return A shallow copy of the object, original object is unchanged.
 		 */
-		T_ReturnType rcopy();
+		T_Object rcopy();
 
 		/**
 		 * @brief Shallow-copies an object.
 		 * @return A guard of the object.
 		 */
-		Guard<T_ReturnType> rcopy() const;
+		Guard<T_Object> rcopy() const;
 
 		/**
 		 * @brief Moves an object.
 		 * @return A shallow copy of the object, original object is destroyed.
 		 */
-		T_ReturnType move();
+		T_Object move();
 
 		/**
 		 * @brief Scales the object by coeff.
@@ -136,22 +136,22 @@ class XxObject : public Array2D<T_Scalar> {
 		/** @} */
 
 	protected:
-		T_ReturnType getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		T_ReturnType getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
-		Guard<T_ReturnType> getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void setBlockCopy(const XxObject<T_Scalar,T_ReturnType>&, uint_t ibgn, uint_t jbgn);
+		T_Object getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		T_Object getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
+		Guard<T_Object> getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
+		void setBlockCopy(const XxObject<T_Scalar,T_Object>&, uint_t ibgn, uint_t jbgn);
 
 	public:
-		void updateWithScaledOther(T_Scalar alpha, const XxObject<T_Scalar,T_ReturnType>& other);
+		void updateWithScaledOther(T_Scalar alpha, const XxObject<T_Scalar,T_Object>& other);
 		void createFromScaledSum(
-				T_Scalar alpha, const XxObject<T_Scalar,T_ReturnType>& otherA, 
-				T_Scalar beta, const XxObject<T_Scalar,T_ReturnType>& otherB);
+				T_Scalar alpha, const XxObject<T_Scalar,T_Object>& otherA, 
+				T_Scalar beta, const XxObject<T_Scalar,T_Object>& otherB);
 		//void updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, 
-		//		const XxObject<T_Scalar,T_ReturnType>& otherA, 
-		//		const XxObject<T_Scalar,T_ReturnType>& otherX);
+		//		const XxObject<T_Scalar,T_Object>& otherA, 
+		//		const XxObject<T_Scalar,T_Object>& otherX);
 		void updateSelfWithScaledMatMat(T_Scalar alpha, 
-				const Operation& opA, const XxObject<T_Scalar,T_ReturnType>& otherA, 
-				const Operation& opB, const XxObject<T_Scalar,T_ReturnType>& otherB);
+				const Operation& opA, const XxObject<T_Scalar,T_Object>& otherA, 
+				const Operation& opB, const XxObject<T_Scalar,T_Object>& otherB);
 
 };
 
@@ -164,8 +164,8 @@ class XxObject : public Array2D<T_Scalar> {
  * @ingroup stream_operators
  * @brief Writes to os the contents of obj.
  */
-template <typename T_Scalar, typename T_ReturnType>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxObject<T_Scalar,T_ReturnType>& obj)
+template <typename T_Scalar, typename T_Object>
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxObject<T_Scalar,T_Object>& obj)
 {
   os << obj.toString();
   return os;
