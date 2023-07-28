@@ -1,8 +1,8 @@
 #ifndef CLA3P_DNS_CXVECTOR_HPP_
 #define CLA3P_DNS_CXVECTOR_HPP_
 
-#include "../dense/dns_xxvector.hpp"
 #include "../types/basic_traits.hpp"
+#include "../dense/dns_xxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 

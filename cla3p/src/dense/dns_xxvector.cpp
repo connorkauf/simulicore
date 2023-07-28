@@ -180,8 +180,7 @@ T_ReturnType XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
 XxVectorTlst
 Guard<T_ReturnType> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 {
-	T_ReturnType tmp = wrap(n, const_cast<T_Scalar*>(vals), false);
-	Guard<T_ReturnType> ret = tmp;
+	Guard<T_ReturnType> ret = wrap(n, const_cast<T_Scalar*>(vals), false);
 	return ret;
 }
 /*-------------------------------------------------*/
