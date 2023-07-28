@@ -21,6 +21,7 @@ template <typename T_Scalar, typename T_ReturnType>
 class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+	using T_Vector = typename BasicTypeTraits<T_ReturnType>::vector_type;
 
 	public:
 
@@ -284,6 +285,36 @@ class XxMatrix : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] src The block to be placed.
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_ReturnType>& src);
+
+		/**
+		 * @brief Gets a matrix column copy.
+		 *
+		 * Gets a copy of the j-th column of the matrix.
+		 *
+		 * @param[in] j The matrix column requested.
+		 * @return A copy of the column of the matrix.
+		 */
+		T_Vector column(uint_t j) const;
+
+		/**
+		 * @brief Gets a matrix column reference.
+		 *
+		 * Gets a reference of the j-th column of the matrix.
+		 *
+		 * @param[in] j The matrix column requested.
+		 * @return A reference of the column of the matrix.
+		 */
+		T_Vector rcolumn(uint_t j);
+
+		/**
+		 * @brief Gets a matrix column reference.
+		 *
+		 * Gets a reference of the j-th column of the matrix.
+		 *
+		 * @param[in] j The matrix column requested.
+		 * @return A guarded reference of the column of the matrix.
+		 */
+		Guard<T_Vector> rcolumn(uint_t j) const;
 
 		/** @} */
 

@@ -245,9 +245,28 @@ T_ReturnType XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv
 XxMatrixTlst
 Guard<T_ReturnType> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr)
 {
-	T_ReturnType tmp = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
-	Guard<T_ReturnType> ret = tmp;
+	Guard<T_ReturnType> ret = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_Vector XxMatrixTmpl::column(uint_t j) const
+{ 
+	return rcolumn(j).get().copy();
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_Vector XxMatrixTmpl::rcolumn(uint_t j)
+{
+	XxMatrixTmpl tmp = rblock(0, j, nrows(), 1);
+	return T_Vector::wrap(tmp.nrows(), tmp.values(), false);
+};
+/*-------------------------------------------------*/
+XxMatrixTlst
+Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const 
+{ 
+	Guard<T_ReturnType> tmp = rblock(0, j, nrows(), 1);
+	return T_Vector::wrap(tmp.get().nrows(), tmp.get().values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

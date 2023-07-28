@@ -1,8 +1,8 @@
 #ifndef CLA3P_DNS_RXMATRIX_HPP_
 #define CLA3P_DNS_RXMATRIX_HPP_
 
-#include "../dense/dns_xxmatrix.hpp"
 #include "../types/basic_traits.hpp"
+#include "../dense/dns_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -75,10 +75,14 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace dns {
+template <typename T_Scalar> class RxVector;
+} // namespace dns
 template<typename T_Scalar>
 class BasicTypeTraits<dns::RxMatrix<T_Scalar>> {
 	public:
 		static const std::string& type_name();
+		using vector_type = dns::RxVector<T_Scalar>;
 };
 } // namespace cla3p
 /*-------------------------------------------------*/
