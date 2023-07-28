@@ -134,6 +134,24 @@ void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
 	this->setBlockCopy(src, ibgn, 0);
 }
 /*-------------------------------------------------*/
+XxVectorTlst
+typename XxVectorTmpl::T_Matrix XxVectorTmpl::matrix() const
+{ 
+	return rmatrix().get().copy();
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+typename XxVectorTmpl::T_Matrix XxVectorTmpl::rmatrix()
+{
+	return T_Matrix::wrap(size(), 1, this->values(), this->lsize(), false);
+};
+/*-------------------------------------------------*/
+XxVectorTlst
+Guard<typename XxVectorTmpl::T_Matrix> XxVectorTmpl::rmatrix() const 
+{ 
+	return T_Matrix::wrap(size(), 1, this->values(), this->lsize());
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxVectorTlst

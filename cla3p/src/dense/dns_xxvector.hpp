@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../types/basic_traits.hpp"
 #include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"
@@ -20,6 +21,7 @@ template <typename T_Scalar, typename T_ReturnType>
 class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+	using T_Matrix = typename BasicTypeTraits<T_ReturnType>::matrix_type;
 
 	public:
 
@@ -188,6 +190,24 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] src The vector to be placed.
 		 */
 		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_ReturnType>& src);
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A copy of the vector as matrix.
+		 */
+		T_Matrix matrix() const;
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A reference of the vector as matrix.
+		 */
+		T_Matrix rmatrix();
+
+		/**
+		 * @brief Converts a vector to a matrix.
+		 * @return A reference of the vector as matrix guard.
+		 */
+		Guard<T_Matrix> rmatrix() const;
 
 		/** @} */
 
