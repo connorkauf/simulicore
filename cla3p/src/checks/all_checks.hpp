@@ -2,7 +2,7 @@
 #define CLA3P_GENERIC_CHECKS_HPP_
 
 #include "../types.hpp"
-#include "../dense.hpp"
+#include "../dense.hpp" // FIXME: REMOVE FROM HERE!!!
 #include "../support/error.hpp"
 
 /*-------------------------------------------------*/
