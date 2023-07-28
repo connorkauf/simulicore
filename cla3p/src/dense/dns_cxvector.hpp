@@ -77,13 +77,15 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-/*-------------------------------------------------*/
+namespace dns {
+template <typename T_Scalar> class CxMatrix;
+} // namespace dns
 template<typename T_Scalar>
 class BasicTypeTraits<dns::CxVector<T_Scalar>> {
 	public:
 		static const std::string& type_name();
+		using matrix_type = dns::CxMatrix<T_Scalar>;
 };
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
