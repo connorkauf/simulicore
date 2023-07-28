@@ -18,8 +18,8 @@
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxMatrixTmpl XxMatrix<T_Scalar,T_ReturnType>
-#define XxMatrixTlst template <typename T_Scalar, typename T_ReturnType>
+#define XxMatrixTmpl XxMatrix<T_Scalar,T_Matrix>
+#define XxMatrixTlst template <typename T_Scalar, typename T_Matrix>
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix()
@@ -28,7 +28,7 @@ XxMatrixTmpl::XxMatrix()
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
-	: XxObject<T_Scalar,T_ReturnType>(nr, nc, nr, pr)
+	: XxObject<T_Scalar,T_Matrix>(nr, nc, nr, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -98,7 +98,7 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Object Type.......... " << BasicTypeTraits<T_ReturnType>::type_name() << "\n";
+	ss << "  Object Type.......... " << BasicTypeTraits<T_Matrix>::type_name() << "\n";
 	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::type_name() << "\n";
 	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Number of rows....... " << nrows() << "\n";
@@ -138,33 +138,33 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
 {
-	T_ReturnType ret;
+	T_Matrix ret;
 	this->gePermuteToLeftRight(ret, P, Q);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
 {
-	T_ReturnType ret;
+	T_Matrix ret;
 	this->gePermuteToLeft(ret, P);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
 {
-	T_ReturnType ret;
+	T_Matrix ret;
 	this->gePermuteToRight(ret, Q);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
 {
-	T_ReturnType ret;
+	T_Matrix ret;
 	this->xxPermuteToMirror(ret, P);
 	return ret;
 }
@@ -194,19 +194,19 @@ void XxMatrixTmpl::ipermuteMirror(const PiMatrix& P)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
 	return rblock(ibgn,jbgn,ni,nj).get().copy();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
+T_Matrix XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
 	return this->getBlockReference(ibgn, jbgn, ni, nj);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-Guard<T_ReturnType> XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
+Guard<T_Matrix> XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
 	return this->getBlockReference(ibgn, jbgn, ni, nj);
 }
@@ -220,32 +220,32 @@ void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const XxMatrixTmpl& src)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::init(uint_t nr, uint_t nc, const Property& pr)
+T_Matrix XxMatrixTmpl::init(uint_t nr, uint_t nc, const Property& pr)
 {
-	T_ReturnType ret(nr, nc, pr);
+	T_Matrix ret(nr, nc, pr);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::random(uint_t nr, uint_t nc, const Property& pr)
+T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, const Property& pr)
 {
-	T_ReturnType ret = init(nr, nc, pr);
+	T_Matrix ret = init(nr, nc, pr);
 	bulk::dns::rand(ret.prop().uplo(), ret.nrows(), ret.ncols(), ret.values(), ret.ld());
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_ReturnType XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr)
+T_Matrix XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr)
 {
-	T_ReturnType ret;
+	T_Matrix ret;
 	ret.wrapper(nr, nc, ldv, vals, bind, pr);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-Guard<T_ReturnType> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr)
+Guard<T_Matrix> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr)
 {
-	Guard<T_ReturnType> ret = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
+	Guard<T_Matrix> ret = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -265,7 +265,7 @@ typename XxMatrixTmpl::T_Vector XxMatrixTmpl::rcolumn(uint_t j)
 XxMatrixTlst
 Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const 
 { 
-	Guard<T_ReturnType> tmp = rblock(0, j, nrows(), 1);
+	Guard<T_Matrix> tmp = rblock(0, j, nrows(), 1);
 	return T_Vector::wrap(tmp.get().nrows(), tmp.get().values());
 }
 /*-------------------------------------------------*/

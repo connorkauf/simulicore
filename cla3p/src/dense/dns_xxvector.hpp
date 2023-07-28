@@ -17,17 +17,17 @@ namespace dns {
  * @nosubgrouping 
  * @brief A dense vector class.
  */
-template <typename T_Scalar, typename T_ReturnType>
-class XxVector : public XxObject<T_Scalar,T_ReturnType> {
+template <typename T_Scalar, typename T_Vector>
+class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
-	using T_Matrix = typename BasicTypeTraits<T_ReturnType>::matrix_type;
+	using T_Matrix = typename BasicTypeTraits<T_Vector>::matrix_type;
 
 	public:
 
 		// no copy
-		XxVector(const XxVector<T_Scalar,T_ReturnType>&) = delete;
-		XxVector<T_Scalar,T_ReturnType>& operator=(const XxVector<T_Scalar,T_ReturnType>&) = delete;
+		XxVector(const XxVector<T_Scalar,T_Vector>&) = delete;
+		XxVector<T_Scalar,T_Vector>& operator=(const XxVector<T_Scalar,T_Vector>&) = delete;
 
 		/** 
 		 * @name Constructors
@@ -55,7 +55,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 *
 		 * Constructs a vector with the contents of other, other is destroyed.
 		 */
-		XxVector(XxVector<T_Scalar,T_ReturnType>&& other) = default;
+		XxVector(XxVector<T_Scalar,T_Vector>&& other) = default;
 
 		/**
 		 * @brief Destroys the vector.
@@ -74,7 +74,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		XxVector<T_Scalar,T_ReturnType>& operator=(XxVector<T_Scalar,T_ReturnType>&& other) = default;
+		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&& other) = default;
 
 		/**
 		 * @brief Vector entry operator.
@@ -137,7 +137,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		T_ReturnType permute(const PiMatrix& P) const;
+		T_Vector permute(const PiMatrix& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -157,7 +157,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A copy of a portion of the vector.
 		 */
-		T_ReturnType block(uint_t ibgn, uint_t ni) const;
+		T_Vector block(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -168,7 +168,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A reference to a portion of the vector.
 		 */
-		T_ReturnType rblock(uint_t ibgn, uint_t ni);
+		T_Vector rblock(uint_t ibgn, uint_t ni);
 
 		/**
 		 * @brief Gets a subvector reference.
@@ -179,7 +179,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A guarded reference to a portion of the vector.
 		 */
-		Guard<T_ReturnType> rblock(uint_t ibgn, uint_t ni) const;
+		Guard<T_Vector> rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Sets a subvector.
@@ -189,7 +189,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The vector to be placed.
 		 */
-		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_ReturnType>& src);
+		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_Vector>& src);
 
 		/**
 		 * @brief Converts a vector to a matrix.
@@ -224,7 +224,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static T_ReturnType init(uint_t n);
+		static T_Vector init(uint_t n);
 
 		/**
 		 * @brief Creates a vector with random values in (0,1).
@@ -234,7 +234,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static T_ReturnType random(uint_t n);
+		static T_Vector random(uint_t n);
 
 		/**
 		 * @brief Creates a vector from aux data.
@@ -246,7 +246,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] bind Binds the data to the vector, the vector will deallocate vals on destroy using i_free().
 		 * @return The newly created vector.
 		 */
-		static T_ReturnType wrap(uint_t n, T_Scalar *vals, bool bind);
+		static T_Vector wrap(uint_t n, T_Scalar *vals, bool bind);
 
 		/**
 		 * @brief Creates a guard from aux data.
@@ -257,7 +257,7 @@ class XxVector : public XxObject<T_Scalar,T_ReturnType> {
 		 * @param[in] vals The array containing the vector values.
 		 * @return The newly created guard.
 		 */
-		static Guard<T_ReturnType> wrap(uint_t n, const T_Scalar *vals);
+		static Guard<T_Vector> wrap(uint_t n, const T_Scalar *vals);
 
 		/** @} */
 
