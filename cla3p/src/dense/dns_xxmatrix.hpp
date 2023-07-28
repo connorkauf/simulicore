@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../types/basic_traits.hpp"
 #include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
 #include "../perms.hpp"

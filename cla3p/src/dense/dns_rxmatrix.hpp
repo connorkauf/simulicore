@@ -75,13 +75,11 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 
 /*-------------------------------------------------*/
 namespace cla3p {
-/*-------------------------------------------------*/
 template<typename T_Scalar>
 class BasicTypeTraits<dns::RxMatrix<T_Scalar>> {
 	public:
 		static const std::string& type_name();
 };
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

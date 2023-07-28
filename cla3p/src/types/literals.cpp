@@ -10,39 +10,41 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-static const std::string literal_stringInteger = "Integer";
-static const std::string literal_stringUnsignedInteger = "Unsigned Integer";
-static const std::string literal_stringReal = "Real";
-static const std::string literal_stringComplex = "Complex";
-static const std::string literal_stringSingle = "Single (32bit)";
-static const std::string literal_stringDouble = "Double (64bit)";
-/*-------------------------------------------------*/
-const std::string& stringInteger() { return literal_stringInteger; }
-const std::string& stringUnsignedInteger() { return literal_stringUnsignedInteger; }
-const std::string& stringReal() { return literal_stringReal; }
-const std::string& stringComplex() { return literal_stringComplex; }
-const std::string& stringSingle() { return literal_stringSingle; }
-const std::string& stringDouble() { return literal_stringSingle; }
-/*-------------------------------------------------*/
-static const std::string literal_stringDense = "Dense";
-static const std::string literal_stringSparseCsc = "Sparse (csc)";
-static const std::string literal_stringVector = "Vector";
-static const std::string literal_stringMatrix = "Matrix";
-/*-------------------------------------------------*/
-const std::string& stringDense() { return literal_stringDense; }
-const std::string& stringSparseCsc() { return literal_stringSparseCsc; }
-const std::string& stringVector() { return literal_stringVector; }
-const std::string& stringMatrix() { return literal_stringMatrix; }
-/*-------------------------------------------------*/
+static const std::string literal_stringInteger           = "Integer";
+static const std::string literal_stringUnsignedInteger   = "Unsigned Integer";
+static const std::string literal_stringReal              = "Real";
+static const std::string literal_stringComplex           = "Complex";
+static const std::string literal_stringSingle            = "Single (32bit)";
+static const std::string literal_stringDouble            = "Double (64bit)";
+static const std::string literal_stringDense             = "Dense";
+static const std::string literal_stringSparseCsc         = "Sparse (csc)";
+static const std::string literal_stringVector            = "Vector";
+static const std::string literal_stringMatrix            = "Matrix";
 static const std::string literal_stringPermutationMatrix = "Permutation Matrix";
+static const std::string literal_stringDenseVector       = "Dense Vector";
+static const std::string literal_stringDenseMatrix       = "Dense Matrix";
 /*-------------------------------------------------*/
-const std::string& stringPermutationMatrix() { return literal_stringPermutationMatrix; }
+#define LITERAL_FUN_BODY(literal_function_name) \
+const std::string& literal_function_name() \
+{ \
+	return literal_##literal_function_name; \
+}
 /*-------------------------------------------------*/
-static const std::string literal_stringDenseVector = "Dense Vector";
-static const std::string literal_stringDenseMatrix = "Dense Matrix";
+LITERAL_FUN_BODY(stringInteger          )
+LITERAL_FUN_BODY(stringUnsignedInteger  )
+LITERAL_FUN_BODY(stringReal             )
+LITERAL_FUN_BODY(stringComplex          )
+LITERAL_FUN_BODY(stringSingle           )
+LITERAL_FUN_BODY(stringDouble           )
+LITERAL_FUN_BODY(stringDense            )
+LITERAL_FUN_BODY(stringSparseCsc        )
+LITERAL_FUN_BODY(stringVector           )
+LITERAL_FUN_BODY(stringMatrix           )
+LITERAL_FUN_BODY(stringPermutationMatrix)
+LITERAL_FUN_BODY(stringDenseVector      )
+LITERAL_FUN_BODY(stringDenseMatrix      )
 /*-------------------------------------------------*/
-const std::string& stringDenseVector() { return literal_stringDenseVector; }
-const std::string& stringDenseMatrix() { return literal_stringDenseMatrix; }
+#undef LITERAL_FUN_BODY
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
