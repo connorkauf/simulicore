@@ -24,13 +24,6 @@
  */
 
 /**
- * @defgroup guards Guards
- *
- * @defgroup dense_guards Dense
- * @ingroup guards
- */
-
-/**
  * @defgroup guard Guard
  */
 
