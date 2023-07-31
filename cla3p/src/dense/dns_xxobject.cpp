@@ -122,6 +122,10 @@ T_Object XxObjectTmpl::move()
 XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
+	if(this->property().isHermitian() && getIm(val)) {
+		throw InvalidOp(msg::hermitian_inconsistency());
+	}
+
 	bulk::dns::scale(
 			this->property().uplo(), 
 			this->rsize(), 
