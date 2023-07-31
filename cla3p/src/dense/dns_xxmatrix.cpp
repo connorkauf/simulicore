@@ -138,6 +138,59 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
+T_Matrix XxMatrixTmpl::transpose() const
+{
+	transp_op_consistency_check(prop().type(), false);
+
+	T_Matrix ret(ncols(), nrows());
+	bulk::dns::transpose(nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld());
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_Matrix XxMatrixTmpl::general() const
+{
+	T_Matrix ret = this->copy();
+	ret.igeneral();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::igeneral()
+{
+	if(prop().isGeneral()) {
+
+		return;
+
+	} else if(prop().isSymmetric()) {
+
+		bulk::dns::sy2ge(prop().uplo(), ncols(), this->values(), ld());
+
+	} else if(prop().isHermitian()) {
+
+		bulk::dns::he2ge(prop().uplo(), ncols(), this->values(), ld());
+
+	} else if(prop().isTriangular()) {
+
+		bulk::dns::tr2ge(prop().uplo(), nrows(), ncols(), this->values(), ld());
+
+	} else if(prop().isSkew()) {
+
+		bulk::dns::sk2ge(prop().uplo(), ncols(), this->values(), ld());
+
+	} else {
+
+		throw Exception();
+
+	} // property 
+
+	bool bind = this->owner();
+	this->unbind();
+
+	*this = wrap(nrows(), ncols(), this->values(), ld(), bind);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
 {
 	T_Matrix ret;

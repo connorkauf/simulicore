@@ -159,6 +159,23 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		T_RScalar normFro() const;
 
 		/**
+		 * @brief Transposes a general matrix.
+		 * @return The transposed copy of the matrix.
+		 */
+		T_Matrix transpose() const;
+
+		/**
+		 * @brief Converts a matrix to general.
+		 * @return A copy of the matrix with general property.
+		 */
+		T_Matrix general() const;
+
+		/**
+		 * @brief Converts a matrix to general in-place.
+		 */
+		void igeneral();
+
+		/**
 		 * @brief Permutes a general matrix.
 		 *
 		 * Creates a permuted copy @f$ (PAQ) @f$ of the matrix @f$ A @f$.
