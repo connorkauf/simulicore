@@ -8,6 +8,7 @@
 // cla3p
 #include "../dense.hpp"
 #include "../bulk/dns.hpp"
+#include "../bulk/dns_math.hpp"
 #include "../bulk/dns_io.hpp"
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
@@ -265,7 +266,7 @@ Guard<T_Matrix> XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const XxMatrixTmpl& src)
+void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const T_Matrix& src)
 {
 	this->setBlockCopy(src, ibgn, jbgn);
 }
@@ -320,6 +321,120 @@ Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const
 { 
 	Guard<T_Matrix> tmp = rblock(0, j, nrows(), 1);
 	return T_Vector::wrap(tmp.get().nrows(), tmp.get().values());
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
+		const Operation& opA, const T_Matrix& otherA,
+		const Operation& opB, const T_Matrix& otherB)
+{
+	mat_x_mat_mult_check(
+			otherA.property(), otherA.nrows(), otherA.ncols(), opA,
+			otherB.property(), otherB.nrows(), otherB.ncols(), opB,
+			this->property(), 
+			nrows(), 
+			ncols());
+
+	if(otherA.property().isGeneral() && otherB.property().isGeneral()) {
+
+		uint_t k = (opA.isTranspose() ? otherA.nrows() : otherA.ncols());
+
+		bulk::dns::gem_x_gem(
+				nrows(), 
+				ncols(), 
+				k, alpha, 
+				opA.type(), otherA.values(), otherA.lsize(), 
+				opB.type(), otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isSymmetric() && otherB.property().isGeneral()) {
+
+		bulk::dns::sym_x_gem(otherA.property().uplo(), 
+				nrows(), 
+				ncols(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isHermitian() && otherB.property().isGeneral()) {
+
+		bulk::dns::hem_x_gem(
+				otherA.property().uplo(), 
+				nrows(), 
+				ncols(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isGeneral() && otherB.property().isSymmetric()) {
+
+		bulk::dns::gem_x_sym(otherB.property().uplo(), 
+				nrows(), 
+				ncols(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isGeneral() && otherB.property().isHermitian()) {
+
+		bulk::dns::gem_x_hem(otherB.property().uplo(), 
+				nrows(), 
+				ncols(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				1, 
+				this->values(), 
+				this->lsize());
+
+	} else if(otherA.property().isTriangular() && otherB.property().isGeneral()) {
+
+		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
+
+		bulk::dns::trm_x_gem(otherA.property().uplo(), opA.type(), 
+				nrows(), 
+				ncols(), 
+				otherB.nrows(), 
+				alpha, 
+				otherA.values(), otherA.lsize(), 
+				otherB.values(), otherB.lsize(), 
+				tmp.values(), tmp.lsize());
+
+		this->updateSelfWithScaledOther(1, tmp);
+
+	} else if(otherA.property().isGeneral() && otherB.property().isTriangular()) {
+
+		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
+
+		bulk::dns::gem_x_trm(otherB.property().uplo(), opB.type(), 
+				nrows(), 
+				ncols(), 
+				otherA.nrows(), 
+				alpha, 
+				otherB.values(), otherB.lsize(), 
+				otherA.values(), otherA.lsize(), 
+				tmp.values(), tmp.lsize());
+
+		this->updateSelfWithScaledOther(1, tmp);
+
+	} else {
+
+		throw Exception();
+
+	} // property combos
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

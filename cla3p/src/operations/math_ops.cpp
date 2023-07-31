@@ -14,7 +14,7 @@ namespace ops {
 template <typename T_Scalar, typename T_Object>
 static void dns_update_tmpl(T_Scalar alpha, const T_Object& src, T_Object& trg)
 {
-	trg.updateWithScaledOther(alpha, src);
+	trg.updateSelfWithScaledOther(alpha, src);
 }
 /*-------------------------------------------------*/
 void update(real_t     alpha, const dns::RdVector& src, dns::RdVector& trg) { dns_update_tmpl(alpha, src, trg); }

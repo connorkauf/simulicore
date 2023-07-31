@@ -8,9 +8,11 @@
 // cla3p
 #include "../dense.hpp"
 #include "../bulk/dns.hpp"
+#include "../bulk/dns_math.hpp"
 #include "../support/error.hpp"
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -129,7 +131,7 @@ Guard<T_Vector> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
+void XxVectorTmpl::setBlock(uint_t ibgn, const T_Vector& src)
 {
 	this->setBlockCopy(src, ibgn, 0);
 }
@@ -185,6 +187,41 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, const T_Matrix& otherA, const T_Vector& otherX)
+{
+	matvec_mult_check(opA, 
+			otherA.prop(), otherA.nrows(), otherA.ncols(), 
+			otherX.property(), otherX.rsize(), otherX.csize(), 
+			this->property(), 
+			this->rsize(), 
+			this->csize());
+
+	if(otherA.prop().isGeneral()) {
+
+		bulk::dns::gem_x_vec(opA.type(), otherA.nrows(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+
+	} else if(otherA.prop().isSymmetric()) {
+
+		bulk::dns::sym_x_vec(otherA.prop().uplo(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+
+	} else if(otherA.prop().isHermitian()) {
+
+		bulk::dns::hem_x_vec(otherA.prop().uplo(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+
+	} else if(otherA.prop().isTriangular()) {
+
+		T_Vector tmp(size());
+		bulk::dns::trm_x_vec(otherA.prop().uplo(), opA.type(), otherA.nrows(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), tmp.values());
+		this->updateSelfWithScaledOther(1, tmp);
+
+	} else {
+
+		throw Exception();
+
+	} // property 
+}
 /*-------------------------------------------------*/
 #undef XxVectorTmpl
 #undef XxVectorTlst
