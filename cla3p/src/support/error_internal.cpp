@@ -72,6 +72,7 @@ static const std::string const_msg_empty_object                = "Empty object(s
 static const std::string const_msg_op_not_allowed              = "This operation is not allowed";
 static const std::string const_msg_lapack_error                = "Lapack error";
 static const std::string const_division_by_zero                = "Division by zero detected";
+static const std::string const_hermitian_inconsistency         = "Operation is not consistent with hermitian property";
 /*-------------------------------------------------*/
 const std::string& unknown()                     { return const_msg_unknown                    ; }
 const std::string& success()                     { return const_msg_success                    ; }
@@ -84,6 +85,7 @@ const std::string& empty_object()                { return const_msg_empty_object
 const std::string& op_not_allowed()              { return const_msg_op_not_allowed             ; }
 const std::string& lapack_error()                { return const_msg_lapack_error               ; }
 const std::string& division_by_zero()            { return const_division_by_zero               ; }
+const std::string& hermitian_inconsistency()     { return const_hermitian_inconsistency        ; }
 /*-------------------------------------------------*/
 } // namespace msg
 /*-------------------------------------------------*/
