@@ -7,6 +7,23 @@
 
 int main()
 {
+
+	cla3p::Property prC(cla3p::prop_t::HERMITIAN, cla3p::uplo_t::L);
+	cla3p::dns::CdMatrix C(5,5, prC);
+	C = cla3p::complex_t(1,-1);
+	std::cout << C.info("C") << C;
+
+	cla3p::complex_t val1(1,-1);
+	std::cout << 1. / val1 << std::endl;
+
+	C /= cla3p::complex_t(1,-1);
+
+	cla3p::dns::CdMatrix C2 = C.general();
+	std::cout << C.info("C") << C;
+	std::cout << C2.info("C2") << C2;
+
+	return 0;
+
 	cla3p::dns::RdVector V1(5);
 	V1 = 2;
 	std::cout << V1.info("V1") << V1;

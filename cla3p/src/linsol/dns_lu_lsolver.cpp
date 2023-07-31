@@ -91,7 +91,7 @@ void LSolverLU<T_Matrix>::solve(T_Matrix& rhs) const
 template <typename T_Matrix>
 void LSolverLU<T_Matrix>::fdecompose()
 {
-	//this->factor().igeneral();
+	this->factor().igeneral();
 
 	if(this->factor().prop().isGeneral()) {
 
