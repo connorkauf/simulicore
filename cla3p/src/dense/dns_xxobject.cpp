@@ -40,7 +40,15 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_Object XxObjectTmpl::operator+(const XxObjectTmpl& other)
+T_Object XxObjectTmpl::operator-() const
+{
+	T_Object ret = this->copy();
+	ret.scale(-1);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+T_Object XxObjectTmpl::operator+(const XxObjectTmpl& other) const
 {
 	T_Object ret;
 	ret.createFromScaledSum(1, *this, 1, other);
@@ -48,7 +56,7 @@ T_Object XxObjectTmpl::operator+(const XxObjectTmpl& other)
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-T_Object XxObjectTmpl::operator-(const XxObjectTmpl& other)
+T_Object XxObjectTmpl::operator-(const XxObjectTmpl& other) const
 {
 	T_Object ret;
 	ret.createFromScaledSum(1, *this, -1, other);

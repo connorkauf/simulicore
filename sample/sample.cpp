@@ -12,6 +12,9 @@ int main()
 	A = 3;
 	std::cout << A.info("A") << A;
 
+	cla3p::dns::RdMatrix B = -A;
+	std::cout << B.info("B") << B;
+
 	//cla3p::dns::RdMatrix A1(2,2);
 	//A1 = 2;
 	//std::cout << A1.info("A1") << A1;
