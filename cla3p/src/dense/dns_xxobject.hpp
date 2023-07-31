@@ -142,16 +142,10 @@ class XxObject : public Array2D<T_Scalar> {
 		void setBlockCopy(const XxObject<T_Scalar,T_Object>&, uint_t ibgn, uint_t jbgn);
 
 	public:
-		void updateWithScaledOther(T_Scalar alpha, const XxObject<T_Scalar,T_Object>& other);
+		void updateSelfWithScaledOther(T_Scalar alpha, const XxObject<T_Scalar,T_Object>& other);
 		void createFromScaledSum(
 				T_Scalar alpha, const XxObject<T_Scalar,T_Object>& otherA, 
 				T_Scalar beta, const XxObject<T_Scalar,T_Object>& otherB);
-		//void updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, 
-		//		const XxObject<T_Scalar,T_Object>& otherA, 
-		//		const XxObject<T_Scalar,T_Object>& otherX);
-		void updateSelfWithScaledMatMat(T_Scalar alpha, 
-				const Operation& opA, const XxObject<T_Scalar,T_Object>& otherA, 
-				const Operation& opB, const XxObject<T_Scalar,T_Object>& otherB);
 
 };
 

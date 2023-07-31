@@ -55,14 +55,14 @@ T_Object XxObjectTmpl::operator-(const XxObjectTmpl& other)
 XxObjectTlst
 XxObjectTmpl& XxObjectTmpl::operator+=(const XxObjectTmpl& other)
 {
-	updateWithScaledOther(1, other);
+	updateSelfWithScaledOther(1, other);
 	return *this;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
 XxObjectTmpl& XxObjectTmpl::operator-=(const XxObjectTmpl& other)
 {
-	updateWithScaledOther(-1, other);
+	updateSelfWithScaledOther(-1, other);
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -200,7 +200,7 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-void XxObjectTmpl::updateWithScaledOther(T_Scalar alpha, const XxObjectTmpl& other)
+void XxObjectTmpl::updateSelfWithScaledOther(T_Scalar alpha, const XxObjectTmpl& other)
 {
 	op_similarity_check(
 			this->property(), 
@@ -238,118 +238,6 @@ void XxObjectTmpl::createFromScaledSum(
 			beta, otherB.values(), otherB.lsize(), 
 			this->values(), 
 			this->lsize());
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-void XxObjectTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
-		const Operation& opA, const XxObjectTmpl& otherA,
-		const Operation& opB, const XxObjectTmpl& otherB)
-{
-	mat_x_mat_mult_check(
-			otherA.property(), otherA.rsize(), otherA.csize(), opA,
-			otherB.property(), otherB.rsize(), otherB.csize(), opB,
-			this->property(), 
-			this->rsize(), 
-			this->csize());
-
-	if(otherA.property().isGeneral() && otherB.property().isGeneral()) {
-
-		uint_t k = (opA.isTranspose() ? otherA.rsize() : otherA.csize());
-
-		bulk::dns::gem_x_gem(
-				this->rsize(), 
-				this->csize(), 
-				k, alpha, 
-				opA.type(), otherA.values(), otherA.lsize(), 
-				opB.type(), otherB.values(), otherB.lsize(), 
-				1, 
-				this->values(), 
-				this->lsize());
-
-	} else if(otherA.property().isSymmetric() && otherB.property().isGeneral()) {
-
-		bulk::dns::sym_x_gem(otherA.property().uplo(), 
-				this->rsize(), 
-				this->csize(), 
-				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
-				1, 
-				this->values(), 
-				this->lsize());
-
-	} else if(otherA.property().isHermitian() && otherB.property().isGeneral()) {
-
-		bulk::dns::hem_x_gem(
-				otherA.property().uplo(), 
-				this->rsize(), 
-				this->csize(), 
-				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
-				1, 
-				this->values(), 
-				this->lsize());
-
-	} else if(otherA.property().isGeneral() && otherB.property().isSymmetric()) {
-
-		bulk::dns::gem_x_sym(otherB.property().uplo(), 
-				this->rsize(), 
-				this->csize(), 
-				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
-				1, 
-				this->values(), 
-				this->lsize());
-
-	} else if(otherA.property().isGeneral() && otherB.property().isHermitian()) {
-
-		bulk::dns::gem_x_hem(otherB.property().uplo(), 
-				this->rsize(), 
-				this->csize(), 
-				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
-				1, 
-				this->values(), 
-				this->lsize());
-
-	} else if(otherA.property().isTriangular() && otherB.property().isGeneral()) {
-
-		XxObjectTmpl tmp(this->rsize(), this->csize(), this->rsize(), defaultProperty());
-
-		bulk::dns::trm_x_gem(otherA.property().uplo(), opA.type(), 
-				this->rsize(), 
-				this->csize(), 
-				otherB.rsize(), 
-				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
-				tmp.values(), tmp.lsize());
-
-		updateWithScaledOther(1, tmp);
-
-	} else if(otherA.property().isGeneral() && otherB.property().isTriangular()) {
-
-		XxObjectTmpl tmp(this->rsize(), this->csize(), this->rsize(), defaultProperty());
-
-		bulk::dns::gem_x_trm(otherB.property().uplo(), opB.type(), 
-				this->rsize(), 
-				this->csize(), 
-				otherA.rsize(), 
-				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
-				tmp.values(), tmp.lsize());
-
-		updateWithScaledOther(1, tmp);
-
-	} else {
-
-		throw Exception();
-
-	} // property combos
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

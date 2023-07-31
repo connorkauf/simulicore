@@ -189,7 +189,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The vector to be placed.
 		 */
-		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_Vector>& src);
+		void setBlock(uint_t ibgn, const T_Vector& src);
 
 		/**
 		 * @brief Converts a vector to a matrix.
@@ -260,6 +260,11 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		static Guard<T_Vector> wrap(uint_t n, const T_Scalar *vals);
 
 		/** @} */
+
+	public:
+		void updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA,
+				const T_Matrix& otherA,
+				const T_Vector& otherX);
 
 };
 
