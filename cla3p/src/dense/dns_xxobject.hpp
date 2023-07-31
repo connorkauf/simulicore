@@ -37,13 +37,22 @@ class XxObject : public Array2D<T_Scalar> {
 		 */
 
 		/**
+		 * @brief Unaryminus operator.
+		 *
+		 * Negates the object.
+		 *
+		 * @return The result of -(*this).
+		 */
+		T_Object operator-() const;
+
+		/**
 		 * @brief Add operator.
 		 *
 		 * Adds two compatible objects.
 		 *
 		 * @return The result of the operation *this + other.
 		 */
-		T_Object operator+(const XxObject<T_Scalar,T_Object>& other);
+		T_Object operator+(const XxObject<T_Scalar,T_Object>& other) const;
 
 		/**
 		 * @brief Subtract operator.
@@ -52,7 +61,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * @return The result of the operation *this - other.
 		 */
-		T_Object operator-(const XxObject<T_Scalar,T_Object>& other);
+		T_Object operator-(const XxObject<T_Scalar,T_Object>& other) const;
 
 		/**
 		 * @brief Update operator.
