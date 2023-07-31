@@ -4,6 +4,9 @@
 #include "cla3p/src/types.hpp"
 #include "cla3p/src/bulk/dns.hpp"
 
+#include "cla3p/src/types/integer_internal.hpp"
+#include "cla3p/src/types/scalar_internal.hpp"
+
 /*-------------------------------------------------*/
 using namespace cla3p;
 /*-------------------------------------------------*/

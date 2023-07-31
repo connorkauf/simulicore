@@ -168,9 +168,9 @@ inline Property defaultProperty()
 
 /**
  * @ingroup stream_operators
- * @brief Writes to os the type of prop.
+ * @brief Writes to os the type of pr.
  */
-std::ostream& operator<<(std::ostream& so, const cla3p::Property& prop);
+std::ostream& operator<<(std::ostream& so, const cla3p::Property& pr);
 
 /*-------------------------------------------------*/
 
