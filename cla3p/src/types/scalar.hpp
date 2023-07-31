@@ -58,6 +58,11 @@ inline real4_t getRe(const real4_t& f) { return f; }
 inline real_t  getRe(const complex_t& z) { return z.real(); }
 inline real4_t getRe(const complex8_t& c) { return c.real(); }
 
+inline real_t  getIm(const real_t&) { return 0; }
+inline real4_t getIm(const real4_t&) { return 0; }
+inline real_t  getIm(const complex_t& z) { return z.imag(); }
+inline real4_t getIm(const complex8_t& c) { return c.imag(); }
+
 inline void setim(real_t&, real_t) { }
 inline void setim(real4_t&, real4_t) { }
 inline void setim(complex_t& z, real_t d) { z.imag(d); }
