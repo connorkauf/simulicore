@@ -14,6 +14,9 @@
 #include "../proxies/mkl_proxy.hpp"
 #include "dns.hpp"
 
+#include "../types/integer_internal.hpp"
+#include "../types/scalar_internal.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace bulk {

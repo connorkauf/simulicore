@@ -15,6 +15,9 @@
 #include "../support/error_internal.hpp"
 #include "../proxies/blas_proxy.hpp"
 
+#include "../types/integer_internal.hpp"
+#include "../types/scalar_internal.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace bulk {

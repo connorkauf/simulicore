@@ -13,6 +13,10 @@
 #include "../support/error.hpp"
 #include "../checks/all_checks.hpp"
 
+#include "../types/integer_internal.hpp"
+#include "../types/scalar_internal.hpp"
+#include "../types/property_internal.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
@@ -133,7 +137,9 @@ Property& Array2D<T_Scalar>::property()
 template <typename T_Scalar>
 void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr)
 {
-	dns_consistency_check(pr, nr, nc, vals, nl);
+	Property pr2 = checkProperty<T_Scalar>(pr);
+
+	dns_consistency_check(pr2, nr, nc, vals, nl);
 
 	clear();
 
@@ -141,7 +147,7 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals,
 	setCsize(nc);
 	setLsize(nl);
 	setValues(vals);
-	setProperty(pr);
+	setProperty(pr2);
 
 	setOwner(bind);
 }

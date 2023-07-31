@@ -13,6 +13,9 @@
 #include "../bulk/dns_math.hpp"
 #include "../checks/all_checks.hpp"
 
+#include "../types/integer_internal.hpp"
+#include "../types/scalar_internal.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {

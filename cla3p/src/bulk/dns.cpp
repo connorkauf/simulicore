@@ -15,6 +15,9 @@
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 
+#include "../types/integer_internal.hpp"
+#include "../types/scalar_internal.hpp"
+
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace bulk {
