@@ -27,14 +27,14 @@ namespace cla3p {
  * Their purpose is to rearrange indices using a predefined mapping. @n
  * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1] (0-based indexing).
  */
-template <typename T_Scalar>
-class PxMatrix : public Array2D<T_Scalar> {
+template <typename T_Int>
+class PxMatrix : public Array2D<T_Int> {
 
 	public:
 
 		// no copy
-		PxMatrix(const PxMatrix<T_Scalar>&) = delete;
-		PxMatrix& operator=(const PxMatrix<T_Scalar>&) = delete;
+		PxMatrix(const PxMatrix<T_Int>&) = delete;
+		PxMatrix& operator=(const PxMatrix<T_Int>&) = delete;
 
 		/** 
 		 * @name Constructors
@@ -62,7 +62,7 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Constructs a permutation matrix with the contents of other, other is destroyed.
 		 */
-		PxMatrix(PxMatrix<T_Scalar>&& other) = default;
+		PxMatrix(PxMatrix<T_Int>&& other) = default;
 
 		/**
 		 * @brief Destroys the permutation matrix.
@@ -81,21 +81,29 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 *
 		 * Replaces the contents with those of other, other is destroyed.
 		 */
-		PxMatrix<T_Scalar>& operator=(PxMatrix<T_Scalar>&& other) = default;
+		PxMatrix<T_Int>& operator=(PxMatrix<T_Int>&& other) = default;
 
 		/**
 		 * @brief Permutation matrix entry operator.
 		 * @param[in] i The number of the requested index.
 		 * @return A reference to the i-th element of the permutation.
 		 */
-		T_Scalar& operator()(uint_t i);
+		T_Int& operator()(uint_t i);
 
 		/**
 		 * @brief Permutation matrix entry operator.
 		 * @param[in] i The number of the requested index.
 		 * @return A reference to the i-th element of the permutation.
 		 */
-		const T_Scalar& operator()(uint_t i) const;
+		const T_Int& operator()(uint_t i) const;
+
+		/**
+		 * @brief Permutes a permutation matrix.
+		 *
+		 * @param[in] P The right side permutation matrix.
+		 * @return The permutated permutation matrix ((*this) * P).
+		 */
+		PxMatrix<T_Int> operator*(const PxMatrix<T_Int>& P) const;
 
 		/** @} */
 
@@ -128,31 +136,31 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 * @brief Copies the permutation matrix.
 		 * @return A deep copy of the permutation matrix.
 		 */
-		PxMatrix<T_Scalar> copy() const;
+		PxMatrix<T_Int> copy() const;
 
 		/**
 		 * @brief Copies the permutation matrix.
 		 * @return A shallow copy of the permutation matrix.
 		 */
-		PxMatrix<T_Scalar> rcopy();
+		PxMatrix<T_Int> rcopy();
 
 		/**
 		 * @brief Copies the permutation matrix.
 		 * @return A shallow copy of the permutation matrix.
 		 */
-		Guard<PxMatrix<T_Scalar>> rcopy() const;
+		Guard<PxMatrix<T_Int>> rcopy() const;
 
 		/**
 		 * @brief Moves the permutation matrix.
 		 * @return A shallow copy of the permutation matrix, original matrix is destroyed.
 		 */
-		PxMatrix<T_Scalar> move();
+		PxMatrix<T_Int> move();
 
 		/**
 		 * @brief The inverse permutation matrix.
 		 * @return The inverse (transpose) of the permutation matrix.
 		 */
-		PxMatrix<T_Scalar> inverse() const;
+		PxMatrix<T_Int> inverse() const;
 
 		/**
 		 * @brief Permutes a permutation matrix.
@@ -160,14 +168,14 @@ class PxMatrix : public Array2D<T_Scalar> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permutated permutation matrix (P * (*this)).
 		 */
-		PxMatrix<T_Scalar> permute(const PxMatrix<T_Scalar>& P) const;
+		PxMatrix<T_Int> permuteLeft(const PxMatrix<T_Int>& P) const;
 
 		/**
 		 * @brief Permutes a permutation matrix in-place.
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 */
-		void ipermute(const PxMatrix<T_Scalar>& P);
+		void ipermuteLeft(const PxMatrix<T_Int>& P);
 
 		/** @} */
 
@@ -211,8 +219,8 @@ class PxMatrix : public Array2D<T_Scalar> {
 
 /*-------------------------------------------------*/
 
-template<typename T_Scalar>
-class BasicTypeTraits<PxMatrix<T_Scalar>> {
+template<typename T_Int>
+class BasicTypeTraits<PxMatrix<T_Int>> {
   public:
     static const std::string& type_name();
 };
@@ -225,8 +233,8 @@ class BasicTypeTraits<PxMatrix<T_Scalar>> {
  * @ingroup stream_operators
  * @brief Writes to os the contents of mat.
  */
-template <typename T_Scalar>
-std::ostream& operator<<(std::ostream& os, const cla3p::PxMatrix<T_Scalar>& mat)
+template <typename T_Int>
+std::ostream& operator<<(std::ostream& os, const cla3p::PxMatrix<T_Int>& mat)
 {
   os << mat.toString();
   return os;

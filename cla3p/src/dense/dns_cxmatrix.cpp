@@ -8,6 +8,7 @@
 // cla3p
 #include "../types/literals.hpp"
 #include "../bulk/dns.hpp"
+#include "../checks/all_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -70,6 +71,23 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 			this->values(), 
 			this->lsize(), 
 			ret.values(), ret.lsize());
+
+	return ret;
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
+CxMatrixTmpl CxMatrixTmpl::ctranspose() const
+{
+	transp_op_consistency_check(this->prop().type(), true);
+	
+	CxMatrixTmpl ret(this->nrows(), this->ncols(), this->prop());
+
+	bulk::dns::conjugate_transpose(
+			this->nrows(), 
+			this->ncols(), 
+			this->values(), 
+			this->ld(), 
+			ret.values(), ret.ld());
 
 	return ret;
 }

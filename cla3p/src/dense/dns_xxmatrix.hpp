@@ -6,7 +6,10 @@
 #include "../types/basic_traits.hpp"
 #include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
-#include "../perms.hpp"
+
+namespace cla3p {
+template <typename T_Int> class PxMatrix;
+} // namespace cla3p
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -184,7 +187,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_Matrix permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const;
+		T_Matrix permuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes the rows of a general matrix.
@@ -194,7 +197,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_Matrix permuteLeft(const PiMatrix& P) const;
+		T_Matrix permuteLeft(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the columns of a general matrix.
@@ -204,7 +207,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_Matrix permuteRight(const PiMatrix& Q) const;
+		T_Matrix permuteRight(const PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes a matrix symmetrically.
@@ -214,7 +217,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The permuted copy of the matrix.
 		 */
-		T_Matrix permuteMirror(const PiMatrix& P) const;
+		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes a general matrix in-place.
@@ -224,7 +227,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
 		 */
-		void ipermuteLeftRight(const PiMatrix& P, const PiMatrix& Q);
+		void ipermuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes the rows of a general matrix in-place.
@@ -233,7 +236,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 */
-		void ipermuteLeft(const PiMatrix& P);
+		void ipermuteLeft(const PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Permutes the columns of a general matrix in-place.
@@ -242,7 +245,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 *
 		 * @param[in] Q The right side permutation matrix.
 		 */
-		void ipermuteRight(const PiMatrix& Q);
+		void ipermuteRight(const PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes a matrix symmetrically in-place.
@@ -251,7 +254,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 *
 		 * @param[in] P The left and right side permutation matrix.
 		 */
-		void ipermuteMirror(const PiMatrix& P);
+		void ipermuteMirror(const PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Gets a submatrix copy.

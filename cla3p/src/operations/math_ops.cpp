@@ -44,10 +44,9 @@ dns::CdMatrix add(complex_t  alpha, const dns::CdMatrix& srcA, complex_t  beta, 
 dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, const dns::CfMatrix& srcB) { return dns_add_tmpl(alpha, srcA, beta, srcB); }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Matrix, typename T_Vector>
-//static void dns_update_with_mv_tmpl(T_Scalar alpha, const Operation& opA, const T_Matrix& srcA, const T_Vector& srcX, T_Vector& trg)
-static void dns_update_with_mv_tmpl(T_Scalar, const Operation&, const T_Matrix&, const T_Vector&, T_Vector&)
+static void dns_update_with_mv_tmpl(T_Scalar alpha, const Operation& opA, const T_Matrix& srcA, const T_Vector& srcX, T_Vector& trg)
 {
-	//trg.updateSelfWithMatVec(alpha, opA, srcA, srcX); // FIXME: implement
+	trg.updateSelfWithScaledMatVec(alpha, opA, srcA, srcX);
 }
 /*-------------------------------------------------*/
 void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const dns::RdVector& srcX, dns::RdVector& trg) { dns_update_with_mv_tmpl(alpha, opA, srcA, srcX, trg); }

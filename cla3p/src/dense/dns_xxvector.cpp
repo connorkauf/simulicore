@@ -7,6 +7,7 @@
 
 // cla3p
 #include "../dense.hpp"
+#include "../perms.hpp"
 #include "../bulk/dns.hpp"
 #include "../bulk/dns_math.hpp"
 #include "../support/error.hpp"
@@ -99,7 +100,7 @@ typename XxVectorTmpl::T_RScalar XxVectorTmpl::normEuc() const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_Vector XxVectorTmpl::permute(const PiMatrix& P) const
+T_Vector XxVectorTmpl::permuteLeft(const PiMatrix& P) const
 {
 	T_Vector ret;
 	this->gePermuteToLeft(ret, P);
@@ -107,7 +108,7 @@ T_Vector XxVectorTmpl::permute(const PiMatrix& P) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::ipermute(const PiMatrix& P) 
+void XxVectorTmpl::ipermuteLeft(const PiMatrix& P) 
 { 
 	this->gePermuteIpLeft(P);
 }

@@ -921,17 +921,17 @@ real_t  norm_euc(uint_t n, const complex_t  *a) { return blas::nrm2(n, a, 1); }
 real4_t norm_euc(uint_t n, const complex8_t *a) { return blas::nrm2(n, a, 1); }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P)
+static void permute_ge_left_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
-			entry(ldb, b, P[i], j) = entry(lda, a, i, j);
+			entry(ldb, b, i, j) = entry(lda, a, P[i], j);
 		} // i
 	} // j
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_ge_left_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
+static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		copy(uplo_t::F, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
@@ -943,7 +943,7 @@ static void permute_ge_both_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t l
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
-			entry(ldb, b, P[i], Q[j]) = entry(lda, a, i, j);
+			entry(ldb, b, i, Q[j]) = entry(lda, a, P[i], j);
 		} // i
 	} // j
 }
@@ -953,7 +953,6 @@ static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda
 {
 	uint_t Pi;
 	uint_t Pj;
-	T_Scalar Aij;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, n, j);
@@ -961,11 +960,10 @@ static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda
 
 			Pi  = P[i];
 			Pj  = P[j];
-			Aij = entry(lda,a,i,j);
 
-			/**/ if(uplo == uplo_t::U && Pj < Pi) entry(ldb,b,Pj,Pi) = opposite_element(Aij,ptype);
-			else if(uplo == uplo_t::L && Pj > Pi) entry(ldb,b,Pj,Pi) = opposite_element(Aij,ptype);
-			else                                  entry(ldb,b,Pi,Pj) = Aij;
+			/**/ if(uplo == uplo_t::U && Pj < Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
+			else if(uplo == uplo_t::L && Pj > Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
+			else                                  entry(ldb,b,i,j) = entry(lda,a,Pi,Pj);
 
 		} // i
 	} // j
@@ -985,8 +983,8 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_
 	if(prop.isGeneral()) {
 
 		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
-		else if( P && !Q) permute_ge_right_tmpl(m, n, a, lda, b, ldb, P);
-		else if(!P &&  Q) permute_ge_left_tmpl (m, n, a, lda, b, ldb, Q);
+		else if( P && !Q) permute_ge_left_tmpl(m, n, a, lda, b, ldb, P);
+		else if(!P &&  Q) permute_ge_right_tmpl (m, n, a, lda, b, ldb, Q);
 		else              copy(uplo_t::F, m, n, a, lda, b, ldb);
 
 	} else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
