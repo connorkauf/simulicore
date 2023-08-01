@@ -3,6 +3,7 @@
 
 #include "../types/basic_traits.hpp"
 #include "../dense/dns_xxvector.hpp"
+#include "../dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -17,6 +18,7 @@ template <typename T_Scalar>
 class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 
 	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+	using T_RVector = RxVector<T_RScalar>;
 
 	public:
 
@@ -65,6 +67,27 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)
 		 */
 		void operator=(T_Scalar val);
+
+		/** @} */
+
+		/** 
+		 * @name Public Member Functions
+		 * @{
+		 */
+
+		/**
+		 * @brief Gets a copy of the real part of the vector.
+		 *
+		 * @return A copy of the real part of the vector.
+		 */
+		T_RVector real() const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of the vector.
+		 *
+		 * @return A copy of the imaginary part of the vector.
+		 */
+		T_RVector imag() const;
 
 		/** @} */
 

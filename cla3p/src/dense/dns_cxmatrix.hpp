@@ -3,6 +3,7 @@
 
 #include "../types/basic_traits.hpp"
 #include "../dense/dns_xxmatrix.hpp"
+#include "../dense/dns_rxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -15,6 +16,9 @@ namespace dns {
  */
 template <typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
+
+	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+	using T_RMatrix = RxMatrix<T_RScalar>;
 
 	public:
 
@@ -63,6 +67,27 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
 		 */
 		void operator=(T_Scalar val);
+
+		/** @} */
+
+		/** 
+		 * @name Public Member Functions
+		 * @{
+		 */
+
+		/**
+		 * @brief Gets a copy of the real part of the matrix.
+		 *
+		 * @return A copy of the real part of the matrix.
+		 */
+		T_RMatrix real() const;
+
+		/**
+		 * @brief Gets a copy of the imaginary part of the matrix.
+		 *
+		 * @return A copy of the imaginary part of the matrix.
+		 */
+		T_RMatrix imag() const;
 
 		/** @} */
 

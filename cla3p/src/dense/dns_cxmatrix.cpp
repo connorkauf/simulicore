@@ -7,6 +7,7 @@
 
 // cla3p
 #include "../types/literals.hpp"
+#include "../bulk/dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -35,6 +36,42 @@ CxMatrixTlst
 void CxMatrixTmpl::operator=(T_Scalar val)
 {
 	CxMatrixTmpl::XxMatrix::operator=(val);
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
+typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
+{
+	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::SYMMETRIC, this->prop().uplo()) : this->prop());
+
+	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
+
+	bulk::dns::get_real(
+			this->prop().uplo(), 
+			this->nrows(), 
+			this->ncols(), 
+			this->values(), 
+			this->lsize(), 
+			ret.values(), ret.lsize());
+
+	return ret;
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
+typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
+{
+	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::SKEW, this->prop().uplo()) : this->prop());
+
+	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
+
+	bulk::dns::get_imag(
+			this->prop().uplo(), 
+			this->nrows(), 
+			this->ncols(), 
+			this->values(), 
+			this->lsize(), 
+			ret.values(), ret.lsize());
+
+	return ret;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
