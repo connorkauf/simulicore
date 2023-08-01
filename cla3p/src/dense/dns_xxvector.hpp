@@ -6,7 +6,10 @@
 #include "../types/basic_traits.hpp"
 #include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
-#include "../perms.hpp"
+
+namespace cla3p { 
+template <typename T_Int> class PxMatrix;
+} // namespace cla3p
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -137,7 +140,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] P The left side permutation matrix.
 		 * @return The permuted copy of the vector.
 		 */
-		T_Vector permute(const PiMatrix& P) const;
+		T_Vector permuteLeft(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -146,7 +149,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 */
-		void ipermute(const PiMatrix& P);
+		void ipermuteLeft(const PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Gets a subvector copy.

@@ -13,68 +13,6 @@
 /*-------------------------------------------------*/
 
 /**
- * @ingroup operators_addsub
- * @brief Updates an entity with another compatible entity.
- * @{
- */
-#if 0
-void operator+=(cla3p::dns::RdVector& trg, const cla3p::dns::RdVector& src);
-void operator+=(cla3p::dns::RfVector& trg, const cla3p::dns::RfVector& src);
-void operator+=(cla3p::dns::CdVector& trg, const cla3p::dns::CdVector& src);
-void operator+=(cla3p::dns::CfVector& trg, const cla3p::dns::CfVector& src);
-
-void operator+=(cla3p::dns::RdMatrix& trg, const cla3p::dns::RdMatrix& src);
-void operator+=(cla3p::dns::RfMatrix& trg, const cla3p::dns::RfMatrix& src);
-void operator+=(cla3p::dns::CdMatrix& trg, const cla3p::dns::CdMatrix& src);
-void operator+=(cla3p::dns::CfMatrix& trg, const cla3p::dns::CfMatrix& src);
-
-void operator-=(cla3p::dns::RdVector& trg, const cla3p::dns::RdVector& src);
-void operator-=(cla3p::dns::RfVector& trg, const cla3p::dns::RfVector& src);
-void operator-=(cla3p::dns::CdVector& trg, const cla3p::dns::CdVector& src);
-void operator-=(cla3p::dns::CfVector& trg, const cla3p::dns::CfVector& src);
-
-void operator-=(cla3p::dns::RdMatrix& trg, const cla3p::dns::RdMatrix& src);
-void operator-=(cla3p::dns::RfMatrix& trg, const cla3p::dns::RfMatrix& src);
-void operator-=(cla3p::dns::CdMatrix& trg, const cla3p::dns::CdMatrix& src);
-void operator-=(cla3p::dns::CfMatrix& trg, const cla3p::dns::CfMatrix& src);
-#endif
-/** @} */
-
-/**
- * @ingroup operators_addsub
- * @brief Adds two compatible entities.
- * @{
- */
-#if 0
-cla3p::dns::RdVector operator+(const cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB);
-cla3p::dns::RfVector operator+(const cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB);
-cla3p::dns::CdVector operator+(const cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB);
-cla3p::dns::CfVector operator+(const cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB);
-                                     
-cla3p::dns::RdMatrix operator+(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB);
-cla3p::dns::RfMatrix operator+(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB);
-cla3p::dns::CdMatrix operator+(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB);
-cla3p::dns::CfMatrix operator+(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB);
-#endif
-/** @} */
-
-/**
- * @ingroup operators_addsub
- * @brief Subtracts two compatible entities.
- * @{
- */
-cla3p::dns::RdVector operator-(const cla3p::dns::RdVector& srcA, const cla3p::dns::RdVector& srcB);
-cla3p::dns::RfVector operator-(const cla3p::dns::RfVector& srcA, const cla3p::dns::RfVector& srcB);
-cla3p::dns::CdVector operator-(const cla3p::dns::CdVector& srcA, const cla3p::dns::CdVector& srcB);
-cla3p::dns::CfVector operator-(const cla3p::dns::CfVector& srcA, const cla3p::dns::CfVector& srcB);
-                                     
-cla3p::dns::RdMatrix operator-(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB);
-cla3p::dns::RfMatrix operator-(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB);
-cla3p::dns::CdMatrix operator-(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB);
-cla3p::dns::CfMatrix operator-(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB);
-/** @} */
-
-/**
  * @ingroup operators_mult
  * @brief Multiplies two compatible entities.
  * @{

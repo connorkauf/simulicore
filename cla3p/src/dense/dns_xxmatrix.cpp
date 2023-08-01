@@ -7,6 +7,7 @@
 
 // cla3p
 #include "../dense.hpp"
+#include "../perms.hpp"
 #include "../bulk/dns.hpp"
 #include "../bulk/dns_math.hpp"
 #include "../bulk/dns_io.hpp"
