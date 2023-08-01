@@ -89,6 +89,12 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 		T_RMatrix imag() const;
 
+		/**
+		 * @brief Conjugate-transposes a general matrix.
+		 * @return The consjugate-transposed copy of the matrix.
+		 */
+		CxMatrix<T_Scalar> ctranspose() const;
+
 		/** @} */
 
 };
