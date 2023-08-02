@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0)
 
 #dummy line 1
+#dummy line 2
 
 set(project_name "Compact Suite")
 set(project_version "1.0.0")
