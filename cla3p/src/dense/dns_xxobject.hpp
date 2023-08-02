@@ -78,18 +78,20 @@ class XxObject : public Array2D<T_Scalar> {
 		XxObject<T_Scalar,T_Object>& operator-=(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
-		 * @brief Update operator.
-		 * @param[in] val The scaling coefficient.
+		 * @brief Scaling operator.
 		 *  
 		 * Scales *this by val.
+		 *
+		 * @param[in] val The scaling coefficient.
 		 */
 		XxObject<T_Scalar,T_Object>& operator*=(T_Scalar val);
 
 		/**
-		 * @brief Update operator.
-		 * @param[in] val The scaling coefficient.
+		 * @brief Scaling operator.
 		 *  
 		 * Scales *this by 1/val.
+		 *
+		 * @param[in] val The scaling coefficient.
 		 */
 		XxObject<T_Scalar,T_Object>& operator/=(T_Scalar val);
 

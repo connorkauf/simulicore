@@ -20,6 +20,27 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 
 /**
  * @ingroup operators_mult
+ * @brief Multiplies a scalar with an object.
+ *
+ * Performs the operation:
+ @verbatim
+ trg = val * src
+ @endverbatim
+ *
+ * @param[in] val The coefficient value.
+ * @param[in] src The input object.
+ * @return The scaled object.
+ */
+template <typename T_Scalar, typename T_Object>
+T_Object operator*(T_Scalar val, const cla3p::dns::XxObject<T_Scalar,T_Object>& src) 
+{ 
+	T_Object ret = src.copy();
+	ret.scale(val);
+	return ret; 
+}
+
+/**
+ * @ingroup operators_mult
  * @brief Multiplies a matrix with a vector.
  *
  * Performs the operation:
@@ -32,9 +53,9 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
  * @return The resulting vector.
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
-cla3p::dns::XxVector<T_Scalar,T_Vector> operator*(
-		const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-		const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX) 
+T_Vector operator*(
+	const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+	const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX) 
 { 
 	return cla3p::ops::mult(T_Scalar(1), cla3p::noOp(), srcA, srcX); 
 }

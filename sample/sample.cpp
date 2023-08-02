@@ -48,10 +48,10 @@ int main()
 	A = 3;
 	B = 2;
 
-	cla3p::ops::update(2.0, A, B);
-	std::cout << B;
+	B *= 2;
+	std::cout << 3.*B;
 
-	//return 0;
+	return 0;
 
 	linsol_mat();
 	linsol_vec();
