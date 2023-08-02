@@ -6,8 +6,17 @@
  * Global math operations
  */
 
-#include "../types.hpp"
-#include "../dense.hpp"
+#include "../types/operation.hpp"
+
+/*-------------------------------------------------*/
+namespace cla3p {
+namespace dns {
+template <typename T_Scalar, typename T_Object> class XxObject;
+template <typename T_Scalar, typename T_Vector> class XxVector;
+template <typename T_Scalar, typename T_Matrix> class XxMatrix;
+} // namespace dns
+} // namespace cla3p
+/*-------------------------------------------------*/
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -16,7 +25,7 @@ namespace ops {
 
 /**
  * @ingroup math_op_matadd
- * @brief Vector update.
+ * @brief Update operation on object.
  *
  * Performs the operation:
  @verbatim
@@ -24,41 +33,18 @@ namespace ops {
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] src The input vector.
- * @param[in,out] trg The vector to be updated.
- *
- * @{
+ * @param[in] src The input object.
+ * @param[in,out] trg The object to be updated.
  */
-void update(real_t     alpha, const dns::RdVector& src, dns::RdVector& trg);
-void update(real4_t    alpha, const dns::RfVector& src, dns::RfVector& trg);
-void update(complex_t  alpha, const dns::CdVector& src, dns::CdVector& trg);
-void update(complex8_t alpha, const dns::CfVector& src, dns::CfVector& trg);
-/** @} */
+template <typename T_Scalar, typename T_Object>
+void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::XxObject<T_Scalar,T_Object>& trg)
+{
+	trg.updateSelfWithScaledOther(alpha, src);
+}
 
 /**
  * @ingroup math_op_matadd
- * @brief Matrix update.
- *
- * Performs the operation:
- @verbatim
- trg += alpha * src
- @endverbatim
- *
- * @param[in] alpha The scaling coefficient.
- * @param[in] src The input matrix.
- * @param[in,out] trg The matrix to be updated.
- *
- * @{
- */
-void update(real_t     alpha, const dns::RdMatrix& src, dns::RdMatrix& trg);
-void update(real4_t    alpha, const dns::RfMatrix& src, dns::RfMatrix& trg);
-void update(complex_t  alpha, const dns::CdMatrix& src, dns::CdMatrix& trg);
-void update(complex8_t alpha, const dns::CfMatrix& src, dns::CfMatrix& trg);
-/** @} */
-
-/**
- * @ingroup math_op_matadd
- * @brief Vector sum.
+ * @brief Adds two scaled objects.
  *
  * Performs the operation:
  @verbatim
@@ -66,41 +52,20 @@ void update(complex8_t alpha, const dns::CfMatrix& src, dns::CfMatrix& trg);
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient for srcA.
- * @param[in] srcA The first input vector.
+ * @param[in] srcA The first input object.
  * @param[in] beta The scaling coefficient for srcB.
- * @param[in] srcB The second input vector.
- * @return The resulting vector.
- *
- * @{
+ * @param[in] srcB The second input object.
+ * @return The resulting object.
  */
-dns::RdVector add(real_t     alpha, const dns::RdVector& srcA, real_t     beta, const dns::RdVector& srcB);
-dns::RfVector add(real4_t    alpha, const dns::RfVector& srcA, real4_t    beta, const dns::RfVector& srcB);
-dns::CdVector add(complex_t  alpha, const dns::CdVector& srcA, complex_t  beta, const dns::CdVector& srcB);
-dns::CfVector add(complex8_t alpha, const dns::CfVector& srcA, complex8_t beta, const dns::CfVector& srcB);
-/** @} */
-
-/**
- * @ingroup math_op_matadd
- * @brief Matrix sum.
- *
- * Performs the operation:
- @verbatim
- trg = alpha * srcA + beta * srcB
- @endverbatim
- *
- * @param[in] alpha The scaling coefficient for srcA.
- * @param[in] srcA The first input matrix.
- * @param[in] beta The scaling coefficient for srcB.
- * @param[in] srcB The second input matrix.
- * @return The resulting matrix.
- *
- * @{
- */
-dns::RdMatrix add(real_t     alpha, const dns::RdMatrix& srcA, real_t     beta, const dns::RdMatrix& srcB);
-dns::RfMatrix add(real4_t    alpha, const dns::RfMatrix& srcA, real4_t    beta, const dns::RfMatrix& srcB);
-dns::CdMatrix add(complex_t  alpha, const dns::CdMatrix& srcA, complex_t  beta, const dns::CdMatrix& srcB);
-dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, const dns::CfMatrix& srcB);
-/** @} */
+template <typename T_Scalar, typename T_Object>
+T_Object add(
+		T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& srcA, 
+		T_Scalar beta , const dns::XxObject<T_Scalar,T_Object>& srcB)
+{
+	T_Object ret;
+	ret.createFromScaledSum(alpha, srcA, beta, srcB);
+	return ret;
+}
 
 /**
  * @ingroup math_op_matvec
@@ -116,14 +81,16 @@ dns::CfMatrix add(complex8_t alpha, const dns::CfMatrix& srcA, complex8_t beta, 
  * @param[in] srcA The input matrix.
  * @param[in] srcX The input vector.
  * @param[in,out] trg The vector to be updated.
- *
- * @{
  */
-void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const dns::RdVector& srcX, dns::RdVector& trg);
-void mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const dns::RfVector& srcX, dns::RfVector& trg);
-void mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const dns::CdVector& srcX, dns::CdVector& trg);
-void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const dns::CfVector& srcX, dns::CfVector& trg);
-/** @} */
+
+template <typename T_Scalar, typename T_Vector, typename T_Matrix>
+void mult(T_Scalar alpha, const Operation& opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+		const dns::XxVector<T_Scalar,T_Vector>& srcX, 
+		dns::XxVector<T_Scalar,T_Vector>& trg)
+{
+	trg.updateSelfWithScaledMatVec(alpha, opA, srcA, srcX);
+}
 
 /**
  * @ingroup math_op_matvec
@@ -140,13 +107,18 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
  * @param[in] srcX The input vector.
  * @return The resulting vector.
  *
- * @{
  */
-dns::RdVector mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const dns::RdVector& srcX);
-dns::RfVector mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const dns::RfVector& srcX);
-dns::CdVector mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const dns::CdVector& srcX);
-dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const dns::CfVector& srcX);
-/** @} */
+template <typename T_Scalar, typename T_Vector, typename T_Matrix>
+T_Vector mult(T_Scalar alpha, const Operation& opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+		const dns::XxVector<T_Scalar,T_Vector>& srcX)
+{
+	T_Vector ret(opA.isTranspose() ? srcA.ncols() : srcA.nrows());
+	ret = 0;
+	dns::XxVector<T_Scalar,T_Vector>& tmp = ret;
+	mult(alpha, opA, srcA, srcX, tmp);
+	return ret;
+}
 
 /**
  * @ingroup math_op_matmat
@@ -176,10 +148,14 @@ dns::CfVector mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& 
  *
  * @{
  */
-void mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB, dns::RdMatrix& trg);
-void mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB, dns::RfMatrix& trg);
-void mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB, dns::CdMatrix& trg);
-void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const Operation& opB, const dns::CfMatrix& srcB, dns::CfMatrix& trg);
+template <typename T_Scalar, typename T_Matrix>
+void mult(T_Scalar alpha, 
+		const Operation& opA, const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+		const Operation& opB, const dns::XxMatrix<T_Scalar,T_Matrix>& srcB, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& trg)
+{
+	trg.updateSelfWithScaledMatMat(alpha, opA, srcA, opB, srcB);
+}
 /** @} */
 
 /**
@@ -207,14 +183,17 @@ void mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, con
  * @param[in] opB The operation to be performed for matrix srcB.
  * @param[in] srcB The input matrix.
  * @return The resulting matrix.
- *
- * @{
  */
-dns::RdMatrix mult(real_t     alpha, const Operation& opA, const dns::RdMatrix& srcA, const Operation& opB, const dns::RdMatrix& srcB);
-dns::RfMatrix mult(real4_t    alpha, const Operation& opA, const dns::RfMatrix& srcA, const Operation& opB, const dns::RfMatrix& srcB);
-dns::CdMatrix mult(complex_t  alpha, const Operation& opA, const dns::CdMatrix& srcA, const Operation& opB, const dns::CdMatrix& srcB);
-dns::CfMatrix mult(complex8_t alpha, const Operation& opA, const dns::CfMatrix& srcA, const Operation& opB, const dns::CfMatrix& srcB);
-/** @} */
+template <typename T_Scalar, typename T_Matrix>
+T_Matrix mult(T_Scalar alpha, 
+		const Operation& opA, const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+		const Operation& opB, const dns::XxMatrix<T_Scalar,T_Matrix>& srcB)
+{
+	T_Matrix ret(opA.isTranspose() ? srcA.ncols() : srcA.nrows(), opB.isTranspose() ? srcB.nrows() : srcB.ncols());
+	ret = 0;
+	mult(alpha, opA, srcA, opB, srcB, ret);
+	return ret;
+}
 
 /*-------------------------------------------------*/
 } // namespace ops

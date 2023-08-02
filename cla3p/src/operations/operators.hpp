@@ -6,85 +6,96 @@
  * Global math operator definitions
  */
 
-#include "../types.hpp"
-#include "../dense.hpp"
-#include "../perms.hpp"
+#include "../operations/math_ops.hpp"
 
+/*-------------------------------------------------*/
+namespace cla3p {
+template <typename T_Int> class PxMatrix;
+namespace dns {
+template <typename T_Scalar, typename T_Vector> class XxVector;
+template <typename T_Scalar, typename T_Matrix> class XxMatrix;
+} // namespace dns
+} // namespace cla3p
 /*-------------------------------------------------*/
 
 /**
  * @ingroup operators_mult
- * @brief Multiplies two compatible entities.
- * @{
+ * @brief Multiplies a matrix with a vector.
+ *
+ * Performs the operation:
+ @verbatim
+ trg = srcA * srcX
+ @endverbatim
+ *
+ * @param[in] srcA The input matrix.
+ * @param[in] srcX The input vector.
+ * @return The resulting vector.
  */
-cla3p::dns::RdVector operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdVector& srcX);
-cla3p::dns::RfVector operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfVector& srcX);
-cla3p::dns::CdVector operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdVector& srcX);
-cla3p::dns::CfVector operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfVector& srcX);
-                                     
-cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::dns::RdMatrix& srcB);
-cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::dns::RfMatrix& srcB);
-cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::dns::CdMatrix& srcB);
-cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::dns::CfMatrix& srcB);
-/** @} */
+template <typename T_Scalar, typename T_Vector, typename T_Matrix>
+cla3p::dns::XxVector<T_Scalar,T_Vector> operator*(
+		const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
+		const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX) 
+{ 
+	return cla3p::ops::mult(T_Scalar(1), cla3p::noOp(), srcA, srcX); 
+}
 
 /**
  * @ingroup operators_perm
- * @brief Multiplies permutation matrix with a compatible entity.
- * @{
+ * @brief Multiplies permutation matrix with a vector.
+ *
+ * Performs the operation:
+ @verbatim
+ trg = srcP * srcX
+ @endverbatim
+ *
+ * @param[in] srcP The input permutation matrix.
+ * @param[in] srcX The input vector.
+ * @return The resulting vector.
  */
-cla3p::dns::RdVector operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::RdVector& srcX);
-cla3p::dns::RfVector operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::RfVector& srcX);
-cla3p::dns::CdVector operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::CdVector& srcX);
-cla3p::dns::CfVector operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::CfVector& srcX);
-
-cla3p::dns::RdMatrix operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::RdMatrix& srcA);
-cla3p::dns::RfMatrix operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::RfMatrix& srcA);
-cla3p::dns::CdMatrix operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::CdMatrix& srcA);
-cla3p::dns::CfMatrix operator*(const cla3p::PiMatrix& srcP, const cla3p::dns::CfMatrix& srcA);
-
-cla3p::dns::RdMatrix operator*(const cla3p::dns::RdMatrix& srcA, const cla3p::PiMatrix& srcP);
-cla3p::dns::RfMatrix operator*(const cla3p::dns::RfMatrix& srcA, const cla3p::PiMatrix& srcP);
-cla3p::dns::CdMatrix operator*(const cla3p::dns::CdMatrix& srcA, const cla3p::PiMatrix& srcP);
-cla3p::dns::CfMatrix operator*(const cla3p::dns::CfMatrix& srcA, const cla3p::PiMatrix& srcP);
-
-/** @} */
+template <typename T_Int, typename T_Scalar, typename T_Vector>
+T_Vector operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX)
+{
+	return srcX.permuteLeft(srcP);
+}
 
 /**
- * @ingroup operators_lsol
- * @brief Performs linear solution X = A^{-1} * B.
- * @{
+ * @ingroup operators_perm
+ * @brief Multiplies permutation matrix with a general matrix.
+ *
+ * Performs the operation:
+ @verbatim
+ trg = srcP * srcA
+ @endverbatim
+ *
+ * @param[in] srcP The input permutation matrix.
+ * @param[in] srcA The input matrix.
+ * @return The resulting matrix.
  */
-
-cla3p::dns::RdVector operator/(const cla3p::dns::RdVector& srcX, const cla3p::dns::RdMatrix& srcA);
-cla3p::dns::RfVector operator/(const cla3p::dns::RfVector& srcX, const cla3p::dns::RfMatrix& srcA);
-cla3p::dns::CdVector operator/(const cla3p::dns::CdVector& srcX, const cla3p::dns::CdMatrix& srcA);
-cla3p::dns::CfVector operator/(const cla3p::dns::CfVector& srcX, const cla3p::dns::CfMatrix& srcA);
-
-cla3p::dns::RdMatrix operator/(const cla3p::dns::RdMatrix& srcX, const cla3p::dns::RdMatrix& srcA);
-cla3p::dns::RfMatrix operator/(const cla3p::dns::RfMatrix& srcX, const cla3p::dns::RfMatrix& srcA);
-cla3p::dns::CdMatrix operator/(const cla3p::dns::CdMatrix& srcX, const cla3p::dns::CdMatrix& srcA);
-cla3p::dns::CfMatrix operator/(const cla3p::dns::CfMatrix& srcX, const cla3p::dns::CfMatrix& srcA);
-
-/** @} */
+template <typename T_Int, typename T_Scalar, typename T_Matrix>
+T_Matrix operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA)
+{
+	return srcA.permuteLeft(srcP);
+}
 
 /**
- * @ingroup operators_lsol
- * @brief Overwrites srcX with the solution A^{-1} * srcX.
- * @{
+ * @ingroup operators_perm
+ * @brief Multiplies general matrix with a permutation matrix.
+ *
+ * Performs the operation:
+ @verbatim
+ trg = srcA * srcP
+ @endverbatim
+ *
+ * @param[in] srcA The input matrix.
+ * @param[in] srcP The input permutation matrix.
+ * @return The resulting matrix.
  */
 
-void operator/=(cla3p::dns::RdVector& srcX, const cla3p::dns::RdMatrix& srcA);
-void operator/=(cla3p::dns::RfVector& srcX, const cla3p::dns::RfMatrix& srcA);
-void operator/=(cla3p::dns::CdVector& srcX, const cla3p::dns::CdMatrix& srcA);
-void operator/=(cla3p::dns::CfVector& srcX, const cla3p::dns::CfMatrix& srcA);
-
-void operator/=(cla3p::dns::RdMatrix& srcX, const cla3p::dns::RdMatrix& srcA);
-void operator/=(cla3p::dns::RfMatrix& srcX, const cla3p::dns::RfMatrix& srcA);
-void operator/=(cla3p::dns::CdMatrix& srcX, const cla3p::dns::CdMatrix& srcA);
-void operator/=(cla3p::dns::CfMatrix& srcX, const cla3p::dns::CfMatrix& srcA);
-
-/** @} */
+template <typename T_Int, typename T_Scalar, typename T_Matrix>
+T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, const cla3p::PxMatrix<T_Int>& srcP)
+{
+	return srcA.permuteRight(srcP);
+}
 
 /*-------------------------------------------------*/
 
