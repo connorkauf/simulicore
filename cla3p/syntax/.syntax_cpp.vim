@@ -42,6 +42,7 @@ syn keyword cTypeCustomTemplate T_Scalar T_RScalar
 syn keyword cTypeCustomTemplate T_Object
 syn keyword cTypeCustomTemplate T_Vector T_RVector
 syn keyword cTypeCustomTemplate T_Matrix T_RMatrix
+syn keyword cTypeCustomTemplate T_Rhs
 
 hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
 
