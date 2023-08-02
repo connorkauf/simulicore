@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0)
 
+#dummy line 1
+
 set(project_name "Compact Suite")
 set(project_version "1.0.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
