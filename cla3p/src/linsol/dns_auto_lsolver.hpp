@@ -21,6 +21,8 @@ namespace dns {
 template <typename T_Matrix>
 class LSolverAuto : public LSolverBase<T_Matrix> {
 
+	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+
 	public:
 
 		// no copy
@@ -66,9 +68,20 @@ class LSolverAuto : public LSolverBase<T_Matrix> {
 		 */
 		void solve(T_Matrix& rhs) const override;
 
+		// FIXME : use this in all solvers
+		void solve(T_Vector& rhs) const;
+
 	private:
 		void fdecompose();
 };
+
+template <typename T_Matrix, typename T_Rhs>
+void default_linear_solver(const T_Matrix& mat, T_Rhs& rhs)
+{
+	LSolverAuto<T_Matrix> solver;
+	solver.decompose(mat);
+	solver.solve(rhs);
+}
 
 /*-------------------------------------------------*/
 } // namespace dns
