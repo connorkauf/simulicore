@@ -105,6 +105,32 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 */
 		void operator=(T_Scalar val);
 
+		/**
+		 * @brief The matrix-matrix multiplication operator.
+		 *
+		 * Multiplies *this with other.
+		 *
+		 * @param[in] other The left hand side multiplier.
+		 * @return The result of the operation (*this * other).
+		 */
+		T_Matrix operator*(const XxMatrix<T_Scalar,T_Matrix>& other) const;
+
+		/**
+		 * @brief Solves the linear system other * x = *this.
+		 *
+		 * @param[in] other The lhs matrix.
+		 * @return The result of the operation (other^{-1} * (*this)).
+		 */
+		T_Matrix operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const;
+
+		/**
+		 * @brief Overwrites *this with the solution other^{-1} * (*this).
+		 *
+		 * @param[in] other The lhs matrix.
+		 * @return The result of the operation (other^{-1} * (*this)).
+		 */
+		XxMatrix<T_Scalar,T_Matrix>& operator/=(const XxMatrix<T_Scalar,T_Matrix>& other);
+
 		/** @} */
 
 		/** 
@@ -304,7 +330,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] jbgn The matrix column that src will be placed.
 		 * @param[in] src The block to be placed.
 		 */
-		void setBlock(uint_t ibgn, uint_t jbgn, const T_Matrix& src);
+		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_Matrix>& src);
 
 		/**
 		 * @brief Gets a matrix column copy.
@@ -400,8 +426,8 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 	public:
 		void updateSelfWithScaledMatMat(T_Scalar alpha,
-				const Operation& opA, const T_Matrix& otherA,
-				const Operation& opB, const T_Matrix& otherB);
+				const Operation& opA, const XxMatrix<T_Scalar,T_Matrix>& otherA,
+				const Operation& opB, const XxMatrix<T_Scalar,T_Matrix>& otherB);
 
 };
 

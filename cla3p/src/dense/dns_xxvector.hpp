@@ -16,6 +16,8 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 
+template <typename T_Scalar, typename T_Matrix> class XxMatrix;
+
 /**
  * @nosubgrouping 
  * @brief A dense vector class.
@@ -99,6 +101,22 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] val The value to be set.
 		 */
 		void operator=(T_Scalar val);
+
+		/**
+		 * @brief Solves the linear system other * x = *this.
+		 *
+		 * @param[in] other The lhs matrix.
+		 * @return The result of the operation (other^{-1} * (*this)).
+		 */
+		T_Vector operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const;
+
+		/**
+		 * @brief Overwrites *this with the solution other^{-1} * (*this).
+		 *
+		 * @param[in] other The lhs matrix.
+		 * @return The result of the operation (other^{-1} * (*this)).
+		 */
+		XxVector<T_Scalar,T_Vector>& operator/=(const XxMatrix<T_Scalar,T_Matrix>& other);
 
 		/** @} */
 
@@ -192,7 +210,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] ibgn The vector index that src will be placed.
 		 * @param[in] src The vector to be placed.
 		 */
-		void setBlock(uint_t ibgn, const T_Vector& src);
+		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_Vector>& src);
 
 		/**
 		 * @brief Converts a vector to a matrix.
@@ -266,8 +284,8 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 	public:
 		void updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA,
-				const T_Matrix& otherA,
-				const T_Vector& otherX);
+				const XxMatrix<T_Scalar,T_Matrix>& otherA,
+				const XxVector<T_Scalar,T_Vector>& otherX);
 
 };
 

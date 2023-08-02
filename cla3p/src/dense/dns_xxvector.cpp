@@ -14,6 +14,7 @@
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../checks/all_checks.hpp"
+#include "../linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -62,6 +63,22 @@ XxVectorTlst
 void XxVectorTmpl::operator=(T_Scalar val)
 {
 	this->fill(val);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_Vector XxVectorTmpl::operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const
+{
+	T_Vector ret = this->copy();
+	ret /= other;
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVector<T_Scalar,T_Vector>& XxVectorTmpl::operator/=(const XxMatrix<T_Scalar,T_Matrix>& other)
+{
+	T_Vector rhs = this->rcopy();
+	default_linear_solver<T_Matrix,T_Vector>(other.rcopy().get(), rhs);
+	return *this;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -132,7 +149,7 @@ Guard<T_Vector> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::setBlock(uint_t ibgn, const T_Vector& src)
+void XxVectorTmpl::setBlock(uint_t ibgn, const XxVectorTmpl& src)
 {
 	this->setBlockCopy(src, ibgn, 0);
 }
@@ -190,7 +207,7 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, const T_Matrix& otherA, const T_Vector& otherX)
+void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, const XxMatrix<T_Scalar,T_Matrix>& otherA, const XxVectorTmpl& otherX)
 {
 	matvec_mult_check(opA, 
 			otherA.prop(), otherA.nrows(), otherA.ncols(), 

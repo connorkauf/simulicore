@@ -15,6 +15,7 @@
 #include "../support/error_internal.hpp"
 #include "../support/utils.hpp"
 #include "../checks/all_checks.hpp"
+#include "../linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -63,6 +64,33 @@ XxMatrixTlst
 void XxMatrixTmpl::operator=(T_Scalar val)
 {
 	this->fill(val);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_Matrix XxMatrixTmpl::operator*(const XxMatrixTmpl& other) const
+{
+	T_Matrix ret(nrows(), other.ncols());
+
+	ret = 0;
+	ret.updateSelfWithScaledMatMat(1, noOp(), *this, noOp(), other);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_Matrix XxMatrixTmpl::operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const
+{
+	T_Matrix ret = this->copy();
+	ret /= other;
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrix<T_Scalar,T_Matrix>& XxMatrixTmpl::operator/=(const XxMatrix<T_Scalar,T_Matrix>& other)
+{
+	T_Matrix rhs = this->rcopy();
+	default_linear_solver<T_Matrix,T_Matrix>(other.rcopy().get(), rhs);
+	return *this;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -267,7 +295,7 @@ Guard<T_Matrix> XxMatrixTmpl::rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const T_Matrix& src)
+void XxMatrixTmpl::setBlock(uint_t ibgn, uint_t jbgn, const XxMatrixTmpl& src)
 {
 	this->setBlockCopy(src, ibgn, jbgn);
 }
@@ -328,8 +356,8 @@ Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const
 /*-------------------------------------------------*/
 XxMatrixTlst
 void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
-		const Operation& opA, const T_Matrix& otherA,
-		const Operation& opB, const T_Matrix& otherB)
+		const Operation& opA, const XxMatrixTmpl& otherA,
+		const Operation& opB, const XxMatrixTmpl& otherB)
 {
 	mat_x_mat_mult_check(
 			otherA.property(), otherA.nrows(), otherA.ncols(), opA,
