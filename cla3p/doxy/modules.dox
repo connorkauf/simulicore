@@ -49,18 +49,12 @@
  */
 
 /**
- * @defgroup math_operators Algebra Operators
- *
- * @defgroup operators_addsub Addition/Subtraction
- * @ingroup math_operators
+ * @defgroup math_operators Algebraic Operators
  *
  * @defgroup operators_mult Multiplication
  * @ingroup math_operators
  *
  * @defgroup operators_perm Permutation
- * @ingroup math_operators
- *
- * @defgroup operators_lsol Linear Solution
  * @ingroup math_operators
  */
 
