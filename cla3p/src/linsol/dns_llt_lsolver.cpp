@@ -10,6 +10,7 @@
 #include "../proxies/lapack_proxy.hpp"
 #include "../support/error.hpp"
 #include "../checks/all_checks.hpp"
+#include "../checks/llt_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
