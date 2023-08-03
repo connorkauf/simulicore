@@ -1,8 +1,6 @@
 #ifndef CLA3P_OWNERSHIP_HPP_
 #define CLA3P_OWNERSHIP_HPP_
 
-#include "../types.hpp"
-
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
