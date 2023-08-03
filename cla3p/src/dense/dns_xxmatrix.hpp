@@ -7,9 +7,9 @@
 #include "../dense/dns_xxobject.hpp"
 #include "../generic/guard.hpp"
 
-namespace cla3p {
-template <typename T_Int> class PxMatrix;
-} // namespace cla3p
+/*-------------------------------------------------*/
+
+namespace cla3p { template <typename T_Int> class PxMatrix; }
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -23,8 +23,9 @@ namespace dns {
 template <typename T_Scalar, typename T_Matrix>
 class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
-	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
-	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+	private:
+		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+		using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
 
 	public:
 

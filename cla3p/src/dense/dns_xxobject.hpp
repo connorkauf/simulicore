@@ -16,7 +16,8 @@ namespace dns {
 template <typename T_Scalar, typename T_Object>
 class XxObject : public Array2D<T_Scalar> {
 	
-	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+	private:
+		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 
 	public:
 		explicit XxObject();

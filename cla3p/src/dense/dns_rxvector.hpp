@@ -9,6 +9,8 @@ namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
 
+template <typename T_Scalar> class RxMatrix;
+
 /**
  * @nosubgrouping 
  * @brief A dense real vector class.
@@ -75,13 +77,11 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns {
-template <typename T_Scalar> class RxMatrix;
-} // namespace dns
 template<typename T_Scalar>
 class BasicTypeTraits<dns::RxVector<T_Scalar>> {
 	public:
 		static const std::string& type_name();
+		using real_type = dns::RxVector<T_Scalar>;
 		using matrix_type = dns::RxMatrix<T_Scalar>;
 };
 } // namespace cla3p

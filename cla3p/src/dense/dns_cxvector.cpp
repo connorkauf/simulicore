@@ -9,6 +9,7 @@
 #include "../types/literals.hpp"
 #include "../bulk/dns.hpp"
 #include "../checks/all_checks.hpp"
+#include "../dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

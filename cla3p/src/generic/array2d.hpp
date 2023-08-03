@@ -8,8 +8,9 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-template <typename T_Int> class PxMatrix;
 /*-------------------------------------------------*/
+
+template <typename T_Int> class PxMatrix;
 
 /**
  * @nosubgrouping 

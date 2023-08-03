@@ -3,12 +3,14 @@
 
 #include "../types/basic_traits.hpp"
 #include "../dense/dns_xxvector.hpp"
-#include "../dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
 namespace dns {
 /*-------------------------------------------------*/
+
+template <typename T_Scalar> class CxMatrix;
+template <typename T_Scalar> class RxVector;
 
 /**
  * @nosubgrouping 
@@ -17,8 +19,9 @@ namespace dns {
 template <typename T_Scalar>
 class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 
-	using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
-	using T_RVector = RxVector<T_RScalar>;
+	private:
+		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+		using T_RVector = typename BasicTypeTraits<CxVector<T_Scalar>>::real_type;
 
 	public:
 
@@ -100,13 +103,13 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns {
-template <typename T_Scalar> class CxMatrix;
-} // namespace dns
 template<typename T_Scalar>
 class BasicTypeTraits<dns::CxVector<T_Scalar>> {
+	private:
+		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 	public:
 		static const std::string& type_name();
+		using real_type = dns::RxVector<T_RScalar>;
 		using matrix_type = dns::CxMatrix<T_Scalar>;
 };
 } // namespace cla3p
