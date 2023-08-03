@@ -21,6 +21,8 @@ namespace dns {
 template <typename T_Matrix>
 class LSolverLU : public LSolverBase<T_Matrix> {
 
+	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+
 	public:
 
 		// no copy
@@ -62,9 +64,14 @@ class LSolverLU : public LSolverBase<T_Matrix> {
 		void idecompose(T_Matrix& mat) override;
 
 		/**
-		 * @copydoc cla3p::dns::LSolverBase::solve()
+		 * @copydoc cla3p::dns::LSolverBase::solve(T_Matrix& rhs) const
 		 */
 		void solve(T_Matrix& rhs) const override;
+
+		/**
+		 * @copydoc cla3p::dns::LSolverBase::solve(T_Vector& rhs) const
+		 */
+		void solve(T_Vector& rhs) const override;
 
 	private:
 		void fdecompose();

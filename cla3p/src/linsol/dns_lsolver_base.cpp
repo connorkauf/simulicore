@@ -104,6 +104,13 @@ void LSolverBase<T_Matrix>::clearAll()
 	defaults();
 }
 /*-------------------------------------------------*/
+template <typename T_Matrix>
+void LSolverBase<T_Matrix>::solve(T_Vector& rhs) const
+{
+	T_Matrix tmp = rhs.rmatrix();
+	solve(tmp);
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class LSolverBase<RdMatrix>;

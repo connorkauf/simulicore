@@ -115,8 +115,7 @@ void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
 template <typename T_Matrix>
 void LSolverAuto<T_Matrix>::solve(T_Vector& rhs) const
 {
-	T_Matrix tmp = rhs.rmatrix();
-	solve(tmp);
+	LSolverBase<T_Matrix>::solve(rhs);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>

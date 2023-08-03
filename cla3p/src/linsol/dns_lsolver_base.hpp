@@ -23,6 +23,8 @@ namespace dns {
 template <typename T_Matrix>
 class LSolverBase {
 
+	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+
 	public:
 
 		// no copy
@@ -59,6 +61,12 @@ class LSolverBase {
 		 * @param[in] rhs The right hand side matrix, overwritten with the solution.
 		 */
 		virtual void solve(T_Matrix& rhs) const = 0;
+
+		/**
+		 * @brief Performs in-place vector solution.
+		 * @param[in] rhs The right hand side vector, overwritten with the solution.
+		 */
+		virtual void solve(T_Vector& rhs) const = 0;
 
 	protected:
 		int_t& info();

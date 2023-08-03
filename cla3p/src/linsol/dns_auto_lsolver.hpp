@@ -64,12 +64,14 @@ class LSolverAuto : public LSolverBase<T_Matrix> {
 		void idecompose(T_Matrix& mat) override;
 
 		/**
-		 * @copydoc cla3p::dns::LSolverBase::solve()
+		 * @copydoc cla3p::dns::LSolverBase::solve(T_Matrix& rhs) const
 		 */
 		void solve(T_Matrix& rhs) const override;
 
-		// FIXME : use this in all solvers
-		void solve(T_Vector& rhs) const;
+		/**
+		 * @copydoc cla3p::dns::LSolverBase::solve(T_Vector& rhs) const
+		 */
+		void solve(T_Vector& rhs) const override;
 
 	private:
 		void fdecompose();

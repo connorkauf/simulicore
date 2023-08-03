@@ -3,6 +3,7 @@
 #include "cla3p/src/dense.hpp"
 #include "cla3p/src/perms.hpp"
 #include "cla3p/src/operations.hpp"
+#include "cla3p/src/linsol.hpp"
 
 /*-------------------------------------------------*/
 static void linsol_mat()
@@ -42,17 +43,6 @@ static void linsol_vec()
 
 int main()
 {
-
-	cla3p::dns::RdMatrix A(5,5);
-	cla3p::dns::RdMatrix B(5,5);
-	A = 3;
-	B = 2;
-
-	B *= 2;
-	std::cout << 3.*B;
-
-	return 0;
-
 	linsol_mat();
 	linsol_vec();
 

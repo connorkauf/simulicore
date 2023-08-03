@@ -102,6 +102,12 @@ void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
+void LSolverLDLt<T_Matrix>::solve(T_Vector& rhs) const
+{
+	LSolverBase<T_Matrix>::solve(rhs);
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
 void LSolverLDLt<T_Matrix>::fdecompose()
 {
 	if(this->factor().prop().isSymmetric()) {
