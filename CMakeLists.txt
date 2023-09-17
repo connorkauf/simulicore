@@ -4,6 +4,18 @@ set(project_name "Compact Suite")
 set(project_version "1.0.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 
+#-----------------------------------------------
+# detect operating system
+#-----------------------------------------------
+message("WIN32: ${WIN32}")
+message("UNIX : ${UNIX}")
+message("APPLE: ${APPLE}")
+message("CMAKE_SYSTEM: ${CMAKE_SYSTEM}")
+message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
+
+#-----------------------------------------------
+# choose standard
+#-----------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
