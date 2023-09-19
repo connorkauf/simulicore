@@ -1,6 +1,14 @@
 set(MKL_ROOT /opt/intel/oneapi/mkl/2023.2.0)
 set(ICC_ROOT /opt/intel/oneapi/compiler/2023.2.0/linux/compiler)
 
+if(NOT EXISTS ${MKL_ROOT})
+	message(FATAL_ERROR "Intel MKL root directory '${MKL_ROOT}' does not exist.")
+endif()
+
+if(NOT EXISTS ${ICC_ROOT})
+	message(FATAL_ERROR "Intel Compiler root directory '${ICC_ROOT}' does not exist.")
+endif()
+
 set(ICC_LIB_DIR ${ICC_ROOT}/lib/intel64_lin)
 set(IOMP5_LIB -L${ICC_LIB_DIR} -liomp5)
 
