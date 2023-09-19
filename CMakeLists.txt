@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.7.0)
 
 set(project_name "Compact Suite")
 set(project_version "1.0.0")
@@ -7,30 +7,20 @@ project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 #-----------------------------------------------
 # detect operating system
 #-----------------------------------------------
-# FIXME: tide this up
-message("CMAKE_SYSTEM: ${CMAKE_SYSTEM}")
-message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
 if(CMAKE_VERSION VERSION_LESS "3.25.0")
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 		set(LINUX 1)
 	endif()
 endif()
 
-message("WIN32: ${WIN32}")
-message("UNIX : ${UNIX}")
-message("APPLE: ${APPLE}")
-message("LINUX: ${LINUX}")
-
 if(LINUX)
-	message("LINUX OS IS DETECTED!!!")
-endif()
-
-if(WIN32)
-	message("WINDOWS OS IS DETECTED!!!")
-endif()
-
-if(APPLE)
-	message("MAC OS IS DETECTED!!!")
+	message(STATUS "Detected OS: Linux")
+elseif(WIN32)
+	message(STATUS "Detected OS: Windows")
+elseif(APPLE)
+	message(STATUS "Detected OS: MacOS")
+else()
+	message(FATAL_ERROR "Unsupported OS (${CMAKE_SYSTEM_NAME})")
 endif()
 
 #-----------------------------------------------
@@ -38,10 +28,7 @@ endif()
 #-----------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-	set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 #-----------------------------------------------
 # set build type
@@ -49,13 +36,13 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "")
 	set(CMAKE_BUILD_TYPE Release)
 endif()
-message("Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 #-----------------------------------------------
 # set project root
 #-----------------------------------------------
 set(COMPACT_SUITE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-message("Compact Suite Root Directory: ${COMPACT_SUITE_ROOT}")
+message(STATUS "Compact Suite Root Directory: ${COMPACT_SUITE_ROOT}")
 
 #-----------------------------------------------
 # set install location
@@ -63,12 +50,12 @@ message("Compact Suite Root Directory: ${COMPACT_SUITE_ROOT}")
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 	set(CMAKE_INSTALL_PREFIX "${COMPACT_SUITE_ROOT}/install" CACHE PATH "Installation directory" FORCE)
 endif()
-message("Compact Suite Install Directory: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Compact Suite Install Directory: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
-message("Use 64bit integers for CLA3P: ${CLA3P_USE_I64}")
+message(STATUS "Use 64bit integers for CLA3P: ${CLA3P_USE_I64}")
 
 if(CLA3P_USE_I64)
 	add_definitions(-DCLA3P_I64)
@@ -77,14 +64,15 @@ endif()
 #-----------------------------------------------
 # set compiler flags
 #-----------------------------------------------
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wshadow")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-format-attribute")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color=always")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+add_compile_options(-m64)
+add_compile_options(-Werror)
+add_compile_options(-Wall)
+add_compile_options(-Wextra)
+add_compile_options(-Wshadow)
+add_compile_options(-Wmissing-format-attribute)
+add_compile_options(-fdiagnostics-color=always)
+endif()
 
 #-----------------------------------------------
 # set 3rd parties
@@ -140,7 +128,7 @@ message(STATUS "CLA3P_LIB: ${CLA3P_LIB}")
 
 #-----------------------------------------------
 
-add_subdirectory(cmpi)
+#add_subdirectory(cmpi)
 add_subdirectory(cla3p)
 
 add_subdirectory(3rd)

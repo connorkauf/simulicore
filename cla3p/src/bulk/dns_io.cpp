@@ -121,11 +121,11 @@ uint_t Printer::countColumnsPerPage(uint_t n)
 /*-------------------------------------------------*/
 void Printer::appendPageHeader(uint_t jbgn, uint_t jend)
 {
-	nint_t nd = m_row_numdigits;
-	std::sprintf(m_cbuff, "%*s  ", nd, "");
+	nint_t nd = static_cast<nint_t>(m_row_numdigits);
+	std::snprintf(m_cbuff, 128, "%*s  ", nd, "");
 	m_str.append(m_cbuff);
 
-	nd = m_element_length_max;
+	nd = static_cast<nint_t>(m_element_length_max);
 	for(uint_t j = jbgn; j < jend; j++) {
 		std::sprintf(m_cbuff, "%*" _UFMT_ , nd, j);
 		m_str.append(m_cbuff);

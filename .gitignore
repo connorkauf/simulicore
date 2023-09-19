@@ -1,6 +1,9 @@
 .*.swp
 .*.swo
+CMakeSettings.json
 tags
 build/*
 install/*
 .vscode/*
+.vs/*
+out/*

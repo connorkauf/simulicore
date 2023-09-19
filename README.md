@@ -3,7 +3,7 @@ The location of this file is marked as <compact-suite-root>
 
 Prepare to install
 ------------------
-CMake version 3.1.0 and above is needed.
+CMake version 3.7.0 and above is needed.
 Intel MKL configuration is needed. Edit file
 <compact-suite-root>/3rd/mkl.lin.cmake (linux os)
 <compact-suite-root>/3rd/mkl.win.cmake (windows os)
@@ -14,7 +14,6 @@ For MacOS Intel MKL is not supported.
 
 Build & Install
 ---------------
-
 Choose a build directory: <build-dir>
 For 32bit integer version of cla3p run: cmake -S <compact-suite-root> -B <build-dir>
 For 64bit integer version of cla3p run: cmake -S <compact-suite-root> -B <build-dir> -DCLA3P_USE_I64=true
@@ -25,7 +24,6 @@ make install
 
 Installation contents
 ---------------------
-
 The default installation path is <compact-suite-root>/install
 
 install/include   : the compact suite include directory
