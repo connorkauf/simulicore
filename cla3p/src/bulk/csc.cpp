@@ -123,12 +123,14 @@ void sort_by_ridx(uint_t n, const uint_t *colptr, uint_t *rowidx, complex8_t *va
 template <typename T>
 static std::string print_to_string_tmpl(uint_t n, const uint_t *colptr, const uint_t *rowidx, const T *values, uint_t nsd)
 {
+#define BUFFER_LEN 1024
+
 	std::string ret;
 	ret.reserve(colptr[n] * 128);
-	char cbuff[1024];
+	char cbuff[BUFFER_LEN];
 
-	std::sprintf(cbuff, "       #nz        row     column  value          \n"); ret.append(cbuff);
-	std::sprintf(cbuff, "-------------------------------------------------\n"); ret.append(cbuff);
+	std::snprintf(cbuff, BUFFER_LEN, "       #nz        row     column  value          \n"); ret.append(cbuff);
+	std::snprintf(cbuff, BUFFER_LEN, "-------------------------------------------------\n"); ret.append(cbuff);
 
 	uint_t icnt = 0;
 	for(uint_t j = 0; j < n; j++) {
@@ -141,16 +143,18 @@ static std::string print_to_string_tmpl(uint_t n, const uint_t *colptr, const ui
 			uint_t i = rowidx[irow];
 			T      v = values[irow];
 
-			val2char(cbuff,  10, icnt++); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff,  10, i     ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff,  10, j     ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, nsd, v     ); ret.append(cbuff); ret.append("\n");
+			val2char(cbuff, BUFFER_LEN,  10, icnt++); ret.append(cbuff); ret.append(" ");
+			val2char(cbuff, BUFFER_LEN,  10, i     ); ret.append(cbuff); ret.append(" ");
+			val2char(cbuff, BUFFER_LEN,  10, j     ); ret.append(cbuff); ret.append(" ");
+			val2char(cbuff, BUFFER_LEN, nsd, v     ); ret.append(cbuff); ret.append("\n");
 
 		} // irow
 
 	} // j
 
 	return ret;
+
+#undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
 std::string print_to_string(uint_t n, const uint_t *colptr, const uint_t *rowidx, const int_t      *values, uint_t nsd) { return print_to_string_tmpl(n, colptr, rowidx, values, nsd); }

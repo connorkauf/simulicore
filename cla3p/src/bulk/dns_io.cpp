@@ -17,7 +17,7 @@ namespace cla3p {
 namespace bulk {
 namespace dns {
 /*-------------------------------------------------*/
-/*-------------------------------------------------*/
+#define PRINTER_BUFFER_SIZE 128
 /*-------------------------------------------------*/
 class Printer {
 
@@ -71,7 +71,7 @@ class Printer {
 		uint_t m_element_length;
 		uint_t m_element_length_max;
 
-		char m_cbuff[128];
+		char m_cbuff[PRINTER_BUFFER_SIZE];
 		std::string m_str;
 };
 /*-------------------------------------------------*/
@@ -122,12 +122,12 @@ uint_t Printer::countColumnsPerPage(uint_t n)
 void Printer::appendPageHeader(uint_t jbgn, uint_t jend)
 {
 	nint_t nd = static_cast<nint_t>(m_row_numdigits);
-	std::snprintf(m_cbuff, 128, "%*s  ", nd, "");
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*s  ", nd, "");
 	m_str.append(m_cbuff);
 
 	nd = static_cast<nint_t>(m_element_length_max);
 	for(uint_t j = jbgn; j < jend; j++) {
-		std::sprintf(m_cbuff, "%*" _UFMT_ , nd, j);
+		std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*" _UFMT_ , nd, j);
 		m_str.append(m_cbuff);
 	} // j
 
@@ -136,72 +136,76 @@ void Printer::appendPageHeader(uint_t jbgn, uint_t jend)
 /*-------------------------------------------------*/
 void Printer::appendExtraSpaces()
 {
-	nint_t extra_spaces = m_element_length_max - m_element_length;
+	uint_t extra_spaces = m_element_length_max - m_element_length;
 
 	if(extra_spaces) {
-		std::sprintf(m_cbuff, "%*s", extra_spaces, "");
+		std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*s", static_cast<nint_t>(extra_spaces), "");
 		m_str.append(m_cbuff);
 	} // extra_spaces
 }
 /*-------------------------------------------------*/
 void Printer::appendEmpty()
 {
-	nint_t nd = m_element_length_max;
-	std::sprintf(m_cbuff, "%*s", nd, "");
+	uint_t nd = m_element_length_max;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*s", static_cast<nint_t>(nd), "");
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(int_t a)
 {
-	nint_t nd = m_element_length_max;
-	std::sprintf(m_cbuff, "%*" _DFMT_ , nd, a);
+	uint_t nd = m_element_length_max;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*" _DFMT_ , static_cast<nint_t>(nd), a);
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(uint_t a)
 {
-	nint_t nd = m_element_length_max;
-	std::sprintf(m_cbuff, "%*" _UFMT_ , nd, a);
+	uint_t nd = m_element_length_max;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*" _UFMT_ , static_cast<nint_t>(nd), a);
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(real_t a)
 {
 	appendExtraSpaces();
-	nint_t nd = m_nsd;
-	std::sprintf(m_cbuff, " % .*le", nd, a);
+	uint_t nd = m_nsd;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, " % .*le", static_cast<nint_t>(nd), a);
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(real4_t a)
 {
 	appendExtraSpaces();
-	nint_t nd = m_nsd;
-	std::sprintf(m_cbuff, " % .*e", nd, a);
+	uint_t nd = m_nsd;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, " % .*e", static_cast<nint_t>(nd), a);
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(complex_t a)
 {
 	appendExtraSpaces();
-	nint_t nd = m_nsd;
-	std::sprintf(m_cbuff, " (% .*le,% .*le)", nd, a.real(), nd, a.imag());
+	uint_t nd = m_nsd;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, " (% .*le,% .*le)", 
+		static_cast<nint_t>(nd), a.real(), 
+		static_cast<nint_t>(nd), a.imag());
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 void Printer::appendElement(complex8_t a)
 {
 	appendExtraSpaces();
-	nint_t nd = m_nsd;
-	std::sprintf(m_cbuff, " (% .*e,% .*e)", nd, a.real(), nd, a.imag());
+	uint_t nd = m_nsd;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, " (% .*e,% .*e)", 
+		static_cast<nint_t>(nd), a.real(), 
+		static_cast<nint_t>(nd), a.imag());
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
 template <typename T>
 void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda)
 {
-	nint_t nd = m_row_numdigits;
-	std::sprintf(m_cbuff, "%*" _UFMT_ " |", nd, i);
+	uint_t nd = m_row_numdigits;
+	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*" _UFMT_ " |", static_cast<nint_t>(nd), i);
 	m_str.append(m_cbuff);
 
 	nd = m_nsd;
@@ -405,6 +409,8 @@ void print(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uin
 {
 	print_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
+/*-------------------------------------------------*/
+#undef PRINTER_BUFFER_SIZE
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace bulk

@@ -41,30 +41,34 @@ void sanitize_nsd(uint_t& nsd)
 /*-------------------------------------------------*/
 std::string bytes2human(bulk_t nbytes, uint_t nsd)
 {
+#define BUFFER_LEN 128
+
 	sanitize_nsd(nsd);
 
-	nint_t nd = nsd;
-	char ret[128];
+	nint_t nd = static_cast<nint_t>(nsd);
+	char ret[BUFFER_LEN];
 	real_t rsize = static_cast<real_t>(nbytes);
 
 	if(nbytes >= SIZEGB) {
 		real_t b2r = rsize / static_cast<real_t>(SIZETB);
-		std::sprintf(ret, "%.*lf Tb", nd, b2r);
+		std::snprintf(ret, BUFFER_LEN, "%.*lf Tb", nd, b2r);
 	} else if(nbytes >= SIZEGB) {
 		real_t b2r = rsize / static_cast<real_t>(SIZEGB);
-		std::sprintf(ret, "%.*lf Gb", nd, b2r);
+		std::snprintf(ret, BUFFER_LEN, "%.*lf Gb", nd, b2r);
 	} else if(nbytes >= SIZEMB) {
 		real_t b2r = rsize / static_cast<real_t>(SIZEMB);
-		std::sprintf(ret, "%.*lf Mb", nd, b2r);
+		std::snprintf(ret, BUFFER_LEN, "%.*lf Mb", nd, b2r);
 	} else if(nbytes >= SIZEKB) {
 		real_t b2r = rsize / static_cast<real_t>(SIZEKB);
-		std::sprintf(ret, "%.*lf Kb", nd, b2r);
+		std::snprintf(ret, BUFFER_LEN, "%.*lf Kb", nd, b2r);
 	} else {
 		real_t b2r = rsize;
-		std::sprintf(ret, "%.*lf b", nd, b2r);
+		std::snprintf(ret, BUFFER_LEN, "%.*lf b", nd, b2r);
 	} // nbytes
-		//
+
 	return ret;
+
+#undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
 std::string extract_filename(const std::string& path, const std::string& hint)
@@ -134,14 +138,14 @@ static real_t rand_tmpl(T low, T high)
 /*-------------------------------------------------*/
 int_t irand(int_t low, int_t high)
 {
-	int_t ret = rand_tmpl(low, high);
-	return std::round(ret);
+	real_t ret = rand_tmpl(low, high);
+	return static_cast<int_t>(std::round(ret));
 }
 /*-------------------------------------------------*/
 uint_t urand(uint_t low, uint_t high)
 {
-	int_t ret = rand_tmpl(low, high);
-	return std::round(ret);
+	real_t ret = rand_tmpl(low, high);
+	return static_cast<uint_t>(std::round(ret));
 }
 /*-------------------------------------------------*/
 real_t  drand(real_t  low, real_t  high) { return                      rand_tmpl(low, high) ; }
@@ -150,63 +154,61 @@ real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl
 complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
 complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, int_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, "%*" _DFMT_ , nd, val);
+		std::snprintf(buff, bufflen, "%*" _DFMT_ , static_cast<nint_t>(nsd), val);
 	} else {
-		std::sprintf(buff, "%" _DFMT_ , val);
+		std::snprintf(buff, bufflen, "%" _DFMT_ , val);
 	} // nsd
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, uint_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, uint_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, "%*" _UFMT_ , nd, val);
+		std::snprintf(buff, bufflen, "%*" _UFMT_ , static_cast<nint_t>(nsd), val);
 	} else {
-		std::sprintf(buff, "%" _UFMT_ , val);
+		std::snprintf(buff, bufflen, "%" _UFMT_ , val);
 	} // nsd
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, real_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, real_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, " % .*le", nd, val);
+		std::snprintf(buff, bufflen, " % .*le", static_cast<nint_t>(nsd), val);
 	} else {
-		std::sprintf(buff, " % .le", val);
+		std::snprintf(buff, bufflen, " % .le", val);
 	} // nsd
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, real4_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, real4_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, " % .*e", nd, val);
+		std::snprintf(buff, bufflen, " % .*e", static_cast<nint_t>(nsd), val);
 	} else {
-		std::sprintf(buff, " % .e", val);
+		std::snprintf(buff, bufflen, " % .e", val);
 	} // nsd
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, complex_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, " (% .*le,% .*le)", nd, val.real(), nd, val.imag());
+		std::snprintf(buff, bufflen, " (% .*le,% .*le)", 
+			static_cast<nint_t>(nsd), val.real(), 
+			static_cast<nint_t>(nsd), val.imag());
 	} else {
-		std::sprintf(buff, " (% .le,% .le)", val.real(), val.imag());
+		std::snprintf(buff, bufflen, " (% .le,% .le)", val.real(), val.imag());
 	} // nsd
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, uint_t nsd, complex8_t val)
+void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex8_t val)
 {
 	if(nsd) {
-		nint_t nd = nsd;
-		std::sprintf(buff, " (% .*e,% .*e)", nd, val.real(), nd, val.imag());
+		std::snprintf(buff, bufflen, " (% .*e,% .*e)", 
+			static_cast<nint_t>(nsd), val.real(), 
+			static_cast<nint_t>(nsd), val.imag());
 	} else {
-		std::sprintf(buff, " (% .e,% .e)", val.real(), val.imag());
+		std::snprintf(buff, bufflen, " (% .e,% .e)", val.real(), val.imag());
 	} // nsd
 }
 /*-------------------------------------------------*/
