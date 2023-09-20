@@ -54,7 +54,7 @@
 //#include "cla3p/src/linsol.hpp"
 //#include "cla3p/src/types.hpp"
 //#include "cla3p/src/perms.hpp"
-//#include "cla3p/src/dense.hpp"
+#include "cla3p/src/dense.hpp"
 //#include "cla3p/src/support.hpp"
 //#include "cla3p/src/operations.hpp"
 
@@ -64,6 +64,10 @@
 
 int main()
 {
+	std::cout << "Hello Compact Suite!" << std::endl;
+
+	cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(3,3);
+	std::cout << A.info() << A << A.normInf() << std::endl;
 
 	return 0;
 }
