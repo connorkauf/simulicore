@@ -65,13 +65,13 @@ endif()
 # set compiler flags
 #-----------------------------------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-add_compile_options(-m64)
-add_compile_options(-Werror)
-add_compile_options(-Wall)
-add_compile_options(-Wextra)
-add_compile_options(-Wshadow)
-add_compile_options(-Wmissing-format-attribute)
-add_compile_options(-fdiagnostics-color=always)
+	add_compile_options(-m64)
+	add_compile_options(-Werror)
+	add_compile_options(-Wall)
+	add_compile_options(-Wextra)
+	add_compile_options(-Wshadow)
+	add_compile_options(-Wmissing-format-attribute)
+	add_compile_options(-fdiagnostics-color=always)
 endif()
 
 #-----------------------------------------------
