@@ -7,7 +7,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About Compact Suite</a>
+      <a href="#about-compact-suite">About Compact Suite</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
