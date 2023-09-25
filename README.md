@@ -7,7 +7,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">About Compact Suite</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -27,11 +27,11 @@
 
 
 
-## About The Project
+## About Compact Suite
 
 **Compact Suite** is a collection of C++ libraries that aims to modernize the scientific computation development.
 
-Traditional functional scientific programming is supported by a wide range of libraries and can produce high performing code, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
+Traditional functional scientific programming is supported by a wide range of libraries and can produce high performance code, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
 
 Compact suite aims to bridge the gap between the established codebases and the modern object oriented way of coding, while maintaining the efficiency, robustness and performance the first offers. 
 
@@ -115,8 +115,8 @@ For Windows add `-DCLA3P_USE_I64=true` in the section "CMake command arguments" 
 ### Installation contents
 
 The default installation path is 
-* `compact-suite-root`/install for Linux
-* `compact-suite-root`/out/install/`build-type` for Windows
+* `compact_suite_root`/install for Linux
+* `compact_suite_root`/out/install/`build-type` for Windows
 ```
 install/include   : the compact suite include directory
 install/lib       : the compact suite library directory
