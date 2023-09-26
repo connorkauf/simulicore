@@ -89,20 +89,17 @@ message(STATUS "MKL_LIB: ${MKL_LIB}")
 # cla3p setup
 set(CLA3P_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 
-if(LINUX)
-	if(CLA3P_USE_I64)
-		set(CLA3P_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -lcla3p_i64_pre)
-	else()
-		set(CLA3P_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -lcla3p_pre)
-	endif()
-elseif(WIN32)
-	if(CLA3P_USE_I64)
-		set(CLA3P_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/cla3p_i64_pre.lib)
-	else()
-		set(CLA3P_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/cla3p_pre.lib)
-	endif()
+if(CLA3P_USE_I64)
+	set(CLA3P_LIB_BASENAME "cla3p_i64_pre")
+else()
+	set(CLA3P_LIB_BASENAME "cla3p_pre")
 endif()
 
+if(LINUX)
+	set(CLA3P_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -l${CLA3P_LIB_BASENAME})
+elseif(WIN32)
+	set(CLA3P_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/${CLA3P_LIB_BASENAME}.lib)
+endif()
 
 #-----------------------------------------------
 # function that creates wrap script
