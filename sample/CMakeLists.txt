@@ -9,7 +9,7 @@ add_executable(${BIN_NAME} sample.cpp)
 # dependencies setup
 #-----------------------------------------------
 target_include_directories(${BIN_NAME} PRIVATE 
-	${COMPACT_SUITE_ROOT}
+	${COMPACT_SUITE_ROOT}/cla3p.mod/source
 	${MKL_INC}
 	)
 
