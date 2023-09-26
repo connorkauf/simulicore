@@ -75,10 +75,8 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 #-----------------------------------------------
-# set 3rd parties
+# set openmp
 #-----------------------------------------------
-
-#openmp
 find_package(OpenMP)
 if (OPENMP_FOUND)
 	message(STATUS "Configuring OpenMP ${OpenMP_CXX_VERSION}...")
@@ -89,6 +87,8 @@ else()
 	message(WARNING "OpenMP not found")
 endif()
 
+#-----------------------------------------------
+# set 3rd parties
 #-----------------------------------------------
 
 # mkl setup
@@ -103,36 +103,20 @@ message(STATUS "MKL_INC: ${MKL_INC}")
 message(STATUS "MKL_LIB: ${MKL_LIB}")
 
 #-----------------------------------------------
-
-# mpi setup
-# or future use
-# set(MPI_CXX_LIBRARIES 
-# -L<mpi-root>/lib/release -lmpi_ilp64 -lmpi
-# -L<mpi-root>/lib -lmpicxx -lmpifort
-# -L<mpi-root>/libfabric/lib -lfabric
-# -lrt -lpthread -ldl)
-# set(MPI_CXX_COMPILER <mpi-root>/bin/choose-compiler)
-
-#-----------------------------------------------
 # sub-module setup
 #-----------------------------------------------
 if(CLA3P_USE_I64)
-	set(CMPI_LIB "cmpi_i64_pre")
 	set(CLA3P_LIB "cla3p_i64_pre")
 else()
-	set(CMPI_LIB "cmpi_pre")
 	set(CLA3P_LIB "cla3p_pre")
 endif()
-message(STATUS "CMPI_LIB: ${CMPI_LIB}")
 message(STATUS "CLA3P_LIB: ${CLA3P_LIB}")
 
 #-----------------------------------------------
 
-#add_subdirectory(cmpi)
 add_subdirectory(cla3p)
 
 add_subdirectory(3rd)
-#add_subdirectory(tests)
 add_subdirectory(sample)
 
 #-----------------------------------------------
