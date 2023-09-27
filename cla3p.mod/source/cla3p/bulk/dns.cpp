@@ -39,6 +39,18 @@ static inline T opposite_element(const T& x, const prop_t& ptype)
 	return x;
 }
 /*-------------------------------------------------*/
+static inline int_t opposite_element(const int_t&, const prop_t&)
+{
+	throw Exception();
+	return 0;
+}
+/*-------------------------------------------------*/
+static inline uint_t opposite_element(const uint_t&, const prop_t&)
+{
+	throw Exception();
+	return 0;
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
