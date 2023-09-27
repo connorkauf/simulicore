@@ -255,26 +255,6 @@ static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 	}
 }
 /*-------------------------------------------------*/
-void get_real(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
-void get_imag(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void get_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
-void set_real(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
-void set_imag(uplo_t, uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(uplo_t, uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void set_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
 void get_real(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
 void get_real(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
 void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
@@ -339,33 +319,6 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coef
 	} // uplo
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void naive_scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
-{
-	// 
-	// TODO: more efficiently
-	//
-	if(!m || !n) return;
-
-	if(coeff == T(1)) {
-		return;
-	} // coeff = 1
-
-	if(coeff == T(0)) {
-		zero(uplo, m, n, a, lda);
-		return;
-	} // coeff = 0
-
-	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, m, j);
-		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			entry(lda,a,i,j) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-}
-/*-------------------------------------------------*/
-void scale(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      coeff) { naive_scale_tmpl(uplo, m, n, a, lda, coeff); }
-void scale(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     coeff) { naive_scale_tmpl(uplo, m, n, a, lda, coeff); }
 void scale(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
 void scale(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
 void scale(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
@@ -384,36 +337,6 @@ static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uin
 	} // coeff = 0
 
 	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
-}
-/*-------------------------------------------------*/
-template <typename T>
-static void naive_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
-{
-	// 
-	// TODO: more efficiently
-	//
-	if(!m || !n) return;
-
-	if(coeff == T(0)) {
-		zero(uplo_t::F, n, m, b, ldb);
-		return;
-	} // coeff = 0
-
-	for(uint_t j = 0; j < n; j++) {
-		for(uint_t i = 0; i < m; i++) {
-			entry(ldb,b,j,i) = coeff * entry(lda,a,i,j);
-		} // i
-	} // j
-}
-/*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
-{ 
-	naive_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
-{ 
-	naive_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
 }
 /*-------------------------------------------------*/
 void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
@@ -451,8 +374,6 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t, uint_t, const int_t  *, uint_t, int_t  *, uint_t, int_t  ) { throw Exception(msg::op_not_allowed()); }
-void conjugate_transpose(uint_t, uint_t, const uint_t *, uint_t, uint_t *, uint_t, uint_t ) { throw Exception(msg::op_not_allowed()); }
 void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::op_not_allowed()); }
 void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
@@ -515,11 +436,6 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T 
 		if(uplo == uplo_t::L) conjugate(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
-/*-------------------------------------------------*/
-void conjugate(uplo_t, uint_t, uint_t, int_t  *, uint_t, int_t  ) { throw Exception(msg::op_not_allowed()); }
-void conjugate(uplo_t, uint_t, uint_t, uint_t *, uint_t, uint_t ) { throw Exception(msg::op_not_allowed()); }
-void conjugate(uplo_t, uint_t, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::op_not_allowed()); }
-void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
 void conjugate(uplo_t uplo, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
 { 
@@ -602,24 +518,17 @@ static void xx2ge_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t ptype)
 	xx2ge_recursive_tmpl(uplo, n, a, lda, ptype);
 }
 /*-------------------------------------------------*/
-void sy2ge(uplo_t uplo, uint_t n, int_t      *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
-void sy2ge(uplo_t uplo, uint_t n, uint_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 /*-------------------------------------------------*/
-void he2ge(uplo_t, uint_t, int_t  *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void he2ge(uplo_t, uint_t, uint_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
 void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
 void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
 /*-------------------------------------------------*/
 void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
 void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
 /*-------------------------------------------------*/
-void sk2ge(uplo_t, uint_t, uint_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
-/*-------------------------------------------------*/
-void sk2ge(uplo_t uplo, uint_t n, int_t      *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
 void sk2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
 void sk2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
 void sk2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
@@ -638,8 +547,6 @@ static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 	} // j
 }
 /*-------------------------------------------------*/
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
 void tr2ge(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
 void tr2ge(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
 void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
@@ -882,16 +789,6 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	return 0;
 }
 /*-------------------------------------------------*/
-int_t norm_one(prop_t, uplo_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t norm_max(prop_t, uplo_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const int_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-/*-------------------------------------------------*/
-uint_t norm_one(prop_t, uplo_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-uint_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-uint_t norm_max(prop_t, uplo_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-uint_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const uint_t*, uint_t){ throw Exception(msg::op_not_allowed()); return 0; }
-/*-------------------------------------------------*/
 real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_one_tmpl<real_t,real_t>(ptype,uplo,m,n,a,lda); }
 real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_inf_tmpl<real_t,real_t>(ptype,uplo,m,n,a,lda); }
 real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_max_tmpl<real_t,real_t>(ptype,uplo,m,n,a,lda); }
@@ -911,9 +808,6 @@ real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t
 real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
 real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
 real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<complex8_t,real4_t>(ptype,uplo,m,n,a,lda); }
-/*-------------------------------------------------*/
-int_t  norm_euc(uint_t, const int_t *) { throw Exception(msg::op_not_allowed()); return 0; }
-uint_t norm_euc(uint_t, const uint_t*) { throw Exception(msg::op_not_allowed()); return 0; }
 /*-------------------------------------------------*/
 real_t  norm_euc(uint_t n, const real_t     *a) { return blas::nrm2(n, a, 1); }
 real4_t norm_euc(uint_t n, const real4_t    *a) { return blas::nrm2(n, a, 1); }
