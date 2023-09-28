@@ -13,7 +13,7 @@
 #include "cla3p/support/error.hpp"
 #include "cla3p/support/error_internal.hpp"
 #include "cla3p/support/utils.hpp"
-#include "cla3p/checks/all_checks.hpp"
+#include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
@@ -209,7 +209,7 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 XxVectorTlst
 void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, const XxMatrix<T_Scalar,T_Matrix>& otherA, const XxVectorTmpl& otherX)
 {
-	matvec_mult_check(opA, 
+	mat_x_vec_mult_check(opA, 
 			otherA.prop(), otherA.nrows(), otherA.ncols(), 
 			otherX.property(), otherX.rsize(), otherX.csize(), 
 			this->property(), 

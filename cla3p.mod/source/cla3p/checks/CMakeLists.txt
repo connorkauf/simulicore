@@ -2,7 +2,13 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	checks/all_checks.cpp
+	checks/basic_checks.cpp
+	checks/block_ops_checks.cpp
+	checks/dns_checks.cpp
+	checks/lapack_checks.cpp
+	checks/matrix_math_checks.cpp
+	checks/perm_checks.cpp
+	checks/transp_checks.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_CHECKS_HPP 

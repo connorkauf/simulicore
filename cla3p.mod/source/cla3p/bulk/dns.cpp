@@ -7,13 +7,13 @@
 // 3rd
 
 // cla3p
-#include "cla3p/checks/all_checks.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/proxies/mkl_proxy.hpp"
 #include "cla3p/support/error.hpp"
 #include "cla3p/support/error_internal.hpp"
 #include "cla3p/support/utils.hpp"
+#include "cla3p/checks/basic_checks.hpp"
 
 #include "cla3p/types/integer_internal.hpp"
 #include "cla3p/types/scalar_internal.hpp"

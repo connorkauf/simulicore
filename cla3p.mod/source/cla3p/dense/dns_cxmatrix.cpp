@@ -8,8 +8,8 @@
 // cla3p
 #include "cla3p/types/literals.hpp"
 #include "cla3p/bulk/dns.hpp"
-#include "cla3p/checks/all_checks.hpp"
 #include "cla3p/dense/dns_rxmatrix.hpp"
+#include "cla3p/checks/transp_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

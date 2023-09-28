@@ -9,7 +9,6 @@
 #include "cla3p/support/error.hpp"
 #include "cla3p/support/error_internal.hpp"
 #include "cla3p/support/utils.hpp"
-#include "cla3p/checks/all_checks.hpp"
 #include "cla3p/types/literals.hpp"
 
 /*-------------------------------------------------*/

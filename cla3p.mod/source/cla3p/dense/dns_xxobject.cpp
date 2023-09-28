@@ -11,7 +11,9 @@
 #include "cla3p/support/error_internal.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/checks/all_checks.hpp"
+
+#include "cla3p/checks/basic_checks.hpp"
+#include "cla3p/checks/block_ops_checks.hpp"
 
 #include "cla3p/types/integer_internal.hpp"
 #include "cla3p/types/scalar_internal.hpp"
@@ -213,7 +215,7 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 XxObjectTlst
 void XxObjectTmpl::updateSelfWithScaledOther(T_Scalar alpha, const XxObjectTmpl& other)
 {
-	op_similarity_check(
+	similarity_check(
 			this->property(), 
 			this->rsize(), 
 			this->csize(), 
@@ -235,7 +237,7 @@ void XxObjectTmpl::createFromScaledSum(
 		T_Scalar alpha, const XxObjectTmpl& otherA,
 		T_Scalar beta, const XxObjectTmpl& otherB)
 {
-	op_similarity_check(
+	similarity_check(
 			otherA.property(), otherA.rsize(), otherA.csize(), 
 			otherB.property(), otherB.rsize(), otherB.csize());
 

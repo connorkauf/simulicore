@@ -11,7 +11,9 @@
 #include "cla3p/bulk/dns_io.hpp"
 #include "cla3p/support/imalloc.hpp"
 #include "cla3p/support/error.hpp"
-#include "cla3p/checks/all_checks.hpp"
+
+#include "cla3p/checks/dns_checks.hpp"
+#include "cla3p/checks/perm_checks.hpp"
 
 #include "cla3p/types/integer_internal.hpp"
 #include "cla3p/types/scalar_internal.hpp"

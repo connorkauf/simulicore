@@ -9,7 +9,10 @@
 #include "cla3p/dense.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/support/error.hpp"
-#include "cla3p/checks/all_checks.hpp"
+
+#include "cla3p/checks/decomp_auto_checks.hpp"
+#include "cla3p/checks/solve_checks.hpp"
+#include "cla3p/checks/lapack_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -43,7 +46,7 @@ template <typename T_Matrix>
 void LSolverAuto<T_Matrix>::decompose(const T_Matrix& mat)
 {
 	this->factor().clear();
-	default_decomp_input_check(mat);
+	auto_decomp_input_check(mat);
 	this->absorbInput(mat);
 	fdecompose();
 }
@@ -52,7 +55,7 @@ template <typename T_Matrix>
 void LSolverAuto<T_Matrix>::idecompose(T_Matrix& mat)
 {
 	this->factor().clear();
-	default_decomp_input_check(mat);
+	auto_decomp_input_check(mat);
 	this->factor() = mat.move();
 	fdecompose();
 }

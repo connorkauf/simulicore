@@ -1,5 +1,5 @@
-#ifndef CLA3P_LLT_CHECKS_HPP_
-#define CLA3P_LLT_CHECKS_HPP_
+#ifndef CLA3P_DECOMP_LLT_CHECKS_HPP_
+#define CLA3P_DECOMP_LLT_CHECKS_HPP_
 
 #include "cla3p/types.hpp"
 #include "cla3p/dense.hpp"
@@ -33,4 +33,4 @@ void llt_decomp_input_check(const T& mat)
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_LLT_CHECKS_HPP_
+#endif // CLA3P_DECOMP_LLT_CHECKS_HPP_
