@@ -32,14 +32,14 @@ using nint_t = int;
 
 template<> class BasicTypeTraits<int_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
 };
 
 template<> class BasicTypeTraits<uint_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
 };
 
 /*-------------------------------------------------*/

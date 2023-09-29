@@ -10,41 +10,34 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-static const std::string literal_stringInteger           = "Integer";
-static const std::string literal_stringUnsignedInteger   = "Unsigned Integer";
-static const std::string literal_stringReal              = "Real";
-static const std::string literal_stringComplex           = "Complex";
-static const std::string literal_stringSingle            = "Single (32bit)";
-static const std::string literal_stringDouble            = "Double (64bit)";
-static const std::string literal_stringDense             = "Dense";
-static const std::string literal_stringSparseCsc         = "Sparse (csc)";
-static const std::string literal_stringVector            = "Vector";
-static const std::string literal_stringMatrix            = "Matrix";
-static const std::string literal_stringPermutationMatrix = "Permutation Matrix";
-static const std::string literal_stringDenseVector       = "Dense Vector";
-static const std::string literal_stringDenseMatrix       = "Dense Matrix";
+std::string stringInteger()           { return "Integer"; }
+std::string stringUnsignedInteger()   { return "Unsigned " + stringInteger(); }
+std::string stringReal()              { return "Real"; }
+std::string stringComplex()           { return "Complex"; }
+std::string stringSingle()            { return "Single (32bit)"; }
+std::string stringDouble()            { return "Double (64bit)"; }
+std::string stringDense()             { return "Dense"; }
+std::string stringSparseCsc()         { return "Sparse (csc)"; }
+std::string stringVector()            { return "Vector"; }
+std::string stringMatrix()            { return "Matrix"; }
+std::string stringPermutationMatrix() { return "Permutation " + stringMatrix(); }
+std::string stringDenseVector()       { return stringDense() + " " + stringVector(); }
+std::string stringDenseMatrix ()      { return stringDense() + " " + stringMatrix(); }
 /*-------------------------------------------------*/
-#define LITERAL_FUN_BODY(literal_function_name) \
-const std::string& literal_function_name() \
-{ \
-	return literal_##literal_function_name; \
-}
+std::string stringUnknown() { return "Unknown"; }
 /*-------------------------------------------------*/
-LITERAL_FUN_BODY(stringInteger          )
-LITERAL_FUN_BODY(stringUnsignedInteger  )
-LITERAL_FUN_BODY(stringReal             )
-LITERAL_FUN_BODY(stringComplex          )
-LITERAL_FUN_BODY(stringSingle           )
-LITERAL_FUN_BODY(stringDouble           )
-LITERAL_FUN_BODY(stringDense            )
-LITERAL_FUN_BODY(stringSparseCsc        )
-LITERAL_FUN_BODY(stringVector           )
-LITERAL_FUN_BODY(stringMatrix           )
-LITERAL_FUN_BODY(stringPermutationMatrix)
-LITERAL_FUN_BODY(stringDenseVector      )
-LITERAL_FUN_BODY(stringDenseMatrix      )
+std::string stringNoOperation()                 { return "No operation";}
+std::string stringTransposeOperation()          { return "Transpose";}
+std::string stringConjugateTransposeOperation() { return "Conjugate Transpose";}
 /*-------------------------------------------------*/
-#undef LITERAL_FUN_BODY
+std::string stringGeneral()    { return "General"; }
+std::string stringSymmetric()  { return "Symmetric"; }
+std::string stringHermitian()  { return "Hermitian"; }
+std::string stringTriangular() { return "Triangular/Trapezoidal"; }
+std::string stringSkew()       { return "Skew"; }
+/*-------------------------------------------------*/
+std::string stringUpper() { return "Upper"; }
+std::string stringLower() { return "Lower"; }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

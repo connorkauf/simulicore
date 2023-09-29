@@ -1,5 +1,5 @@
-#ifndef CLA3P_LITERALS_HPP_
-#define CLA3P_LITERALS_HPP_
+#ifndef CLA3P_TYPE_LITERALS_HPP_
+#define CLA3P_TYPE_LITERALS_HPP_
 
 #include <string>
 
@@ -7,25 +7,37 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
-const std::string& stringInteger();
-const std::string& stringUnsignedInteger();
-const std::string& stringReal();
-const std::string& stringComplex();
-const std::string& stringSingle();
-const std::string& stringDouble();
+std::string stringInteger();
+std::string stringUnsignedInteger();
+std::string stringReal();
+std::string stringComplex();
+std::string stringSingle();
+std::string stringDouble();
+std::string stringDense();
+std::string stringSparseCsc();
+std::string stringVector();
+std::string stringMatrix();
+std::string stringPermutationMatrix();
+std::string stringDenseVector();
+std::string stringDenseMatrix();
 
-const std::string& stringDense();
-const std::string& stringSparseCsc();
-const std::string& stringVector();
-const std::string& stringMatrix();
+std::string stringUnknown();
 
-const std::string& stringPermutationMatrix();
+std::string stringNoOperation();
+std::string stringTransposeOperation();
+std::string stringConjugateTransposeOperation();
 
-const std::string& stringDenseVector();
-const std::string& stringDenseMatrix();
+std::string stringGeneral();
+std::string stringSymmetric();
+std::string stringHermitian();
+std::string stringTriangular();
+std::string stringSkew();
+
+std::string stringUpper();
+std::string stringLower();
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_LITERALS_HPP_
+#endif // CLA3P_TYPE_LITERALS_HPP_

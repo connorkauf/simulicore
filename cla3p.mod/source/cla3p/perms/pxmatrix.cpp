@@ -169,7 +169,7 @@ PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
 /*-------------------------------------------------*/
-template<> const std::string& BasicTypeTraits<PxMatrix<int_t>>::type_name() { return stringPermutationMatrix(); }
+template<> std::string BasicTypeTraits<PxMatrix<int_t>>::type_name() { return stringPermutationMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

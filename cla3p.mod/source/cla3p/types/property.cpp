@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "cla3p/types/literals.hpp"
 #include "cla3p/support/error.hpp"
 
 /*-------------------------------------------------*/
@@ -84,38 +85,21 @@ void Property::check() const
 	} 
 }
 /*-------------------------------------------------*/
-const std::string pname_none = "None";
-/*-------------------------------------------------*/
-const std::string pname_general = "General";
-/*-------------------------------------------------*/
-const std::string pname_usymmetric = "Symmetric Upper";
-const std::string pname_lsymmetric = "Symmetric Lower";
-/*-------------------------------------------------*/
-const std::string pname_uhermitian = "Hermitian Upper";
-const std::string pname_lhermitian = "Hermitian Lower";
-/*-------------------------------------------------*/
-const std::string pname_utriangular = "Triangular/Trapezoidal Upper";
-const std::string pname_ltriangular = "Triangular/Trapezoidal Lower";
-/*-------------------------------------------------*/
-const std::string pname_uskew = "Skew Upper";
-const std::string pname_lskew = "Skew Lower";
-/*-------------------------------------------------*/
-const std::string& Property::name() const
+std::string Property::name() const
 {
-	if(type() == prop_t::NONE) return pname_none;
+	std::string strProp = stringUnknown();
+	std::string strUplo = "";
 
-	if(type() == prop_t::GENERAL    && uplo() == uplo_t::F) return pname_general;
-	if(type() == prop_t::SYMMETRIC  && uplo() == uplo_t::U) return pname_usymmetric;
-	if(type() == prop_t::SYMMETRIC  && uplo() == uplo_t::L) return pname_lsymmetric;
-	if(type() == prop_t::HERMITIAN  && uplo() == uplo_t::U) return pname_uhermitian;
-	if(type() == prop_t::HERMITIAN  && uplo() == uplo_t::L) return pname_lhermitian;
-	if(type() == prop_t::TRIANGULAR && uplo() == uplo_t::U) return pname_utriangular;
-	if(type() == prop_t::TRIANGULAR && uplo() == uplo_t::L) return pname_ltriangular;
-	if(type() == prop_t::SKEW       && uplo() == uplo_t::U) return pname_uskew;
-	if(type() == prop_t::SKEW       && uplo() == uplo_t::L) return pname_lskew;
+	if(type() == prop_t::GENERAL   ) strProp = stringGeneral();
+	if(type() == prop_t::SYMMETRIC ) strProp = stringSymmetric();
+	if(type() == prop_t::HERMITIAN ) strProp = stringHermitian();
+	if(type() == prop_t::TRIANGULAR) strProp = stringTriangular();
+	if(type() == prop_t::SKEW      ) strProp = stringSkew();
 
-	throw Exception("Unknown/Invalid property");
-	return pname_none;
+	if(uplo() == uplo_t::U) strUplo = stringUpper();
+	if(uplo() == uplo_t::L) strUplo = stringLower();
+
+	return (strProp + " " + strUplo);
 }
 /*-------------------------------------------------*/
 bool Property::isValid() const

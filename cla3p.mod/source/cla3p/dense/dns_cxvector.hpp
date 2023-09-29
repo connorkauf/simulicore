@@ -108,7 +108,7 @@ class BasicTypeTraits<dns::CxVector<T_Scalar>> {
 	private:
 		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
 	public:
-		static const std::string& type_name();
+		static std::string type_name();
 		using real_type = dns::RxVector<T_RScalar>;
 		using matrix_type = dns::CxMatrix<T_Scalar>;
 };

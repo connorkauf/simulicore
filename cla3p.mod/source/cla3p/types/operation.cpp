@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "cla3p/types/literals.hpp"
 #include "cla3p/support/error.hpp"
 
 /*-------------------------------------------------*/
@@ -46,18 +47,14 @@ char Operation::ctype() const
 	return static_cast<char>(type());
 }
 /*-------------------------------------------------*/
-const std::string oname_noop = "No operation"  ;
-const std::string oname_trop = "Transpose";
-const std::string oname_ctop = "Conjugate transpose";
-/*-------------------------------------------------*/
-const std::string& Operation::name() const
+std::string Operation::name() const
 {
-	if(type() == op_t::N) return oname_noop;
-	if(type() == op_t::T) return oname_trop;
-	if(type() == op_t::C) return oname_ctop;
+	if(type() == op_t::N) return stringNoOperation();
+	if(type() == op_t::T) return stringTransposeOperation();
+	if(type() == op_t::C) return stringConjugateTransposeOperation();
 
 	throw Exception("Unknown operation");
-	return oname_noop;
+	return stringNoOperation();
 }
 /*-------------------------------------------------*/
 bool Operation::isTranspose() const

@@ -80,7 +80,7 @@ namespace cla3p {
 template<typename T_Scalar>
 class BasicTypeTraits<dns::RxVector<T_Scalar>> {
 	public:
-		static const std::string& type_name();
+		static std::string type_name();
 		using real_type = dns::RxVector<T_Scalar>;
 		using matrix_type = dns::RxMatrix<T_Scalar>;
 };

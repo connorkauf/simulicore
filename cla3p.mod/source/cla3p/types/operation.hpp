@@ -69,7 +69,7 @@ class Operation {
 		/**
 		 * @brief The operation name.
 		 */
-		const std::string& name() const;
+		std::string name() const;
 
 		/**
 		 * @brief Checks weather the operation is (conjugate) transpose

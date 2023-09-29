@@ -95,7 +95,7 @@ class Property {
 		/**
 		 * @brief The property name.
 		 */
-		const std::string& name() const;
+		std::string name() const;
 
 		/**
 		 * @brief Checks weather the property has a valid type.

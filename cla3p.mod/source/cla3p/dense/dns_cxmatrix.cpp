@@ -108,8 +108,8 @@ template class CxMatrix<complex8_t>;
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-template<> const std::string& BasicTypeTraits<dns::CxMatrix<complex_t>>::type_name() { return stringDenseMatrix(); }
-template<> const std::string& BasicTypeTraits<dns::CxMatrix<complex8_t>>::type_name() { return stringDenseMatrix(); }
+template<> std::string BasicTypeTraits<dns::CxMatrix<complex_t>>::type_name() { return stringDenseMatrix(); }
+template<> std::string BasicTypeTraits<dns::CxMatrix<complex8_t>>::type_name() { return stringDenseMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

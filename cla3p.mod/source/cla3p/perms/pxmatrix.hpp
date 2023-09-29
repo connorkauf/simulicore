@@ -222,7 +222,7 @@ class PxMatrix : public Array2D<T_Int> {
 template<typename T_Int>
 class BasicTypeTraits<PxMatrix<T_Int>> {
   public:
-    static const std::string& type_name();
+    static std::string type_name();
 };
 
 /*-------------------------------------------------*/

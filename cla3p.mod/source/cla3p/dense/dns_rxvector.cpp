@@ -52,8 +52,8 @@ template class RxVector<real4_t>;
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-template<> const std::string& BasicTypeTraits<dns::RxVector<real_t>>::type_name() { return stringDenseVector(); }
-template<> const std::string& BasicTypeTraits<dns::RxVector<real4_t>>::type_name() { return stringDenseVector(); }
+template<> std::string BasicTypeTraits<dns::RxVector<real_t>>::type_name() { return stringDenseVector(); }
+template<> std::string BasicTypeTraits<dns::RxVector<real4_t>>::type_name() { return stringDenseVector(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

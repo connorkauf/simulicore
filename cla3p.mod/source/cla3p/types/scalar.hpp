@@ -50,29 +50,29 @@ using bulk_t = std::size_t;
 
 template<> class BasicTypeTraits<real_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
     using real_type = real_t;
 };
 
 template<> class BasicTypeTraits<real4_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
     using real_type = real4_t;
 };
 
 template<> class BasicTypeTraits<complex_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
     using real_type = complex_t::value_type;
 };
 
 template<> class BasicTypeTraits<complex8_t> {
   public:
-    static const std::string& type_name();
-    static const std::string& prec_name();
+    static std::string type_name();
+    static std::string prec_name();
     using real_type = complex8_t::value_type;
 };
 
