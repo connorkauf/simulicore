@@ -10,9 +10,12 @@ message(STATUS "CLA3P Root Directory: ${CLA3P_ROOT}")
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(source)
-add_subdirectory(documentation)
-add_subdirectory(images)
-add_subdirectory(examples)
+
+if(COMPACT_SUITE_FULL_INSTALL)
+	add_subdirectory(documentation)
+	add_subdirectory(images)
+	add_subdirectory(examples)
+endif()
 
 #-----------------------------------------------
 # end

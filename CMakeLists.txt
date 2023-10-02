@@ -55,10 +55,20 @@ message(STATUS "Compact Suite Install Directory: ${CMAKE_INSTALL_PREFIX}")
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
+if(NOT DEFINED COMPACT_SUITE_FULL_INSTALL)
+	set(COMPACT_SUITE_FULL_INSTALL false)
+endif()
+
+if(NOT DEFINED CLA3P_USE_I64)
+	set(CLA3P_USE_I64 false)
+endif()
+
 if(CLA3P_USE_I64)
 	add_definitions(-DCLA3P_I64)
+	message(STATUS "Use 64bit integers for CLA3P")
+else()
+	message(STATUS "Use 32bit integers for CLA3P")
 endif()
-message(STATUS "Use 64bit integers for CLA3P: ${CLA3P_USE_I64}")
 
 #-----------------------------------------------
 # set compiler flags
@@ -115,8 +125,10 @@ message(STATUS "CLA3P_LIB: ${CLA3P_LIB}")
 
 add_subdirectory(cla3p.mod)
 
-add_subdirectory(3rd)
-add_subdirectory(sample)
+if(COMPACT_SUITE_FULL_INSTALL)
+	add_subdirectory(3rd)
+	add_subdirectory(sample)
+endif()
 
 #-----------------------------------------------
 # end
