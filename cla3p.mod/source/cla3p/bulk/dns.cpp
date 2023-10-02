@@ -10,8 +10,8 @@
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/proxies/mkl_proxy.hpp"
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 
@@ -82,7 +82,7 @@ static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, 
 	int_t info = lapack::laset(static_cast<char>(uplo), m, n, val, dval, a, lda);
 
 	if(info) {
-		throw Exception(msg::lapack_error() + " (info:" + std::to_string(info) + ")");
+		throw Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
 	} // info
 }
 /*-------------------------------------------------*/
@@ -140,7 +140,7 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 	} else {
 		int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
 		if(info) {
-			throw Exception(msg::lapack_error() + " (info:" + std::to_string(info) + ")");
+			throw Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
 		} // info
 		scale(uplo, m, n, b, ldb, coeff);
 	} // uplo
@@ -386,8 +386,8 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::op_not_allowed()); }
-void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::op_not_allowed()); }
+void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::OpNotAllowed()); }
+void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
 { 
@@ -535,8 +535,8 @@ void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, 
 void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 /*-------------------------------------------------*/
-void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw Exception(msg::op_not_allowed()); }
-void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw Exception(msg::op_not_allowed()); }
+void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw Exception(msg::OpNotAllowed()); }
+void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
 void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }

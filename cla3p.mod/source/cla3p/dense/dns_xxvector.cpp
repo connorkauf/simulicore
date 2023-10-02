@@ -10,8 +10,8 @@
 #include "cla3p/perms.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
@@ -43,7 +43,7 @@ XxVectorTlst
 T_Scalar& XxVectorTmpl::operator()(uint_t i)
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::out_of_bounds(size(),i));
+		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,0);
@@ -53,7 +53,7 @@ XxVectorTlst
 const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::out_of_bounds(size(),i));
+		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,0);

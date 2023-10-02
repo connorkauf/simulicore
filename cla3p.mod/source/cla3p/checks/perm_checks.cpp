@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error_internal.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -15,7 +15,7 @@ namespace cla3p {
 void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
 	if(nrows != np || ncols != nq) {
-		throw NoConsistency(msg::invalid_dimensions() + " for permute operation");
+		throw NoConsistency(msg::InvalidDimensions() + " for permute operation");
 	}
 }
 /*-------------------------------------------------*/

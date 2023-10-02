@@ -5,38 +5,39 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace msg {
 /*-------------------------------------------------*/
+std::string Unknown();
 
-std::string stringInteger();
-std::string stringUnsignedInteger();
-std::string stringReal();
-std::string stringComplex();
-std::string stringSingle();
-std::string stringDouble();
-std::string stringDense();
-std::string stringSparseCsc();
-std::string stringVector();
-std::string stringMatrix();
-std::string stringPermutationMatrix();
-std::string stringDenseVector();
-std::string stringDenseMatrix();
+std::string Integer();
+std::string UnsignedInteger();
+std::string Real();
+std::string Complex();
+std::string Single();
+std::string Double();
+std::string Dense();
+std::string SparseCsc();
+std::string Vector();
+std::string Matrix();
+std::string PermutationMatrix();
+std::string DenseVector();
+std::string DenseMatrix();
 
-std::string stringUnknown();
+std::string NoOperation();
+std::string TransposeOperation();
+std::string ConjugateTransposeOperation();
 
-std::string stringNoOperation();
-std::string stringTransposeOperation();
-std::string stringConjugateTransposeOperation();
+std::string General();
+std::string Symmetric();
+std::string Hermitian();
+std::string Triangular();
+std::string Skew();
 
-std::string stringGeneral();
-std::string stringSymmetric();
-std::string stringHermitian();
-std::string stringTriangular();
-std::string stringSkew();
-
-std::string stringUpper();
-std::string stringLower();
+std::string Upper();
+std::string Lower();
 
 /*-------------------------------------------------*/
+} // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
 

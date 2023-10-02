@@ -52,8 +52,8 @@ template class RxMatrix<real4_t>;
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-template<> std::string BasicTypeTraits<dns::RxMatrix<real_t>>::type_name() { return stringDenseMatrix(); }
-template<> std::string BasicTypeTraits<dns::RxMatrix<real4_t>>::type_name() { return stringDenseMatrix(); }
+template<> std::string BasicTypeTraits<dns::RxMatrix<real_t>>::type_name() { return msg::DenseMatrix(); }
+template<> std::string BasicTypeTraits<dns::RxMatrix<real4_t>>::type_name() { return msg::DenseMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

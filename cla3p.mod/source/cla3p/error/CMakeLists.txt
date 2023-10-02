@@ -2,20 +2,20 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	support/imalloc.cpp
-	support/utils.cpp
+	error/error.cpp
+	error/literals.cpp
 	PARENT_SCOPE)
 
-set(CLA3P_SUPPORT_HPP 
-	imalloc.hpp
+set(CLA3P_ERROR_HPP 
+	error.hpp
 	)
 
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
-set(CLA3P_SUPPORT_HPP_INSTALL include/cla3p/support)
+set(CLA3P_ERROR_HPP_INSTALL include/cla3p/error)
 
-install(FILES ${CLA3P_SUPPORT_HPP} DESTINATION ${CLA3P_SUPPORT_HPP_INSTALL})
+install(FILES ${CLA3P_ERROR_HPP} DESTINATION ${CLA3P_ERROR_HPP_INSTALL})
 #-----------------------------------------------
 # end
 #-----------------------------------------------

@@ -13,15 +13,15 @@ namespace cla3p {
 /*-------------------------------------------------*/
 std::string BasicTypeTraits<int_t>::type_name()
 {
-  return stringInteger();
+  return msg::Integer();
 }
 /*-------------------------------------------------*/
 std::string BasicTypeTraits<int_t>::prec_name()
 {
 #if defined (CLA3P_I64)
-  return stringDouble();
+  return msg::Double();
 #else
-  return stringSingle();
+  return msg::Single();
 #endif
 }
 /*-------------------------------------------------*/
@@ -29,15 +29,15 @@ std::string BasicTypeTraits<int_t>::prec_name()
 /*-------------------------------------------------*/
 std::string BasicTypeTraits<uint_t>::type_name()
 {
-  return stringUnsignedInteger();
+  return msg::UnsignedInteger();
 }
 /*-------------------------------------------------*/
 std::string BasicTypeTraits<uint_t>::prec_name()
 {
 #if defined (CLA3P_I64)
-  return stringDouble();
+  return msg::Double();
 #else
-  return stringSingle();
+  return msg::Single();
 #endif
 }
 /*-------------------------------------------------*/

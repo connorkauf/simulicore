@@ -11,8 +11,8 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
 #include "cla3p/bulk/dns_io.hpp"
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
@@ -45,7 +45,7 @@ XxMatrixTlst
 T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j)
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(msg::out_of_bounds(nrows(),ncols(),i,j));
+		throw OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,j);
@@ -55,7 +55,7 @@ XxMatrixTlst
 const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(msg::out_of_bounds(nrows(),ncols(),i,j));
+		throw OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,j);

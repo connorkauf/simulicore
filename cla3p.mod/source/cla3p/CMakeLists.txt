@@ -6,6 +6,7 @@ set(CLA3P_SRC
 
 set(CLA3P_HPP
 	types.hpp
+	error.hpp
 	support.hpp
 	dense.hpp
 	perms.hpp
@@ -17,6 +18,7 @@ set(CLA3P_HPP
 # sub-directory setup
 #-----------------------------------------------
 add_subdirectory(types)
+add_subdirectory(error)
 add_subdirectory(bulk)
 add_subdirectory(checks)
 add_subdirectory(proxies)

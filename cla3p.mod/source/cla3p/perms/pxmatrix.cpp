@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/types/literals.hpp"
 
@@ -34,7 +34,7 @@ template <typename T_Int>
 T_Int& PxMatrix<T_Int>::operator()(uint_t i)
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::out_of_bounds(size(),i));
+		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Int>::operator()(i,0);
@@ -44,7 +44,7 @@ template <typename T_Int>
 const T_Int& PxMatrix<T_Int>::operator()(uint_t i) const
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::out_of_bounds(size(),i));
+		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Int>::operator()(i,0);
@@ -169,7 +169,7 @@ PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
 /*-------------------------------------------------*/
-template<> std::string BasicTypeTraits<PxMatrix<int_t>>::type_name() { return stringPermutationMatrix(); }
+template<> std::string BasicTypeTraits<PxMatrix<int_t>>::type_name() { return msg::PermutationMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

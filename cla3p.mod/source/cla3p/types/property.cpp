@@ -7,7 +7,7 @@
 
 // cla3p
 #include "cla3p/types/literals.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -87,17 +87,17 @@ void Property::check() const
 /*-------------------------------------------------*/
 std::string Property::name() const
 {
-	std::string strProp = stringUnknown();
+	std::string strProp = msg::Unknown();
 	std::string strUplo = "";
 
-	if(type() == prop_t::GENERAL   ) strProp = stringGeneral();
-	if(type() == prop_t::SYMMETRIC ) strProp = stringSymmetric();
-	if(type() == prop_t::HERMITIAN ) strProp = stringHermitian();
-	if(type() == prop_t::TRIANGULAR) strProp = stringTriangular();
-	if(type() == prop_t::SKEW      ) strProp = stringSkew();
+	if(type() == prop_t::GENERAL   ) strProp = msg::General();
+	if(type() == prop_t::SYMMETRIC ) strProp = msg::Symmetric();
+	if(type() == prop_t::HERMITIAN ) strProp = msg::Hermitian();
+	if(type() == prop_t::TRIANGULAR) strProp = msg::Triangular();
+	if(type() == prop_t::SKEW      ) strProp = msg::Skew();
 
-	if(uplo() == uplo_t::U) strUplo = stringUpper();
-	if(uplo() == uplo_t::L) strUplo = stringLower();
+	if(uplo() == uplo_t::U) strUplo = msg::Upper();
+	if(uplo() == uplo_t::L) strUplo = msg::Lower();
 
 	return (strProp + " " + strUplo);
 }

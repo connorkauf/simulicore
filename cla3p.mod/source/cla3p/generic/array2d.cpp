@@ -10,7 +10,7 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_io.hpp"
 #include "cla3p/support/imalloc.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
 
 #include "cla3p/checks/dns_checks.hpp"
 #include "cla3p/checks/perm_checks.hpp"

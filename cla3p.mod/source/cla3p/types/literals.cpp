@@ -9,134 +9,136 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace msg {
 /*-------------------------------------------------*/
-std::string stringInteger()
-{ 
-	return "Integer"; 
-}
-/*-------------------------------------------------*/
-std::string stringUnsignedInteger()
-{ 
-	return "Unsigned " + stringInteger(); 
-}
-/*-------------------------------------------------*/
-std::string stringReal()
-{ 
-	return "Real"; 
-}
-/*-------------------------------------------------*/
-std::string stringComplex()
-{ 
-	return "Complex"; 
-}
-/*-------------------------------------------------*/
-std::string stringSingle()
-{ 
-	return "Single (32bit)"; 
-}
-/*-------------------------------------------------*/
-std::string stringDouble()
-{ 
-	return "Double (64bit)"; 
-}
-/*-------------------------------------------------*/
-std::string stringDense()
-{ 
-	return "Dense"; 
-}
-/*-------------------------------------------------*/
-std::string stringSparseCsc()
-{ 
-	return "Sparse (csc)"; 
-}
-/*-------------------------------------------------*/
-std::string stringVector()
-{ 
-	return "Vector"; 
-}
-/*-------------------------------------------------*/
-std::string stringMatrix()
-{ 
-	return "Matrix"; 
-}
-/*-------------------------------------------------*/
-std::string stringPermutationMatrix()
-{ 
-	return "Permutation " + stringMatrix(); 
-}
-/*-------------------------------------------------*/
-std::string stringDenseVector()
-{ 
-	return stringDense() + " " + stringVector(); 
-}
-/*-------------------------------------------------*/
-std::string stringDenseMatrix ()
-{ 
-	return stringDense() + " " + stringMatrix(); 
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-std::string stringUnknown()
+std::string Unknown()
 { 
 	return "Unknown"; 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string stringNoOperation()
+std::string Integer()
+{ 
+	return "Integer"; 
+}
+/*-------------------------------------------------*/
+std::string UnsignedInteger()
+{ 
+	return "Unsigned " + Integer(); 
+}
+/*-------------------------------------------------*/
+std::string Real()
+{ 
+	return "Real"; 
+}
+/*-------------------------------------------------*/
+std::string Complex()
+{ 
+	return "Complex"; 
+}
+/*-------------------------------------------------*/
+std::string Single()
+{ 
+	return "Single (32bit)"; 
+}
+/*-------------------------------------------------*/
+std::string Double()
+{ 
+	return "Double (64bit)"; 
+}
+/*-------------------------------------------------*/
+std::string Dense()
+{ 
+	return "Dense"; 
+}
+/*-------------------------------------------------*/
+std::string SparseCsc()
+{ 
+	return "Sparse (csc)"; 
+}
+/*-------------------------------------------------*/
+std::string Vector()
+{ 
+	return "Vector"; 
+}
+/*-------------------------------------------------*/
+std::string Matrix()
+{ 
+	return "Matrix"; 
+}
+/*-------------------------------------------------*/
+std::string PermutationMatrix()
+{ 
+	return "Permutation " + Matrix(); 
+}
+/*-------------------------------------------------*/
+std::string DenseVector()
+{ 
+	return Dense() + " " + Vector(); 
+}
+/*-------------------------------------------------*/
+std::string DenseMatrix ()
+{ 
+	return Dense() + " " + Matrix(); 
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+std::string NoOperation()
 { 
 	return "No operation";
 }
 /*-------------------------------------------------*/
-std::string stringTransposeOperation()
+std::string TransposeOperation()
 { 
 	return "Transpose";
 }
 /*-------------------------------------------------*/
-std::string stringConjugateTransposeOperation()
+std::string ConjugateTransposeOperation()
 { 
 	return "Conjugate Transpose";
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string stringGeneral()
+std::string General()
 { 
 	return "General"; 
 }
 /*-------------------------------------------------*/
-std::string stringSymmetric()
+std::string Symmetric()
 { 
 	return "Symmetric"; 
 }
 /*-------------------------------------------------*/
-std::string stringHermitian()
+std::string Hermitian()
 { 
 	return "Hermitian"; 
 }
 /*-------------------------------------------------*/
-std::string stringTriangular()
+std::string Triangular()
 { 
 	return "Triangular/Trapezoidal"; 
 }
 /*-------------------------------------------------*/
-std::string stringSkew()
+std::string Skew()
 { 
 	return "Skew"; 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string stringUpper()
+std::string Upper()
 { 
 	return "Upper"; 
 }
 /*-------------------------------------------------*/
-std::string stringLower()
+std::string Lower()
 { 
 	return "Lower"; 
 }
 /*-------------------------------------------------*/
+} // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/

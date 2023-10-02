@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error_internal.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -24,7 +24,7 @@ static void mult_dim_check(
 	uint_t kB = (syheB ? nrowsB : (opB.isTranspose() ? ncolsB : nrowsB));
 
 	if(nrowsC != m || ncolsC != n || kA != kB) {
-		throw NoConsistency(msg::invalid_dimensions());
+		throw NoConsistency(msg::InvalidDimensions());
 	}
 }
 /*-------------------------------------------------*/
@@ -34,7 +34,7 @@ void mat_x_vec_mult_check(const Operation& opA,
 		const Property& prY, uint_t nrowsY, uint_t ncolsY)
 {
 	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
-		throw NoConsistency(msg::invalid_property());
+		throw NoConsistency(msg::InvalidProperty());
 	}
 
 	bool syheA = (prA.isSymmetric() || prA.isHermitian());
@@ -52,7 +52,7 @@ void mat_x_mat_mult_check(
 		const Property& prC, uint_t nrowsC, uint_t ncolsC)
 {
 	if(!prA.isValid() || !prB.isValid() || !prC.isValid()) {
-		throw NoConsistency(msg::invalid_property());
+		throw NoConsistency(msg::InvalidProperty());
 	}
 
 	bool syheA = (prA.isSymmetric() || prA.isHermitian());
@@ -69,14 +69,14 @@ void mat_x_mat_mult_check(
 	//
 
 	if(!prC.isGeneral()){
-		throw NoConsistency(msg::invalid_property());
+		throw NoConsistency(msg::InvalidProperty());
 	}
 
 	if(prA.isGeneral() && prB.isGeneral()) return;
 
 	if((syheA || prA.isTriangular()) && prB.isGeneral()) {
 		if(opB.isTranspose()) {
-			throw NoConsistency(msg::op_not_allowed());
+			throw NoConsistency(msg::OpNotAllowed());
 		} else {
 			return;
 		}
@@ -84,13 +84,13 @@ void mat_x_mat_mult_check(
 
 	if((syheB || prB.isTriangular()) && prA.isGeneral()) {
 		if(opA.isTranspose()) {
-			throw NoConsistency(msg::op_not_allowed());
+			throw NoConsistency(msg::OpNotAllowed());
 		} else {
 			return;
 		}
 	}
 
-	throw NoConsistency(msg::invalid_property());
+	throw NoConsistency(msg::InvalidProperty());
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

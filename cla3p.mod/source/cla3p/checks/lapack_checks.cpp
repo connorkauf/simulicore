@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error_internal.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -17,11 +17,11 @@ void lapack_info_check(int_t info)
 	if(info > 0) {
 
 		// TODO: separate exception for numerical ???
-		throw Exception(msg::lapack_error() + " info: " + std::to_string(info));
+		throw Exception(msg::LapackError() + " info: " + std::to_string(info));
 
 	} else if(info < 0) {
 
-		throw Exception(msg::lapack_error() + " info: " + std::to_string(info));
+		throw Exception(msg::LapackError() + " info: " + std::to_string(info));
 
 	}
 }

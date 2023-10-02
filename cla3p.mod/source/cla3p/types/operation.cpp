@@ -7,7 +7,7 @@
 
 // cla3p
 #include "cla3p/types/literals.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -49,12 +49,12 @@ char Operation::ctype() const
 /*-------------------------------------------------*/
 std::string Operation::name() const
 {
-	if(type() == op_t::N) return stringNoOperation();
-	if(type() == op_t::T) return stringTransposeOperation();
-	if(type() == op_t::C) return stringConjugateTransposeOperation();
+	if(type() == op_t::N) return msg::NoOperation();
+	if(type() == op_t::T) return msg::TransposeOperation();
+	if(type() == op_t::C) return msg::ConjugateTransposeOperation();
 
 	throw Exception("Unknown operation");
-	return stringNoOperation();
+	return msg::NoOperation();
 }
 /*-------------------------------------------------*/
 bool Operation::isTranspose() const

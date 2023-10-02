@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error_internal.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -15,14 +15,14 @@ namespace cla3p {
 void square_check(uint_t m, uint_t n)
 {
 	if(m != n) {
-		throw NoConsistency(msg::invalid_property_for_square());
+		throw NoConsistency(msg::InvalidPropertyForSquare());
 	}
 }
 /*-------------------------------------------------*/
 void property_compatibility_check(const Property& prop, uint_t m, uint_t n)
 {
 	if(!prop.isValid()) {
-		throw NoConsistency(msg::invalid_property());
+		throw NoConsistency(msg::InvalidProperty());
 	}
 
 	if(prop.isSquare()) {
@@ -35,11 +35,11 @@ void similarity_check(
 		const Property& prop2, uint_t nrows2, uint_t ncols2)
 {
 	if(nrows1 != nrows2 || ncols1 != ncols2) {
-		throw NoConsistency(msg::invalid_dimensions());
+		throw NoConsistency(msg::InvalidDimensions());
 	}
 
 	if(prop1 != prop2) {
-		throw NoConsistency(msg::invalid_property());
+		throw NoConsistency(msg::InvalidProperty());
 	}
 }
 /*-------------------------------------------------*/

@@ -3,7 +3,7 @@
 
 #include "cla3p/types.hpp"
 #include "cla3p/dense.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

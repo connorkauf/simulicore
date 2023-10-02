@@ -7,8 +7,8 @@
 #include <mkl.h>
 
 // cla3p
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -83,8 +83,8 @@ lansy_macro(real_t , complex_t , z)
 lansy_macro(real4_t, complex8_t, c)
 #undef lansy_macro
 /*-------------------------------------------------*/
-real_t  lanhe(char, char, int_t, const real_t *, int_t) { throw Exception(msg::op_not_allowed()); return 0; }
-real4_t lanhe(char, char, int_t, const real4_t*, int_t) { throw Exception(msg::op_not_allowed()); return 0; }
+real_t  lanhe(char, char, int_t, const real_t *, int_t) { throw Exception(msg::OpNotAllowed()); return 0; }
+real4_t lanhe(char, char, int_t, const real4_t*, int_t) { throw Exception(msg::OpNotAllowed()); return 0; }
 /*-------------------------------------------------*/
 #define lanhe_macro(typeout, typein, prefix) \
 typeout lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \
@@ -211,8 +211,8 @@ sytrs_macro(int_t, complex_t , z)
 sytrs_macro(int_t, complex8_t, c)
 #undef sytrs_macro
 /*-------------------------------------------------*/
-int_t hetrf(char, int_t, real_t *, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t hetrf(char, int_t, real4_t*, int_t, int_t*){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrf(char, int_t, real_t *, int_t, int_t*){ throw Exception(msg::OpNotAllowed()); return 0; }
+int_t hetrf(char, int_t, real4_t*, int_t, int_t*){ throw Exception(msg::OpNotAllowed()); return 0; }
 /*-------------------------------------------------*/
 #define hetrf_macro(typeout, typein, prefix) \
 typeout hetrf(char uplo, int_t n, typein *a, int_t lda, int_t *ipiv) \
@@ -223,8 +223,8 @@ hetrf_macro(int_t, complex_t , z)
 hetrf_macro(int_t, complex8_t, c)
 #undef hetrf_macro
 /*-------------------------------------------------*/
-int_t hetrs(char, int_t, int_t, const real_t *, int_t, const int_t*, real_t *, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
-int_t hetrs(char, int_t, int_t, const real4_t*, int_t, const int_t*, real4_t*, int_t){ throw Exception(msg::op_not_allowed()); return 0; }
+int_t hetrs(char, int_t, int_t, const real_t *, int_t, const int_t*, real_t *, int_t){ throw Exception(msg::OpNotAllowed()); return 0; }
+int_t hetrs(char, int_t, int_t, const real4_t*, int_t, const int_t*, real4_t*, int_t){ throw Exception(msg::OpNotAllowed()); return 0; }
 /*-------------------------------------------------*/
 #define hetrs_macro(typeout, typein, prefix) \
 typeout hetrs(char uplo, int_t n, int_t nrhs, const typein *a, int_t lda, const int_t *ipiv, typein *b, int_t ldb) \

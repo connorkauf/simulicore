@@ -6,8 +6,8 @@
 // 3rd
 
 // cla3p
-#include "cla3p/support/error_internal.hpp"
-#include "cla3p/support/error.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -93,7 +93,7 @@ void block_op_consistency_check(
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::invalid_property() + " for block operation");
+		throw NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
@@ -117,7 +117,7 @@ void real_block_op_consistency_check(
 	}
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::invalid_property() + " for block operation");
+		throw NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
@@ -141,7 +141,7 @@ void imag_block_op_consistency_check(
 	}
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::invalid_property() + " for block operation");
+		throw NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/

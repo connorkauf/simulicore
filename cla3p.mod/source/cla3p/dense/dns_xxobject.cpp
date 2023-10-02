@@ -7,8 +7,8 @@
 
 // cla3p
 #include "cla3p/dense.hpp"
-#include "cla3p/support/error.hpp"
-#include "cla3p/support/error_internal.hpp"
+#include "cla3p/error/error.hpp"
+#include "cla3p/error/literals.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
 
@@ -90,7 +90,7 @@ XxObjectTlst
 XxObjectTmpl& XxObjectTmpl::operator/=(T_Scalar val)
 {
 	if(val == T_Scalar(0)) {
-		throw InvalidOp(msg::division_by_zero());
+		throw InvalidOp(msg::DivisionByZero());
 	}
 
 	T_Scalar one(1);
@@ -136,7 +136,7 @@ XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
 	if(this->property().isHermitian() && getIm(val)) {
-		throw InvalidOp(msg::hermitian_inconsistency());
+		throw InvalidOp(msg::HermitianInconsistency());
 	}
 
 	bulk::dns::scale(
