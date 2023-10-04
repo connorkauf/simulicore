@@ -24,11 +24,23 @@ else()
 endif()
 
 #-----------------------------------------------
-# choose standard
+# set compiler options
 #-----------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	add_compile_options(-m64)
+	add_compile_options(-Werror)
+	add_compile_options(-Wall)
+	add_compile_options(-Wextra)
+	add_compile_options(-Wshadow)
+	add_compile_options(-Wmissing-format-attribute)
+	add_compile_options(-fdiagnostics-color=always)
+endif()
+
+# TODO: add options for all compilers
 
 #-----------------------------------------------
 # set build type
@@ -55,32 +67,14 @@ message(STATUS "Compact Suite Install Directory: ${CMAKE_INSTALL_PREFIX}")
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
-if(NOT DEFINED COMPACT_SUITE_FULL_INSTALL)
-	set(COMPACT_SUITE_FULL_INSTALL false)
-endif()
-
-if(NOT DEFINED CLA3P_USE_I64)
-	set(CLA3P_USE_I64 false)
-endif()
+option(COMPACT_SUITE_FULL_INSTALL "Install all Compact Suite featues" OFF)
+option(CLA3P_USE_I64 "CLA3P integer precision (32/64bits)" OFF)
 
 if(CLA3P_USE_I64)
 	add_definitions(-DCLA3P_I64)
 	message(STATUS "Use 64bit integers for CLA3P")
 else()
 	message(STATUS "Use 32bit integers for CLA3P")
-endif()
-
-#-----------------------------------------------
-# set compiler flags
-#-----------------------------------------------
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-	add_compile_options(-m64)
-	add_compile_options(-Werror)
-	add_compile_options(-Wall)
-	add_compile_options(-Wextra)
-	add_compile_options(-Wshadow)
-	add_compile_options(-Wmissing-format-attribute)
-	add_compile_options(-fdiagnostics-color=always)
 endif()
 
 #-----------------------------------------------
@@ -119,7 +113,6 @@ if(CLA3P_USE_I64)
 else()
 	set(CLA3P_LIB "cla3p_pre")
 endif()
-message(STATUS "CLA3P_LIB: ${CLA3P_LIB}")
 
 #-----------------------------------------------
 
