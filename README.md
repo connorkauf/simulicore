@@ -31,11 +31,11 @@
 
 **Compact Suite** is a collection of C++ libraries that aims to modernize the scientific computation development.
 
-Traditional functional scientific programming is supported by a wide range of libraries and can produce high performance code, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
+Traditional functional scientific programming is supported by a wide range of libraries and can be used for high performance code production, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
 
-Compact suite aims to bridge the gap between the established codebases and the modern object oriented way of coding, while maintaining the efficiency, robustness and performance the first offers. 
+Compact suite aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
 
-The first library in the suite is **Compact Linear Algebra Parallel Portable Package (CLA3P)** a high performing linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
+The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -49,10 +49,10 @@ To get a local copy up, build and install the suite, follow these simple example
 ### Prerequisites
 
 In order to build Compact Suite you will need:
-* CMake 3.7.0 and above
-* Intel MKL
-* A GNU C++ compiler (linux)
-* Microsoft Visual Studio (windows)
+* [CMake](https://cmake.org/download) 3.7.0 and above
+* [GNU C++ compiler](https://gcc.gnu.org) (linux)
+* [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
+* [Intel MKL](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html)
 
 ### Linux Installation
 
@@ -60,7 +60,7 @@ In order to build Compact Suite you will need:
    ```sh
    git clone git@github.com:connorkauf/CompactSuite.git
    ```
-   For the purposes of this file, the root directory is marked as `compact_suite_root`
+   For the purposes of this file, the top directory is marked as `compact_suite_root`
 
 2. Open and edit file
    ```sh
@@ -86,11 +86,11 @@ In order to build Compact Suite you will need:
 
 ### Windows Installation
 
-1. Clone the repo (using Git Bash)
+1. Clone the repo
    ```sh
    git clone git@github.com:connorkauf/CompactSuite.git
    ```
-   For the purposes of this file, the root directory is marked as `compact_suite_root`
+   For the purposes of this file, the top directory is marked as `compact_suite_root`
 
 2. Open and edit file
    ```sh
@@ -118,10 +118,8 @@ The default installation path is
 * `compact_suite_root`/install for Linux
 * `compact_suite_root`/out/install/`build-type` for Windows
 ```
-install/include   : the compact suite include directory
-install/lib       : the compact suite library directory
-install/examples  : the compact suite examples (for documentation purposes)
-install/doc       : the compact suite documentation (doxygen needed)
+install/include : the compact suite include directory
+install/lib     : the compact suite library directory
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -140,9 +138,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Connor Kaufman - connor.kaufman.gh@outlook.com
-
-Project Link: [https://github.com/connorkauf/CompactSuite](https://github.com/connorkauf/CompactSuite)
+Connor Kaufman - connor.kaufman.gh@outlook.com  
+Project Link: [https://github.com/connorkauf/CompactSuite](https://github.com/connorkauf/CompactSuite)  
+Report an issue: [https://github.com/connorkauf/CompactSuite/issues](https://github.com/connorkauf/CompactSuite/issues) 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
