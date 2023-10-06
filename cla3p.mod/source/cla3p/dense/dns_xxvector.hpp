@@ -146,8 +146,8 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		std::string info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Vector Euclidian norm.
-		 * @return The Euclidian norm of the vector.
+		 * @brief Vector Euclidean norm.
+		 * @return The Euclidean norm of the vector.
 		 */
 		T_RScalar normEuc() const;
 

@@ -269,7 +269,7 @@ norm_fro_macro(real4_t, complex8_t);
 #undef norm_fro_macro
 
 //
-// Norm Euclidian
+// Norm Euclidean
 //
 #define norm_euc_macro(typeout, typein) \
 typeout norm_euc(uint_t n, const typein *a)
