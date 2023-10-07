@@ -51,6 +51,12 @@ const T_Int& PxMatrix<T_Int>::operator()(uint_t i) const
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
+void PxMatrix<T_Int>::operator=(T_Int val)
+{
+	this->fill(val);
+}
+/*-------------------------------------------------*/
+template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::operator*(const PxMatrix<T_Int>& P) const
 {
 	return P.permuteLeft(*this);

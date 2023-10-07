@@ -98,6 +98,15 @@ class PxMatrix : public Array2D<T_Int> {
 		const T_Int& operator()(uint_t i) const;
 
 		/**
+		 * @brief The value setter operator.
+		 *
+		 * Sets all entries of the permutation matrix to a single value.@n
+		 *
+		 * @param[in] val The value to be set.
+		 */
+		void operator=(T_Int val);
+
+		/**
 		 * @brief Permutes a permutation matrix.
 		 *
 		 * @param[in] P The right side permutation matrix.
