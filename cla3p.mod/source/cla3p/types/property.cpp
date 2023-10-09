@@ -78,10 +78,10 @@ char Property::cuplo() const
 void Property::check() const
 {
 	if(isGeneral() && !isFull()) {
-		throw NoConsistency("Bad type/uplo combo");
+		throw err::NoConsistency("Bad type/uplo combo");
 	} 
 	if(!isGeneral() && isFull()) {
-		throw NoConsistency("Bad type/uplo combo");
+		throw err::NoConsistency("Bad type/uplo combo");
 	} 
 }
 /*-------------------------------------------------*/

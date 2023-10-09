@@ -222,7 +222,7 @@ void Array2D<T_Scalar>::copyToAllocated(Array2D<T_Scalar>& trg) const
 	if(areSame) {
 		bulk::dns::copy(property().uplo(), rsize(), csize(), values(), lsize(), trg.values(), trg.lsize());
 	} else {
-		throw NoConsistency("Dimension and/or property mismatch when copying");
+		throw err::NoConsistency("Dimension and/or property mismatch when copying");
 	}
 }
 /*-------------------------------------------------*/

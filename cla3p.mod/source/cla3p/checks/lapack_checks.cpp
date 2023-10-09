@@ -17,11 +17,11 @@ void lapack_info_check(int_t info)
 	if(info > 0) {
 
 		// TODO: separate exception for numerical ???
-		throw Exception(msg::LapackError() + " info: " + std::to_string(info));
+		throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
 
 	} else if(info < 0) {
 
-		throw Exception(msg::LapackError() + " info: " + std::to_string(info));
+		throw err::Exception(msg::LapackError() + " info: " + std::to_string(info));
 
 	}
 }

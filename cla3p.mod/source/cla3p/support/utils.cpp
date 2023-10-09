@@ -126,7 +126,7 @@ template <typename T>
 static real_t rand_tmpl(T low, T high)
 {
 	if(low > high) {
-		throw Exception("Need low <= high");
+		throw err::Exception("Need low <= high");
 	} // error
 
 	real_t diff = static_cast<real_t>(high - low);
@@ -218,7 +218,7 @@ uplo_t auto_uplo(prop_t ptype)
 	if(ptype == prop_t::SYMMETRIC) return uplo_t::L;
 	if(ptype == prop_t::HERMITIAN) return uplo_t::L;
 
-	throw Exception();
+	throw err::Exception();
 	return uplo_t::F;
 }
 /*-------------------------------------------------*/

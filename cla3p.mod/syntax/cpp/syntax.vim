@@ -59,11 +59,10 @@ syn keyword cTypeCustomNSpace lapack
 syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc
-syn keyword cTypeCustomNSpace lrk
 
+syn keyword cTypeCustomNSpace err
 syn keyword cTypeCustomNSpace msg
 syn keyword cTypeCustomNSpace ops
-syn keyword cTypeCustomNSpace tests
 
 hi cTypeCustomNSpace ctermfg=yellow guifg=darkblue
 

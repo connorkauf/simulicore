@@ -155,8 +155,8 @@ static void hem_x_vec_tmpl(uplo_t uplo, uint_t n, T alpha, const T *a, uint_t ld
 	blas::hemv(static_cast<char>(uplo), n, alpha, a, lda, x, 1, beta, y, 1);
 }
 /*-------------------------------------------------*/
-void hem_x_vec(uplo_t, uint_t, real_t , const real_t* , uint_t, const real_t* , real_t , real_t* ) { throw Exception(msg::OpNotAllowed()); }
-void hem_x_vec(uplo_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, real4_t, real4_t*) { throw Exception(msg::OpNotAllowed()); }
+void hem_x_vec(uplo_t, uint_t, real_t , const real_t* , uint_t, const real_t* , real_t , real_t* ) { throw err::Exception(msg::OpNotAllowed()); }
+void hem_x_vec(uplo_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, real4_t, real4_t*) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void hem_x_vec(uplo_t uplo, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *x, complex_t beta, complex_t *y)
 {
@@ -314,8 +314,8 @@ static void hem_x_gem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a,
 	blas::hemm('L', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void hem_x_gem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw Exception(msg::OpNotAllowed()); }
-void hem_x_gem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw Exception(msg::OpNotAllowed()); }
+void hem_x_gem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw err::Exception(msg::OpNotAllowed()); }
+void hem_x_gem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
 {
@@ -335,8 +335,8 @@ static void gem_x_hem_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a,
 	blas::hemm('R', static_cast<char>(uplo), m, n, alpha, a, lda, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-void gem_x_hem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw Exception(msg::OpNotAllowed()); }
-void gem_x_hem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw Exception(msg::OpNotAllowed()); }
+void gem_x_hem(uplo_t, uint_t, uint_t, real_t , const real_t* , uint_t, const real_t* , uint_t, real_t , real_t* , uint_t) { throw err::Exception(msg::OpNotAllowed()); }
+void gem_x_hem(uplo_t, uint_t, uint_t, real4_t, const real4_t*, uint_t, const real4_t*, uint_t, real4_t, real4_t*, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void gem_x_hem(uplo_t uplo, uint_t m, uint_t n, complex_t alpha, const complex_t *a, uint_t lda, const complex_t *b, uint_t ldb, complex_t beta, complex_t *c, uint_t ldc)
 {

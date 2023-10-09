@@ -45,7 +45,7 @@ XxMatrixTlst
 T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j)
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,j);
@@ -55,7 +55,7 @@ XxMatrixTlst
 const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 {
 	if(i >= nrows() || j >= ncols()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(nrows(),ncols(),i,j));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,j);
@@ -211,7 +211,7 @@ void XxMatrixTmpl::igeneral()
 
 	} else {
 
-		throw Exception();
+		throw err::Exception();
 
 	} // property 
 
@@ -462,7 +462,7 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 
 	} else {
 
-		throw Exception();
+		throw err::Exception();
 
 	} // property combos
 }

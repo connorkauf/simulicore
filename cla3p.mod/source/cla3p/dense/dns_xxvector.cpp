@@ -43,7 +43,7 @@ XxVectorTlst
 T_Scalar& XxVectorTmpl::operator()(uint_t i)
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,0);
@@ -53,7 +53,7 @@ XxVectorTlst
 const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Scalar>::operator()(i,0);
@@ -236,7 +236,7 @@ void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& o
 
 	} else {
 
-		throw Exception();
+		throw err::Exception();
 
 	} // property 
 }

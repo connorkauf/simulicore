@@ -35,19 +35,19 @@ static inline T opposite_element(const T& x, const prop_t& ptype)
 	if(ptype == prop_t::HERMITIAN) return conj( x);
 	if(ptype == prop_t::SKEW     ) return     (-x);
 
-	throw Exception();
+	throw err::Exception();
 	return x;
 }
 /*-------------------------------------------------*/
 static inline int_t opposite_element(const int_t&, const prop_t&)
 {
-	throw Exception();
+	throw err::Exception();
 	return 0;
 }
 /*-------------------------------------------------*/
 static inline uint_t opposite_element(const uint_t&, const prop_t&)
 {
-	throw Exception();
+	throw err::Exception();
 	return 0;
 }
 /*-------------------------------------------------*/
@@ -82,7 +82,7 @@ static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, 
 	int_t info = lapack::laset(static_cast<char>(uplo), m, n, val, dval, a, lda);
 
 	if(info) {
-		throw Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
+		throw err::Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
 	} // info
 }
 /*-------------------------------------------------*/
@@ -140,7 +140,7 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 	} else {
 		int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
 		if(info) {
-			throw Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
+			throw err::Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
 		} // info
 		scale(uplo, m, n, b, ldb, coeff);
 	} // uplo
@@ -386,8 +386,8 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw Exception(msg::OpNotAllowed()); }
-void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw Exception(msg::OpNotAllowed()); }
+void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw err::Exception(msg::OpNotAllowed()); }
+void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
 { 
@@ -517,7 +517,7 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 
 		} else {
 
-			throw Exception();
+			throw err::Exception();
 
 		} // ptype
 
@@ -535,8 +535,8 @@ void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, 
 void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
 /*-------------------------------------------------*/
-void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw Exception(msg::OpNotAllowed()); }
-void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw Exception(msg::OpNotAllowed()); }
+void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
+void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
 void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
 void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
@@ -625,7 +625,7 @@ static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} // property
 	
-	throw Exception("Invalid property: " + prop.name());
+	throw err::Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
@@ -663,7 +663,7 @@ static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} // property
 	
-	throw Exception("Invalid property: " + prop.name());
+	throw err::Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
@@ -718,7 +718,7 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} // property
 	
-	throw Exception("Invalid property: " + prop.name());
+	throw err::Exception("Invalid property: " + prop.name());
 	return 0.;
 }
 /*-------------------------------------------------*/
@@ -756,7 +756,7 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 
 	} else {
 
-		throw Exception();
+		throw err::Exception();
 
 	} // property
 
@@ -797,7 +797,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} // property
 	
-	throw Exception("Invalid property: " + prop.name());
+	throw err::Exception("Invalid property: " + prop.name());
 	return 0;
 }
 /*-------------------------------------------------*/
@@ -905,7 +905,7 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_
 
 	} else {
 
-		throw Exception("Invalid property: " + prop.name());
+		throw err::Exception("Invalid property: " + prop.name());
 
 	} // prop
 }

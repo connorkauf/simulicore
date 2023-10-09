@@ -34,7 +34,7 @@ template <typename T_Int>
 T_Int& PxMatrix<T_Int>::operator()(uint_t i)
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Int>::operator()(i,0);
@@ -44,7 +44,7 @@ template <typename T_Int>
 const T_Int& PxMatrix<T_Int>::operator()(uint_t i) const
 {
 	if(i >= size()) {
-		throw OutOfBounds(msg::IndexOutOfBounds(size(),i));
+		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
 	} // out-of-bounds
 
 	return Array2D<T_Int>::operator()(i,0);

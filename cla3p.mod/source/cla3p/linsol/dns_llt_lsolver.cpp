@@ -63,7 +63,7 @@ template <typename T_Matrix>
 void LSolverLLt<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
-		throw InvalidOp("Decomposition stage is not performed");
+		throw err::InvalidOp("Decomposition stage is not performed");
 	} // empty factor
 	
 	default_solve_input_check(this->factor().ncols(), rhs);

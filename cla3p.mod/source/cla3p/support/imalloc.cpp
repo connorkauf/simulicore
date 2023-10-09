@@ -19,7 +19,7 @@ static void check_allocation(const void *ptr, bulk_t nmemb, bulk_t size)
 {
 	if(!ptr) {
 		std::string mem2str = bytes2human(nmemb * size);
-		throw OutOfMemory("Failed to allocate " + mem2str);
+		throw err::OutOfMemory("Failed to allocate " + mem2str);
 	} // ptr
 }
 /*-------------------------------------------------*/

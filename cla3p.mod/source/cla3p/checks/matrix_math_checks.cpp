@@ -24,7 +24,7 @@ static void mult_dim_check(
 	uint_t kB = (syheB ? nrowsB : (opB.isTranspose() ? ncolsB : nrowsB));
 
 	if(nrowsC != m || ncolsC != n || kA != kB) {
-		throw NoConsistency(msg::InvalidDimensions());
+		throw err::NoConsistency(msg::InvalidDimensions());
 	}
 }
 /*-------------------------------------------------*/
@@ -34,13 +34,13 @@ void mat_x_vec_mult_check(const Operation& opA,
 		const Property& prY, uint_t nrowsY, uint_t ncolsY)
 {
 	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
-		throw NoConsistency(msg::InvalidProperty());
+		throw err::NoConsistency(msg::InvalidProperty());
 	}
 
 	bool syheA = (prA.isSymmetric() || prA.isHermitian());
 
 	if(ncolsX > 1 || ncolsY > 1) {
-		throw NoConsistency("X and Y must be vectors.");
+		throw err::NoConsistency("X and Y must be vectors.");
 	}
 
 	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsX, ncolsX, false, Operation(op_t::N), nrowsY, ncolsY);
@@ -52,7 +52,7 @@ void mat_x_mat_mult_check(
 		const Property& prC, uint_t nrowsC, uint_t ncolsC)
 {
 	if(!prA.isValid() || !prB.isValid() || !prC.isValid()) {
-		throw NoConsistency(msg::InvalidProperty());
+		throw err::NoConsistency(msg::InvalidProperty());
 	}
 
 	bool syheA = (prA.isSymmetric() || prA.isHermitian());
@@ -69,14 +69,14 @@ void mat_x_mat_mult_check(
 	//
 
 	if(!prC.isGeneral()){
-		throw NoConsistency(msg::InvalidProperty());
+		throw err::NoConsistency(msg::InvalidProperty());
 	}
 
 	if(prA.isGeneral() && prB.isGeneral()) return;
 
 	if((syheA || prA.isTriangular()) && prB.isGeneral()) {
 		if(opB.isTranspose()) {
-			throw NoConsistency(msg::OpNotAllowed());
+			throw err::NoConsistency(msg::OpNotAllowed());
 		} else {
 			return;
 		}
@@ -84,13 +84,13 @@ void mat_x_mat_mult_check(
 
 	if((syheB || prB.isTriangular()) && prA.isGeneral()) {
 		if(opA.isTranspose()) {
-			throw NoConsistency(msg::OpNotAllowed());
+			throw err::NoConsistency(msg::OpNotAllowed());
 		} else {
 			return;
 		}
 	}
 
-	throw NoConsistency(msg::InvalidProperty());
+	throw err::NoConsistency(msg::InvalidProperty());
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

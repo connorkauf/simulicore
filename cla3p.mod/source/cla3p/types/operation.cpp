@@ -53,7 +53,7 @@ std::string Operation::name() const
 	if(type() == op_t::T) return msg::TransposeOperation();
 	if(type() == op_t::C) return msg::ConjugateTransposeOperation();
 
-	throw Exception("Unknown operation");
+	throw err::Exception("Unknown operation");
 	return msg::NoOperation();
 }
 /*-------------------------------------------------*/

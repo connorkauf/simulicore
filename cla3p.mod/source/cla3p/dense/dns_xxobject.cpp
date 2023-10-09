@@ -90,7 +90,7 @@ XxObjectTlst
 XxObjectTmpl& XxObjectTmpl::operator/=(T_Scalar val)
 {
 	if(val == T_Scalar(0)) {
-		throw InvalidOp(msg::DivisionByZero());
+		throw err::InvalidOp(msg::DivisionByZero());
 	}
 
 	T_Scalar one(1);
@@ -136,7 +136,7 @@ XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
 	if(this->property().isHermitian() && getIm(val)) {
-		throw InvalidOp(msg::HermitianInconsistency());
+		throw err::InvalidOp(msg::HermitianInconsistency());
 	}
 
 	bulk::dns::scale(

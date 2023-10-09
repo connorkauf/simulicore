@@ -31,22 +31,22 @@ Property block_op_consistency_check(
 	uint_t jend = jbgn + nj;
 
 	if(ibgn >= nrows || jbgn >= ncols || iend > nrows || jend > ncols) {
-		throw OutOfBounds("Block size exceeds matrix dimensions");
+		throw err::OutOfBounds("Block size exceeds matrix dimensions");
 	} // error
 
 	if(prop.isLower()) {
 
 		if(jbgn > ibgn) {
-			throw NoConsistency("Start of block should be in lower part for " + prop.name() + " matrices");
+			throw err::NoConsistency("Start of block should be in lower part for " + prop.name() + " matrices");
 		}
 
 		if(ibgn == jbgn) {
 			if(iend != jend) {
-				throw NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
+				throw err::NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
 			}
 		} else {
 			if(jend > ibgn + 1) {
-				throw NoConsistency("Block overlaps with upper part of " + prop.name() + " matrix");
+				throw err::NoConsistency("Block overlaps with upper part of " + prop.name() + " matrix");
 			}
 			ptype = prop_t::GENERAL;
 			uplo  = uplo_t::F;
@@ -57,16 +57,16 @@ Property block_op_consistency_check(
 	if(prop.isUpper()) {
 
 		if(ibgn > jbgn) {
-			throw NoConsistency("Start of block should be in upper part for " + prop.name() + " matrices");
+			throw err::NoConsistency("Start of block should be in upper part for " + prop.name() + " matrices");
 		}
 
 		if(ibgn == jbgn) {
 			if(iend != jend) {
-				throw NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
+				throw err::NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
 			}
 		} else {
 			if(iend > jbgn + 1) {
-				throw NoConsistency("Block overlaps with lower part of " + prop.name() + " matrix");
+				throw err::NoConsistency("Block overlaps with lower part of " + prop.name() + " matrix");
 			}
 			ptype = prop_t::GENERAL;
 			uplo  = uplo_t::F;
@@ -93,7 +93,7 @@ void block_op_consistency_check(
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::InvalidProperty() + " for block operation");
+		throw err::NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
@@ -117,7 +117,7 @@ void real_block_op_consistency_check(
 	}
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::InvalidProperty() + " for block operation");
+		throw err::NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/
@@ -141,7 +141,7 @@ void imag_block_op_consistency_check(
 	}
 
 	if(blprop != block_prop) {
-		throw NoConsistency(msg::InvalidProperty() + " for block operation");
+		throw err::NoConsistency(msg::InvalidProperty() + " for block operation");
 	}
 }
 /*-------------------------------------------------*/

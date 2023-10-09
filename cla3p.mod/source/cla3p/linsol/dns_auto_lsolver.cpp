@@ -64,7 +64,7 @@ template <typename T_Matrix>
 void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
-		throw InvalidOp("Decomposition stage is not performed");
+		throw err::InvalidOp("Decomposition stage is not performed");
 	} // empty factor
 
 	default_solve_input_check(this->factor().ncols(), rhs);
@@ -108,7 +108,7 @@ void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
 
 	} else {
 
-		throw Exception("Unreachable");
+		throw err::Exception("Unreachable");
 
 	} // prop
 
@@ -159,7 +159,7 @@ void LSolverAuto<T_Matrix>::fdecompose()
 
 	} else {
 
-		throw Exception("Unreachable");
+		throw err::Exception("Unreachable");
 
 	} // prop
 

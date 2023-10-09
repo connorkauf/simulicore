@@ -16,15 +16,15 @@ namespace cla3p {
 void dns_consistency_check(uint_t m, uint_t n, const void *a, uint_t lda)
 {
 	if(!m || !n) {
-		throw NoConsistency(msg::InvalidDimensions());
+		throw err::NoConsistency(msg::InvalidDimensions());
 	}
 
 	if(!a) {
-		throw NoConsistency(msg::InvalidPointer());
+		throw err::NoConsistency(msg::InvalidPointer());
 	}
 
 	if(lda < m) {
-		throw NoConsistency(msg::InvalidLeadingDimension());
+		throw err::NoConsistency(msg::InvalidLeadingDimension());
 	}
 }
 /*-------------------------------------------------*/

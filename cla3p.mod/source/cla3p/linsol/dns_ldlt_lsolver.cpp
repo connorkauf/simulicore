@@ -64,7 +64,7 @@ template <typename T_Matrix>
 void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
-		throw InvalidOp("Decomposition stage is not performed");
+		throw err::InvalidOp("Decomposition stage is not performed");
 	} // empty factor
 
 	default_solve_input_check(this->factor().ncols(), rhs);
@@ -97,7 +97,7 @@ void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
 
 	} else {
 
-		throw Exception("Unreachable");
+		throw err::Exception("Unreachable");
 
 	} // prop
 
@@ -137,7 +137,7 @@ void LSolverLDLt<T_Matrix>::fdecompose()
 
 	} else {
 
-		throw Exception("Unreachable");
+		throw err::Exception("Unreachable");
 
 	} // prop
 
