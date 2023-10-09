@@ -48,22 +48,22 @@ void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::Xx
  *
  * Performs the operation:
  @verbatim
- trg = alpha * srcA + beta * srcB
+ ret = alpha * A + beta * B
  @endverbatim
  *
- * @param[in] alpha The scaling coefficient for srcA.
- * @param[in] srcA The first input object.
- * @param[in] beta The scaling coefficient for srcB.
- * @param[in] srcB The second input object.
+ * @param[in] alpha The scaling coefficient for A.
+ * @param[in] A The first input object.
+ * @param[in] beta The scaling coefficient for B.
+ * @param[in] B The second input object.
  * @return The resulting object.
  */
 template <typename T_Scalar, typename T_Object>
 T_Object add(
-		T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& srcA, 
-		T_Scalar beta , const dns::XxObject<T_Scalar,T_Object>& srcB)
+		T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& A, 
+		T_Scalar beta , const dns::XxObject<T_Scalar,T_Object>& B)
 {
 	T_Object ret;
-	ret.createFromScaledSum(alpha, srcA, beta, srcB);
+	ret.createFromScaledSum(alpha, A, beta, B);
 	return ret;
 }
 
@@ -73,23 +73,24 @@ T_Object add(
  *
  * Performs the operation:
  @verbatim
- trg += alpha * opA(srcA) * srcX
+ Y += alpha * opA(A) * X
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
- * @param[in] srcA The input matrix.
- * @param[in] srcX The input vector.
- * @param[in,out] trg The vector to be updated.
+ * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
+ * @param[in] A The input matrix.
+ * @param[in] X The input vector.
+ * @param[in,out] Y The vector to be updated.
  */
 
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
-void mult(T_Scalar alpha, const Operation& opA, 
-		const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-		const dns::XxVector<T_Scalar,T_Vector>& srcX, 
-		dns::XxVector<T_Scalar,T_Vector>& trg)
+void mult(T_Scalar alpha, op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		const dns::XxVector<T_Scalar,T_Vector>& X, 
+		dns::XxVector<T_Scalar,T_Vector>& Y)
 {
-	trg.updateSelfWithScaledMatVec(alpha, opA, srcA, srcX);
+	Operation _opA(opA);
+	Y.updateSelfWithScaledMatVec(alpha, _opA, A, X);
 }
 
 /**
@@ -98,25 +99,26 @@ void mult(T_Scalar alpha, const Operation& opA,
  *
  * Performs the operation:
  @verbatim
- trg = alpha * opA(srcA) * srcX
+ ret = alpha * opA(A) * X
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix srcA. If srcA is symmetric or hermitian, opA is ignored.
- * @param[in] srcA The input matrix.
- * @param[in] srcX The input vector.
+ * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
+ * @param[in] A The input matrix.
+ * @param[in] X The input vector.
  * @return The resulting vector.
  *
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
-T_Vector mult(T_Scalar alpha, const Operation& opA, 
-		const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-		const dns::XxVector<T_Scalar,T_Vector>& srcX)
+T_Vector mult(T_Scalar alpha, op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		const dns::XxVector<T_Scalar,T_Vector>& X)
 {
-	T_Vector ret(opA.isTranspose() ? srcA.ncols() : srcA.nrows());
+	Operation _opA(opA);
+	T_Vector ret(_opA.isTranspose() ? A.ncols() : A.nrows());
 	ret = 0;
 	dns::XxVector<T_Scalar,T_Vector>& tmp = ret;
-	mult(alpha, opA, srcA, srcX, tmp);
+	mult(alpha, opA, A, X, tmp);
 	return ret;
 }
 
@@ -126,35 +128,37 @@ T_Vector mult(T_Scalar alpha, const Operation& opA,
  *
  * Performs the operation:
  @verbatim
- trg += alpha * opA(srcA) * opB(srcB)
+ C += alpha * opA(A) * opB(B)
  @endverbatim
  * Valid combinations are the following:
  @verbatim
-  srcA: GENERAL     srcB: GENERAL     opA: unconstrained      opB: unconstrained
-  srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: TRIANGULAR  srcB: GENERAL     opA: unconstrained      opB: must be set to N
-  srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N   opB: unconstrained
+  A: GENERAL     B: GENERAL     opA: unconstrained      opB: unconstrained
+  A: SYMMETRIC   B: GENERAL     opA: ignored            opB: must be set to N
+  A: HERMITIAN   B: GENERAL     opA: ignored            opB: must be set to N
+  A: TRIANGULAR  B: GENERAL     opA: unconstrained      opB: must be set to N
+  A: GENERAL     B: SYMMETRIC   opA: must be set to N   opB: ignored         
+  A: GENERAL     B: HERMITIAN   opA: must be set to N   opB: ignored         
+  A: GENERAL     B: TRIANGULAR  opA: must be set to N   opB: unconstrained
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix srcA.
- * @param[in] srcA The input matrix.
- * @param[in] opB The operation to be performed for matrix srcB.
- * @param[in] srcB The input matrix.
- * @param[in,out] trg The matrix to be updated.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input matrix.
+ * @param[in] opB The operation to be performed for matrix B.
+ * @param[in] B The input matrix.
+ * @param[in,out] C The matrix to be updated.
  *
  * @{
  */
 template <typename T_Scalar, typename T_Matrix>
 void mult(T_Scalar alpha, 
-		const Operation& opA, const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-		const Operation& opB, const dns::XxMatrix<T_Scalar,T_Matrix>& srcB, 
-		dns::XxMatrix<T_Scalar,T_Matrix>& trg)
+		op_t opA, const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		op_t opB, const dns::XxMatrix<T_Scalar,T_Matrix>& B, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& C)
 {
-	trg.updateSelfWithScaledMatMat(alpha, opA, srcA, opB, srcB);
+	Operation _opA(opA);
+	Operation _opB(opB);
+	C.updateSelfWithScaledMatMat(alpha, _opA, A, _opB, B);
 }
 /** @} */
 
@@ -164,34 +168,36 @@ void mult(T_Scalar alpha,
  *
  * Performs the operation:
  @verbatim
- trg = alpha * opA(srcA) * opB(srcB)
+ ret = alpha * opA(A) * opB(B)
  @endverbatim
  * Valid combinations are the following:
  @verbatim
-  srcA: GENERAL     srcB: GENERAL     opA: unconstrained      opB: unconstrained
-  srcA: SYMMETRIC   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: HERMITIAN   srcB: GENERAL     opA: ignored            opB: must be set to N
-  srcA: TRIANGULAR  srcB: GENERAL     opA: unconstrained      opB: must be set to N
-  srcA: GENERAL     srcB: SYMMETRIC   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: HERMITIAN   opA: must be set to N   opB: ignored         
-  srcA: GENERAL     srcB: TRIANGULAR  opA: must be set to N   opB: unconstrained
+  A: GENERAL     B: GENERAL     opA: unconstrained      opB: unconstrained
+  A: SYMMETRIC   B: GENERAL     opA: ignored            opB: must be set to N
+  A: HERMITIAN   B: GENERAL     opA: ignored            opB: must be set to N
+  A: TRIANGULAR  B: GENERAL     opA: unconstrained      opB: must be set to N
+  A: GENERAL     B: SYMMETRIC   opA: must be set to N   opB: ignored         
+  A: GENERAL     B: HERMITIAN   opA: must be set to N   opB: ignored         
+  A: GENERAL     B: TRIANGULAR  opA: must be set to N   opB: unconstrained
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix srcA.
- * @param[in] srcA The input matrix.
- * @param[in] opB The operation to be performed for matrix srcB.
- * @param[in] srcB The input matrix.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input matrix.
+ * @param[in] opB The operation to be performed for matrix B.
+ * @param[in] B The input matrix.
  * @return The resulting matrix.
  */
 template <typename T_Scalar, typename T_Matrix>
 T_Matrix mult(T_Scalar alpha, 
-		const Operation& opA, const dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-		const Operation& opB, const dns::XxMatrix<T_Scalar,T_Matrix>& srcB)
+		op_t opA, const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		op_t opB, const dns::XxMatrix<T_Scalar,T_Matrix>& B)
 {
-	T_Matrix ret(opA.isTranspose() ? srcA.ncols() : srcA.nrows(), opB.isTranspose() ? srcB.nrows() : srcB.ncols());
+	Operation _opA(opA);
+	Operation _opB(opB);
+	T_Matrix ret(_opA.isTranspose() ? A.ncols() : A.nrows(), _opB.isTranspose() ? B.nrows() : B.ncols());
 	ret = 0;
-	mult(alpha, opA, srcA, opB, srcB, ret);
+	mult(alpha, opA, A, opB, B, ret);
 	return ret;
 }
 

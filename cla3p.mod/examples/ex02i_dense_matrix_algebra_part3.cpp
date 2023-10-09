@@ -18,8 +18,8 @@ int main()
 	cla3p::dns::RdMatrix C1 = A * B;
 	std::cout << "C1 = A * B:\n" << C1;
 
-	cla3p::Operation opA(cla3p::op_t::N);
-	cla3p::Operation opB(cla3p::op_t::N);
+	cla3p::op_t opA = cla3p::op_t::N;
+	cla3p::op_t opB = cla3p::op_t::N;
 	cla3p::dns::RdMatrix C2 = cla3p::ops::mult(3., opA, A, opB, B);
 	std::cout << "C2 = cla3p::ops::mult(3.,opA,A,opB,B):\n" << C2;
 

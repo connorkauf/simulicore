@@ -18,7 +18,7 @@ int main()
 	cla3p::dns::RdVector Y1 = A * X;
 	std::cout << "Y1 = A * X:\n" << Y1;
 
-	cla3p::Operation opA(cla3p::op_t::N);
+	cla3p::op_t opA = cla3p::op_t::N;
 	cla3p::dns::RdVector Y2 = cla3p::ops::mult(3., opA, A, X);
 	std::cout << "Y2 = cla3p::ops::mult(3.,opA,A,X):\n" << Y2;
 

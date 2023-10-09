@@ -24,7 +24,7 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
  *
  * Performs the operation:
  @verbatim
- trg = val * src
+ ret = val * src
  @endverbatim
  *
  * @param[in] val The coefficient value.
@@ -45,19 +45,19 @@ T_Object operator*(T_Scalar val, const cla3p::dns::XxObject<T_Scalar,T_Object>& 
  *
  * Performs the operation:
  @verbatim
- trg = srcA * srcX
+ ret = A * X
  @endverbatim
  *
- * @param[in] srcA The input matrix.
- * @param[in] srcX The input vector.
+ * @param[in] A The input matrix.
+ * @param[in] X The input vector.
  * @return The resulting vector.
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 T_Vector operator*(
-	const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, 
-	const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX) 
+	const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+	const cla3p::dns::XxVector<T_Scalar,T_Vector>& X) 
 { 
-	return cla3p::ops::mult(T_Scalar(1), cla3p::noOp(), srcA, srcX); 
+	return cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X); 
 }
 
 /**
@@ -66,17 +66,17 @@ T_Vector operator*(
  *
  * Performs the operation:
  @verbatim
- trg = srcP * srcX
+ ret = P * X
  @endverbatim
  *
- * @param[in] srcP The input permutation matrix.
- * @param[in] srcX The input vector.
+ * @param[in] P The input permutation matrix.
+ * @param[in] X The input vector.
  * @return The resulting vector.
  */
 template <typename T_Int, typename T_Scalar, typename T_Vector>
-T_Vector operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxVector<T_Scalar,T_Vector>& srcX)
+T_Vector operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxVector<T_Scalar,T_Vector>& X)
 {
-	return srcX.permuteLeft(srcP);
+	return X.permuteLeft(P);
 }
 
 /**
@@ -85,17 +85,17 @@ T_Vector operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxVecto
  *
  * Performs the operation:
  @verbatim
- trg = srcP * srcA
+ ret = P * A
  @endverbatim
  *
- * @param[in] srcP The input permutation matrix.
- * @param[in] srcA The input matrix.
+ * @param[in] P The input permutation matrix.
+ * @param[in] A The input matrix.
  * @return The resulting matrix.
  */
 template <typename T_Int, typename T_Scalar, typename T_Matrix>
-T_Matrix operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA)
+T_Matrix operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
 {
-	return srcA.permuteLeft(srcP);
+	return A.permuteLeft(P);
 }
 
 /**
@@ -104,18 +104,18 @@ T_Matrix operator*(const cla3p::PxMatrix<T_Int>& srcP, const cla3p::dns::XxMatri
  *
  * Performs the operation:
  @verbatim
- trg = srcA * srcP
+ ret = A * P
  @endverbatim
  *
- * @param[in] srcA The input matrix.
- * @param[in] srcP The input permutation matrix.
+ * @param[in] A The input matrix.
+ * @param[in] P The input permutation matrix.
  * @return The resulting matrix.
  */
 
 template <typename T_Int, typename T_Scalar, typename T_Matrix>
-T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& srcA, const cla3p::PxMatrix<T_Int>& srcP)
+T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p::PxMatrix<T_Int>& P)
 {
-	return srcA.permuteRight(srcP);
+	return A.permuteRight(P);
 }
 
 /*-------------------------------------------------*/
