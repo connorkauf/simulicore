@@ -159,7 +159,7 @@ class Property {
 
 inline Property defaultProperty()
 {
-	return Property(prop_t::GENERAL, uplo_t::F);
+	return Property(prop_t::General, uplo_t::F);
 }
 
 /*-------------------------------------------------*/

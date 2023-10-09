@@ -43,7 +43,7 @@ void CxMatrixTmpl::operator=(T_Scalar val)
 CxMatrixTlst
 typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::SYMMETRIC, this->prop().uplo()) : this->prop());
+	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());
 
 	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
 
@@ -61,7 +61,7 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 CxMatrixTlst
 typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 {
-	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::SKEW, this->prop().uplo()) : this->prop());
+	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Skew, this->prop().uplo()) : this->prop());
 
 	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
 

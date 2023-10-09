@@ -282,8 +282,8 @@ norm_euc_macro(real4_t, complex8_t);
 //
 // Permutations
 //
-// prop: GENERAL                  B = P*A*Q     if P,Q is nullptr, the identity perm is used
-// prop: SYMMETRIC/HERMITIAN/SKEW B = P*A*P^{T} Q is not referenced
+// prop: General                  B = P*A*Q     if P,Q is nullptr, the identity perm is used
+// prop: Symmetric/Hermitian/Skew B = P*A*P^{T} Q is not referenced
 //
 #define permute_macro(typeout, typein, itypein) \
 typeout permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, const itypein *P, const itypein *Q)

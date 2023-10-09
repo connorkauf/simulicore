@@ -16,12 +16,12 @@ namespace cla3p {
  * @brief The property type.
  */
 enum class prop_t {
-	NONE      = 0, /**< No property */
-	GENERAL      , /**< General matrix */
-	SYMMETRIC    , /**< Symmetric matrix */
-	HERMITIAN    , /**< Hermitian matrix */
-	TRIANGULAR   , /**< Triangular/trapezoidal matrix */
-	SKEW           /**< Skew matrix */
+	Undefined   = 0, /**< No property */
+	General        , /**< General matrix */
+	Symmetric      , /**< Symmetric matrix */
+	Hermitian      , /**< Hermitian matrix */
+	Triangular     , /**< Triangular/trapezoidal matrix */
+	Skew             /**< Skew matrix */
 };
 
 /**
@@ -47,10 +47,10 @@ enum class op_t : char {
 };
 
 enum class dup_t {
-	SUM  = 0,
-	PROD    ,
-	AMAX    ,
-	AMIN     
+	Sum  = 0,
+	Prod    ,
+	Amax    ,
+	Amin     
 };
 
 /*-------------------------------------------------*/

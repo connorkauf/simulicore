@@ -2,7 +2,6 @@
 
 syn keyword cTypeCustomDatatype MKL_INT MKL_UINT MKL_Complex8 MKL_Complex16
 syn keyword cTypeCustomDatatype nint_t int_t uint_t real4_t real_t complex8_t complex_t bulk_t
-syn keyword cTypeCustomDatatype status_t Status
 syn keyword cTypeCustomDatatype prop_t uplo_t op_t dup_t
 syn keyword cTypeCustomDatatype Property Operation
 syn keyword cTypeCustomDatatype Printer
@@ -27,11 +26,6 @@ hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 syn keyword cTypeCustomConst NONE AUTO ENUMMAX
 syn keyword cTypeCustomConst SIZEKB SIZEMB SIZEGB SIZETB
 syn keyword cTypeCustomConst MKL_ALLOC_ALIGNMENT
-syn keyword cTypeCustomConst GENERAL SYMMETRIC HERMITIAN TRIANGULAR SKEW
-syn keyword cTypeCustomConst DNS_VECTOR DNS_MATRIX CSC_VECTOR CSC_MATRIX
-syn keyword cTypeCustomConst INT UINT REAL COMPLEX
-syn keyword cTypeCustomConst SINGLE DOUBLE
-syn keyword cTypeCustomConst SUM PROD AMAX AMIN
 
 hi cTypeCustomConst ctermfg=darkmagenta guifg=darkblue
 
@@ -67,10 +61,6 @@ syn keyword cTypeCustomNSpace ops
 hi cTypeCustomNSpace ctermfg=yellow guifg=darkblue
 
 "---------------------------------------------------------------------------
-
-syn keyword cTypeCustomFunY Warning WarningNoReach
-syn keyword cTypeCustomFunR Error ErrorNoReach
-syn keyword cTypeCustomFunR ERROR_DIM ERROR_PTR ERROR_LD ERROR_PROP ERROR_PRSQ ERROR_EMPTY
 
 syn keyword cTypeCustomFunR XxObjectTmpl XxObjectTlst
 syn keyword cTypeCustomFunR XxVectorTmpl XxVectorTlst

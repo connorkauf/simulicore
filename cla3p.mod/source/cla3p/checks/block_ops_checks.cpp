@@ -48,7 +48,7 @@ Property block_op_consistency_check(
 			if(jend > ibgn + 1) {
 				throw err::NoConsistency("Block overlaps with upper part of " + prop.name() + " matrix");
 			}
-			ptype = prop_t::GENERAL;
+			ptype = prop_t::General;
 			uplo  = uplo_t::F;
 		} // (non-)diag case
 
@@ -68,7 +68,7 @@ Property block_op_consistency_check(
 			if(iend > jbgn + 1) {
 				throw err::NoConsistency("Block overlaps with lower part of " + prop.name() + " matrix");
 			}
-			ptype = prop_t::GENERAL;
+			ptype = prop_t::General;
 			uplo  = uplo_t::F;
 		} // (non-)diag case
 
@@ -113,7 +113,7 @@ void real_block_op_consistency_check(
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blprop.isHermitian()) {
-		blprop = Property(prop_t::SYMMETRIC, blprop.uplo());
+		blprop = Property(prop_t::Symmetric, blprop.uplo());
 	}
 
 	if(blprop != block_prop) {
@@ -137,7 +137,7 @@ void imag_block_op_consistency_check(
 	Property blprop = block_op_consistency_check(prop, nrows, ncols, ibgn, jbgn, ni, nj);
 
 	if(blprop.isHermitian()) {
-		blprop = Property(prop_t::SKEW, blprop.uplo());
+		blprop = Property(prop_t::Skew, blprop.uplo());
 	}
 
 	if(blprop != block_prop) {

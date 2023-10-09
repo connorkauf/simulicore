@@ -17,11 +17,11 @@ namespace cla3p {
 template< typename T_Scalar>
 inline Property checkProperty(const Property& pr);
 
-template<> inline Property checkProperty<int_t>(const Property& pr) { return (pr.isHermitian() ? Property(prop_t::SYMMETRIC, pr.uplo()) : pr); }
-template<> inline Property checkProperty<uint_t>(const Property& pr) { return (pr.isHermitian() ? Property(prop_t::SYMMETRIC, pr.uplo()) : pr); }
-template<> inline Property checkProperty<real_t>(const Property& pr) { return (pr.isHermitian() ? Property(prop_t::SYMMETRIC, pr.uplo()) : pr); }
-template<> inline Property checkProperty<real4_t>(const Property& pr) { return (pr.isHermitian() ? Property(prop_t::SYMMETRIC, pr.uplo()) : pr); }
-template<> inline Property checkProperty<complex_t>(const Property& pr) { return pr; }
+template<> inline Property checkProperty<int_t>     (const Property& pr) { return (pr.isHermitian() ? Property(prop_t::Symmetric, pr.uplo()) : pr); }
+template<> inline Property checkProperty<uint_t>    (const Property& pr) { return (pr.isHermitian() ? Property(prop_t::Symmetric, pr.uplo()) : pr); }
+template<> inline Property checkProperty<real_t>    (const Property& pr) { return (pr.isHermitian() ? Property(prop_t::Symmetric, pr.uplo()) : pr); }
+template<> inline Property checkProperty<real4_t>   (const Property& pr) { return (pr.isHermitian() ? Property(prop_t::Symmetric, pr.uplo()) : pr); }
+template<> inline Property checkProperty<complex_t> (const Property& pr) { return pr; }
 template<> inline Property checkProperty<complex8_t>(const Property& pr) { return pr; }
 
 /*-------------------------------------------------*/

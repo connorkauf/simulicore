@@ -51,7 +51,7 @@ Property::~Property()
 /*-------------------------------------------------*/
 void Property::defaults()
 {
-	m_type = prop_t::NONE;
+	m_type = prop_t::Undefined;
 	m_uplo = uplo_t::F;
 }
 /*-------------------------------------------------*/
@@ -90,11 +90,11 @@ std::string Property::name() const
 	std::string strProp = msg::Unknown();
 	std::string strUplo = "";
 
-	if(type() == prop_t::GENERAL   ) strProp = msg::General();
-	if(type() == prop_t::SYMMETRIC ) strProp = msg::Symmetric();
-	if(type() == prop_t::HERMITIAN ) strProp = msg::Hermitian();
-	if(type() == prop_t::TRIANGULAR) strProp = msg::Triangular();
-	if(type() == prop_t::SKEW      ) strProp = msg::Skew();
+	if(type() == prop_t::General   ) strProp = msg::General();
+	if(type() == prop_t::Symmetric ) strProp = msg::Symmetric();
+	if(type() == prop_t::Hermitian ) strProp = msg::Hermitian();
+	if(type() == prop_t::Triangular) strProp = msg::Triangular();
+	if(type() == prop_t::Skew      ) strProp = msg::Skew();
 
 	if(uplo() == uplo_t::U) strUplo = msg::Upper();
 	if(uplo() == uplo_t::L) strUplo = msg::Lower();
@@ -104,7 +104,7 @@ std::string Property::name() const
 /*-------------------------------------------------*/
 bool Property::isValid() const
 {
-	return (type() != prop_t::NONE);
+	return (type() != prop_t::Undefined);
 }
 /*-------------------------------------------------*/
 bool Property::isSquare() const
@@ -114,27 +114,27 @@ bool Property::isSquare() const
 /*-------------------------------------------------*/
 bool Property::isGeneral() const
 {
-	return (type() == prop_t::GENERAL);
+	return (type() == prop_t::General);
 }
 /*-------------------------------------------------*/
 bool Property::isSymmetric() const
 {
-	return (type() == prop_t::SYMMETRIC);
+	return (type() == prop_t::Symmetric);
 }
 /*-------------------------------------------------*/
 bool Property::isHermitian() const
 {
-	return (type() == prop_t::HERMITIAN);
+	return (type() == prop_t::Hermitian);
 }
 /*-------------------------------------------------*/
 bool Property::isTriangular() const
 {
-	return (type() == prop_t::TRIANGULAR);
+	return (type() == prop_t::Triangular);
 }
 /*-------------------------------------------------*/
 bool Property::isSkew() const
 {
-	return (type() == prop_t::SKEW);
+	return (type() == prop_t::Skew);
 }
 /*-------------------------------------------------*/
 bool Property::isFull() const

@@ -21,7 +21,7 @@ void perm_op_consistency_check(uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 /*-------------------------------------------------*/
 void perm_ge_op_consistency_check(prop_t ptype, uint_t nrows, uint_t ncols, uint_t np, uint_t nq)
 {
-	if(ptype != prop_t::GENERAL) {
+	if(ptype != prop_t::General) {
 		throw err::InvalidOp("Right/Left sided permutations are applied on non-empty general matrices");
 	}
 	perm_op_consistency_check(nrows, ncols, np, nq);

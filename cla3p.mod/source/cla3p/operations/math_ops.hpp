@@ -132,13 +132,13 @@ T_Vector mult(T_Scalar alpha, op_t opA,
  @endverbatim
  * Valid combinations are the following:
  @verbatim
-  A: GENERAL     B: GENERAL     opA: unconstrained      opB: unconstrained
-  A: SYMMETRIC   B: GENERAL     opA: ignored            opB: must be set to N
-  A: HERMITIAN   B: GENERAL     opA: ignored            opB: must be set to N
-  A: TRIANGULAR  B: GENERAL     opA: unconstrained      opB: must be set to N
-  A: GENERAL     B: SYMMETRIC   opA: must be set to N   opB: ignored         
-  A: GENERAL     B: HERMITIAN   opA: must be set to N   opB: ignored         
-  A: GENERAL     B: TRIANGULAR  opA: must be set to N   opB: unconstrained
+  A: General     B: General     opA: unconstrained      opB: unconstrained
+  A: Symmetric   B: General     opA: ignored            opB: must be set to N
+  A: Hermitian   B: General     opA: ignored            opB: must be set to N
+  A: Triangular  B: General     opA: unconstrained      opB: must be set to N
+  A: General     B: Symmetric   opA: must be set to N   opB: ignored         
+  A: General     B: Hermitian   opA: must be set to N   opB: ignored         
+  A: General     B: Triangular  opA: must be set to N   opB: unconstrained
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -172,13 +172,13 @@ void mult(T_Scalar alpha,
  @endverbatim
  * Valid combinations are the following:
  @verbatim
-  A: GENERAL     B: GENERAL     opA: unconstrained      opB: unconstrained
-  A: SYMMETRIC   B: GENERAL     opA: ignored            opB: must be set to N
-  A: HERMITIAN   B: GENERAL     opA: ignored            opB: must be set to N
-  A: TRIANGULAR  B: GENERAL     opA: unconstrained      opB: must be set to N
-  A: GENERAL     B: SYMMETRIC   opA: must be set to N   opB: ignored         
-  A: GENERAL     B: HERMITIAN   opA: must be set to N   opB: ignored         
-  A: GENERAL     B: TRIANGULAR  opA: must be set to N   opB: unconstrained
+  A: General     B: General     opA: unconstrained      opB: unconstrained
+  A: Symmetric   B: General     opA: ignored            opB: must be set to N
+  A: Hermitian   B: General     opA: ignored            opB: must be set to N
+  A: Triangular  B: General     opA: unconstrained      opB: must be set to N
+  A: General     B: Symmetric   opA: must be set to N   opB: ignored         
+  A: General     B: Hermitian   opA: must be set to N   opB: ignored         
+  A: General     B: Triangular  opA: must be set to N   opB: unconstrained
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.

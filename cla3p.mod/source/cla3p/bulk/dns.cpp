@@ -31,9 +31,9 @@ static uint_t recursive_min_dim()
 template <typename T>
 static inline T opposite_element(const T& x, const prop_t& ptype)
 {
-	if(ptype == prop_t::SYMMETRIC) return     ( x);
-	if(ptype == prop_t::HERMITIAN) return conj( x);
-	if(ptype == prop_t::SKEW     ) return     (-x);
+	if(ptype == prop_t::Symmetric) return     ( x);
+	if(ptype == prop_t::Hermitian) return conj( x);
+	if(ptype == prop_t::Skew     ) return     (-x);
 
 	throw err::Exception();
 	return x;
@@ -480,13 +480,13 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 			} // i
 		} // j
 
-		if(ptype == prop_t::HERMITIAN) {
+		if(ptype == prop_t::Hermitian) {
 			for(uint_t j = 0; j < n; j++) {
 				setim(entry(lda,a,j,j),0);
 			} // j
 		}
 
-		if(ptype == prop_t::SKEW) {
+		if(ptype == prop_t::Skew) {
 			for(uint_t j = 0; j < n; j++) {
 				entry(lda,a,j,j) = 0;
 			} // j
@@ -500,17 +500,17 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 		xx2ge_recursive_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, ptype);
 		xx2ge_recursive_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, ptype);
 
-		if(ptype == prop_t::SYMMETRIC) {
+		if(ptype == prop_t::Symmetric) {
 
 			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
 			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
 
-		} else if(ptype == prop_t::HERMITIAN) {
+		} else if(ptype == prop_t::Hermitian) {
 
 			/**/ if(uplo == uplo_t::U) conjugate_transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
 			else if(uplo == uplo_t::L) conjugate_transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
 
-		} else if(ptype == prop_t::SKEW) {
+		} else if(ptype == prop_t::Skew) {
 
 			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, -1);
 			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, -1);
@@ -530,21 +530,21 @@ static void xx2ge_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t ptype)
 	xx2ge_recursive_tmpl(uplo, n, a, lda, ptype);
 }
 /*-------------------------------------------------*/
-void sy2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
-void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
-void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
-void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SYMMETRIC); }
+void sy2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
+void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
+void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
+void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
 /*-------------------------------------------------*/
 void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
 void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
 /*-------------------------------------------------*/
-void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
-void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::HERMITIAN); }
+void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Hermitian); }
+void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Hermitian); }
 /*-------------------------------------------------*/
-void sk2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
-void sk2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
-void sk2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
-void sk2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::SKEW); }
+void sk2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
+void sk2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
+void sk2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
+void sk2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -723,7 +723,7 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 }
 /*-------------------------------------------------*/
 //
-// FRO NORM FOR SYMMETRIC/HERMITIAN WRONG IN LAPACK FOR N >= 128
+// fro norm for Symmetric/Hermitian wrong in lapack for n >= 128
 // TODO: more efficient
 //
 template <typename T, typename Tr>
@@ -732,7 +732,7 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 	Tr sum = 0;
 	Tr two = 2;
 
-	if(ptype == prop_t::SYMMETRIC || ptype == prop_t::HERMITIAN) {
+	if(ptype == prop_t::Symmetric || ptype == prop_t::Hermitian) {
 
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, n, j);
@@ -742,7 +742,7 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 			} // i
 		} // j
 
-	} else if(ptype == prop_t::SKEW) {
+	} else if(ptype == prop_t::Skew) {
 
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, n, j);
@@ -780,11 +780,11 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSymmetric()) {
 
-		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::SYMMETRIC) : lapack::lansy('F', prop.cuplo(), n, a, lda));
+		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Symmetric) : lapack::lansy('F', prop.cuplo(), n, a, lda));
 
 	} else if(prop.isHermitian()) { 
 
-		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::HERMITIAN) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
+		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Hermitian) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
 
 	} else if(prop.isTriangular()) {
 
@@ -793,7 +793,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSkew()) {
 
-		return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::SKEW);;
+		return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Skew);
 
 	} // property
 	
