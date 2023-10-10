@@ -38,7 +38,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 */
 
 		/**
-		 * @brief Unaryminus operator.
+		 * @brief Unary minus operator.
 		 *
 		 * Negates the object.
 		 *
