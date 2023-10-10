@@ -14,8 +14,9 @@ int main()
 
 	{
 		/*
-		 * single column (vector) rhs
+		 * Single column (vector) rhs
 		 */
+
 		cla3p::dns::RdVector X = B1.copy();
 		luSolver.solve(X); // overwrite X with the solution (A^{-1} * B1)
 		std::cout << "Absolute error: " << (B1 - A * X).normOne() << std::endl;
@@ -23,8 +24,9 @@ int main()
 
 	{
 		/*
-		 * multiple column (matrix) rhs
+		 * Multiple column (matrix) rhs
 		 */
+
 		cla3p::dns::RdMatrix X = B2.copy();
 		luSolver.solve(X); // overwrite X with the solution (A^{-1} * B2)
 		std::cout << "Absolute error: " << (B2 - A * X).normOne() << std::endl;

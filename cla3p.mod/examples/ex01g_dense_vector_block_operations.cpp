@@ -10,6 +10,7 @@ int main()
 	 * Get a copy of X[1:3] in Xb
 	 * Get a reference of X[2:5] in Xr
 	 */
+
 	cla3p::dns::RdVector Xb = X.block(1, 2);
 	cla3p::dns::RdVector Xr = X.rblock(2, 3);
 	std::cout << "Xb:\n" << Xb;
@@ -22,6 +23,7 @@ int main()
 	/*
 	 * Set values of Xb to X, starting at index 1
 	 */
+
 	X.setBlock(1, Xb);
 	std::cout << "X after setBlock():\n" << X;
 
