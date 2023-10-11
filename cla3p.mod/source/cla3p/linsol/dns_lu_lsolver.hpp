@@ -39,7 +39,7 @@ class LSolverLU : public LSolverBase<T_Matrix> {
 		/**
 		 * @brief The dimensional constructor.
 		 *
-		 * Constructs a preallocated solver object with n^2 buffered size.
+		 * Constructs a preallocated solver object with n<sup>2</sup> buffered size.
 		 */
 		LSolverLU(uint_t n);
 
