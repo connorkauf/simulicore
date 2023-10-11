@@ -11,7 +11,7 @@ namespace dns {
 
 /**
  * @nosubgrouping 
- * @brief A dense object class.
+ * @brief The dense object class.
  */
 template <typename T_Scalar, typename T_Object>
 class XxObject : public Array2D<T_Scalar> {

@@ -13,7 +13,7 @@ template <typename T_Scalar> class RxMatrix;
 
 /**
  * @nosubgrouping 
- * @brief A dense real vector class.
+ * @brief The dense real vector class.
  */
 template <typename T_Scalar>
 class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {

@@ -14,7 +14,7 @@ template <typename T_Scalar> class RxMatrix;
 
 /**
  * @nosubgrouping 
- * @brief A dense complex vector class.
+ * @brief The dense complex vector class.
  */
 template <typename T_Scalar>
 class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {

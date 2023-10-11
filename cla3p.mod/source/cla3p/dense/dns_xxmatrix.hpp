@@ -18,7 +18,7 @@ namespace dns {
 
 /**
  * @nosubgrouping 
- * @brief A dense matrix class.
+ * @brief The dense matrix class.
  */
 template <typename T_Scalar, typename T_Matrix>
 class XxMatrix : public XxObject<T_Scalar,T_Matrix> {

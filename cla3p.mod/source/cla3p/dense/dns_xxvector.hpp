@@ -20,7 +20,7 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 
 /**
  * @nosubgrouping 
- * @brief A dense vector class.
+ * @brief The dense vector class.
  */
 template <typename T_Scalar, typename T_Vector>
 class XxVector : public XxObject<T_Scalar,T_Vector> {
