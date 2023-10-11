@@ -86,7 +86,7 @@ T_Object operator/(const cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar 
  * @ingroup operators_scal
  * @brief Scaling operator.
  *
- * Scales src by val.
+ * Scales `src` by `val`.
  *
  * @param[in] src The input object.
  * @param[in] val The scaling coefficient.
@@ -101,7 +101,7 @@ void operator*=(cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar val)
  * @ingroup operators_scal
  * @brief Scaling operator.
  *
- * Scales src by 1/val.
+ * Scales `src` by `1/val`.
  *
  * @param[in] src The input object.
  * @param[in] val The scaling coefficient.
@@ -205,11 +205,11 @@ T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Solves the linear system A * X = B.
+ * @brief Solves the linear system `A * X = B`.
  *
  * @param[in] A The lhs matrix.
  * @param[in] B The rhs vector.
- * @return The result of the operation (A^{-1} * B).
+ * @return The result of the operation (A<sup>-1</sup> * B).
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
@@ -221,11 +221,11 @@ T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Solves the linear system A * X = B.
+ * @brief Solves the linear system `A * X = B`.
  *
  * @param[in] A The lhs matrix.
  * @param[in] B The rhs matrix.
- * @return The result of the operation (A^{-1} * B).
+ * @return The result of the operation (A<sup>-1</sup> * B).
  */
 template <typename T_Scalar, typename T_Matrix>
 T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
@@ -237,7 +237,7 @@ T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Overwrites B with the solution (A^{-1} * B).
+ * @brief Overwrites B with the solution (A<sup>-1</sup> * B).
  *
  * @param[in] B The rhs vector.
  * @param[in] A The lhs matrix.
@@ -251,7 +251,7 @@ void operator/=(cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::Xx
 
 /**
  * @ingroup operators_linsol
- * @brief Overwrites B with the solution (A^{-1} * B).
+ * @brief Overwrites B with the solution (A<sup>-1</sup> * B).
  *
  * @param[in] B The rhs matrix.
  * @param[in] A The lhs matrix.

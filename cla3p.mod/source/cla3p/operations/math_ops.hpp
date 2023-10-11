@@ -55,7 +55,7 @@ void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::Xx
  * @param[in] A The first input object.
  * @param[in] beta The scaling coefficient for B.
  * @param[in] B The second input object.
- * @return The resulting object.
+ * @return The result of the operation `alpha*A + beta*B`.
  */
 template <typename T_Scalar, typename T_Object>
 T_Object add(
@@ -106,7 +106,7 @@ void mult(T_Scalar alpha, op_t opA,
  * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
- * @return The resulting vector.
+ * @return The vector `alpha*opA(A)*X`.
  *
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
@@ -186,7 +186,7 @@ void mult(T_Scalar alpha,
  * @param[in] A The input matrix.
  * @param[in] opB The operation to be performed for matrix B.
  * @param[in] B The input matrix.
- * @return The resulting matrix.
+ * @return The matrix `alpha*opA(A)*opB(B)`.
  */
 template <typename T_Scalar, typename T_Matrix>
 T_Matrix mult(T_Scalar alpha, 
