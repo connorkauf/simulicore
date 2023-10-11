@@ -45,16 +45,21 @@
  *
  * @defgroup dense_linear_solvers Dense
  * @ingroup linear_solvers
- *
  */
 
 /**
  * @defgroup math_operators Algebraic Operators
  *
+ * @defgroup operators_scal Scaling
+ * @ingroup math_operators
+ *
  * @defgroup operators_mult Multiplication
  * @ingroup math_operators
  *
  * @defgroup operators_perm Permutation
+ * @ingroup math_operators
+ *
+ * @defgroup operators_linsol Linear Solving
  * @ingroup math_operators
  */
 

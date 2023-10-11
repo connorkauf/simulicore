@@ -80,26 +80,6 @@ XxObjectTmpl& XxObjectTmpl::operator-=(const XxObjectTmpl& other)
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator*=(T_Scalar val)
-{
-	scale(val);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator/=(T_Scalar val)
-{
-	if(val == T_Scalar(0)) {
-		throw err::InvalidOp(msg::DivisionByZero());
-	}
-
-	T_Scalar one(1);
-	T_Scalar coeff = one / val;
-	scale(coeff);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
 T_Object XxObjectTmpl::copy() const
 {
 	T_Object ret;

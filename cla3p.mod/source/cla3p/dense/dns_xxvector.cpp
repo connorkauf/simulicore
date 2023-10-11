@@ -14,7 +14,6 @@
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
-#include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -63,22 +62,6 @@ XxVectorTlst
 void XxVectorTmpl::operator=(T_Scalar val)
 {
 	this->fill(val);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_Vector XxVectorTmpl::operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const
-{
-	T_Vector ret = this->copy();
-	ret /= other;
-	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-XxVector<T_Scalar,T_Vector>& XxVectorTmpl::operator/=(const XxMatrix<T_Scalar,T_Matrix>& other)
-{
-	T_Vector rhs = this->rcopy();
-	default_linear_solver<T_Matrix,T_Vector>(other.rcopy().get(), rhs);
-	return *this;
 }
 /*-------------------------------------------------*/
 XxVectorTlst

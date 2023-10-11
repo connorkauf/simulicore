@@ -79,22 +79,6 @@ T_Matrix XxMatrixTmpl::operator*(const XxMatrixTmpl& other) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const
-{
-	T_Matrix ret = this->copy();
-	ret /= other;
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-XxMatrix<T_Scalar,T_Matrix>& XxMatrixTmpl::operator/=(const XxMatrix<T_Scalar,T_Matrix>& other)
-{
-	T_Matrix rhs = this->rcopy();
-	default_linear_solver<T_Matrix,T_Matrix>(other.rcopy().get(), rhs);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
 uint_t XxMatrixTmpl::nrows() const
 {
 	return this->rsize();

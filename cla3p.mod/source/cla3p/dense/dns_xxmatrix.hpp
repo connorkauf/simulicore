@@ -116,22 +116,6 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 */
 		T_Matrix operator*(const XxMatrix<T_Scalar,T_Matrix>& other) const;
 
-		/**
-		 * @brief Solves the linear system other * x = *this.
-		 *
-		 * @param[in] other The lhs matrix.
-		 * @return The result of the operation (other^{-1} * (*this)).
-		 */
-		T_Matrix operator/(const XxMatrix<T_Scalar,T_Matrix>& other) const;
-
-		/**
-		 * @brief Overwrites *this with the solution other^{-1} * (*this).
-		 *
-		 * @param[in] other The lhs matrix.
-		 * @return The result of the operation (other^{-1} * (*this)).
-		 */
-		XxMatrix<T_Scalar,T_Matrix>& operator/=(const XxMatrix<T_Scalar,T_Matrix>& other);
-
 		/** @} */
 
 		/** 
