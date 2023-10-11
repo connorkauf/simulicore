@@ -42,7 +42,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * Negates the object.
 		 *
-		 * @return The result of -(*this).
+		 * @return The result of the operation `-(*this)`.
 		 */
 		T_Object operator-() const;
 
@@ -51,7 +51,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * Adds two compatible objects.
 		 *
-		 * @return The result of the operation *this + other.
+		 * @return The result of the operation `(*this) + other`.
 		 */
 		T_Object operator+(const XxObject<T_Scalar,T_Object>& other) const;
 
@@ -60,21 +60,21 @@ class XxObject : public Array2D<T_Scalar> {
 		 *
 		 * Subtracts two compatible objects.
 		 *
-		 * @return The result of the operation *this - other.
+		 * @return The result of the operation `(*this) - other`.
 		 */
 		T_Object operator-(const XxObject<T_Scalar,T_Object>& other) const;
 
 		/**
 		 * @brief Update operator.
 		 *
-		 * Adds other to *this.
+		 * Adds `other` to `(*this)`.
 		 */
 		XxObject<T_Scalar,T_Object>& operator+=(const XxObject<T_Scalar,T_Object>& other);
 
 		/**
 		 * @brief Update operator.
 		 *  
-		 * Subtracts other from *this.
+		 * Subtracts `other` from `(*this)`.
 		 */
 		XxObject<T_Scalar,T_Object>& operator-=(const XxObject<T_Scalar,T_Object>& other);
 
@@ -87,25 +87,33 @@ class XxObject : public Array2D<T_Scalar> {
 
 		/**
 		 * @brief Copies an object.
-		 * @return A deep copy of the object.
+		 * @return A deep copy of `(*this)`.
+		 *
+		 * @see rcopy() const, rcopy(), move()
 		 */
 		T_Object copy() const;
 
 		/**
 		 * @brief Shallow-copies an object.
-		 * @return A shallow copy of the object, original object is unchanged.
+		 * @return A shallow copy of `(*this)`, `(*this)` is unchanged.
+		 *
+		 * @see copy(), rcopy() const, move()
 		 */
 		T_Object rcopy();
 
 		/**
-		 * @brief Shallow-copies an object.
-		 * @return A guard of the object.
+		 * @brief Shallow-copies an immutable object.
+		 * @return A guard shallow copy of `(*this)`.
+		 *
+		 * @see copy(), rcopy(), move()
 		 */
 		Guard<T_Object> rcopy() const;
 
 		/**
 		 * @brief Moves an object.
-		 * @return A shallow copy of the object, original object is destroyed.
+		 * @return A shallow copy of `(*this)`, `(*this)` is destroyed.
+		 *
+		 * @see copy(), rcopy() const, rcopy()
 		 */
 		T_Object move();
 

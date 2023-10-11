@@ -59,7 +59,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/**
 		 * @brief The move constructor.
 		 *
-		 * Constructs a vector with the contents of other, other is destroyed.
+		 * Constructs a vector with the contents of `other`, `other` is destroyed.
 		 */
 		XxVector(XxVector<T_Scalar,T_Vector>&& other) = default;
 
@@ -78,14 +78,14 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/**
 		 * @brief The move assignment operator.
 		 *
-		 * Replaces the contents with those of other, other is destroyed.
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 */
 		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&& other) = default;
 
 		/**
 		 * @brief Vector entry operator.
 		 * @param[in] i The number of the requested index.
-		 * @return A reference to the i-th element of the vector.
+		 * @return A reference to the i-th element of `(*this)`.
 		 */
 		T_Scalar& operator()(uint_t i);
 
@@ -97,7 +97,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/**
 		 * @brief The value setter operator.
 		 *
-		 * Sets all entries of the vector to a single value.
+		 * Sets all entries of `(*this)` to a single value.
 		 *
 		 * @param[in] val The value to be set.
 		 */
@@ -112,7 +112,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 		/**
 		 * @brief The vector size.
-		 * @return The number of the vector entries.
+		 * @return The number of entries in `(*this)`.
 		 */
 		uint_t size() const;
 
@@ -131,87 +131,97 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 		/**
 		 * @brief Vector Euclidean norm.
-		 * @return The Euclidean norm of the vector.
+		 * @return The Euclidean norm of `(*this)`.
 		 */
 		T_RScalar normEuc() const;
 
 		/**
 		 * @brief Permutes the entries of a vector
 		 *
-		 * Creates a permuted copy @f$ (PX) @f$ of the vector @f$ X @f$.
+		 * Creates a permuted copy `P*(*this)` of `(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of the vector.
+		 * @return The permuted copy of `(*this)`.
+		 *
+		 * @see ipermuteLeft()
 		 */
 		T_Vector permuteLeft(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
 		 *
-		 * Replaces @f$ X @f$ with @f$ PX @f$.
+		 * Replaces `(*this)` with `P*(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
+		 *
+		 * @see permuteLeft()
 		 */
 		void ipermuteLeft(const PxMatrix<int_t>& P);
 
 		/**
-		 * @brief Gets a subvector copy.
+		 * @brief Gets a subvector with content copy.
 		 *
-		 * Gets a copy of a ni-sized block of the vector, starting at ibgn.
+		 * Gets a copy of a ni-sized portion of `(*this)`, starting at ibgn.
 		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
+		 * @param[in] ibgn The index that the requested part begins.
 		 * @param[in] ni The size of the requested block.
-		 * @return A copy of a portion of the vector.
+		 * @return A copy of `(*this)[ibgn:ibgn+ni]`.
+		 *
+		 * @see rblock(), rblock() const
 		 */
 		T_Vector block(uint_t ibgn, uint_t ni) const;
 
 		/**
-		 * @brief Gets a subvector reference.
+		 * @brief Gets a subvector with content reference.
 		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
+		 * Gets a ni-sized vector that references contents of `(*this)`, starting at ibgn.
 		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
+		 * @param[in] ibgn The index that the requested part begins.
 		 * @param[in] ni The size of the requested block.
-		 * @return A reference to a portion of the vector.
+		 * @return A vector with content reference to `(*this)[ibgn:ibgn+ni]`.
+		 *
+		 * @see block(), rblock() const
 		 */
 		T_Vector rblock(uint_t ibgn, uint_t ni);
 
 		/**
-		 * @brief Gets a subvector reference.
+		 * @brief Gets a guarded subvector with content reference.
 		 *
-		 * Gets a reference of a ni-sized block of the vector, starting at ibgn.
+		 * Gets a ni-sized vector that references contents of `(*this)`, starting at ibgn.
 		 *
-		 * @param[in] ibgn The vector index that the requested part begins.
+		 * @param[in] ibgn The index that the requested part begins.
 		 * @param[in] ni The size of the requested block.
-		 * @return A guarded reference to a portion of the vector.
+		 * @return A guarded vector with content reference to `(*this)[ibgn:ibgn+ni]`.
+		 *
+		 * @see block(), rblock()
 		 */
 		Guard<T_Vector> rblock(uint_t ibgn, uint_t ni) const;
 
 		/**
 		 * @brief Sets a subvector.
 		 *
-		 * Copies the contents of src in the vector, starting at ibgn.
+		 * Copies the contents of `src` in `(*this)[ibgn:ibgn+src.size()]`.
 		 *
-		 * @param[in] ibgn The vector index that src will be placed.
+		 * @param[in] ibgn The index that src will be placed.
 		 * @param[in] src The vector to be placed.
 		 */
 		void setBlock(uint_t ibgn, const XxVector<T_Scalar,T_Vector>& src);
 
 		/**
 		 * @brief Converts a vector to a matrix.
-		 * @return A copy of the vector as matrix.
+		 * @return A copy of `(*this)` as matrix.
 		 */
 		T_Matrix matrix() const;
 
 		/**
 		 * @brief Converts a vector to a matrix.
-		 * @return A reference of the vector as matrix.
+		 * @return A matrix referencing the contents of `(*this)`.
 		 */
 		T_Matrix rmatrix();
 
 		/**
-		 * @brief Converts a vector to a matrix.
-		 * @return A reference of the vector as matrix guard.
+		 * @brief Converts an immutable vector to a guarded matrix.
+		 * @return A guarded matrix referencing the contents of `(*this)`.
 		 */
 		Guard<T_Matrix> rmatrix() const;
 
