@@ -59,7 +59,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		/**
 		 * @brief The move constructor.
 		 *
-		 * Constructs a matrix with the contents of other, other is destroyed.
+		 * Constructs a matrix with the contents of `other`, `other` is destroyed.
 		 */
 		XxMatrix(XxMatrix<T_Scalar,T_Matrix>&& other) = default;
 
@@ -78,15 +78,15 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		/**
 		 * @brief The move assignment operator.
 		 *
-		 * Replaces the contents with those of other, other is destroyed.
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 */
 		XxMatrix<T_Scalar,T_Matrix>& operator=(XxMatrix<T_Scalar,T_Matrix>&& other) = default;
 
 		/**
 		 * @brief Matrix entry operator.
-		 * @param[in] i The row number of the requested entry.
-		 * @param[in] j The column number of the requested entry.
-		 * @return A reference to the (i,j)-th element of the matrix.
+		 * @param[in] i The row index of the requested entry.
+		 * @param[in] j The column index of the requested entry.
+		 * @return A reference to the (i,j)-th element of `(*this)`.
 		 */
 		T_Scalar& operator()(uint_t i, uint_t j);
 
@@ -98,7 +98,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		/**
 		 * @brief The value setter operator.
 		 *
-		 * Sets all entries of the matrix to a single value.@n
+		 * Sets all entries of `(*this)` to a single value.@n
 		 * Imaginary part of diagonal is set to zero for Hermitian cases.@n
 		 * Diagonal is set to zero for Skew cases.
 		 *
@@ -109,10 +109,10 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		/**
 		 * @brief The matrix-matrix multiplication operator.
 		 *
-		 * Multiplies *this with other.
+		 * Multiplies `(*this)` with `other`.
 		 *
 		 * @param[in] other The left hand side multiplier.
-		 * @return The result of the operation (*this * other).
+		 * @return The result of the operation `(*this) * other`.
 		 */
 		T_Matrix operator*(const XxMatrix<T_Scalar,T_Matrix>& other) const;
 
@@ -125,25 +125,25 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 		/**
 		 * @brief The matrix rows.
-		 * @return The number of the matrix rows.
+		 * @return The number of rows in `(*this)`.
 		 */
 		uint_t nrows() const;
 
 		/**
 		 * @brief The matrix columns.
-		 * @return The number of the matrix columns.
+		 * @return The number of columns in `(*this)`.
 		 */
 		uint_t ncols() const;
 
 		/**
 		 * @brief The matrix leading dimension.
-		 * @return The leading dimension of the matrix (column-major: ld() @f$ \geq @f$ nrows()).
+		 * @return The leading dimension of `(*this)` (column-major: ld() @f$ \geq @f$ nrows()).
 		 */
 		uint_t ld() const;
 
 		/**
 		 * @brief The matrix property.
-		 * @return The property that characterizes the matrix.
+		 * @return The property that characterizes `(*this)`.
 		 */
 		const Property& prop() const;
 
@@ -162,188 +162,226 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 		/**
 		 * @brief Matrix infinite norm.
-		 * @return The infinite norm of the matrix.
+		 * @return The infinite norm of `(*this)`.
 		 */
 		T_RScalar normMax() const;
 
 		/**
 		 * @brief Matrix Frobenius norm.
-		 * @return The Frobenius norm of the matrix.
+		 * @return The Frobenius norm of `(*this)`.
 		 */
 		T_RScalar normFro() const;
 
 		/**
 		 * @brief Transposes a general matrix.
-		 * @return The transposed copy of the matrix.
+		 * @return The transposed copy of `(*this)`.
 		 */
 		T_Matrix transpose() const;
 
 		/**
 		 * @brief Converts a matrix to general.
-		 * @return A copy of the matrix with general property.
+		 * @return A copy of `(*this)` with general property.
 		 */
 		T_Matrix general() const;
 
 		/**
-		 * @brief Converts a matrix to general in-place.
+		 * @brief Converts `(*this)` to general in-place.
 		 */
 		void igeneral();
 
 		/**
 		 * @brief Permutes a general matrix.
 		 *
-		 * Creates a permuted copy @f$ (PAQ) @f$ of the matrix @f$ A @f$.
+		 * Creates a permuted copy `P*(*this)*Q` of `(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @return The matrix `P*(*this)*Q`.
+		 *
+		 * @see permuteLeft(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes the rows of a general matrix.
 		 *
-		 * Creates a permuted copy @f$ (PA) @f$ of the matrix @f$ A @f$.
+		 * Creates a permuted copy `P*(*this)` of `(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @return The matrix `P*(*this)`.
+		 *
+		 * @see permuteLeftRight(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteLeft(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the columns of a general matrix.
 		 *
-		 * Creates a permuted copy @f$ (AQ) @f$ of the matrix @f$ A @f$.
+		 * Creates a permuted copy `(*this)*Q` of `(*this)`.
 		 *
 		 * @param[in] Q The right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @return The matrix `(*this)*Q`.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteRight(const PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes a matrix symmetrically.
 		 *
-		 * Creates a permuted copy @f$ (PAP^T) @f$ of the matrix @f$ A @f$.
+		 * Creates a permuted copy `P*(*this)*P^T` of `(*this)`.
 		 *
 		 * @param[in] P The left and right side permutation matrix.
-		 * @return The permuted copy of the matrix.
+		 * @return The matrix `P*(*this)*P^T`.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteRight()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes a general matrix in-place.
 		 *
-		 * Replaces @f$ A @f$ with @f$ PAQ @f$.
+		 * Replaces `(*this)` with `P*(*this)*Q`.
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		void ipermuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes the rows of a general matrix in-place.
 		 *
-		 * Replaces @f$ A @f$ with @f$ PA @f$.
+		 * Replaces `(*this)` with `P*(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteRight(), ipermuteMirror()
 		 */
 		void ipermuteLeft(const PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Permutes the columns of a general matrix in-place.
 		 *
-		 * Replaces @f$ A @f$ with @f$ AQ @f$.
+		 * Replaces `(*this)` with `(*this)*Q`.
 		 *
 		 * @param[in] Q The right side permutation matrix.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteMirror()
 		 */
 		void ipermuteRight(const PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes a matrix symmetrically in-place.
 		 *
-		 * Replaces @f$ A @f$ with @f$ PAP^T @f$.
+		 * Replaces `(*this)` with `P*(*this)*P^T`.
 		 *
 		 * @param[in] P The left and right side permutation matrix.
+		 *
+		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
+		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight()
 		 */
 		void ipermuteMirror(const PxMatrix<int_t>& P);
 
 		/**
-		 * @brief Gets a submatrix copy.
+		 * @brief Gets a submatrix with content copy.
 		 *
-		 * Gets a copy of a (ni x nj) block of the matrix, starting at (ibgn, jbgn).
+		 * Gets a copy of a (ni x nj) block of `(*this)`, starting at (ibgn, jbgn).
 		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ibgn The row index that the requested part begins.
+		 * @param[in] jbgn The column index that the requested part begins.
 		 * @param[in] ni The number of rows of the requested block.
 		 * @param[in] nj The number of columns of the requested block.
-		 * @return A copy of a portion of the matrix.
+		 * @return A matrix with content copy of `(*this)[ibgn:ibgn+ni,jbgn:jbgn+nj]`.
+     *
+     * @see rblock(), setBlock()
 		 */
 		T_Matrix block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
-		 * @brief Gets a submatrix reference.
+		 * @brief Gets a submatrix with content reference.
 		 *
-		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
+		 * Gets a (ni x nj) matrix that references contents of `(*this)`, starting at (ibgn, jbgn).
 		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ibgn The row index that the requested part begins.
+		 * @param[in] jbgn The column index that the requested part begins.
 		 * @param[in] ni The number of rows of the requested block.
 		 * @param[in] nj The number of columns of the requested block.
-		 * @return A reference to a portion of the matrix.
+		 * @return A matrix with content reference to `(*this)[ibgn:ibgn+ni,jbgn:jbgn+nj]`.
+     *
+     * @see block(), setBlock()
 		 */
 		T_Matrix rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 
 		/**
-		 * @brief Gets a submatrix reference.
+		 * @brief Gets a guarded submatrix with content reference.
 		 *
-		 * Gets a reference of a (ni x nj) block of the matrix, starting at (ibgn, jbgn)
+		 * Gets a (ni x nj) guarded matrix that references contents of `(*this)`, starting at (ibgn, jbgn).
 		 *
-		 * @param[in] ibgn The matrix row that the requested part begins.
-		 * @param[in] jbgn The matrix column that the requested part begins.
+		 * @param[in] ibgn The row index  that the requested part begins.
+		 * @param[in] jbgn The column index that the requested part begins.
 		 * @param[in] ni The number of rows of the requested block.
 		 * @param[in] nj The number of columns of the requested block.
-		 * @return A guarded reference to a portion of the matrix.
+		 * @return A guarded matrix with content reference to `(*this)[ibgn:ibgn+ni,jbgn:jbgn+nj]`.
+		 *
+     * @see block(), rblock(), setBlock()
 		 */
 		Guard<T_Matrix> rblock(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 
 		/**
 		 * @brief Sets a submatrix.
 		 *
-		 * Copies the contents of a block in the matrix, starting at (ibgn, jbgn)
+		 * Copies the contents of `src` to `(*this)[ibgn:ibgn+src.nrows(),jbgn:jbgn+src.ncols()]`.
 		 *
-		 * @param[in] ibgn The matrix row that src will be placed.
-		 * @param[in] jbgn The matrix column that src will be placed.
-		 * @param[in] src The block to be placed.
+		 * @param[in] ibgn The row index that src will be placed.
+		 * @param[in] jbgn The column index that src will be placed.
+		 * @param[in] src The matrix to be placed.
+		 *
+     * @see block(), rblock()
 		 */
 		void setBlock(uint_t ibgn, uint_t jbgn, const XxMatrix<T_Scalar,T_Matrix>& src);
 
 		/**
-		 * @brief Gets a matrix column copy.
+		 * @brief Gets a matrix column with content copy.
 		 *
 		 * Gets a copy of the j-th column of the matrix.
 		 *
-		 * @param[in] j The matrix column requested.
-		 * @return A copy of the column of the matrix.
+		 * @param[in] j The column index requested.
+		 * @return A vector with content copy of `(*this)[0:nrows(),j:j+1]`.
+		 *
+     * @see rcolumn()
 		 */
 		T_Vector column(uint_t j) const;
 
 		/**
-		 * @brief Gets a matrix column reference.
+		 * @brief Gets a matrix column with content reference.
 		 *
-		 * Gets a reference of the j-th column of the matrix.
+		 * Gets a vector that references contents of `(*this)` at column j.
 		 *
-		 * @param[in] j The matrix column requested.
-		 * @return A reference of the column of the matrix.
+		 * @param[in] j The column index requested.
+		 * @return A vector with content reference to `(*this)[0:nrows(),j:j+1]`.
+		 *
+     * @see column()
 		 */
 		T_Vector rcolumn(uint_t j);
 
 		/**
-		 * @brief Gets a matrix column reference.
+		 * @brief Gets a matrix column with content reference.
 		 *
-		 * Gets a reference of the j-th column of the matrix.
+		 * Gets guarded a vector that references contents of `(*this)` at column j.
 		 *
-		 * @param[in] j The matrix column requested.
-		 * @return A guarded reference of the column of the matrix.
+		 * @param[in] j The column index requested.
+		 * @return A guarded vector with content reference to `(*this)[0:nrows(),j:j+1]`.
+		 *
+     * @see column()
 		 */
 		Guard<T_Vector> rcolumn(uint_t j) const;
 

@@ -84,7 +84,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 		/**
 		 * @brief Vector entry operator.
-		 * @param[in] i The number of the requested index.
+		 * @param[in] i The index of the requested entry.
 		 * @return A reference to the i-th element of `(*this)`.
 		 */
 		T_Scalar& operator()(uint_t i);
@@ -141,7 +141,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * Creates a permuted copy `P*(*this)` of `(*this)`.
 		 *
 		 * @param[in] P The left side permutation matrix.
-		 * @return The permuted copy of `(*this)`.
+		 * @return The vector `P*(*this)`.
 		 *
 		 * @see ipermuteLeft()
 		 */
@@ -165,9 +165,9 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 *
 		 * @param[in] ibgn The index that the requested part begins.
 		 * @param[in] ni The size of the requested block.
-		 * @return A copy of `(*this)[ibgn:ibgn+ni]`.
+		 * @return A vector with content copy of `(*this)[ibgn:ibgn+ni]`.
 		 *
-		 * @see rblock(), rblock() const
+		 * @see rblock()
 		 */
 		T_Vector block(uint_t ibgn, uint_t ni) const;
 
@@ -180,14 +180,14 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] ni The size of the requested block.
 		 * @return A vector with content reference to `(*this)[ibgn:ibgn+ni]`.
 		 *
-		 * @see block(), rblock() const
+		 * @see block()
 		 */
 		T_Vector rblock(uint_t ibgn, uint_t ni);
 
 		/**
 		 * @brief Gets a guarded subvector with content reference.
 		 *
-		 * Gets a ni-sized vector that references contents of `(*this)`, starting at ibgn.
+		 * Gets a ni-sized guarded vector that references contents of `(*this)`, starting at ibgn.
 		 *
 		 * @param[in] ibgn The index that the requested part begins.
 		 * @param[in] ni The size of the requested block.
@@ -200,7 +200,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/**
 		 * @brief Sets a subvector.
 		 *
-		 * Copies the contents of `src` in `(*this)[ibgn:ibgn+src.size()]`.
+		 * Copies the contents of `src` to `(*this)[ibgn:ibgn+src.size()]`.
 		 *
 		 * @param[in] ibgn The index that src will be placed.
 		 * @param[in] src The vector to be placed.
