@@ -3,7 +3,7 @@
 
 /**
  * @file
- * Auto detect method class for dense linear solvers
+ * Dense linear system solver with automatic method detection.
  */
 
 #include "cla3p/linsol/dns_lsolver_base.hpp"
@@ -16,7 +16,7 @@ namespace dns {
 /**
  * @ingroup dense_linear_solvers
  * @nosubgrouping
- * @brief The linear solver for dense matrices with auto method detection.
+ * @brief The linear solver for dense matrices with automatic method detection.
  */
 template <typename T_Matrix>
 class LSolverAuto : public LSolverBase<T_Matrix> {
@@ -39,7 +39,7 @@ class LSolverAuto : public LSolverBase<T_Matrix> {
 		/**
 		 * @brief The dimensional constructor.
 		 *
-		 * Constructs a preallocated solver object with n^2 buffered size.
+		 * Constructs a preallocated solver object with n<sup>2</sup> buffered size.
 		 */
 		LSolverAuto(uint_t n);
 

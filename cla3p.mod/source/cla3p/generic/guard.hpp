@@ -11,9 +11,13 @@ namespace cla3p {
 /*-------------------------------------------------*/
 /**
 * @ingroup guard
-* @brief Prevents an object from being changed.
+* @brief Encloses an object and prevents its contents from being changed.
 *
-* Useful for protecting immutable data from being exposed.
+* Some functions need to return objects that contain immutable data.
+* The contents of these objects must be protected.
+* The Guard class is used for preventing those data from being exposed to change.
+*
+* @include ex04a_guard_const_vector.cpp
 */
 
 template <typename T_Object>
