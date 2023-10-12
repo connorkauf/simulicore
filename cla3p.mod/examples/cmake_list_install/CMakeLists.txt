@@ -90,9 +90,9 @@ message(STATUS "MKL_LIB: ${MKL_LIB}")
 set(CLA3P_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 
 if(CLA3P_USE_I64)
-	set(CLA3P_LIB_BASENAME "cla3p_i64_pre")
+	set(CLA3P_LIB_BASENAME "cla3p_i64")
 else()
-	set(CLA3P_LIB_BASENAME "cla3p_pre")
+	set(CLA3P_LIB_BASENAME "cla3p")
 endif()
 
 if(LINUX)

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
 
 set(project_name "Compact Suite")
-set(project_version "1.0.0")
+set(project_version "0.1.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 
 #-----------------------------------------------
@@ -109,9 +109,9 @@ message(STATUS "MKL_LIB: ${MKL_LIB}")
 # sub-module setup
 #-----------------------------------------------
 if(CLA3P_USE_I64)
-	set(CLA3P_LIB "cla3p_i64_pre")
+	set(CLA3P_LIB "cla3p_i64")
 else()
-	set(CLA3P_LIB "cla3p_pre")
+	set(CLA3P_LIB "cla3p")
 endif()
 
 #-----------------------------------------------

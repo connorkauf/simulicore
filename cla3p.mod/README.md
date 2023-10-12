@@ -19,8 +19,8 @@ You can use **CLA3P** from your **Compact Suite** installation directory simply 
 * including directory `<compact_suite_install>/include`
 
 **CLA3P** comes with a 32bit and 64bit integer interface.  
-For the 32bit integer interface, link with the **cla3p_pre** library.  
-For the 64bit integer interface, add the definition `CLA3P_I64` to your compilation configuration and link with the **cla3p_i64_pre** library.  
+For the 32bit integer interface, link with the **cla3p** library.  
+For the 64bit integer interface, add the definition `CLA3P_I64` to your compilation configuration and link with the **cla3p_i64** library.  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
