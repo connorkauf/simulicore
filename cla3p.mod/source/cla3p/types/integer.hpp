@@ -17,16 +17,22 @@ namespace cla3p {
 #if defined (CLA3P_I64)
 #define _DFMT_ "lld"
 #define _UFMT_ "llu"
-using  int_t =          long long int;
+using int_t = long long int;
 using uint_t = unsigned long long int;
 #else
 #define _DFMT_ "d"
 #define _UFMT_ "u"
-using  int_t =          int;
+using int_t = int;
 using uint_t = unsigned int;
 #endif
 
 using nint_t = int;
+
+/**
+ * @ingroup basic_datatypes 
+ * @brief Standard indexing.
+ */
+using bulk_t = std::size_t;
 
 /*-------------------------------------------------*/
 

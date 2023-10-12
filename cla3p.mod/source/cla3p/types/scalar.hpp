@@ -40,12 +40,6 @@ using complex8_t = std::complex<real4_t>;
  */
 using complex_t = std::complex<real_t>;
 
-/**
- * @ingroup basic_datatypes 
- * @brief Standard indexing.
- */
-using bulk_t = std::size_t;
-
 /*-------------------------------------------------*/
 
 template<> class BasicTypeTraits<real_t> {
