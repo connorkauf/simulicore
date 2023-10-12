@@ -18,6 +18,8 @@ namespace cla3p {
 /**
  * @ingroup basic_datatypes
  * @brief The operation class.
+ *
+ * Utility class for easy handling of the op_t flag.
  */
 class Operation {
 
@@ -33,7 +35,7 @@ class Operation {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs an operation with type otype.
+		 * Constructs an operation with type `otype`.
 		 */
 		explicit Operation(op_t otype);
 
@@ -45,14 +47,14 @@ class Operation {
 		/**
 		 * @brief The copy constructor.
 		 *
-		 * Constructs an operation with the copy of the contents of other.
+		 * Constructs an operation with the copy of the contents of `other`.
 		 */
 		Operation(const Operation& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of operation with a copy of the contents of other.
+		 * Replaces the contents of `(*this)` with a copy of the contents of `other`.
 		 */
 		Operation& operator=(const Operation& other);
 

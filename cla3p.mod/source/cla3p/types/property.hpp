@@ -18,6 +18,12 @@ namespace cla3p {
 /**
  * @ingroup basic_datatypes
  * @brief The property class.
+ *
+ * Used to define matrix properties.@n
+ * Constructing a matrix with property can accelerate certain operations, 
+ * but at the same time imposes equivalent constraints on others.
+ *
+ * @include ex00_property_create.cpp
  */
 class Property {
 
@@ -33,7 +39,7 @@ class Property {
 		/**
 		 * @brief The member constructor.
 		 *
-		 * Constructs a property with type ptype and fill type ftype.
+		 * Constructs a property with type `ptype` and fill type `ftype`.
 		 */
 		explicit Property(prop_t ptype, uplo_t ftype);
 
@@ -45,14 +51,14 @@ class Property {
 		/**
 		 * @brief The copy constructor.
 		 *
-		 * Constructs a property with the copy of the contents of other.
+		 * Constructs a property with the copy of the contents of `other`.
 		 */
 		Property(const Property& other);
 
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of property with a copy of the contents of other.
+		 * Replaces the contents of `(*this)` with a copy of the contents of `other`.
 		 */
 		Property& operator=(const Property& other);
 

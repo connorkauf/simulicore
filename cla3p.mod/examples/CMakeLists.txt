@@ -2,6 +2,7 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_EXAMPLES_SRC
+	ex00_property_create.cpp
 	ex01a_dense_vector_create.cpp
 	ex01b_dense_vector_fill.cpp
 	ex01c_dense_vector_create_from_aux_data.cpp
