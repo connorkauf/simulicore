@@ -29,11 +29,11 @@
 
 ## About Compact Suite
 
-**Compact Suite** is a collection of C++ libraries that aims to modernize the scientific computation development.
+**Compact Suite** is a collection of C++ libraries for scientific and computational development.
 
 Traditional functional scientific programming is supported by a wide range of libraries and can be used for high performance code production, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
 
-Compact suite aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
+**Compact Suite** aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
 
 The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
@@ -44,41 +44,45 @@ The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Port
 
 ## Getting Started
 
-To get a local copy up, build and install the suite, follow these simple example steps.
+To build and install the suite, follow these simple example steps.
 
 ### Prerequisites
 
-In order to build Compact Suite you will need:
-* [CMake](https://cmake.org/download) 3.7.0 and above
+In order to build **Compact Suite** you will need:
+* [CMake](https://cmake.org) 3.7.0 and above
 * [GNU C++ compiler](https://gcc.gnu.org) (linux)
 * [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
-* [Intel MKL](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html)
-
+* [Intel Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) (linux & windows) You can download it [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+ 
 ### Linux Installation
 
-1. Clone the repo
+1. Open the terminal
+  
+2. Clone the repo
    ```sh
    git clone git@github.com:connorkauf/CompactSuite.git
+   cd CompactSuite
    ```
-   For the purposes of this file, the top directory is marked as `compact_suite_root`
+   For the purposes of this document, the top directory is marked as `compact_suite_root`
 
-2. Open and edit file
+3. Open file
    ```sh
    <compact_suite_root>/3rd/mkl.lin.cmake
    ```
-   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of Intel MKL and Intel Compiler respectively.
+   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
 
-3. Choose a build directory `build-dir` and use cmake command to configure the project
+   <a name="linux-step4"></a>
+4. Choose a build directory `build_dir` and use cmake command to configure the project
    ```sh
-   cmake -S <compact_suite_root> -B <build-dir>
+   cmake -S <compact_suite_root> -B <build_dir>
    ```
-   For extra configuration options see further below.
+   For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
 
-4. Go to `build-dir`
+6. Go to `build_dir`
    ```sh
-   cd <build-dir>
+   cd <build_dir>
    ```
-5. Compile and install 
+7. Compile and install 
    ```sh
    make
    make install
@@ -86,31 +90,34 @@ In order to build Compact Suite you will need:
 
 ### Windows Installation
 
-1. Clone the repo
+1. Clone the repo using a cloning method of your choice
    ```sh
-   git clone git@github.com:connorkauf/CompactSuite.git
+   https: https://github.com/connorkauf/CompactSuite.git
+   ssh: git@github.com:connorkauf/CompactSuite.git
    ```
-   For the purposes of this file, the top directory is marked as `compact_suite_root`
+   For the purposes of this document, the top directory is marked as `compact_suite_root`
 
-2. Open and edit file
+2. Open file
    ```sh
    <compact_suite_root>/3rd/mkl.win.cmake
    ```
-   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of Intel MKL and Intel Compiler respectively.
+   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
 
 3. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
 
-4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
+   <a name="windows-step4"></a>
+4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).  
+   For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
 
-5. Compile (Build > Build All)
+6. Compile (Build > Build All)
 
-6. Install (Build > Install Compact Suite)
+7. Install (Build > Install Compact Suite)
 
 ### Extra configuration arguments
 
-You can define the variable `CLA3P_USE_I64` to make CLA3P use 64-bit integers.  
-For Linux append `-DCLA3P_USE_I64=true` in the cmake command (step 3).  
-For Windows add `-DCLA3P_USE_I64=true` in the section "CMake command arguments" in CMake Settings (step 4).
+You can define the CMake variable `CLA3P_USE_I64` to make CLA3P use 64-bit integers.  
+For Linux append `-DCLA3P_USE_I64=true` in the cmake command ([step 4](#linux-step4)).  
+For Windows add `-DCLA3P_USE_I64=true` in the section "CMake command arguments" in CMake Settings ([step 4](#windows-step4)).
 
 ### Installation contents
 
@@ -118,8 +125,10 @@ The default installation path is
 * `compact_suite_root`/install for Linux
 * `compact_suite_root`/out/install/`build-type` for Windows
 ```
-install/include : the compact suite include directory
-install/lib     : the compact suite library directory
+<compact_suite_install>/include : the compact suite include directory
+<compact_suite_install>/lib     : the compact suite library directory
+<compact_suite_install>/3rd     : directory containing the 3rd party library configurations
+<compact_suite_install>/examples: the compact suite examples directory
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
