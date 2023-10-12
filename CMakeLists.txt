@@ -117,9 +117,9 @@ endif()
 #-----------------------------------------------
 
 add_subdirectory(cla3p.mod)
+add_subdirectory(3rd)
 
 if(COMPACT_SUITE_FULL_INSTALL)
-	add_subdirectory(3rd)
 	add_subdirectory(sample)
 endif()
 

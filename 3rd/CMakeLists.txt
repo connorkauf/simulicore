@@ -1,12 +1,8 @@
-set(CONFIG_3RD "")
-
-if(LINUX)
-	set(CONFIG_3RD ${CONFIG_3RD} mkl.lin.cmake)
-endif()
-
-if(WIN32)
-	set(CONFIG_3RD ${CONFIG_3RD} mkl.win.cmake)
-endif()
+set(CONFIG_3RD 
+	mkl.md
+	mkl.lin.cmake
+	mkl.win.cmake
+	)
 
 #-----------------------------------------------
 # installation setup
