@@ -45,8 +45,10 @@ message(STATUS "Compact Suite Examples Install Directory: ${CMAKE_INSTALL_PREFIX
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
+option(CLA3P_USE_I64 "CLA3P integer precision (32/64bits)" OFF)
+
 if(CLA3P_USE_I64)
-	add_definitions(-DCLA3P_I64)
+  add_definitions(-DCLA3P_I64)
 endif()
 
 #-----------------------------------------------
