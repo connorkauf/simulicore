@@ -59,30 +59,41 @@ In order to build **Compact Suite** you will need:
 1. Open the terminal
   
 2. Clone the repo
+   
    ```sh
    git clone git@github.com:connorkauf/CompactSuite.git
    cd CompactSuite
    ```
+   
    For the purposes of this document, the top directory is marked as `compact_suite_root`
 
-3. Open file
+4. Open file
+   
    ```sh
    <compact_suite_root>/3rd/mkl.lin.cmake
    ```
+   
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
+   
+   For more information, check this [MKL Linking Guide](3rd/mkl.md).
 
    <a name="linux-step4"></a>
-4. Choose a build directory `build_dir` and use cmake command to configure the project
+6. Choose a build directory `build_dir` and use cmake command to configure the project
+   
    ```sh
    cmake -S <compact_suite_root> -B <build_dir>
    ```
+   
    For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
 
-6. Go to `build_dir`
+7. Go to `build_dir`
+   
    ```sh
    cd <build_dir>
    ```
-7. Compile and install 
+   
+9. Compile and install
+    
    ```sh
    make
    make install
@@ -91,27 +102,34 @@ In order to build **Compact Suite** you will need:
 ### Windows Installation
 
 1. Clone the repo using a cloning method of your choice
+   
    ```sh
    https: https://github.com/connorkauf/CompactSuite.git
    ssh: git@github.com:connorkauf/CompactSuite.git
    ```
+   
    For the purposes of this document, the top directory is marked as `compact_suite_root`
 
-2. Open file
+3. Open file
+   
    ```sh
    <compact_suite_root>/3rd/mkl.win.cmake
    ```
+   
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
 
-3. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
+   For more information, check this [MKL Linking Guide](3rd/mkl.md).
+
+5. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
 
    <a name="windows-step4"></a>
-4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).  
+6. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
+   
    For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
 
-6. Compile (Build > Build All)
+8. Compile (Build > Build All)
 
-7. Install (Build > Install Compact Suite)
+9. Install (Build > Install Compact Suite)
 
 ### Extra configuration arguments
 
@@ -124,6 +142,7 @@ For Windows add `-DCLA3P_USE_I64=true` in the section "CMake command arguments" 
 The default installation path is 
 * `compact_suite_root`/install for Linux
 * `compact_suite_root`/out/install/`build-type` for Windows
+  
 ```
 <compact_suite_install>/include : the compact suite include directory
 <compact_suite_install>/lib     : the compact suite library directory
