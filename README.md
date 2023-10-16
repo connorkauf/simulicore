@@ -68,7 +68,7 @@ In the installation directory you will find the following folders:
 
 # License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See [LICENSE](LICENSE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
