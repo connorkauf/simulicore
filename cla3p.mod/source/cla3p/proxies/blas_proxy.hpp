@@ -132,6 +132,15 @@ trmv_macro(void, complex_t);
 trmv_macro(void, complex8_t);
 #undef trmv_macro
 
+#define trsv_macro(typeout, typein) \
+typeout trsv(char uplo, char transa, char diag, int_t n, \
+		const typein *a, int_t lda, typein *b, int_t incx)
+trsv_macro(void, real_t);
+trsv_macro(void, real4_t);
+trsv_macro(void, complex_t);
+trsv_macro(void, complex8_t);
+#undef trsv_macro
+
 #define ger_macro(typeout, typein) \
 typeout ger(int_t m, int_t n, typein alpha, const typein *x, int_t incx, \
 		const typein *y, int_t incy, typein *a, int_t lda)
