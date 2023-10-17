@@ -53,9 +53,9 @@ std::string InvalidProperty()
 	return "Invalid/mismatching property(/ies)";
 }
 /*-------------------------------------------------*/
-std::string InvalidPropertyForSquare()
+std::string NeedSquareMatrix()
 { 
-	return "Property requires square matrix";
+	return "Matrix needs to be square";
 }
 /*-------------------------------------------------*/
 std::string EmptyObject()

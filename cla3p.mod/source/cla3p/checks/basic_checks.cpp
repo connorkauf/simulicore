@@ -15,7 +15,7 @@ namespace cla3p {
 void square_check(uint_t m, uint_t n)
 {
 	if(m != n) {
-		throw err::NoConsistency(msg::InvalidPropertyForSquare());
+		throw err::NoConsistency(msg::NeedSquareMatrix());
 	}
 }
 /*-------------------------------------------------*/

@@ -18,7 +18,7 @@ std::string InvalidDimensions();
 std::string InvalidPointer();
 std::string InvalidLeadingDimension();
 std::string InvalidProperty();
-std::string InvalidPropertyForSquare();
+std::string NeedSquareMatrix();
 std::string EmptyObject();
 std::string OpNotAllowed();
 std::string LapackError();
