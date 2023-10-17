@@ -25,11 +25,11 @@ namespace ops {
 
 /**
  * @ingroup math_op_matadd
- * @brief Update operation on object.
+ * @brief Update an object with a compatible scaled object.
  *
  * Performs the operation:
  @verbatim
- trg += alpha * src
+  trg += alpha * src
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -44,11 +44,11 @@ void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::Xx
 
 /**
  * @ingroup math_op_matadd
- * @brief Adds two scaled objects.
+ * @brief Adds two compatible scaled objects.
  *
  * Performs the operation:
  @verbatim
- ret = alpha * A + beta * B
+  ret = alpha * A + beta * B
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient for A.
@@ -69,11 +69,11 @@ T_Object add(
 
 /**
  * @ingroup math_op_matvec
- * @brief Updates a vector with a matrix vector product.
+ * @brief Updates a vector with a matrix-vector product.
  *
  * Performs the operation:
  @verbatim
- Y += alpha * opA(A) * X
+  Y += alpha * opA(A) * X
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -89,17 +89,16 @@ void mult(T_Scalar alpha, op_t opA,
 		const dns::XxVector<T_Scalar,T_Vector>& X, 
 		dns::XxVector<T_Scalar,T_Vector>& Y)
 {
-	Operation _opA(opA);
-	Y.updateSelfWithScaledMatVec(alpha, _opA, A, X);
+	Y.updateSelfWithScaledMatVec(alpha, opA, A, X);
 }
 
 /**
  * @ingroup math_op_matvec
- * @brief Creates a vector from a matrix vector product.
+ * @brief Creates a vector from a matrix-vector product.
  *
  * Performs the operation:
  @verbatim
- ret = alpha * opA(A) * X
+  ret = alpha * opA(A) * X
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -107,7 +106,6 @@ void mult(T_Scalar alpha, op_t opA,
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
  * @return The vector `alpha*opA(A)*X`.
- *
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 T_Vector mult(T_Scalar alpha, op_t opA, 
@@ -123,12 +121,54 @@ T_Vector mult(T_Scalar alpha, op_t opA,
 }
 
 /**
- * @ingroup math_op_matmat
- * @brief Updates a general matrix with a matrix matrix product.
+ * @ingroup math_op_matvec
+ * @brief Replaces a vector with a triangular matrix-vector product.
  *
  * Performs the operation:
  @verbatim
- C += alpha * opA(A) * opB(B)
+  X = opA(A) * X
+ @endverbatim
+ *
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] X The vector to be replaced.
+ */
+template <typename T_Scalar, typename T_Vector, typename T_Matrix>
+void trimult(op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		dns::XxVector<T_Scalar,T_Vector>& X)
+{
+	X.replaceSelfWithTriVec(opA, A);
+}
+
+/**
+ * @ingroup math_op_matvec
+ * @brief Replaces a vector with the solution of a triangular system.
+ *
+ * Solves the system:
+ @verbatim
+  opA(A) * X = X
+ @endverbatim
+ *
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] X The vector to be replaced.
+ */
+template <typename T_Scalar, typename T_Vector, typename T_Matrix>
+void trisol(op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		dns::XxVector<T_Scalar,T_Vector>& X)
+{
+	X.replaceSelfWithInvTriVec(opA, A);
+}
+
+/**
+ * @ingroup math_op_matmat
+ * @brief Updates a general matrix with a matrix-matrix product.
+ *
+ * Performs the operation:
+ @verbatim
+  C += alpha * opA(A) * opB(B)
  @endverbatim
  * Valid combinations are the following:
  @verbatim
@@ -147,8 +187,6 @@ T_Vector mult(T_Scalar alpha, op_t opA,
  * @param[in] opB The operation to be performed for matrix B.
  * @param[in] B The input matrix.
  * @param[in,out] C The matrix to be updated.
- *
- * @{
  */
 template <typename T_Scalar, typename T_Matrix>
 void mult(T_Scalar alpha, 
@@ -156,19 +194,16 @@ void mult(T_Scalar alpha,
 		op_t opB, const dns::XxMatrix<T_Scalar,T_Matrix>& B, 
 		dns::XxMatrix<T_Scalar,T_Matrix>& C)
 {
-	Operation _opA(opA);
-	Operation _opB(opB);
-	C.updateSelfWithScaledMatMat(alpha, _opA, A, _opB, B);
+	C.updateSelfWithScaledMatMat(alpha, opA, A, opB, B);
 }
-/** @} */
 
 /**
  * @ingroup math_op_matmat
- * @brief Creates a general matrix from a matrix matrix product.
+ * @brief Creates a general matrix from a matrix-matrix product.
  *
  * Performs the operation:
  @verbatim
- ret = alpha * opA(A) * opB(B)
+  ret = alpha * opA(A) * opB(B)
  @endverbatim
  * Valid combinations are the following:
  @verbatim

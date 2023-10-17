@@ -73,7 +73,7 @@ T_Matrix XxMatrixTmpl::operator*(const XxMatrixTmpl& other) const
 	T_Matrix ret(nrows(), other.ncols());
 
 	ret = 0;
-	ret.updateSelfWithScaledMatMat(1, noOp(), *this, noOp(), other);
+	ret.updateSelfWithScaledMatMat(1, op_t::N, *this, op_t::N, other);
 
 	return ret;
 }
@@ -341,26 +341,29 @@ Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const
 /*-------------------------------------------------*/
 XxMatrixTlst
 void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
-		const Operation& opA, const XxMatrixTmpl& otherA,
-		const Operation& opB, const XxMatrixTmpl& otherB)
+		op_t opA, const XxMatrixTmpl& otherA,
+		op_t opB, const XxMatrixTmpl& otherB)
 {
+	Operation _opA(opA);
+	Operation _opB(opB);
+
 	mat_x_mat_mult_check(
-			otherA.property(), otherA.nrows(), otherA.ncols(), opA,
-			otherB.property(), otherB.nrows(), otherB.ncols(), opB,
+			otherA.property(), otherA.nrows(), otherA.ncols(), _opA,
+			otherB.property(), otherB.nrows(), otherB.ncols(), _opB,
 			this->property(), 
 			nrows(), 
 			ncols());
 
 	if(otherA.property().isGeneral() && otherB.property().isGeneral()) {
 
-		uint_t k = (opA.isTranspose() ? otherA.nrows() : otherA.ncols());
+		uint_t k = (_opA.isTranspose() ? otherA.nrows() : otherA.ncols());
 
 		bulk::dns::gem_x_gem(
 				nrows(), 
 				ncols(), 
 				k, alpha, 
-				opA.type(), otherA.values(), otherA.lsize(), 
-				opB.type(), otherB.values(), otherB.lsize(), 
+				opA, otherA.values(), otherA.lsize(), 
+				opB, otherB.values(), otherB.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
@@ -418,7 +421,7 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::trm_x_gem(otherA.property().uplo(), opA.type(), 
+		bulk::dns::trm_x_gem(otherA.property().uplo(), opA, 
 				nrows(), 
 				ncols(), 
 				otherB.nrows(), 
@@ -433,7 +436,7 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::gem_x_trm(otherB.property().uplo(), opB.type(), 
+		bulk::dns::gem_x_trm(otherB.property().uplo(), opB, 
 				nrows(), 
 				ncols(), 
 				otherA.nrows(), 

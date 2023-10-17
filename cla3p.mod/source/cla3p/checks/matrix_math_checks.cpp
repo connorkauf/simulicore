@@ -46,6 +46,19 @@ void mat_x_vec_mult_check(const Operation& opA,
 	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsX, ncolsX, false, Operation(op_t::N), nrowsY, ncolsY);
 }
 /*-------------------------------------------------*/
+void trm_x_vec_mult_check(const Operation& opA, const Property& prA, uint_t nrowsA, uint_t ncolsA, uint_t sizeX)
+{
+	if(!prA.isTriangular()) {
+		throw err::NoConsistency(msg::InvalidProperty());
+	}
+
+	if(nrowsA != ncolsA) {
+		throw err::NoConsistency(msg::NeedSquareMatrix());
+	}
+
+	mult_dim_check(nrowsA, ncolsA, false, opA, sizeX, 1, false, Operation(op_t::N), sizeX, 1);
+}
+/*-------------------------------------------------*/
 void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 

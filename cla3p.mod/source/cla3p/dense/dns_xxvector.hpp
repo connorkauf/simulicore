@@ -278,10 +278,15 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/** @} */
 
 	public:
-		void updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA,
-				const XxMatrix<T_Scalar,T_Matrix>& otherA,
-				const XxVector<T_Scalar,T_Vector>& otherX);
+		void updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA,
+				const XxMatrix<T_Scalar,T_Matrix>& A,
+				const XxVector<T_Scalar,T_Vector>& X);
 
+		void replaceSelfWithTriVec(op_t opA, 
+				const XxMatrix<T_Scalar,T_Matrix>& A);
+
+		void replaceSelfWithInvTriVec(op_t opA, 
+				const XxMatrix<T_Scalar,T_Matrix>& A);
 };
 
 /*-------------------------------------------------*/

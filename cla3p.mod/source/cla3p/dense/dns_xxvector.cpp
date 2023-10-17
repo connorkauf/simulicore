@@ -10,6 +10,7 @@
 #include "cla3p/perms.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
+#include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/error/error.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
@@ -190,31 +191,33 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& opA, const XxMatrix<T_Scalar,T_Matrix>& otherA, const XxVectorTmpl& otherX)
+void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A, const XxVectorTmpl& X)
 {
-	mat_x_vec_mult_check(opA, 
-			otherA.prop(), otherA.nrows(), otherA.ncols(), 
-			otherX.property(), otherX.rsize(), otherX.csize(), 
+	Operation _opA(opA);
+
+	mat_x_vec_mult_check(_opA, 
+			A.prop(), A.nrows(), A.ncols(), 
+			X.property(), X.rsize(), X.csize(), 
 			this->property(), 
 			this->rsize(), 
 			this->csize());
 
-	if(otherA.prop().isGeneral()) {
+	if(A.prop().isGeneral()) {
 
-		bulk::dns::gem_x_vec(opA.type(), otherA.nrows(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+		bulk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
 
-	} else if(otherA.prop().isSymmetric()) {
+	} else if(A.prop().isSymmetric()) {
 
-		bulk::dns::sym_x_vec(otherA.prop().uplo(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+		bulk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
 
-	} else if(otherA.prop().isHermitian()) {
+	} else if(A.prop().isHermitian()) {
 
-		bulk::dns::hem_x_vec(otherA.prop().uplo(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), 1, this->values());
+		bulk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
 
-	} else if(otherA.prop().isTriangular()) {
+	} else if(A.prop().isTriangular()) {
 
 		T_Vector tmp(size());
-		bulk::dns::trm_x_vec(otherA.prop().uplo(), opA.type(), otherA.nrows(), otherA.ncols(), alpha, otherA.values(), otherA.ld(), otherX.values(), tmp.values());
+		bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
 		this->updateSelfWithScaledOther(1, tmp);
 
 	} else {
@@ -222,6 +225,22 @@ void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, const Operation& o
 		throw err::Exception();
 
 	} // property 
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::replaceSelfWithTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
+{
+	Operation _opA(opA);
+	trm_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), size()); 
+	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::replaceSelfWithInvTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
+{
+	Operation _opA(opA);
+	trm_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), size()); 
+	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
 }
 /*-------------------------------------------------*/
 #undef XxVectorTmpl

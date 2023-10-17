@@ -449,8 +449,8 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 	public:
 		void updateSelfWithScaledMatMat(T_Scalar alpha,
-				const Operation& opA, const XxMatrix<T_Scalar,T_Matrix>& otherA,
-				const Operation& opB, const XxMatrix<T_Scalar,T_Matrix>& otherB);
+				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& otherA,
+				op_t opB, const XxMatrix<T_Scalar,T_Matrix>& otherB);
 
 };
 
