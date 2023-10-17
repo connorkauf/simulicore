@@ -30,13 +30,13 @@
 /**
  * @defgroup math_operations Math Operations
  *
- * @defgroup math_op_matadd Addition
+ * @defgroup math_op_matadd Add/Update
  * @ingroup math_operations
  *
- * @defgroup math_op_matvec Matrix Vector product
+ * @defgroup math_op_matvec Matrix-Vector
  * @ingroup math_operations
  *
- * @defgroup math_op_matmat Matrix Matrix product
+ * @defgroup math_op_matmat Matrix-Matrix
  * @ingroup math_operations
  */
 
