@@ -449,8 +449,14 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 	public:
 		void updateSelfWithScaledMatMat(T_Scalar alpha,
-				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& otherA,
-				op_t opB, const XxMatrix<T_Scalar,T_Matrix>& otherB);
+				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A,
+				op_t opB, const XxMatrix<T_Scalar,T_Matrix>& B);
+
+		void replaceSelfWithScaledTriMat(T_Scalar alpha, side_t sideA,
+				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A);
+
+		void replaceSelfWithScaledInvTriMat(T_Scalar alpha, side_t sideA,
+				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A);
 
 };
 

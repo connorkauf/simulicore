@@ -6,6 +6,7 @@
 // 3rd
 
 // cla3p
+#include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/error/error.hpp"
 #include "cla3p/error/literals.hpp"
 
@@ -44,19 +45,6 @@ void mat_x_vec_mult_check(const Operation& opA,
 	}
 
 	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsX, ncolsX, false, Operation(op_t::N), nrowsY, ncolsY);
-}
-/*-------------------------------------------------*/
-void trm_x_vec_mult_check(const Operation& opA, const Property& prA, uint_t nrowsA, uint_t ncolsA, uint_t sizeX)
-{
-	if(!prA.isTriangular()) {
-		throw err::NoConsistency(msg::InvalidProperty());
-	}
-
-	if(nrowsA != ncolsA) {
-		throw err::NoConsistency(msg::NeedSquareMatrix());
-	}
-
-	mult_dim_check(nrowsA, ncolsA, false, opA, sizeX, 1, false, Operation(op_t::N), sizeX, 1);
 }
 /*-------------------------------------------------*/
 void mat_x_mat_mult_check(
@@ -104,6 +92,53 @@ void mat_x_mat_mult_check(
 	}
 
 	throw err::NoConsistency(msg::InvalidProperty());
+}
+/*-------------------------------------------------*/
+void trivec_mult_replace_check(const Property& prA, 
+		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		uint_t sizeX)
+{
+	if(!prA.isTriangular()) {
+		throw err::NoConsistency(msg::InvalidProperty());
+	}
+
+	//
+	// Check dimensions
+	//
+
+	square_check(nrowsA, ncolsA);
+
+	mult_dim_check(
+			nrowsA, ncolsA, false, opA, 
+			sizeX, 1      , false, noOp(), 
+			sizeX, 1);
+}
+/*-------------------------------------------------*/
+void trimat_mult_replace_check(side_t sideA, 
+		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		const Property& prB, uint_t nrowsB, uint_t ncolsB)
+{
+	if(!prA.isTriangular() || !prB.isGeneral()) {
+		throw err::NoConsistency(msg::InvalidProperty());
+	}
+
+	//
+	// Check dimensions
+	//
+
+	square_check(nrowsA, ncolsA);
+
+	if(sideA == side_t::Left) {
+		mult_dim_check(
+				nrowsA, ncolsA, false, opA, 
+				nrowsB, ncolsB, false, noOp(), 
+				nrowsB, ncolsB);
+	} else if(sideA == side_t::Right) {
+		mult_dim_check(
+				nrowsB, ncolsB, false, noOp(), 
+				nrowsA, ncolsA, false, opA, 
+				nrowsB, ncolsB);
+	} // sideA
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

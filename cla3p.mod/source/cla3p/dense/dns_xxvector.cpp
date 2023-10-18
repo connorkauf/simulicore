@@ -231,7 +231,9 @@ XxVectorTlst
 void XxVectorTmpl::replaceSelfWithTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
 {
 	Operation _opA(opA);
-	trm_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), size()); 
+
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, size());
+
 	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
 }
 /*-------------------------------------------------*/
@@ -239,7 +241,9 @@ XxVectorTlst
 void XxVectorTmpl::replaceSelfWithInvTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
 {
 	Operation _opA(opA);
-	trm_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), size()); 
+
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, size());
+
 	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
 }
 /*-------------------------------------------------*/

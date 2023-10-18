@@ -11,6 +11,7 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
 #include "cla3p/bulk/dns_io.hpp"
+#include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/error/error.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
@@ -341,108 +342,108 @@ Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const
 /*-------------------------------------------------*/
 XxMatrixTlst
 void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
-		op_t opA, const XxMatrixTmpl& otherA,
-		op_t opB, const XxMatrixTmpl& otherB)
+		op_t opA, const XxMatrixTmpl& A,
+		op_t opB, const XxMatrixTmpl& B)
 {
 	Operation _opA(opA);
 	Operation _opB(opB);
 
 	mat_x_mat_mult_check(
-			otherA.property(), otherA.nrows(), otherA.ncols(), _opA,
-			otherB.property(), otherB.nrows(), otherB.ncols(), _opB,
+			A.property(), A.nrows(), A.ncols(), _opA,
+			B.property(), B.nrows(), B.ncols(), _opB,
 			this->property(), 
 			nrows(), 
 			ncols());
 
-	if(otherA.property().isGeneral() && otherB.property().isGeneral()) {
+	if(A.property().isGeneral() && B.property().isGeneral()) {
 
-		uint_t k = (_opA.isTranspose() ? otherA.nrows() : otherA.ncols());
+		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
 		bulk::dns::gem_x_gem(
 				nrows(), 
 				ncols(), 
 				k, alpha, 
-				opA, otherA.values(), otherA.lsize(), 
-				opB, otherB.values(), otherB.lsize(), 
+				opA, A.values(), A.lsize(), 
+				opB, B.values(), B.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
 
-	} else if(otherA.property().isSymmetric() && otherB.property().isGeneral()) {
+	} else if(A.property().isSymmetric() && B.property().isGeneral()) {
 
-		bulk::dns::sym_x_gem(otherA.property().uplo(), 
+		bulk::dns::sym_x_gem(A.property().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
+				A.values(), A.lsize(), 
+				B.values(), B.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
 
-	} else if(otherA.property().isHermitian() && otherB.property().isGeneral()) {
+	} else if(A.property().isHermitian() && B.property().isGeneral()) {
 
 		bulk::dns::hem_x_gem(
-				otherA.property().uplo(), 
+				A.property().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
+				A.values(), A.lsize(), 
+				B.values(), B.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
 
-	} else if(otherA.property().isGeneral() && otherB.property().isSymmetric()) {
+	} else if(A.property().isGeneral() && B.property().isSymmetric()) {
 
-		bulk::dns::gem_x_sym(otherB.property().uplo(), 
+		bulk::dns::gem_x_sym(B.property().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
+				B.values(), B.lsize(), 
+				A.values(), A.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
 
-	} else if(otherA.property().isGeneral() && otherB.property().isHermitian()) {
+	} else if(A.property().isGeneral() && B.property().isHermitian()) {
 
-		bulk::dns::gem_x_hem(otherB.property().uplo(), 
+		bulk::dns::gem_x_hem(B.property().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
+				B.values(), B.lsize(), 
+				A.values(), A.lsize(), 
 				1, 
 				this->values(), 
 				this->lsize());
 
-	} else if(otherA.property().isTriangular() && otherB.property().isGeneral()) {
+	} else if(A.property().isTriangular() && B.property().isGeneral()) {
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::trm_x_gem(otherA.property().uplo(), opA, 
+		bulk::dns::trm_x_gem(A.property().uplo(), opA, 
 				nrows(), 
 				ncols(), 
-				otherB.nrows(), 
+				B.nrows(), 
 				alpha, 
-				otherA.values(), otherA.lsize(), 
-				otherB.values(), otherB.lsize(), 
+				A.values(), A.lsize(), 
+				B.values(), B.lsize(), 
 				tmp.values(), tmp.lsize());
 
 		this->updateSelfWithScaledOther(1, tmp);
 
-	} else if(otherA.property().isGeneral() && otherB.property().isTriangular()) {
+	} else if(A.property().isGeneral() && B.property().isTriangular()) {
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::gem_x_trm(otherB.property().uplo(), opB, 
+		bulk::dns::gem_x_trm(B.property().uplo(), opB, 
 				nrows(), 
 				ncols(), 
-				otherA.nrows(), 
+				A.nrows(), 
 				alpha, 
-				otherB.values(), otherB.lsize(), 
-				otherA.values(), otherA.lsize(), 
+				B.values(), B.lsize(), 
+				A.values(), A.lsize(), 
 				tmp.values(), tmp.lsize());
 
 		this->updateSelfWithScaledOther(1, tmp);
@@ -452,6 +453,42 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 		throw err::Exception();
 
 	} // property combos
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::replaceSelfWithScaledTriMat(T_Scalar alpha, 
+		side_t sideA, op_t opA, const XxMatrixTmpl& A)
+{
+	Operation _opA(opA);
+
+	trimat_mult_replace_check(sideA, 
+			A.property(), A.nrows(), A.ncols(), _opA, 
+			this->property(), 
+			nrows(), ncols());
+
+	blas::trmm(
+			static_cast<char>(sideA), A.property().cuplo(), _opA.ctype(), 'N', 
+			nrows(), ncols(), alpha, A.values(), A.ld(), 
+			this->values(), 
+			this->ld());
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::replaceSelfWithScaledInvTriMat(T_Scalar alpha, 
+		side_t sideA, op_t opA, const XxMatrixTmpl& A)
+{
+	Operation _opA(opA);
+
+	trimat_mult_replace_check(sideA, 
+			A.property(), A.nrows(), A.ncols(), _opA, 
+			this->property(), 
+			nrows(), ncols());
+
+	blas::trsm(
+			static_cast<char>(sideA), A.property().cuplo(), _opA.ctype(), 'N', 
+			nrows(), ncols(), alpha, A.values(), A.ld(), 
+			this->values(), 
+			this->ld());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

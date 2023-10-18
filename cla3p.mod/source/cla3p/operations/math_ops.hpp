@@ -236,6 +236,94 @@ T_Matrix mult(T_Scalar alpha,
 	return ret;
 }
 
+/**
+ * @ingroup math_op_matmat
+ * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
+ *
+ * Performs the operation:
+ @verbatim
+  B = alpha * opA(A) * B
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] B The matrix to be replaced.
+ */
+template <typename T_Scalar, typename T_Matrix>
+void trimult(T_Scalar alpha, op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& B)
+{
+	B.replaceSelfWithScaledTriMat(alpha, side_t::Left, opA, A);
+}
+
+/**
+ * @ingroup math_op_matmat
+ * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
+ *
+ * Performs the operation:
+ @verbatim
+  B = alpha * B * opA(A)
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in,out] B The matrix to be replaced.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ */
+template <typename T_Scalar, typename T_Matrix>
+void trimult(T_Scalar alpha, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& B,
+		op_t opA, const dns::XxMatrix<T_Scalar,T_Matrix>& A) 
+{
+	B.replaceSelfWithScaledTriMat(alpha, side_t::Right, opA, A);
+}
+
+/**
+ * @ingroup math_op_matmat
+ * @brief Replaces a matrix with the scaled solution of a triangular system.
+ *
+ * Solves the system:
+ @verbatim
+  opA(A) * B = alpha * B
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] B The matrix to be replaced.
+ */
+template <typename T_Scalar, typename T_Matrix>
+void trisol(T_Scalar alpha, op_t opA, 
+		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& B)
+{
+	B.replaceSelfWithScaledInvTriMat(alpha, side_t::Left, opA, A);
+}
+
+/**
+ * @ingroup math_op_matmat
+ * @brief Replaces a matrix with the scaled solution of a triangular system.
+ *
+ * Solves the system:
+ @verbatim
+  B * opA(A) = alpha * B
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in,out] B The matrix to be replaced.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ */
+template <typename T_Scalar, typename T_Matrix>
+void trisol(T_Scalar alpha, 
+		dns::XxMatrix<T_Scalar,T_Matrix>& B,
+		op_t opA, const dns::XxMatrix<T_Scalar,T_Matrix>& A) 
+{
+	B.replaceSelfWithScaledInvTriMat(alpha, side_t::Right, opA, A);
+}
+
 /*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
