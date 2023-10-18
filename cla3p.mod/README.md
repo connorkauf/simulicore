@@ -35,14 +35,14 @@ Starting with dense linear algebra support as a base framework, **CLA3P** will c
 #
 
 include("<compact_suite_install>/3rd/mkl.lin.cmake")
-set(CLA3P_INC "<compact_suite_install>/include")
+set(CLA3P_INC <compact_suite_install>/include)
 set(CLA3P_LIB -L<compact_suite_install>/lib -lcla3p)
 
 add_executable(<target> main.cpp)
 target_include_directories(<target> PUBLIC ${CLA3P_INC})
 target_link_libraries(<target> ${CLA3P_LIB} ${MKL_LIB})
 ```
-See section [Linking](#linking) for more information.
+See section [Third-Party Dependencies](#third-party-dependencies) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -79,11 +79,11 @@ A quick reference guide will be available shortly.
 
 
 
-<a name="linking"></a>
-## Linking
+<a name="third-party-dependencies"></a>
+## Third-Party Dependencies
 
 **CLA3P** depends on [**Intel Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations.  
-Check file in `<compact_suite_install>/3rd/mkl.md` for a guide about linking with **Intel MKL** library.  
+Check file `<compact_suite_install>/3rd/mkl.md` for a guide about linking with **Intel MKL** library.  
 
 Also, in the examples folder `<compact_suite_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel MKL**.
 
@@ -104,16 +104,16 @@ cd <compact_suite_install>/examples/cla3p
 ./example_builder.sh
 ```
 All example executables are located in the `bin` directory.  
-Select an example `ex<number & descritpion>.sh` and run it:
+Select an example `ex<number>_<description>.sh` and run it:
 ```
 ./bin/ex01a_dense_vector_create.sh
 ```
 
 ### Building examples on windows
 Open directory `<compact_suite_install>/examples/cla3p` in Visual Studio and compile.  
-Do not forget to set the CMake option `-DCLA3P_USE_I64` if needed.  
+Do not forget to set the CMake variable `-DCLA3P_USE_I64=true` if needed.  
 All example executables are located in the `bin` directory.  
-Select an example `ex<number & descritpion>.bat` and run it on Visual Studio terminal:
+Select an example `ex<number>_<description>.bat` and run it on Visual Studio terminal:
 ```
 ./bin/ex01a_dense_vector_create.bat
 ```
@@ -126,7 +126,9 @@ Select an example `ex<number & descritpion>.bat` and run it on Visual Studio ter
 <a name="contact"></a>
 ## Contact
 
-**CLA3P** is spanking new, so feel free to contact us about anything regarding this software. Please share your opinions, future requests and issue reporting using the links below: 
+**CLA3P** is spanking new, so feel free to contact us about anything regarding this software.  
+Please share your opinions, future requests and documentation clarifications.  
+You can report an issue using the link below.
 
 Connor Kaufman - connor.kaufman.gh@outlook.com  
 Report an issue: [https://github.com/connorkauf/CompactSuite/issues](https://github.com/connorkauf/CompactSuite/issues) 
