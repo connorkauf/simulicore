@@ -61,6 +61,16 @@ enum class op_t : char {
 	C = 'C'  /**< Conjugate transpose operation: op(A) = A<sup>H</sup> */
 };
 
+enum class side_t : char {
+	Left  = 'L',
+	Right = 'R' 
+};
+
+enum class diag_t : char {
+	NonUnit = 'N',
+	Unit    = 'U' 
+};
+
 enum class dup_t {
 	Sum  = 0,
 	Prod    ,

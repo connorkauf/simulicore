@@ -2,7 +2,7 @@
 
 syn keyword cTypeCustomDatatype MKL_INT MKL_UINT MKL_Complex8 MKL_Complex16
 syn keyword cTypeCustomDatatype nint_t int_t uint_t real4_t real_t complex8_t complex_t bulk_t
-syn keyword cTypeCustomDatatype prop_t uplo_t op_t dup_t
+syn keyword cTypeCustomDatatype prop_t uplo_t op_t side_t diag_t dup_t
 syn keyword cTypeCustomDatatype Property Operation
 syn keyword cTypeCustomDatatype Printer
 syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOfMemory OutOfBounds
