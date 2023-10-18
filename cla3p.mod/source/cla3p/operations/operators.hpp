@@ -205,7 +205,19 @@ T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Solves the linear system `A * X = B`.
+ * @brief Solves a system of linear equations.
+ *
+ * Solves the  linear system:
+ @verbatim
+  A * X = B
+ @endverbatim
+ * Valid combinations are the following:
+ @verbatim
+  A: General            
+  A: Symmetric          
+  A: Hermitian          
+  A: Triangular (square)
+ @endverbatim
  *
  * @param[in] A The lhs matrix.
  * @param[in] B The rhs vector.
@@ -221,7 +233,19 @@ T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Solves the linear system `A * X = B`.
+ * @brief Solves a system of linear equations.
+ *
+ * Solves the  linear system:
+ @verbatim
+  A * X = B
+ @endverbatim
+ * Valid combinations are the following:
+ @verbatim
+  A: General              B: General
+  A: Symmetric            B: General
+  A: Hermitian            B: General
+  A: Triangular (square)  B: General
+ @endverbatim
  *
  * @param[in] A The lhs matrix.
  * @param[in] B The rhs matrix.
@@ -237,7 +261,19 @@ T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p
 
 /**
  * @ingroup operators_linsol
- * @brief Overwrites B with the solution (A<sup>-1</sup> * B).
+ * @brief Overwrites rhs with the linear system solution.
+ *
+ * Solves the  linear system:
+ @verbatim
+  A * X = B
+ @endverbatim
+ * replacing the rhs B with the solution X. Valid combinations are the following:
+ @verbatim
+  A: General            
+  A: Symmetric          
+  A: Hermitian          
+  A: Triangular (square)
+ @endverbatim
  *
  * @param[in] B The rhs vector.
  * @param[in] A The lhs matrix.
@@ -245,13 +281,33 @@ T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 void operator/=(cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
 {
-	T_Vector rhs = B.rcopy();
-	cla3p::dns::default_linear_solver<T_Matrix,T_Vector>(A.rcopy().get(), rhs);
+	if(A.prop().isTriangular() && A.nrows() == A.ncols()) {
+
+		cla3p::ops::trisol(cla3p::op_t::N, A, B);
+
+	} else {
+
+		T_Vector rhs = B.rcopy();
+		cla3p::dns::default_linear_solver<T_Matrix,T_Vector>(A.rcopy().get(), rhs);
+
+	} // property case
 }
 
 /**
  * @ingroup operators_linsol
- * @brief Overwrites B with the solution (A<sup>-1</sup> * B).
+ * @brief Overwrites rhs with the linear system solution.
+ *
+ * Solves the  linear system:
+ @verbatim
+  A * X = B
+ @endverbatim
+ * replacing the rhs B with the solution X. Valid combinations are the following:
+ @verbatim
+  A: General              B: General
+  A: Symmetric            B: General
+  A: Hermitian            B: General
+  A: Triangular (square)  B: General
+ @endverbatim
  *
  * @param[in] B The rhs matrix.
  * @param[in] A The lhs matrix.
@@ -259,8 +315,16 @@ void operator/=(cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::Xx
 template <typename T_Scalar, typename T_Matrix>
 void operator/=(cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
 {
-	T_Matrix rhs = B.rcopy();
-	cla3p::dns::default_linear_solver<T_Matrix,T_Matrix>(A.rcopy().get(), rhs);
+	if(A.prop().isTriangular() && A.nrows() == A.ncols()) {
+
+		cla3p::ops::trisol(1., cla3p::op_t::N, A, B);
+
+	} else {
+
+		T_Matrix rhs = B.rcopy();
+		cla3p::dns::default_linear_solver<T_Matrix,T_Matrix>(A.rcopy().get(), rhs);
+
+	} // property case
 }
 
 /*-------------------------------------------------*/
