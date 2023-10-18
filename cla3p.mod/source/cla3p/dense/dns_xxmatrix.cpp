@@ -349,13 +349,13 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 	Operation _opB(opB);
 
 	mat_x_mat_mult_check(
-			A.property(), A.nrows(), A.ncols(), _opA,
-			B.property(), B.nrows(), B.ncols(), _opB,
-			this->property(), 
+			A.prop(), A.nrows(), A.ncols(), _opA,
+			B.prop(), B.nrows(), B.ncols(), _opB,
+			prop(), 
 			nrows(), 
 			ncols());
 
-	if(A.property().isGeneral() && B.property().isGeneral()) {
+	if(A.prop().isGeneral() && B.prop().isGeneral()) {
 
 		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
@@ -363,88 +363,83 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 				nrows(), 
 				ncols(), 
 				k, alpha, 
-				opA, A.values(), A.lsize(), 
-				opB, B.values(), B.lsize(), 
+				opA, A.values(), A.ld(), 
+				opB, B.values(), B.ld(), 
 				1, 
-				this->values(), 
-				this->lsize());
+				this->values(), ld());
 
-	} else if(A.property().isSymmetric() && B.property().isGeneral()) {
+	} else if(A.prop().isSymmetric() && B.prop().isGeneral()) {
 
-		bulk::dns::sym_x_gem(A.property().uplo(), 
+		bulk::dns::sym_x_gem(A.prop().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				A.values(), A.lsize(), 
-				B.values(), B.lsize(), 
+				A.values(), A.ld(), 
+				B.values(), B.ld(), 
 				1, 
-				this->values(), 
-				this->lsize());
+				this->values(), ld());
 
-	} else if(A.property().isHermitian() && B.property().isGeneral()) {
+	} else if(A.prop().isHermitian() && B.prop().isGeneral()) {
 
 		bulk::dns::hem_x_gem(
-				A.property().uplo(), 
+				A.prop().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				A.values(), A.lsize(), 
-				B.values(), B.lsize(), 
+				A.values(), A.ld(), 
+				B.values(), B.ld(), 
 				1, 
-				this->values(), 
-				this->lsize());
+				this->values(), ld());
 
-	} else if(A.property().isGeneral() && B.property().isSymmetric()) {
+	} else if(A.prop().isGeneral() && B.prop().isSymmetric()) {
 
-		bulk::dns::gem_x_sym(B.property().uplo(), 
+		bulk::dns::gem_x_sym(B.prop().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				B.values(), B.lsize(), 
-				A.values(), A.lsize(), 
+				B.values(), B.ld(), 
+				A.values(), A.ld(), 
 				1, 
-				this->values(), 
-				this->lsize());
+				this->values(), ld());
 
-	} else if(A.property().isGeneral() && B.property().isHermitian()) {
+	} else if(A.prop().isGeneral() && B.prop().isHermitian()) {
 
-		bulk::dns::gem_x_hem(B.property().uplo(), 
+		bulk::dns::gem_x_hem(B.prop().uplo(), 
 				nrows(), 
 				ncols(), 
 				alpha, 
-				B.values(), B.lsize(), 
-				A.values(), A.lsize(), 
+				B.values(), B.ld(), 
+				A.values(), A.ld(), 
 				1, 
-				this->values(), 
-				this->lsize());
+				this->values(), ld());
 
-	} else if(A.property().isTriangular() && B.property().isGeneral()) {
+	} else if(A.prop().isTriangular() && B.prop().isGeneral()) {
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::trm_x_gem(A.property().uplo(), opA, 
+		bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
 				nrows(), 
 				ncols(), 
 				B.nrows(), 
 				alpha, 
-				A.values(), A.lsize(), 
-				B.values(), B.lsize(), 
-				tmp.values(), tmp.lsize());
+				A.values(), A.ld(), 
+				B.values(), B.ld(), 
+				tmp.values(), tmp.ld());
 
 		this->updateSelfWithScaledOther(1, tmp);
 
-	} else if(A.property().isGeneral() && B.property().isTriangular()) {
+	} else if(A.prop().isGeneral() && B.prop().isTriangular()) {
 
 		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
 
-		bulk::dns::gem_x_trm(B.property().uplo(), opB, 
+		bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
 				nrows(), 
 				ncols(), 
 				A.nrows(), 
 				alpha, 
-				B.values(), B.lsize(), 
-				A.values(), A.lsize(), 
-				tmp.values(), tmp.lsize());
+				B.values(), B.ld(), 
+				A.values(), A.ld(), 
+				tmp.values(), tmp.ld());
 
 		this->updateSelfWithScaledOther(1, tmp);
 
@@ -462,12 +457,11 @@ void XxMatrixTmpl::replaceSelfWithScaledTriMat(T_Scalar alpha,
 	Operation _opA(opA);
 
 	trimat_mult_replace_check(sideA, 
-			A.property(), A.nrows(), A.ncols(), _opA, 
-			this->property(), 
-			nrows(), ncols());
+			A.prop(), A.nrows(), A.ncols(), _opA, 
+			prop(), nrows(), ncols());
 
 	blas::trmm(
-			static_cast<char>(sideA), A.property().cuplo(), _opA.ctype(), 'N', 
+			static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N', 
 			nrows(), ncols(), alpha, A.values(), A.ld(), 
 			this->values(), 
 			this->ld());
@@ -480,12 +474,11 @@ void XxMatrixTmpl::replaceSelfWithScaledInvTriMat(T_Scalar alpha,
 	Operation _opA(opA);
 
 	trimat_mult_replace_check(sideA, 
-			A.property(), A.nrows(), A.ncols(), _opA, 
-			this->property(), 
-			nrows(), ncols());
+			A.prop(), A.nrows(), A.ncols(), _opA, 
+			prop(), nrows(), ncols());
 
 	blas::trsm(
-			static_cast<char>(sideA), A.property().cuplo(), _opA.ctype(), 'N', 
+			static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N', 
 			nrows(), ncols(), alpha, A.values(), A.ld(), 
 			this->values(), 
 			this->ld());
