@@ -43,7 +43,7 @@ CxVectorTlst
 typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
 {
 	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::F, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
+	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -51,7 +51,7 @@ CxVectorTlst
 typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
 {
 	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::F, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
+	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
 	return ret;
 }
 /*-------------------------------------------------*/

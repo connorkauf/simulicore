@@ -169,7 +169,7 @@ XxVectorTlst
 T_Vector XxVectorTmpl::random(uint_t n)
 {
 	T_Vector ret(n);
-	bulk::dns::rand(uplo_t::F, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
+	bulk::dns::rand(uplo_t::Full, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
 	return ret;
 }
 /*-------------------------------------------------*/

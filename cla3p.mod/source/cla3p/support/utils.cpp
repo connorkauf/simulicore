@@ -214,12 +214,12 @@ void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex8_t val)
 /*-------------------------------------------------*/
 uplo_t auto_uplo(prop_t ptype)
 {
-	if(ptype == prop_t::General  ) return uplo_t::F;
-	if(ptype == prop_t::Symmetric) return uplo_t::L;
-	if(ptype == prop_t::Hermitian) return uplo_t::L;
+	if(ptype == prop_t::General  ) return uplo_t::Full;
+	if(ptype == prop_t::Symmetric) return uplo_t::Lower;
+	if(ptype == prop_t::Hermitian) return uplo_t::Lower;
 
 	throw err::Exception();
-	return uplo_t::F;
+	return uplo_t::Full;
 }
 /*-------------------------------------------------*/
 template <typename T>

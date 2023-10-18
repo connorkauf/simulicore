@@ -58,7 +58,7 @@ static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T
 {
 	if(!m || !n) return;
 
-	if(m == lda && uplo == uplo_t::F) {
+	if(m == lda && uplo == uplo_t::Full) {
 		std::fill_n(a, m * n, val);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
@@ -135,7 +135,7 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 		return;
 	} // coeff = 0
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
 	} else {
 		int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
@@ -204,7 +204,7 @@ static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 {
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a), 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
@@ -221,7 +221,7 @@ static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 {
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b), 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
@@ -238,7 +238,7 @@ static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint
 {
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a) + 1, 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
@@ -255,7 +255,7 @@ static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uin
 {
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b) + 1, 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
@@ -301,8 +301,8 @@ static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coef
 		recursive_scale_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
 		recursive_scale_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
 
-		if(uplo == uplo_t::U) scale(uplo_t::F, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
-		if(uplo == uplo_t::L) scale(uplo_t::F, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+		if(uplo == uplo_t::Upper) scale(uplo_t::Full, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
+		if(uplo == uplo_t::Lower) scale(uplo_t::Full, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
 
 	} // dim check
 }
@@ -321,13 +321,13 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coef
 		return;
 	} // coeff = 0
 	
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
 	} else {
 		uint_t k = std::min(m,n);
 		recursive_scale_tmpl(uplo, k, a, lda, coeff);
-		if(uplo == uplo_t::U) scale(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
-		if(uplo == uplo_t::L) scale(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+		if(uplo == uplo_t::Upper) scale(uplo_t::Full, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
+		if(uplo == uplo_t::Lower) scale(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // uplo
 }
 /*-------------------------------------------------*/
@@ -344,7 +344,7 @@ static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uin
 	if(!m || !n) return;
 
 	if(coeff == T(0)) {
-		zero(uplo_t::F, n, m, b, ldb);
+		zero(uplo_t::Full, n, m, b, ldb);
 		return;
 	} // coeff = 0
 
@@ -379,7 +379,7 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda,
 	if(!m || !n) return;
 
 	if(coeff == T(0)) {
-		zero(uplo_t::F, n, m, b, ldb);
+		zero(uplo_t::Full, n, m, b, ldb);
 		return;
 	} // coeff = 0
 
@@ -423,8 +423,8 @@ static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T 
 		recursive_conjugate_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
 		recursive_conjugate_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
 
-		if(uplo == uplo_t::U) conjugate(uplo_t::F, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
-		if(uplo == uplo_t::L) conjugate(uplo_t::F, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
+		if(uplo == uplo_t::Upper) conjugate(uplo_t::Full, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
+		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
 
 	} // dim check
 }
@@ -439,13 +439,13 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T 
 		return;
 	} // coeff = 0
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);
 	} else {
 		uint_t k = std::min(m,n);
 		recursive_conjugate_tmpl(uplo, k, a, lda, coeff);
-		if(uplo == uplo_t::U) conjugate(uplo_t::F, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
-		if(uplo == uplo_t::L) conjugate(uplo_t::F, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+		if(uplo == uplo_t::Upper) conjugate(uplo_t::Full, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
+		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
 /*-------------------------------------------------*/
@@ -502,18 +502,18 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 
 		if(ptype == prop_t::Symmetric) {
 
-			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
-			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
+			/**/ if(uplo == uplo_t::Upper) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
+			else if(uplo == uplo_t::Lower) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
 
 		} else if(ptype == prop_t::Hermitian) {
 
-			/**/ if(uplo == uplo_t::U) conjugate_transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
-			else if(uplo == uplo_t::L) conjugate_transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
+			/**/ if(uplo == uplo_t::Upper) conjugate_transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda);
+			else if(uplo == uplo_t::Lower) conjugate_transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda);
 
 		} else if(ptype == prop_t::Skew) {
 
-			/**/ if(uplo == uplo_t::U) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, -1);
-			else if(uplo == uplo_t::L) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, -1);
+			/**/ if(uplo == uplo_t::Upper) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, -1);
+			else if(uplo == uplo_t::Lower) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, -1);
 
 		} else {
 
@@ -554,7 +554,7 @@ static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_complement(uplo, m, j);
 		if(ir.ilen) {
-			zero(uplo_t::F, ir.ilen, 1, ptrmv(lda,a,ir.ibgn,j), lda);
+			zero(uplo_t::Full, ir.ilen, 1, ptrmv(lda,a,ir.ibgn,j), lda);
 		} // ilen
 	} // j
 }
@@ -840,7 +840,7 @@ template <typename T_Scalar, typename T_Int>
 static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
-		copy(uplo_t::F, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
+		copy(uplo_t::Full, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
 	} // j
 }
 /*-------------------------------------------------*/
@@ -867,9 +867,9 @@ static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda
 			Pi  = P[i];
 			Pj  = P[j];
 
-			/**/ if(uplo == uplo_t::U && Pj < Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
-			else if(uplo == uplo_t::L && Pj > Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
-			else                                  entry(ldb,b,i,j) = entry(lda,a,Pi,Pj);
+			/**/ if(uplo == uplo_t::Upper && Pj < Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
+			else if(uplo == uplo_t::Lower && Pj > Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
+			else                                      entry(ldb,b,i,j) = entry(lda,a,Pi,Pj);
 
 		} // i
 	} // j
@@ -891,7 +891,7 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_
 		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
 		else if( P && !Q) permute_ge_left_tmpl(m, n, a, lda, b, ldb, P);
 		else if(!P &&  Q) permute_ge_right_tmpl (m, n, a, lda, b, ldb, Q);
-		else              copy(uplo_t::F, m, n, a, lda, b, ldb);
+		else              copy(uplo_t::Full, m, n, a, lda, b, ldb);
 
 	} else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
 

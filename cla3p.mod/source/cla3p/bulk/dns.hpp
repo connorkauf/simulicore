@@ -71,7 +71,7 @@ T* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
 {
 	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));
 	if(wipe) {
-		zero(uplo_t::F, m, n, ret, lda);
+		zero(uplo_t::Full, m, n, ret, lda);
 	} // wipe
 	return ret;
 }

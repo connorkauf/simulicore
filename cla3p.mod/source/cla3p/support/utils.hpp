@@ -61,10 +61,10 @@ inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 
 	if(!m) return ret;
 
-	if(uplo == uplo_t::U) {
+	if(uplo == uplo_t::Upper) {
 		ret.ibgn = 0;
 		ret.iend = std::min(j+1,m);
-	} else if(uplo == uplo_t::L) {
+	} else if(uplo == uplo_t::Lower) {
 		ret.ibgn = std::min(j,m);
 		ret.iend = m;
 	} // uplo
@@ -83,10 +83,10 @@ inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 
 	if(!m) return ret;
 
-	if(uplo == uplo_t::U) {
+	if(uplo == uplo_t::Upper) {
 		ret.ibgn = std::min(j+1,m);
 		ret.iend = m;
-	} else if(uplo == uplo_t::L) {
+	} else if(uplo == uplo_t::Lower) {
 		ret.ibgn = 0;
 		ret.iend = std::min(j,m);
 	} // uplo
@@ -98,8 +98,8 @@ inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 
 inline bool coord_in_range(uplo_t uplo, uint_t i, uint_t j)
 {
-	/**/ if(uplo == uplo_t::U && i > j) return false;
-	else if(uplo == uplo_t::L && i < j) return false;
+	/**/ if(uplo == uplo_t::Upper && i > j) return false;
+	else if(uplo == uplo_t::Lower && i < j) return false;
 
 	return true;
 }

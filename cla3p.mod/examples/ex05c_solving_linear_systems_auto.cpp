@@ -27,7 +27,7 @@ int main()
 	 * Create a random symmetric matrix
 	 */
 
-	cla3p::Property prA(cla3p::prop_t::Symmetric, cla3p::uplo_t::L);
+	cla3p::Property prA(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
 	const cla3p::dns::RdMatrix Asym = cla3p::dns::RdMatrix::random(5, 5, prA);
 
 	/*

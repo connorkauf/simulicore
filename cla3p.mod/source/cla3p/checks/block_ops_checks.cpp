@@ -49,7 +49,7 @@ Property block_op_consistency_check(
 				throw err::NoConsistency("Block overlaps with upper part of " + prop.name() + " matrix");
 			}
 			ptype = prop_t::General;
-			uplo  = uplo_t::F;
+			uplo  = uplo_t::Full;
 		} // (non-)diag case
 
 	} // lower
@@ -69,7 +69,7 @@ Property block_op_consistency_check(
 				throw err::NoConsistency("Block overlaps with lower part of " + prop.name() + " matrix");
 			}
 			ptype = prop_t::General;
-			uplo  = uplo_t::F;
+			uplo  = uplo_t::Full;
 		} // (non-)diag case
 
 	} // lower

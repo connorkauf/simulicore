@@ -209,8 +209,8 @@ void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend
 
 	nd = m_nsd;
 	for(uint_t j = jbgn; j < jend; j++) {
-		if(uplo == uplo_t::U && j < i) appendEmpty();
-		else if(uplo == uplo_t::L && j > i) break;
+		if(uplo == uplo_t::Upper && j < i) appendEmpty();
+		else if(uplo == uplo_t::Lower && j > i) break;
 		else appendElement(entry(lda,a,i,j));
 	} // j
 

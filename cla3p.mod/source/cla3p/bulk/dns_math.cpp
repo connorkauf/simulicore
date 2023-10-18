@@ -62,7 +62,7 @@ static void add_tmpl(uplo_t uplo, uint_t m, uint_t n, T alpha, const T *a, uint_
 		return;
 	} // alpha = 0 & beta = 0
 
-	if(uplo == uplo_t::F) {
+	if(uplo == uplo_t::Full) {
 		mkl::omatadd('C', 'N', 'N', m, n, alpha, a, lda, beta, b, ldb, c, ldc);
 	} else {
 		zero(uplo, m, n, c, ldc);
@@ -175,7 +175,7 @@ static void trm_x_vec_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, T alpha, c
 {
 	if(alpha == T(0)) {
 		uint_t dimy = (opA == op_t::N ? m : n);
-		zero(uplo_t::F, dimy, 1, y, dimy);
+		zero(uplo_t::Full, dimy, 1, y, dimy);
 		return;
 	} // alpha = 0
 
@@ -183,21 +183,21 @@ static void trm_x_vec_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, T alpha, c
 
 	if(opA == op_t::N) {
 
-		copy(uplo_t::F, mindim, 1, x, mindim, y, mindim, alpha);
-		if(m > n) zero(uplo_t::F, m-n, 1, y + n, m-n);
+		copy(uplo_t::Full, mindim, 1, x, mindim, y, mindim, alpha);
+		if(m > n) zero(uplo_t::Full, m-n, 1, y + n, m-n);
 		blas::trmv(static_cast<char>(uplo), static_cast<char>(opA), 'N', mindim, a, lda, y, 1);
 
-		if(m > n && uplo == uplo_t::L) gem_x_vec(opA, m-n, n, alpha, ptrmv(lda,a,n,0), lda, x, 1, y + n);
-		if(m < n && uplo == uplo_t::U) gem_x_vec(opA, m, n-m, alpha, ptrmv(lda,a,0,m), lda, x + m, 1, y);
+		if(m > n && uplo == uplo_t::Lower) gem_x_vec(opA, m-n, n, alpha, ptrmv(lda,a,n,0), lda, x, 1, y + n);
+		if(m < n && uplo == uplo_t::Upper) gem_x_vec(opA, m, n-m, alpha, ptrmv(lda,a,0,m), lda, x + m, 1, y);
 
 	} else {
 
-		copy(uplo_t::F, mindim, 1, x, mindim, y, mindim, alpha);
-		if(n > m) zero(uplo_t::F, n-m, 1, y + m, n-m);
+		copy(uplo_t::Full, mindim, 1, x, mindim, y, mindim, alpha);
+		if(n > m) zero(uplo_t::Full, n-m, 1, y + m, n-m);
 		blas::trmv(static_cast<char>(uplo), static_cast<char>(opA), 'N', mindim, a, lda, y, 1);
 
-		if(m > n && uplo == uplo_t::L) gem_x_vec(opA, m-n, n, alpha, ptrmv(lda,a,n,0), lda, x + n, 1, y);
-		if(m < n && uplo == uplo_t::U) gem_x_vec(opA, m, n-m, alpha, ptrmv(lda,a,0,m), lda, x, 1, y + m);
+		if(m > n && uplo == uplo_t::Lower) gem_x_vec(opA, m-n, n, alpha, ptrmv(lda,a,n,0), lda, x + n, 1, y);
+		if(m < n && uplo == uplo_t::Upper) gem_x_vec(opA, m, n-m, alpha, ptrmv(lda,a,0,m), lda, x, 1, y + m);
 
 	} // opA
 }
@@ -354,22 +354,22 @@ template <typename T>
 void trm_x_gem_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
 	if(alpha == T(0)) {
-		zero(uplo_t::F, m, n, c, ldc);
+		zero(uplo_t::Full, m, n, c, ldc);
 		return;
 	} // alpha = 0
 
 	uint_t mindim = std::min(m,k);
 
-	copy(uplo_t::F, mindim, n, b, ldb, c, ldc, alpha);
-	if(m > k) zero(uplo_t::F, m-k, n, ptrmv(ldc,c,k,0), ldc);
+	copy(uplo_t::Full, mindim, n, b, ldb, c, ldc, alpha);
+	if(m > k) zero(uplo_t::Full, m-k, n, ptrmv(ldc,c,k,0), ldc);
 	blas::trmm('L', static_cast<char>(uplo), static_cast<char>(opA), 'N', mindim, n, 1, a, lda, c, ldc);
 
 	if(opA == op_t::N) {
-		if(m > k && uplo == uplo_t::L) gem_x_gem(m-k, n, k, alpha, opA, ptrmv(lda,a,k,0), lda, op_t::N,           b     , ldb, 1, ptrmv(ldc,c,k,0), ldc);
-		if(m < k && uplo == uplo_t::U) gem_x_gem(m, n, k-m, alpha, opA, ptrmv(lda,a,0,m), lda, op_t::N, ptrmv(ldb,b,m,0), ldb, 1,           c     , ldc);
+		if(m > k && uplo == uplo_t::Lower) gem_x_gem(m-k, n, k, alpha, opA, ptrmv(lda,a,k,0), lda, op_t::N,           b     , ldb, 1, ptrmv(ldc,c,k,0), ldc);
+		if(m < k && uplo == uplo_t::Upper) gem_x_gem(m, n, k-m, alpha, opA, ptrmv(lda,a,0,m), lda, op_t::N, ptrmv(ldb,b,m,0), ldb, 1,           c     , ldc);
 	} else {
-		if(m > k && uplo == uplo_t::U) gem_x_gem(m-k, n, k, alpha, opA, ptrmv(lda,a,0,k), lda, op_t::N,           b     , ldb, 1, ptrmv(ldc,c,k,0), ldc);
-		if(m < k && uplo == uplo_t::L) gem_x_gem(m, n, k-m, alpha, opA, ptrmv(lda,a,m,0), lda, op_t::N, ptrmv(ldb,b,m,0), ldb, 1,           c     , ldc);
+		if(m > k && uplo == uplo_t::Upper) gem_x_gem(m-k, n, k, alpha, opA, ptrmv(lda,a,0,k), lda, op_t::N,           b     , ldb, 1, ptrmv(ldc,c,k,0), ldc);
+		if(m < k && uplo == uplo_t::Lower) gem_x_gem(m, n, k-m, alpha, opA, ptrmv(lda,a,m,0), lda, op_t::N, ptrmv(ldb,b,m,0), ldb, 1,           c     , ldc);
 	} // opA
 }
 /*-------------------------------------------------*/
@@ -399,22 +399,22 @@ template <typename T>
 void gem_x_trm_tmpl(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T alpha, const T *a, uint_t lda, const T *b, uint_t ldb, T *c, uint_t ldc)
 {
 	if(alpha == T(0)) {
-		zero(uplo_t::F, m, n, c, ldc);
+		zero(uplo_t::Full, m, n, c, ldc);
 		return;
 	} // alpha = 0
 
 	uint_t mindim = std::min(n,k);
 
-	copy(uplo_t::F, m, mindim, b, ldb, c, ldc, alpha);
-	if(n > k) zero(uplo_t::F, m, n-k, ptrmv(ldc,c,0,k), ldc);
+	copy(uplo_t::Full, m, mindim, b, ldb, c, ldc, alpha);
+	if(n > k) zero(uplo_t::Full, m, n-k, ptrmv(ldc,c,0,k), ldc);
 	blas::trmm('R', static_cast<char>(uplo), static_cast<char>(opA), 'N', m, mindim, 1, a, lda, c, ldc);
 
 	if(opA == op_t::N) {
-		if(n > k && uplo == uplo_t::U) gem_x_gem(m, n-k, k, alpha, op_t::N,           b     , ldb, opA, ptrmv(lda,a,0,k), lda, 1, ptrmv(ldc,c,0,k), ldc);
-		if(n < k && uplo == uplo_t::L) gem_x_gem(m, n, k-n, alpha, op_t::N, ptrmv(ldb,b,0,n), ldb, opA, ptrmv(lda,a,n,0), lda, 1,           c     , ldc);
+		if(n > k && uplo == uplo_t::Upper) gem_x_gem(m, n-k, k, alpha, op_t::N,           b     , ldb, opA, ptrmv(lda,a,0,k), lda, 1, ptrmv(ldc,c,0,k), ldc);
+		if(n < k && uplo == uplo_t::Lower) gem_x_gem(m, n, k-n, alpha, op_t::N, ptrmv(ldb,b,0,n), ldb, opA, ptrmv(lda,a,n,0), lda, 1,           c     , ldc);
 	} else {
-		if(n > k && uplo == uplo_t::L) gem_x_gem(m, n-k, k, alpha, op_t::N,           b     , ldb, opA, ptrmv(lda,a,k,0), lda, 1, ptrmv(ldc,c,0,k), ldc);
-		if(n < k && uplo == uplo_t::U) gem_x_gem(m, n, k-n, alpha, op_t::N, ptrmv(ldb,b,0,n), ldb, opA, ptrmv(lda,a,0,n), lda, 1,           c     , ldc);
+		if(n > k && uplo == uplo_t::Lower) gem_x_gem(m, n-k, k, alpha, op_t::N,           b     , ldb, opA, ptrmv(lda,a,k,0), lda, 1, ptrmv(ldc,c,0,k), ldc);
+		if(n < k && uplo == uplo_t::Upper) gem_x_gem(m, n, k-n, alpha, op_t::N, ptrmv(ldb,b,0,n), ldb, opA, ptrmv(lda,a,0,n), lda, 1,           c     , ldc);
 	} // opA
 }
 /*-------------------------------------------------*/

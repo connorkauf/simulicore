@@ -52,7 +52,7 @@ Property::~Property()
 void Property::defaults()
 {
 	m_type = prop_t::Undefined;
-	m_uplo = uplo_t::F;
+	m_uplo = uplo_t::Full;
 }
 /*-------------------------------------------------*/
 void Property::clear()
@@ -96,8 +96,8 @@ std::string Property::name() const
 	if(type() == prop_t::Triangular) strProp = msg::Triangular();
 	if(type() == prop_t::Skew      ) strProp = msg::Skew();
 
-	if(uplo() == uplo_t::U) strUplo = msg::Upper();
-	if(uplo() == uplo_t::L) strUplo = msg::Lower();
+	if(uplo() == uplo_t::Upper) strUplo = msg::Upper();
+	if(uplo() == uplo_t::Lower) strUplo = msg::Lower();
 
 	return (strProp + " " + strUplo);
 }
@@ -139,17 +139,17 @@ bool Property::isSkew() const
 /*-------------------------------------------------*/
 bool Property::isFull() const
 {
-	return (uplo() == uplo_t::F);
+	return (uplo() == uplo_t::Full);
 }
 /*-------------------------------------------------*/
 bool Property::isUpper() const
 {
-	return (uplo() == uplo_t::U);
+	return (uplo() == uplo_t::Upper);
 }
 /*-------------------------------------------------*/
 bool Property::isLower() const
 {
-	return (uplo() == uplo_t::L);
+	return (uplo() == uplo_t::Lower);
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

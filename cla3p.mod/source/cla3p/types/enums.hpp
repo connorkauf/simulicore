@@ -36,9 +36,9 @@ enum class prop_t {
  * Used to construct a Property class to determine where the values of a matrix are stored.
  */
 enum class uplo_t : char {
-	F = 'F', /**< Both parts are filled */
-	U = 'U', /**< The upper part is filled */
-	L = 'L'  /**< The lower part is filled */
+	Full  = 'F', /**< Both matrix parts are filled */
+	Upper = 'U', /**< The upper matrix part is filled */
+	Lower = 'L'  /**< The lower matrix part is filled */
 };
 
 /**
