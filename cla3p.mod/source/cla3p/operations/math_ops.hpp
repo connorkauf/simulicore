@@ -55,7 +55,7 @@ void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::Xx
  * @param[in] A The first input object.
  * @param[in] beta The scaling coefficient for B.
  * @param[in] B The second input object.
- * @return The result of the operation `alpha*A + beta*B`.
+ * @return The result of the operation `(alpha * A + beta * B)`.
  */
 template <typename T_Scalar, typename T_Object>
 T_Object add(
@@ -105,7 +105,7 @@ void mult(T_Scalar alpha, op_t opA,
  * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
- * @return The vector `alpha*opA(A)*X`.
+ * @return The vector `(alpha * opA(A) * X)`.
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 T_Vector mult(T_Scalar alpha, op_t opA, 
@@ -126,7 +126,7 @@ T_Vector mult(T_Scalar alpha, op_t opA,
  *
  * Performs the operation:
  @verbatim
-  X = opA(A) * X
+  X := opA(A) * X
  @endverbatim
  *
  * @param[in] opA The operation to be performed for matrix A.
@@ -147,19 +147,19 @@ void trimult(op_t opA,
  *
  * Solves the system:
  @verbatim
-  opA(A) * X = X
+  opA(A) * X = B
  @endverbatim
  *
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input triangular matrix.
- * @param[in,out] X The vector to be replaced.
+ * @param[in,out] B On entry, the rhs, on exit the system solution X.
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
 void trisol(op_t opA, 
 		const dns::XxMatrix<T_Scalar,T_Matrix>& A, 
-		dns::XxVector<T_Scalar,T_Vector>& X)
+		dns::XxVector<T_Scalar,T_Vector>& B)
 {
-	X.replaceSelfWithInvTriVec(opA, A);
+	B.replaceSelfWithInvTriVec(opA, A);
 }
 
 /**
@@ -221,7 +221,7 @@ void mult(T_Scalar alpha,
  * @param[in] A The input matrix.
  * @param[in] opB The operation to be performed for matrix B.
  * @param[in] B The input matrix.
- * @return The matrix `alpha*opA(A)*opB(B)`.
+ * @return The matrix `(alpha * opA(A) * opB(B))`.
  */
 template <typename T_Scalar, typename T_Matrix>
 T_Matrix mult(T_Scalar alpha, 
@@ -242,7 +242,7 @@ T_Matrix mult(T_Scalar alpha,
  *
  * Performs the operation:
  @verbatim
-  B = alpha * opA(A) * B
+  B := alpha * opA(A) * B
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -264,7 +264,7 @@ void trimult(T_Scalar alpha, op_t opA,
  *
  * Performs the operation:
  @verbatim
-  B = alpha * B * opA(A)
+  B := alpha * B * opA(A)
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
@@ -286,13 +286,13 @@ void trimult(T_Scalar alpha,
  *
  * Solves the system:
  @verbatim
-  opA(A) * B = alpha * B
+  opA(A) * X = alpha * B
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input triangular matrix.
- * @param[in,out] B The matrix to be replaced.
+ * @param[in,out] B On entry, the rhs, on exit the system solution X.
  */
 template <typename T_Scalar, typename T_Matrix>
 void trisol(T_Scalar alpha, op_t opA, 
@@ -308,11 +308,11 @@ void trisol(T_Scalar alpha, op_t opA,
  *
  * Solves the system:
  @verbatim
-  B * opA(A) = alpha * B
+  X * opA(A) = alpha * B
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in,out] B The matrix to be replaced.
+ * @param[in,out] B On entry, the rhs, on exit the system solution X.
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input triangular matrix.
  */
