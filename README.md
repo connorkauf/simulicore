@@ -75,7 +75,7 @@ In order to build **Compact Suite** you will need:
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
    
-   For more information, check this [MKL Linking Guide](3rd/mkl.md).
+   For more information, check this [Intel MKL Linking Guide](3rd/mkl.md).
 
    <a name="linux-step4"></a>
 6. Choose a build directory `build_dir` and use cmake command to configure the project
@@ -84,7 +84,7 @@ In order to build **Compact Suite** you will need:
    cmake -S <compact_suite_root> -B <build_dir>
    ```
    
-   For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
+   For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
 
 7. Go to `build_dir`
    
@@ -118,14 +118,14 @@ In order to build **Compact Suite** you will need:
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel MKL** and **Intel Compiler** respectively.
 
-   For more information, check this [MKL Linking Guide](3rd/mkl.md).
+   For more information, check this [Intel MKL Linking Guide](3rd/mkl.md).
 
 5. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
 
    <a name="windows-step4"></a>
 6. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
    
-   For extra configuration options see section [Extra configuration arguments](#extra-configuration-arguments) further below.
+   For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
 
 8. Compile (Build > Build All)
 
