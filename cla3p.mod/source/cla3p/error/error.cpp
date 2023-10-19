@@ -43,15 +43,6 @@ InvalidOp::~InvalidOp() throw()
 {
 }
 /*-------------------------------------------------*/
-Overflow::Overflow(const std::string& msg)
-	: Exception("Overflow error: " + msg)
-{
-}
-/*-------------------------------------------------*/
-Overflow::~Overflow() throw()
-{
-}
-/*-------------------------------------------------*/
 OutOfMemory::OutOfMemory(const std::string& msg)
 	: Exception("Memory error: " + msg)
 {

@@ -44,6 +44,8 @@ class Exception : public std::exception {
 		std::string m_msg;
 };
 
+/*-------------------------------------------------*/
+
 /**
  * @ingroup exceptions
  * @brief Consistency cla3p exception class.
@@ -60,6 +62,8 @@ class NoConsistency : public Exception {
 		 */
 		~NoConsistency() throw();
 };
+
+/*-------------------------------------------------*/
 
 /**
  * @ingroup exceptions
@@ -78,22 +82,7 @@ class InvalidOp : public Exception {
 		~InvalidOp() throw();
 };
 
-/**
- * @ingroup exceptions
- * @brief Numerical overflow cla3p exception class.
- */
-class Overflow : public Exception {
-	public:
-		/** 
-		 * @copydoc Exception::Exception()
-		 */
-		Overflow(const std::string& msg = "Untitled");
-
-		/** 
-		 * @copydoc Exception::~Exception()
-		 */
-		~Overflow() throw();
-};
+/*-------------------------------------------------*/
 
 /**
  * @ingroup exceptions
@@ -111,6 +100,8 @@ class OutOfMemory : public Exception {
 		 */
 		~OutOfMemory() throw();
 };
+
+/*-------------------------------------------------*/
 
 /**
  * @ingroup exceptions
