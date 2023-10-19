@@ -1,34 +1,43 @@
 /**
  * @defgroup basic_datatypes Basic Datatypes
+ * List of the basic datatypes that are used in CLA3P.
  */
 
 /**
  * @defgroup allocators Allocators
+ * List of allocators that are used in CLA3P.
  */
 
 /**
  * @defgroup vectors Vectors
+ * The CLA3P vector objects.
  *
  * @defgroup dense_vectors Dense
  * @ingroup vectors
+ * The CLA3P dense vector objects.
  */
 
 /**
  * @defgroup matrices Matrices
+ * The CLA3P matrix objects.
  *
  * @defgroup dense_matrices Dense
  * @ingroup matrices
+ * The CLA3P dense matrix objects.
  *
  * @defgroup perm_matrices Permutation
  * @ingroup matrices
+ * The CLA3P permutation matrix objects.
  */
 
 /**
  * @defgroup guard Guard
+ * The CLA3P guard utility class.
  */
 
 /**
  * @defgroup math_operations Math Operations
+ * List of CLA3P algebraic operations (functional).
  *
  * @defgroup math_op_matadd Add/Update
  * @ingroup math_operations
@@ -42,13 +51,16 @@
 
 /**
  * @defgroup linear_solvers Linear Solvers
+ * List of CLA3P classes for solving systems of linear equations.
  *
  * @defgroup dense_linear_solvers Dense
  * @ingroup linear_solvers
+ * List of CLA3P dense linear solvers.
  */
 
 /**
  * @defgroup math_operators Algebraic Operators
+ * List of CLA3P algebraic operator definitions that are not class members.
  *
  * @defgroup operators_scal Scaling
  * @ingroup math_operators
@@ -65,9 +77,11 @@
 
 /**
  * @defgroup stream_operators Stream Operators
+ * List of CLA3P stream operators.
  */
 
 /**
  * @defgroup exceptions Exceptions
+ * List of CLA3P exceptions for error handling.
  */
 

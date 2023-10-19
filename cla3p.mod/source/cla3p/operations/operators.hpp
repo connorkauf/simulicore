@@ -71,7 +71,7 @@ T_Object operator*(const cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar 
  @endverbatim
  *
  * @param[in] src The input object.
- * @param[in] val The coefficient value.
+ * @param[in] val The non-zero coefficient value.
  * @return The scaled object.
  */
 template <typename T_Scalar, typename T_Object>
@@ -104,7 +104,7 @@ void operator*=(cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar val)
  * Scales `src` by `1/val`.
  *
  * @param[in] src The input object.
- * @param[in] val The scaling coefficient.
+ * @param[in] val The non-zero scaling coefficient.
  */
 template <typename T_Scalar, typename T_Object>
 void operator/=(cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar val)
@@ -172,7 +172,7 @@ T_Vector operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxVector<T
  @endverbatim
  *
  * @param[in] P The input permutation matrix.
- * @param[in] A The input matrix.
+ * @param[in] A The input general matrix.
  * @return The resulting matrix.
  */
 template <typename T_Int, typename T_Scalar, typename T_Matrix>
@@ -190,7 +190,7 @@ T_Matrix operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxMatrix<T
  ret = A * P
  @endverbatim
  *
- * @param[in] A The input matrix.
+ * @param[in] A The input general matrix.
  * @param[in] P The input permutation matrix.
  * @return The resulting matrix.
  */
@@ -211,7 +211,7 @@ T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p
  @verbatim
   A * X = B
  @endverbatim
- * Valid combinations are the following:
+ * Valid types for A:
  @verbatim
   A: General            
   A: Symmetric          
@@ -239,7 +239,7 @@ T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p
  @verbatim
   A * X = B
  @endverbatim
- * Valid combinations are the following:
+ * Valid type combinations:
  @verbatim
   A: General              B: General
   A: Symmetric            B: General
@@ -267,7 +267,7 @@ T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p
  @verbatim
   A * X = B
  @endverbatim
- * replacing the rhs B with the solution X. Valid combinations are the following:
+ * replacing the rhs B with the solution X. Valid types for A:
  @verbatim
   A: General            
   A: Symmetric          
@@ -301,7 +301,7 @@ void operator/=(cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::Xx
  @verbatim
   A * X = B
  @endverbatim
- * replacing the rhs B with the solution X. Valid combinations are the following:
+ * replacing the rhs B with the solution X. Valid type combinations:
  @verbatim
   A: General              B: General
   A: Symmetric            B: General
