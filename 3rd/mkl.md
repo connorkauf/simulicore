@@ -1,6 +1,6 @@
 ## About Intel MKL linking
 
-Some modules of this project will depend on **Intel Math Kernel Library** in order to accelerate calculations. For example, if a project needs to use **CLA3P** it needs to be dynamically linked not only with **CLA3P** but with **Intel MKL** as well.  
+Some modules of this project will depend on **Intel Math Kernel Library** in order to accelerate calculations. For example, if a project needs to use **CLA3P** it needs to be linked not only with **CLA3P** but with **Intel MKL** as well.  
 
 Before compiling **Compact Suite** you need to edit file `mkl.lin.cmake` and/or `mkl.win.cmake` and set the CMake variables `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of Intel MKL and Intel Compiler respectively.  
 
@@ -20,19 +20,19 @@ This sets the `MKL_INC` and `MKL_LIB` variables to the MKL include directory and
 
 > **_NOTE:_**  
 > Files mkl.lin.cmake and mkl.win.cmake use the CMake variable `CLA3P_USE_I64` to automatically determine which integer length to use. 
-> Make sure to add -DCLA3P_USE_I64=true to your CMake configuration if you want **CLA3P** & **Intel MKL** to use 64bit integers.
+> Make sure to add `-DCLA3P_USE_I64=true` to your CMake configuration if you want **CLA3P** & **Intel MKL** to use 64bit integers.
 
 If you want to include the **Intel MKL** include directory to your CMake target use:
 ```
 target_include_directories(<target> PUBLIC ${MKL_INC})
 ```
 
-In order to dynamically link your CMake target with **Intel MKL** use:
+In order to link your CMake target with **Intel MKL** use:
 ```
 target_link_libraries(<target> ${MKL_LIB})
 ```
 
-In order to dynamically link your CMake target with **CLA3P** that depends on **Intel MKL** use:
+In order to link your CMake target with **CLA3P** that depends on **Intel MKL** use:
 ```
 if(WIN32)
   set(CLA3P_LIB <compact_suite_install>/lib/cla3p.lib)
