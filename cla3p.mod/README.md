@@ -160,7 +160,7 @@ Select an example `ex<number>_<description>.bat` and run it on Visual Studio ter
 <a name="license"></a>
 ## License
 
-Distributed as a part of [**Compact Suite**](https://github.com/connorkauf/CompactSuite) under the MIT License. See `LICENSE.txt` for more information.
+Distributed as a part of [**Compact Suite**](https://github.com/connorkauf/CompactSuite) licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
