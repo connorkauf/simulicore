@@ -2,32 +2,22 @@
 
 
 
+## Table of contents
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-compact-suite">About Compact Suite</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#linux-installation">Linux installation</a></li>
-        <li><a href="#windows-installation">Windows installation</a></li>
-        <li><a href="#extra-configuration-arguments">Extra configuration arguments</a></li>
-        <li><a href="#installation-contents">Installation contents</a></li>
-      </ul>
-    </li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+1. [About Compact Suite](#about-compact-suite)
+2. [Build and Install](#build-and-install)
+    - [Prerequisites](#prerequisites)
+    - [Linux installation](#linux-installation)
+    - [Windows installation](#windows-installation)
+    - [Extra configuration arguments](#extra-configuration-arguments)
+    - [Installation contents](#installation-contents)
+3. [License](#license)
+4. [Contact](#contact)
 
 
 
 
-## About Compact Suite
+# About Compact Suite
 
 **Compact Suite** is a collection of C++ libraries for scientific and computational development.
 
@@ -42,19 +32,19 @@ The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Port
 
 
 
-## Getting Started
+# Build and Install
 
-To build and install the suite, follow these simple example steps.
+To build and install the suite, follow these simple steps.
 
-### Prerequisites
+## Prerequisites
 
 In order to build **Compact Suite** you will need:
 * [CMake](https://cmake.org) 3.7.0 and above
 * [GNU C++ compiler](https://gcc.gnu.org) (linux)
 * [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
 * [Intel Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) (linux & windows) You can download it [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
- 
-### Linux Installation
+
+## Linux Installation
 
 1. Open the terminal
   
@@ -65,9 +55,9 @@ In order to build **Compact Suite** you will need:
    cd CompactSuite
    ```
    
-   For the purposes of this document, the top directory is marked as `compact_suite_root`
+   For the purposes of this document, the top directory is marked as `<compact_suite_root>`.
 
-4. Open file
+3. Open file
    
    ```sh
    <compact_suite_root>/3rd/mkl.lin.cmake
@@ -77,8 +67,8 @@ In order to build **Compact Suite** you will need:
    
    For more information, check this [Intel MKL Linking Guide](3rd/mkl.md).
 
-   <a name="linux-step4"></a>
-6. Choose a build directory `build_dir` and use cmake command to configure the project
+   <a name="linux-cmake-config"></a>
+4. Choose a build directory `build_dir` and use cmake command to configure the project
    
    ```sh
    cmake -S <compact_suite_root> -B <build_dir>
@@ -86,20 +76,14 @@ In order to build **Compact Suite** you will need:
    
    For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
 
-7. Go to `build_dir`
-   
-   ```sh
-   cd <build_dir>
-   ```
-   
-9. Compile and install
+5. Compile and install
     
    ```sh
-   make
-   make install
+   cmake --build <build_dir>
+   cmake --install <build_dir>
    ```
 
-### Windows Installation
+## Windows Installation
 
 1. Clone the repo using a cloning method of your choice
    
@@ -108,9 +92,9 @@ In order to build **Compact Suite** you will need:
    ssh: git@github.com:connorkauf/CompactSuite.git
    ```
    
-   For the purposes of this document, the top directory is marked as `compact_suite_root`
+   For the purposes of this document, the top directory is marked as `<compact_suite_root>`.
 
-3. Open file
+2. Open file
    
    ```sh
    <compact_suite_root>/3rd/mkl.win.cmake
@@ -120,28 +104,55 @@ In order to build **Compact Suite** you will need:
 
    For more information, check this [Intel MKL Linking Guide](3rd/mkl.md).
 
-5. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
+3. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
 
-   <a name="windows-step4"></a>
-6. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
+   <a name="windows-cmake-config"></a>
+4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
    
    For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
 
-8. Compile (Build > Build All)
+5. Compile (Build > Build All)
 
-9. Install (Build > Install Compact Suite)
+6. Install (Build > Install Compact Suite)
 
-### Extra configuration arguments
+## Extra configuration arguments
 
-You can define the CMake variable `CLA3P_USE_I64` to make CLA3P use 64-bit integers.  
-For Linux append `-DCLA3P_USE_I64=true` in the cmake command ([step 4](#linux-step4)).  
-For Windows add `-DCLA3P_USE_I64=true` in the section "CMake command arguments" in CMake Settings ([step 4](#windows-step4)).
+Below there is a list of configuration arguments for the entire project.  
+For Linux append the desired options to the [Cmake Configuration](#linux-cmake-config).  
+For Windows add the desired options in the section "CMake command arguments" in [CMake Settings](#windows-cmake-config).
 
-### Installation contents
+#### <ins>Installation directory</ins>
 
-The default installation path is 
-* `compact_suite_root`/install for Linux
-* `compact_suite_root`/out/install/`build-type` for Windows
+The default installation directories are:  
+`<compact_suite_root>/install` for Linux and  
+`<compact_suite_root>/out/install/<build-type>` for Windows.  
+
+You can specify an install directory by:
+
+```
+--install-prefix=<your_install_path>
+```
+or
+```
+-DCMAKE_INSTALL_PREFIX=<your_install_path>
+```
+
+#### <ins>Build CLA3P using 64bit integers</ins>
+
+The default **CLA3P** integer length is 32bit.  
+You can build **CLA3P** with 64bit integer length by:
+
+```
+-DCLA3P_USE_I64=true
+```
+
+## Installation contents
+
+The default installation directories are:  
+`<compact_suite_root>/install` for Linux and  
+`<compact_suite_root>/out/install/<build-type>` for Windows.
+
+In the installation directory you will find the following folders:
   
 ```
 <compact_suite_install>/include : the compact suite include directory
@@ -155,7 +166,7 @@ The default installation path is
 
 
 
-## License
+# License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
@@ -164,7 +175,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
 
-## Contact
+# Contact
 
 Connor Kaufman - connor.kaufman.gh@outlook.com  
 Project Link: [https://github.com/connorkauf/CompactSuite](https://github.com/connorkauf/CompactSuite)  
