@@ -17,7 +17,7 @@ namespace err {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup exceptions
+ * @ingroup module_index_exceptions
  * @brief Basic cla3p exception class.
  */
 class Exception : public std::exception {
@@ -47,7 +47,7 @@ class Exception : public std::exception {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup exceptions
+ * @ingroup module_index_exceptions
  * @brief Consistency cla3p exception class.
  */
 class NoConsistency : public Exception {
@@ -66,7 +66,7 @@ class NoConsistency : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup exceptions
+ * @ingroup module_index_exceptions
  * @brief Invalid operation cla3p exception class.
  */
 class InvalidOp : public Exception {
@@ -85,7 +85,7 @@ class InvalidOp : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup exceptions
+ * @ingroup module_index_exceptions
  * @brief Memory cla3p exception class.
  */
 class OutOfMemory : public Exception {
@@ -104,7 +104,7 @@ class OutOfMemory : public Exception {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup exceptions
+ * @ingroup module_index_exceptions
  * @brief Out-of-bounds cla3p exception class.
  */
 class OutOfBounds : public Exception {

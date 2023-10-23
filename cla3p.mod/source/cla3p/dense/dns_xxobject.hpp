@@ -157,7 +157,7 @@ class XxObject : public Array2D<T_Scalar> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operators
+ * @ingroup module_index_stream_operators
  * @brief Writes to os the contents of obj.
  */
 template <typename T_Scalar, typename T_Object>

@@ -63,7 +63,7 @@ The list will be expanded with new features on every new version. Feel free to [
   1. Add `-DCLA3P_I64` to your compilation flags
   2. Link with the **cla3p_i64** library (libcla3p_i64.so or cla3p_i64.lib).
 
-```
+``` cmake
 #
 # sample linux CMake setup
 #
@@ -89,11 +89,11 @@ See section [Third-Party Dependencies](#third-party-dependencies) for more infor
 In order to ensure a minimum-copy policy, copy constructors for the basic math objects are disabled for now. Objects can be explicitly copied using function calls. Move constructors are defined for rapid data passing between objects. This guarantees total control over memory and keeps allocations to a minimum.  
 
 **CLA3P** comes with an intuitive operator-based interface, as well as an advanced functional-based interface for maximum efficiency. For example, a transpose matrix-vector multiplication operation can be called using operators
-```
+``` cpp
 Y = A.transpose() * X;
 ```
 or by skipping the explicit transposition of A and using the mult() function
-```
+``` cpp
 Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
 ```
 The user has the convinience of quickly writing an early implementation of a code chunk, verify that it works and then gradually improve performance by identifying and treating such cases.
@@ -133,13 +133,13 @@ Folder `<compact_suite_install>/examples/cla3p` contains numerus examples descri
 
 ### Building examples on linux
 From a linux terminal:
-```
+``` sh
 cd <compact_suite_install>/examples/cla3p
 ./example_builder.sh
 ```
 All example executables are located in the `bin` directory.  
 Select an example `ex<number>_<description>.sh` and run it:
-```
+``` sh
 ./bin/ex01a_dense_vector_create.sh
 ```
 
@@ -148,7 +148,7 @@ Open directory `<compact_suite_install>/examples/cla3p` in Visual Studio and com
 Do not forget to set the CMake variable `-DCLA3P_USE_I64=true` if needed.  
 All example executables are located in the `bin` directory.  
 Select an example `ex<number>_<description>.bat` and run it on Visual Studio terminal:
-```
+``` sh
 ./bin/ex01a_dense_vector_create.bat
 ```
 

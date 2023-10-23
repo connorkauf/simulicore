@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes
+ * @ingroup module_index_datatypes
  * @brief The operation class.
  *
  * Utility class for easy handling of the op_t flag.
@@ -94,7 +94,7 @@ inline Operation noOp()
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operators
+ * @ingroup module_index_stream_operators
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op);

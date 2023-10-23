@@ -29,7 +29,7 @@ using uint_t = unsigned int;
 using nint_t = int;
 
 /**
- * @ingroup basic_datatypes 
+ * @ingroup module_index_datatypes
  * @brief Standard indexing.
  */
 using bulk_t = std::size_t;

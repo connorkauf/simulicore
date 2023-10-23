@@ -19,7 +19,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup perm_matrices
+ * @ingroup module_index_matrices_perm
  * @nosubgrouping
  * @brief The permutation matrix object.
  *
@@ -239,7 +239,7 @@ class BasicTypeTraits<PxMatrix<T_Int>> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operators
+ * @ingroup module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Int>

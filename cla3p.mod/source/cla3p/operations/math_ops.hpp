@@ -24,7 +24,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup math_op_matadd
+ * @ingroup module_index_math_op_add
  * @brief Update an object with a compatible scaled object.
  *
  * Performs the operation:
@@ -43,7 +43,7 @@ void update(T_Scalar alpha, const dns::XxObject<T_Scalar,T_Object>& src, dns::Xx
 }
 
 /**
- * @ingroup math_op_matadd
+ * @ingroup module_index_math_op_add
  * @brief Adds two compatible scaled objects.
  *
  * Performs the operation:
@@ -68,7 +68,7 @@ T_Object add(
 }
 
 /**
- * @ingroup math_op_matvec
+ * @ingroup module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
  * Performs the operation:
@@ -93,7 +93,7 @@ void mult(T_Scalar alpha, op_t opA,
 }
 
 /**
- * @ingroup math_op_matvec
+ * @ingroup module_index_math_op_matvec
  * @brief Creates a vector from a matrix-vector product.
  *
  * Performs the operation:
@@ -121,7 +121,7 @@ T_Vector mult(T_Scalar alpha, op_t opA,
 }
 
 /**
- * @ingroup math_op_matvec
+ * @ingroup module_index_math_op_matvec
  * @brief Replaces a vector with a triangular matrix-vector product.
  *
  * Performs the operation:
@@ -142,7 +142,7 @@ void trimult(op_t opA,
 }
 
 /**
- * @ingroup math_op_matvec
+ * @ingroup module_index_math_op_matvec
  * @brief Replaces a vector with the solution of a triangular system.
  *
  * Solves the system:
@@ -163,7 +163,7 @@ void trisol(op_t opA,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Updates a general matrix with a matrix-matrix product.
  *
  * Performs the operation:
@@ -198,7 +198,7 @@ void mult(T_Scalar alpha,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Creates a general matrix from a matrix-matrix product.
  *
  * Performs the operation:
@@ -237,7 +237,7 @@ T_Matrix mult(T_Scalar alpha,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
  *
  * Performs the operation:
@@ -259,7 +259,7 @@ void trimult(T_Scalar alpha, op_t opA,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
  *
  * Performs the operation:
@@ -281,7 +281,7 @@ void trimult(T_Scalar alpha,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Replaces a matrix with the scaled solution of a triangular system.
  *
  * Solves the system:
@@ -303,7 +303,7 @@ void trisol(T_Scalar alpha, op_t opA,
 }
 
 /**
- * @ingroup math_op_matmat
+ * @ingroup module_index_math_op_matmat
  * @brief Replaces a matrix with the scaled solution of a triangular system.
  *
  * Solves the system:

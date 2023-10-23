@@ -6,7 +6,7 @@
 namespace cla3p {
 
 /**
- * @ingroup perm_matrices
+ * @ingroup module_index_matrices_perm
  * @brief Integer Permutation Matrix.
  */
 using PiMatrix = PxMatrix<int_t>;

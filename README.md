@@ -1,4 +1,4 @@
-<a name="readme-top"></a>
+<a name="top"></a>
 
 
 
@@ -25,7 +25,7 @@ Traditional functional scientific programming is supported by a wide range of li
 
 The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
@@ -61,7 +61,7 @@ In the installation directory you will find the following folders:
 <compact_suite_install>/examples: the compact suite examples directory
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
@@ -70,7 +70,7 @@ In the installation directory you will find the following folders:
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
@@ -81,7 +81,7 @@ Connor Kaufman - connor.kaufman.gh@outlook.com
 Project Link: [https://github.com/connorkauf/CompactSuite](https://github.com/connorkauf/CompactSuite)  
 Report an issue: [https://github.com/connorkauf/CompactSuite/issues](https://github.com/connorkauf/CompactSuite/issues) 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 

@@ -17,7 +17,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
   
 2. Clone the repo
    
-   ```sh
+   ``` sh
    git clone git@github.com:connorkauf/CompactSuite.git
    cd CompactSuite
    ```
@@ -26,7 +26,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 3. Open file
    
-   ```sh
+   ``` sh
    <compact_suite_root>/3rd/mkl.lin.cmake
    ```
    
@@ -37,7 +37,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
    <a name="linux-cmake-config"></a>
 4. Choose a build directory `build_dir` and use cmake command to configure the project
    
-   ```sh
+   ``` sh
    cmake -S <compact_suite_root> -B <build_dir>
    ```
    
@@ -45,7 +45,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 5. Compile and install
     
-   ```sh
+   ``` sh
    cmake --build <build_dir>
    cmake --install <build_dir>
    ```
@@ -57,7 +57,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 1. Clone the repo using a cloning method of your choice
    
-   ```sh
+   ``` sh
    https: https://github.com/connorkauf/CompactSuite.git
    ssh: git@github.com:connorkauf/CompactSuite.git
    ```
@@ -66,7 +66,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 2. Open file
    
-   ```sh
+   ``` sh
    <compact_suite_root>/3rd/mkl.win.cmake
    ```
    
@@ -102,11 +102,11 @@ The default installation directories are:
 
 You can specify an install directory by:
 
-```
+``` cmake
 --install-prefix=<your_install_path>
 ```
 or
-```
+``` cmake
 -DCMAKE_INSTALL_PREFIX=<your_install_path>
 ```
 
@@ -115,7 +115,7 @@ or
 The default **CLA3P** integer length is 32bit.  
 You can build **CLA3P** with 64bit integer length by:
 
-```
+``` cmake
 -DCLA3P_USE_I64=true
 ```
 

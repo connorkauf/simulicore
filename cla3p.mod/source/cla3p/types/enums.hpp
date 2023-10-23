@@ -11,7 +11,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes 
+ * @ingroup module_index_datatypes
  * @enum prop_t
  * @brief The property type.
  *
@@ -28,7 +28,7 @@ enum class prop_t {
 };
 
 /**
- * @ingroup basic_datatypes 
+ * @ingroup module_index_datatypes
  * @enum uplo_t
  * @brief The fill type.
  *
@@ -42,7 +42,7 @@ enum class uplo_t : char {
 };
 
 /**
- * @ingroup basic_datatypes 
+ * @ingroup module_index_datatypes
  * @enum op_t
  * @brief The operation type.
  *

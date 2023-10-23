@@ -16,7 +16,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup basic_datatypes
+ * @ingroup module_index_datatypes
  * @brief The property class.
  *
  * Used to define matrix properties.@n
@@ -173,7 +173,7 @@ inline Property defaultProperty()
 /*-------------------------------------------------*/
 
 /**
- * @ingroup stream_operators
+ * @ingroup module_index_stream_operators
  * @brief Writes to os the type of pr.
  */
 std::ostream& operator<<(std::ostream& so, const cla3p::Property& pr);

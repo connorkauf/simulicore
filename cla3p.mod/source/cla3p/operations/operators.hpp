@@ -22,7 +22,7 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 /*-------------------------------------------------*/
 
 /**
- * @ingroup operators_scal
+ * @ingroup module_index_math_operators_scal
  * @brief Multiplies a scalar with an object.
  *
  * Performs the operation:
@@ -43,7 +43,7 @@ T_Object operator*(T_Scalar val, const cla3p::dns::XxObject<T_Scalar,T_Object>& 
 }
 
 /**
- * @ingroup operators_scal
+ * @ingroup module_index_math_operators_scal
  * @brief Multiplies an object with a scalar.
  *
  * Performs the operation:
@@ -62,7 +62,7 @@ T_Object operator*(const cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar 
 }
 
 /**
- * @ingroup operators_scal
+ * @ingroup module_index_math_operators_scal
  * @brief Devides an object by a scalar.
  *
  * Performs the operation:
@@ -83,7 +83,7 @@ T_Object operator/(const cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar 
 }
 
 /**
- * @ingroup operators_scal
+ * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `src` by `val`.
@@ -98,7 +98,7 @@ void operator*=(cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar val)
 }
 
 /**
- * @ingroup operators_scal
+ * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `src` by `1/val`.
@@ -121,7 +121,7 @@ void operator/=(cla3p::dns::XxObject<T_Scalar,T_Object>& src, T_Scalar val)
 /*-------------------------------------------------*/
 
 /**
- * @ingroup operators_mult
+ * @ingroup module_index_math_operators_mult
  * @brief Multiplies a matrix with a vector.
  *
  * Performs the operation:
@@ -142,7 +142,7 @@ T_Vector operator*(
 }
 
 /**
- * @ingroup operators_perm
+ * @ingroup module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a vector.
  *
  * Performs the operation:
@@ -163,7 +163,7 @@ T_Vector operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxVector<T
 /*-------------------------------------------------*/
 
 /**
- * @ingroup operators_perm
+ * @ingroup module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a general matrix.
  *
  * Performs the operation:
@@ -182,7 +182,7 @@ T_Matrix operator*(const cla3p::PxMatrix<T_Int>& P, const cla3p::dns::XxMatrix<T
 }
 
 /**
- * @ingroup operators_perm
+ * @ingroup module_index_math_operators_perm
  * @brief Multiplies general matrix with a permutation matrix.
  *
  * Performs the operation:
@@ -204,7 +204,7 @@ T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p
 /*-------------------------------------------------*/
 
 /**
- * @ingroup operators_linsol
+ * @ingroup module_index_math_operators_linsol
  * @brief Solves a system of linear equations.
  *
  * Solves the  linear system:
@@ -232,7 +232,7 @@ T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p
 }
 
 /**
- * @ingroup operators_linsol
+ * @ingroup module_index_math_operators_linsol
  * @brief Solves a system of linear equations.
  *
  * Solves the  linear system:
@@ -260,7 +260,7 @@ T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p
 }
 
 /**
- * @ingroup operators_linsol
+ * @ingroup module_index_math_operators_linsol
  * @brief Overwrites rhs with the linear system solution.
  *
  * Solves the  linear system:
@@ -294,7 +294,7 @@ void operator/=(cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::Xx
 }
 
 /**
- * @ingroup operators_linsol
+ * @ingroup module_index_math_operators_linsol
  * @brief Overwrites rhs with the linear system solution.
  *
  * Solves the  linear system:

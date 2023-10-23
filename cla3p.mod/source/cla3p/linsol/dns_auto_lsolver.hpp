@@ -14,7 +14,7 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup dense_linear_solvers
+ * @ingroup module_index_linsol_dense
  * @nosubgrouping
  * @brief The linear solver for dense matrices with automatic method detection.
  */

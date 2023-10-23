@@ -1,0 +1,11 @@
+th {
+  text-align: left;
+}
+
+td {
+  vertical-align: top;
+}
+
+div.line {
+  white-space: pre;
+}

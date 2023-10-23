@@ -140,12 +140,12 @@ endif()
 # target/dependencies/installation setup
 #-----------------------------------------------
 
-file(GLOB examples "*.cpp")
+file(GLOB examples "src/*.cpp")
 
 foreach(example_cpp_full ${examples})
 	get_filename_component(example_cpp ${example_cpp_full} NAME)
 	string(REPLACE ".cpp" "" example ${example_cpp})
-	add_executable(${example} ${example_cpp})
+	add_executable(${example} src/${example_cpp})
 	target_include_directories(${example} PRIVATE ${CLA3P_INC})
 	target_link_libraries(${example} ${CLA3P_LIB})
 	target_link_libraries(${example} ${MKL_LIB})
