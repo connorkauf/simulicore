@@ -23,7 +23,6 @@
  *
  * CLA3P uses the following datatypes:
  *
- * <table><tr><td>
  * @code
  * /** */
  *
@@ -37,7 +36,6 @@
  *
  * /** */
  * @endcode
- * </td></tr></table>
  *
  * The default length ot the (unsigned) integer is 32bits.@n 
  * You can use 64bit integers by adding -DCLA3P_I64 to your compilation flags and linking with the appropriate library (cla3p_i64).
@@ -54,18 +52,16 @@
  *
  * CLA3P supports the following dense vectors:
  *
- * <table><tr><td>
- *   @code
- *   /** */
+ * @code
+ * /** */
  *
- *   cla3p::RdVector Xd; // double precision real vector
- *   cla3p::RfVector Xs; // single precision real vector
- *   cla3p::CdVector Xz; // double precision complex vector
- *   cla3p::CfVector Xc; // single precision complex vector
+ * cla3p::RdVector Xd; // double precision real vector
+ * cla3p::RfVector Xs; // single precision real vector
+ * cla3p::CdVector Xz; // double precision complex vector
+ * cla3p::CfVector Xc; // single precision complex vector
  *
- *   /** */
- *   @endcode
- * </td></tr></table>
+ * /** */
+ * @endcode
  *
  *
  * @section quick_start_vectors_dense_create Creating vectors
@@ -142,7 +138,6 @@
  *
  * In order to define a property, you will need the following enumerations:
  *
- * <table><tr><td>
  * @code
  * /** */
  *
@@ -151,7 +146,6 @@
  *
  * /** */
  * @endcode
- * </td></tr></table>
  *
  * Here is an example of how to define various properties:
  * <table>
@@ -174,7 +168,6 @@
  *
  * CLA3P supports the following dense matrices:
  *
- * <table><tr><td>
  * @code
  * /** */
  *
@@ -185,7 +178,6 @@
  *
  * /** */
  * @endcode
- * </td></tr></table>
  *
  *
  * @section quick_start_matrices_dense_create Creating matrices
@@ -298,7 +290,6 @@
  * Instead of returning the vector or matrix, they return a guard to that object.@n 
  * You can create your own guarded objects and/or retrieve a const reference to the object by calling the @ref cla3p::Guard::get() member function.
  *
- * <table><tr><td>
  * @code
  * /** */
  *
@@ -316,7 +307,6 @@
  *
  * /** */
  * @endcode
- * </td></tr></table>
  *
  *
  *
