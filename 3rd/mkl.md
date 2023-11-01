@@ -9,37 +9,42 @@ In these files, a standard setup of custom CMake variables is performed in order
 After **Compact Suite** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<compact_suite_install>/3rd` directory. You can use these configuration files to build your own project using CMake.  
 
 In order to generate the MKL CMake variables you can just include the appropriate file in your CMakeLists.txt
-```
+``` cmake
 if(WIN32)
   include("<compact_suite_install>/3rd/mkl.win.cmake")
 else()
   include("<compact_suite_install>/3rd/mkl.lin.cmake")
 endif()
+
+message(STATUS "IntelMKL include dir: ${MKL_INC}")
+message(STATUS "IntelMKL lib list (32bit ints): ${MKL_LIB}")
+message(STATUS "IntelMKL lib list (64bit ints): ${MKL_I64_LIB}")
 ```
-This sets the `MKL_INC` and `MKL_LIB` variables to the MKL include directory and the MKL library dependencies respectively.
+This sets the `MKL_INC`, `MKL_LIB` and `MKL_I64_LIB` variables to the MKL include directory and the MKL library dependencies respectively.
 
 > **_NOTE:_**  
-> Files mkl.lin.cmake and mkl.win.cmake use the CMake variable `CLA3P_USE_I64` to automatically determine which integer length to use. 
-> Make sure to add `-DCLA3P_USE_I64=true` to your CMake configuration if you want **CLA3P** & **Intel MKL** to use 64bit integers.
+> **MKL_LIB** is the library list needed for building applications using 32bit integers.  
+> **MKL_I64_LIB** is the library list needed for building applications using 64bit integers.  
+> Select only one library list per target.  
+> In the case of 64bit integers you will also need to add the MKL_ILP64 compile definition.
 
-If you want to include the **Intel MKL** include directory to your CMake target use:
-```
-target_include_directories(<target> PUBLIC ${MKL_INC})
+You can add the **Intel MKL** include directory to your CMake target:
+``` cmake
+target_include_directories(<target> PRIVATE ${MKL_INC})
 ```
 
-In order to link your CMake target with **Intel MKL** use:
-```
+You can link your CMake target with **Intel MKL** in the following ways:
+``` cmake
+#
+# For 32bit integer lengths
+#
 target_link_libraries(<target> ${MKL_LIB})
-```
 
-In order to link your CMake target with **CLA3P** that depends on **Intel MKL** use:
-```
-if(WIN32)
-  set(CLA3P_LIB <compact_suite_install>/lib/cla3p.lib)
-else()
-  set(CLA3P_LIB -L<compact_suite_install>/lib -lcla3p)
-endif()
-target_link_libraries(<target> ${CLA3P_LIB} ${MKL_LIB})
+#
+# For 64bit integer lengths
+#
+target_compile_definitions(<target> PRIVATE MKL_ILP64)
+target_link_libraries(<target> ${MKL_I64_LIB})
 ```
 
 Below is the complete list of the CMake variables that are set in the `mkl.<os>.cmake`:
@@ -50,4 +55,5 @@ Below is the complete list of the CMake variables that are set in the `mkl.<os>.
 5) **MKL_DLL_DIR** (Intel MKL redist library directory, windows only)
 6) **ICC_LIB_DIR** (Intel Compiler library directory)
 7) **ICC_DLL_DIR** (Intel Compiler redist directory, windows only)
-8) **MKL_LIB** (Complete Intel MKL & Intel Compiler linkage)
+8) **MKL_LIB** (Complete Intel MKL & Intel Compiler linkage, 32bit integers)
+9) **MKL_I64_LIB** (Complete Intel MKL & Intel Compiler linkage, 64bit integers)

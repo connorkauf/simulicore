@@ -8,7 +8,8 @@
 int main()
 {
 	/* 
-	 * (4x4) permutation matrix (randomly generated unique values)
+	 * (4x4) permutation matrix 
+	 * with randomly generated unique values
 	 */
 
 	cla3p::PiMatrix P = cla3p::PiMatrix::random(4);

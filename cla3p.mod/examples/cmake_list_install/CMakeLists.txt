@@ -39,17 +39,17 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 #-----------------------------------------------
 # set install location
 #-----------------------------------------------
-set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "Installation directory" FORCE)
+if(CLA3P_EXAMPLES_I64)
+	set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/i64" CACHE PATH "Installation directory" FORCE)
+else()
+	set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/i32" CACHE PATH "Installation directory" FORCE)
+endif()
 message(STATUS "Compact Suite Examples Install Directory: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
-option(CLA3P_USE_I64 "CLA3P integer precision (32/64bits)" OFF)
-
-if(CLA3P_USE_I64)
-  add_definitions(-DCLA3P_I64)
-endif()
+option(CLA3P_EXAMPLES_I64 "CLA3P integer precision (32/64bits)" OFF)
 
 #-----------------------------------------------
 # set compiler flags
@@ -81,8 +81,13 @@ if(LINUX)
 elseif(WIN32)
 	include("${CMAKE_CURRENT_SOURCE_DIR}/../../3rd/mkl.win.cmake")
 endif()
-message(STATUS "MKL_INC: ${MKL_INC}")
-message(STATUS "MKL_LIB: ${MKL_LIB}")
+
+if(CLA3P_EXAMPLES_I64)
+  add_definitions(-DMKL_ILP64)
+	set(MKL_LINK_LIB ${MKL_I64_LIB})
+else()
+	set(MKL_LINK_LIB ${MKL_LIB})
+endif()
 
 #-----------------------------------------------
 # set compact libraries
@@ -91,8 +96,9 @@ message(STATUS "MKL_LIB: ${MKL_LIB}")
 # cla3p setup
 set(CLA3P_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 
-if(CLA3P_USE_I64)
+if(CLA3P_EXAMPLES_I64)
 	set(CLA3P_LIB_BASENAME "cla3p_i64")
+  add_definitions(-DCLA3P_I64)
 else()
 	set(CLA3P_LIB_BASENAME "cla3p")
 endif()
@@ -147,8 +153,7 @@ foreach(example_cpp_full ${examples})
 	string(REPLACE ".cpp" "" example ${example_cpp})
 	add_executable(${example} src/${example_cpp})
 	target_include_directories(${example} PRIVATE ${CLA3P_INC})
-	target_link_libraries(${example} ${CLA3P_LIB})
-	target_link_libraries(${example} ${MKL_LIB})
+	target_link_libraries(${example} ${CLA3P_LIB} ${MKL_LINK_LIB})
 	install(TARGETS ${example} DESTINATION bin)
 	install_script_file()
 endforeach()

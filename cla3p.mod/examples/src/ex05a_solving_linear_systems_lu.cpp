@@ -31,7 +31,8 @@ int main()
 
 		luSolver.solve(X);
 
-		std::cout << "Dense Vector rhs::Absolute Error: " << (B1 - A * X).normOne() << std::endl;
+		std::cout << "Dense Vector rhs::Absolute Error: "
+			<< (B1 - A * X).normOne() << std::endl;
 	}
 
 	{
@@ -44,7 +45,8 @@ int main()
 
 		luSolver.solve(X);
 
-		std::cout << "Dense Matrix rhs::Absolute Error: " << (B2 - A * X).normOne() << std::endl;
+		std::cout << "Dense Matrix rhs::Absolute Error: "
+			<< (B2 - A * X).normOne() << std::endl;
 	}
 
 	return 0;

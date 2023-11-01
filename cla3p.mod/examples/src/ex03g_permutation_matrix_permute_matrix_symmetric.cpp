@@ -34,10 +34,14 @@ int main()
 	std::cout << "P:\n" << P << "\n";
 
 	/*
-	 * Perform the operation (P * A * P') using operators and the permute member function respectively
-	 * Operators are used on general matrices 
-	 * In order to use operators A needs to be converted to from symmetric to general. Resulting matrix will be general
-	 * Using permuteMirror() the resulting matrix will be symmetric
+	 * Perform the operation (P * A * P') 
+	 * using operators and the permute member function respectively.
+	 *
+	 * Permutation operators are used on general matrices.
+	 * In order to use operators A needs to be converted from symmetric to general. 
+	 * Resulting matrix will be general.
+	 *
+	 * Using permuteMirror() the resulting matrix will be symmetric.
 	 */
 
 	cla3p::dns::RdMatrix PAPT1 = P * A.general() * P.inverse();

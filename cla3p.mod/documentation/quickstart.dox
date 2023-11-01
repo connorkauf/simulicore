@@ -75,8 +75,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex01a_dense_vector_create.cpp </td>
- *       <td> @include out/ex01a_dense_vector_create.out </td>
+ *       <td> @include     src/ex01a_dense_vector_create.cpp </td>
+ *       <td> @include i32/out/ex01a_dense_vector_create.out </td>
  *     </tr>
  *   </table>
  *
@@ -84,8 +84,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex01d_dense_vector_create_random.cpp </td>
- *       <td> @include out/ex01d_dense_vector_create_random.out </td>
+ *       <td> @include     src/ex01d_dense_vector_create_random.cpp </td>
+ *       <td> @include i32/out/ex01d_dense_vector_create_random.out </td>
  *     </tr>
  *   </table>
  *
@@ -93,8 +93,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex01c_dense_vector_create_from_aux_data.cpp </td>
- *       <td> @include out/ex01c_dense_vector_create_from_aux_data.out </td>
+ *       <td> @include     src/ex01c_dense_vector_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex01c_dense_vector_create_from_aux_data.out </td>
  *     </tr>
  *   </table>
  *
@@ -104,8 +104,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex01b_dense_vector_fill.cpp </td>
- *     <td> @include out/ex01b_dense_vector_fill.out </td>
+ *     <td> @include     src/ex01b_dense_vector_fill.cpp </td>
+ *     <td> @include i32/out/ex01b_dense_vector_fill.out </td>
  *   </tr>
  * </table>
  *
@@ -117,8 +117,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex01i_dense_vector_algebra_scale.cpp </td>
- *       <td> @include out/ex01i_dense_vector_algebra_scale.out </td>
+ *       <td> @include     src/ex01i_dense_vector_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex01i_dense_vector_algebra_scale.out </td>
  *     </tr>
  *   </table>
  *
@@ -126,8 +126,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex01j_dense_vector_algebra_add.cpp </td>
- *       <td> @include out/ex01j_dense_vector_algebra_add.out </td>
+ *       <td> @include     src/ex01j_dense_vector_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex01j_dense_vector_algebra_add.out </td>
  *     </tr>
  *   </table>
  *
@@ -157,8 +157,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex00_property_create.cpp </td>
- *     <td> @include out/ex00_property_create.out </td>
+ *     <td> @include     src/ex00_property_create.cpp </td>
+ *     <td> @include i32/out/ex00_property_create.out </td>
  *   </tr>
  * </table>
  *
@@ -195,8 +195,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02a_dense_matrix_create.cpp </td>
- *       <td> @include out/ex02a_dense_matrix_create.out </td>
+ *       <td> @include     src/ex02a_dense_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex02a_dense_matrix_create.out </td>
  *     </tr>
  *   </table>
  *
@@ -204,8 +204,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02c_dense_matrix_create_with_property.cpp </td>
- *       <td> @include out/ex02c_dense_matrix_create_with_property.out </td>
+ *       <td> @include     src/ex02c_dense_matrix_create_with_property.cpp </td>
+ *       <td> @include i32/out/ex02c_dense_matrix_create_with_property.out </td>
  *     </tr>
  *   </table>
  *
@@ -213,8 +213,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02e_dense_matrix_create_random.cpp </td>
- *       <td> @include out/ex02e_dense_matrix_create_random.out </td>
+ *       <td> @include     src/ex02e_dense_matrix_create_random.cpp </td>
+ *       <td> @include i32/out/ex02e_dense_matrix_create_random.out </td>
  *     </tr>
  *   </table>
  *
@@ -222,8 +222,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02d_dense_matrix_create_from_aux_data.cpp </td>
- *       <td> @include out/ex02d_dense_matrix_create_from_aux_data.out </td>
+ *       <td> @include     src/ex02d_dense_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex02d_dense_matrix_create_from_aux_data.out </td>
  *     </tr>
  *   </table>
  *
@@ -233,8 +233,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex02b_dense_matrix_fill.cpp </td>
- *     <td> @include out/ex02b_dense_matrix_fill.out </td>
+ *     <td> @include     src/ex02b_dense_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex02b_dense_matrix_fill.out </td>
  *   </tr>
  * </table>
  *
@@ -246,8 +246,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02k_dense_matrix_algebra_scale.cpp </td>
- *       <td> @include out/ex02k_dense_matrix_algebra_scale.out </td>
+ *       <td> @include     src/ex02k_dense_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex02k_dense_matrix_algebra_scale.out </td>
  *     </tr>
  *   </table>
  *
@@ -255,8 +255,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02l_dense_matrix_algebra_add.cpp </td>
- *       <td> @include out/ex02l_dense_matrix_algebra_add.out </td>
+ *       <td> @include     src/ex02l_dense_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex02l_dense_matrix_algebra_add.out </td>
  *     </tr>
  *   </table>
  *
@@ -264,8 +264,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02m_dense_matrix_algebra_vmult.cpp </td>
- *       <td> @include out/ex02m_dense_matrix_algebra_vmult.out </td>
+ *       <td> @include     src/ex02m_dense_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex02m_dense_matrix_algebra_vmult.out </td>
  *     </tr>
  *   </table>
  *
@@ -273,8 +273,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02n_dense_matrix_algebra_mmult.cpp </td>
- *       <td> @include out/ex02n_dense_matrix_algebra_mmult.out </td>
+ *       <td> @include     src/ex02n_dense_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex02n_dense_matrix_algebra_mmult.out </td>
  *     </tr>
  *   </table>
  *
@@ -282,8 +282,8 @@
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
- *       <td> @include src/ex02o_dense_matrix_algebra_mtmult.cpp </td>
- *       <td> @include out/ex02o_dense_matrix_algebra_mtmult.out </td>
+ *       <td> @include     src/ex02o_dense_matrix_algebra_mtmult.cpp </td>
+ *       <td> @include i32/out/ex02o_dense_matrix_algebra_mtmult.out </td>
  *     </tr>
  *   </table>
  *
@@ -333,12 +333,12 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex01e_dense_vector_copy.cpp </td>
- *     <td> @include out/ex01e_dense_vector_copy.out </td>
+ *     <td> @include     src/ex01e_dense_vector_copy.cpp </td>
+ *     <td> @include i32/out/ex01e_dense_vector_copy.out </td>
  *   </tr>
  *   <tr>
- *     <td> @include src/ex02f_dense_matrix_copy.cpp </td>
- *     <td> @include out/ex02f_dense_matrix_copy.out </td>
+ *     <td> @include     src/ex02f_dense_matrix_copy.cpp </td>
+ *     <td> @include i32/out/ex02f_dense_matrix_copy.out </td>
  *   </tr>
  * </table>
  *
@@ -348,12 +348,12 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex01f_dense_vector_move.cpp </td>
- *     <td> @include out/ex01f_dense_vector_move.out </td>
+ *     <td> @include     src/ex01f_dense_vector_move.cpp </td>
+ *     <td> @include i32/out/ex01f_dense_vector_move.out </td>
  *   </tr>
  *   <tr>
- *     <td> @include src/ex02g_dense_matrix_move.cpp </td>
- *     <td> @include out/ex02g_dense_matrix_move.out </td>
+ *     <td> @include     src/ex02g_dense_matrix_move.cpp </td>
+ *     <td> @include i32/out/ex02g_dense_matrix_move.out </td>
  *   </tr>
  * </table>
  *
@@ -363,12 +363,12 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex01h_dense_vector_shallow_copy.cpp </td>
- *     <td> @include out/ex01h_dense_vector_shallow_copy.out </td>
+ *     <td> @include     src/ex01h_dense_vector_shallow_copy.cpp </td>
+ *     <td> @include i32/out/ex01h_dense_vector_shallow_copy.out </td>
  *   </tr>
  *   <tr>
- *     <td> @include src/ex02h_dense_matrix_shallow_copy.cpp </td>
- *     <td> @include out/ex02h_dense_matrix_shallow_copy.out </td>
+ *     <td> @include     src/ex02h_dense_matrix_shallow_copy.cpp </td>
+ *     <td> @include i32/out/ex02h_dense_matrix_shallow_copy.out </td>
  *   </tr>
  * </table>
  *
@@ -383,8 +383,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex01g_dense_vector_block_operations.cpp </td>
- *     <td> @include out/ex01g_dense_vector_block_operations.out </td>
+ *     <td> @include     src/ex01g_dense_vector_block_operations.cpp </td>
+ *     <td> @include i32/out/ex01g_dense_vector_block_operations.out </td>
  *   </tr>
  * </table>
  *
@@ -392,8 +392,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex02i_dense_matrix_block_operations.cpp </td>
- *     <td> @include out/ex02i_dense_matrix_block_operations.out </td>
+ *     <td> @include     src/ex02i_dense_matrix_block_operations.cpp </td>
+ *     <td> @include i32/out/ex02i_dense_matrix_block_operations.out </td>
  *   </tr>
  * </table>
  *
@@ -401,8 +401,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex02j_dense_matrix_column_operations.cpp </td>
- *     <td> @include out/ex02j_dense_matrix_column_operations.out </td>
+ *     <td> @include     src/ex02j_dense_matrix_column_operations.cpp </td>
+ *     <td> @include i32/out/ex02j_dense_matrix_column_operations.out </td>
  *   </tr>
  * </table>
  *
@@ -429,28 +429,31 @@
  *
  *   @subsection quick_start_perm_matrix_create_default Default creation
  *   <table>
- *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
- *       <td> @include src/ex03a_permutation_matrix_create.cpp </td>
- *       <td> @include out/ex03a_permutation_matrix_create.out </td>
+ *       <td> @include     src/ex03a_permutation_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex03a_permutation_matrix_create.out </td>
+ *       <td> @include i64/out/ex03a_permutation_matrix_create.out </td>
  *     </tr>
  *   </table>
  *
  *   @subsection quick_start_perm_matrix_create_identity Create Identity
  *   <table>
- *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
- *       <td> @include src/ex03c_permutation_matrix_create_identity.cpp </td>
- *       <td> @include out/ex03c_permutation_matrix_create_identity.out </td>
+ *       <td> @include     src/ex03c_permutation_matrix_create_identity.cpp </td>
+ *       <td> @include i32/out/ex03c_permutation_matrix_create_identity.out </td>
+ *       <td> @include i64/out/ex03c_permutation_matrix_create_identity.out </td>
  *     </tr>
  *   </table>
  *
  *   @subsection quick_start_perm_matrix_create_random Create Random
  *   <table>
- *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
- *       <td> @include src/ex03d_permutation_matrix_create_random.cpp </td>
- *       <td> @include out/ex03d_permutation_matrix_create_random.out </td>
+ *       <td> @include     src/ex03d_permutation_matrix_create_random.cpp </td>
+ *       <td> @include i32/out/ex03d_permutation_matrix_create_random.out </td>
+ *       <td> @include i64/out/ex03d_permutation_matrix_create_random.out </td>
  *     </tr>
  *   </table>
  *
@@ -460,8 +463,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex03b_permutation_matrix_fill.cpp </td>
- *     <td> @include out/ex03b_permutation_matrix_fill.out </td>
+ *     <td> @include     src/ex03b_permutation_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex03b_permutation_matrix_fill.out </td>
  *   </tr>
  * </table>
  *
@@ -473,8 +476,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex03e_permutation_matrix_permute_vector.cpp </td>
- *     <td> @include out/ex03e_permutation_matrix_permute_vector.out </td>
+ *     <td> @include     src/ex03e_permutation_matrix_permute_vector.cpp </td>
+ *     <td> @include i32/out/ex03e_permutation_matrix_permute_vector.out </td>
  *   </tr>
  * </table>
  *
@@ -482,8 +485,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex03f_permutation_matrix_permute_matrix.cpp </td>
- *     <td> @include out/ex03f_permutation_matrix_permute_matrix.out </td>
+ *     <td> @include     src/ex03f_permutation_matrix_permute_matrix.cpp </td>
+ *     <td> @include i32/out/ex03f_permutation_matrix_permute_matrix.out </td>
  *   </tr>
  * </table>
  *
@@ -491,8 +494,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex03g_permutation_matrix_permute_matrix_symmetric.cpp </td>
- *     <td> @include out/ex03g_permutation_matrix_permute_matrix_symmetric.out </td>
+ *     <td> @include     src/ex03g_permutation_matrix_permute_matrix_symmetric.cpp </td>
+ *     <td> @include i32/out/ex03g_permutation_matrix_permute_matrix_symmetric.out </td>
  *   </tr>
  * </table>
  *
@@ -500,8 +503,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex03h_permutation_matrix_permute_permutation_matrix.cpp </td>
- *     <td> @include out/ex03h_permutation_matrix_permute_permutation_matrix.out </td>
+ *     <td> @include     src/ex03h_permutation_matrix_permute_permutation_matrix.cpp </td>
+ *     <td> @include i32/out/ex03h_permutation_matrix_permute_permutation_matrix.out </td>
  *   </tr>
  * </table>
  *
@@ -518,8 +521,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex05a_solving_linear_systems_lu.cpp </td>
- *     <td> @include out/ex05a_solving_linear_systems_lu.out </td>
+ *     <td> @include     src/ex05a_solving_linear_systems_lu.cpp </td>
+ *     <td> @include i32/out/ex05a_solving_linear_systems_lu.out </td>
  *   </tr>
  * </table>
  *
@@ -527,8 +530,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex05b_solving_linear_systems_ldlt.cpp </td>
- *     <td> @include out/ex05b_solving_linear_systems_ldlt.out </td>
+ *     <td> @include     src/ex05b_solving_linear_systems_ldlt.cpp </td>
+ *     <td> @include i32/out/ex05b_solving_linear_systems_ldlt.out </td>
  *   </tr>
  * </table>
  *
@@ -536,8 +539,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex05c_solving_linear_systems_auto.cpp </td>
- *     <td> @include out/ex05c_solving_linear_systems_auto.out </td>
+ *     <td> @include     src/ex05c_solving_linear_systems_auto.cpp </td>
+ *     <td> @include i32/out/ex05c_solving_linear_systems_auto.out </td>
  *   </tr>
  * </table>
  *
@@ -545,8 +548,8 @@
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
- *     <td> @include src/ex05d_solving_linear_systems_operators.cpp </td>
- *     <td> @include out/ex05d_solving_linear_systems_operators.out </td>
+ *     <td> @include     src/ex05d_solving_linear_systems_operators.cpp </td>
+ *     <td> @include i32/out/ex05d_solving_linear_systems_operators.out </td>
  *   </tr>
  * </table>
  *

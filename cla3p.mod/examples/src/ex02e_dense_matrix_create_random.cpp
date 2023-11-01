@@ -8,7 +8,8 @@
 int main()
 {
 	/* 
-	 * (4x3) single precision general complex matrix with random values in [0,1]
+	 * (4x3) single precision general complex matrix 
+	 * with random values in [0,1]
 	 */
 
 	cla3p::dns::CfMatrix A = cla3p::dns::CfMatrix::random(4,3);
@@ -16,7 +17,8 @@ int main()
 	std::cout << A.info("A") << A;
 
 	/* 
-	 * (4x4) double precision symmetric lower real matrix with random values in [0,1]
+	 * (4x4) double precision symmetric lower real matrix 
+	 * with random values in [0,1]
 	 */
 
 	cla3p::Property prB(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);

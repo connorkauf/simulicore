@@ -31,7 +31,8 @@ int main()
 	std::cout << "Q:\n" << Q << "\n";
 
 	/*
-	 * Perform the operation ((P * Q) * A) using operators and the permute member function respectively
+	 * Perform the operation ((P * Q) * A) 
+	 * using operators and the permute member function respectively
 	 */
 
 	cla3p::PiMatrix PQ = Q.permuteLeft(P);

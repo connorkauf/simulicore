@@ -91,7 +91,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 ## Extra configuration arguments
 
 Below there is a list of configuration arguments for the entire project.  
-For Linux append the desired options to the [Cmake Configuration](#linux-cmake-config).  
+For Linux append the desired options to the [CMake Configuration](#linux-cmake-config).  
 For Windows add the desired options in the section "CMake command arguments" in [CMake Settings](#windows-cmake-config).
 
 #### <ins>Installation directory</ins>
@@ -109,16 +109,6 @@ or
 ``` cmake
 -DCMAKE_INSTALL_PREFIX=<your_install_path>
 ```
-
-#### <ins>Build CLA3P using 64bit integers</ins>
-
-The default **CLA3P** integer length is 32bit.  
-You can build **CLA3P** with 64bit integer length by:
-
-``` cmake
--DCLA3P_USE_I64=true
-```
-
 
 
 

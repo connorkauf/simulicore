@@ -57,7 +57,7 @@ The list will be expanded with new features on every new version. Feel free to [
 * linking your code with the shared library located in `<compact_suite_install>/lib`
 * linking with 3rd party dependencies
 
-**CLA3P** comes with a 32bit or 64bit integer interface.  
+**CLA3P** comes with 32bit and 64bit integer interfaces.  
 * For using the 32bit integer interface, link with the **cla3p** library (libcla3p.so or cla3p.lib).  
 * For using the 64bit integer interface you will need to:
   1. Add `-DCLA3P_I64` to your compilation flags
@@ -73,7 +73,7 @@ set(CLA3P_INC <compact_suite_install>/include)
 set(CLA3P_LIB -L<compact_suite_install>/lib -lcla3p)
 
 add_executable(<target> main.cpp)
-target_include_directories(<target> PUBLIC ${CLA3P_INC})
+target_include_directories(<target> PRIVATE ${CLA3P_INC})
 target_link_libraries(<target> ${CLA3P_LIB} ${MKL_LIB})
 ```
 See section [Third-Party Dependencies](#third-party-dependencies) for more information.
@@ -137,19 +137,19 @@ From a linux terminal:
 cd <compact_suite_install>/examples/cla3p
 ./example_builder.sh
 ```
-All example executables are located in the `bin` directory.  
+All example executables are located in the `i32/bin` and `i64/bin` directories, for the respective integer interface.  
 Select an example `ex<number>_<description>.sh` and run it:
 ``` sh
-./bin/ex01a_dense_vector_create.sh
+./i32/bin/ex01a_dense_vector_create.sh
 ```
 
 ### Building examples on windows
 Open directory `<compact_suite_install>/examples/cla3p` in Visual Studio and compile.  
-Do not forget to set the CMake variable `-DCLA3P_USE_I64=true` if needed.  
-All example executables are located in the `bin` directory.  
+Set the CMake variable `-DCLA3P_EXAMPLES_I64=true` to build examples using the 64bit integer interface.  
+All example executables are located in the `ixx/bin` directory. ixx is either i32 or i64 depending on the integer interface selected.  
 Select an example `ex<number>_<description>.bat` and run it on Visual Studio terminal:
 ``` sh
-./bin/ex01a_dense_vector_create.bat
+./i32/bin/ex01a_dense_vector_create.bat
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
