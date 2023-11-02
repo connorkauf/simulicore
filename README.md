@@ -59,6 +59,7 @@ In the installation directory you will find the following folders:
 <compact_suite_install>/lib     : the compact suite library directory
 <compact_suite_install>/3rd     : directory containing the 3rd party library configurations
 <compact_suite_install>/examples: the compact suite examples directory
+<compact_suite_install>/license : licensing related documents
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
