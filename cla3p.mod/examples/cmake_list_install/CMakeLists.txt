@@ -29,9 +29,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 #-----------------------------------------------
+# set global definitions
+#-----------------------------------------------
+option(CLA3P_EXAMPLES_I64 "CLA3P integer precision (32/64bits)" OFF)
+
+#-----------------------------------------------
 # set build type
 #-----------------------------------------------
-if(CMAKE_BUILD_TYPE STREQUAL "")
+if(NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
 	set(CMAKE_BUILD_TYPE Release)
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
@@ -47,11 +52,6 @@ endif()
 message(STATUS "Compact Suite Examples Install Directory: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
-# set global definitions
-#-----------------------------------------------
-option(CLA3P_EXAMPLES_I64 "CLA3P integer precision (32/64bits)" OFF)
-
-#-----------------------------------------------
 # set compiler flags
 #-----------------------------------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -59,21 +59,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 #-----------------------------------------------
-# set openmp
+# set 3rd parties (initialize with CLA3P)
 #-----------------------------------------------
-find_package(OpenMP)
-if (OPENMP_FOUND)
-	message(STATUS "Configuring OpenMP ${OpenMP_CXX_VERSION}...")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-else()
-	message(WARNING "OpenMP not found")
-endif()
-
-#-----------------------------------------------
-# set 3rd parties
-#-----------------------------------------------
+set(CLA3P_EXAMPLES_3RD_PARTY_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
+set(CLA3P_EXAMPLES_3RD_PARTY_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -lcla3p)
+set(CLA3P_EXAMPLES_3RD_PARTY_I64_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -lcla3p_i64)
+set(CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH ${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../../lib)
+set(CLA3P_EXAMPLES_3RD_PARTY_DLL_PATH ${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/../../lib)
 
 # mkl setup
 if(LINUX)
@@ -81,33 +73,11 @@ if(LINUX)
 elseif(WIN32)
 	include("${CMAKE_CURRENT_SOURCE_DIR}/../../3rd/mkl.win.cmake")
 endif()
-
-if(CLA3P_EXAMPLES_I64)
-  add_definitions(-DMKL_ILP64)
-	set(MKL_LINK_LIB ${MKL_I64_LIB})
-else()
-	set(MKL_LINK_LIB ${MKL_LIB})
-endif()
-
-#-----------------------------------------------
-# set compact libraries
-#-----------------------------------------------
-
-# cla3p setup
-set(CLA3P_INC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
-
-if(CLA3P_EXAMPLES_I64)
-	set(CLA3P_LIB_BASENAME "cla3p_i64")
-  add_definitions(-DCLA3P_I64)
-else()
-	set(CLA3P_LIB_BASENAME "cla3p")
-endif()
-
-if(LINUX)
-	set(CLA3P_LIB -L${CMAKE_CURRENT_SOURCE_DIR}/../../lib -l${CLA3P_LIB_BASENAME})
-elseif(WIN32)
-	set(CLA3P_LIB ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/${CLA3P_LIB_BASENAME}.lib)
-endif()
+set(CLA3P_EXAMPLES_3RD_PARTY_INC ${CLA3P_EXAMPLES_3RD_PARTY_INC} ${MKL_INC})
+set(CLA3P_EXAMPLES_3RD_PARTY_LIB ${CLA3P_EXAMPLES_3RD_PARTY_LIB} ${MKL_LIB})
+set(CLA3P_EXAMPLES_3RD_PARTY_I64_LIB ${CLA3P_EXAMPLES_3RD_PARTY_I64_LIB} ${MKL_I64_LIB})
+set(CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH ${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH} ${MKL_LIB_DIR} ${ICC_LIB_DIR})
+set(CLA3P_EXAMPLES_3RD_PARTY_DLL_PATH ${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH} ${MKL_DLL_DIR} ${ICC_DLL_DIR})
 
 #-----------------------------------------------
 # function that creates wrap script
@@ -117,12 +87,10 @@ if(LINUX)
 		set(script_fname "${CMAKE_CURRENT_BINARY_DIR}/${example}.sh")
 		file(WRITE ${script_fname} "#!/bin/bash\n")
 		file(APPEND ${script_fname} "ROOT_DIR=`dirname $0`\n")
-		file(APPEND ${script_fname} "MKL_LIB_PATHS=${MKL_LIB_DIR}:${ICC_LIB_DIR}\n")
-		file(APPEND ${script_fname} "CLA3P_LIB_PATH=${CMAKE_CURRENT_SOURCE_DIR}/../../lib\n")
 		file(APPEND ${script_fname} "if [[ -z $" "{LD_LIBRARY_PATH} ]]; then\n")
-		file(APPEND ${script_fname} "export LD_LIBRARY_PATH=$" "{CLA3P_LIB_PATH}:$" "{MKL_LIB_PATHS}\n")
+		file(APPEND ${script_fname} "  export LD_LIBRARY_PATH=${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH}\n")
 		file(APPEND ${script_fname} "else\n")
-		file(APPEND ${script_fname} "export LD_LIBRARY_PATH=$" "{LD_LIBRARY_PATH}:$" "{CLA3P_LIB_PATH}:$" "{MKL_LIB_PATHS}\n")
+		file(APPEND ${script_fname} "  export LD_LIBRARY_PATH=$" "{LD_LIBRARY_PATH}:${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH}\n")
 		file(APPEND ${script_fname} "fi\n")
 		file(APPEND ${script_fname} "exec $" "{ROOT_DIR}/${example}")
 		install(PROGRAMS ${script_fname} DESTINATION bin)
@@ -134,9 +102,7 @@ if(WIN32)
 		set(script_fname "${CMAKE_CURRENT_BINARY_DIR}/${example}.bat")
 		file(WRITE  ${script_fname} "@echo off\n")
 		file(APPEND ${script_fname} "setlocal\n")
-		file(APPEND ${script_fname} "set MKL_LIB_PATHS=${MKL_DLL_DIR};${ICC_DLL_DIR}\n")	
-		file(APPEND ${script_fname} "set CLA3P_LIB_PATH=${CMAKE_CURRENT_SOURCE_DIR}/../../lib\n")
-		file(APPEND ${script_fname} "set PATH=%PATH%;%CLA3P_LIB_PATH%;%MKL_LIB_PATHS%\n")
+		file(APPEND ${script_fname} "set PATH=%PATH%;${CLA3P_EXAMPLES_3RD_PARTY_DLL_PATH}\n")
 		file(APPEND ${script_fname} "\"%~dp0\\${example}\"")
 		install(PROGRAMS ${script_fname} DESTINATION bin)
 	endfunction()
@@ -145,6 +111,9 @@ endif()
 #-----------------------------------------------
 # target/dependencies/installation setup
 #-----------------------------------------------
+if(LINUX)
+	string(REPLACE ";" ":" CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH "${CLA3P_EXAMPLES_3RD_PARTY_LIB_PATH}")
+endif()
 
 file(GLOB examples "src/*.cpp")
 
@@ -152,8 +121,14 @@ foreach(example_cpp_full ${examples})
 	get_filename_component(example_cpp ${example_cpp_full} NAME)
 	string(REPLACE ".cpp" "" example ${example_cpp})
 	add_executable(${example} src/${example_cpp})
-	target_include_directories(${example} PRIVATE ${CLA3P_INC})
-	target_link_libraries(${example} ${CLA3P_LIB} ${MKL_LINK_LIB})
+	target_include_directories(${example} PRIVATE ${CLA3P_EXAMPLES_3RD_PARTY_INC})
+	if(CLA3P_EXAMPLES_I64)
+		target_compile_definitions(${example} PRIVATE CLA3P_I64)
+		target_compile_definitions(${example} PRIVATE MKL_ILP64)
+		target_link_libraries(${example} ${CLA3P_EXAMPLES_3RD_PARTY_I64_LIB})
+	else()
+		target_link_libraries(${example} ${CLA3P_EXAMPLES_3RD_PARTY_LIB})
+	endif()
 	install(TARGETS ${example} DESTINATION bin)
 	install_script_file()
 endforeach()

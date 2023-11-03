@@ -1,4 +1,10 @@
 #-----------------------------------------------
+# set library name
+#-----------------------------------------------
+set(CLA3P_LIB "cla3p" CACHE INTERNAL "The cla3p library")
+set(CLA3P_I64_LIB "cla3p_i64" CACHE INTERNAL "The cla3p_i64 library")
+
+#-----------------------------------------------
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC
@@ -38,13 +44,13 @@ add_library(${CLA3P_I64_LIB} SHARED ${CLA3P_SRC})
 #-----------------------------------------------
 # dependencies setup
 #-----------------------------------------------
-target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_ROOT}/source ${MKL_INC})
-target_link_libraries(${CLA3P_LIB} ${MKL_LIB})
+target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
+target_link_libraries(${CLA3P_LIB} ${CLA3P_3RD_PARTY_LIB})
 
 target_compile_definitions(${CLA3P_I64_LIB} PRIVATE CLA3P_I64)
 target_compile_definitions(${CLA3P_I64_LIB} PRIVATE MKL_ILP64)
-target_include_directories(${CLA3P_I64_LIB} PRIVATE ${CLA3P_ROOT}/source ${MKL_INC})
-target_link_libraries(${CLA3P_I64_LIB} ${MKL_I64_LIB})
+target_include_directories(${CLA3P_I64_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
+target_link_libraries(${CLA3P_I64_LIB} ${CLA3P_3RD_PARTY_I64_LIB})
 
 #-----------------------------------------------
 # installation setup

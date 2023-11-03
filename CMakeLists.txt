@@ -45,7 +45,7 @@ endif()
 #-----------------------------------------------
 # set build type
 #-----------------------------------------------
-if(CMAKE_BUILD_TYPE STREQUAL "")
+if(NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
 	set(CMAKE_BUILD_TYPE Release)
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
