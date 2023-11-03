@@ -73,7 +73,7 @@ option(COMPACT_SUITE_FULL_INSTALL "Install all Compact Suite featues" OFF)
 # sub-module setup
 #-----------------------------------------------
 add_subdirectory(3rd)
-add_subdirectory(license)
+add_subdirectory(licensing)
 add_subdirectory(cla3p.mod)
 
 if(COMPACT_SUITE_FULL_INSTALL)
