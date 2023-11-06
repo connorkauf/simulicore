@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 // system
 

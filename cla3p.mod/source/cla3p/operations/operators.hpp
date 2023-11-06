@@ -22,7 +22,7 @@
  * Global math operator definitions
  */
 
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 #include "cla3p/operations/math_ops.hpp"
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
 

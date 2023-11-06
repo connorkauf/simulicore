@@ -23,7 +23,7 @@
 
 // cla3p
 #include "cla3p/dense.hpp"
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"

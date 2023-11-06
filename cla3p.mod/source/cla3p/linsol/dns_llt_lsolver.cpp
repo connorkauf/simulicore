@@ -24,7 +24,7 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 #include "cla3p/checks/decomp_llt_checks.hpp"
 #include "cla3p/checks/solve_checks.hpp"

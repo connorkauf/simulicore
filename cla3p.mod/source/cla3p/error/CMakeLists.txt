@@ -2,12 +2,12 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	error/error.cpp
+	error/exceptions.cpp
 	error/literals.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_ERROR_HPP 
-	error.hpp
+	exceptions.hpp
 	)
 
 #-----------------------------------------------

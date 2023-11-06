@@ -26,7 +26,7 @@
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/proxies/mkl_proxy.hpp"
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/basic_checks.hpp"

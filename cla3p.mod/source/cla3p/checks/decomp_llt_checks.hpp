@@ -19,7 +19,7 @@
 
 #include "cla3p/types.hpp"
 #include "cla3p/dense.hpp"
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

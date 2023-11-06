@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_HPP_
-#define CLA3P_ERROR_HPP_
+#ifndef CLA3P_EXCEPTIONS_HPP_
+#define CLA3P_EXCEPTIONS_HPP_
 
 /** 
  * @file
@@ -141,4 +141,4 @@ class OutOfBounds : public Exception {
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_HPP_
+#endif // CLA3P_EXCEPTIONS_HPP_

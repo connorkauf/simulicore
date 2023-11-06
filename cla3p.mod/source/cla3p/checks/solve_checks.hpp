@@ -17,7 +17,7 @@
 #ifndef CLA3P_SOLVE_CHECKS_HPP_
 #define CLA3P_SOLVE_CHECKS_HPP_
 
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

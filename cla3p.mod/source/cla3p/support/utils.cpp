@@ -26,7 +26,7 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/error.hpp"
+#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
