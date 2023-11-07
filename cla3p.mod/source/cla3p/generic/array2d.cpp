@@ -191,9 +191,10 @@ bool Array2D<T_Scalar>::empty() const
 template <typename T_Scalar>
 void Array2D<T_Scalar>::fill(T_Scalar val)
 {
+#if 0
 	if(property().isHermitian()) {
 		T_Scalar diag = val;
-		setim(diag,0);
+		setIm(diag, 0);
 		bulk::dns::fill(property().uplo(), rsize(), csize(), values(), lsize(), val, diag);
 	} else if(property().isSkew()) {
 		T_Scalar diag = 0;
@@ -201,6 +202,10 @@ void Array2D<T_Scalar>::fill(T_Scalar val)
 	} else {
 		bulk::dns::fill(property().uplo(), rsize(), csize(), values(), lsize(), val);
 	}
+#else
+	bulk::dns::fill(property().uplo(), rsize(), csize(), values(), lsize(), val);
+	bulk::dns::set_diag_zeros(property().type(), csize(), values(), lsize());
+#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

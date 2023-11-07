@@ -45,6 +45,19 @@ inline T& entry(uint_t lda, T *a, uint_t i, uint_t j)
 }
 
 //
+// Set zeros on diagonal depending on property
+//
+#define set_diag_zeros_macro(typeout, typein) \
+typeout set_diag_zeros(prop_t ptype, uint_t n, typein *a, uint_t lda)
+set_diag_zeros_macro(void, int_t);
+set_diag_zeros_macro(void, uint_t);
+set_diag_zeros_macro(void, real_t);
+set_diag_zeros_macro(void, real4_t);
+set_diag_zeros_macro(void, complex_t);
+set_diag_zeros_macro(void, complex8_t);
+#undef set_diag_zeros
+
+//
 // Set all entries to val
 //
 #define fill_macro(typeout, typein) \

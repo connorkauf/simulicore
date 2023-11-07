@@ -38,10 +38,10 @@ inline real4_t getIm(const real4_t&) { return 0; }
 inline real_t  getIm(const complex_t& z) { return z.imag(); }
 inline real4_t getIm(const complex8_t& c) { return c.imag(); }
 
-inline void setim(real_t&, real_t) { }
-inline void setim(real4_t&, real4_t) { }
-inline void setim(complex_t& z, real_t d) { z.imag(d); }
-inline void setim(complex8_t& c, real4_t s) { c.imag(s); }
+inline void setIm(real_t&, real_t) { }
+inline void setIm(real4_t&, real4_t) { }
+inline void setIm(complex_t& z, real_t d) { z.imag(d); }
+inline void setIm(complex8_t& c, real4_t s) { c.imag(s); }
 
 /*-------------------------------------------------*/
 } // namespace cla3p

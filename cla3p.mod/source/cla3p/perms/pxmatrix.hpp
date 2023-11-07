@@ -48,6 +48,8 @@ class PxMatrix : public Array2D<T_Int> {
 
 	public:
 
+		using value_type = T_Int;
+
 		// no copy
 		PxMatrix(const PxMatrix<T_Int>&) = delete;
 		PxMatrix& operator=(const PxMatrix<T_Int>&) = delete;
@@ -246,8 +248,8 @@ class PxMatrix : public Array2D<T_Int> {
 
 template<typename T_Int>
 class BasicTypeTraits<PxMatrix<T_Int>> {
-  public:
-    static std::string type_name();
+	public:
+		static std::string type_name();
 };
 
 /*-------------------------------------------------*/
@@ -261,8 +263,8 @@ class BasicTypeTraits<PxMatrix<T_Int>> {
 template <typename T_Int>
 std::ostream& operator<<(std::ostream& os, const cla3p::PxMatrix<T_Int>& mat)
 {
-  os << mat.toString();
-  return os;
+	os << mat.toString();
+	return os;
 }
 
 /*-------------------------------------------------*/

@@ -177,8 +177,8 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		std::string info(const std::string& msg = "") const;
 
 		/**
-		 * @brief Matrix infinite norm.
-		 * @return The infinite norm of `(*this)`.
+		 * @brief Matrix maximum norm.
+		 * @return The maximum norm of `(*this)`.
 		 */
 		T_RScalar normMax() const;
 

@@ -67,6 +67,27 @@ static inline uint_t opposite_element(const uint_t&, const prop_t&)
 	return 0;
 }
 /*-------------------------------------------------*/
+template <typename T>
+static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T *a, uint_t lda)
+{
+	if(ptype == prop_t::Hermitian) {
+		for(uint_t i = 0; i < n; i++) {
+			setIm(entry(lda,a,i,i), 0);
+		} // i
+	} else if(ptype == prop_t::Skew) {
+		for(uint_t i = 0; i < n; i++) {
+			entry(lda,a,i,i) = 0;
+		} // i
+	}
+}
+/*-------------------------------------------------*/
+void set_diag_zeros(prop_t ptype, uint_t n, int_t      *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+void set_diag_zeros(prop_t ptype, uint_t n, uint_t     *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+void set_diag_zeros(prop_t ptype, uint_t n, real_t     *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+void set_diag_zeros(prop_t ptype, uint_t n, real4_t    *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+void set_diag_zeros(prop_t ptype, uint_t n, complex_t  *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+void set_diag_zeros(prop_t ptype, uint_t n, complex8_t *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T>
@@ -496,9 +517,10 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 			} // i
 		} // j
 
+#if 0
 		if(ptype == prop_t::Hermitian) {
 			for(uint_t j = 0; j < n; j++) {
-				setim(entry(lda,a,j,j),0);
+				setIm(entry(lda,a,j,j),0);
 			} // j
 		}
 
@@ -507,6 +529,9 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 				entry(lda,a,j,j) = 0;
 			} // j
 		}
+#else
+		set_diag_zeros(ptype, n, a, lda);
+#endif
 
 	} else {
 
@@ -796,20 +821,27 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSymmetric()) {
 
-		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Symmetric) : lapack::lansy('F', prop.cuplo(), n, a, lda));
+		if(n >= 128) {
+			return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
+		} else {
+			return lapack::lansy('F', prop.cuplo(), n, a, lda);
+		}
 
 	} else if(prop.isHermitian()) { 
 
-		return (n >= 128 ? naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Hermitian) : lapack::lanhe('F', prop.cuplo(), n, a, lda));
+		if(n >= 128) {
+			return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
+		} else {
+			return lapack::lanhe('F', prop.cuplo(), n, a, lda);
+		}
 
 	} else if(prop.isTriangular()) {
 
-		/**/ if (prop.isUpper()) return lapack::lantr('F', 'U', 'N', std::min(m,n), n, a, lda);
-		else if (prop.isLower()) return lapack::lantr('F', 'L', 'N', m, std::min(m,n), a, lda);
+		return lapack::lantr('F', prop.cuplo(), 'N', m, std::min(m,n), a, lda);
 
 	} else if(prop.isSkew()) {
 
-		return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop_t::Skew);
+		return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
 
 	} // property
 	
