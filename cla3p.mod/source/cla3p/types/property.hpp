@@ -24,6 +24,7 @@
 
 #include <ostream>
 #include <string>
+#include <vector>
 
 #include "cla3p/types/enums.hpp"
 
@@ -183,6 +184,8 @@ inline Property defaultProperty()
 {
 	return Property(prop_t::General, uplo_t::Full);
 }
+
+std::vector<Property> allProperties();
 
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -168,6 +168,23 @@ bool Property::isLower() const
 	return (uplo() == uplo_t::Lower);
 }
 /*-------------------------------------------------*/
+std::vector<Property> allProperties()
+{
+	std::vector<cla3p::Property> ret(9);
+
+	ret[0] = cla3p::Property(cla3p::prop_t::General   , cla3p::uplo_t::Full );
+	ret[1] = cla3p::Property(cla3p::prop_t::Symmetric , cla3p::uplo_t::Upper);
+	ret[2] = cla3p::Property(cla3p::prop_t::Symmetric , cla3p::uplo_t::Lower);
+	ret[3] = cla3p::Property(cla3p::prop_t::Hermitian , cla3p::uplo_t::Upper);
+	ret[4] = cla3p::Property(cla3p::prop_t::Hermitian , cla3p::uplo_t::Lower);
+	ret[5] = cla3p::Property(cla3p::prop_t::Triangular, cla3p::uplo_t::Upper);
+	ret[6] = cla3p::Property(cla3p::prop_t::Triangular, cla3p::uplo_t::Lower);
+	ret[7] = cla3p::Property(cla3p::prop_t::Skew      , cla3p::uplo_t::Upper);
+	ret[8] = cla3p::Property(cla3p::prop_t::Skew      , cla3p::uplo_t::Lower);
+
+	return ret;
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 std::ostream& operator<<(std::ostream& os, const cla3p::Property& prop)
