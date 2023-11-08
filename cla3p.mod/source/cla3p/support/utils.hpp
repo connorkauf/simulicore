@@ -90,6 +90,23 @@ inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 	return ret;
 }
 
+inline RowRange irange_strict(uplo_t uplo, uint_t m, uint_t j)
+{
+	RowRange ret = irange(uplo, m, j);
+
+	if(!m) return ret;
+
+	if(uplo == uplo_t::Upper) {
+		ret.iend--;
+	} else if(uplo == uplo_t::Lower) {
+		ret.ibgn++;
+	} // uplo
+
+	ret.ilen = ret.iend - ret.ibgn;
+
+	return ret;
+}
+
 inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 {
 	RowRange ret;
