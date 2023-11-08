@@ -55,10 +55,10 @@
  * @code
  * /** */
  *
- * cla3p::RdVector Xd; // double precision real vector
- * cla3p::RfVector Xs; // single precision real vector
- * cla3p::CdVector Xz; // double precision complex vector
- * cla3p::CfVector Xc; // single precision complex vector
+ * cla3p::dns::RdVector Xd; // double precision real vector
+ * cla3p::dns::RfVector Xs; // single precision real vector
+ * cla3p::dns::CdVector Xz; // double precision complex vector
+ * cla3p::dns::CfVector Xc; // single precision complex vector
  *
  * /** */
  * @endcode
@@ -171,10 +171,10 @@
  * @code
  * /** */
  *
- * cla3p::RdMatrix Ad; // double precision real matrix
- * cla3p::RfMatrix As; // single precision real matrix
- * cla3p::CdMatrix Az; // double precision complex matrix
- * cla3p::CfMatrix Ac; // single precision complex matrix
+ * cla3p::dns::RdMatrix Ad; // double precision real matrix
+ * cla3p::dns::RfMatrix As; // single precision real matrix
+ * cla3p::dns::CdMatrix Az; // double precision complex matrix
+ * cla3p::dns::CfMatrix Ac; // single precision complex matrix
  *
  * /** */
  * @endcode
