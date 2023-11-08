@@ -773,33 +773,37 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 	Tr sum = 0;
 	Tr two = 2;
 
-	if(ptype == prop_t::Symmetric || ptype == prop_t::Hermitian) {
+	if(ptype == prop_t::Symmetric) {
 
 		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, n, j);
-			for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-				Tr aij = std::abs(entry(lda,a,i,j));
-				sum += (i != j) ? two * aij * aij : aij * aij;
-			} // i
+			Tr absAjj = std::abs(entry(lda,a,j,j));
+			sum += absAjj * absAjj;
+		} // j
+
+	} else if(ptype == prop_t::Hermitian) {
+
+		for(uint_t j = 0; j < n; j++) {
+			Tr absAjj = std::abs(getRe(entry(lda,a,j,j)));
+			sum += absAjj * absAjj;
 		} // j
 
 	} else if(ptype == prop_t::Skew) {
 
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, n, j);
-			for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-				if(i != j) {
-					Tr aij = std::abs(entry(lda,a,i,j));
-					sum += (two * aij * aij);
-				} // off diag only
-			} // i
-		} // j
+		// nothing to add
 
 	} else {
 
 		throw err::Exception();
 
 	} // property
+
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange_strict(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			Tr aij = std::abs(entry(lda,a,i,j));
+			sum += two * aij * aij;
+		} // i
+	} // j
 
 	return std::sqrt(sum);
 }
