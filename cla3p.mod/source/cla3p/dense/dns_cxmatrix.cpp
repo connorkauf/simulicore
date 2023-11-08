@@ -97,7 +97,7 @@ CxMatrixTmpl CxMatrixTmpl::ctranspose() const
 {
 	transp_op_consistency_check(this->prop().type(), true);
 	
-	CxMatrixTmpl ret(this->nrows(), this->ncols(), this->prop());
+	CxMatrixTmpl ret(this->ncols(), this->nrows());
 
 	bulk::dns::conjugate_transpose(
 			this->nrows(), 
