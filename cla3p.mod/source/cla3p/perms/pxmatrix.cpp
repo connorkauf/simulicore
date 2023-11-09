@@ -95,9 +95,9 @@ std::string PxMatrix<T_Int>::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Object Type.......... " << BasicTypeTraits<PxMatrix<T_Int>>::type_name() << "\n";
-	ss << "  Datatype............. " << BasicTypeTraits<T_Int>::type_name() << "\n";
-	ss << "  Precision............ " << BasicTypeTraits<T_Int>::prec_name() << "\n";
+	ss << "  Object Type.......... " << TypeTraits<PxMatrix<T_Int>>::type_name() << "\n";
+	ss << "  Datatype............. " << TypeTraits<T_Int>::type_name() << "\n";
+	ss << "  Precision............ " << TypeTraits<T_Int>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << Array2D<T_Int>::values() << "\n";
 	ss << "  Owner................ " << bool2yn(Array2D<T_Int>::owner()) << "\n";
@@ -191,7 +191,7 @@ PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
 /*-------------------------------------------------*/
-template<> std::string BasicTypeTraits<PxMatrix<int_t>>::type_name() { return msg::PermutationMatrix(); }
+template<> std::string TypeTraits<PxMatrix<int_t>>::type_name() { return msg::PermutationMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

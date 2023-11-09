@@ -7,7 +7,7 @@ syn keyword cTypeCustomDatatype Property Operation
 syn keyword cTypeCustomDatatype Printer
 syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOfMemory OutOfBounds
 
-syn keyword cTypeCustomDatatype BasicTypeTraits
+syn keyword cTypeCustomDatatype TypeTraits
 
 syn keyword cTypeCustomDatatype Guard
 syn keyword cTypeCustomDatatype Ownership

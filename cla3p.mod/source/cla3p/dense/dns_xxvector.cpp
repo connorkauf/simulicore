@@ -98,9 +98,9 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Object Type.......... " << BasicTypeTraits<T_Vector>::type_name() << "\n";
-	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::type_name() << "\n";
-	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::prec_name() << "\n";
+	ss << "  Object Type.......... " << TypeTraits<T_Vector>::type_name() << "\n";
+	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
+	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << this->values() << "\n";
 	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";

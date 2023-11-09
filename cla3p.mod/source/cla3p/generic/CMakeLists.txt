@@ -11,6 +11,7 @@ set(CLA3P_GENERIC_HPP
 	guard.hpp
 	ownership.hpp
 	array2d.hpp
+	type_traits.hpp
 	)
 
 #-----------------------------------------------

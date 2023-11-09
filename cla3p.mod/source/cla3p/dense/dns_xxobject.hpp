@@ -33,7 +33,7 @@ template <typename T_Scalar, typename T_Object>
 class XxObject : public Array2D<T_Scalar> {
 	
 	private:
-		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
+		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	public:
 		explicit XxObject();

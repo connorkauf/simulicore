@@ -27,23 +27,23 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-std::string BasicTypeTraits<real_t>::type_name() { return msg::Real(); }
-std::string BasicTypeTraits<real_t>::prec_name() { return msg::Double(); }
+std::string TypeTraits<real_t>::type_name() { return msg::Real(); }
+std::string TypeTraits<real_t>::prec_name() { return msg::Double(); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string BasicTypeTraits<real4_t>::type_name() { return msg::Real(); }
-std::string BasicTypeTraits<real4_t>::prec_name() { return msg::Single(); }
+std::string TypeTraits<real4_t>::type_name() { return msg::Real(); }
+std::string TypeTraits<real4_t>::prec_name() { return msg::Single(); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string BasicTypeTraits<complex_t>::type_name() { return msg::Complex(); }
-std::string BasicTypeTraits<complex_t>::prec_name() { return msg::Double(); }
+std::string TypeTraits<complex_t>::type_name() { return msg::Complex(); }
+std::string TypeTraits<complex_t>::prec_name() { return msg::Double(); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-std::string BasicTypeTraits<complex8_t>::type_name() { return msg::Complex(); }
-std::string BasicTypeTraits<complex8_t>::prec_name() { return msg::Single(); }
+std::string TypeTraits<complex8_t>::type_name() { return msg::Complex(); }
+std::string TypeTraits<complex8_t>::prec_name() { return msg::Single(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

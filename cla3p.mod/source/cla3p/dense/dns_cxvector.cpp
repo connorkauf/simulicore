@@ -86,8 +86,8 @@ template class CxVector<complex8_t>;
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-template<> std::string BasicTypeTraits<dns::CxVector<complex_t>>::type_name() { return msg::DenseVector(); }
-template<> std::string BasicTypeTraits<dns::CxVector<complex8_t>>::type_name() { return msg::DenseVector(); }
+template<> std::string TypeTraits<dns::CxVector<complex_t>>::type_name() { return msg::DenseVector(); }
+template<> std::string TypeTraits<dns::CxVector<complex8_t>>::type_name() { return msg::DenseVector(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

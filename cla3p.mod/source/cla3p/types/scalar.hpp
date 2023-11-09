@@ -26,7 +26,7 @@
 #include <complex>
 #include <string>
 
-#include "cla3p/types/basic_traits.hpp"
+#include "cla3p/generic/type_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -58,28 +58,28 @@ using complex_t = std::complex<real_t>;
 
 /*-------------------------------------------------*/
 
-template<> class BasicTypeTraits<real_t> {
+template<> class TypeTraits<real_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
     using real_type = real_t;
 };
 
-template<> class BasicTypeTraits<real4_t> {
+template<> class TypeTraits<real4_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
     using real_type = real4_t;
 };
 
-template<> class BasicTypeTraits<complex_t> {
+template<> class TypeTraits<complex_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
     using real_type = complex_t::value_type;
 };
 
-template<> class BasicTypeTraits<complex8_t> {
+template<> class TypeTraits<complex8_t> {
   public:
     static std::string type_name();
     static std::string prec_name();

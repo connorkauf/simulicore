@@ -27,7 +27,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
 
 	autoSolver.solve(X);
 
-	std::cout << "  " << cla3p::BasicTypeTraits<T_rhs>::type_name() << " rhs::";
+	std::cout << "  " << cla3p::TypeTraits<T_rhs>::type_name() << " rhs::";
 	std::cout << "Absolute Error: " << (B - A * X).normOne() << std::endl;
 }
 /*--------------------------------------------------------------------*/

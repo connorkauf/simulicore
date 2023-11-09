@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "cla3p/types/basic_traits.hpp"
+#include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
 #include "cla3p/generic/guard.hpp"
 
@@ -40,8 +40,8 @@ template <typename T_Scalar, typename T_Matrix>
 class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 	private:
-		using T_RScalar = typename BasicTypeTraits<T_Scalar>::real_type;
-		using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+		using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
 

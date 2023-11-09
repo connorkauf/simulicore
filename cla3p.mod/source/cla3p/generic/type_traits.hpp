@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_BASIC_TYPE_TRAITS_HPP_
-#define CLA3P_BASIC_TYPE_TRAITS_HPP_
+#ifndef CLA3P_TYPE_TRAITS_HPP_
+#define CLA3P_TYPE_TRAITS_HPP_
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T>
-class BasicTypeTraits {
+class TypeTraits {
 };
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_BASIC_TYPE_TRAITS_HPP_
+#endif // CLA3P_TYPE_TRAITS_HPP_

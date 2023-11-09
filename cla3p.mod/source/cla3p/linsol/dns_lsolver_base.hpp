@@ -39,7 +39,7 @@ namespace dns {
 template <typename T_Matrix>
 class LSolverBase {
 
-	using T_Vector = typename BasicTypeTraits<T_Matrix>::vector_type;
+	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
 

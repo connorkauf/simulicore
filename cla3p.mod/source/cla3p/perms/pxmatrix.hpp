@@ -28,7 +28,7 @@
 #include "cla3p/types.hpp"
 #include "cla3p/generic/array2d.hpp"
 #include "cla3p/generic/guard.hpp"
-#include "cla3p/types/basic_traits.hpp"
+#include "cla3p/generic/type_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -245,7 +245,7 @@ class PxMatrix : public Array2D<T_Int> {
 /*-------------------------------------------------*/
 
 template<typename T_Int>
-class BasicTypeTraits<PxMatrix<T_Int>> {
+class TypeTraits<PxMatrix<T_Int>> {
 	public:
 		static std::string type_name();
 };

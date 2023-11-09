@@ -17,7 +17,7 @@
 #ifndef CLA3P_DNS_RXVECTOR_HPP_
 #define CLA3P_DNS_RXVECTOR_HPP_
 
-#include "cla3p/types/basic_traits.hpp"
+#include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"
 
 /*-------------------------------------------------*/
@@ -94,7 +94,7 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 /*-------------------------------------------------*/
 namespace cla3p { 
 template<typename T_Scalar>
-class BasicTypeTraits<dns::RxVector<T_Scalar>> {
+class TypeTraits<dns::RxVector<T_Scalar>> {
 	public:
 		static std::string type_name();
 		using real_type = dns::RxVector<T_Scalar>;

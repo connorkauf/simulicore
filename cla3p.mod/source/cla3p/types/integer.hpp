@@ -24,7 +24,7 @@
 
 #include <string>
 
-#include "cla3p/types/basic_traits.hpp"
+#include "cla3p/generic/type_traits.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -52,13 +52,13 @@ using bulk_t = std::size_t;
 
 /*-------------------------------------------------*/
 
-template<> class BasicTypeTraits<int_t> {
+template<> class TypeTraits<int_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
 };
 
-template<> class BasicTypeTraits<uint_t> {
+template<> class TypeTraits<uint_t> {
   public:
     static std::string type_name();
     static std::string prec_name();

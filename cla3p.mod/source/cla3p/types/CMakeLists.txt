@@ -15,7 +15,6 @@ set(CLA3P_TYPES_HPP
 	enums.hpp
 	operation.hpp
 	property.hpp
-	basic_traits.hpp
 	)
 
 #-----------------------------------------------

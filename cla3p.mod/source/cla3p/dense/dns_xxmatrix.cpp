@@ -130,9 +130,9 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 
 	ss << top << "\n";
 
-	ss << "  Object Type.......... " << BasicTypeTraits<T_Matrix>::type_name() << "\n";
-	ss << "  Datatype............. " << BasicTypeTraits<T_Scalar>::type_name() << "\n";
-	ss << "  Precision............ " << BasicTypeTraits<T_Scalar>::prec_name() << "\n";
+	ss << "  Object Type.......... " << TypeTraits<T_Matrix>::type_name() << "\n";
+	ss << "  Datatype............. " << TypeTraits<T_Scalar>::type_name() << "\n";
+	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Number of rows....... " << nrows() << "\n";
 	ss << "  Number of columns.... " << ncols() << "\n";
 	ss << "  Leading dimension.... " << ld() << "\n";
