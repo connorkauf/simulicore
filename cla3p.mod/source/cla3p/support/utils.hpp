@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "cla3p/types.hpp"
+#include "cla3p/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -33,12 +34,26 @@ std::string extract_filename(const std::string& path, const std::string& hint = 
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
 std::string bool2yn(bool flg);
 
-int_t irand(int_t low, int_t high);
-uint_t urand(uint_t low, uint_t high);
-real_t drand(real_t low, real_t high);
-real4_t srand(real4_t low, real4_t high);
-complex_t zrand(real_t low, real_t high);
-complex8_t crand(real4_t low, real4_t high);
+template <typename T_Scalar>
+T_Scalar rand(
+		typename TypeTraits<T_Scalar>::real_type low, 
+		typename TypeTraits<T_Scalar>::real_type high)
+{
+  if(low > high) {
+    throw err::Exception("Need low <= high");
+  } // error
+
+	cla3p::real_t rval = static_cast<cla3p::real_t>(std::rand());
+	cla3p::real_t diff = static_cast<cla3p::real_t>(high - low);
+  cla3p::real_t inc = (rval * diff) / static_cast<cla3p::real_t>(RAND_MAX + 1U);
+
+  return (low + static_cast<T_Scalar>(inc));
+}
+
+template <>
+complex_t rand<complex_t>(real_t low, real_t high); 
+template <>
+complex8_t rand<complex8_t>(real4_t low, real4_t high);
 
 void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val);
 void val2char(char *buff, bulk_t bufflen, uint_t nsd, uint_t val);

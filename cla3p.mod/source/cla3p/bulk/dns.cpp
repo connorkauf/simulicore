@@ -23,6 +23,8 @@
 // 3rd
 
 // cla3p
+#include "cla3p/types.hpp"
+
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
 #include "cla3p/proxies/mkl_proxy.hpp"
@@ -142,27 +144,24 @@ void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t
 template <typename T_Scalar>
 static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, 
 		typename TypeTraits<T_Scalar>::real_type low, 
-		typename TypeTraits<T_Scalar>::real_type high, 
-		const std::function<T_Scalar (
-			typename TypeTraits<T_Scalar>::real_type low, 
-			typename TypeTraits<T_Scalar>::real_type high)>& randfun)
+		typename TypeTraits<T_Scalar>::real_type high) 
 {
 	if(!m || !n) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			entry(lda,a,i,j) = randfun(low, high);
+			entry(lda,a,i,j) = cla3p::rand<T_Scalar>(low, high);
 		} // i
 	} // j
 }
 /*-------------------------------------------------*/
-void rand(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl<int_t     >(uplo, m, n, a, lda, low, high, irand); }
-void rand(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl<uint_t    >(uplo, m, n, a, lda, low, high, urand); }
-void rand(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<real_t    >(uplo, m, n, a, lda, low, high, drand); }
-void rand(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<real4_t   >(uplo, m, n, a, lda, low, high, srand); }
-void rand(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl<complex_t >(uplo, m, n, a, lda, low, high, zrand); }
-void rand(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl<complex8_t>(uplo, m, n, a, lda, low, high, crand); }
+void rand(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+void rand(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+void rand(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+void rand(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+void rand(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+void rand(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

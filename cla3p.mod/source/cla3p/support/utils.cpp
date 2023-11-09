@@ -138,37 +138,17 @@ std::string bool2yn(bool flg)
 	return (flg ? "Yes" : "No");
 }
 /*-------------------------------------------------*/
-template <typename T_Scalar>
-static real_t rand_tmpl(T_Scalar low, T_Scalar high)
+template <>
+complex_t rand<complex_t>(real_t low, real_t high)
 {
-	if(low > high) {
-		throw err::Exception("Need low <= high");
-	} // error
-
-	real_t diff = static_cast<real_t>(high - low);
-	real_t pct = static_cast<real_t>(std::rand() / static_cast<real_t>(RAND_MAX + 1U));
-	real_t ret = static_cast<real_t>(low) + pct * diff;
-
-	return ret;
+  return complex_t(cla3p::rand<real_t>(low, high), cla3p::rand<real_t>(low, high));
 }
 /*-------------------------------------------------*/
-int_t irand(int_t low, int_t high)
+template <>
+complex8_t rand<complex8_t>(real4_t low, real4_t high)
 {
-	real_t ret = rand_tmpl(low, high);
-	return static_cast<int_t>(std::round(ret));
+  return complex8_t(cla3p::rand<real4_t>(low, high), cla3p::rand<real4_t>(low, high));
 }
-/*-------------------------------------------------*/
-uint_t urand(uint_t low, uint_t high)
-{
-	real_t ret = rand_tmpl(low, high);
-	return static_cast<uint_t>(std::round(ret));
-}
-/*-------------------------------------------------*/
-real_t  drand(real_t  low, real_t  high) { return                      rand_tmpl(low, high) ; }
-real4_t srand(real4_t low, real4_t high) { return static_cast<real4_t>(rand_tmpl(low, high)); }
-/*-------------------------------------------------*/
-complex_t  zrand(real_t  low, real_t  high){ return complex_t (drand(low,high), drand(low,high)); }
-complex8_t crand(real4_t low, real4_t high){ return complex8_t(srand(low,high), srand(low,high)); }
 /*-------------------------------------------------*/
 void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val)
 {
@@ -258,7 +238,7 @@ static void fill_random_perm_tmpl(uint_t n, T_Int *P)
 
 	uint_t ilen = n;
 	for(uint_t i = 0; i < n - 1; i++) {
-		uint_t k = urand(0, ilen-1);
+		uint_t k = rand<T_Int>(0, ilen-1);
 		std::swap(P[k], P[ilen-1]);
 		ilen--;
 	} // i
