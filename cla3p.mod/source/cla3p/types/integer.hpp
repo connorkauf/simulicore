@@ -56,12 +56,14 @@ template<> class TypeTraits<int_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
+    static int_t epsilon();
 };
 
 template<> class TypeTraits<uint_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
+    static uint_t epsilon();
 };
 
 /*-------------------------------------------------*/

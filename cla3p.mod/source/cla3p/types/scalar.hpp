@@ -63,6 +63,7 @@ template<> class TypeTraits<real_t> {
     static std::string type_name();
     static std::string prec_name();
     using real_type = real_t;
+    static real_type epsilon();
 };
 
 template<> class TypeTraits<real4_t> {
@@ -70,6 +71,7 @@ template<> class TypeTraits<real4_t> {
     static std::string type_name();
     static std::string prec_name();
     using real_type = real4_t;
+    static real_type epsilon();
 };
 
 template<> class TypeTraits<complex_t> {
@@ -77,6 +79,7 @@ template<> class TypeTraits<complex_t> {
     static std::string type_name();
     static std::string prec_name();
     using real_type = complex_t::value_type;
+    static real_type epsilon();
 };
 
 template<> class TypeTraits<complex8_t> {
@@ -84,6 +87,7 @@ template<> class TypeTraits<complex8_t> {
     static std::string type_name();
     static std::string prec_name();
     using real_type = complex8_t::value_type;
+    static real_type epsilon();
 };
 
 /*-------------------------------------------------*/

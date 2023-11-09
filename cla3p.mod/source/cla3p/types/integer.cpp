@@ -18,6 +18,8 @@
 #include "cla3p/types/integer.hpp"
 
 // system
+#include <type_traits>
+#include <limits>
 
 // 3rd
 
@@ -41,6 +43,11 @@ std::string TypeTraits<int_t>::prec_name()
 #endif
 }
 /*-------------------------------------------------*/
+int_t TypeTraits<int_t>::epsilon()
+{
+	return std::numeric_limits<int_t>::epsilon();
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 std::string TypeTraits<uint_t>::type_name()
@@ -55,6 +62,11 @@ std::string TypeTraits<uint_t>::prec_name()
 #else
   return msg::Single();
 #endif
+}
+/*-------------------------------------------------*/
+uint_t TypeTraits<uint_t>::epsilon()
+{
+	return std::numeric_limits<uint_t>::epsilon();
 }
 /*-------------------------------------------------*/
 } // namespace cla3p
