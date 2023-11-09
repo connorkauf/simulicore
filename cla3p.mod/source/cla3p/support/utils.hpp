@@ -54,10 +54,10 @@ void fill_identity_perm(uint_t n, int_t *P);
 void fill_random_perm(uint_t n, uint_t *P);
 void fill_random_perm(uint_t n, int_t *P);
 
-template <typename T>
-std::vector<T> create_random_perm(uint_t n)
+template <typename T_Int>
+std::vector<T_Int> create_random_perm(uint_t n)
 {
-	std::vector<T> ret(n);
+	std::vector<T_Int> ret(n);
 	fill_random_perm(n, ret.data());
 	return ret;
 }

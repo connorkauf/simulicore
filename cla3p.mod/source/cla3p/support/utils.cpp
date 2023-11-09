@@ -138,8 +138,8 @@ std::string bool2yn(bool flg)
 	return (flg ? "Yes" : "No");
 }
 /*-------------------------------------------------*/
-template <typename T>
-static real_t rand_tmpl(T low, T high)
+template <typename T_Scalar>
+static real_t rand_tmpl(T_Scalar low, T_Scalar high)
 {
 	if(low > high) {
 		throw err::Exception("Need low <= high");
@@ -238,19 +238,19 @@ uplo_t auto_uplo(prop_t ptype)
 	return uplo_t::Full;
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void fill_identity_perm_tmpl(uint_t n, T *P)
+template <typename T_Int>
+static void fill_identity_perm_tmpl(uint_t n, T_Int *P)
 {
 	for(uint_t i = 0; i < n; i++) {
-		P[i] = static_cast<T>(i);
+		P[i] = static_cast<T_Int>(i);
 	} // i
 }
 /*-------------------------------------------------*/
 void fill_identity_perm(uint_t n, uint_t *P){ fill_identity_perm_tmpl(n, P); }
 void fill_identity_perm(uint_t n,  int_t *P){ fill_identity_perm_tmpl(n, P); }
 /*-------------------------------------------------*/
-template <typename T>
-static void fill_random_perm_tmpl(uint_t n, T *P)
+template <typename T_Int>
+static void fill_random_perm_tmpl(uint_t n, T_Int *P)
 {
 	if(!n) return;
 
