@@ -47,25 +47,25 @@ class Printer {
 		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda);
 		std::string printToString(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda);
 
-		template <typename T>
-		void print(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
+		template <typename T_Scalar>
+		void print(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda);
 
 	private:
 		void reset();
 		void reserveStringSpace(uint_t m, uint_t n);
 
-		template <typename T>
-		std::string printToStringInt(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
-		template <typename T>
-		std::string printToStringReal(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
-		template <typename T>
-		std::string printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
-		template <typename T>
-		void fillString(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda);
-		template <typename T>
-		void appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda);
-		template <typename T>
-		void appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda);
+		template <typename T_Scalar>
+		std::string printToStringInt(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda);
+		template <typename T_Scalar>
+		std::string printToStringReal(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda);
+		template <typename T_Scalar>
+		std::string printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda);
+		template <typename T_Scalar>
+		void fillString(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda);
+		template <typename T_Scalar>
+		void appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T_Scalar *a, uint_t lda);
+		template <typename T_Scalar>
+		void appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T_Scalar *a, uint_t lda);
 
 		uint_t countColumnsPerPage(uint_t n);
 		void appendPageHeader(uint_t jbgn, uint_t jend);
@@ -216,8 +216,8 @@ void Printer::appendElement(complex8_t a)
 	m_str.append(m_cbuff);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T *a, uint_t lda)
+template <typename T_Scalar>
+void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend, T_Scalar *a, uint_t lda)
 {
 	uint_t nd = m_row_numdigits;
 	std::snprintf(m_cbuff, PRINTER_BUFFER_SIZE, "%*" _UFMT_ " |", static_cast<nint_t>(nd), i);
@@ -233,8 +233,8 @@ void Printer::appendIthRowOfPage(uplo_t uplo, uint_t i, uint_t jbgn, uint_t jend
 	m_str.append("\n");
 }
 /*-------------------------------------------------*/
-template <typename T>
-void Printer::appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T *a, uint_t lda)
+template <typename T_Scalar>
+void Printer::appendPage(uplo_t uplo, uint_t m, uint_t jbgn, uint_t jend, T_Scalar *a, uint_t lda)
 {
 	appendPageHeader(jbgn, jend);
 	
@@ -250,8 +250,8 @@ void Printer::reserveStringSpace(uint_t m, uint_t n)
 	m_str.reserve(m * n * m_element_length_max); // rough estimation
 }
 /*-------------------------------------------------*/
-template <typename T>
-void Printer::fillString(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+void Printer::fillString(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	uint_t columns_per_page = countColumnsPerPage(n);
 
@@ -271,8 +271,8 @@ void Printer::fillString(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 	} // rem_cols
 }
 /*-------------------------------------------------*/
-template <typename T>
-static uint_t calc_max_ilen(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+static uint_t calc_max_ilen(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	uint_t maxlen = 0;
 
@@ -286,8 +286,8 @@ static uint_t calc_max_ilen(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 	return maxlen;
 }
 /*-------------------------------------------------*/
-template <typename T>
-std::string Printer::printToStringInt(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+std::string Printer::printToStringInt(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -303,8 +303,8 @@ std::string Printer::printToStringInt(uplo_t uplo, uint_t m, uint_t n, T *a, uin
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const int_t  *a, uint_t lda) { return printToStringInt(uplo, m, n, a, lda); }
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda) { return printToStringInt(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
-template <typename T>
-std::string Printer::printToStringReal(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+std::string Printer::printToStringReal(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -320,8 +320,8 @@ std::string Printer::printToStringReal(uplo_t uplo, uint_t m, uint_t n, T *a, ui
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda) { return printToStringReal(uplo, m, n, a, lda); }
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda) { return printToStringReal(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
-template <typename T>
-std::string Printer::printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+std::string Printer::printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	m_row_numdigits = inumlen(m);
 	m_col_numdigits = inumlen(n);
@@ -337,8 +337,8 @@ std::string Printer::printToStringComplex(uplo_t uplo, uint_t m, uint_t n, T *a,
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda) { return printToStringComplex(uplo, m, n, a, lda); }
 std::string Printer::printToString(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda) { return printToStringComplex(uplo, m, n, a, lda); }
 /*-------------------------------------------------*/
-template <typename T>
-void Printer::print(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+void Printer::print(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	std::string str = printToString(uplo, m, n, a, lda);
 	std::printf("%s", str.c_str());
@@ -346,8 +346,8 @@ void Printer::print(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-std::string print_to_string_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+template <typename T_Scalar>
+std::string print_to_string_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return "";
 
@@ -386,8 +386,8 @@ std::string print_to_string(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a
 	return print_to_string_tmpl(uplo, m, n, a, lda, nsd, line_maxlen);
 }
 /*-------------------------------------------------*/
-template <typename T>
-void print_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
+template <typename T_Scalar>
+void print_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, uint_t nsd, uint_t line_maxlen)
 {
 	if(!m || !n) return;
 
