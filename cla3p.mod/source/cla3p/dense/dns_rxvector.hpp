@@ -36,8 +36,6 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 
 	public:
 
-		using value_type = T_Scalar;
-
 		// no copy
 		RxVector(const RxVector<T_Scalar>&) = delete;
 		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>&) = delete;

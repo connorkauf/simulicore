@@ -48,8 +48,6 @@ class PxMatrix : public Array2D<T_Int> {
 
 	public:
 
-		using value_type = T_Int;
-
 		// no copy
 		PxMatrix(const PxMatrix<T_Int>&) = delete;
 		PxMatrix& operator=(const PxMatrix<T_Int>&) = delete;
