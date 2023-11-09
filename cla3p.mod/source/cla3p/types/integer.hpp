@@ -56,6 +56,7 @@ template<> class TypeTraits<int_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
+    using real_type = int_t;
     static int_t epsilon();
 };
 
@@ -63,6 +64,7 @@ template<> class TypeTraits<uint_t> {
   public:
     static std::string type_name();
     static std::string prec_name();
+    using real_type = uint_t;
     static uint_t epsilon();
 };
 
