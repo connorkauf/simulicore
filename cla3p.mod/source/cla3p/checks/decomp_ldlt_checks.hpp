@@ -23,8 +23,8 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T>
-void ldlt_decomp_input_check(const T& mat)
+template <typename T_Matrix>
+void ldlt_decomp_input_check(const T_Matrix& mat)
 {
 	bool supported_prop = (mat.prop().isSymmetric() || mat.prop().isHermitian()); 
 

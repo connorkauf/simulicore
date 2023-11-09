@@ -25,14 +25,14 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T>
-void llt_decomp_input_check(const T& mat)
+template <typename T_Matrix>
+void llt_decomp_input_check(const T_Matrix& mat)
 {
 	bool supported_prop = (
-			(std::is_same<T,dns::RdMatrix>::value && mat.prop().isSymmetric()) || 
-			(std::is_same<T,dns::RfMatrix>::value && mat.prop().isSymmetric()) || 
-			(std::is_same<T,dns::CdMatrix>::value && mat.prop().isHermitian()) || 
-			(std::is_same<T,dns::CfMatrix>::value && mat.prop().isHermitian()) ); 
+			(std::is_same<T_Matrix,dns::RdMatrix>::value && mat.prop().isSymmetric()) || 
+			(std::is_same<T_Matrix,dns::RfMatrix>::value && mat.prop().isSymmetric()) || 
+			(std::is_same<T_Matrix,dns::CdMatrix>::value && mat.prop().isHermitian()) || 
+			(std::is_same<T_Matrix,dns::CfMatrix>::value && mat.prop().isHermitian()) ); 
 
 	if(mat.empty()) {
 		throw err::InvalidOp("Input matrix is empty");

@@ -23,8 +23,8 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
-template <typename T>
-void default_solve_input_check(uint_t n, const T& rhs)
+template <typename T_Matrix>
+void default_solve_input_check(uint_t n, const T_Matrix& rhs)
 {
 	bool supported_prop = rhs.prop().isGeneral();
 
