@@ -614,12 +614,11 @@ static Tr norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
 	Tr *tmp = alloc<Tr>(n, 1, n, true);
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, n, j);
+		RowRange ir = irange_strict(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			if(i != j) {
-				tmp[i] += std::abs(entry(lda,a,i,j));
-				tmp[j] += tmp[i];
-			} // off diag only
+			Tr absAij = std::abs(entry(lda,a,i,j));
+			tmp[i] += absAij;
+			tmp[j] += absAij;
 		} // i
 	} // j
 
@@ -657,8 +656,7 @@ static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isTriangular()) {
 
-		/**/ if (prop.isUpper()) return lapack::lantr('1', 'U', 'N', std::min(m,n), n, a, lda);
-		else if (prop.isLower()) return lapack::lantr('1', 'L', 'N', m, std::min(m,n), a, lda);
+		return lapack::lantr('1', prop.cuplo(), 'N', std::min(m,n), n, a, lda);
 
 	} else if(prop.isSkew()) {
 
@@ -695,8 +693,7 @@ static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isTriangular()) {
 
-		/**/ if (prop.isUpper()) return lapack::lantr('I', 'U', 'N', std::min(m,n), n, a, lda);
-		else if (prop.isLower()) return lapack::lantr('I', 'L', 'N', m, std::min(m,n), a, lda);
+		return lapack::lantr('I', prop.cuplo(), 'N', std::min(m,n), n, a, lda);
 
 	} else if(prop.isSkew()) {
 
@@ -714,11 +711,9 @@ static Tr norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
 	Tr ret = 0;
 
 	for(uint_t j = 0; j < n; j++) {
-		RowRange ir = irange(uplo, n, j);
+		RowRange ir = irange_strict(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			if(i != j) {
-				ret = std::max(ret,std::abs(entry(lda,a,i,j)));
-			} // off diag only
+			ret = std::max(ret,std::abs(entry(lda,a,i,j)));
 		} // i
 	} // j
 
@@ -750,8 +745,7 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isTriangular()) {
 
-		/**/ if (prop.isUpper()) return lapack::lantr('M', 'U', 'N', std::min(m,n), n, a, lda);
-		else if (prop.isLower()) return lapack::lantr('M', 'L', 'N', m, std::min(m,n), a, lda);
+		return lapack::lantr('M', prop.cuplo(), 'N', std::min(m,n), n, a, lda);
 
 	} else if(prop.isSkew()) {
 
