@@ -44,8 +44,8 @@ static uint_t recursive_min_dim()
 	return 256;
 }
 /*-------------------------------------------------*/
-template <typename T>
-static inline T opposite_element(const T& x, const prop_t& ptype)
+template <typename T_Scalar>
+static inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
 {
 	if(ptype == prop_t::Symmetric) return     ( x);
 	if(ptype == prop_t::Hermitian) return conj( x);
@@ -67,8 +67,8 @@ static inline uint_t opposite_element(const uint_t&, const prop_t&)
 	return 0;
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
 {
 	if(ptype == prop_t::Hermitian) {
 		for(uint_t i = 0; i < n; i++) {
@@ -90,8 +90,8 @@ void set_diag_zeros(prop_t ptype, uint_t n, complex8_t *a, uint_t lda) { set_dia
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, T dval)
+template <typename T_Scalar>
+static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
 {
 	if(!m || !n) return;
 
@@ -111,8 +111,8 @@ static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T
 	} // j
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T val, T dval)
+template <typename T_Scalar>
+static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
 {
 	if(!m || !n) return;
 
@@ -139,9 +139,9 @@ void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, 
-		Tr low, Tr high, const std::function<T (Tr low, Tr high)>& randfun)
+template <typename T_Scalar, typename T_RScalar>
+static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, 
+		T_RScalar low, T_RScalar high, const std::function<T_Scalar (T_RScalar low, T_RScalar high)>& randfun)
 {
 	if(!m || !n) return;
 
@@ -162,12 +162,12 @@ void rand(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t lo
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+template <typename T_Scalar>
+static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo, m, n, b, ldb);
 		return;
 	} // coeff = 0
@@ -183,15 +183,15 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T
 	} // uplo
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+template <typename T_Scalar>
+static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	// 
 	// TODO: more efficiently
 	//
 	if(!m || !n) return;
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo, m, n, b, ldb);
 		return;
 	} // coeff = 0
@@ -236,69 +236,69 @@ void copy(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, comp
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+template <typename T_Scalar, typename T_RScalar>
+static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_RScalar *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::Full) {
-		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a), 2 * lda, 2, b, ldb, 1);
+		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const T_RScalar*>(a), 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
+				blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 			} // ilen
 		} // j
 	}
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+template <typename T_Scalar, typename T_RScalar>
+static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_RScalar *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::Full) {
-		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b), 2 * ldb, 2);
+		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<T_RScalar*>(b), 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<Tr*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
+				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
 			} // ilen
 		} // j
 	}
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda, Tr *b, uint_t ldb)
+template <typename T_Scalar, typename T_RScalar>
+static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_RScalar *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::Full) {
-		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const Tr*>(a) + 1, 2 * lda, 2, b, ldb, 1);
+		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const T_RScalar*>(a) + 1, 2 * lda, 2, b, ldb, 1);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const Tr*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
+				blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
 			} // ilen
 		} // j
 	}
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const Tr *a, uint_t lda, T *b, uint_t ldb)
+template <typename T_Scalar, typename T_RScalar>
+static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_RScalar *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	if(!m || !n) return;
 
 	if(uplo == uplo_t::Full) {
-		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<Tr*>(b) + 1, 2 * ldb, 2);
+		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<T_RScalar*>(b) + 1, 2 * ldb, 2);
 	} else {
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, m, j);
 			if(ir.ilen) {
-				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<Tr*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
+				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
 			} // ilen
 		} // j
 	}
@@ -316,8 +316,8 @@ void set_imag(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, com
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template<typename T>
-static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coeff)
+template<typename T_Scalar>
+static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!n) return;
 
@@ -344,16 +344,16 @@ static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coef
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
+template <typename T_Scalar>
+static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
-	if(coeff == T(1)) {
+	if(coeff == T_Scalar(1)) {
 		return;
 	} // coeff = 1
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo, m, n, a, lda);
 		return;
 	} // coeff = 0
@@ -375,12 +375,12 @@ void scale(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+template <typename T_Scalar>
+static void transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo_t::Full, n, m, b, ldb);
 		return;
 	} // coeff = 0
@@ -410,12 +410,12 @@ void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T *a, uint_t lda, T *b, uint_t ldb, T coeff)
+template <typename T_Scalar>
+static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo_t::Full, n, m, b, ldb);
 		return;
 	} // coeff = 0
@@ -438,8 +438,8 @@ void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, co
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template<typename T>
-static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T coeff)
+template<typename T_Scalar>
+static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!n) return;
 
@@ -466,12 +466,12 @@ static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, T 
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda, T coeff)
+template <typename T_Scalar>
+static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
-	if(coeff == T(0)) {
+	if(coeff == T_Scalar(0)) {
 		zero(uplo, m, n, a, lda);
 		return;
 	} // coeff = 0
@@ -498,11 +498,11 @@ void conjugate(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, compl
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void xx2ge_tmpl(uint_t n, T *a, uint_t lda, prop_t ptype);
+template <typename T_Scalar>
+static void xx2ge_tmpl(uint_t n, T_Scalar *a, uint_t lda, prop_t ptype);
 /*-------------------------------------------------*/
-template <typename T>
-static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t ptype)
+template <typename T_Scalar>
+static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
 {
 	if(!n) return;
 
@@ -565,8 +565,8 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t
 	} // dim check
 }
 /*-------------------------------------------------*/
-template <typename T>
-static void xx2ge_tmpl(uplo_t uplo, uint_t n, T *a, uint_t lda, prop_t ptype)
+template <typename T_Scalar>
+static void xx2ge_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
 {
 	xx2ge_recursive_tmpl(uplo, n, a, lda, ptype);
 }
@@ -589,8 +589,8 @@ void sk2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, 
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T>
-static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_complement(uplo, m, j);
@@ -607,16 +607,16 @@ void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda) { tr2ge_t
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 {
-	Tr ret = 0;
-	Tr *tmp = alloc<Tr>(n, 1, n, true);
+	T_RScalar ret = 0;
+	T_RScalar *tmp = alloc<T_RScalar>(n, 1, n, true);
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_strict(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			Tr absAij = std::abs(entry(lda,a,i,j));
+			T_RScalar absAij = std::abs(entry(lda,a,i,j));
 			tmp[i] += absAij;
 			tmp[j] += absAij;
 		} // i
@@ -631,8 +631,8 @@ static Tr norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
 	return ret;
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -660,7 +660,7 @@ static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSkew()) {
 
-		return norm_one_skew_tmpl<T,Tr>(uplo, n, a, lda);
+		return norm_one_skew_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda);
 
 	} // property
 	
@@ -668,8 +668,8 @@ static Tr norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -697,7 +697,7 @@ static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSkew()) {
 
-		return norm_one_skew_tmpl<T,Tr>(uplo, n, a, lda); // norms one & inf are the same
+		return norm_one_skew_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda); // norms one & inf are the same
 
 	} // property
 	
@@ -705,10 +705,10 @@ static Tr norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	return 0.;
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 {
-	Tr ret = 0;
+	T_RScalar ret = 0;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_strict(uplo, n, j);
@@ -720,8 +720,8 @@ static Tr norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda)
 	return ret;
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -749,7 +749,7 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSkew()) {
 
-		return norm_max_skew_tmpl<T,Tr>(uplo, n, a, lda);
+		return norm_max_skew_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda);
 
 	} // property
 	
@@ -761,23 +761,23 @@ static Tr norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 // fro norm for Symmetric/Hermitian wrong in lapack for n >= 128
 // TODO: more efficient
 //
-template <typename T, typename Tr>
-static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, prop_t ptype)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, prop_t ptype)
 {
-	Tr sum = 0;
-	Tr two = 2;
+	T_RScalar sum = 0;
+	T_RScalar two = 2;
 
 	if(ptype == prop_t::Symmetric) {
 
 		for(uint_t j = 0; j < n; j++) {
-			Tr absAjj = std::abs(entry(lda,a,j,j));
+			T_RScalar absAjj = std::abs(entry(lda,a,j,j));
 			sum += absAjj * absAjj;
 		} // j
 
 	} else if(ptype == prop_t::Hermitian) {
 
 		for(uint_t j = 0; j < n; j++) {
-			Tr absAjj = std::abs(getRe(entry(lda,a,j,j)));
+			T_RScalar absAjj = std::abs(getRe(entry(lda,a,j,j)));
 			sum += absAjj * absAjj;
 		} // j
 
@@ -794,7 +794,7 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_strict(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			Tr aij = std::abs(entry(lda,a,i,j));
+			T_RScalar aij = std::abs(entry(lda,a,i,j));
 			sum += two * aij * aij;
 		} // i
 	} // j
@@ -802,8 +802,8 @@ static Tr naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T *a, uint_t lda, 
 	return std::sqrt(sum);
 }
 /*-------------------------------------------------*/
-template <typename T, typename Tr>
-static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *a, uint_t lda)
+template <typename T_Scalar, typename T_RScalar>
+static T_RScalar norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	if(!m || !n) return 0;
 
@@ -820,7 +820,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	} else if(prop.isSymmetric()) {
 
 		if(n >= 128) {
-			return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
+			return naive_xx_norm_fro_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda, prop.type());
 		} else {
 			return lapack::lansy('F', prop.cuplo(), n, a, lda);
 		}
@@ -828,7 +828,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 	} else if(prop.isHermitian()) { 
 
 		if(n >= 128) {
-			return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
+			return naive_xx_norm_fro_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda, prop.type());
 		} else {
 			return lapack::lanhe('F', prop.cuplo(), n, a, lda);
 		}
@@ -839,7 +839,7 @@ static Tr norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T *
 
 	} else if(prop.isSkew()) {
 
-		return naive_xx_norm_fro_tmpl<T,Tr>(uplo, n, a, lda, prop.type());
+		return naive_xx_norm_fro_tmpl<T_Scalar,T_RScalar>(uplo, n, a, lda, prop.type());
 
 	} // property
 	

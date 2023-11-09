@@ -29,8 +29,8 @@ namespace dns {
 //
 // Set pointer (column-major)
 //
-template <typename T>
-inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
+template <typename T_Scalar>
+inline T_Scalar* ptrmv(uint_t lda, T_Scalar *a, uint_t i, uint_t j)
 {
 	return (a + i + j * lda);
 }
@@ -38,8 +38,8 @@ inline T* ptrmv(uint_t lda, T *a, uint_t i, uint_t j)
 //
 // Get value (column-major)
 //
-template <typename T>
-inline T& entry(uint_t lda, T *a, uint_t i, uint_t j)
+template <typename T_Scalar>
+inline T_Scalar& entry(uint_t lda, T_Scalar *a, uint_t i, uint_t j)
 {
 	return *ptrmv(lda,a,i,j);
 }
@@ -86,8 +86,8 @@ fill_macro(void, complex8_t);
 //
 // Set all entries to zero
 //
-template <typename T>
-void zero(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
+template <typename T_Scalar>
+void zero(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	fill(uplo, m, n, a, lda, 0);
 }
@@ -95,10 +95,10 @@ void zero(uplo_t uplo, uint_t m, uint_t n, T *a, uint_t lda)
 //
 // Allocate memory
 //
-template <typename T>
-T* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
+template <typename T_Scalar>
+T_Scalar* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
 {
-	T *ret = static_cast<T*>(i_malloc(lda * n, sizeof(T)));
+	T_Scalar *ret = static_cast<T_Scalar*>(i_malloc(lda * n, sizeof(T_Scalar)));
 	if(wipe) {
 		zero(uplo_t::Full, m, n, ret, lda);
 	} // wipe
