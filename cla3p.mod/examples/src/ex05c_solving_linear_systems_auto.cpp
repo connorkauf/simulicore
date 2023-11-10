@@ -8,8 +8,8 @@
 #include "cla3p/operations.hpp"
 
 /*--------------------------------------------------------------------*/
-template <typename T_rhs>
-static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
+template <typename T_Rhs>
+static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 {
 	cla3p::dns::LSolverAuto<cla3p::dns::RdMatrix> autoSolver;
 
@@ -19,7 +19,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
 
 	autoSolver.decompose(A);
 
-	T_rhs X = B.copy();
+	T_Rhs X = B.copy();
 
 	/*
 	 * Overwrite X with the solution (A^{-1} * B1)
@@ -27,7 +27,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
 
 	autoSolver.solve(X);
 
-	std::cout << "  " << cla3p::TypeTraits<T_rhs>::type_name() << " rhs::";
+	std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
 	std::cout << "Absolute Error: " << (B - A * X).normOne() << std::endl;
 }
 /*--------------------------------------------------------------------*/

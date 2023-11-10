@@ -8,17 +8,17 @@
 #include "cla3p/operations.hpp"
 
 /*--------------------------------------------------------------------*/
-template <typename T_rhs>
-static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
+template <typename T_Rhs>
+static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 {
 	{
 		/*
 		 * Solve using operator /
 		 */
 
-		T_rhs X = B / A;
+		T_Rhs X = B / A;
 
-		std::cout << "  " << cla3p::TypeTraits<T_rhs>::type_name() << " rhs::";
+		std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
 		std::cout << "Absolute error: " << (B - A * X).normOne() << std::endl;
 	}
 
@@ -27,11 +27,11 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_rhs& B)
 		 * Solve using operator /=
 		 */
 
-		T_rhs X = B.copy();
+		T_Rhs X = B.copy();
 
 		X /= A;
 
-		std::cout << "  " << cla3p::TypeTraits<T_rhs>::type_name() << " rhs::";
+		std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
 		std::cout << "Absolute error: " << (B - A * X).normOne() << std::endl;
 	}
 }
