@@ -82,6 +82,13 @@ class Guard {
 		Guard<T_Object>& operator=(const T_Object& obj);
 
 		/**
+		 * @brief Clears the guard.
+		 *
+		 * Detaches contents and resets guard.
+		 */
+		void clear();
+
+		/**
 		 * @brief The object being guarded.
 		 * @return A constant reference to the object being guarded.
 		 */
@@ -99,7 +106,7 @@ Guard<T_Object>::Guard()
 template <typename T_Object>
 Guard<T_Object>::~Guard()
 {
-	m_obj.clear();
+	clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Object>
@@ -126,6 +133,12 @@ Guard<T_Object>& Guard<T_Object>::operator=(const T_Object& obj)
 {
 	m_obj = const_cast<T_Object&>(obj).rcopy();
 	return *this;
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+void Guard<T_Object>::clear()
+{
+	m_obj.clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Object>
