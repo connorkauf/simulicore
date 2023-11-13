@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "cla3p/operations/operators.hpp"
+#ifndef CLA3P_DOT_CHECKS_HPP_
+#define CLA3P_DOT_CHECKS_HPP_
 
-// system
-
-// 3rd
-
-// cla3p
+#include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+
+void dot_product_consistency_check(uint_t sizeX, uint_t sizeY);
 
 /*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+#endif // CLA3P_DOT_CHECKS_HPP_

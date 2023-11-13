@@ -30,9 +30,6 @@
 #include "cla3p/checks/solve_checks.hpp"
 #include "cla3p/checks/lapack_checks.hpp"
 
-#include "cla3p/types/integer_internal.hpp"
-#include "cla3p/types/scalar_internal.hpp"
-
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
@@ -96,8 +93,8 @@ void LSolverCompleteLU<T_Matrix>::solve(T_Matrix& rhs) const
 
 		for(uint_t k = 0; k < rhs.ncols(); k++) {
 
-			auto scale_k = getRe(scale(k,0));
-			T_Matrix rhs_k = rhs.rblock(0, k, rhs.nrows(), 1); // TODO: replace with column functionality when implemented
+			auto scale_k = arith::getRe(scale(k,0));
+			T_Vector rhs_k = rhs.rcolumn(k);
 
 			int_t info = lapack::gesc2(
 					this->factor().ncols(),

@@ -50,6 +50,12 @@ CxVectorTmpl::~CxVector()
 }
 /*-------------------------------------------------*/
 CxVectorTlst
+const CxVectorTmpl& CxVectorTmpl::self() const
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
+CxVectorTlst
 void CxVectorTmpl::operator=(T_Scalar val)
 {
 	CxVectorTmpl::XxVector::operator=(val);

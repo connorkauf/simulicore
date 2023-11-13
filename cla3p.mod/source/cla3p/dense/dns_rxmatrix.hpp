@@ -40,6 +40,8 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 		RxMatrix(const RxMatrix<T_Scalar>&) = delete;
 		RxMatrix<T_Scalar>& operator=(const RxMatrix<T_Scalar>&) = delete;
 
+		const RxMatrix<T_Scalar>& self() const override;
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -96,6 +98,8 @@ namespace cla3p {
 template<typename T_Scalar>
 class TypeTraits<dns::RxMatrix<T_Scalar>> {
 	public:
+		static constexpr bool is_real(){ return true; }
+		static constexpr bool is_complex(){ return false; }
 		static std::string type_name();
 		using real_type = dns::RxMatrix<T_Scalar>;
 		using vector_type = dns::RxVector<T_Scalar>;

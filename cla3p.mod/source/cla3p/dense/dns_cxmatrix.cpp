@@ -51,6 +51,12 @@ CxMatrixTmpl::~CxMatrix()
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
+const CxMatrixTmpl& CxMatrixTmpl::self() const
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
 void CxMatrixTmpl::operator=(T_Scalar val)
 {
 	CxMatrixTmpl::XxMatrix::operator=(val);
@@ -88,23 +94,6 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 			this->values(), 
 			this->lsize(), 
 			ret.values(), ret.lsize());
-
-	return ret;
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
-CxMatrixTmpl CxMatrixTmpl::ctranspose() const
-{
-	transp_op_consistency_check(this->prop().type(), true);
-	
-	CxMatrixTmpl ret(this->ncols(), this->nrows());
-
-	bulk::dns::conjugate_transpose(
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->ld(), 
-			ret.values(), ret.ld());
 
 	return ret;
 }

@@ -45,6 +45,8 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		CxMatrix(const CxMatrix<T_Scalar>&) = delete;
 		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>&) = delete;
 
+		const CxMatrix<T_Scalar>& self() const override;
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -108,12 +110,6 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 		T_RMatrix imag() const;
 
-		/**
-		 * @brief Conjugate-transposes a general matrix.
-		 * @return The consjugate-transposed copy of the matrix.
-		 */
-		CxMatrix<T_Scalar> ctranspose() const;
-
 		/** @} */
 
 };
@@ -130,6 +126,8 @@ class TypeTraits<dns::CxMatrix<T_Scalar>> {
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 	public:
+		static constexpr bool is_real(){ return false; }
+		static constexpr bool is_complex(){ return true; }
 		static std::string type_name();
 		using real_type = dns::RxMatrix<T_RScalar>;
 		using vector_type = dns::CxVector<T_Scalar>;

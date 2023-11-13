@@ -9,9 +9,12 @@ syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOf
 
 syn keyword cTypeCustomDatatype TypeTraits
 
-syn keyword cTypeCustomDatatype Guard
 syn keyword cTypeCustomDatatype Ownership
 syn keyword cTypeCustomDatatype Array2D
+syn keyword cTypeCustomDatatype Guard
+syn keyword cTypeCustomDatatype VirtualEntity
+syn keyword cTypeCustomDatatype VirtualObject VirtualVector VirtualMatrix
+syn keyword cTypeCustomDatatype VirtualPairXx VirtualPairMv VirtualPairMm
 syn keyword cTypeCustomDatatype PxMatrix PiMatrix PuMatrix
 syn keyword cTypeCustomDatatype XxObject
 syn keyword cTypeCustomDatatype XxVector RxVector CxVector RdVector RfVector CdVector CfVector
@@ -31,12 +34,12 @@ hi cTypeCustomConst ctermfg=darkmagenta guifg=darkblue
 
 "---------------------------------------------------------------------------
 
-syn keyword cTypeCustomTemplate T_Int
-syn keyword cTypeCustomTemplate T_Scalar T_RScalar
+syn keyword cTypeCustomTemplate T_Int T_Scalar T_RScalar
 syn keyword cTypeCustomTemplate T_Object
 syn keyword cTypeCustomTemplate T_Vector T_RVector
 syn keyword cTypeCustomTemplate T_Matrix T_RMatrix
 syn keyword cTypeCustomTemplate T_Rhs T_Lhs
+syn keyword cTypeCustomTemplate T_Virtual
 
 hi cTypeCustomTemplate ctermfg=lightcyan guifg=darkblue
 
@@ -54,6 +57,7 @@ syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc
 
+syn keyword cTypeCustomNSpace arith
 syn keyword cTypeCustomNSpace err
 syn keyword cTypeCustomNSpace msg
 syn keyword cTypeCustomNSpace ops

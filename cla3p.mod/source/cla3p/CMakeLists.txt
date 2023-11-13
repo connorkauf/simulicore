@@ -16,7 +16,8 @@ set(CLA3P_HPP
 	support.hpp
 	dense.hpp
 	perms.hpp
-	operations.hpp
+	virtuals.hpp
+	algebra.hpp
 	linsol.hpp
 	)
 
@@ -32,7 +33,8 @@ add_subdirectory(support)
 add_subdirectory(generic)
 add_subdirectory(dense)
 add_subdirectory(perms)
-add_subdirectory(operations)
+add_subdirectory(virtuals)
+add_subdirectory(algebra)
 add_subdirectory(linsol)
 
 #-----------------------------------------------

@@ -14,23 +14,40 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_INTEGER_INTERNAL_HPP_
-#define CLA3P_INTEGER_INTERNAL_HPP_
+#ifndef CLA3P_VIRTUAL_ENTITY_HPP_
+#define CLA3P_VIRTUAL_ENTITY_HPP_
 
-#include "cla3p/types/integer.hpp"
+/**
+ * @file
+ */
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace cla3p { 
 /*-------------------------------------------------*/
 
-inline int_t conj(const int_t& i) { return i; }
-inline uint_t conj(const uint_t& u) { return u; }
+template <typename T_Object, typename T_Virtual>
+class VirtualEntity {
 
-inline void setIm(int_t&, int_t) { }
-inline void setIm(uint_t&, uint_t) { }
+	private:
+		using T_Scalar = typename T_Object::value_type;
+
+	public:
+		VirtualEntity() = default;
+		~VirtualEntity() = default;
+
+		virtual const T_Virtual& self() const = 0;
+		virtual T_Object evaluate() const = 0;
+		virtual void update(T_Scalar c, T_Object& other) const = 0;
+
+		virtual void iscale(T_Scalar val) = 0;
+		virtual void iconjugate() = 0;
+
+		T_Virtual scale(T_Scalar val) const;
+		T_Virtual conjugate() const;
+};
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_INTEGER_INTERNAL_HPP_
+#endif // CLA3P_VIRTUAL_ENTITY_HPP_

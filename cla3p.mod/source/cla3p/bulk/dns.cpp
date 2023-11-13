@@ -33,9 +33,6 @@
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 
-#include "cla3p/types/integer_internal.hpp"
-#include "cla3p/types/scalar_internal.hpp"
-
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace bulk {
@@ -49,9 +46,9 @@ static uint_t recursive_min_dim()
 template <typename T_Scalar>
 static inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
 {
-	if(ptype == prop_t::Symmetric) return     ( x);
-	if(ptype == prop_t::Hermitian) return conj( x);
-	if(ptype == prop_t::Skew     ) return     (-x);
+	if(ptype == prop_t::Symmetric) return x;
+	if(ptype == prop_t::Hermitian) return arith::conj(x);
+	if(ptype == prop_t::Skew     ) return (-x);
 
 	throw err::Exception();
 	return x;
@@ -74,7 +71,7 @@ static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
 {
 	if(ptype == prop_t::Hermitian) {
 		for(uint_t i = 0; i < n; i++) {
-			setIm(entry(lda,a,i,i), 0);
+			arith::setIm(entry(lda,a,i,i), 0);
 		} // i
 	} else if(ptype == prop_t::Skew) {
 		for(uint_t i = 0; i < n; i++) {
@@ -438,8 +435,15 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t, uint_t, const real_t *, uint_t, real_t *, uint_t, real_t ) { throw err::Exception(msg::OpNotAllowed()); }
-void conjugate_transpose(uint_t, uint_t, const real4_t*, uint_t, real4_t*, uint_t, real4_t) { throw err::Exception(msg::OpNotAllowed()); }
+void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
+{ 
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
+/*-------------------------------------------------*/
+void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
+{ 
+	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
+}
 /*-------------------------------------------------*/
 void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
 { 
@@ -500,6 +504,9 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t 
 		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
+/*-------------------------------------------------*/
+void conjugate(uplo_t, uint_t, uint_t, real_t*, uint_t, real_t) {}
+void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) {}
 /*-------------------------------------------------*/
 void conjugate(uplo_t uplo, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
 { 
@@ -804,7 +811,7 @@ naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, pro
 	} else if(ptype == prop_t::Hermitian) {
 
 		for(uint_t j = 0; j < n; j++) {
-			T_RScalar absAjj = std::abs(getRe(entry(lda,a,j,j)));
+			T_RScalar absAjj = std::abs(arith::getRe(entry(lda,a,j,j)));
 			sum += absAjj * absAjj;
 		} // j
 

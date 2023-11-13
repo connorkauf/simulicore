@@ -122,14 +122,6 @@ class PxMatrix : public Array2D<T_Int> {
 		 */
 		void operator=(T_Int val);
 
-		/**
-		 * @brief Permutes a permutation matrix.
-		 *
-		 * @param[in] P The right side permutation matrix.
-		 * @return The permutated permutation matrix ((*this) * P).
-		 */
-		PxMatrix<T_Int> operator*(const PxMatrix<T_Int>& P) const;
-
 		/** @} */
 
 		/** 

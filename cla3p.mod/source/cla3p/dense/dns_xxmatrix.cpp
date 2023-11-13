@@ -33,6 +33,8 @@
 #include "cla3p/support/utils.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
+#include "cla3p/checks/outer_checks.hpp"
+#include "cla3p/checks/hermitian_coeff_checks.hpp"
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
@@ -82,17 +84,6 @@ XxMatrixTlst
 void XxMatrixTmpl::operator=(T_Scalar val)
 {
 	this->fill(val);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Matrix XxMatrixTmpl::operator*(const XxMatrixTmpl& other) const
-{
-	T_Matrix ret(nrows(), other.ncols());
-
-	ret = 0;
-	ret.updateSelfWithScaledMatMat(1, op_t::N, *this, op_t::N, other);
-
-	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -146,6 +137,30 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
+VirtualMatrix<T_Matrix> XxMatrixTmpl::transpose() const
+{
+	VirtualMatrix<T_Matrix> ret(this->self());
+	ret.itranspose();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+VirtualMatrix<T_Matrix> XxMatrixTmpl::ctranspose() const
+{
+	VirtualMatrix<T_Matrix> ret(this->self());
+	ret.ictranspose();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+VirtualMatrix<T_Matrix> XxMatrixTmpl::conjugate() const
+{
+	VirtualMatrix<T_Matrix> ret(this->self());
+	ret.iconjugate();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
 { 
 	return bulk::dns::norm_max(
@@ -167,16 +182,6 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 			ncols(),
 			this->values(), 
 			ld());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Matrix XxMatrixTmpl::transpose() const
-{
-	transp_op_consistency_check(prop().type(), false);
-
-	T_Matrix ret(ncols(), nrows());
-	bulk::dns::transpose(nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld());
-	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -358,10 +363,54 @@ Guard<typename XxMatrixTmpl::T_Vector> XxMatrixTmpl::rcolumn(uint_t j) const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxMatrixTlst
+void XxMatrixTmpl::updateSelfWithScaledVecVec(bool conjop, T_Scalar alpha, 
+		const XxVector<T_Scalar,T_Vector>& X, 
+		const XxVector<T_Scalar,T_Vector>& Y)
+{
+	conjop = (TypeTraits<T_Matrix>::is_real() ? false : true);
+
+	outer_product_consistency_check(conjop, nrows(), ncols(), prop(), X.size(), Y.size());
+	hermitian_coeff_check(prop(), alpha, msg::HermitianInconsistency());
+
+	if(prop().isGeneral()) {
+
+		if(conjop) blas::gerc(X.size(), Y.size(), alpha, X.values(), 1, Y.values(), 1, this->values(), ld());
+		else       blas::ger (X.size(), Y.size(), alpha, X.values(), 1, Y.values(), 1, this->values(), ld());
+
+	} else if(prop().isSymmetric()) {
+
+		if(X.values() == Y.values()) {
+			blas::syr(prop().cuplo(), X.size(), alpha, X.values(), 1, this->values(), ld());
+		} else {
+			blas::gemmt(prop().cuplo(), 'N', 'T', X.size(), 1, alpha, X.values(), X.size(), Y.values(), Y.size(), 1, this->values(), ld());
+		}
+
+	} else if(prop().isHermitian()) {
+
+		if(X.values() == Y.values()) {
+			blas::her(prop().cuplo(), X.size(), arith::getRe(alpha), X.values(), 1, this->values(), ld());
+		} else {
+			blas::gemmt(prop().cuplo(), 'N', 'C', X.size(), 1, alpha, X.values(), X.size(), Y.values(), Y.size(), 1, this->values(), ld());
+		}
+
+	} else {
+
+		throw err::Exception();
+
+	} // valid props
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
 void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 		op_t opA, const XxMatrixTmpl& A,
 		op_t opB, const XxMatrixTmpl& B)
 {
+	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
+	if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
+
+	opA = (TypeTraits<T_Matrix>::is_real() && opA == op_t::C ? op_t::T : opA);
+	opB = (TypeTraits<T_Matrix>::is_real() && opB == op_t::C ? op_t::T : opB);
+
 	Operation _opA(opA);
 	Operation _opB(opB);
 
@@ -372,18 +421,30 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 			nrows(), 
 			ncols());
 
+	hermitian_coeff_check(prop(), alpha, msg::HermitianInconsistency());
+
 	if(A.prop().isGeneral() && B.prop().isGeneral()) {
 
 		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
-		bulk::dns::gem_x_gem(
-				nrows(), 
-				ncols(), 
-				k, alpha, 
-				opA, A.values(), A.ld(), 
-				opB, B.values(), B.ld(), 
-				1, 
-				this->values(), ld());
+		if(prop().isGeneral()) {
+			bulk::dns::gem_x_gem(
+					nrows(), 
+					ncols(), 
+					k, alpha, 
+					opA, A.values(), A.ld(), 
+					opB, B.values(), B.ld(), 
+					1, 
+					this->values(), ld());
+		} else {
+			blas::gemmt(prop().cuplo(), 
+					_opA.ctype(), 
+					_opB.ctype(), 
+					nrows(), ncols(), alpha, 
+					A.values(), A.ld(), 
+					B.values(), B.ld(), 
+					1, this->values(), ld());
+		}
 
 	} else if(A.prop().isSymmetric() && B.prop().isGeneral()) {
 

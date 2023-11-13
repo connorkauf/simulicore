@@ -30,15 +30,15 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 static void mult_dim_check(
-		uint_t nrowsA, uint_t ncolsA, bool syheA, const Operation& opA, 
-		uint_t nrowsB, uint_t ncolsB, bool syheB, const Operation& opB, 
+		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		uint_t nrowsC, uint_t ncolsC)
 {
-	uint_t m = (syheA ? nrowsA : (opA.isTranspose() ? ncolsA : nrowsA));
-	uint_t n = (syheB ? ncolsB : (opB.isTranspose() ? nrowsB : ncolsB));
+	uint_t m = (opA.isTranspose() ? ncolsA : nrowsA);
+	uint_t n = (opB.isTranspose() ? nrowsB : ncolsB);
 
-	uint_t kA = (syheA ? ncolsA : (opA.isTranspose() ? nrowsA : ncolsA));
-	uint_t kB = (syheB ? nrowsB : (opB.isTranspose() ? ncolsB : nrowsB));
+	uint_t kA = (opA.isTranspose() ? nrowsA : ncolsA);
+	uint_t kB = (opB.isTranspose() ? ncolsB : nrowsB);
 
 	if(nrowsC != m || ncolsC != n || kA != kB) {
 		throw err::NoConsistency(msg::InvalidDimensions());
@@ -47,20 +47,13 @@ static void mult_dim_check(
 /*-------------------------------------------------*/
 void mat_x_vec_mult_check(const Operation& opA, 
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
-		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
-		const Property& prY, uint_t nrowsY, uint_t ncolsY)
+		uint_t sizeX, uint_t sizeY)
 {
-	if(!prA.isValid() || !prX.isGeneral() || !prY.isGeneral()) {
+	if(!prA.isValid()) {
 		throw err::NoConsistency(msg::InvalidProperty());
 	}
 
-	bool syheA = (prA.isSymmetric() || prA.isHermitian());
-
-	if(ncolsX > 1 || ncolsY > 1) {
-		throw err::NoConsistency("X and Y must be vectors.");
-	}
-
-	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsX, ncolsX, false, Operation(op_t::N), nrowsY, ncolsY);
+	mult_dim_check(nrowsA, ncolsA, opA, sizeX, 1, Operation(op_t::N), sizeY, 1);
 }
 /*-------------------------------------------------*/
 void mat_x_mat_mult_check(
@@ -68,46 +61,51 @@ void mat_x_mat_mult_check(
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		const Property& prC, uint_t nrowsC, uint_t ncolsC)
 {
-	if(!prA.isValid() || !prB.isValid() || !prC.isValid()) {
-		throw err::NoConsistency(msg::InvalidProperty());
-	}
-
-	bool syheA = (prA.isSymmetric() || prA.isHermitian());
-	bool syheB = (prB.isSymmetric() || prB.isHermitian());
-
 	//
 	// Check dimensions
 	//
 
-	mult_dim_check(nrowsA, ncolsA, syheA, opA, nrowsB, ncolsB, syheB, opB, nrowsC, ncolsC);
+	mult_dim_check(nrowsA, ncolsA, opA, nrowsB, ncolsB, opB, nrowsC, ncolsC);
+
+	//
+	// Check individual propertiues
+	//
+
+	bool specialA = (prA.isSymmetric() || prA.isHermitian() || prA.isTriangular());
+	bool specialB = (prB.isSymmetric() || prB.isHermitian() || prB.isTriangular());
+	bool specialC = (prC.isSymmetric() || prC.isHermitian());
+
+	if(!(prA.isGeneral() || specialA)) {
+		throw err::NoConsistency(msg::InvalidProperty() + " for first matrix in matrix-matrix product");
+	}
+
+	if(!(prB.isGeneral() || specialB)) {
+		throw err::NoConsistency(msg::InvalidProperty() + " for second matrix in matrix-matrix product");
+	}
+
+	if(!(prC.isGeneral() || specialC)) {
+		throw err::NoConsistency(msg::InvalidProperty() + " for resulting matrix in matrix-matrix product");
+	}
+
+	//
+	// Check property combos
+	//
+
+	if(specialC && !(prA.isGeneral() && prB.isGeneral())) {
+		throw err::NoConsistency(msg::InvalidProperty());
+	}
 
 	//
 	// Check property-operation combos
 	//
 
-	if(!prC.isGeneral()){
-		throw err::NoConsistency(msg::InvalidProperty());
+	if(specialA && !(prB.isGeneral() && !opB.isTranspose())) {
+		throw err::NoConsistency(msg::OpNotAllowed());
 	}
 
-	if(prA.isGeneral() && prB.isGeneral()) return;
-
-	if((syheA || prA.isTriangular()) && prB.isGeneral()) {
-		if(opB.isTranspose()) {
-			throw err::NoConsistency(msg::OpNotAllowed());
-		} else {
-			return;
-		}
+	if(specialB && !(prA.isGeneral() && !opA.isTranspose())) {
+		throw err::NoConsistency(msg::OpNotAllowed());
 	}
-
-	if((syheB || prB.isTriangular()) && prA.isGeneral()) {
-		if(opA.isTranspose()) {
-			throw err::NoConsistency(msg::OpNotAllowed());
-		} else {
-			return;
-		}
-	}
-
-	throw err::NoConsistency(msg::InvalidProperty());
 }
 /*-------------------------------------------------*/
 void trivec_mult_replace_check(const Property& prA, 
@@ -124,10 +122,7 @@ void trivec_mult_replace_check(const Property& prA,
 
 	square_check(nrowsA, ncolsA);
 
-	mult_dim_check(
-			nrowsA, ncolsA, false, opA, 
-			sizeX, 1      , false, noOp(), 
-			sizeX, 1);
+	mult_dim_check(nrowsA, ncolsA, opA, sizeX, 1, noOp(), sizeX, 1);
 }
 /*-------------------------------------------------*/
 void trimat_mult_replace_check(side_t sideA, 
@@ -146,13 +141,13 @@ void trimat_mult_replace_check(side_t sideA,
 
 	if(sideA == side_t::Left) {
 		mult_dim_check(
-				nrowsA, ncolsA, false, opA, 
-				nrowsB, ncolsB, false, noOp(), 
+				nrowsA, ncolsA, opA, 
+				nrowsB, ncolsB, noOp(), 
 				nrowsB, ncolsB);
 	} else if(sideA == side_t::Right) {
 		mult_dim_check(
-				nrowsB, ncolsB, false, noOp(), 
-				nrowsA, ncolsA, false, opA, 
+				nrowsB, ncolsB, noOp(), 
+				nrowsA, ncolsA, opA, 
 				nrowsB, ncolsB);
 	} // sideA
 }
