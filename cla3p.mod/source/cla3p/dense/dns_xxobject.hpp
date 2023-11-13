@@ -48,6 +48,8 @@ class XxObject : public Array2D<T_Scalar> {
 		XxObject(XxObject<T_Scalar,T_Object>&& other) = default;
 		XxObject<T_Scalar,T_Object>& operator=(XxObject<T_Scalar,T_Object>&& other) = default;
 
+		virtual const T_Object& self() const;
+
 		/** 
 		 * @name Operators
 		 * @{
@@ -61,38 +63,6 @@ class XxObject : public Array2D<T_Scalar> {
 		 * @return The result of the operation `-(*this)`.
 		 */
 		T_Object operator-() const;
-
-		/**
-		 * @brief Add operator.
-		 *
-		 * Adds two compatible objects.
-		 *
-		 * @return The result of the operation `(*this) + other`.
-		 */
-		T_Object operator+(const XxObject<T_Scalar,T_Object>& other) const;
-
-		/**
-		 * @brief Subtract operator.
-		 *
-		 * Subtracts two compatible objects.
-		 *
-		 * @return The result of the operation `(*this) - other`.
-		 */
-		T_Object operator-(const XxObject<T_Scalar,T_Object>& other) const;
-
-		/**
-		 * @brief Update operator.
-		 *
-		 * Adds `other` to `(*this)`.
-		 */
-		XxObject<T_Scalar,T_Object>& operator+=(const XxObject<T_Scalar,T_Object>& other);
-
-		/**
-		 * @brief Update operator.
-		 *  
-		 * Subtracts `other` from `(*this)`.
-		 */
-		XxObject<T_Scalar,T_Object>& operator-=(const XxObject<T_Scalar,T_Object>& other);
 
 		/** @} */
 
@@ -138,6 +108,11 @@ class XxObject : public Array2D<T_Scalar> {
 		 * @param[in] val The scaling coefficient.
 		 */
 		void scale(T_Scalar val);
+
+		/**
+		 * @brief Conjugates the object in-place.
+		 */
+		void iconjugate();
 
 		/**
 		 * @brief The 1-norm.

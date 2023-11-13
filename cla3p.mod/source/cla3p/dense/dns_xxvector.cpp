@@ -30,6 +30,7 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
+#include "cla3p/checks/dot_checks.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 
 /*-------------------------------------------------*/
@@ -108,6 +109,30 @@ std::string XxVectorTmpl::info(const std::string& msg) const
 	ss << bottom << "\n";
 
 	return ss.str();
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+VirtualVector<T_Vector> XxVectorTmpl::transpose() const
+{
+	VirtualVector<T_Vector> ret(this->self());
+	ret.itranspose();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+VirtualVector<T_Vector> XxVectorTmpl::ctranspose() const
+{
+	VirtualVector<T_Vector> ret(this->self());
+	ret.ictranspose();
+	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+VirtualVector<T_Vector> XxVectorTmpl::conjugate() const
+{
+	VirtualVector<T_Vector> ret(this->self());
+	ret.iconjugate();
+	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -207,16 +232,25 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxVectorTlst
+T_Scalar XxVectorTmpl::calcDotProductWith(const XxVectorTmpl& Y) const
+{
+	dot_product_consistency_check(size(), Y.size());
+	return blas::dot(size(), this->values(), 1, Y.values(), 1);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+T_Scalar XxVectorTmpl::calcConjugateDotProductWith(const XxVectorTmpl& Y) const
+{
+	dot_product_consistency_check(size(), Y.size());
+	return blas::dotc(size(), this->values(), 1, Y.values(), 1);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
 void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A, const XxVectorTmpl& X)
 {
 	Operation _opA(opA);
 
-	mat_x_vec_mult_check(_opA, 
-			A.prop(), A.nrows(), A.ncols(), 
-			X.property(), X.rsize(), X.csize(), 
-			this->property(), 
-			this->rsize(), 
-			this->csize());
+	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), size());
 
 	if(A.prop().isGeneral()) {
 

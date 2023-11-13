@@ -73,12 +73,6 @@ void PxMatrix<T_Int>::operator=(T_Int val)
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
-PxMatrix<T_Int> PxMatrix<T_Int>::operator*(const PxMatrix<T_Int>& P) const
-{
-	return P.permuteLeft(*this);
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
 uint_t PxMatrix<T_Int>::size() const 
 { 
 	return Array2D<T_Int>::rsize(); 

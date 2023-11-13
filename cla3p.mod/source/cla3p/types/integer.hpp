@@ -69,6 +69,22 @@ template<> class TypeTraits<uint_t> {
 };
 
 /*-------------------------------------------------*/
+
+namespace arith {
+inline int_t conj(const int_t& i) { return i; }
+inline uint_t conj(const uint_t& u) { return u; }
+
+inline int_t getRe(const int_t& i) { return i; }
+inline uint_t getRe(const uint_t& u) { return u; }
+
+inline int_t getIm(const int_t&) { return 0; }
+inline uint_t getIm(const uint_t&) { return 0; }
+
+inline void setIm(int_t&, int_t) { }
+inline void setIm(uint_t&, uint_t) { }
+} // namespace arith
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

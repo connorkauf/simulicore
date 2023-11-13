@@ -72,6 +72,8 @@
  * @{
  *   @defgroup module_index_math_op_add Add/Update Operations
  *
+ *   @defgroup module_index_math_op_vecvec Inner/Outer product Operations
+ *
  *   @defgroup module_index_math_op_matvec Matrix-Vector Operations
  *
  *   @defgroup module_index_math_op_matmat Matrix-Matrix Operations
@@ -97,6 +99,10 @@
  * @addtogroup module_index_math_operators Algebra Operators
  * List of CLA3P algebraic operator definitions that are not class members.
  * @{
+ *   @defgroup module_index_math_operators_add Addition/Subtraction Operators
+ *
+ *   @defgroup module_index_math_operators_update Updating Operators
+ *
  *   @defgroup module_index_math_operators_scal Scaling Operators
  *
  *   @defgroup module_index_math_operators_mult Multiplication Operators

@@ -19,9 +19,9 @@
 
 #include <string>
 
-#include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
 #include "cla3p/generic/guard.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 
@@ -144,6 +144,21 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * @param[in] msg Set a header identifier.
 		 */
 		std::string info(const std::string& msg = "") const;
+
+		/**
+		 * @brief Virtually transposes a vector.
+		 */
+		VirtualVector<T_Vector> transpose() const;
+
+		/**
+		 * @brief Virtually conjugate-transposes a vector.
+		 */
+		VirtualVector<T_Vector> ctranspose() const;
+
+		/**
+		 * @brief Virtually conjugates a vector.
+		 */
+		VirtualVector<T_Vector> conjugate() const;
 
 		/**
 		 * @brief Vector Euclidean norm.
@@ -294,6 +309,9 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		/** @} */
 
 	public:
+		T_Scalar calcDotProductWith(const XxVector<T_Scalar,T_Vector>& Y) const;
+		T_Scalar calcConjugateDotProductWith(const XxVector<T_Scalar,T_Vector>& Y) const;
+
 		void updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA,
 				const XxMatrix<T_Scalar,T_Matrix>& A,
 				const XxVector<T_Scalar,T_Vector>& X);

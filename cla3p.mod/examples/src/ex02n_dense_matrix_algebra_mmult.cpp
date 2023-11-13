@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "cla3p/dense.hpp"
-#include "cla3p/operations.hpp"
+#include "cla3p/algebra.hpp"
 
 int main()
 {

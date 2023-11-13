@@ -2,21 +2,23 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	operations/math_ops.cpp
-	operations/operators.cpp
+	virtuals/virtual_entity.cpp
+	virtuals/virtual_object.cpp
+	virtuals/virtual_pair.cpp
 	PARENT_SCOPE)
 
-set(CLA3P_OPERATIONS_HPP 
-	math_ops.hpp
-	operators.hpp
+set(CLA3P_VIRTUALS_HPP 
+	virtual_entity.hpp
+	virtual_object.hpp
+	virtual_pair.hpp
 	)
 
 #-----------------------------------------------
 # installation setup
 #-----------------------------------------------
-set(CLA3P_OPERATIONS_HPP_INSTALL include/cla3p/operations)
+set(CLA3P_VIRTUALS_HPP_INSTALL include/cla3p/virtuals)
 
-install(FILES ${CLA3P_OPERATIONS_HPP} DESTINATION ${CLA3P_OPERATIONS_HPP_INSTALL})
+install(FILES ${CLA3P_VIRTUALS_HPP} DESTINATION ${CLA3P_VIRTUALS_HPP_INSTALL})
 #-----------------------------------------------
 # end
 #-----------------------------------------------

@@ -19,9 +19,9 @@
 
 #include <string>
 
-#include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
 #include "cla3p/generic/guard.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 
@@ -31,6 +31,8 @@ namespace cla3p { template <typename T_Int> class PxMatrix; }
 namespace cla3p { 
 namespace dns {
 /*-------------------------------------------------*/
+
+template <typename T_Scalar, typename T_Vector> class XxVector;
 
 /**
  * @nosubgrouping 
@@ -122,16 +124,6 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 */
 		void operator=(T_Scalar val);
 
-		/**
-		 * @brief The matrix-matrix multiplication operator.
-		 *
-		 * Multiplies `(*this)` with `other`.
-		 *
-		 * @param[in] other The left hand side multiplier.
-		 * @return The result of the operation `(*this) * other`.
-		 */
-		T_Matrix operator*(const XxMatrix<T_Scalar,T_Matrix>& other) const;
-
 		/** @} */
 
 		/** 
@@ -177,6 +169,21 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		std::string info(const std::string& msg = "") const;
 
 		/**
+		 * @brief Virtually transposes a matrix.
+		 */
+		VirtualMatrix<T_Matrix> transpose() const;
+
+		/**
+		 * @brief Virtually conjugate-transposes a matrix.
+		 */
+		VirtualMatrix<T_Matrix> ctranspose() const;
+
+		/**
+		 * @brief Virtually conjugates a matrix.
+		 */
+		VirtualMatrix<T_Matrix> conjugate() const;
+
+		/**
 		 * @brief Matrix maximum norm.
 		 * @return The maximum norm of `(*this)`.
 		 */
@@ -187,12 +194,6 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @return The Frobenius norm of `(*this)`.
 		 */
 		T_RScalar normFro() const;
-
-		/**
-		 * @brief Transposes a general matrix.
-		 * @return The transposed copy of `(*this)`.
-		 */
-		T_Matrix transpose() const;
 
 		/**
 		 * @brief Converts a matrix to general.
@@ -464,6 +465,10 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		/** @} */
 
 	public:
+		void updateSelfWithScaledVecVec(bool conjop, T_Scalar alpha,
+				const XxVector<T_Scalar,T_Vector>& X,
+				const XxVector<T_Scalar,T_Vector>& Y);
+
 		void updateSelfWithScaledMatMat(T_Scalar alpha,
 				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A,
 				op_t opB, const XxMatrix<T_Scalar,T_Matrix>& B);

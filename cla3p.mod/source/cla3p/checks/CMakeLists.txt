@@ -9,6 +9,8 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	checks/matrix_math_checks.cpp
 	checks/perm_checks.cpp
 	checks/transp_checks.cpp
+	checks/dot_checks.cpp
+	checks/outer_checks.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_CHECKS_HPP 

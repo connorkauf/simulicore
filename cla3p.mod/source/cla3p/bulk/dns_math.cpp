@@ -29,9 +29,6 @@
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/mkl_proxy.hpp"
 
-#include "cla3p/types/integer_internal.hpp"
-#include "cla3p/types/scalar_internal.hpp"
-
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace bulk {

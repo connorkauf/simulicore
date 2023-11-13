@@ -14,10 +14,21 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_OPERATIONS_HPP_
-#define CLA3P_OPERATIONS_HPP_
+#ifndef CLA3P_OUTER_CHECKS_HPP_
+#define CLA3P_OUTER_CHECKS_HPP_
 
-#include "cla3p/operations/math_ops.hpp"
-#include "cla3p/operations/operators.hpp"
+#include "cla3p/types.hpp"
 
-#endif // CLA3P_OPERATIONS_HPP_
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+
+void outer_product_consistency_check(bool conjop, 
+		uint_t nrowsA, uint_t ncolsA, const Property& prA, 
+		uint_t sizeX, uint_t sizeY);
+
+/*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+#endif // CLA3P_OUTER_CHECKS_HPP_

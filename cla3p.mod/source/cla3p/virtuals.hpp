@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "cla3p/operations/math_ops.hpp"
+#ifndef CLA3P_VIRTUALS_HPP_
+#define CLA3P_VIRTUALS_HPP_
 
-// system
+#include "cla3p/virtuals/virtual_entity.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
+#include "cla3p/virtuals/virtual_pair.hpp"
 
-// 3rd
-
-// cla3p
-
-/*-------------------------------------------------*/
-namespace cla3p {
-namespace ops {
-/*-------------------------------------------------*/
-
-/*-------------------------------------------------*/
-} // namespace ops
-} // namespace cla3p
-/*-------------------------------------------------*/
-
+#endif // CLA3P_VIRTUALS_HPP_

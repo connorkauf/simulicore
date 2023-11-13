@@ -87,28 +87,6 @@ std::string bytes2human(bulk_t nbytes, uint_t nsd)
 #undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
-std::string extract_filename(const std::string& path, const std::string& hint)
-{
-	// FIXME: portability
-
-	size_t pos = std::string::npos;
-
-	if(hint.size()) {
-		pos = path.rfind(hint);
-	} else {
-		pos = path.rfind("/");
-	} // hint
-
-	std::string ret;
-
-	if(pos != std::string::npos) {
-		if(path[pos] == '/') ret = path.substr(pos+1);
-		else                 ret = path.substr(pos);
-	} // valid pos
-
-	return ret;
-}
-/*-------------------------------------------------*/
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom)
 {
 	const bulk_t deflen = 44;

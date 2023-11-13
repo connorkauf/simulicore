@@ -25,8 +25,7 @@ namespace cla3p {
 
 void mat_x_vec_mult_check(const Operation& opA, 
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
-		const Property& prX, uint_t nrowsX, uint_t ncolsX, 
-		const Property& prY, uint_t nrowsY, uint_t ncolsY);
+		uint_t sizeX, uint_t sizeY);
 
 void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 

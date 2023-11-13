@@ -28,11 +28,9 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
 
+#include "cla3p/checks/hermitian_coeff_checks.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
-
-#include "cla3p/types/integer_internal.hpp"
-#include "cla3p/types/scalar_internal.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -58,41 +56,17 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
+const T_Object& XxObjectTmpl::self() const
+{
+	return this->rcopy().get();
+}
+/*-------------------------------------------------*/
+XxObjectTlst
 T_Object XxObjectTmpl::operator-() const
 {
 	T_Object ret = this->copy();
 	ret.scale(-1);
 	return ret;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-T_Object XxObjectTmpl::operator+(const XxObjectTmpl& other) const
-{
-	T_Object ret;
-	ret.createFromScaledSum(1, *this, 1, other);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-T_Object XxObjectTmpl::operator-(const XxObjectTmpl& other) const
-{
-	T_Object ret;
-	ret.createFromScaledSum(1, *this, -1, other);
-	return ret;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator+=(const XxObjectTmpl& other)
-{
-	updateSelfWithScaledOther(1, other);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-XxObjectTmpl& XxObjectTmpl::operator-=(const XxObjectTmpl& other)
-{
-	updateSelfWithScaledOther(-1, other);
-	return *this;
 }
 /*-------------------------------------------------*/
 XxObjectTlst
@@ -131,9 +105,7 @@ T_Object XxObjectTmpl::move()
 XxObjectTlst
 void XxObjectTmpl::scale(T_Scalar val)
 {
-	if(this->property().isHermitian() && getIm(val)) {
-		throw err::InvalidOp(msg::HermitianInconsistency());
-	}
+	hermitian_coeff_check(this->property(), val, msg::HermitianInconsistency());
 
 	bulk::dns::scale(
 			this->property().uplo(), 
@@ -141,6 +113,17 @@ void XxObjectTmpl::scale(T_Scalar val)
 			this->csize(), 
 			this->values(), 
 			this->lsize(), val);
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::iconjugate()
+{
+	bulk::dns::conjugate(
+			this->property().uplo(), 
+			this->rsize(), 
+			this->csize(), 
+			this->values(), 
+			this->lsize());
 }
 /*-------------------------------------------------*/
 XxObjectTlst

@@ -48,6 +48,12 @@ RxMatrixTmpl::~RxMatrix()
 }
 /*-------------------------------------------------*/
 RxMatrixTlst
+const RxMatrixTmpl& RxMatrixTmpl::self() const
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
+RxMatrixTlst
 void RxMatrixTmpl::operator=(T_Scalar val)
 {
 	RxMatrixTmpl::XxMatrix::operator=(val);

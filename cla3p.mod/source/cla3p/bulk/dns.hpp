@@ -201,8 +201,8 @@ transpose_macro(complex8_t);
 //
 #define conjugate_transpose_macro(typein) \
 void conjugate_transpose(uint_t m, uint_t n, const typein *a, uint_t lda, typein *b, uint_t ldb, typein coeff = 1)
-conjugate_transpose_macro(real_t); // exception
-conjugate_transpose_macro(real4_t); // exception
+conjugate_transpose_macro(real_t); // transpose
+conjugate_transpose_macro(real4_t); // transpose
 conjugate_transpose_macro(complex_t);
 conjugate_transpose_macro(complex8_t);
 #undef conjugate_transpose_macro
@@ -212,6 +212,8 @@ conjugate_transpose_macro(complex8_t);
 //
 #define conjugate_macro(typein) \
 void conjugate(uplo_t uplo, uint_t m, uint_t n, typein *a, uint_t lda, typein coeff = 1)
+conjugate_macro(real_t); // does nothing
+conjugate_macro(real4_t); // does nothing
 conjugate_macro(complex_t);
 conjugate_macro(complex8_t);
 #undef conjugate_macro

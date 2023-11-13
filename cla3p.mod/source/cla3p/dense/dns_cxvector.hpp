@@ -45,6 +45,8 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 		CxVector(const CxVector<T_Scalar>&) = delete;
 		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>&) = delete;
 
+		const CxVector<T_Scalar>& self() const override;
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -124,6 +126,8 @@ class TypeTraits<dns::CxVector<T_Scalar>> {
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 	public:
+		static constexpr bool is_real(){ return false; }
+		static constexpr bool is_complex(){ return true; }
 		static std::string type_name();
 		using real_type = dns::RxVector<T_RScalar>;
 		using matrix_type = dns::CxMatrix<T_Scalar>;
