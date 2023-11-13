@@ -200,7 +200,7 @@ T_Vector XxVectorTmpl::wrap(uint_t n, T_Scalar *vals, bool bind)
 XxVectorTlst
 Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 {
-	Guard<T_Vector> ret = wrap(n, const_cast<T_Scalar*>(vals), false);
+	Guard<T_Vector> ret(wrap(n, const_cast<T_Scalar*>(vals), false));
 	return ret;
 }
 /*-------------------------------------------------*/

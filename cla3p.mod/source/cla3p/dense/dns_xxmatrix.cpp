@@ -331,7 +331,7 @@ T_Matrix XxMatrixTmpl::wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bo
 XxMatrixTlst
 Guard<T_Matrix> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr)
 {
-	Guard<T_Matrix> ret = wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr);
+	Guard<T_Matrix> ret(wrap(nr, nc, const_cast<T_Scalar*>(vals), ldv, false, pr));
 	return ret;
 }
 /*-------------------------------------------------*/

@@ -46,7 +46,7 @@ class Guard {
 		 *
 		 * Constructs an empty guard.
 		 */
-		Guard();
+		explicit Guard();
 
 		/**
 		 * @brief Destroys the guard.
@@ -72,14 +72,7 @@ class Guard {
 		 *
 		 * Constructs guard with a referenced copy of obj.
 		 */
-		Guard(const T_Object& obj);
-
-		/**
-		 * @brief The input assignment operator.
-		 *
-		 * Constructs guard with a referenced copy of obj.
-		 */
-		Guard<T_Object>& operator=(const T_Object& obj);
+		explicit Guard(const T_Object& obj);
 
 		/**
 		 * @brief Clears the guard.
@@ -97,55 +90,6 @@ class Guard {
 	protected:
 		T_Object m_obj;
 };
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>::Guard()
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>::~Guard()
-{
-	clear();
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>::Guard(const Guard<T_Object>& other)
-{
-	*this = other.get();
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>& Guard<T_Object>::operator=(const Guard<T_Object>& other)
-{
-	*this = other.get();
-	return *this;
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>::Guard(const T_Object& obj)
-{
-	m_obj = const_cast<T_Object&>(obj).rcopy();
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-Guard<T_Object>& Guard<T_Object>::operator=(const T_Object& obj)
-{
-	m_obj = const_cast<T_Object&>(obj).rcopy();
-	return *this;
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-void Guard<T_Object>::clear()
-{
-	m_obj.clear();
-}
-/*-------------------------------------------------*/
-template <typename T_Object>
-const T_Object& Guard<T_Object>::get() const
-{
-	return m_obj;
-}
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -272,6 +272,18 @@ void Array2D<T_Scalar>::moveTo(Array2D<T_Scalar>& trg)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+bool Array2D<T_Scalar>::operator!() const
+{
+	return empty();
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+Array2D<T_Scalar>::operator bool() const
+{
+	return !empty();
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j)
 {
 	return bulk::dns::entry(lsize(), values(), i, j);
