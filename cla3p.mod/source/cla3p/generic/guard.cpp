@@ -22,11 +22,65 @@
 // 3rd
 
 // cla3p
+#include "cla3p/dense.hpp"
+#include "cla3p/perms.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-
+template <typename T_Object>
+Guard<T_Object>::Guard()
+{
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+Guard<T_Object>::~Guard()
+{
+	clear();
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+Guard<T_Object>::Guard(const Guard<T_Object>& other)
+{
+	m_obj = const_cast<T_Object&>(other.get()).rcopy();
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+Guard<T_Object>& Guard<T_Object>::operator=(const Guard<T_Object>& other)
+{
+	m_obj = const_cast<T_Object&>(other.get()).rcopy();
+	return *this;
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+Guard<T_Object>::Guard(const T_Object& obj)
+{
+	m_obj = const_cast<T_Object&>(obj).rcopy();
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+void Guard<T_Object>::clear()
+{
+	m_obj.clear();
+}
+/*-------------------------------------------------*/
+template <typename T_Object>
+const T_Object& Guard<T_Object>::get() const
+{
+	return m_obj;
+}
+/*-------------------------------------------------*/
+template class Guard<dns::RdVector>;
+template class Guard<dns::RfVector>;
+template class Guard<dns::CdVector>;
+template class Guard<dns::CfVector>;
+/*-------------------------------------------------*/
+template class Guard<dns::RdMatrix>;
+template class Guard<dns::RfMatrix>;
+template class Guard<dns::CdMatrix>;
+template class Guard<dns::CfMatrix>;
+/*-------------------------------------------------*/
+template class Guard<PiMatrix>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

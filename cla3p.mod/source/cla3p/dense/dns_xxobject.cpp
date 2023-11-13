@@ -116,7 +116,7 @@ Guard<T_Object> XxObjectTmpl::rcopy() const
 {
 	T_Object tmp;
 	const_cast<XxObjectTmpl&>(*this).copyToShallow(tmp);
-	Guard<T_Object> ret = tmp;
+	Guard<T_Object> ret(tmp);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -197,7 +197,7 @@ XxObjectTlst
 Guard<T_Object> XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
 	T_Object tmp = const_cast<XxObjectTmpl&>(*this).getBlockReference(ibgn, jbgn, ni, nj);
-	Guard<T_Object> ret = tmp;
+	Guard<T_Object> ret(tmp);
 	return ret;
 }
 /*-------------------------------------------------*/

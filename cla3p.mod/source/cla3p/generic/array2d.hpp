@@ -56,6 +56,18 @@ class Array2D : public Ownership {
 		uint_t lsize() const;
 
 		/**
+		 * @brief Test whether object is empty.
+		 * @return true if object is empty, false otherwise
+		 */
+		bool operator!() const; 
+
+		/**
+		 * @brief Test whether object is empty.
+		 * @return true if object is not empty, false otherwise
+		 */
+		operator bool() const;
+
+		/**
 		 * @brief The values array.
 		 * @return The pointer to the numerical values of the object (column-major).
 		 */

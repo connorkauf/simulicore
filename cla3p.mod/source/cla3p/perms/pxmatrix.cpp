@@ -126,7 +126,7 @@ PxMatrix<T_Int> PxMatrix<T_Int>::rcopy()
 template <typename T_Int>
 Guard<PxMatrix<T_Int>> PxMatrix<T_Int>::rcopy() const
 {
-	Guard<PxMatrix<T_Int>> ret = *this;
+	Guard<PxMatrix<T_Int>> ret(*this);
   return ret;
 }
 /*-------------------------------------------------*/
