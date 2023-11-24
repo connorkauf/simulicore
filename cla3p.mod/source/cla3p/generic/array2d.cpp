@@ -45,8 +45,7 @@ Array2D<T_Scalar>::Array2D()
 template <typename T_Scalar>
 Array2D<T_Scalar>::Array2D(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
 {
-	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
-	wrapper(nr, nc, nl, vals, true, pr);
+	creator(nr, nc, nl, pr);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -166,6 +165,13 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals,
 	setProperty(pr2);
 
 	setOwner(bind);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void Array2D<T_Scalar>::creator(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
+{
+	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
+	wrapper(nr, nc, nl, vals, true, pr);
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>

@@ -184,18 +184,6 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		VirtualMatrix<T_Matrix> conjugate() const;
 
 		/**
-		 * @brief Matrix maximum norm.
-		 * @return The maximum norm of `(*this)`.
-		 */
-		T_RScalar normMax() const;
-
-		/**
-		 * @brief Matrix Frobenius norm.
-		 * @return The Frobenius norm of `(*this)`.
-		 */
-		T_RScalar normFro() const;
-
-		/**
 		 * @brief Converts a matrix to general.
 		 * @return A copy of `(*this)` with general property.
 		 */

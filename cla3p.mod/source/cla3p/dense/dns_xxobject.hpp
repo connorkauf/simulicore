@@ -48,7 +48,7 @@ class XxObject : public Array2D<T_Scalar> {
 		XxObject(XxObject<T_Scalar,T_Object>&& other) = default;
 		XxObject<T_Scalar,T_Object>& operator=(XxObject<T_Scalar,T_Object>&& other) = default;
 
-		virtual const T_Object& self() const;
+		virtual const T_Object& self() const = 0;
 
 		/** 
 		 * @name Operators
@@ -116,15 +116,27 @@ class XxObject : public Array2D<T_Scalar> {
 
 		/**
 		 * @brief The 1-norm.
-		 * @return The 1-norm of the object.
+		 * @return The 1-norm of `(*this)`.
 		 */
 		T_RScalar normOne() const;
 
 		/**
 		 * @brief The infinite norm.
-		 * @return The infinite norm of the object.
+		 * @return The infinite norm of `(*this)`.
 		 */
 		T_RScalar normInf() const;
+
+		/**
+		 * @brief The maximum norm.
+		 * @return The maximum norm of `(*this)`.
+		 */
+		T_RScalar normMax() const;
+
+		/**
+		 * @brief The Frobenius norm.
+		 * @return The Frobenius norm of `(*this)`.
+		 */
+		T_RScalar normFro() const;
 
 		/** @} */
 
