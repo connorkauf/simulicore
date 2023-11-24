@@ -56,12 +56,6 @@ XxObjectTmpl::~XxObject()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-const T_Object& XxObjectTmpl::self() const
-{
-	return this->rcopy().get();
-}
-/*-------------------------------------------------*/
-XxObjectTlst
 T_Object XxObjectTmpl::operator-() const
 {
 	T_Object ret = this->copy();
@@ -151,6 +145,30 @@ typename XxObjectTmpl::T_RScalar XxObjectTmpl::normInf() const
 }
 /*-------------------------------------------------*/
 XxObjectTlst
+typename XxObjectTmpl::T_RScalar XxObjectTmpl::normMax() const
+{ 
+	return bulk::dns::norm_max(
+			this->property().type(), 
+			this->property().uplo(), 
+			this->rsize(), 
+			this->csize(), 
+			this->values(), 
+			this->lsize());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+typename XxObjectTmpl::T_RScalar XxObjectTmpl::normFro() const
+{ 
+	return bulk::dns::norm_fro(
+			this->property().type(), 
+			this->property().uplo(), 
+			this->rsize(), 
+			this->csize(), 
+			this->values(), 
+			this->lsize());
+}
+/*-------------------------------------------------*/
+XxObjectTlst
 T_Object XxObjectTmpl::getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
 {
 	Guard<T_Object> tmp = getBlockReference(ibgn, jbgn, ni, nj);
@@ -220,7 +238,7 @@ void XxObjectTmpl::createFromScaledSum(
 			otherA.property(), otherA.rsize(), otherA.csize(), 
 			otherB.property(), otherB.rsize(), otherB.csize());
 
-	*this = XxObject(otherA.rsize(), otherA.csize(), otherA.rsize(), otherA.property());
+	this->creator(otherA.rsize(), otherA.csize(), otherA.rsize(), otherA.property());
 
   bulk::dns::add(
 			this->property().uplo(), 

@@ -161,30 +161,6 @@ VirtualMatrix<T_Matrix> XxMatrixTmpl::conjugate() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
-{ 
-	return bulk::dns::norm_max(
-			prop().type(), 
-			prop().uplo(), 
-			nrows(), 
-			ncols(),
-			this->values(), 
-			ld());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
-{ 
-	return bulk::dns::norm_fro(
-			prop().type(), 
-			prop().uplo(), 
-			nrows(), 
-			ncols(),
-			this->values(), 
-			ld());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
 T_Matrix XxMatrixTmpl::general() const
 {
 	T_Matrix ret = this->copy();
@@ -349,7 +325,7 @@ typename XxMatrixTmpl::T_Vector XxMatrixTmpl::column(uint_t j) const
 XxMatrixTlst
 typename XxMatrixTmpl::T_Vector XxMatrixTmpl::rcolumn(uint_t j)
 {
-	XxMatrixTmpl tmp = rblock(0, j, nrows(), 1);
+	T_Matrix tmp = rblock(0, j, nrows(), 1);
 	return T_Vector::wrap(tmp.nrows(), tmp.values(), false);
 };
 /*-------------------------------------------------*/
@@ -493,7 +469,7 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 
 	} else if(A.prop().isTriangular() && B.prop().isGeneral()) {
 
-		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
+		T_Matrix tmp(nrows(), ncols(), defaultProperty());
 
 		bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
 				nrows(), 
@@ -508,7 +484,7 @@ void XxMatrixTmpl::updateSelfWithScaledMatMat(T_Scalar alpha,
 
 	} else if(A.prop().isGeneral() && B.prop().isTriangular()) {
 
-		XxMatrixTmpl tmp(nrows(), ncols(), defaultProperty());
+		T_Matrix tmp(nrows(), ncols(), defaultProperty());
 
 		bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
 				nrows(), 

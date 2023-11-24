@@ -117,6 +117,7 @@ class Array2D : public Ownership {
 		
 	protected:
 		void wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr);
+		void creator(uint_t nr, uint_t nc, uint_t nl, const Property& pr);
 
 		const Property& property() const;
 		Property& property();
