@@ -256,19 +256,6 @@ VirtualVector<T_Vector>::operator T_Vector() const
 }
 /*-------------------------------------------------*/
 template <typename T_Vector>
-VirtualMatrix<typename TypeTraits<T_Vector>::matrix_type> VirtualVector<T_Vector>::asVirtualMatrix() const
-{
-	VirtualMatrix<T_Matrix> ret;
-
-	ret.setTransOp(this->transOp());
-	ret.setConjOp(this->conjOp());
-	ret.setCoeff(this->coeff());
-	ret.setGuard(this->obj().rmatrix());
-
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Vector>
 typename T_Vector::value_type VirtualVector<T_Vector>::evaluateInner(const T_Vector& Y) const
 {
 	T_Scalar ret = 0;
@@ -325,6 +312,15 @@ template <typename T_Matrix>
 VirtualMatrix<T_Matrix>::VirtualMatrix(const T_Matrix& mat)
 	: VirtualObject<T_Matrix,VirtualMatrix<T_Matrix>>(mat)
 {
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+VirtualMatrix<T_Matrix>::VirtualMatrix(const VirtualVector<T_Vector>& v)
+{
+	this->setTransOp(v.transOp());
+	this->setConjOp(v.conjOp());
+	this->setCoeff(v.coeff());
+	this->setGuard(v.obj().rmatrix());
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>

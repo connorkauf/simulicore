@@ -56,12 +56,14 @@ class VirtualObject : public VirtualEntity<T_Object,T_Virtual> {
 		T_Scalar coeff() const;
 		const Guard<T_Object>& guard() const;
 
+		const T_Object& obj() const;
+
+	protected:
 		void setTransOp(op_t transop);
 		void setConjOp(bool conjop);
 		void setCoeff(T_Scalar c);
 		void setGuard(const Guard<T_Object>& guard);
 
-		const T_Object& obj() const;
 
 	private:
 		op_t m_transop;
@@ -92,7 +94,6 @@ class VirtualVector : public VirtualObject<T_Vector, VirtualVector<T_Vector>> {
 		void update(T_Scalar c, T_Vector& Y) const override;
 		operator T_Vector() const;
 
-		VirtualMatrix<T_Matrix> asVirtualMatrix() const;
 		T_Scalar evaluateInner(const T_Vector& Y) const;
 		T_Matrix evaluateOuter(const T_Vector& X) const;
 };
@@ -102,12 +103,14 @@ class VirtualMatrix : public VirtualObject<T_Matrix,VirtualMatrix<T_Matrix>> {
 
 	private:
 		using T_Scalar = typename T_Matrix::value_type;
+		using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
 		using value_type = T_Matrix;
 
 		explicit VirtualMatrix();
 		explicit VirtualMatrix(const T_Matrix& mat);
+		explicit VirtualMatrix(const VirtualVector<T_Vector>& v);
 		~VirtualMatrix();
 
 		const VirtualMatrix<T_Matrix>& self() const override;
