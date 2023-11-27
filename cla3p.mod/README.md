@@ -116,10 +116,10 @@ A quick reference guide will be available shortly.
 <a name="third-party-dependencies"></a>
 ## Third-Party Dependencies
 
-**CLA3P** depends on [**Intel Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations.  
-Check file `<compact_suite_install>/3rd/mkl.md` for a guide about linking with **Intel MKL** library.  
+**CLA3P** depends on [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations.  
+Check file `<compact_suite_install>/3rd/mkl.md` for a guide about linking with **Intel&reg; MKL** library.  
 
-Also, in the examples folder `<compact_suite_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel MKL**.
+Also, in the examples folder `<compact_suite_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel&reg; MKL**.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

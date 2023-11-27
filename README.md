@@ -40,7 +40,7 @@ In order to build **Compact Suite** you will need:
   * [CMake](https://cmake.org) 3.7.0 and above
   * [GNU C++ compiler](https://gcc.gnu.org) (linux)
   * [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
-  * [Intel Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) (linux & windows) You can download it [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+  * [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) (linux & windows) You can download it [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
 
 ## Installation Guide
 
