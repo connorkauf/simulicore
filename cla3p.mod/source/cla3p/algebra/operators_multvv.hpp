@@ -57,7 +57,7 @@ cla3p::VirtualPairMm<typename cla3p::TypeTraits<T_Vector>::matrix_type> operator
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
 	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vA(X.rmatrix());
-	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vB = vY.asVirtualMatrix();
+	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vB(vY);
 	cla3p::VirtualPairMm<T_Vector> ret(vA,vB);
 	return ret;
 }
