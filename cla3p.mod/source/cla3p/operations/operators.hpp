@@ -240,7 +240,7 @@ T_Matrix operator*(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p
  * @return The result of the operation (A<sup>-1</sup> * B).
  */
 template <typename T_Scalar, typename T_Vector, typename T_Matrix>
-T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
+T_Vector operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p::dns::XxVector<T_Scalar,T_Vector>& B)
 {
 	T_Vector ret = B.copy();
 	ret /= A;
@@ -268,7 +268,7 @@ T_Vector operator/(const cla3p::dns::XxVector<T_Scalar,T_Vector>& B, const cla3p
  * @return The result of the operation (A<sup>-1</sup> * B).
  */
 template <typename T_Scalar, typename T_Matrix>
-T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A)
+T_Matrix operator/(const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& A, const cla3p::dns::XxMatrix<T_Scalar,T_Matrix>& B)
 {
 	T_Matrix ret = B.copy();
 	ret /= A;
