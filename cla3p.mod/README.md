@@ -25,7 +25,7 @@
 <a name="about-cla3p"></a>
 ## About CLA3P
 
-**Compact Linear Algebra Parallel Portable Package** is a modern lightweignt numerical linear algebra library distributed as a part of [**Compact Suite**](https://github.com/connorkauf/CompactSuite). With its minimalistic design **CLA3P** is ideal for beginners, while the advanced API offering allows experienced users get peak performance.
+**Compact Linear Algebra Parallel Portable Package** is a modern lightweight numerical linear algebra library distributed as a part of [**SimuliCore**](https://github.com/connorkauf/SimuliCore). With its minimalistic design **CLA3P** is ideal for beginners, while the advanced API offering allows experienced users get peak performance.
 
 Starting with dense linear algebra support as a base framework, **CLA3P** will constantly evolve and expand to new fields such as sparse linear algebra, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
 
@@ -42,7 +42,7 @@ Starting with dense linear algebra support as a base framework, **CLA3P** will c
 
 All the above are supported by a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding!
 
-The list will be expanded with new features on every new version. Feel free to [contact](#contact) us and submit your requests.
+The list will be expanded with new features on every new version. Feel free to [contact](https://github.com/connorkauf/SimuliCore/blob/devel/README.md#contact) us and submit your requests.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -52,9 +52,9 @@ The list will be expanded with new features on every new version. Feel free to [
 <a name="how-to-use-cla3p"></a>
 ## How to use CLA3P
 
-**CLA3P** artifacts are located in your **Compact Suite** installation directory. You can use them simply by:
-* including directory `<compact_suite_install>/include`
-* linking your code with the shared library located in `<compact_suite_install>/lib`
+**CLA3P** artifacts are located in your **SimuliCore** installation directory. You can use them simply by:
+* including directory `<simulicore_install>/include`
+* linking your code with the shared library located in `<simulicore_install>/lib`
 * linking with 3rd party dependencies
 
 **CLA3P** comes with 32bit and 64bit integer interfaces.  
@@ -68,9 +68,9 @@ The list will be expanded with new features on every new version. Feel free to [
 # sample linux CMake setup
 #
 
-include("<compact_suite_install>/3rd/mkl.lin.cmake")
-set(CLA3P_INC <compact_suite_install>/include)
-set(CLA3P_LIB -L<compact_suite_install>/lib -lcla3p)
+include(<simulicore_install>/3rd/mkl.lin.cmake)
+set(CLA3P_INC <simulicore_install>/include)
+set(CLA3P_LIB -L<simulicore_install>/lib -lcla3p)
 
 add_executable(<target> main.cpp)
 target_include_directories(<target> PRIVATE ${CLA3P_INC})
@@ -92,11 +92,11 @@ In order to ensure a minimum-copy policy, copy constructors for the basic math o
 ``` cpp
 Y = A.transpose() * X;
 ```
-or by skipping the explicit transposition of A and using the mult() function
+or by using the mult() function
 ``` cpp
 Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
 ```
-The user has the convinience of quickly writing an early implementation of a code chunk, verify that it works and then gradually improve performance by identifying and treating such cases.
+At the moment the operation `A.transpose()` is performed explicitly, but do not be afraid of using the operator interface, **CLA3P Virtuals** are on the way. With **CLA3P Virtuals** a symbolic operation layer is added to the computation, making such explicit calculations dissapear. **CLA3P Virtuals** will soon be available in the next **CLA3P** version.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -106,7 +106,7 @@ The user has the convinience of quickly writing an early implementation of a cod
 <a name="documentation"></a>
 ## Documentation
 
-A quick reference guide will be available shortly.
+A quick reference guide will be available online shortly. Feel free to request a copy by [email](https://github.com/connorkauf/SimuliCore/blob/devel/README.md#contact).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -117,9 +117,9 @@ A quick reference guide will be available shortly.
 ## Third-Party Dependencies
 
 **CLA3P** depends on [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations.  
-Check file `<compact_suite_install>/3rd/mkl.md` for a guide about linking with **Intel&reg; MKL** library.  
+Check file `<simulicore_install>/3rd/mkl.md` for a guide about linking with **Intel&reg; MKL** library.  
 
-Also, in the examples folder `<compact_suite_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel&reg; MKL**.
+Also, in the examples folder `<simulicore_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel&reg; MKL**.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -129,12 +129,12 @@ Also, in the examples folder `<compact_suite_install>/examples/cla3p` you can fi
 <a name="examples"></a>
 ## Examples
 
-Folder `<compact_suite_install>/examples/cla3p` contains numerus examples describing the basics of **CLA3P**.  
+Folder `<simulicore_install>/examples/cla3p` contains numerus examples describing the basics of **CLA3P**.  
 
 ### Building examples on linux
 From a linux terminal:
 ``` sh
-cd <compact_suite_install>/examples/cla3p
+cd <simulicore_install>/examples/cla3p
 ./example_builder.sh
 ```
 All example executables are located in the `i32/bin` and `i64/bin` directories, for the respective integer interface.  
@@ -144,7 +144,7 @@ Select an example `ex<number>_<description>.sh` and run it:
 ```
 
 ### Building examples on windows
-Open directory `<compact_suite_install>/examples/cla3p` in Visual Studio and compile.  
+Open directory `<simulicore_install>/examples/cla3p` in Visual Studio and compile.  
 Set the CMake variable `-DCLA3P_EXAMPLES_I64=true` to build examples using the 64bit integer interface.  
 All example executables are located in the `ixx/bin` directory. ixx is either i32 or i64 depending on the integer interface selected.  
 Select an example `ex<number>_<description>.bat` and run it on Visual Studio terminal:
@@ -160,7 +160,7 @@ Select an example `ex<number>_<description>.bat` and run it on Visual Studio ter
 <a name="license"></a>
 ## License
 
-Distributed as a part of [**Compact Suite**](https://github.com/connorkauf/CompactSuite) licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+Distributed as a part of [**SimuliCore**](https://github.com/connorkauf/SimuliCore) licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -171,11 +171,7 @@ Distributed as a part of [**Compact Suite**](https://github.com/connorkauf/Compa
 ## Contact
 
 **CLA3P** is spanking new, so feel free to contact us about anything regarding this software.  
-Please share your opinions, future requests and documentation clarifications.  
-You can report an issue using the link below.
-
-Connor Kaufman - connor.kaufman.gh@outlook.com  
-Report an issue: [https://github.com/connorkauf/CompactSuite/issues](https://github.com/connorkauf/CompactSuite/issues) 
+Please share your opinions, future requests and documentation clarifications, or report an issue [here](https://github.com/connorkauf/SimuliCore/blob/devel/README.md#contact).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

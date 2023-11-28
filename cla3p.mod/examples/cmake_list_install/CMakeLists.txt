@@ -49,7 +49,7 @@ if(CLA3P_EXAMPLES_I64)
 else()
 	set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/i32" CACHE PATH "Installation directory" FORCE)
 endif()
-message(STATUS "Compact Suite Examples Install Directory: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "SimuliCore Examples Install Directory: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
 # set compiler flags

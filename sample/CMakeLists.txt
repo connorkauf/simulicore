@@ -7,7 +7,7 @@ set(SAMPLE_BIN_I64 "${SAMPLE_BIN}_i64")
 #-----------------------------------------------
 # cla3p library setup
 #-----------------------------------------------
-set(SAMPLE_3RD_PARTY_INC ${COMPACT_SUITE_ROOT}/cla3p.mod/source)
+set(SAMPLE_3RD_PARTY_INC ${SIMULICORE_ROOT}/cla3p.mod/source)
 set(SAMPLE_3RD_PARTY_LIB ${CLA3P_LIB})
 set(SAMPLE_3RD_PARTY_I64_LIB ${CLA3P_I64_LIB})
 set(SAMPLE_3RD_PARTY_LIB_PATH ${CMAKE_INSTALL_PREFIX}/lib)
@@ -17,9 +17,9 @@ set(SAMPLE_3RD_PARTY_DLL_PATH ${CMAKE_INSTALL_PREFIX}/lib)
 # 3rd party library setup
 #-----------------------------------------------
 if(LINUX)
-  include("${COMPACT_SUITE_ROOT}/3rd/mkl.lin.cmake")
+	include("${SIMULICORE_ROOT}/3rd/mkl.lin.cmake")
 elseif(WIN32)
-  include("${COMPACT_SUITE_ROOT}/3rd/mkl.win.cmake")
+	include("${SIMULICORE_ROOT}/3rd/mkl.win.cmake")
 endif()
 
 set(SAMPLE_3RD_PARTY_INC ${SAMPLE_3RD_PARTY_INC} ${MKL_INC})

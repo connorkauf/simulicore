@@ -1,4 +1,4 @@
-# Compact Suite Installation Guide
+# SimuliCore Installation Guide
 
 Before continuing with installation, check the [Prerequisites](README.md#prerequisites) section.
 
@@ -18,16 +18,16 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 2. Clone the repo
    
    ``` sh
-   git clone git@github.com:connorkauf/CompactSuite.git
-   cd CompactSuite
+   git clone git@github.com:connorkauf/SimuliCore.git
+   cd SimuliCore
    ```
    
-   For the purposes of this document, the top directory is marked as `<compact_suite_root>`.
+   For the purposes of this document, the top directory is marked as `<simulicore_root>`.
 
 3. Open file
    
    ``` sh
-   <compact_suite_root>/3rd/mkl.lin.cmake
+   <simulicore_root>/3rd/mkl.lin.cmake
    ```
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
@@ -38,7 +38,7 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 4. Choose a build directory `build_dir` and use cmake command to configure the project
    
    ``` sh
-   cmake -S <compact_suite_root> -B <build_dir>
+   cmake -S <simulicore_root> -B <build_dir>
    ```
    
    For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
@@ -58,32 +58,32 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 1. Clone the repo using a cloning method of your choice
    
    ``` sh
-   https: https://github.com/connorkauf/CompactSuite.git
-   ssh: git@github.com:connorkauf/CompactSuite.git
+   https: https://github.com/connorkauf/SimuliCore.git
+   ssh: git@github.com:connorkauf/SimuliCore.git
    ```
    
-   For the purposes of this document, the top directory is marked as `<compact_suite_root>`.
+   For the purposes of this document, the top directory is marked as `<simulicore_root>`.
 
 2. Open file
    
    ``` sh
-   <compact_suite_root>/3rd/mkl.win.cmake
+   <simulicore_root>/3rd/mkl.win.cmake
    ```
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
 
    For more information, check this [Intel&reg; MKL Linking Guide](3rd/mkl.md).
 
-3. Start Microsoft Visual Studio and open the `compact_suite_root` directory.
+3. Start Microsoft Visual Studio and open the `simulicore_root` directory.
 
    <a name="windows-cmake-config"></a>
-4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for Compact Suite).
+4. Configure CMake from inside Microsoft Visual Studio (Project > CMake Settings for SimuliCore).
    
    For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
 
 5. Compile (Build > Build All)
 
-6. Install (Build > Install Compact Suite)
+6. Install (Build > Install SimuliCore)
 
 
 
@@ -97,8 +97,8 @@ For Windows add the desired options in the section "CMake command arguments" in 
 #### <ins>Installation directory</ins>
 
 The default installation directories are:  
-`<compact_suite_root>/install` for Linux and  
-`<compact_suite_root>/out/install/<build-type>` for Windows.  
+`<simulicore_root>/install` for Linux and  
+`<simulicore_root>/out/install/<build-type>` for Windows.  
 
 You can specify an install directory by:
 

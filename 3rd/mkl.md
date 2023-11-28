@@ -2,18 +2,18 @@
 
 Some modules of this project will depend on **Intel&reg; Math Kernel Library** in order to accelerate calculations. For example, if a project needs to use **CLA3P** it needs to be linked not only with **CLA3P** but with **Intel&reg; MKL** as well.  
 
-Before compiling **Compact Suite** you need to edit file `mkl.lin.cmake` and/or `mkl.win.cmake` and set the CMake variables `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of Intel&reg; MKL and Intel&reg; Compiler respectively.  
+Before compiling **SimuliCore** you need to edit file `mkl.lin.cmake` and/or `mkl.win.cmake` and set the CMake variables `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.  
 
 In these files, a standard setup of custom CMake variables is performed in order to make the compilation and linking process easier. The default configuration is dynamic linking using **Intel&reg; openMP** as threading layer. You can edit these files to create your own configuration if, for example, you want to link statically with **Intel&reg; MKL** libraries, or to use **GNU openMP** instead of **Intel&reg; openMP**. Consider visiting [**Intel&reg; MKL Link Line Advisor**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html) for creating the setup that fits your needs.
 
-After **Compact Suite** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<compact_suite_install>/3rd` directory. You can use these configuration files to build your own project using CMake.  
+After **SimuliCore** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<simulicore_install>/3rd` directory. You can use these configuration files to build your own project using CMake.  
 
 In order to generate the MKL CMake variables you can just include the appropriate file in your CMakeLists.txt
 ``` cmake
 if(WIN32)
-  include("<compact_suite_install>/3rd/mkl.win.cmake")
+  include(<simulicore_install>/3rd/mkl.win.cmake)
 else()
-  include("<compact_suite_install>/3rd/mkl.lin.cmake")
+  include(<simulicore_install>/3rd/mkl.lin.cmake)
 endif()
 
 message(STATUS "IntelMKL include dir: ${MKL_INC}")
@@ -28,7 +28,7 @@ This sets the `MKL_INC`, `MKL_LIB` and `MKL_I64_LIB` variables to the MKL includ
 > Select only one library list per target.  
 > In the case of 64bit integers you will also need to add the MKL_ILP64 compile definition.
 
-You can add the **Intel&reg; MKL** include directory to your CMake target:
+You can add the **Intel&reg; MKL** include directory to your CMake target with:
 ``` cmake
 target_include_directories(<target> PRIVATE ${MKL_INC})
 ```

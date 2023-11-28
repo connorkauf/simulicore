@@ -1,6 +1,6 @@
 set(LICENSE_FILES 
-	${COMPACT_SUITE_ROOT}/LICENSE
-	${COMPACT_SUITE_ROOT}/NOTICE
+	${SIMULICORE_ROOT}/LICENSE
+	${SIMULICORE_ROOT}/NOTICE
 	)
 
 #-----------------------------------------------

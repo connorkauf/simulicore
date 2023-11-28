@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
 
-set(project_name "Compact Suite")
-set(project_version "0.1.0")
+set(project_name "SimuliCore")
+set(project_version "1.0.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 
 #-----------------------------------------------
@@ -53,21 +53,21 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 #-----------------------------------------------
 # set project root
 #-----------------------------------------------
-set(COMPACT_SUITE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
-message(STATUS "Compact Suite Root Directory: ${COMPACT_SUITE_ROOT}")
+set(SIMULICORE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "SimuliCore Root Directory: ${SIMULICORE_ROOT}")
 
 #-----------------------------------------------
 # set install location
 #-----------------------------------------------
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-	set(CMAKE_INSTALL_PREFIX "${COMPACT_SUITE_ROOT}/install" CACHE PATH "Installation directory" FORCE)
+	set(CMAKE_INSTALL_PREFIX "${SIMULICORE_ROOT}/install" CACHE PATH "Installation directory" FORCE)
 endif()
-message(STATUS "Compact Suite Install Directory: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "SimuliCore Install Directory: ${CMAKE_INSTALL_PREFIX}")
 
 #-----------------------------------------------
 # set global definitions
 #-----------------------------------------------
-option(COMPACT_SUITE_FULL_INSTALL "Install all Compact Suite featues" OFF)
+option(SIMULICORE_FULL_INSTALL "Install all SimuliCore featues" OFF)
 
 #-----------------------------------------------
 # sub-module setup
@@ -76,7 +76,7 @@ add_subdirectory(3rd)
 add_subdirectory(licensing)
 add_subdirectory(cla3p.mod)
 
-if(COMPACT_SUITE_FULL_INSTALL)
+if(SIMULICORE_FULL_INSTALL)
 	add_subdirectory(sample)
 endif()
 

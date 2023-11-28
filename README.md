@@ -4,7 +4,7 @@
 
 ## Table of contents
 
-1. [About Compact Suite](#about-compact-suite)
+1. [About SimuliCore](#about-simulicore)
 2. [Build and Install](#build-and-install)
     - [Prerequisites](#prerequisites)
     - [Installation Guide](#installation-guide)
@@ -15,13 +15,13 @@
 
 
 
-# About Compact Suite
+# About SimuliCore
 
-**Compact Suite** is a collection of C++ libraries for scientific and computational development.
+**SimuliCore** is a collection of C++ libraries for scientific and computational development.
 
 Traditional functional scientific programming is supported by a wide range of libraries and can be used for high performance code production, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
 
-**Compact Suite** aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
+**SimuliCore** aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
 
 The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
@@ -36,7 +36,7 @@ To build and install the suite, follow these simple steps.
 
 ## Prerequisites
 
-In order to build **Compact Suite** you will need:
+In order to build **SimuliCore** you will need:
   * [CMake](https://cmake.org) 3.7.0 and above
   * [GNU C++ compiler](https://gcc.gnu.org) (linux)
   * [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
@@ -44,22 +44,22 @@ In order to build **Compact Suite** you will need:
 
 ## Installation Guide
 
-For the **Compact Suite** installation guide see [INSTALL.md](INSTALL.md).
+For the **SimuliCore** installation guide see [INSTALL.md](INSTALL.md).
 
 ## Installation contents
 
 The default installation directories are:  
-`<compact_suite_root>/install` for Linux and  
-`<compact_suite_root>/out/install/<build-type>` for Windows.
+`<simulicore_root>/install` for Linux and  
+`<simulicore_root>/out/install/<build-type>` for Windows.
 
 In the installation directory you will find the following folders:
   
 ```
-<compact_suite_install>/include : the compact suite include directory
-<compact_suite_install>/lib     : the compact suite library directory
-<compact_suite_install>/3rd     : directory containing the 3rd party library configurations
-<compact_suite_install>/examples: the compact suite examples directory
-<compact_suite_install>/license : licensing related documents
+<simulicore_install>/include : the SimuliCore include directory
+<simulicore_install>/lib     : the SimuliCore library directory
+<simulicore_install>/3rd     : directory containing the 3rd party library configurations
+<simulicore_install>/examples: the SimuliCore examples directory
+<simulicore_install>/license : licensing related documents
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -78,9 +78,9 @@ Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses
 
 # Contact
 
-Connor Kaufman - connor.kaufman.gh@outlook.com  
-Project Link: [https://github.com/connorkauf/CompactSuite](https://github.com/connorkauf/CompactSuite)  
-Report an issue: [https://github.com/connorkauf/CompactSuite/issues](https://github.com/connorkauf/CompactSuite/issues) 
+<picture><img alt="envelope" src="images/envelope.png" height=24px width=24px align="top"></picture> connor.kaufman.gh@outlook.com
+
+<picture><img alt="bug" src="images/bug.png" height=24px width=24px align="top"></picture> [https://github.com/connorkauf/SimuliCore/issues](https://github.com/connorkauf/SimuliCore/issues)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
