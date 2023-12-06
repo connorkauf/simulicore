@@ -21,7 +21,7 @@
 
 Traditional functional scientific programming is supported by a wide range of libraries and can be used for high performance code production, but at the same time it can be painful to master due to the vast documentation and the often long argument list of many of the APIs out there.
 
-**SimuliCore** aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first offers. 
+**SimuliCore** aims to bridge the gap between the established codebases and the modern object oriented coding style, while maintaining the efficiency, robustness and performance the first has to offer. 
 
 The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
@@ -37,10 +37,13 @@ To build and install the suite, follow these simple steps.
 ## Prerequisites
 
 In order to build **SimuliCore** you will need:
-  * [CMake](https://cmake.org) 3.7.0 and above
-  * [GNU C++ compiler](https://gcc.gnu.org) (linux)
-  * [Microsoft Visual Studio](https://visualstudio.microsoft.com) (windows)
-  * [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) (linux & windows) You can download it [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+  * [CMake](https://cmake.org) 3.7.0 and above.
+  * [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) available for download [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+
+Development process default compilers are:
+  * [GNU C++ compiler](https://gcc.gnu.org) v11.4.0
+  * [Microsoft Visual Studio 2022](https://visualstudio.microsoft.com) msvc_x64 v17.8.2
+
 
 ## Installation Guide
 
