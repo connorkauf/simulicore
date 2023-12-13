@@ -23,8 +23,8 @@ int main()
 	X /= 2.;
 	std::cout << "X /= 2:\n" << X << "\n";
 
-	X.scale(.5);
-	std::cout << "X.scale(.5):\n" << X << "\n";
+	X.iscale(.5);
+	std::cout << "X.iscale(.5):\n" << X << "\n";
 
 	cla3p::dns::RdVector Y1 = X  / 2.;
 	cla3p::dns::RdVector Y2 = X  * 2.;

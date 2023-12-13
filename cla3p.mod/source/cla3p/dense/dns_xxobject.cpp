@@ -59,7 +59,7 @@ XxObjectTlst
 T_Object XxObjectTmpl::operator-() const
 {
 	T_Object ret = this->copy();
-	ret.scale(-1);
+	ret.iscale(-1);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -97,7 +97,7 @@ T_Object XxObjectTmpl::move()
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-void XxObjectTmpl::scale(T_Scalar val)
+void XxObjectTmpl::iscale(T_Scalar val)
 {
 	hermitian_coeff_check(this->property(), val, msg::HermitianInconsistency());
 

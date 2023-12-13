@@ -107,7 +107,7 @@ class XxObject : public Array2D<T_Scalar> {
 		 * @brief Scales the object by coeff.
 		 * @param[in] val The scaling coefficient.
 		 */
-		void scale(T_Scalar val);
+		void iscale(T_Scalar val);
 
 		/**
 		 * @brief Conjugates the object in-place.

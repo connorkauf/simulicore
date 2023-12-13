@@ -23,8 +23,8 @@ int main()
 	A /= 2.;
 	std::cout << "A /= 2:\n" << A;
 
-	A.scale(.5);
-	std::cout << "A.scale(.5):\n" << A << "\n";
+	A.iscale(.5);
+	std::cout << "A.iscale(.5):\n" << A << "\n";
 
 	cla3p::dns::RdMatrix B1 = A  / 2.;
 	cla3p::dns::RdMatrix B2 = A  * 2.;
