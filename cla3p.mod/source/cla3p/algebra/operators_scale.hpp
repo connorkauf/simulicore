@@ -229,7 +229,7 @@ void operator*=(
 		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
 		typename T_Object::value_type val)
 {
-	src.scale(val);
+	src.iscale(val);
 }
 
 /*-------------------------------------------------*/
@@ -261,7 +261,7 @@ void operator/=(
 		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
 		typename T_Object::value_type val)
 {
-	src.scale(cla3p::arith::inv(val));
+	src.iscale(cla3p::arith::inv(val));
 }
 
 /*-------------------------------------------------*/

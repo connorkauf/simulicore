@@ -64,7 +64,6 @@ class VirtualObject : public VirtualEntity<T_Object,T_Virtual> {
 		void setCoeff(T_Scalar c);
 		void setGuard(const Guard<T_Object>& guard);
 
-
 	private:
 		op_t m_transop;
 		bool m_conjop;

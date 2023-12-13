@@ -226,7 +226,7 @@ T_Vector VirtualVector<T_Vector>::evaluate() const
 
 	T_Vector ret = this->obj().copy();
 
-	ret.scale(this->coeff());
+	ret.iscale(this->coeff());
 
 	if(this->conjOp()) {
 		ret.iconjugate();
@@ -290,7 +290,7 @@ typename TypeTraits<T_Vector>::matrix_type VirtualVector<T_Vector>::evaluateOute
 		if(this->transOp() == op_t::T) ret = ops::outer (X, this->obj());
 		if(this->transOp() == op_t::C) ret = ops::outerc(X, this->obj());
 
-		ret.scale(this->coeff());
+		ret.iscale(this->coeff());
 
 	} else {
 
