@@ -10,3 +10,11 @@ set(LICENSE_INSTALL license)
 
 install(FILES ${LICENSE_FILES} DESTINATION ${LICENSE_INSTALL})
 
+#-----------------------------------------------
+# sub-directory setup
+#-----------------------------------------------
+add_subdirectory(intel_mkl)
+
+#-----------------------------------------------
+# end
+#-----------------------------------------------
