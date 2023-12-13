@@ -85,7 +85,7 @@ std::string PxMatrix<T_Int>::info(const std::string& msg) const
 	std::string bottom;
 	fill_info_margins(msg, top, bottom);
 
-	std::stringstream ss;
+	std::ostringstream ss;
 
 	ss << top << "\n";
 

@@ -18,12 +18,12 @@
 #include "cla3p/types/operation.hpp"
 
 // system
+#include <sstream>
 
 // 3rd
 
 // cla3p
 #include "cla3p/types/literals.hpp"
-#include "cla3p/error/exceptions.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -65,12 +65,11 @@ char Operation::ctype() const
 /*-------------------------------------------------*/
 std::string Operation::name() const
 {
-	if(type() == op_t::N) return msg::NoOperation();
-	if(type() == op_t::T) return msg::TransposeOperation();
-	if(type() == op_t::C) return msg::ConjugateTransposeOperation();
+	std::ostringstream ss;
 
-	throw err::Exception("Unknown operation");
-	return msg::NoOperation();
+	ss << type();
+
+	return ss.str();
 }
 /*-------------------------------------------------*/
 bool Operation::isTranspose() const

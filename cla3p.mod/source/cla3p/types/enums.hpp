@@ -22,6 +22,8 @@
  * Enumerations
  */
 
+#include <ostream>
+
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
@@ -97,5 +99,23 @@ enum class dup_t {
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_stream_operators
+ * @brief Writes to os the type of prop.
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::prop_t& prop);
+
+/**
+ * @ingroup module_index_stream_operators
+ * @brief Writes to os the type of uplo.
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::uplo_t& uplo);
+
+/**
+ * @ingroup module_index_stream_operators
+ * @brief Writes to os the type of op.
+ */
+std::ostream& operator<<(std::ostream& os, const cla3p::op_t& op);
 
 #endif // CLA3P_ENUMS_HPP_

@@ -49,6 +49,7 @@ std::string Hermitian();
 std::string Triangular();
 std::string Skew();
 
+std::string Full();
 std::string Upper();
 std::string Lower();
 
