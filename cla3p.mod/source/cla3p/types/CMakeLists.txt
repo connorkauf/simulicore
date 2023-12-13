@@ -4,6 +4,7 @@
 set(CLA3P_SRC ${CLA3P_SRC}
 	types/integer.cpp
 	types/scalar.cpp
+	types/enums.cpp
 	types/operation.cpp
 	types/property.cpp
 	types/literals.cpp

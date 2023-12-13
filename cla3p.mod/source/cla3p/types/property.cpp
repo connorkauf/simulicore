@@ -18,6 +18,7 @@
 #include "cla3p/types/property.hpp"
 
 // system
+#include <sstream>
 
 // 3rd
 
@@ -103,19 +104,11 @@ void Property::check() const
 /*-------------------------------------------------*/
 std::string Property::name() const
 {
-	std::string strProp = msg::Unknown();
-	std::string strUplo = "";
+	std::ostringstream ss;
 
-	if(type() == prop_t::General   ) strProp = msg::General();
-	if(type() == prop_t::Symmetric ) strProp = msg::Symmetric();
-	if(type() == prop_t::Hermitian ) strProp = msg::Hermitian();
-	if(type() == prop_t::Triangular) strProp = msg::Triangular();
-	if(type() == prop_t::Skew      ) strProp = msg::Skew();
+	ss << type() << " " << uplo();
 
-	if(uplo() == uplo_t::Upper) strUplo = msg::Upper();
-	if(uplo() == uplo_t::Lower) strUplo = msg::Lower();
-
-	return (strProp + " " + strUplo);
+	return ss.str();
 }
 /*-------------------------------------------------*/
 bool Property::isValid() const
