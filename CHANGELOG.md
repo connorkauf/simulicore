@@ -5,10 +5,11 @@ SimuliCore next version with various features, bug-fixes and patches.
 ## CLA3P Module
 
 ### New Features
-- [CLA3P-25](https://github.com/connorkauf/SimuliCore/issues/25)
-  Virtual Operations Implementation.
+- [CLA3P-25](https://github.com/connorkauf/SimuliCore/issues/25) Virtual Operations Implementation.
+- Vector dot product
 
 ### Changes
+Rename dns::XxObject member function "scale()" to "iscale()"
 
 ### Fixes
 
