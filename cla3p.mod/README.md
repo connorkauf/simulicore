@@ -32,16 +32,20 @@ Starting with dense linear algebra support as a base framework, **CLA3P** will c
 
 ### Features so far
 
-**CLA3P** is a new and constantly evolving library. Its main capabilities are:
+**CLA3P** is a new and constantly evolving library. The currently supported and near-future features are:
 
-* Dense Matrix algebra
-* Dense Matrix operations 
-* Property specification for matrices
-* Column & Block operations
-* Vector/Matrix content referencing
-* Dense linear system solvers
+- [x] Dense Matrix algebra
+- [ ] Sparse Matrix algebra
+- [x] Smart operator sets with symbolic layer where applicable
+- [x] Property specification for matrices
+- [x] Column & Block operations
+- [x] Vector/Matrix content referencing
+- [x] Dense linear system solvers
+- [ ] Dense QR decompositions
+- [ ] Dense eigensolvers
+- [ ] Sparse linear system solvers
 
-All the above are supported by a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding! The list will be expanded with new features on every new version. Feel free to [contact](https://connorkauf.github.io/SimuliCoreDocs/index.html#contact) us and submit your requests.
+Most of the supported features are coupled with a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding! The list will be expanded with new features on every new version. Feel free to [contact](https://connorkauf.github.io/SimuliCoreDocs/index.html#contact) us and submit your requests.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
