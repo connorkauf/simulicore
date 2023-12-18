@@ -45,6 +45,12 @@ T_Virtual VirtualEntity<T_Object,T_Virtual>::conjugate() const
 	return ret;
 }
 /*-------------------------------------------------*/
+template <typename T_Object, typename T_Virtual>
+T_Virtual VirtualEntity<T_Object,T_Virtual>::operator-() const
+{
+	return scale(T_Scalar(-1));
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class VirtualEntity<dns::RdVector, VirtualVector<dns::RdVector>>;

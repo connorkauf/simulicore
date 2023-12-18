@@ -44,6 +44,8 @@ class VirtualEntity {
 
 		T_Virtual scale(T_Scalar val) const;
 		T_Virtual conjugate() const;
+
+		T_Virtual operator-() const;
 };
 
 /*-------------------------------------------------*/
