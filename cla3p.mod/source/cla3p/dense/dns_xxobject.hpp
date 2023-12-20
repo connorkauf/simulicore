@@ -176,8 +176,8 @@ class XxObject : public Array2D<T_Scalar> {
  * @ingroup module_index_stream_operators
  * @brief Writes to os the contents of obj.
  */
-template <typename T_Scalar, typename T_Object>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxObject<T_Scalar,T_Object>& obj)
+template <typename T_Object>
+std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& obj)
 {
   os << obj.toString();
   return os;
