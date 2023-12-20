@@ -25,7 +25,6 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
-#include "cla3p/types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -184,8 +183,6 @@ PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
-/*-------------------------------------------------*/
-template<> std::string TypeTraits<PxMatrix<int_t>>::type_name() { return msg::PermutationMatrix(); }
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

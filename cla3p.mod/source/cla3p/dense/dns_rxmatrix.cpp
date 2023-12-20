@@ -22,7 +22,6 @@
 // 3rd
 
 // cla3p
-#include "cla3p/types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -68,15 +67,6 @@ template class RxMatrix<real_t>;
 template class RxMatrix<real4_t>;
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
-/*-------------------------------------------------*/
-
-/*-------------------------------------------------*/
-namespace cla3p {
-/*-------------------------------------------------*/
-template<> std::string TypeTraits<dns::RxMatrix<real_t>>::type_name() { return msg::DenseMatrix(); }
-template<> std::string TypeTraits<dns::RxMatrix<real4_t>>::type_name() { return msg::DenseMatrix(); }
-/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

@@ -23,6 +23,7 @@
 
 // cla3p
 #include "cla3p/dense.hpp"
+#include "cla3p/sparse.hpp"
 #include "cla3p/perms.hpp"
 
 /*-------------------------------------------------*/
@@ -79,6 +80,15 @@ template class Guard<dns::RdMatrix>;
 template class Guard<dns::RfMatrix>;
 template class Guard<dns::CdMatrix>;
 template class Guard<dns::CfMatrix>;
+/*-------------------------------------------------*/
+template class Guard<csc::RdMatrix>;
+template class Guard<csc::RfMatrix>;
+template class Guard<csc::CdMatrix>;
+template class Guard<csc::CfMatrix>;
+template class Guard<csc::RdUMatrix>;
+template class Guard<csc::RfUMatrix>;
+template class Guard<csc::CdUMatrix>;
+template class Guard<csc::CfUMatrix>;
 /*-------------------------------------------------*/
 template class Guard<PiMatrix>;
 /*-------------------------------------------------*/

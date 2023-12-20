@@ -15,76 +15,71 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxvector.hpp"
+#include "cla3p/generic/meta1d.hpp"
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
-#define CxVectorTmpl CxVector<T_Scalar>
-#define CxVectorTlst template <typename T_Scalar>
-/*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector()
+Meta1D::Meta1D()
 {
+	defaults();
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(uint_t n)
-	: CxVectorTmpl::XxVector(n)
+Meta1D::Meta1D(uint_t n)
 {
+	wrapper(n);
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::~CxVector()
+Meta1D::~Meta1D()
 {
+	clear();
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-const CxVectorTmpl& CxVectorTmpl::self() const
+uint_t Meta1D::size() const
 {
-	return (*this);
+	return m_size;
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-void CxVectorTmpl::operator=(T_Scalar val)
-{
-	CxVectorTmpl::XxVector::operator=(val);
+void Meta1D::setSize(uint_t n) 
+{ 
+	m_size = n; 
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
+void Meta1D::wrapper(uint_t n)
 {
-	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
+	setSize(n);
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
+bool Meta1D::empty() const
 {
-	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
+	return !size();
 }
 /*-------------------------------------------------*/
+bool Meta1D::operator!() const
+{
+	return empty();
+}
 /*-------------------------------------------------*/
+Meta1D::operator bool() const
+{
+	return !empty();
+}
 /*-------------------------------------------------*/
-#undef CxVectorTmpl
-#undef CxVectorTlst
+void Meta1D::clear()
+{
+	defaults();
+}
 /*-------------------------------------------------*/
-template class CxVector<complex_t>;
-template class CxVector<complex8_t>;
+void Meta1D::defaults()
+{
+	setSize(0);
+}
 /*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-

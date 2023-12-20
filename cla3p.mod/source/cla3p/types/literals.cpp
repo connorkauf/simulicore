@@ -74,6 +74,11 @@ std::string SparseCsc()
 	return "Sparse (csc)"; 
 }
 /*-------------------------------------------------*/
+std::string SparseCoo()
+{ 
+	return "Sparse (coo)"; 
+}
+/*-------------------------------------------------*/
 std::string Vector()
 { 
 	return "Vector"; 
@@ -97,6 +102,16 @@ std::string DenseVector()
 std::string DenseMatrix ()
 { 
 	return Dense() + " " + Matrix(); 
+}
+/*-------------------------------------------------*/
+std::string SparseCscMatrix()
+{
+	return SparseCsc() + " " + Matrix(); 
+}
+/*-------------------------------------------------*/
+std::string SparseCooMatrix()
+{
+	return SparseCoo() + " " + Matrix(); 
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

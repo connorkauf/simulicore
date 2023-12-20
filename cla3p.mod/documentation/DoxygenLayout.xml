@@ -65,6 +65,7 @@
 
       <tab type="usergroup" url="@ref module_index_matrices" title="Matrices">
         <tab type="user" url="@ref module_index_matrices_dense" title="Dense"/>
+        <tab type="user" url="@ref module_index_matrices_sparse" title="Sparse"/>
         <tab type="user" url="@ref module_index_matrices_perm" title="Permutation"/>
       </tab>
 

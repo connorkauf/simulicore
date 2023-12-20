@@ -15,76 +15,55 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxvector.hpp"
+#include "cla3p/sparse/csc_rxmatrix.hpp"
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxvector.hpp"
+#include "cla3p/types/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
+namespace csc {
 /*-------------------------------------------------*/
-#define CxVectorTmpl CxVector<T_Scalar>
-#define CxVectorTlst template <typename T_Scalar>
+#define RxMatrixTmpl RxMatrix<T_Int,T_Scalar>
+#define RxMatrixTlst template <typename T_Int, typename T_Scalar>
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector()
+RxMatrixTlst
+RxMatrixTmpl::RxMatrix()
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(uint_t n)
-	: CxVectorTmpl::XxVector(n)
+RxMatrixTlst
+RxMatrixTmpl::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+	: RxMatrixTmpl::XxMatrix(nr, nc, nz, pr)
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::~CxVector()
+RxMatrixTlst
+RxMatrixTmpl::~RxMatrix()
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-const CxVectorTmpl& CxVectorTmpl::self() const
+RxMatrixTlst
+const RxMatrixTmpl& RxMatrixTmpl::self() const
 {
 	return (*this);
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-void CxVectorTmpl::operator=(T_Scalar val)
-{
-	CxVectorTmpl::XxVector::operator=(val);
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
-}
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+#undef RxMatrixTmpl
+#undef RxMatrixTlst
 /*-------------------------------------------------*/
-#undef CxVectorTmpl
-#undef CxVectorTlst
+template class RxMatrix<int_t,real_t>;
+template class RxMatrix<int_t,real4_t>;
+template class RxMatrix<uint_t,real_t>;
+template class RxMatrix<uint_t,real4_t>;
 /*-------------------------------------------------*/
-template class CxVector<complex_t>;
-template class CxVector<complex8_t>;
-/*-------------------------------------------------*/
-} // namespace dns
+} // namespace csc
 } // namespace cla3p
 /*-------------------------------------------------*/
 

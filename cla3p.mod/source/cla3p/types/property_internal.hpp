@@ -30,6 +30,9 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
+// TODO: delete this file & use sanitizeProperty when 
+//       property is removed from the Array2D class
+
 template< typename T_Scalar>
 inline Property checkProperty(const Property& pr);
 

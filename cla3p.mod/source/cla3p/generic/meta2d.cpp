@@ -15,76 +15,83 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxvector.hpp"
+#include "cla3p/generic/meta2d.hpp"
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
-#define CxVectorTmpl CxVector<T_Scalar>
-#define CxVectorTlst template <typename T_Scalar>
-/*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector()
+Meta2D::Meta2D()
 {
+	defaults();
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(uint_t n)
-	: CxVectorTmpl::XxVector(n)
+Meta2D::Meta2D(uint_t m, uint_t n)
 {
+	wrapper(m, n);
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::~CxVector()
+Meta2D::~Meta2D()
 {
+	clear();
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-const CxVectorTmpl& CxVectorTmpl::self() const
+uint_t Meta2D::nrows() const
 {
-	return (*this);
+	return m_nrows;
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-void CxVectorTmpl::operator=(T_Scalar val)
+uint_t Meta2D::ncols() const
 {
-	CxVectorTmpl::XxVector::operator=(val);
+	return m_ncols;
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
+void Meta2D::setNrows(uint_t m) 
+{ 
+	m_nrows = m; 
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
+void Meta2D::setNcols(uint_t n) 
+{ 
+	m_ncols = n; 
 }
 /*-------------------------------------------------*/
+void Meta2D::wrapper(uint_t m, uint_t n)
+{
+	setNrows(m);
+	setNcols(n);
+}
 /*-------------------------------------------------*/
+bool Meta2D::empty() const
+{
+	return !(nrows() && ncols());
+}
 /*-------------------------------------------------*/
-#undef CxVectorTmpl
-#undef CxVectorTlst
+bool Meta2D::operator!() const
+{
+	return empty();
+}
 /*-------------------------------------------------*/
-template class CxVector<complex_t>;
-template class CxVector<complex8_t>;
+Meta2D::operator bool() const
+{
+	return !empty();
+}
 /*-------------------------------------------------*/
-} // namespace dns
+void Meta2D::clear()
+{
+	defaults();
+}
+/*-------------------------------------------------*/
+void Meta2D::defaults()
+{
+	setNrows(0);
+	setNcols(0);
+}
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
-

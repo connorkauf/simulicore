@@ -10,15 +10,20 @@ syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOf
 syn keyword cTypeCustomDatatype TypeTraits
 
 syn keyword cTypeCustomDatatype Ownership
+syn keyword cTypeCustomDatatype Meta1D Meta2D MatrixMeta
 syn keyword cTypeCustomDatatype Array2D
 syn keyword cTypeCustomDatatype Guard
+syn keyword cTypeCustomDatatype Coord Tuple TupleVec
 syn keyword cTypeCustomDatatype VirtualEntity
 syn keyword cTypeCustomDatatype VirtualObject VirtualVector VirtualMatrix
 syn keyword cTypeCustomDatatype VirtualProdXx VirtualProdMv VirtualProdMm
 syn keyword cTypeCustomDatatype PxMatrix PiMatrix PuMatrix
 syn keyword cTypeCustomDatatype XxObject
-syn keyword cTypeCustomDatatype XxVector RxVector CxVector RdVector RfVector CdVector CfVector
-syn keyword cTypeCustomDatatype XxMatrix RxMatrix CxMatrix RdMatrix RfMatrix CdMatrix CfMatrix
+syn keyword cTypeCustomDatatype XxVector RxVector CxVector
+syn keyword cTypeCustomDatatype RdVector RfVector CdVector CfVector
+syn keyword cTypeCustomDatatype XxMatrix RxMatrix CxMatrix
+syn keyword cTypeCustomDatatype RdMatrix RfMatrix CdMatrix CfMatrix
+syn keyword cTypeCustomDatatype RdUMatrix RfUMatrix CdUMatrix CfUMatrix
 
 syn keyword cTypeCustomDatatype LSolverBase LSolverAuto LSolverLLt LSolverLDLt LSolverLU LSolverCompleteLU
 
@@ -56,6 +61,7 @@ syn keyword cTypeCustomNSpace lapack
 syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc
+syn keyword cTypeCustomNSpace coo
 
 syn keyword cTypeCustomNSpace arith
 syn keyword cTypeCustomNSpace err

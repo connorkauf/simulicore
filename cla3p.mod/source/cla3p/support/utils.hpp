@@ -33,6 +33,13 @@ std::string bytes2human(bulk_t nbytes, uint_t nsd = 3);
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
 std::string bool2yn(bool flg);
 
+template <typename T_Int>
+std::string coord2str(T_Int i, T_Int j)
+{
+	std::string ret = "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
+	return ret;
+}
+
 template <typename T_Scalar>
 T_Scalar rand(
 		typename TypeTraits<T_Scalar>::real_type low, 
