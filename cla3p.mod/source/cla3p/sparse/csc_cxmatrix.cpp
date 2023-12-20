@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxmatrix.hpp"
+#include "cla3p/sparse/csc_cxmatrix.hpp"
 
 // system
 
@@ -23,15 +23,14 @@
 
 // cla3p
 #include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxmatrix.hpp"
-#include "cla3p/checks/transp_checks.hpp"
+#include "cla3p/sparse/csc_rxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
+namespace csc {
 /*-------------------------------------------------*/
-#define CxMatrixTmpl CxMatrix<T_Scalar>
-#define CxMatrixTlst template <typename T_Scalar>
+#define CxMatrixTmpl CxMatrix<T_Int,T_Scalar>
+#define CxMatrixTlst template <typename T_Int, typename T_Scalar>
 /*-------------------------------------------------*/
 CxMatrixTlst
 CxMatrixTmpl::CxMatrix()
@@ -39,8 +38,8 @@ CxMatrixTmpl::CxMatrix()
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
-CxMatrixTmpl::CxMatrix(uint_t nr, uint_t nc, const Property& pr)
-	: CxMatrixTmpl::XxMatrix(nr, nc, pr)
+CxMatrixTmpl::CxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+	: CxMatrixTmpl::XxMatrix(nr, nc, nz, pr)
 {
 }
 /*-------------------------------------------------*/
@@ -56,25 +55,18 @@ const CxMatrixTmpl& CxMatrixTmpl::self() const
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
-void CxMatrixTmpl::operator=(T_Scalar val)
-{
-	CxMatrixTmpl::XxMatrix::operator=(val);
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
 typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 {
 	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());
 
-	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
+	T_RMatrix ret(this->nrows(), this->ncols(), this->nnz(), ret_prop);
 
-	bulk::dns::get_real(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->lsize(), 
-			ret.values(), ret.lsize());
+	uint_t nc = this->ncols() + 1;
+	uint_t nz = this->nnz();
+
+	bulk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
+	bulk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
+	bulk::dns::get_real(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
 
 	return ret;
 }
@@ -84,15 +76,14 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 {
 	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Skew, this->prop().uplo()) : this->prop());
 
-	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
+	T_RMatrix ret(this->nrows(), this->ncols(), this->nnz(), ret_prop);
 
-	bulk::dns::get_imag(
-			this->prop().uplo(), 
-			this->nrows(), 
-			this->ncols(), 
-			this->values(), 
-			this->lsize(), 
-			ret.values(), ret.lsize());
+	uint_t nc = this->ncols() + 1;
+	uint_t nz = this->nnz();
+
+	bulk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
+	bulk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
+	bulk::dns::get_imag(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
 
 	return ret;
 }
@@ -102,10 +93,11 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 #undef CxMatrixTmpl
 #undef CxMatrixTlst
 /*-------------------------------------------------*/
-template class CxMatrix<complex_t>;
-template class CxMatrix<complex8_t>;
+template class CxMatrix<int_t,complex_t>;
+template class CxMatrix<int_t,complex8_t>;
+template class CxMatrix<uint_t,complex_t>;
+template class CxMatrix<uint_t,complex8_t>;
 /*-------------------------------------------------*/
-} // namespace dns
+} // namespace csc
 } // namespace cla3p
 /*-------------------------------------------------*/
-

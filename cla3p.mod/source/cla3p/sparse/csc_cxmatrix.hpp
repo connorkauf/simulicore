@@ -14,39 +14,37 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_CXMATRIX_HPP_
-#define CLA3P_DNS_CXMATRIX_HPP_
+#ifndef CLA3P_CSC_CXMATRIX_HPP_
+#define CLA3P_CSC_CXMATRIX_HPP_
 
 #include "cla3p/types/literals.hpp"
-#include "cla3p/generic/type_traits.hpp"
-#include "cla3p/dense/dns_xxmatrix.hpp"
+#include "cla3p/sparse/csc_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns {
+namespace csc {
 /*-------------------------------------------------*/
 
-template <typename T_Scalar> class CxVector;
-template <typename T_Scalar> class RxMatrix;
+template <typename T_Int, typename T_Scalar> class RxMatrix;
 
 /**
  * @nosubgrouping 
- * @brief The dense complex matrix class.
+ * @brief The sparse complex matrix class (compressed sparse column format).
  */
-template <typename T_Scalar>
-class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
+template <typename T_Int, typename T_Scalar>
+class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-		using T_RMatrix = typename TypeTraits<CxMatrix<T_Scalar>>::real_type;
+		using T_RMatrix = typename TypeTraits<CxMatrix<T_Int,T_Scalar>>::real_type;
 
 	public:
 
 		// no copy
-		CxMatrix(const CxMatrix<T_Scalar>&) = delete;
-		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>&) = delete;
+		CxMatrix(const CxMatrix<T_Int,T_Scalar>&) = delete;
+		CxMatrix<T_Int,T_Scalar>& operator=(const CxMatrix<T_Int,T_Scalar>&) = delete;
 
-		const CxMatrix<T_Scalar>& self() const override;
+		const CxMatrix<T_Int,T_Scalar>& self() const override;
 
 		/**
 		 * @name Constructors
@@ -54,22 +52,22 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix()
+		 * @copydoc cla3p::csc::XxMatrix::XxMatrix()
 		 */
 		explicit CxMatrix();
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
+		 * @copydoc cla3p::csc::XxMatrix::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
 		 */
-		explicit CxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		explicit CxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
+		 * @copydoc cla3p::csc::XxMatrix::XxMatrix(XxMatrix&& other)
 		 */
-		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
+		CxMatrix(CxMatrix<T_Int,T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
+		 * @copydoc cla3p::csc::XxMatrix::~XxMatrix()
 		 */
 		~CxMatrix();
 
@@ -81,14 +79,9 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
+		 * @copydoc cla3p::csc::XxMatrix::operator=(XxMatrix&& other)
 		 */
-		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
-
-		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
-		 */
-		void operator=(T_Scalar val);
+		CxMatrix<T_Int,T_Scalar>& operator=(CxMatrix<T_Int,T_Scalar>&& other) = default;
 
 		/** @} */
 
@@ -116,24 +109,23 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 };
 
 /*-------------------------------------------------*/
-} // namespace dns
+} // namespace csc
 } // namespace cla3p
 /*-------------------------------------------------*/
 
 /*-------------------------------------------------*/
 namespace cla3p {
-template<typename T_Scalar>
-class TypeTraits<dns::CxMatrix<T_Scalar>> {
+template<typename T_Int, typename T_Scalar>
+class TypeTraits<csc::CxMatrix<T_Int,T_Scalar>> {
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-	public:
-		static constexpr bool is_real() { return false; }
-		static constexpr bool is_complex() { return true; }
-		static std::string type_name() { return msg::DenseMatrix(); };
-		using real_type = dns::RxMatrix<T_RScalar>;
-		using vector_type = dns::CxVector<T_Scalar>;
+  public:
+    static constexpr bool is_real() { return false; }
+    static constexpr bool is_complex() { return true; }
+    static std::string type_name() { return msg::SparseCscMatrix(); };
+    using real_type = csc::RxMatrix<T_Int,T_RScalar>;
 };
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_CXMATRIX_HPP_
+#endif // CLA3P_CSC_CXMATRIX_HPP_

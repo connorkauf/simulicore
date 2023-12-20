@@ -36,8 +36,9 @@ template <typename T_Scalar>
 class Array2D : public Ownership {
 
 	public:
-	
 		using value_type = T_Scalar;
+
+	public:
 
 		explicit Array2D();
 		explicit Array2D(uint_t nr, uint_t nc, uint_t nl, const Property& pr);

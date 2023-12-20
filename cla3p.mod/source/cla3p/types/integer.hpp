@@ -53,19 +53,19 @@ using bulk_t = std::size_t;
 /*-------------------------------------------------*/
 
 template<> class TypeTraits<int_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = int_t;
-    static int_t epsilon();
+	public:
+		using real_type = int_t;
+		static std::string type_name();
+		static std::string prec_name();
+		static int_t epsilon();
 };
 
 template<> class TypeTraits<uint_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = uint_t;
-    static uint_t epsilon();
+	public:
+		using real_type = uint_t;
+		static std::string type_name();
+		static std::string prec_name();
+		static uint_t epsilon();
 };
 
 /*-------------------------------------------------*/

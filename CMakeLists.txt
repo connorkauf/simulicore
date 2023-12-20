@@ -40,6 +40,7 @@ endif()
 	add_compile_options(-Wshadow)
 	add_compile_options(-Wmissing-format-attribute)
 	add_compile_options(-fdiagnostics-color=always)
+	#add_compile_options(-Wno-psabi)
 endif()
 
 # TODO: add options for all compilers

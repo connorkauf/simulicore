@@ -50,6 +50,9 @@
  *   @defgroup module_index_matrices_dense Dense Matrices
  *   The CLA3P dense matrix objects.
  *
+ *   @defgroup module_index_matrices_sparse Sparse Matrices
+ *   The CLA3P sparse matrix objects.
+ *
  *   @defgroup module_index_matrices_perm Permutation Matrices
  *   The CLA3P permutation matrix objects.
  * @}

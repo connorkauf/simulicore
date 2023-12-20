@@ -14,37 +14,44 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_LITERALS_HPP_
-#define CLA3P_ERROR_LITERALS_HPP_
+#ifndef CLA3P_TUPLE_HPP_
+#define CLA3P_TUPLE_HPP_
 
-#include <string>
+#include <ostream>
 
-#include "cla3p/types.hpp"
-
-/*-------------------------------------------------*/
-namespace cla3p {
-namespace msg {
-/*-------------------------------------------------*/
-
-std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string IndexOutOfBounds(uint_t n, uint_t i);
-
-std::string Success();
-std::string InvalidDimensions();
-std::string InvalidPointer();
-std::string InvalidLeadingDimension();
-std::string InvalidProperty();
-std::string NeedSquareMatrix();
-std::string EmptyObject();
-std::string OpNotAllowed();
-std::string LapackError();
-std::string DivisionByZero();
-std::string HermitianInconsistency();
-std::string SkewInconsistency();
+#include "cla3p/generic/coord.hpp"
 
 /*-------------------------------------------------*/
-} // namespace msg
+namespace cla3p { 
+/*-------------------------------------------------*/
+
+template <typename T_Int, typename T_Scalar>
+class Tuple : public Coord<T_Int> {
+
+	public:
+		Tuple();
+		Tuple(T_Int r, T_Int c, T_Scalar v);
+		~Tuple();
+
+		T_Scalar val() const;
+
+	private:
+		T_Scalar m_val;
+
+		void setVal(T_Scalar v);
+
+		void defaults();
+};
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_LITERALS_HPP_
+template <typename T_Int, typename T_Scalar>
+std::ostream& operator<<(std::ostream& os, const cla3p::Tuple<T_Int,T_Scalar>& tuple)
+{
+  os << "(" << tuple.row() << ", " << tuple.col() << ", " << tuple.val() << ")";
+  return os;
+}
+
+#endif // CLA3P_TUPLE_HPP_

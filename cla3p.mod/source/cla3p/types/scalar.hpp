@@ -59,35 +59,43 @@ using complex_t = std::complex<real_t>;
 /*-------------------------------------------------*/
 
 template<> class TypeTraits<real_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = real_t;
-    static real_type epsilon();
+	public:
+		using real_type = real_t;
+		static std::string type_name();
+		static std::string prec_name();
+		constexpr static bool is_real() { return true; }
+		constexpr static bool is_complex() { return false; }
+		static real_type epsilon();
 };
 
 template<> class TypeTraits<real4_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = real4_t;
-    static real_type epsilon();
+	public:
+		using real_type = real4_t;
+		static std::string type_name();
+		static std::string prec_name();
+		constexpr static bool is_real() { return true; }
+		constexpr static bool is_complex() { return false; }
+		static real_type epsilon();
 };
 
 template<> class TypeTraits<complex_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = complex_t::value_type;
-    static real_type epsilon();
+	public:
+		using real_type = complex_t::value_type;
+		static std::string type_name();
+		static std::string prec_name();
+		constexpr static bool is_real() { return false; }
+		constexpr static bool is_complex() { return true; }
+		static real_type epsilon();
 };
 
 template<> class TypeTraits<complex8_t> {
-  public:
-    static std::string type_name();
-    static std::string prec_name();
-    using real_type = complex8_t::value_type;
-    static real_type epsilon();
+	public:
+		using real_type = complex8_t::value_type;
+		static std::string type_name();
+		static std::string prec_name();
+		constexpr static bool is_real() { return false; }
+		constexpr static bool is_complex() { return true; }
+		static real_type epsilon();
 };
 
 /*-------------------------------------------------*/

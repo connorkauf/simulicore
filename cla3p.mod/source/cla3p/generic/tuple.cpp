@@ -15,76 +15,64 @@
  */
 
 // this file inc
-#include "cla3p/dense/dns_cxvector.hpp"
+#include "cla3p/generic/tuple.hpp"
 
 // system
 
 // 3rd
 
 // cla3p
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxvector.hpp"
+#include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
-#define CxVectorTmpl CxVector<T_Scalar>
-#define CxVectorTlst template <typename T_Scalar>
+template <typename T_Int, typename T_Scalar>
+Tuple<T_Int,T_Scalar>::Tuple()
+{
+	defaults();
+}
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector()
+template <typename T_Int, typename T_Scalar>
+Tuple<T_Int,T_Scalar>::Tuple(T_Int r, T_Int c, T_Scalar v)
+	: Coord<T_Int>(r,c)
+{
+	setVal(v);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+Tuple<T_Int,T_Scalar>::~Tuple()
 {
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(uint_t n)
-	: CxVectorTmpl::XxVector(n)
+template <typename T_Int, typename T_Scalar>
+void Tuple<T_Int,T_Scalar>::defaults()
 {
+	setVal(0);
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::~CxVector()
+template <typename T_Int, typename T_Scalar>
+void Tuple<T_Int,T_Scalar>::setVal(T_Scalar v)
 {
+	m_val = v;
 }
 /*-------------------------------------------------*/
-CxVectorTlst
-const CxVectorTmpl& CxVectorTmpl::self() const
+template <typename T_Int, typename T_Scalar>
+T_Scalar Tuple<T_Int,T_Scalar>::val() const
 {
-	return (*this);
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-void CxVectorTmpl::operator=(T_Scalar val)
-{
-	CxVectorTmpl::XxVector::operator=(val);
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
-{
-	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
-	return ret;
+	return m_val;
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-#undef CxVectorTmpl
-#undef CxVectorTlst
+template class Tuple<int_t,real_t>;
+template class Tuple<int_t,real4_t>;
+template class Tuple<int_t,complex_t>;
+template class Tuple<int_t,complex8_t>;
+template class Tuple<uint_t,real_t>;
+template class Tuple<uint_t,real4_t>;
+template class Tuple<uint_t,complex_t>;
+template class Tuple<uint_t,complex8_t>;
 /*-------------------------------------------------*/
-template class CxVector<complex_t>;
-template class CxVector<complex8_t>;
-/*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-

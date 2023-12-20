@@ -29,15 +29,22 @@ std::string Integer();
 std::string UnsignedInteger();
 std::string Real();
 std::string Complex();
+
 std::string Single();
 std::string Double();
+
 std::string Dense();
 std::string SparseCsc();
+std::string SparseCoo();
+
 std::string Vector();
 std::string Matrix();
 std::string PermutationMatrix();
+
 std::string DenseVector();
 std::string DenseMatrix();
+std::string SparseCscMatrix();
+std::string SparseCooMatrix();
 
 std::string NoOperation();
 std::string TransposeOperation();

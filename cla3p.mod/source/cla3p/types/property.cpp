@@ -106,7 +106,11 @@ std::string Property::name() const
 {
 	std::ostringstream ss;
 
-	ss << type() << " " << uplo();
+	if(isValid()) {
+		ss << type() << " " << uplo();
+	} else {
+		ss << type();
+	}
 
 	return ss.str();
 }

@@ -89,11 +89,18 @@ enum class diag_t : char {
 	Unit    = 'U' 
 };
 
+/**
+ * @ingroup module_index_datatypes
+ * @enum dup_t
+ * @brief The duplicated policy.
+ *
+ * Sets the policy for duplicated entries on sparse matrices.
+ */
 enum class dup_t {
-	Sum  = 0,
-	Prod    ,
-	Amax    ,
-	Amin     
+	Sum  = 0, /**< Adds duplicated entries */
+	Prod    , /**< Multiplies duplicated entries */
+	Amax    , /**< Keeps absolute maximum entry */
+	Amin      /**< Keeps absolute minimum entry */
 };
 
 /*-------------------------------------------------*/

@@ -17,6 +17,7 @@
 #ifndef CLA3P_DNS_CXVECTOR_HPP_
 #define CLA3P_DNS_CXVECTOR_HPP_
 
+#include "cla3p/types/literals.hpp"
 #include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"
 
@@ -126,9 +127,9 @@ class TypeTraits<dns::CxVector<T_Scalar>> {
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 	public:
-		static constexpr bool is_real(){ return false; }
-		static constexpr bool is_complex(){ return true; }
-		static std::string type_name();
+		static constexpr bool is_real() { return false; }
+		static constexpr bool is_complex() { return true; }
+		static std::string type_name() { return msg::DenseVector(); };
 		using real_type = dns::RxVector<T_RScalar>;
 		using matrix_type = dns::CxMatrix<T_Scalar>;
 };

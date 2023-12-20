@@ -14,37 +14,25 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_LITERALS_HPP_
-#define CLA3P_ERROR_LITERALS_HPP_
-
-#include <string>
+#ifndef CLA3P_COO_CHECKS_HPP_
+#define CLA3P_COO_CHECKS_HPP_
 
 #include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace msg {
 /*-------------------------------------------------*/
 
-std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string IndexOutOfBounds(uint_t n, uint_t i);
+void coo_consistency_check(const Property& prop, uint_t m, uint_t n);
 
-std::string Success();
-std::string InvalidDimensions();
-std::string InvalidPointer();
-std::string InvalidLeadingDimension();
-std::string InvalidProperty();
-std::string NeedSquareMatrix();
-std::string EmptyObject();
-std::string OpNotAllowed();
-std::string LapackError();
-std::string DivisionByZero();
-std::string HermitianInconsistency();
-std::string SkewInconsistency();
+template <typename T_Int>
+void coo_check_coord(uint_t m, uint_t n, const Property& prop, const T_Int& i, const T_Int& j);
+
+template <typename T_Int, typename T_Scalar>
+void coo_check_triplet(uint_t m, uint_t n, const Property& prop, const T_Int& i, const T_Int& j, const T_Scalar& v);
 
 /*-------------------------------------------------*/
-} // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_LITERALS_HPP_
+#endif // CLA3P_COO_CHECKS_HPP_

@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 
+#include "cla3p/types/scalar.hpp"
 #include "cla3p/types/enums.hpp"
 
 /*-------------------------------------------------*/
@@ -183,6 +184,15 @@ class Property {
 inline Property defaultProperty()
 {
 	return Property(prop_t::General, uplo_t::Full);
+}
+
+template <typename T_Scalar>
+inline Property sanitizeProperty(const Property& pr)
+{
+	if(pr.isHermitian() && TypeTraits<T_Scalar>::is_real()) {
+		return Property(prop_t::Symmetric, pr.uplo());
+	} // convert to symmetric
+	return pr;
 }
 
 std::vector<Property> allProperties();

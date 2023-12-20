@@ -14,37 +14,63 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_LITERALS_HPP_
-#define CLA3P_ERROR_LITERALS_HPP_
+#ifndef CLA3P_META1D_HPP_
+#define CLA3P_META1D_HPP_
 
-#include <string>
-
-#include "cla3p/types.hpp"
+#include "cla3p/types/integer.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
-namespace msg {
+namespace cla3p { 
 /*-------------------------------------------------*/
 
-std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string IndexOutOfBounds(uint_t n, uint_t i);
+/**
+ * @nosubgrouping 
+ * @brief The single dimension metadata class.
+ */
+class Meta1D {
 
-std::string Success();
-std::string InvalidDimensions();
-std::string InvalidPointer();
-std::string InvalidLeadingDimension();
-std::string InvalidProperty();
-std::string NeedSquareMatrix();
-std::string EmptyObject();
-std::string OpNotAllowed();
-std::string LapackError();
-std::string DivisionByZero();
-std::string HermitianInconsistency();
-std::string SkewInconsistency();
+	public:
+		Meta1D();
+		Meta1D(uint_t n);
+		~Meta1D();
+
+		/**
+		 * @brief The vector size.
+		 * @return The number of entries in `(*this)`.
+		 */
+		uint_t size() const;
+
+		/**
+		 * @brief Test whether object is empty.
+		 * @return true if object dimension is zero, false otherwise
+		 */
+		bool empty() const;
+
+		/**
+		 * @copydoc empty()
+		 */
+		bool operator!() const; 
+
+		/**
+		 * @brief Test whether object is empty.
+		 * @return true if object is not empty, false otherwise
+		 */
+		operator bool() const;
+
+	protected:
+		void clear();
+		void setSize(uint_t n);
+
+		void wrapper(uint_t n);
+
+	private:
+		uint_t m_size;
+
+		void defaults();
+};
 
 /*-------------------------------------------------*/
-} // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_LITERALS_HPP_
+#endif // CLA3P_META1D_HPP_

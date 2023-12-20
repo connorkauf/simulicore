@@ -14,37 +14,45 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_LITERALS_HPP_
-#define CLA3P_ERROR_LITERALS_HPP_
+#ifndef CLA3P_COORD_HPP_
+#define CLA3P_COORD_HPP_
 
-#include <string>
-
-#include "cla3p/types.hpp"
+#include <ostream>
 
 /*-------------------------------------------------*/
-namespace cla3p {
-namespace msg {
+namespace cla3p { 
 /*-------------------------------------------------*/
 
-std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string IndexOutOfBounds(uint_t n, uint_t i);
+template <typename T_Int>
+class Coord {
 
-std::string Success();
-std::string InvalidDimensions();
-std::string InvalidPointer();
-std::string InvalidLeadingDimension();
-std::string InvalidProperty();
-std::string NeedSquareMatrix();
-std::string EmptyObject();
-std::string OpNotAllowed();
-std::string LapackError();
-std::string DivisionByZero();
-std::string HermitianInconsistency();
-std::string SkewInconsistency();
+	public:
+		Coord();
+		Coord(T_Int r, T_Int c);
+		~Coord();
+
+		T_Int row() const;
+		T_Int col() const;
+
+	private:
+		T_Int m_row;
+		T_Int m_col;
+
+		void setRow(T_Int r);
+		void setCol(T_Int c);
+
+		void defaults();
+};
 
 /*-------------------------------------------------*/
-} // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_LITERALS_HPP_
+template <typename T_Int>
+std::ostream& operator<<(std::ostream& os, const cla3p::Coord<T_Int>& coord)
+{
+  os << "(" << coord.row() << ", " << coord.col() << ")";
+  return os;
+}
+
+#endif // CLA3P_COORD_HPP_

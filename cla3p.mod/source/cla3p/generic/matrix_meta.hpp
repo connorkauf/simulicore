@@ -14,37 +14,42 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_ERROR_LITERALS_HPP_
-#define CLA3P_ERROR_LITERALS_HPP_
+#ifndef CLA3P_MATRIX_META_HPP_
+#define CLA3P_MATRIX_META_HPP_
 
-#include <string>
-
-#include "cla3p/types.hpp"
-
-/*-------------------------------------------------*/
-namespace cla3p {
-namespace msg {
-/*-------------------------------------------------*/
-
-std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
-std::string IndexOutOfBounds(uint_t n, uint_t i);
-
-std::string Success();
-std::string InvalidDimensions();
-std::string InvalidPointer();
-std::string InvalidLeadingDimension();
-std::string InvalidProperty();
-std::string NeedSquareMatrix();
-std::string EmptyObject();
-std::string OpNotAllowed();
-std::string LapackError();
-std::string DivisionByZero();
-std::string HermitianInconsistency();
-std::string SkewInconsistency();
+#include "cla3p/generic/meta2d.hpp"
+#include "cla3p/types/property.hpp"
 
 /*-------------------------------------------------*/
-} // namespace msg
+namespace cla3p { 
+/*-------------------------------------------------*/
+
+/**
+ * @nosubgrouping 
+ * @brief The matrix metadata class.
+ */
+class MatrixMeta : public Meta2D {
+
+	public:
+		MatrixMeta();
+		MatrixMeta(uint_t nr, uint_t nc, const Property& pr);
+		~MatrixMeta();
+
+		const Property& prop() const;
+
+	protected:
+		void clear();
+		Property& prop();
+		void setProp(const Property& pr);
+
+		void wrapper(uint_t nr, uint_t nc, const Property& pr);
+
+	private:
+		Property m_prop;
+};
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_ERROR_LITERALS_HPP_
+#endif // CLA3P_MATRIX_META_HPP_

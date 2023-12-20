@@ -17,6 +17,7 @@
 #ifndef CLA3P_DNS_RXVECTOR_HPP_
 #define CLA3P_DNS_RXVECTOR_HPP_
 
+#include "cla3p/types/literals.hpp"
 #include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"
 
@@ -98,9 +99,9 @@ namespace cla3p {
 template<typename T_Scalar>
 class TypeTraits<dns::RxVector<T_Scalar>> {
 	public:
-		static constexpr bool is_real(){ return true; }
-		static constexpr bool is_complex(){ return false; }
-		static std::string type_name();
+		static constexpr bool is_real() { return true; }
+		static constexpr bool is_complex() { return false; }
+		static std::string type_name() { return msg::DenseVector(); };
 		using real_type = dns::RxVector<T_Scalar>;
 		using matrix_type = dns::RxMatrix<T_Scalar>;
 };

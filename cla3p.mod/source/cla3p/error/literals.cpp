@@ -99,6 +99,11 @@ std::string HermitianInconsistency()
 	return "Operation is not consistent with hermitian property"; 
 }
 /*-------------------------------------------------*/
+std::string SkewInconsistency()
+{ 
+	return "Operation is not consistent with skew property"; 
+}
+/*-------------------------------------------------*/
 } // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
