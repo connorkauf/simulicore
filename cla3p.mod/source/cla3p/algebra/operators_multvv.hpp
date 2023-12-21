@@ -35,37 +35,37 @@ template <typename T_Scalar, typename T_Vector> class XxVector;
 /* 
  * Combinations                  | Valid Op | Return Type
  * ------------------------------------------------------
- * XxVector x XxVector           | NO       | N/A
- * XxVector x VirtualVector      | YES      | VirtualPairMm
- * XxVector x VirtualPairMv      | NO       | N/A
+ * XxVector * XxVector           | NO       | N/A
+ * XxVector * VirtualVector      | YES      | VirtualProdMm
+ * XxVector * VirtualProdMv      | NO       | N/A
  *                               |          |
- * VirtualVector x XxVector      | YES      | T_Scalar
- * VirtualVector x VirtualVector | NO       | N/A (ambiguous)
- * VirtualVector x VirtualPairMv | YES      | T_Scalar
+ * VirtualVector * XxVector      | YES      | T_Scalar
+ * VirtualVector * VirtualVector | NO       | N/A (ambiguous)
+ * VirtualVector * VirtualProdMv | YES      | T_Scalar
  *                               |          |
- * VirtualPairMv x XxVector      | NO       | N/A
- * VirtualPairMv x VirtualVector | YES      | T_Matrix
- * VirtualPairMv x VirtualPairMv | NO       | N/A
+ * VirtualProdMv * XxVector      | NO       | N/A
+ * VirtualProdMv * VirtualVector | YES      | T_Matrix
+ * VirtualProdMv * VirtualProdMv | NO       | N/A
  */
 
 /*
- * XxVector x VirtualVector
+ * XxVector * VirtualVector
  */
 template <typename T_Vector>
-cla3p::VirtualPairMm<typename cla3p::TypeTraits<T_Vector>::matrix_type> operator*(
+cla3p::VirtualProdMm<typename cla3p::TypeTraits<T_Vector>::matrix_type> operator*(
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
 	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vA(X.rmatrix());
 	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vB(vY);
-	cla3p::VirtualPairMm<T_Vector> ret(vA,vB);
+	cla3p::VirtualProdMm<T_Vector> ret(vA,vB);
 	return ret;
 }
 
 /*-------------------------------------------------*/
 
 /*
- * VirtualVector x XxVector
+ * VirtualVector * XxVector
  */
 template <typename T_Vector>
 typename T_Vector::value_type operator*(
@@ -78,12 +78,12 @@ typename T_Vector::value_type operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualVector x VirtualPairMv
+ * VirtualVector * VirtualProdMv
  */
 template <typename T_Vector>
 typename T_Vector::value_type operator*(
 	const cla3p::VirtualVector<T_Vector>& vX, 
-	const cla3p::VirtualPairMv<T_Vector>& vY) 
+	const cla3p::VirtualProdMv<T_Vector>& vY) 
 { 
 	return (vX * vY.evaluate());
 }
@@ -91,11 +91,11 @@ typename T_Vector::value_type operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualPairMv x VirtualVector
+ * VirtualProdMv * VirtualVector
  */
 template <typename T_Vector>
 typename cla3p::TypeTraits<T_Vector>::matrix_type operator*(
-	const cla3p::VirtualPairMv<T_Vector>& vX, 
+	const cla3p::VirtualProdMv<T_Vector>& vX, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
 	return vY.evaluateOuter(vX.evaluate());

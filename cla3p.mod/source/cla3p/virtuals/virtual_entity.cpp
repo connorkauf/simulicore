@@ -24,7 +24,7 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_pair.hpp"
+#include "cla3p/virtuals/virtual_prod.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -63,15 +63,15 @@ template class VirtualEntity<dns::RfMatrix, VirtualMatrix<dns::RfMatrix>>;
 template class VirtualEntity<dns::CdMatrix, VirtualMatrix<dns::CdMatrix>>;
 template class VirtualEntity<dns::CfMatrix, VirtualMatrix<dns::CfMatrix>>;
 /*-------------------------------------------------*/
-template class VirtualEntity<dns::RdVector, VirtualPairMv<dns::RdVector>>;
-template class VirtualEntity<dns::RfVector, VirtualPairMv<dns::RfVector>>;
-template class VirtualEntity<dns::CdVector, VirtualPairMv<dns::CdVector>>;
-template class VirtualEntity<dns::CfVector, VirtualPairMv<dns::CfVector>>;
+template class VirtualEntity<dns::RdVector, VirtualProdMv<dns::RdVector>>;
+template class VirtualEntity<dns::RfVector, VirtualProdMv<dns::RfVector>>;
+template class VirtualEntity<dns::CdVector, VirtualProdMv<dns::CdVector>>;
+template class VirtualEntity<dns::CfVector, VirtualProdMv<dns::CfVector>>;
 /*-------------------------------------------------*/
-template class VirtualEntity<dns::RdMatrix, VirtualPairMm<dns::RdMatrix>>;
-template class VirtualEntity<dns::RfMatrix, VirtualPairMm<dns::RfMatrix>>;
-template class VirtualEntity<dns::CdMatrix, VirtualPairMm<dns::CdMatrix>>;
-template class VirtualEntity<dns::CfMatrix, VirtualPairMm<dns::CfMatrix>>;
+template class VirtualEntity<dns::RdMatrix, VirtualProdMm<dns::RdMatrix>>;
+template class VirtualEntity<dns::RfMatrix, VirtualProdMm<dns::RfMatrix>>;
+template class VirtualEntity<dns::CdMatrix, VirtualProdMm<dns::CdMatrix>>;
+template class VirtualEntity<dns::CfMatrix, VirtualProdMm<dns::CfMatrix>>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

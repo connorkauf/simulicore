@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_VIRTUAL_PAIR_HPP_
-#define CLA3P_VIRTUAL_PAIR_HPP_
+#ifndef CLA3P_VIRTUAL_PROD_HPP_
+#define CLA3P_VIRTUAL_PROD_HPP_
 
 /**
  * @file
@@ -30,16 +30,16 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-class VirtualPairXx : public VirtualEntity<typename T_Rhs::value_type,T_Virtual> {
+class VirtualProdXx : public VirtualEntity<typename T_Rhs::value_type,T_Virtual> {
 
 	private:
 		using T_Object = typename T_Rhs::value_type;
 		using T_Scalar = typename T_Object::value_type;
 
 	public:
-		explicit VirtualPairXx();
-		explicit VirtualPairXx(const T_Lhs& lhs, const T_Rhs& rhs);
-		~VirtualPairXx();
+		explicit VirtualProdXx();
+		explicit VirtualProdXx(const T_Lhs& lhs, const T_Rhs& rhs);
+		~VirtualProdXx();
 
 		void clear();
 
@@ -59,47 +59,47 @@ class VirtualPairXx : public VirtualEntity<typename T_Rhs::value_type,T_Virtual>
 };
 /*-------------------------------------------------*/
 template <typename T_Vector>
-class VirtualPairMv : public VirtualPairXx<
+class VirtualProdMv : public VirtualProdXx<
 											VirtualMatrix<typename TypeTraits<T_Vector>::matrix_type>, 
 											VirtualVector<T_Vector>,
-											VirtualPairMv<T_Vector>> {
+											VirtualProdMv<T_Vector>> {
 
 	private:
 		using T_Scalar = typename T_Vector::value_type;
 		using T_Matrix = typename TypeTraits<T_Vector>::matrix_type;
 
 	public:
-		explicit VirtualPairMv();
-		explicit VirtualPairMv(const VirtualMatrix<T_Matrix>& lhs, const VirtualVector<T_Vector>& rhs);
-		~VirtualPairMv();
+		explicit VirtualProdMv();
+		explicit VirtualProdMv(const VirtualMatrix<T_Matrix>& lhs, const VirtualVector<T_Vector>& rhs);
+		~VirtualProdMv();
 
-		const VirtualPairMv<T_Vector>& self() const override;
+		const VirtualProdMv<T_Vector>& self() const override;
 		T_Vector evaluate() const override;
 		void update(T_Scalar c, T_Vector& Y) const override;
 		operator T_Vector() const;
 };
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-class VirtualPairMm : public VirtualPairXx<
+class VirtualProdMm : public VirtualProdXx<
 											VirtualMatrix<T_Matrix>, 
 											VirtualMatrix<T_Matrix>,
-											VirtualPairMm<T_Matrix>> {
+											VirtualProdMm<T_Matrix>> {
 
 	private:
 		using T_Scalar = typename T_Matrix::value_type;
 
 	public:
-		explicit VirtualPairMm();
-		explicit VirtualPairMm(const VirtualMatrix<T_Matrix>& lhs, const VirtualMatrix<T_Matrix>& rhs);
-		~VirtualPairMm();
+		explicit VirtualProdMm();
+		explicit VirtualProdMm(const VirtualMatrix<T_Matrix>& lhs, const VirtualMatrix<T_Matrix>& rhs);
+		~VirtualProdMm();
 
-		const VirtualPairMm<T_Matrix>& self() const override;
+		const VirtualProdMm<T_Matrix>& self() const override;
 		T_Matrix evaluate() const override;
 		void update(T_Scalar c, T_Matrix& B) const override;
 		operator T_Matrix() const;
 
-		VirtualPairMm<T_Matrix> transpose() const;
-		VirtualPairMm<T_Matrix> ctranspose() const;
+		VirtualProdMm<T_Matrix> transpose() const;
+		VirtualProdMm<T_Matrix> ctranspose() const;
 
 	private:
 		void swap();
@@ -108,4 +108,4 @@ class VirtualPairMm : public VirtualPairXx<
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_VIRTUALS_HPP_
+#endif // CLA3P_VIRTUAL_PROD_HPP_
