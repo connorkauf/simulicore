@@ -1,15 +1,15 @@
-# [vx.x.x] - yyyy-mm-dd
+# [v1.1.0] - yyyy-mm-dd
 
 SimuliCore next version with various features, bug-fixes and patches.
 
 ## CLA3P Module
 
 ### New Features
-- [CLA3P-25](https://github.com/connorkauf/SimuliCore/issues/25) Virtual Operations Implementation.
 - Vector dot product
+- [CLA3P-25](https://github.com/connorkauf/SimuliCore/issues/25) Virtual Operations Implementation.
 
 ### Changes
-Rename dns::XxObject member function "scale()" to "iscale()"
+- Rename dns::XxObject member function "scale()" to "iscale()"
 
 ### Fixes
 
