@@ -14,7 +14,7 @@ syn keyword cTypeCustomDatatype Array2D
 syn keyword cTypeCustomDatatype Guard
 syn keyword cTypeCustomDatatype VirtualEntity
 syn keyword cTypeCustomDatatype VirtualObject VirtualVector VirtualMatrix
-syn keyword cTypeCustomDatatype VirtualPairXx VirtualPairMv VirtualPairMm
+syn keyword cTypeCustomDatatype VirtualProdXx VirtualProdMv VirtualProdMm
 syn keyword cTypeCustomDatatype PxMatrix PiMatrix PuMatrix
 syn keyword cTypeCustomDatatype XxObject
 syn keyword cTypeCustomDatatype XxVector RxVector CxVector RdVector RfVector CdVector CfVector

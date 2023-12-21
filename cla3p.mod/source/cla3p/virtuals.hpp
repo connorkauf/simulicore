@@ -19,6 +19,6 @@
 
 #include "cla3p/virtuals/virtual_entity.hpp"
 #include "cla3p/virtuals/virtual_object.hpp"
-#include "cla3p/virtuals/virtual_pair.hpp"
+#include "cla3p/virtuals/virtual_prod.hpp"
 
 #endif // CLA3P_VIRTUALS_HPP_

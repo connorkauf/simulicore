@@ -67,7 +67,7 @@ T_Vector operator*(
 template <typename T_Int, typename T_Vector>
 T_Vector operator*(
 		const cla3p::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualPairMv<T_Vector>& vX)
+		const cla3p::VirtualProdMv<T_Vector>& vX)
 {
 	return (P * vX.evaluate());
 }
@@ -107,7 +107,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualPairMm<T_Matrix>& vA)
+		const cla3p::VirtualProdMm<T_Matrix>& vA)
 {
 	return (P * vA.evaluate());
 }
@@ -147,7 +147,7 @@ T_Matrix operator*(
 
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::VirtualPairMm<T_Matrix>& vA,
+		const cla3p::VirtualProdMm<T_Matrix>& vA,
 		const cla3p::PxMatrix<T_Int>& P) 
 {
 	return (P * vA.evaluate());

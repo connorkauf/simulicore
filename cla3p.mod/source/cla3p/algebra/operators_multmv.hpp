@@ -36,17 +36,17 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 /* 
  * Combinations                  | Valid Op | Return Type
  * ------------------------------------------------------
- * XxMatrix x XxVector           | YES      | VirtualPairMv 
- * XxMatrix x VirtualVector      | YES      | VirtualPairMv
- * XxMatrix x VirtualPairMv      | YES      | T_Vector
+ * XxMatrix * XxVector           | YES      | VirtualProdMv 
+ * XxMatrix * VirtualVector      | YES      | VirtualProdMv
+ * XxMatrix * VirtualProdMv      | YES      | T_Vector
  *                               |          |
- * VirtualMatrix x XxVector      | YES      | VirtualPairMv
- * VirtualMatrix x VirtualVector | YES      | VirtualPairMv
- * VirtualMatrix x VirtualPairMv | YES      | T_Vector
+ * VirtualMatrix * XxVector      | YES      | VirtualProdMv
+ * VirtualMatrix * VirtualVector | YES      | VirtualProdMv
+ * VirtualMatrix * VirtualProdMv | YES      | T_Vector
  *                               |          |
- * VirtualPairMm x XxVector      | YES      | T_Vector
- * VirtualPairMm x VirtualVector | YES      | T_Vector
- * VirtualPairMm x VirtualPairMv | YES      | T_Vector
+ * VirtualProdMm * XxVector      | YES      | T_Vector
+ * VirtualProdMm * VirtualVector | YES      | T_Vector
+ * VirtualProdMm * VirtualProdMv | YES      | T_Vector
  */
 
 /**
@@ -60,40 +60,40 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
  * @return The virtual product.
  */
 template <typename T_Vector, typename T_Matrix>
-cla3p::VirtualPairMv<T_Vector> operator*(
+cla3p::VirtualProdMv<T_Vector> operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> vA(A.self());
 	cla3p::VirtualVector<T_Vector> vX(X.self());
-	cla3p::VirtualPairMv<T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<T_Vector> ret(vA,vX);
 	return ret;
 }
 
 /*-------------------------------------------------*/
 
 /*
- * XxMatrix x VirtualVector
+ * XxMatrix * VirtualVector
  */
 template <typename T_Vector, typename T_Matrix>
-cla3p::VirtualPairMv<T_Vector> operator*(
+cla3p::VirtualProdMv<T_Vector> operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> vA(A.self());
-	cla3p::VirtualPairMv<T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<T_Vector> ret(vA,vX);
 	return ret;
 }
 
 /*-------------------------------------------------*/
 
 /*
- * XxMatrix x VirtualPairMv
+ * XxMatrix * VirtualProdMv
  */
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
-	const cla3p::VirtualPairMv<T_Vector>& vX) 
+	const cla3p::VirtualProdMv<T_Vector>& vX) 
 { 
 	return (A * vX.evaluate()).evaluate();
 }
@@ -101,41 +101,41 @@ T_Vector operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualMatrix x XxVector
+ * VirtualMatrix * XxVector
  */
 template <typename T_Vector, typename T_Matrix>
-cla3p::VirtualPairMv<T_Vector> operator*(
+cla3p::VirtualProdMv<T_Vector> operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	cla3p::VirtualVector<T_Vector> vX(X.self());
-	cla3p::VirtualPairMv<T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<T_Vector> ret(vA,vX);
 	return ret;
 }
 
 /*-------------------------------------------------*/
 
 /*
- * VirtualMatrix x VirtualVector
+ * VirtualMatrix * VirtualVector
  */
 template <typename T_Vector, typename T_Matrix>
-cla3p::VirtualPairMv<T_Vector> operator*(
+cla3p::VirtualProdMv<T_Vector> operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
-	cla3p::VirtualPairMv<T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<T_Vector> ret(vA,vX);
 	return ret;
 }
 
 /*-------------------------------------------------*/
 
 /*
- * VirtualMatrix x VirtualPairMv
+ * VirtualMatrix * VirtualProdMv
  */
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
-	const cla3p::VirtualPairMv<T_Vector>& vX) 
+	const cla3p::VirtualProdMv<T_Vector>& vX) 
 { 
 	return (vA * vX.evaluate()).evaluate();
 }
@@ -143,11 +143,11 @@ T_Vector operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualPairMm x XxVector
+ * VirtualProdMm * XxVector
  */
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
-	const cla3p::VirtualPairMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMm<T_Matrix>& vA, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	return (vA.evaluate() * X).evaluate();
@@ -156,11 +156,11 @@ T_Vector operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualPairMm x VirtualVector
+ * VirtualProdMm * VirtualVector
  */
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
-	const cla3p::VirtualPairMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMm<T_Matrix>& vA, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
 	return (vA.evaluate() * vX).evaluate();
@@ -169,12 +169,12 @@ T_Vector operator*(
 /*-------------------------------------------------*/
 
 /*
- * VirtualPairMm x VirtualPairMv
+ * VirtualProdMm * VirtualProdMv
  */
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
-	const cla3p::VirtualPairMm<T_Matrix>& vA, 
-	const cla3p::VirtualPairMv<T_Vector>& vX) 
+	const cla3p::VirtualProdMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMv<T_Vector>& vX) 
 { 
 	return (vA.evaluate() * vX.evaluate()).evaluate();
 }
