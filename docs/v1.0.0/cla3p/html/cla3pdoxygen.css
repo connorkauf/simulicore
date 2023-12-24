@@ -1,0 +1,16 @@
+th {
+  text-align: left;
+}
+
+td {
+  vertical-align: top;
+}
+
+div.fragment {
+	display: inline-block;
+	/*width: fit-content;*/
+}
+
+div.line {
+  white-space: pre;
+}

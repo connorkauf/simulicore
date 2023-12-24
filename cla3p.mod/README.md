@@ -25,7 +25,7 @@
 <a name="about-cla3p"></a>
 ## About CLA3P
 
-**Compact Linear Algebra Parallel Portable Package** is a modern lightweight numerical linear algebra library distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCoreDocs/index.html).  
+**Compact Linear Algebra Parallel Portable Package** is a modern lightweight numerical linear algebra library distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCore/index.html).  
 With its minimalistic design **CLA3P** is ideal for beginners, while the advanced API offering allows experienced users get peak performance.
 
 Starting with dense linear algebra support as a base framework, **CLA3P** will constantly evolve and expand to new fields such as sparse linear algebra, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
@@ -41,7 +41,7 @@ Starting with dense linear algebra support as a base framework, **CLA3P** will c
 * Vector/Matrix content referencing
 * Dense linear system solvers
 
-All the above are supported by a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding! The list will be expanded with new features on every new version. Feel free to [contact](https://connorkauf.github.io/SimuliCoreDocs/index.html#contact) us and submit your requests.
+All the above are supported by a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding! The list will be expanded with new features on every new version. Feel free to [contact](https://connorkauf.github.io/SimuliCore/index.html#contact) us and submit your requests.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -105,7 +105,7 @@ At the moment the operation `A.transpose()` is performed explicitly, but do not 
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/SimuliCoreDocs/cla3p/latest/index.html).
+You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/SimuliCore/v1.0.0/cla3p/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -158,7 +158,7 @@ Select an example `ex<number>_<description>.bat` and run it on Visual Studio ter
 <a name="license"></a>
 ## License
 
-Distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCoreDocs/index.html) licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+Distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCore/index.html) licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -169,7 +169,7 @@ Distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCor
 ## Contact
 
 **CLA3P** is spanking new, so feel free to contact us about anything regarding this software.  
-Please share your opinions, future requests and documentation clarifications, or report an issue [here](https://connorkauf.github.io/SimuliCoreDocs/index.html#contact).
+Please share your opinions, future requests and documentation clarifications, or report an issue [here](https://connorkauf.github.io/SimuliCore/index.html#contact).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
