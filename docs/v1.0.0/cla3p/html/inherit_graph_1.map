@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classcla3p_1_1err_1_1Exception.html" title="Basic cla3p exception class." alt="" coords="5,81,160,108"/>
+<area shape="rect" id="node2" href="$classcla3p_1_1err_1_1InvalidOp.html" title="Invalid operation cla3p exception class." alt="" coords="225,5,379,32"/>
+<area shape="rect" id="node3" href="$classcla3p_1_1err_1_1NoConsistency.html" title="Consistency cla3p exception class." alt="" coords="208,56,396,83"/>
+<area shape="rect" id="node4" href="$classcla3p_1_1err_1_1OutOfBounds.html" title="Out&#45;of&#45;bounds cla3p exception class." alt="" coords="213,107,391,133"/>
+<area shape="rect" id="node5" href="$classcla3p_1_1err_1_1OutOfMemory.html" title="Memory cla3p exception class." alt="" coords="211,157,393,184"/>
+</map>

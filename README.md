@@ -81,9 +81,9 @@ Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses
 
 # Contact
 
-<picture><img alt="envelope" src="images/envelope.png" height=24px width=24px align="top"></picture> connor.kaufman.gh@outlook.com
+<picture><img alt="envelope" src="docs/images/icons-color/envelope.png" height=24px width=24px align="top"></picture> connor.kaufman.gh@outlook.com
 
-<picture><img alt="bug" src="images/bug.png" height=24px width=24px align="top"></picture> [https://github.com/connorkauf/SimuliCore/issues](https://github.com/connorkauf/SimuliCore/issues)
+<picture><img alt="bug" src="docs/images/icons-color/bug.png" height=24px width=24px align="top"></picture> [https://github.com/connorkauf/SimuliCore/issues](https://github.com/connorkauf/SimuliCore/issues)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classcla3p_1_1dns_1_1LSolverBase.html" title="The abstract linear solver base for dense matrices." alt="" coords="5,136,181,177"/>
+<area shape="rect" id="node2" href="$classcla3p_1_1dns_1_1LSolverAuto.html" title="The linear solver for dense matrices with automatic method detection." alt="" coords="245,5,420,47"/>
+<area shape="rect" id="node3" href="$classcla3p_1_1dns_1_1LSolverCompleteLU.html" title="The complete pivoting LU linear solver for dense matrices." alt="" coords="229,71,436,112"/>
+<area shape="rect" id="node4" href="$classcla3p_1_1dns_1_1LSolverLDLt.html" title="The indefinite Cholesky (LDL&#39;) linear solver for dense matrices." alt="" coords="246,136,419,177"/>
+<area shape="rect" id="node5" href="$classcla3p_1_1dns_1_1LSolverLLt.html" title="The definite Cholesky (LL&#39;) linear solver for dense matrices." alt="" coords="251,201,414,243"/>
+<area shape="rect" id="node6" href="$classcla3p_1_1dns_1_1LSolverLU.html" title="The partial pivoting LU linear solver for dense matrices." alt="" coords="252,267,413,308"/>
+</map>
