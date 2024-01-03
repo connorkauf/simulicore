@@ -9,7 +9,7 @@ In these files, a standard setup of custom CMake variables is performed in order
 After **SimuliCore** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<simulicore_install>/3rd` directory. You can use these configuration files to build your own project using CMake.  
 
 In order to generate the MKL CMake variables you can just include the appropriate file in your CMakeLists.txt
-``` cmake
+```cmake
 if(WIN32)
   include(<simulicore_install>/3rd/mkl.win.cmake)
 else()
@@ -29,12 +29,12 @@ This sets the `MKL_INC`, `MKL_LIB` and `MKL_I64_LIB` variables to the MKL includ
 > In the case of 64bit integers you will also need to add the MKL_ILP64 compile definition.
 
 You can add the **Intel&reg; MKL** include directory to your CMake target with:
-``` cmake
+```cmake
 target_include_directories(<target> PRIVATE ${MKL_INC})
 ```
 
 You can link your CMake target with **Intel&reg; MKL** in the following ways:
-``` cmake
+```cmake
 #
 # For 32bit integer lengths
 #

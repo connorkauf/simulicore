@@ -66,7 +66,7 @@ All the above are supported by a wide range of **operators** for easy developmen
   1. Add `-DCLA3P_I64` to your compilation flags
   2. Link with the **cla3p_i64** library (libcla3p_i64.so or cla3p_i64.lib).
 
-``` cmake
+```cmake
 #
 # sample linux CMake setup
 #
@@ -92,11 +92,11 @@ See section [Third-Party Dependencies](#third-party-dependencies) for more infor
 In order to ensure a minimum-copy policy, copy constructors for the basic math objects are disabled for now. Objects can be explicitly copied using function calls. Move constructors are defined for rapid data passing between objects. This guarantees total control over memory and keeps allocations to a minimum.  
 
 **CLA3P** comes with an intuitive operator-based interface, as well as an advanced functional-based interface for maximum efficiency. For example, a transpose matrix-vector multiplication operation can be called using operators
-``` cpp
+```cpp
 Y = A.transpose() * X;
 ```
 or by using the mult() function
-``` cpp
+```cpp
 Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
 ```
 At the moment the operation `A.transpose()` is performed explicitly, but do not be afraid of using the operator interface, **CLA3P Virtuals** are on the way. With **CLA3P Virtuals** a symbolic operation layer is added to the computation, making such explicit calculations dissapear. **CLA3P Virtuals** will soon be available in the next **CLA3P** version.
@@ -135,13 +135,13 @@ Folder `<simulicore_install>/examples/cla3p` contains numerus examples describin
 
 ### Building examples on linux
 From a linux terminal:
-``` sh
+```sh
 cd <simulicore_install>/examples/cla3p
 ./example_builder.sh
 ```
 All example executables are located in the `i32/bin` and `i64/bin` directories, for the respective integer interface.  
 Select an example `ex<number>_<description>.sh` and run it:
-``` sh
+```sh
 ./i32/bin/ex01a_dense_vector_create.sh
 ```
 
@@ -150,7 +150,7 @@ Open directory `<simulicore_install>/examples/cla3p` in Visual Studio and compil
 Set the CMake variable `-DCLA3P_EXAMPLES_I64=true` to build examples using the 64bit integer interface.  
 All example executables are located in the `ixx/bin` directory. ixx is either i32 or i64 depending on the integer interface selected.  
 Select an example `ex<number>_<description>.bat` and run it on Visual Studio terminal:
-``` sh
+```sh
 ./i32/bin/ex01a_dense_vector_create.bat
 ```
 
