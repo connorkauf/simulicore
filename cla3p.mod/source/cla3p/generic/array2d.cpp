@@ -173,11 +173,11 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals,
 template <typename T_Scalar>
 void Array2D<T_Scalar>::clear()
 {
-	Ownership::clear();
-
 	if(owner()) {
 		i_free(values());
 	} // owner
+
+	Ownership::clear();
 
 	defaults();
 }
