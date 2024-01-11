@@ -177,7 +177,7 @@ T_Object XxObjectTmpl::getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t 
 XxObjectTlst
 T_Object XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj)
 {
-	block_op_consistency_check(
+	Property pr = block_op_consistency_check(
 			this->property(),
 			this->rsize(),
 			this->csize(),
@@ -189,7 +189,7 @@ T_Object XxObjectTmpl::getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, ui
 			ibgn, jbgn);
 	
 	T_Object ret;
-	ret.wrapper(ni, nj, this->lsize(), p_vij, false, this->property());
+	ret.wrapper(ni, nj, this->lsize(), p_vij, false, pr);
 	return ret;
 }
 /*-------------------------------------------------*/
