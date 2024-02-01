@@ -92,6 +92,38 @@ void* i_realloc(void *ptr, bulk_t nmemb, bulk_t size);
  */
 void i_free(void *ptr);
 
+/**
+ * @ingroup module_index_allocators
+ * @brief The templated cla3p allocator.
+ *
+ * Allocates `(nmemb x sizeof(T))` bytes of uninitialized storage.
+ *
+ * @param[in] nmemb The number of members to allocate.
+ * @return On success, a pointer to the allocated space. Otherwise a null pointer.
+ */
+template <typename T>
+T* i_malloc(bulk_t nmemb)
+{
+	bulk_t size = sizeof(T);
+	return static_cast<T*>(i_malloc(nmemb, size));
+}
+
+/**
+ * @ingroup module_index_allocators
+ * @brief The templated cla3p allocator.
+ *
+ * Allocates `(nmemb x sizeof(T))` bytes of storage and initializes it to all bits zero.
+ *
+ * @param[in] nmemb The number of members to allocate.
+ * @return On success, a pointer to the allocated space. Otherwise a null pointer.
+ */
+template <typename T>
+T* i_calloc(bulk_t nmemb)
+{
+	bulk_t size = sizeof(T);
+	return static_cast<T*>(i_calloc(nmemb, size));
+}
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
