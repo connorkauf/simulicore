@@ -35,6 +35,15 @@ void add(uint_t m, uint_t n, T_Scalar alpha,
 		const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
 		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC);
 
+//
+// Update: y = beta * y + alpha * op(A) * x
+// A(m x n)
+//
+template <typename T_Scalar>
+void gem_x_vec(op_t opA, uint_t m, uint_t n, T_Scalar alpha, 
+		const int_t *colptr, const int_t *rowidx, const T_Scalar *values, 
+		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
+
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
