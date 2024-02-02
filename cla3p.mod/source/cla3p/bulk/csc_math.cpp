@@ -41,6 +41,24 @@ void add(uint_t m, uint_t n, T_Scalar alpha,
 			colptrC, rowidxC, valuesC);
 }
 /*-------------------------------------------------*/
+template void add(uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const int_t*, const int_t*, const real_t    *, int_t**, int_t**, real_t    **);
+template void add(uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const int_t*, const int_t*, const real4_t   *, int_t**, int_t**, real4_t   **);
+template void add(uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const int_t*, const int_t*, const complex_t *, int_t**, int_t**, complex_t **);
+template void add(uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const int_t*, const int_t*, const complex8_t*, int_t**, int_t**, complex8_t**);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void gem_x_vec(op_t opA, uint_t m, uint_t n, T_Scalar alpha,
+    const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
+    const T_Scalar *x, T_Scalar beta, T_Scalar *y)
+{
+	mkl::csc_mv(prop_t::General, uplo_t::Full, m, n, alpha, opA, colptr, rowidx, values, x, beta, y);
+}
+/*-------------------------------------------------*/
+template void gem_x_vec(op_t, uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, real_t    , real_t    *);
+template void gem_x_vec(op_t, uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, real4_t   , real4_t   *);
+template void gem_x_vec(op_t, uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, complex_t , complex_t *);
+template void gem_x_vec(op_t, uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, complex8_t, complex8_t*);
+/*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
 } // namespace cla3p
