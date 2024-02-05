@@ -117,6 +117,13 @@ class Property {
 		char cuplo() const;
 
 		/**
+		 * @brief Switches the uplo field.
+		 *
+		 * Makes the upper property lower & vice versa. Full uplo remains the same.
+		 */
+		void switchUplo();
+
+		/**
 		 * @brief The property name.
 		 */
 		std::string name() const;
