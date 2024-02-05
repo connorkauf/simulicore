@@ -5,6 +5,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	proxies/blas_proxy.cpp
 	proxies/lapack_proxy.cpp
 	proxies/mkl_proxy.cpp
+	proxies/mkl_sparse_proxy.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_PROXY_HPP 

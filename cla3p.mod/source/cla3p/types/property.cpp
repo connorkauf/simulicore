@@ -92,6 +92,14 @@ char Property::cuplo() const
 	return static_cast<char>(uplo());
 }
 /*-------------------------------------------------*/
+void Property::switchUplo()
+{
+	if(isUpper())
+		m_uplo = uplo_t::Lower;
+	else if(isLower())
+		m_uplo = uplo_t::Upper;
+}
+/*-------------------------------------------------*/
 void Property::check() const
 {
 	if(isGeneral() && !isFull()) {
