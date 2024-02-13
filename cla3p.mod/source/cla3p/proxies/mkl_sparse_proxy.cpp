@@ -24,6 +24,7 @@
 #include <mkl.h>
 
 // cla3p
+#include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/support/imalloc.hpp"
@@ -303,7 +304,7 @@ class CscMatrix : public CsxMatrix<T_Scalar> {
 
 		void export3(int_t *m, int_t *n, int_t **colptr, int_t **rowidx, T_Scalar **values) const;
 
-		void toCsr(CsrMatrix<T_Scalar>& trg) const;
+		//void toCsr(CsrMatrix<T_Scalar>& trg) const;
 };
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -319,6 +320,7 @@ void CscMatrix<T_Scalar>::export3(int_t *m, int_t *n, int_t **colptr, int_t **ro
 	sparse_export_csc(this->mat(), m, n, colptr, rowidx, values);
 }
 /*-------------------------------------------------*/
+#if 0
 template <typename T_Scalar>
 void CscMatrix<T_Scalar>::toCsr(CsrMatrix<T_Scalar>& trg) const
 {
@@ -326,6 +328,7 @@ void CscMatrix<T_Scalar>::toCsr(CsrMatrix<T_Scalar>& trg) const
 	sparse_status_t ierr = mkl_sparse_convert_csr(this->mat(), SPARSE_OPERATION_NON_TRANSPOSE, &trg.mat());
 	spcheck(ierr);
 }
+#endif
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -457,18 +460,19 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 	} else if((prA.isGeneral() || prA.isTriangular()) && opA == op_t::C) {
 
-		CscMatrix<T_Scalar> Acsc(m, n, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
-		CsrMatrix<T_Scalar> Acsr;
-		Acsc.toCsr(Acsr);
+		CscMatrix<T_Scalar> A(m, n, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 		sparse_operation_t op = op2sparseop(opA);
-		sparse_mm(op, alpha, Acsr.mat(), Acsr.descr(), b, k, ldb, beta, c, ldc);
+
+		for(uint_t l = 0; l < k; l++) {
+			sparse_mv(op, alpha, A.mat(), A.descr(), bulk::dns::ptrmv(ldb,b,0,l), beta, bulk::dns::ptrmv(ldc,c,0,l));
+		} // l
 
 	} else {
 
-		CsrMatrix<T_Scalar> Acsr(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
+		CsrMatrix<T_Scalar> A(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 
 		sparse_operation_t op = op2sparseop(opA);
-		sparse_mm(op, alpha, Acsr.mat(), Acsr.descr(), b, k, ldb, beta, c, ldc);
+		sparse_mm(op, alpha, A.mat(), A.descr(), b, k, ldb, beta, c, ldc);
 
 	} // prop / uplo
 }
