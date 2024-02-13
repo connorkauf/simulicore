@@ -95,8 +95,6 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 /*-------------------------------------------------*/
 template class CxMatrix<int_t,complex_t>;
 template class CxMatrix<int_t,complex8_t>;
-template class CxMatrix<uint_t,complex_t>;
-template class CxMatrix<uint_t,complex8_t>;
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace cla3p

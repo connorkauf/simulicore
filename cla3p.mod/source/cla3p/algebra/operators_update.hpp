@@ -44,7 +44,7 @@ template <typename T_Scalar, typename T_Object> class XxObject;
 
 /**
  * @ingroup module_index_math_operators_update
- * @brief Ubdate an object with another compatible object.
+ * @brief Update an object with another compatible object.
  *
  * Performs the operation <b>A = A + B</b>
  *
@@ -61,7 +61,26 @@ void operator+=(
 
 /**
  * @ingroup module_index_math_operators_update
- * @brief Ubdate an object with another compatible object.
+ * @brief Update a sparse matrix with another compatible sparse matrix.
+ *
+ * Performs the operation <b>A = A + B</b>
+ *
+ * @param[in,out] A sparse matrix to be updated.
+ * @param[in] B The rhs sparse matrix.
+ */
+template <typename T_Matrix>
+void operator+=(
+		cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
+{
+	cla3p::ops::update(1, B, A);
+}
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_update
+ * @brief Update an object with another compatible object.
  *
  * Performs the operation <b>A = A - B</b>
  *
@@ -72,6 +91,23 @@ template <typename T_Object>
 void operator-=(
 		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
+{
+	cla3p::ops::update(-1, B, A);
+}
+
+/**
+ * @ingroup module_index_math_operators_update
+ * @brief Update a sparse matrix with another compatible sparse matrix.
+ *
+ * Performs the operation <b>A = A - B</b>
+ *
+ * @param[in,out] A sparse matrix to be updated.
+ * @param[in] B The rhs sparse matrix.
+ */
+template <typename T_Matrix>
+void operator-=(
+		cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	cla3p::ops::update(-1, B, A);
 }

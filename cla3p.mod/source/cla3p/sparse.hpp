@@ -49,30 +49,6 @@ using CdMatrix = CxMatrix<int_t,complex_t>;
  */
 using CfMatrix = CxMatrix<int_t,complex8_t>;
 
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Double precision real matrix (unsigned indeces).
- */
-using RdUMatrix = RxMatrix<uint_t,real_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Single precision real matrix (unsigned indeces).
- */
-using RfUMatrix = RxMatrix<uint_t,real4_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Double precision complex matrix (unsigned indeces).
- */
-using CdUMatrix = CxMatrix<uint_t,complex_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Single precision complex matrix (unsigned indeces).
- */
-using CfUMatrix = CxMatrix<uint_t,complex8_t>;
-
 } // namespace csc
 } // namespace cla3p
 
@@ -103,30 +79,6 @@ using CdMatrix = CxMatrix<int_t,complex_t>;
  * @brief Single precision complex matrix.
  */
 using CfMatrix = CxMatrix<int_t,complex8_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Double precision real matrix (unsigned indeces).
- */
-using RdUMatrix = RxMatrix<uint_t,real_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Single precision real matrix (unsigned indeces).
- */
-using RfUMatrix = RxMatrix<uint_t,real4_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Double precision complex matrix (unsigned indeces).
- */
-using CdUMatrix = CxMatrix<uint_t,complex_t>;
-
-/**
- * @ingroup module_index_matrices_sparse
- * @brief Single precision complex matrix (unsigned indeces).
- */
-using CfUMatrix = CxMatrix<uint_t,complex8_t>;
 
 } // namespace coo
 } // namespace cla3p

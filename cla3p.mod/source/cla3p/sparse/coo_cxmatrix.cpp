@@ -59,8 +59,6 @@ const CxMatrixTmpl& CxMatrixTmpl::self() const
 /*-------------------------------------------------*/
 template class CxMatrix<int_t,complex_t>;
 template class CxMatrix<int_t,complex8_t>;
-template class CxMatrix<uint_t,complex_t>;
-template class CxMatrix<uint_t,complex8_t>;
 /*-------------------------------------------------*/
 } // namespace coo
 } // namespace cla3p
