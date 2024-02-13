@@ -60,8 +60,6 @@ const RxMatrixTmpl& RxMatrixTmpl::self() const
 /*-------------------------------------------------*/
 template class RxMatrix<int_t,real_t>;
 template class RxMatrix<int_t,real4_t>;
-template class RxMatrix<uint_t,real_t>;
-template class RxMatrix<uint_t,real4_t>;
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace cla3p

@@ -235,10 +235,6 @@ template class XxMatrix<int_t,real_t,RdMatrix>;
 template class XxMatrix<int_t,real4_t,RfMatrix>;
 template class XxMatrix<int_t,complex_t,CdMatrix>;
 template class XxMatrix<int_t,complex8_t,CfMatrix>;
-template class XxMatrix<uint_t,real_t,RdUMatrix>;
-template class XxMatrix<uint_t,real4_t,RfUMatrix>;
-template class XxMatrix<uint_t,complex_t,CdUMatrix>;
-template class XxMatrix<uint_t,complex8_t,CfUMatrix>;
 /*-------------------------------------------------*/
 } // namespace coo
 } // namespace cla3p

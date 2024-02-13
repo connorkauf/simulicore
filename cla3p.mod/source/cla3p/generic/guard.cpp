@@ -85,10 +85,6 @@ template class Guard<csc::RdMatrix>;
 template class Guard<csc::RfMatrix>;
 template class Guard<csc::CdMatrix>;
 template class Guard<csc::CfMatrix>;
-template class Guard<csc::RdUMatrix>;
-template class Guard<csc::RfUMatrix>;
-template class Guard<csc::CdUMatrix>;
-template class Guard<csc::CfUMatrix>;
 /*-------------------------------------------------*/
 template class Guard<PiMatrix>;
 /*-------------------------------------------------*/

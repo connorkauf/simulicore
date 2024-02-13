@@ -26,9 +26,11 @@
 //#include "cla3p/perms.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csc.hpp"
+#include "cla3p/bulk/csc_math.hpp"
 #include "cla3p/support/imalloc.hpp"
 #include "cla3p/support/utils.hpp"
 
+#include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/csc_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
@@ -519,6 +521,39 @@ Guard<T_Matrix> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Int *cptr, cons
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::updateSelfWithScaledOther(T_Scalar alpha, const XxMatrixTmpl& other)
+{
+	createFromScaledSum(alpha, other, *this);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::createFromScaledSum(
+		T_Scalar alpha,
+		const XxMatrixTmpl& otherA,
+		const XxMatrixTmpl& otherB)
+{
+	similarity_check(
+			otherA.prop(), otherA.nrows(), otherA.ncols(), 
+			otherB.prop(), otherB.nrows(), otherB.ncols());
+
+	uint_t    nrowsC  = otherA.nrows();
+	uint_t    ncolsC  = otherA.ncols();
+	Property  propC   = otherA.prop();
+	int_t*    colptrC = nullptr;
+	int_t*    rowidxC = nullptr;
+	T_Scalar* valuesC = nullptr;
+
+	bulk::csc::add(nrowsC, ncolsC, alpha,
+			otherA.colptr(), otherA.rowidx(), otherA.values(),
+			otherB.colptr(), otherB.rowidx(), otherB.values(),
+			&colptrC, &rowidxC, &valuesC);
+
+	wrapper(nrowsC, ncolsC, colptrC, rowidxC, valuesC, true, propC);
+}
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 #undef XxMatrixTmpl
 #undef XxMatrixTlst
 /*-------------------------------------------------*/
@@ -526,10 +561,6 @@ template class XxMatrix<int_t,real_t,RdMatrix>;
 template class XxMatrix<int_t,real4_t,RfMatrix>;
 template class XxMatrix<int_t,complex_t,CdMatrix>;
 template class XxMatrix<int_t,complex8_t,CfMatrix>;
-template class XxMatrix<uint_t,real_t,RdUMatrix>;
-template class XxMatrix<uint_t,real4_t,RfUMatrix>;
-template class XxMatrix<uint_t,complex_t,CdUMatrix>;
-template class XxMatrix<uint_t,complex8_t,CfUMatrix>;
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace cla3p

@@ -29,6 +29,9 @@ namespace cla3p {
 namespace dns {
 template <typename T_Scalar, typename T_Object> class XxObject;
 } // namespace dns
+namespace csc {
+template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix;
+} // namespace csc
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -66,6 +69,24 @@ T_Object operator+(
 	return cla3p::ops::add(1, A, 1, B);
 }
 
+/**
+ * @ingroup module_index_math_operators_add
+ * @brief Adds two compatible sparse matrices.
+ *
+ * Performs the operation <b>A + B</b>
+ *
+ * @param[in] A The first sparse matrix.
+ * @param[in] B The second sparse matrix.
+ * @return The sparse matrix that is the sum of the two.
+ */
+template <typename T_Matrix>
+T_Matrix operator+(
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
+{
+	return cla3p::ops::add(1, A, B);
+}
+
 /*-------------------------------------------------*/
 
 /**
@@ -84,6 +105,24 @@ T_Object operator-(
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
 {
 	return cla3p::ops::add(1, A, -1, B);
+}
+
+/**
+ * @ingroup module_index_math_operators_add
+ * @brief Subtracts two compatible sparse matrices.
+ *
+ * Performs the operation <b>A - B</b>
+ *
+ * @param[in] A The first sparse matrix.
+ * @param[in] B The second sparse matrix.
+ * @return The sparse matrix that is the difference of the two.
+ */
+template <typename T_Matrix>
+T_Matrix operator-(
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
+{
+	return cla3p::ops::add(-1, B, A);
 }
 
 /*-------------------------------------------------*/

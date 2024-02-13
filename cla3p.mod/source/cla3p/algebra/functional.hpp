@@ -32,6 +32,11 @@ template <typename T_Scalar, typename T_Object> class XxObject;
 template <typename T_Scalar, typename T_Vector> class XxVector;
 template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 } // namespace dns
+namespace csc {
+template <typename T_Int, typename T_Scalar, typename T_Object> class XxObject;
+template <typename T_Int, typename T_Scalar, typename T_Vector> class XxVector;
+template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix;
+} // namespace csc
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -176,13 +181,13 @@ typename TypeTraits<T_Vector>::matrix_type outerc(
 
 /**
  * @ingroup module_index_math_op_add
- * @brief Update an object with a compatible scaled object.
+ * @brief Update a dense object with a compatible scaled dense object.
  *
  * Performs the operation <b>B = B + alpha * A</b>
  *
  * @param[in] alpha The scaling coefficient.
- * @param[in] A The input object.
- * @param[in,out] B The object to be updated.
+ * @param[in] A The input dense object.
+ * @param[in,out] B The dense object to be updated.
  */
 template <typename T_Object>
 void update(
@@ -195,14 +200,33 @@ void update(
 
 /**
  * @ingroup module_index_math_op_add
- * @brief Adds two compatible scaled objects.
+ * @brief Update a sparse matrix with a compatible scaled sparse matrix.
+ *
+ * Performs the operation <b>B = B + alpha * A</b>
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] A The input sparse matrix.
+ * @param[in,out] B The sparse matrix to be updated.
+ */
+template <typename T_Matrix>
+void update(
+		typename T_Matrix::value_type alpha, 
+		const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A, 
+		csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& B)
+{
+	B.updateSelfWithScaledOther(alpha, A);
+}
+
+/**
+ * @ingroup module_index_math_op_add
+ * @brief Adds two compatible scaled dense objects.
  *
  * Performs the operation <b>alpha * A + beta * B</b>
  *
  * @param[in] alpha The scaling coefficient for A.
- * @param[in] A The first input object.
+ * @param[in] A The first input dense object.
  * @param[in] beta The scaling coefficient for B.
- * @param[in] B The second input object.
+ * @param[in] B The second input dense object.
  * @return The result of the operation <b>(alpha * A + beta * B)</b>.
  */
 template <typename T_Object>
@@ -212,6 +236,28 @@ T_Object add(
 {
 	T_Object ret;
 	ret.createFromScaledSum(alpha, A, beta, B);
+	return ret;
+}
+
+/**
+ * @ingroup module_index_math_op_add
+ * @brief Adds two compatible sparse matrices.
+ *
+ * Performs the operation <b>alpha * A + B</b>
+ *
+ * @param[in] alpha The scaling coefficient for A.
+ * @param[in] A The first input sparse matrix.
+ * @param[in] B The second input sparse matrix.
+ * @return The result of the operation <b>(alpha * A + B)</b>.
+ */
+template <typename T_Matrix>
+T_Matrix add(
+		typename T_Matrix::value_type alpha, 
+		const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A, 
+		const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& B)
+{
+	T_Matrix ret;
+	ret.createFromScaledSum(alpha, A, B);
 	return ret;
 }
 
