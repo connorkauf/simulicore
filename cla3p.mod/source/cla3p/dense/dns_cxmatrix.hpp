@@ -23,11 +23,15 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns {
 /*-------------------------------------------------*/
 
-template <typename T_Scalar> class CxVector;
-template <typename T_Scalar> class RxMatrix;
+namespace dns { template <typename T_Scalar> class CxVector; }
+namespace dns { template <typename T_Scalar> class RxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class CxMatrix; }
+
+/*-------------------------------------------------*/
+namespace dns {
+/*-------------------------------------------------*/
 
 /**
  * @nosubgrouping 
@@ -117,11 +121,8 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace cla3p
 /*-------------------------------------------------*/
 
-/*-------------------------------------------------*/
-namespace cla3p {
 template<typename T_Scalar>
 class TypeTraits<dns::CxMatrix<T_Scalar>> {
 	private:
@@ -129,10 +130,13 @@ class TypeTraits<dns::CxMatrix<T_Scalar>> {
 	public:
 		static constexpr bool is_real() { return false; }
 		static constexpr bool is_complex() { return true; }
-		static std::string type_name() { return msg::DenseMatrix(); };
+		static std::string type_name() { return msg::DenseMatrix(); }
 		using real_type = dns::RxMatrix<T_RScalar>;
 		using vector_type = dns::CxVector<T_Scalar>;
+		using csc_type = csc::CxMatrix<int_t,T_Scalar>;
 };
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
