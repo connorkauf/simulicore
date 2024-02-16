@@ -21,15 +21,12 @@
 #include "cla3p/sparse/coo_xxmatrix.hpp"
 
 /*-------------------------------------------------*/
-
 namespace cla3p { 
-namespace csc {
-template <typename T_Int, typename T_Scalar> class CxMatrix;
-}
-}
+/*-------------------------------------------------*/
+
+namespace csc { template <typename T_Int, typename T_Scalar> class CxMatrix; }
 
 /*-------------------------------------------------*/
-namespace cla3p { 
 namespace coo {
 /*-------------------------------------------------*/
 
@@ -92,11 +89,8 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 
 /*-------------------------------------------------*/
 } // namespace coo
-} // namespace cla3p
 /*-------------------------------------------------*/
 
-/*-------------------------------------------------*/
-namespace cla3p {
 template<typename T_Int, typename T_Scalar>
 class TypeTraits<coo::CxMatrix<T_Int,T_Scalar>> {
 	private:
@@ -104,10 +98,12 @@ class TypeTraits<coo::CxMatrix<T_Int,T_Scalar>> {
 	public:
 		static constexpr bool is_real() { return false; }
 		static constexpr bool is_complex() { return true; }
-		static std::string type_name() { return msg::SparseCooMatrix(); };
+		static std::string type_name() { return msg::SparseCooMatrix(); }
 		using real_type = coo::RxMatrix<T_Int,T_RScalar>;
 		using csc_type = csc::CxMatrix<T_Int,T_Scalar>;
 };
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

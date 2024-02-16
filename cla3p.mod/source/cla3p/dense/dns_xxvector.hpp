@@ -24,15 +24,15 @@
 #include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p { 
+/*-------------------------------------------------*/
 
-namespace cla3p { template <typename T_Int> class PxMatrix; }
+template <typename T_Int> class PxMatrix;
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 
 /*-------------------------------------------------*/
-namespace cla3p { 
 namespace dns {
 /*-------------------------------------------------*/
-
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 
 /**
  * @nosubgrouping 
@@ -325,6 +325,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 /*-------------------------------------------------*/
 } // namespace dns
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

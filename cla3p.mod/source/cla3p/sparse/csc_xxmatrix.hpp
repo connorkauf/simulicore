@@ -27,11 +27,12 @@
 //#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
+namespace cla3p { 
+/*-------------------------------------------------*/
 
-namespace cla3p { template <typename T_Int> class PxMatrix; }
+template <typename T_Int> class PxMatrix;
 
 /*-------------------------------------------------*/
-namespace cla3p { 
 namespace csc {
 /*-------------------------------------------------*/
 
@@ -436,6 +437,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 
 /*-------------------------------------------------*/
 } // namespace csc
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 

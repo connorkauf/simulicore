@@ -22,6 +22,11 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
+/*-------------------------------------------------*/
+
+namespace dns { template <typename T_Scalar> class CxMatrix; }
+
+/*-------------------------------------------------*/
 namespace csc {
 /*-------------------------------------------------*/
 
@@ -110,21 +115,21 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 
 /*-------------------------------------------------*/
 } // namespace csc
-} // namespace cla3p
 /*-------------------------------------------------*/
 
-/*-------------------------------------------------*/
-namespace cla3p {
 template<typename T_Int, typename T_Scalar>
 class TypeTraits<csc::CxMatrix<T_Int,T_Scalar>> {
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
-  public:
-    static constexpr bool is_real() { return false; }
-    static constexpr bool is_complex() { return true; }
-    static std::string type_name() { return msg::SparseCscMatrix(); };
-    using real_type = csc::RxMatrix<T_Int,T_RScalar>;
+	public:
+		static constexpr bool is_real() { return false; }
+		static constexpr bool is_complex() { return true; }
+		static std::string type_name() { return msg::SparseCscMatrix(); }
+		using real_type = csc::RxMatrix<T_Int,T_RScalar>;
+		using dns_type = dns::CxMatrix<T_RScalar>;
 };
+
+/*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
