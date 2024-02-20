@@ -24,7 +24,8 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/error/exceptions.hpp"
-#include "cla3p/algebra/functional.hpp"
+#include "cla3p/algebra/functional_multmv.hpp"
+#include "cla3p/algebra/functional_multmm.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

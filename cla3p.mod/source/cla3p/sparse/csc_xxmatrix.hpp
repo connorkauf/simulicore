@@ -426,13 +426,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		void shallowCopyTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 		void moveTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 		void wrapper(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr);
-
-	public:
-		void updateSelfWithScaledOther(T_Scalar alpha, const XxMatrix<T_Int,T_Scalar,T_Matrix>& other);
-		void createFromScaledSum(
-				T_Scalar alpha, 
-				const XxMatrix<T_Int,T_Scalar,T_Matrix>& otherA,
-				const XxMatrix<T_Int,T_Scalar,T_Matrix>& otherB);
 };
 
 /*-------------------------------------------------*/

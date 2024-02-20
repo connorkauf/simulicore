@@ -521,39 +521,6 @@ Guard<T_Matrix> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Int *cptr, cons
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::updateSelfWithScaledOther(T_Scalar alpha, const XxMatrixTmpl& other)
-{
-	createFromScaledSum(alpha, other, *this);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::createFromScaledSum(
-		T_Scalar alpha,
-		const XxMatrixTmpl& otherA,
-		const XxMatrixTmpl& otherB)
-{
-	similarity_check(
-			otherA.prop(), otherA.nrows(), otherA.ncols(), 
-			otherB.prop(), otherB.nrows(), otherB.ncols());
-
-	uint_t    nrowsC  = otherA.nrows();
-	uint_t    ncolsC  = otherA.ncols();
-	Property  propC   = otherA.prop();
-	int_t*    colptrC = nullptr;
-	int_t*    rowidxC = nullptr;
-	T_Scalar* valuesC = nullptr;
-
-	bulk::csc::add(nrowsC, ncolsC, alpha,
-			otherA.colptr(), otherA.rowidx(), otherA.values(),
-			otherB.colptr(), otherB.rowidx(), otherB.values(),
-			&colptrC, &rowidxC, &valuesC);
-
-	wrapper(nrowsC, ncolsC, colptrC, rowidxC, valuesC, true, propC);
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
 #undef XxMatrixTmpl
 #undef XxMatrixTlst
 /*-------------------------------------------------*/

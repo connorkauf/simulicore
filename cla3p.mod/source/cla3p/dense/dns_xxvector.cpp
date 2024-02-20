@@ -30,7 +30,6 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
-#include "cla3p/checks/dot_checks.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 
 /*-------------------------------------------------*/
@@ -230,72 +229,6 @@ Guard<T_Vector> XxVectorTmpl::wrap(uint_t n, const T_Scalar *vals)
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-/*-------------------------------------------------*/
-XxVectorTlst
-T_Scalar XxVectorTmpl::calcDotProductWith(const XxVectorTmpl& Y) const
-{
-	dot_product_consistency_check(size(), Y.size());
-	return blas::dot(size(), this->values(), 1, Y.values(), 1);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-T_Scalar XxVectorTmpl::calcConjugateDotProductWith(const XxVectorTmpl& Y) const
-{
-	dot_product_consistency_check(size(), Y.size());
-	return blas::dotc(size(), this->values(), 1, Y.values(), 1);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A, const XxVectorTmpl& X)
-{
-	Operation _opA(opA);
-
-	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), size());
-
-	if(A.prop().isGeneral()) {
-
-		bulk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
-
-	} else if(A.prop().isSymmetric()) {
-
-		bulk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
-
-	} else if(A.prop().isHermitian()) {
-
-		bulk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), 1, this->values());
-
-	} else if(A.prop().isTriangular()) {
-
-		T_Vector tmp(size());
-		bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
-		this->updateSelfWithScaledOther(1, tmp);
-
-	} else {
-
-		throw err::Exception();
-
-	} // property 
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::replaceSelfWithTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
-{
-	Operation _opA(opA);
-
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, size());
-
-	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::replaceSelfWithInvTriVec(op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A)
-{
-	Operation _opA(opA);
-
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, size());
-
-	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), this->values(), 1);
-}
 /*-------------------------------------------------*/
 #undef XxVectorTmpl
 #undef XxVectorTlst

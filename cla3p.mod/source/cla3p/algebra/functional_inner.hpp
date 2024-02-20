@@ -14,41 +14,47 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_MATRIX_META_HPP_
-#define CLA3P_MATRIX_META_HPP_
+#ifndef CLA3P_ALGEBRA_FUNCTIONAL_INNER_HPP_
+#define CLA3P_ALGEBRA_FUNCTIONAL_INNER_HPP_
 
-#include "cla3p/generic/meta2d.hpp"
-#include "cla3p/types/property.hpp"
+/**
+ * @file
+ */
 
 /*-------------------------------------------------*/
 namespace cla3p { 
+namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @nosubgrouping 
- * @brief The matrix metadata class.
+ * @ingroup module_index_math_op_vecvec
+ * @brief Calculate vector dot product.
+ *
+ * Performs the operation <b>X<sup>T</sup> Y</b>
+ *
+ * @param[in] X The input vector.
+ * @param[in] Y The input vector.
+ * @return The dot product value.
  */
-class MatrixMeta : public Meta2D {
+template <typename T_Vector>
+typename T_Vector::value_type dot(const T_Vector& X, const T_Vector& Y);
 
-	public:
-		MatrixMeta();
-		MatrixMeta(uint_t nr, uint_t nc, const Property& pr);
-		~MatrixMeta();
-
-		const Property& prop() const;
-
-	protected:
-		void clear();
-		void setProp(const Property& pr);
-
-		void wrapper(uint_t nr, uint_t nc, const Property& pr);
-
-	private:
-		Property m_prop;
-};
+/**
+ * @ingroup module_index_math_op_vecvec
+ * @brief Calculate vector conjugate dot product.
+ *
+ * Performs the operation <b>X<sup>H</sup> Y</b>
+ *
+ * @param[in] X The input vector.
+ * @param[in] Y The input vector.
+ * @return The conjugate dot product value.
+ */
+template <typename T_Vector>
+typename T_Vector::value_type dotc(const T_Vector& X, const T_Vector& Y);
 
 /*-------------------------------------------------*/
+} // namespace ops
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_MATRIX_META_HPP_
+#endif // CLA3P_ALGEBRA_FUNCTIONAL_INNER_HPP_

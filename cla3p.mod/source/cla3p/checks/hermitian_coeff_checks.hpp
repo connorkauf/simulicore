@@ -18,6 +18,7 @@
 #define CLA3P_HERMITIAN_COEFF_CHECKS_HPP_
 
 #include "cla3p/types.hpp"
+#include "cla3p/error.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
