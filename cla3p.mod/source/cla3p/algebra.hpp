@@ -17,7 +17,13 @@
 #ifndef CLA3P_ALGEBRA_HPP_
 #define CLA3P_ALGEBRA_HPP_
 
-#include "cla3p/algebra/functional.hpp" // keep this on top
+#include "cla3p/algebra/functional_inner.hpp"
+#include "cla3p/algebra/functional_outer.hpp"
+#include "cla3p/algebra/functional_add.hpp"
+#include "cla3p/algebra/functional_update.hpp"
+#include "cla3p/algebra/functional_multmv.hpp"
+#include "cla3p/algebra/functional_multmm.hpp"
+
 #include "cla3p/algebra/operators_add.hpp"
 #include "cla3p/algebra/operators_update.hpp"
 #include "cla3p/algebra/operators_scale.hpp"

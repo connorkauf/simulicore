@@ -45,11 +45,6 @@ const Property& MatrixMeta::prop() const
 	return m_prop;
 }
 /*-------------------------------------------------*/
-Property& MatrixMeta::prop()
-{
-	return m_prop;
-}
-/*-------------------------------------------------*/
 void MatrixMeta::setProp(const Property& pr) 
 { 
 	m_prop = pr; 
@@ -64,7 +59,7 @@ void MatrixMeta::wrapper(uint_t nr, uint_t nc, const Property& pr)
 void MatrixMeta::clear()
 {
 	Meta2D::clear();
-	prop().clear();
+	m_prop.clear();
 }
 /*-------------------------------------------------*/
 } // namespace cla3p

@@ -146,12 +146,6 @@ class XxObject : public Array2D<T_Scalar> {
 		Guard<T_Object> getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		void setBlockCopy(const XxObject<T_Scalar,T_Object>&, uint_t ibgn, uint_t jbgn);
 
-	public:
-		void updateSelfWithScaledOther(T_Scalar alpha, const XxObject<T_Scalar,T_Object>& other);
-		void createFromScaledSum(
-				T_Scalar alpha, const XxObject<T_Scalar,T_Object>& otherA, 
-				T_Scalar beta, const XxObject<T_Scalar,T_Object>& otherB);
-
 };
 
 /*-------------------------------------------------*/

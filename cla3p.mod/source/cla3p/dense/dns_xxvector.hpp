@@ -308,19 +308,6 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 
 		/** @} */
 
-	public:
-		T_Scalar calcDotProductWith(const XxVector<T_Scalar,T_Vector>& Y) const;
-		T_Scalar calcConjugateDotProductWith(const XxVector<T_Scalar,T_Vector>& Y) const;
-
-		void updateSelfWithScaledMatVec(T_Scalar alpha, op_t opA,
-				const XxMatrix<T_Scalar,T_Matrix>& A,
-				const XxVector<T_Scalar,T_Vector>& X);
-
-		void replaceSelfWithTriVec(op_t opA, 
-				const XxMatrix<T_Scalar,T_Matrix>& A);
-
-		void replaceSelfWithInvTriVec(op_t opA, 
-				const XxMatrix<T_Scalar,T_Matrix>& A);
 };
 
 /*-------------------------------------------------*/

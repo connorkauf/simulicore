@@ -26,7 +26,9 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/checks/transp_checks.hpp"
-#include "cla3p/algebra/functional.hpp"
+#include "cla3p/algebra/functional_inner.hpp"
+#include "cla3p/algebra/functional_outer.hpp"
+#include "cla3p/algebra/functional_update.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

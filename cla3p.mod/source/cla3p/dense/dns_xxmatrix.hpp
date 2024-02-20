@@ -452,21 +452,6 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 
 		/** @} */
 
-	public:
-		void updateSelfWithScaledVecVec(bool conjop, T_Scalar alpha,
-				const XxVector<T_Scalar,T_Vector>& X,
-				const XxVector<T_Scalar,T_Vector>& Y);
-
-		void updateSelfWithScaledMatMat(T_Scalar alpha,
-				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A,
-				op_t opB, const XxMatrix<T_Scalar,T_Matrix>& B);
-
-		void replaceSelfWithScaledTriMat(T_Scalar alpha, side_t sideA,
-				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A);
-
-		void replaceSelfWithScaledInvTriMat(T_Scalar alpha, side_t sideA,
-				op_t opA, const XxMatrix<T_Scalar,T_Matrix>& A);
-
 };
 
 /*-------------------------------------------------*/

@@ -209,47 +209,6 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 	src.copyToAllocated(tmp);
 }
 /*-------------------------------------------------*/
-XxObjectTlst
-void XxObjectTmpl::updateSelfWithScaledOther(T_Scalar alpha, const XxObjectTmpl& other)
-{
-	similarity_check(
-			this->property(), 
-			this->rsize(), 
-			this->csize(), 
-			other.property(), 
-			other.rsize(), 
-			other.csize());
-
-	bulk::dns::update(
-			this->property().uplo(), 
-			this->rsize(), 
-			this->csize(), 
-			alpha, other.values(), other.lsize(), 
-			this->values(), 
-			this->lsize());
-}
-/*-------------------------------------------------*/
-XxObjectTlst
-void XxObjectTmpl::createFromScaledSum(
-		T_Scalar alpha, const XxObjectTmpl& otherA,
-		T_Scalar beta, const XxObjectTmpl& otherB)
-{
-	similarity_check(
-			otherA.property(), otherA.rsize(), otherA.csize(), 
-			otherB.property(), otherB.rsize(), otherB.csize());
-
-	this->creator(otherA.rsize(), otherA.csize(), otherA.rsize(), otherA.property());
-
-  bulk::dns::add(
-			this->property().uplo(), 
-			this->rsize(), 
-			this->csize(), 
-			alpha, otherA.values(), otherA.lsize(), 
-			beta, otherB.values(), otherB.lsize(), 
-			this->values(), 
-			this->lsize());
-}
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #undef XxObjectTmpl
