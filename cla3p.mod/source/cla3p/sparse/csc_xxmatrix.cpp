@@ -317,37 +317,43 @@ T_Matrix XxMatrixTmpl::conjugate() const
 	return ret;
 }
 /*-------------------------------------------------*/
-#if 0
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::general() const
 {
-	T_Matrix ret = this->copy();
-	ret.igeneral();
-	return ret;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::igeneral()
-{
+	T_Matrix ret;
+
+	T_Int    *colptr_ge = nullptr;
+	T_Int    *rowidx_ge = nullptr;
+	T_Scalar *values_ge = nullptr;
+
 	if(prop().isGeneral()) {
 
-		return;
+		ret = copy();
 
 	} else if(prop().isSymmetric()) {
 
-		bulk::dns::sy2ge(prop().uplo(), ncols(), this->values(), ld());
+		colptr_ge = i_malloc<T_Int>(ncols() + 1);
+		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), colptr(), rowidx(), colptr_ge);
+		T_Int nz = colptr_ge[ncols()];
+		rowidx_ge = i_malloc<T_Int>(nz);
+		values_ge = i_malloc<T_Scalar>(nz);
+		bulk::csc::sy2ge(prop().uplo(), ncols(), colptr(), rowidx(), values(), colptr_ge, rowidx_ge, values_ge);
+		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isHermitian()) {
 
-		bulk::dns::he2ge(prop().uplo(), ncols(), this->values(), ld());
+		colptr_ge = i_malloc<T_Int>(ncols() + 1);
+		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), colptr(), rowidx(), colptr_ge);
+		T_Int nz = colptr_ge[ncols()];
+		rowidx_ge = i_malloc<T_Int>(nz);
+		values_ge = i_malloc<T_Scalar>(nz);
+		bulk::csc::he2ge(prop().uplo(), ncols(), colptr(), rowidx(), values(), colptr_ge, rowidx_ge, values_ge);
+		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isTriangular()) {
 
-		bulk::dns::tr2ge(prop().uplo(), nrows(), ncols(), this->values(), ld());
-
-	} else if(prop().isSkew()) {
-
-		bulk::dns::sk2ge(prop().uplo(), ncols(), this->values(), ld());
+		ret = copy();
+		ret.setProp(defaultProperty());
 
 	} else {
 
@@ -355,12 +361,10 @@ void XxMatrixTmpl::igeneral()
 
 	} // property 
 
-	bool bind = this->owner();
-	this->unbind();
-
-	*this = wrap(nrows(), ncols(), this->values(), ld(), bind);
+	return ret;
 }
 /*-------------------------------------------------*/
+#if 0
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
 {
