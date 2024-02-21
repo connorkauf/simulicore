@@ -230,18 +230,13 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 */
 		T_Matrix conjugate() const;
 
-#if 0
-
 		/**
 		 * @brief Converts a matrix to general.
 		 * @return A copy of `(*this)` with general property.
 		 */
 		T_Matrix general() const;
 
-		/**
-		 * @brief Converts `(*this)` to general in-place.
-		 */
-		void igeneral();
+#if 0
 
 		/**
 		 * @brief Permutes a general matrix.
@@ -296,54 +291,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 */
 		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
 
-		/**
-		 * @brief Permutes a general matrix in-place.
-		 *
-		 * Replaces `(*this)` with `P*(*this)*Q`.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 * @param[in] Q The right side permutation matrix.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeft(), ipermuteRight(), ipermuteMirror()
-		 */
-		void ipermuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q);
-
-		/**
-		 * @brief Permutes the rows of a general matrix in-place.
-		 *
-		 * Replaces `(*this)` with `P*(*this)`.
-		 *
-		 * @param[in] P The left side permutation matrix.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteRight(), ipermuteMirror()
-		 */
-		void ipermuteLeft(const PxMatrix<int_t>& P);
-
-		/**
-		 * @brief Permutes the columns of a general matrix in-place.
-		 *
-		 * Replaces `(*this)` with `(*this)*Q`.
-		 *
-		 * @param[in] Q The right side permutation matrix.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteMirror()
-		 */
-		void ipermuteRight(const PxMatrix<int_t>& Q);
-
-		/**
-		 * @brief Permutes a matrix symmetrically in-place.
-		 *
-		 * Replaces `(*this)` with `P*(*this)*P^T`.
-		 *
-		 * @param[in] P The left and right side permutation matrix.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight()
-		 */
-		void ipermuteMirror(const PxMatrix<int_t>& P);
 #endif // 0
 
 		/**
