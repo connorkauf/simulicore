@@ -73,13 +73,13 @@ void mult(typename T_Matrix::value_type alpha,
  *
  * Valid combinations are the following:
  @verbatim
-  A: General     B: General     opA: unconstrained      opB: unconstrained      C: General/Symmetric/Hermitian
-  A: Symmetric   B: General     opA: ignored            opB: must be set to N   C: General
-  A: Hermitian   B: General     opA: ignored            opB: must be set to N   C: General
-  A: Triangular  B: General     opA: unconstrained      opB: must be set to N   C: General
-  A: General     B: Symmetric   opA: must be set to N   opB: ignored            C: General
-  A: General     B: Hermitian   opA: must be set to N   opB: ignored            C: General
-  A: General     B: Triangular  opA: must be set to N   opB: unconstrained      C: General
+  A: General     B: General     opA: unconstrained      opB: unconstrained      pr: General/Symmetric/Hermitian
+  A: Symmetric   B: General     opA: ignored            opB: must be set to N   pr: General
+  A: Hermitian   B: General     opA: ignored            opB: must be set to N   pr: General
+  A: Triangular  B: General     opA: unconstrained      opB: must be set to N   pr: General
+  A: General     B: Symmetric   opA: must be set to N   opB: ignored            pr: General
+  A: General     B: Hermitian   opA: must be set to N   opB: ignored            pr: General
+  A: General     B: Triangular  opA: must be set to N   opB: unconstrained      pr: General
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.
