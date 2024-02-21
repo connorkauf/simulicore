@@ -30,6 +30,8 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
+#include "cla3p/checks/basic_checks.hpp"
+#include "cla3p/support/utils.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -702,6 +704,186 @@ template real_t  norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const re
 template real4_t norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const real4_t   *);
 template real_t  norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const complex_t *);
 template real4_t norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const complex8_t*);
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+static void permute_ge_both(uint_t /*m*/, uint_t n,
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P, const int_t *Q)
+{
+	// dns: entry(ldb, b, i, Q[j]) = entry(lda, a, P[i], j);
+
+	colptr_out[0] = 0;
+	for(uint_t j = 0; j < n; j++) {
+		colptr_out[Q[j] + 1] = colptr[j+1] - colptr[j];
+	} // j
+
+	roll(n, colptr_out);
+
+	for(uint_t j = 0; j < n; j++) {
+		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
+			rowidx_out[colptr_out[Q[j]]] = P[rowidx[irow]];
+			values_out[colptr_out[Q[j]]] = values[irow];
+			colptr_out[Q[j]]++;
+		} // irow
+	} // j
+	
+	unroll(n, colptr_out);
+
+	sort(n, colptr_out, rowidx_out, values_out);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+static void permute_ge_left(uint_t /*m*/, uint_t n,
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P)
+{
+	std::copy(colptr, colptr + n + 1, colptr_out);
+
+	for(uint_t j = 0; j < n; j++) {
+		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
+			rowidx_out[colptr_out[j]] = P[rowidx[irow]];
+			values_out[colptr_out[j]] = values[irow];
+			colptr_out[j]++;
+		} // irow
+	} // j
+	
+	unroll(n, colptr_out);
+
+	sort(n, colptr_out, rowidx_out, values_out);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+static void permute_ge_right(uint_t /*m*/, uint_t n,
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *Q)
+{
+	colptr_out[0] = 0;
+	for(uint_t j = 0; j < n; j++) {
+		colptr_out[Q[j] + 1] = colptr[j+1] - colptr[j];
+	} // j
+
+	roll(n, colptr_out);
+
+	for(uint_t j = 0; j < n; j++) {
+		std::copy(rowidx + colptr[j], rowidx + colptr[j+1], rowidx_out + colptr_out[Q[j]]);
+		std::copy(values + colptr[j], values + colptr[j+1], values_out + colptr_out[Q[j]]);
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void permute_xx_mirror(prop_t ptype, uplo_t uplo, uint_t n,
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P)
+{
+	T_Int Pi;
+	T_Int Pj;
+
+	colptr_out[0] = 0;
+	for(uint_t j = 0; j < n; j++) {
+		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
+			Pi = P[rowidx[irow]];
+			Pj = P[j];
+			if(uplo == uplo_t::Upper && Pj < Pi) 
+				colptr_out[Pi+1]++;
+			else if(uplo == uplo_t::Lower && Pj > Pi) 
+				colptr_out[Pi+1]++;
+			else
+				colptr_out[Pj+1]++;
+		} // irow
+	} // j
+
+	roll(n, colptr_out);
+
+	for(uint_t j = 0; j < n; j++) {
+		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
+			Pi = P[rowidx[irow]];
+			Pj = P[j];
+			if(uplo == uplo_t::Upper && Pj < Pi) {
+				rowidx_out[colptr_out[Pi]] = Pj;
+				values_out[colptr_out[Pi]] = opposite_element(values[irow],ptype);
+				colptr_out[Pi]++;
+			} else if(uplo == uplo_t::Lower && Pj > Pi) {
+				rowidx_out[colptr_out[Pi]] = Pj;
+				values_out[colptr_out[Pi]] = opposite_element(values[irow],ptype);
+				colptr_out[Pi]++;
+			} else {
+				rowidx_out[colptr_out[Pj]] = Pi;
+				values_out[colptr_out[Pj]] = opposite_element(values[irow],ptype);
+				colptr_out[Pj]++;
+			}
+		} // irow
+	} // j
+	
+	unroll(n, colptr_out);
+
+	sort(n, colptr_out, rowidx_out, values_out);
+}
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Scalar>
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n,
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P, const int_t *Q)
+{
+	if(!m || !n) return;
+
+	Property prop(ptype, uplo);
+
+	if(prop.isSquare()) {
+		square_check(m, n);
+	}
+
+	if(prop.isGeneral()) {
+
+		if(P && Q) {
+
+			permute_ge_both(m, n, colptr, rowidx, values, colptr_out, rowidx_out, values_out, P, Q);
+
+		} else if(P && !Q) {
+
+			permute_ge_left(m, n, colptr, rowidx, values, colptr_out, rowidx_out, values_out, P);
+
+		} else if(!P && Q) { 
+
+			permute_ge_right(m, n, colptr, rowidx, values, colptr_out, rowidx_out, values_out, Q);
+
+		} else {
+
+			// FIXME: copy
+
+		} // P/Q
+
+	} else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
+
+		if(P) {
+
+			permute_xx_mirror(ptype, uplo, n, colptr, rowidx, values, colptr_out, rowidx_out, values_out, P);
+
+		} else {
+
+			// FIXME: copy
+
+		} // P
+
+	} else {
+
+		throw err::Exception("Invalid property: " + prop.name());
+
+	} // prop
+}
+/*-------------------------------------------------*/
+#define instantiate_permute(T_Int, T_Scl) \
+template void permute(prop_t, uplo_t, uint_t, uint_t, \
+    const T_Int*, const T_Int*, const T_Scl*, \
+    T_Int*, T_Int*, T_Scl*, const int_t*, const int_t*)
+instantiate_permute(int_t,  real_t    );
+instantiate_permute(int_t , real4_t   );
+instantiate_permute(int_t , complex_t );
+instantiate_permute(int_t , complex8_t);
+instantiate_permute(uint_t, real_t    );
+instantiate_permute(uint_t, real4_t   );
+instantiate_permute(uint_t, complex_t );
+instantiate_permute(uint_t, complex8_t);
+#undef instantiate_permute
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk

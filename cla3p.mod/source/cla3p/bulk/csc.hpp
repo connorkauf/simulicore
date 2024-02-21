@@ -89,6 +89,11 @@ template <typename T_Int, typename T_Scalar>
 typename TypeTraits<T_Scalar>::real_type 
 norm_fro(prop_t ptype, uint_t n, const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values);
 
+template <typename T_Int, typename T_Scalar>
+void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, 
+		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
+		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P, const int_t *Q);
+
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk

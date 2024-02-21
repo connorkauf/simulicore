@@ -43,6 +43,9 @@ namespace csc {
 template <typename T_Int, typename T_Scalar, typename T_Matrix>
 class XxMatrix : public Ownership, public MatrixMeta {
 
+	private:
+		using T_DnsMatrix = typename TypeTraits<T_Matrix>::dns_type;
+
 	public:
 		using index_type = T_Int;
 		using value_type = T_Scalar;
@@ -236,7 +239,11 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 */
 		T_Matrix general() const;
 
-#if 0
+		/**
+		 * @brief Converts a matrix to dense.
+		 * @return A copy of `(*this)` as a dense matrix.
+		 */
+		T_DnsMatrix dense() const;
 
 		/**
 		 * @brief Permutes a general matrix.
@@ -290,8 +297,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
-
-#endif // 0
 
 		/**
 		 * @brief Gets a submatrix with content copy.

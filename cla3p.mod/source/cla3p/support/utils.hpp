@@ -33,13 +33,25 @@ std::string bytes2human(bulk_t nbytes, uint_t nsd = 3);
 void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
 std::string bool2yn(bool flg);
 
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
+{
+	if(ptype == prop_t::Symmetric) return x;
+	if(ptype == prop_t::Hermitian) return arith::conj(x);
+	if(ptype == prop_t::Skew     ) return (-x);
+
+	throw err::Exception("Invalid Property");
+	return x;
+}
+/*-------------------------------------------------*/
 template <typename T_Int>
 std::string coord2str(T_Int i, T_Int j)
 {
 	std::string ret = "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
 	return ret;
 }
-
+/*-------------------------------------------------*/
 template <typename T_Scalar>
 T_Scalar rand(
 		typename TypeTraits<T_Scalar>::real_type low, 
@@ -55,11 +67,12 @@ T_Scalar rand(
 
   return (low + static_cast<T_Scalar>(inc));
 }
-
+/*-------------------------------------------------*/
 template <>
 complex_t rand<complex_t>(real_t low, real_t high); 
 template <>
 complex8_t rand<complex8_t>(real4_t low, real4_t high);
+/*-------------------------------------------------*/
 
 void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val);
 void val2char(char *buff, bulk_t bufflen, uint_t nsd, uint_t val);
@@ -75,6 +88,7 @@ void fill_identity_perm(uint_t n, int_t *P);
 void fill_random_perm(uint_t n, uint_t *P);
 void fill_random_perm(uint_t n, int_t *P);
 
+/*-------------------------------------------------*/
 template <typename T_Int>
 std::vector<T_Int> create_random_perm(uint_t n)
 {
@@ -82,13 +96,13 @@ std::vector<T_Int> create_random_perm(uint_t n)
 	fill_random_perm(n, ret.data());
 	return ret;
 }
-
+/*-------------------------------------------------*/
 typedef struct RowRange {
 	uint_t ibgn;
 	uint_t iend;
 	uint_t ilen;
 } RowRange;
-
+/*-------------------------------------------------*/
 inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 {
 	RowRange ret;
@@ -110,7 +124,7 @@ inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 
 	return ret;
 }
-
+/*-------------------------------------------------*/
 inline RowRange irange_strict(uplo_t uplo, uint_t m, uint_t j)
 {
 	RowRange ret = irange(uplo, m, j);
@@ -127,7 +141,7 @@ inline RowRange irange_strict(uplo_t uplo, uint_t m, uint_t j)
 
 	return ret;
 }
-
+/*-------------------------------------------------*/
 inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 {
 	RowRange ret;
@@ -149,7 +163,7 @@ inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 
 	return ret;
 }
-
+/*-------------------------------------------------*/
 inline bool coord_in_range(uplo_t uplo, uint_t i, uint_t j)
 {
 	/**/ if(uplo == uplo_t::Upper && i > j) return false;
@@ -157,7 +171,6 @@ inline bool coord_in_range(uplo_t uplo, uint_t i, uint_t j)
 
 	return true;
 }
-
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
