@@ -70,8 +70,8 @@ void operator+=(
  */
 template <typename T_Matrix>
 void operator+=(
-		cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
+		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	cla3p::ops::update(1, B, A);
 }
@@ -106,8 +106,8 @@ void operator-=(
  */
 template <typename T_Matrix>
 void operator-=(
-		cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<cla3p::int_t,typename T_Matrix::value_type,T_Matrix>& B)
+		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	cla3p::ops::update(-1, B, A);
 }

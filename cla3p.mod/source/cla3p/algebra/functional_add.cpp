@@ -94,8 +94,8 @@ instantiate_add(dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 T_Matrix add(typename T_Matrix::value_type alpha,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& B)
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	similarity_check(
 			A.prop(), A.nrows(), A.ncols(),
@@ -120,8 +120,8 @@ T_Matrix add(typename T_Matrix::value_type alpha,
 /*-------------------------------------------------*/
 #define instantiate_add(T_Mat) \
 template T_Mat add(typename T_Mat::value_type, \
-		const csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&, \
-		const csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&)
+		const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
+		const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&)
 instantiate_add(csc::RdMatrix);
 instantiate_add(csc::RfMatrix);
 instantiate_add(csc::CdMatrix);

@@ -73,8 +73,8 @@ void update(
 template <typename T_Matrix>
 void update(
     typename T_Matrix::value_type alpha,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A,
-    csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& B);
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+    csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /*-------------------------------------------------*/
 } // namespace ops

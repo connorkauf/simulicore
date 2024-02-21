@@ -79,8 +79,8 @@ instantiate_update(dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void update(typename T_Matrix::value_type alpha,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A,
-    csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& B)
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+    csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	similarity_check(
 			A.prop(), A.nrows(), A.ncols(),
@@ -92,8 +92,8 @@ void update(typename T_Matrix::value_type alpha,
 /*-------------------------------------------------*/
 #define instantiate_update(T_Mat) \
 template void update(typename T_Mat::value_type, \
-		const csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&, \
-		csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&)
+		const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
+		csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&)
 instantiate_update(csc::RdMatrix);
 instantiate_update(csc::RfMatrix);
 instantiate_update(csc::CdMatrix);

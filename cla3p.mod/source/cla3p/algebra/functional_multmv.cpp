@@ -104,7 +104,7 @@ instantiate_mult(dns::CfVector, dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A,
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
@@ -140,7 +140,7 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Vec, T_Mat) \
 template void mult(typename T_Vec::value_type, op_t, \
-    const csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&, \
+    const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
     const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
     dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_mult(dns::RdVector, csc::RdMatrix);
@@ -151,7 +151,7 @@ instantiate_mult(dns::CfVector, csc::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Vector, typename T_Matrix>
 T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
-    const csc::XxMatrix<int_t,typename T_Matrix::value_type,T_Matrix>& A,
+    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
 {
   Operation _opA(opA);
@@ -163,7 +163,7 @@ T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Vec, T_Mat) \
 template T_Vec mult(typename T_Vec::value_type, op_t, \
-		const csc::XxMatrix<int_t,typename T_Mat::value_type,T_Mat>&, \
+		const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
 		const dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_mult(dns::RdVector, csc::RdMatrix);
 instantiate_mult(dns::RfVector, csc::RfMatrix);

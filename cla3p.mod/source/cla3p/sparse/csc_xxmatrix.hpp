@@ -44,6 +44,7 @@ template <typename T_Int, typename T_Scalar, typename T_Matrix>
 class XxMatrix : public Ownership, public MatrixMeta {
 
 	public:
+		using index_type = T_Int;
 		using value_type = T_Scalar;
 
 	public:
