@@ -25,12 +25,11 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 namespace dns { template <typename T_Scalar> class CxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar> class RxMatrix; }
 
 /*-------------------------------------------------*/
 namespace csc {
 /*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Scalar> class RxMatrix;
 
 /**
  * @nosubgrouping 
@@ -126,7 +125,7 @@ class TypeTraits<csc::CxMatrix<T_Int,T_Scalar>> {
 		static constexpr bool is_complex() { return true; }
 		static std::string type_name() { return msg::SparseCscMatrix(); }
 		using real_type = csc::RxMatrix<T_Int,T_RScalar>;
-		using dns_type = dns::CxMatrix<T_RScalar>;
+		using dns_type = dns::CxMatrix<T_Scalar>;
 };
 
 /*-------------------------------------------------*/
