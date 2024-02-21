@@ -33,23 +33,24 @@ namespace cla3p {
 namespace ops {
 /*-------------------------------------------------*/
 template <typename T_Vector>
-T_Vector add(typename T_Vector::value_type alpha,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
+T_Vector add(
+		typename T_Vector::value_type alpha, const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta , const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
 	similarity_check(
 			defaultProperty(), X.size(), 1,
 			defaultProperty(), Y.size(), 1);
 
 	T_Vector ret = Y.copy();
+	ret.iscale(beta);
 	update(alpha, X, ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Vec) \
-template T_Vec add(typename T_Vec::value_type, \
-		const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
-		const dns::XxVector<typename T_Vec::value_type,T_Vec>&)
+template T_Vec add( \
+		typename T_Vec::value_type, const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
+		typename T_Vec::value_type, const dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_add(dns::RdVector);
 instantiate_add(dns::RfVector);
 instantiate_add(dns::CdVector);
@@ -57,20 +58,17 @@ instantiate_add(dns::CfVector);
 #undef instantiate_add
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-T_Matrix add(typename T_Matrix::value_type alpha,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B)
+T_Matrix add(
+		typename T_Matrix::value_type alpha, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		typename T_Matrix::value_type beta , const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B)
 {
 	similarity_check(
 			A.prop(), A.nrows(), A.ncols(),
 			B.prop(), B.nrows(), B.ncols());
 
-	using T_Scalar = typename T_Matrix::value_type;
-
 	uint_t m = A.nrows();
 	uint_t n = A.ncols();
 	Property pr = A.prop();
-	T_Scalar beta = 1;
 
 	T_Matrix ret(m, n, pr);
 
@@ -83,9 +81,9 @@ T_Matrix add(typename T_Matrix::value_type alpha,
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Mat) \
-template T_Mat add(typename T_Mat::value_type, \
-		const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-		const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
+template T_Mat add( \
+		typename T_Mat::value_type, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+		typename T_Mat::value_type, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
 instantiate_add(dns::RdMatrix);
 instantiate_add(dns::RfMatrix);
 instantiate_add(dns::CdMatrix);
@@ -94,8 +92,8 @@ instantiate_add(dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 T_Matrix add(typename T_Matrix::value_type alpha,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
+		const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
 	similarity_check(
 			A.prop(), A.nrows(), A.ncols(),
