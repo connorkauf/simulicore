@@ -33,33 +33,35 @@ namespace ops {
  * @ingroup module_index_math_op_add
  * @brief Adds two compatible scaled dense vectors.
  *
- * Performs the operation <b>alpha * X + Y</b>
+ * Performs the operation <b>alpha * X + beta * Y</b>
  *
  * @param[in] alpha The scaling coefficient for X.
  * @param[in] X The first input dense vector.
+ * @param[in] beta The scaling coefficient for Y.
  * @param[in] Y The second input dense vector.
- * @return The result of the operation <b>(alpha * X + Y)</b>.
+ * @return The result of the operation <b>(alpha * X + beta * Y)</b>.
  */
 template <typename T_Vector>
-T_Vector add(typename T_Vector::value_type alpha,
-		const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
-		const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
+T_Vector add(
+		typename T_Vector::value_type alpha, const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta , const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /**
  * @ingroup module_index_math_op_add
  * @brief Adds two compatible scaled dense matrices.
  *
- * Performs the operation <b>alpha * A + B</b>
+ * Performs the operation <b>alpha * A + beta * B</b>
  *
  * @param[in] alpha The scaling coefficient for A.
- * @param[in] A The first input dense object.
- * @param[in] B The second input dense object.
- * @return The result of the operation <b>(alpha * A + B)</b>.
+ * @param[in] A The first input dense matrix.
+ * @param[in] beta The scaling coefficient for B.
+ * @param[in] B The second input dense matrix.
+ * @return The result of the operation <b>(alpha * A + beta * B)</b>.
  */
 template <typename T_Matrix>
-T_Matrix add(typename T_Matrix::value_type alpha, 
-		const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
+T_Matrix add(
+		typename T_Matrix::value_type alpha, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		typename T_Matrix::value_type beta , const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
  * @ingroup module_index_math_op_add
@@ -74,8 +76,8 @@ T_Matrix add(typename T_Matrix::value_type alpha,
  */
 template <typename T_Matrix>
 T_Matrix add(typename T_Matrix::value_type alpha,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
+		const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /*-------------------------------------------------*/
 } // namespace ops
