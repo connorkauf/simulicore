@@ -41,6 +41,7 @@ class XxMatrix : public MatrixMeta {
 		using T_CscMatrix = typename TypeTraits<T_Matrix>::csc_type;
 
 	public:
+		using index_type = T_Int;
 		using value_type = T_Scalar;
 
 	public:
