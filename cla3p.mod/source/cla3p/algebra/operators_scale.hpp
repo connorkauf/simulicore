@@ -37,9 +37,9 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
 /*
  * Combinations                  | Valid Op | Return Type
  * ------------------------------------------------------
- * T_Scalar * XxVector           | YES      | VirtualVector
- * T_Scalar * XxMatrix           | YES      | VirtualMatrix
- * T_Scalar * VirtualEntity      | YES      | T_Virtual
+ * T_Scalar      * XxVector      | YES      | VirtualVector
+ * T_Scalar      * XxMatrix      | YES      | VirtualMatrix
+ * T_Scalar      * VirtualEntity | YES      | T_Virtual
  *                               |          |
  * XxVector      * T_Scalar      | YES      | VirtualVector
  * XxMatrix      * T_Scalar      | YES      | VirtualMatrix
