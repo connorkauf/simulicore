@@ -28,7 +28,6 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T_Int> class PxMatrix;
-namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
 
 /*-------------------------------------------------*/
 namespace dns {

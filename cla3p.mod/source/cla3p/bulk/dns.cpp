@@ -44,29 +44,6 @@ static uint_t recursive_min_dim()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
-{
-	if(ptype == prop_t::Symmetric) return x;
-	if(ptype == prop_t::Hermitian) return arith::conj(x);
-	if(ptype == prop_t::Skew     ) return (-x);
-
-	throw err::Exception();
-	return x;
-}
-/*-------------------------------------------------*/
-static inline int_t opposite_element(const int_t&, const prop_t&)
-{
-	throw err::Exception();
-	return 0;
-}
-/*-------------------------------------------------*/
-static inline uint_t opposite_element(const uint_t&, const prop_t&)
-{
-	throw err::Exception();
-	return 0;
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
 {
 	if(ptype == prop_t::Hermitian) {
@@ -908,7 +885,7 @@ real_t  norm_euc(uint_t n, const complex_t  *a) { return blas::nrm2(n, a, 1); }
 real4_t norm_euc(uint_t n, const complex8_t *a) { return blas::nrm2(n, a, 1); }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_ge_left_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P)
+static void permute_ge_left(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -918,7 +895,7 @@ static void permute_ge_left_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t l
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
+static void permute_ge_right(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		copy(uplo_t::Full, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
@@ -926,7 +903,7 @@ static void permute_ge_right_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_ge_both_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, const T_Int *Q)
+static void permute_ge_both(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, const T_Int *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
@@ -936,7 +913,7 @@ static void permute_ge_both_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t l
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar, typename T_Int>
-static void permute_xx_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, prop_t ptype)
+static void permute_xx_mirror(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const T_Int *P, prop_t ptype)
 {
 	uint_t Pi;
 	uint_t Pj;
@@ -969,17 +946,15 @@ static void permute_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_
 
 	if(prop.isGeneral()) {
 
-		/**/ if( P &&  Q) permute_ge_both_tmpl (m, n, a, lda, b, ldb, P, Q);
-		else if( P && !Q) permute_ge_left_tmpl(m, n, a, lda, b, ldb, P);
-		else if(!P &&  Q) permute_ge_right_tmpl (m, n, a, lda, b, ldb, Q);
+		/**/ if( P &&  Q) permute_ge_both (m, n, a, lda, b, ldb, P, Q);
+		else if( P && !Q) permute_ge_left(m, n, a, lda, b, ldb, P);
+		else if(!P &&  Q) permute_ge_right (m, n, a, lda, b, ldb, Q);
 		else              copy(uplo_t::Full, m, n, a, lda, b, ldb);
 
 	} else if(prop.isSymmetric() || prop.isHermitian() || prop.isSkew()) {
 
-		square_check(m,n);
-
 		if(P) {
-			permute_xx_tmpl(uplo, n, a, lda, b, ldb, P, prop.type());
+			permute_xx_mirror(uplo, n, a, lda, b, ldb, P, prop.type());
 		} else {
 			copy(uplo, m, n, a, lda, b, ldb);
 		} // P

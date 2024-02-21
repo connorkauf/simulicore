@@ -22,8 +22,9 @@
 // 3rd
 
 // cla3p
+#include "cla3p/dense.hpp"
 #include "cla3p/sparse.hpp"
-//#include "cla3p/perms.hpp"
+#include "cla3p/perms.hpp"
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/bulk/csc_math.hpp"
@@ -34,6 +35,7 @@
 #include "cla3p/checks/csc_checks.hpp"
 #include "cla3p/checks/block_ops_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
+#include "cla3p/checks/perm_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -364,63 +366,78 @@ T_Matrix XxMatrixTmpl::general() const
 	return ret;
 }
 /*-------------------------------------------------*/
-#if 0
+XxMatrixTlst
+typename XxMatrixTmpl::T_DnsMatrix XxMatrixTmpl::dense() const
+{
+	T_DnsMatrix ret(nrows(), ncols(), prop());
+	ret = 0;
+	for(uint_t j = 0; j < ncols(); j++) {
+		for(T_Int irow = colptr()[j]; irow < colptr()[j+1]; irow++) {
+			ret(rowidx()[irow],j) = values()[irow];
+		} // irow
+	} // j
+
+	return ret;
+}
+/*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
 {
-	T_Matrix ret;
-	this->gePermuteToLeftRight(ret, P, Q);
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
+
+	T_Matrix ret(nrows(), ncols(), nnz(), prop());
+	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+			colptr(), rowidx(), values(), 
+			ret.colptr(), ret.rowidx(), ret.values(), 
+			P.values(), Q.values());
+
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
 {
-	T_Matrix ret;
-	this->gePermuteToLeft(ret, P);
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
+
+	T_Matrix ret(nrows(), ncols(), nnz(), prop());
+	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+			colptr(), rowidx(), values(), 
+			ret.colptr(), ret.rowidx(), ret.values(), 
+			P.values(), nullptr);
+
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
 {
-	T_Matrix ret;
-	this->gePermuteToRight(ret, Q);
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
+
+	T_Matrix ret(nrows(), ncols(), nnz(), prop());
+	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+			colptr(), rowidx(), values(), 
+			ret.colptr(), ret.rowidx(), ret.values(), 
+			nullptr, Q.values());
+
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
 {
-	T_Matrix ret;
-	this->xxPermuteToMirror(ret, P);
+	perm_op_consistency_check(nrows(), ncols(), P.size(), P.size());
+
+	//PiMatrix iP;
+	//if(prop().isGeneral()) iP = P.inverse();
+
+	T_Matrix ret(nrows(), ncols(), nnz(), prop());
+	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+			colptr(), rowidx(), values(), 
+			ret.colptr(), ret.rowidx(), ret.values(), 
+			P.values(), nullptr);
+
 	return ret;
 }
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::ipermuteLeftRight(const PiMatrix& P, const PiMatrix& Q) 
-{ 
-	this->gePermuteIpLeftRight(P, Q);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::ipermuteLeft(const PiMatrix& P) 
-{ 
-	this->gePermuteIpLeft(P);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::ipermuteRight(const PiMatrix& Q) 
-{ 
-	this->gePermuteIpRight(Q);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::ipermuteMirror(const PiMatrix& P) 
-{ 
-	this->xxPermuteIpMirror(P);
-}
-#endif // 0
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const
