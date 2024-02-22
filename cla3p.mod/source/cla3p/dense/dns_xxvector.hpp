@@ -274,14 +274,14 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		static T_Vector init(uint_t n);
 
 		/**
-		 * @brief Creates a vector with random values in (0,1).
+		 * @brief Creates a vector with random values in (lo,hi).
 		 *
 		 * Creates a n-sized vector with random values.
 		 *
 		 * @param[in] n The vector size.
 		 * @return The newly created vector.
 		 */
-		static T_Vector random(uint_t n);
+		static T_Vector random(uint_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @brief Creates a vector from aux data.

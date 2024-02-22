@@ -206,10 +206,10 @@ T_Vector XxVectorTmpl::init(uint_t n)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_Vector XxVectorTmpl::random(uint_t n)
+T_Vector XxVectorTmpl::random(uint_t n, T_RScalar lo, T_RScalar hi)
 {
 	T_Vector ret(n);
-	bulk::dns::rand(uplo_t::Full, ret.rsize(), ret.csize(), ret.values(), ret.lsize());
+	bulk::dns::rand(uplo_t::Full, ret.rsize(), ret.csize(), ret.values(), ret.lsize(), lo, hi);
 	return ret;
 }
 /*-------------------------------------------------*/
