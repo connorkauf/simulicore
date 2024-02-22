@@ -44,7 +44,7 @@ static uint_t recursive_min_dim()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
+void set_diag_zeros(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
 {
 	if(ptype == prop_t::Hermitian) {
 		for(uint_t i = 0; i < n; i++) {
@@ -57,17 +57,17 @@ static void set_diag_zeros_tmpl(prop_t ptype, uint_t n, T_Scalar *a, uint_t lda)
 	}
 }
 /*-------------------------------------------------*/
-void set_diag_zeros(prop_t ptype, uint_t n, int_t      *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
-void set_diag_zeros(prop_t ptype, uint_t n, uint_t     *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
-void set_diag_zeros(prop_t ptype, uint_t n, real_t     *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
-void set_diag_zeros(prop_t ptype, uint_t n, real4_t    *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
-void set_diag_zeros(prop_t ptype, uint_t n, complex_t  *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
-void set_diag_zeros(prop_t ptype, uint_t n, complex8_t *a, uint_t lda) { set_diag_zeros_tmpl(ptype, n, a, lda); }
+template void set_diag_zeros(prop_t, uint_t, int_t     *, uint_t);
+template void set_diag_zeros(prop_t, uint_t, uint_t    *, uint_t);
+template void set_diag_zeros(prop_t, uint_t, real_t    *, uint_t);
+template void set_diag_zeros(prop_t, uint_t, real4_t   *, uint_t);
+template void set_diag_zeros(prop_t, uint_t, complex_t *, uint_t);
+template void set_diag_zeros(prop_t, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
+static void fill_std(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
 {
 	if(!m || !n) return;
 
@@ -88,7 +88,7 @@ static void naive_fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
+static void fill_lapack(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar val, T_Scalar dval)
 {
 	if(!m || !n) return;
 
@@ -99,48 +99,48 @@ static void fill_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, 
 	} // info
 }
 /*-------------------------------------------------*/
-void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ naive_fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ naive_fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){       fill_tmpl(uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val){ fill_std   (uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val){ fill_std   (uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val){ fill_lapack(uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val){ fill_lapack(uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val){ fill_lapack(uplo, m, n, a, lda, val, val); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val){ fill_lapack(uplo, m, n, a, lda, val, val); }
 /*-------------------------------------------------*/
-void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val, int_t      dval){ naive_fill_tmpl(uplo, m, n, a, lda, val, dval); }
-void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val, uint_t     dval){ naive_fill_tmpl(uplo, m, n, a, lda, val, dval); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val, real_t     dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
-void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val, real4_t    dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val, complex_t  dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
-void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val, complex8_t dval){       fill_tmpl(uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t      val, int_t      dval){ fill_std   (uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t     val, uint_t     dval){ fill_std   (uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     val, real_t     dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    val, real4_t    dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  val, complex_t  dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
+template <> void fill(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t val, complex8_t dval){ fill_lapack(uplo, m, n, a, lda, val, dval); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void rand_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, 
-		typename TypeTraits<T_Scalar>::real_type low, 
-		typename TypeTraits<T_Scalar>::real_type high) 
+void rand(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, 
+		typename TypeTraits<T_Scalar>::real_type lo, 
+		typename TypeTraits<T_Scalar>::real_type hi) 
 {
 	if(!m || !n) return;
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange(uplo, m, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
-			entry(lda,a,i,j) = cla3p::rand<T_Scalar>(low, high);
+			entry(lda,a,i,j) = cla3p::rand<T_Scalar>(lo, hi);
 		} // i
 	} // j
 }
 /*-------------------------------------------------*/
-void rand(uplo_t uplo, uint_t m, uint_t n, int_t      *a, uint_t lda, int_t   low, int_t   high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
-void rand(uplo_t uplo, uint_t m, uint_t n, uint_t     *a, uint_t lda, uint_t  low, uint_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
-void rand(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
-void rand(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
-void rand(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, real_t  low, real_t  high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
-void rand(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, real4_t low, real4_t high){ rand_tmpl(uplo, m, n, a, lda, low, high); }
+template void rand(uplo_t, uint_t, uint_t, int_t     *, uint_t, int_t  , int_t  );
+template void rand(uplo_t, uint_t, uint_t, uint_t    *, uint_t, uint_t , uint_t );
+template void rand(uplo_t, uint_t, uint_t, real_t    *, uint_t, real_t , real_t );
+template void rand(uplo_t, uint_t, uint_t, real4_t   *, uint_t, real4_t, real4_t);
+template void rand(uplo_t, uint_t, uint_t, complex_t *, uint_t, real_t , real_t );
+template void rand(uplo_t, uint_t, uint_t, complex8_t*, uint_t, real4_t, real4_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+static void copy_lapack(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
@@ -161,7 +161,7 @@ static void copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+static void copy_naive(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	// 
 	// TODO: more efficiently
@@ -181,40 +181,18 @@ static void naive_copy_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 	} // j
 }
 /*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const int_t *a, uint_t lda, int_t *b, uint_t ldb, int_t coeff)
-{
-	naive_copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const int_t  *a, uint_t lda, int_t  *b, uint_t ldb, int_t  coeff) { copy_naive(uplo, m, n, a, lda, b, ldb, coeff); }
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff) { copy_naive(uplo, m, n, a, lda, b, ldb, coeff); }
 /*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const uint_t *a, uint_t lda, uint_t *b, uint_t ldb, uint_t coeff)
-{
-	naive_copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
-{
-	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
-{ 
-	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
-{
-	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void copy(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
-{ 
-	copy_tmpl(uplo, m, n, a, lda, b, ldb, coeff); 
-}
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const real_t     *a, uint_t lda, real_t     *b, uint_t ldb, real_t     coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const real4_t    *a, uint_t lda, real4_t    *b, uint_t ldb, real4_t    coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, complex_t  *b, uint_t ldb, complex_t  coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
+template <> void copy(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff) { copy_lapack(uplo, m, n, a, lda, b, ldb, coeff); }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
+void get_real(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
 		typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -233,8 +211,11 @@ static void get_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *
 	}
 }
 /*-------------------------------------------------*/
+template void get_real(uplo_t, uint_t, uint_t, const complex_t *, uint_t, real_t *, uint_t);
+template void get_real(uplo_t, uint_t, uint_t, const complex8_t*, uint_t, real4_t*, uint_t);
+/*-------------------------------------------------*/
 template <typename T_Scalar>
-static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n, 
+void set_real(uplo_t uplo, uint_t m, uint_t n, 
 		const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -253,8 +234,11 @@ static void set_real_part_tmpl(uplo_t uplo, uint_t m, uint_t n,
 	}
 }
 /*-------------------------------------------------*/
+template void set_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, complex_t *, uint_t);
+template void set_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, complex8_t*, uint_t);
+/*-------------------------------------------------*/
 template <typename T_Scalar>
-static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
 		typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -273,8 +257,11 @@ static void get_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *
 	}
 }
 /*-------------------------------------------------*/
+template void get_imag(uplo_t, uint_t, uint_t, const complex_t *, uint_t, real_t *, uint_t);
+template void get_imag(uplo_t, uint_t, uint_t, const complex8_t*, uint_t, real4_t*, uint_t);
+/*-------------------------------------------------*/
 template <typename T_Scalar>
-static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n, 
+void set_imag(uplo_t uplo, uint_t m, uint_t n, 
 		const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
@@ -293,20 +280,13 @@ static void set_imag_part_tmpl(uplo_t uplo, uint_t m, uint_t n,
 	}
 }
 /*-------------------------------------------------*/
-void get_real(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void get_real(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex_t  *a, uint_t lda, real_t  *b, uint_t ldb) { get_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void get_imag(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, real4_t *b, uint_t ldb) { get_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-/*-------------------------------------------------*/
-void set_real(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void set_real(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_real_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void set_imag(uplo_t uplo, uint_t m, uint_t n, const real_t  *a, uint_t lda, complex_t  *b, uint_t ldb) { set_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
-void set_imag(uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda, complex8_t *b, uint_t ldb) { set_imag_part_tmpl(uplo, m, n, a, lda, b, ldb); }
+template void set_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, complex_t *, uint_t);
+template void set_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template<typename T_Scalar>
-static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+static void recursive_scale(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!n) return;
 
@@ -324,8 +304,8 @@ static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda,
 		uint_t n0 = n/2;
 		uint_t n1 = n - n0;
 
-		recursive_scale_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
-		recursive_scale_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
+		recursive_scale(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		recursive_scale(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
 
 		if(uplo == uplo_t::Upper) scale(uplo_t::Full, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
 		if(uplo == uplo_t::Lower) scale(uplo_t::Full, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
@@ -334,7 +314,7 @@ static void recursive_scale_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+void scale(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
@@ -351,21 +331,21 @@ static void scale_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda,
 		mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
 	} else {
 		uint_t k = std::min(m,n);
-		recursive_scale_tmpl(uplo, k, a, lda, coeff);
+		recursive_scale(uplo, k, a, lda, coeff);
 		if(uplo == uplo_t::Upper) scale(uplo_t::Full, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
 		if(uplo == uplo_t::Lower) scale(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // uplo
 }
 /*-------------------------------------------------*/
-void scale(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda, real_t     coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
-void scale(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda, real4_t    coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
-void scale(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda, complex_t  coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
-void scale(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff) {       scale_tmpl(uplo, m, n, a, lda, coeff); }
+template void scale(uplo_t, uint_t, uint_t, real_t    *, uint_t, real_t    );
+template void scale(uplo_t, uint_t, uint_t, real4_t   *, uint_t, real4_t   );
+template void scale(uplo_t, uint_t, uint_t, complex_t *, uint_t, complex_t );
+template void scale(uplo_t, uint_t, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+void transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
@@ -377,30 +357,15 @@ static void transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_
 	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
-{ 
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
-{ 
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
-{
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
-{ 
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
+template void transpose(uint_t, uint_t, const real_t    *, uint_t, real_t    *, uint_t, real_t    );
+template void transpose(uint_t, uint_t, const real4_t   *, uint_t, real4_t   *, uint_t, real4_t   );
+template void transpose(uint_t, uint_t, const complex_t *, uint_t, complex_t *, uint_t, complex_t );
+template void transpose(uint_t, uint_t, const complex8_t*, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+void conjugate_transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
@@ -412,30 +377,15 @@ static void conjugate_transpose_tmpl(uint_t m, uint_t n, const T_Scalar *a, uint
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
 }
 /*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const real_t *a, uint_t lda, real_t *b, uint_t ldb, real_t coeff)
-{ 
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const real4_t *a, uint_t lda, real4_t *b, uint_t ldb, real4_t coeff)
-{ 
-	transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const complex_t *a, uint_t lda, complex_t *b, uint_t ldb, complex_t coeff)
-{ 
-	conjugate_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
-/*-------------------------------------------------*/
-void conjugate_transpose(uint_t m, uint_t n, const complex8_t *a, uint_t lda, complex8_t *b, uint_t ldb, complex8_t coeff)
-{ 
-	conjugate_transpose_tmpl(m, n, a, lda, b, ldb, coeff); 
-}
+template void conjugate_transpose(uint_t, uint_t, const real_t    *, uint_t, real_t    *, uint_t, real_t    );
+template void conjugate_transpose(uint_t, uint_t, const real4_t   *, uint_t, real4_t   *, uint_t, real4_t   );
+template void conjugate_transpose(uint_t, uint_t, const complex_t *, uint_t, complex_t *, uint_t, complex_t );
+template void conjugate_transpose(uint_t, uint_t, const complex8_t*, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template<typename T_Scalar>
-static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+static void recursive_conjugate(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!n) return;
 
@@ -453,8 +403,8 @@ static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t 
 		uint_t n0 = n/2;
 		uint_t n1 = n - n0;
 
-		recursive_conjugate_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
-		recursive_conjugate_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
+		recursive_conjugate(uplo, n0, ptrmv(lda,a, 0, 0), lda, coeff);
+		recursive_conjugate(uplo, n1, ptrmv(lda,a,n0,n0), lda, coeff);
 
 		if(uplo == uplo_t::Upper) conjugate(uplo_t::Full, n0, n1, ptrmv(lda,a,0,n0), lda, coeff);
 		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, n1, n0, ptrmv(lda,a,n0,0), lda, coeff);
@@ -463,7 +413,7 @@ static void recursive_conjugate_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+void conjugate(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
 	if(!m || !n) return;
 
@@ -476,32 +426,22 @@ static void conjugate_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t 
 		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);
 	} else {
 		uint_t k = std::min(m,n);
-		recursive_conjugate_tmpl(uplo, k, a, lda, coeff);
+		recursive_conjugate(uplo, k, a, lda, coeff);
 		if(uplo == uplo_t::Upper) conjugate(uplo_t::Full, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
 		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
 /*-------------------------------------------------*/
-void conjugate(uplo_t, uint_t, uint_t, real_t*, uint_t, real_t) {}
-void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) {}
+template <> void conjugate(uplo_t, uint_t, uint_t, real_t*, uint_t, real_t) {}
+template <> void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) {}
 /*-------------------------------------------------*/
-void conjugate(uplo_t uplo, uint_t m, uint_t n, complex_t *a, uint_t lda, complex_t coeff)
-{ 
-	conjugate_tmpl(uplo, m, n, a, lda, coeff); 
-}
-/*-------------------------------------------------*/
-void conjugate(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda, complex8_t coeff)
-{ 
-	conjugate_tmpl(uplo, m, n, a, lda, coeff); 
-}
+template void conjugate(uplo_t, uint_t, uint_t, complex_t *, uint_t, complex_t );
+template void conjugate(uplo_t, uint_t, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void xx2ge_tmpl(uint_t n, T_Scalar *a, uint_t lda, prop_t ptype);
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
+static void xx2ge_recursive(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
 {
 	if(!n) return;
 
@@ -516,29 +456,15 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda,
 			} // i
 		} // j
 
-#if 0
-		if(ptype == prop_t::Hermitian) {
-			for(uint_t j = 0; j < n; j++) {
-				setIm(entry(lda,a,j,j),0);
-			} // j
-		}
-
-		if(ptype == prop_t::Skew) {
-			for(uint_t j = 0; j < n; j++) {
-				entry(lda,a,j,j) = 0;
-			} // j
-		}
-#else
 		set_diag_zeros(ptype, n, a, lda);
-#endif
 
 	} else {
 
 		uint_t n0 = n/2;
 		uint_t n1 = n - n0;
 
-		xx2ge_recursive_tmpl(uplo, n0, ptrmv(lda,a, 0, 0), lda, ptype);
-		xx2ge_recursive_tmpl(uplo, n1, ptrmv(lda,a,n0,n0), lda, ptype);
+		xx2ge_recursive(uplo, n0, ptrmv(lda,a, 0, 0), lda, ptype);
+		xx2ge_recursive(uplo, n1, ptrmv(lda,a,n0,n0), lda, ptype);
 
 		if(ptype == prop_t::Symmetric) {
 
@@ -552,8 +478,8 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda,
 
 		} else if(ptype == prop_t::Skew) {
 
-			/**/ if(uplo == uplo_t::Upper) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, -1);
-			else if(uplo == uplo_t::Lower) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, -1);
+			/**/ if(uplo == uplo_t::Upper) transpose(n0, n1, ptrmv(lda,a,0,n0), lda, ptrmv(lda,a,n0,0), lda, T_Scalar(-1));
+			else if(uplo == uplo_t::Lower) transpose(n1, n0, ptrmv(lda,a,n0,0), lda, ptrmv(lda,a,0,n0), lda, T_Scalar(-1));
 
 		} else {
 
@@ -565,31 +491,48 @@ static void xx2ge_recursive_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda,
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void xx2ge_tmpl(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
+static void xx2ge(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, prop_t ptype)
 {
-	xx2ge_recursive_tmpl(uplo, n, a, lda, ptype);
+	xx2ge_recursive(uplo, n, a, lda, ptype);
 }
 /*-------------------------------------------------*/
-void sy2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
-void sy2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
-void sy2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
-void sy2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Symmetric); }
+template <typename T_Scalar>
+void sy2ge(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda) 
+{ 
+	xx2ge(uplo, n, a, lda, prop_t::Symmetric); 
+}
 /*-------------------------------------------------*/
-void he2ge(uplo_t, uint_t, real_t *, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
-void he2ge(uplo_t, uint_t, real4_t*, uint_t) { throw err::Exception(msg::OpNotAllowed()); }
+template void sy2ge(uplo_t, uint_t, real_t    *, uint_t);
+template void sy2ge(uplo_t, uint_t, real4_t   *, uint_t);
+template void sy2ge(uplo_t, uint_t, complex_t *, uint_t);
+template void sy2ge(uplo_t, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
-void he2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Hermitian); }
-void he2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Hermitian); }
+template <typename T_Scalar>
+void he2ge(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda) 
+{ 
+	xx2ge(uplo, n, a, lda, prop_t::Hermitian); 
+}
 /*-------------------------------------------------*/
-void sk2ge(uplo_t uplo, uint_t n, real_t     *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
-void sk2ge(uplo_t uplo, uint_t n, real4_t    *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
-void sk2ge(uplo_t uplo, uint_t n, complex_t  *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
-void sk2ge(uplo_t uplo, uint_t n, complex8_t *a, uint_t lda) { xx2ge_tmpl(uplo, n, a, lda, prop_t::Skew); }
+template void he2ge(uplo_t, uint_t, real_t    *, uint_t);
+template void he2ge(uplo_t, uint_t, real4_t   *, uint_t);
+template void he2ge(uplo_t, uint_t, complex_t *, uint_t);
+template void he2ge(uplo_t, uint_t, complex8_t*, uint_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void sk2ge(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda) 
+{ 
+	xx2ge(uplo, n, a, lda, prop_t::Skew); 
+}
+/*-------------------------------------------------*/
+template void sk2ge(uplo_t, uint_t, real_t    *, uint_t);
+template void sk2ge(uplo_t, uint_t, real4_t   *, uint_t);
+template void sk2ge(uplo_t, uint_t, complex_t *, uint_t);
+template void sk2ge(uplo_t, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
+void tr2ge(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_complement(uplo, m, j);
@@ -599,16 +542,16 @@ static void tr2ge_tmpl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 	} // j
 }
 /*-------------------------------------------------*/
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, real_t     *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, real4_t    *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex_t  *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
-void tr2ge(uplo_t uplo, uint_t m, uint_t n, complex8_t *a, uint_t lda) { tr2ge_tmpl(uplo, m, n, a, lda); }
+template void tr2ge(uplo_t, uint_t, uint_t, real_t    *, uint_t);
+template void tr2ge(uplo_t, uint_t, uint_t, real4_t   *, uint_t);
+template void tr2ge(uplo_t, uint_t, uint_t, complex_t *, uint_t);
+template void tr2ge(uplo_t, uint_t, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static typename TypeTraits<T_Scalar>::real_type
-norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
+typename TypeTraits<T_Scalar>::real_type
+static norm_one_skew(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -634,9 +577,11 @@ norm_one_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static typename TypeTraits<T_Scalar>::real_type 
-norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
+typename TypeTraits<T_Scalar>::real_type 
+norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
@@ -663,17 +608,22 @@ norm_one_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 
 	} else if(prop.isSkew()) {
 
-		return norm_one_skew_tmpl(uplo, n, a, lda);
+		return norm_one_skew(uplo, n, a, lda);
 
 	} // property
 	
 	throw err::Exception("Invalid property: " + prop.name());
-	return 0.;
+	return T_RScalar(0);
 }
 /*-------------------------------------------------*/
+template real_t  norm_one(prop_t, uplo_t, uint_t, uint_t, const real_t    *, uint_t);
+template real4_t norm_one(prop_t, uplo_t, uint_t, uint_t, const real4_t   *, uint_t);
+template real_t  norm_one(prop_t, uplo_t, uint_t, uint_t, const complex_t *, uint_t);
+template real4_t norm_one(prop_t, uplo_t, uint_t, uint_t, const complex8_t*, uint_t);
+/*-------------------------------------------------*/
 template <typename T_Scalar>
-static typename TypeTraits<T_Scalar>::real_type
-norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
+typename TypeTraits<T_Scalar>::real_type
+norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	if(!m || !n) return 0.;
 
@@ -701,7 +651,7 @@ norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 
 	} else if(prop.isSkew()) {
 
-		return norm_one_skew_tmpl(uplo, n, a, lda); // norms one & inf are the same
+		return norm_one_skew(uplo, n, a, lda); // norms one & inf are the same
 
 	} // property
 	
@@ -709,9 +659,14 @@ norm_inf_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 	return 0.;
 }
 /*-------------------------------------------------*/
+template real_t  norm_inf(prop_t, uplo_t, uint_t, uint_t, const real_t    *, uint_t);
+template real4_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const real4_t   *, uint_t);
+template real_t  norm_inf(prop_t, uplo_t, uint_t, uint_t, const complex_t *, uint_t);
+template real4_t norm_inf(prop_t, uplo_t, uint_t, uint_t, const complex8_t*, uint_t);
+/*-------------------------------------------------*/
 template <typename T_Scalar>
 static typename TypeTraits<T_Scalar>::real_type
-norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
+norm_max_skew(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -728,9 +683,11 @@ norm_max_skew_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static typename TypeTraits<T_Scalar>::real_type
-norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
+typename TypeTraits<T_Scalar>::real_type
+norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
 	if(!m || !n) return 0.;
 
 	Property prop(ptype, uplo);
@@ -757,13 +714,18 @@ norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 
 	} else if(prop.isSkew()) {
 
-		return norm_max_skew_tmpl(uplo, n, a, lda);
+		return norm_max_skew(uplo, n, a, lda);
 
 	} // property
 	
 	throw err::Exception("Invalid property: " + prop.name());
-	return 0.;
+	return T_RScalar(0);
 }
+/*-------------------------------------------------*/
+template real_t  norm_max(prop_t, uplo_t, uint_t, uint_t, const real_t    *, uint_t);
+template real4_t norm_max(prop_t, uplo_t, uint_t, uint_t, const real4_t   *, uint_t);
+template real_t  norm_max(prop_t, uplo_t, uint_t, uint_t, const complex_t *, uint_t);
+template real4_t norm_max(prop_t, uplo_t, uint_t, uint_t, const complex8_t*, uint_t);
 /*-------------------------------------------------*/
 //
 // fro norm for Symmetric/Hermitian wrong in lapack for n >= 128
@@ -771,7 +733,7 @@ norm_max_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 //
 template <typename T_Scalar>
 static typename TypeTraits<T_Scalar>::real_type
-naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, prop_t ptype)
+naive_xx_norm_fro(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, prop_t ptype)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
@@ -814,9 +776,11 @@ naive_xx_norm_fro_tmpl(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda, pro
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static typename TypeTraits<T_Scalar>::real_type
-norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
+typename TypeTraits<T_Scalar>::real_type
+norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 {
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
 	if(!m || !n) return 0;
 
 	Property prop(ptype, uplo);
@@ -832,7 +796,7 @@ norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 	} else if(prop.isSymmetric()) {
 
 		if(n >= 128) {
-			return naive_xx_norm_fro_tmpl(uplo, n, a, lda, prop.type());
+			return naive_xx_norm_fro(uplo, n, a, lda, prop.type());
 		} else {
 			return lapack::lansy('F', prop.cuplo(), n, a, lda);
 		}
@@ -840,7 +804,7 @@ norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 	} else if(prop.isHermitian()) { 
 
 		if(n >= 128) {
-			return naive_xx_norm_fro_tmpl(uplo, n, a, lda, prop.type());
+			return naive_xx_norm_fro(uplo, n, a, lda, prop.type());
 		} else {
 			return lapack::lanhe('F', prop.cuplo(), n, a, lda);
 		}
@@ -851,38 +815,29 @@ norm_fro_tmpl(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, 
 
 	} else if(prop.isSkew()) {
 
-		return naive_xx_norm_fro_tmpl(uplo, n, a, lda, prop.type());
+		return naive_xx_norm_fro(uplo, n, a, lda, prop.type());
 
 	} // property
 	
 	throw err::Exception("Invalid property: " + prop.name());
-	return 0;
+	return T_RScalar(0);
 }
 /*-------------------------------------------------*/
-real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_one_tmpl<real_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_inf_tmpl<real_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_max_tmpl<real_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real_t *a, uint_t lda){ return norm_fro_tmpl<real_t>(ptype,uplo,m,n,a,lda); }
+template real_t  norm_fro(prop_t, uplo_t, uint_t, uint_t, const real_t    *, uint_t);
+template real4_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const real4_t   *, uint_t);
+template real_t  norm_fro(prop_t, uplo_t, uint_t, uint_t, const complex_t *, uint_t);
+template real4_t norm_fro(prop_t, uplo_t, uint_t, uint_t, const complex8_t*, uint_t);
 /*-------------------------------------------------*/
-real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_one_tmpl<real4_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_inf_tmpl<real4_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_max_tmpl<real4_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const real4_t *a, uint_t lda){ return norm_fro_tmpl<real4_t>(ptype,uplo,m,n,a,lda); }
+template <typename T_Scalar>
+typename TypeTraits<T_Scalar>::real_type norm_euc(uint_t n, const T_Scalar *a) 
+{ 
+	return blas::nrm2(n, a, 1); 
+}
 /*-------------------------------------------------*/
-real_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_one_tmpl<complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_inf_tmpl<complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_max_tmpl<complex_t>(ptype,uplo,m,n,a,lda); }
-real_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex_t *a, uint_t lda){ return norm_fro_tmpl<complex_t>(ptype,uplo,m,n,a,lda); }
-/*-------------------------------------------------*/
-real4_t norm_one(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_one_tmpl<complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_inf(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_inf_tmpl<complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_max(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_max_tmpl<complex8_t>(ptype,uplo,m,n,a,lda); }
-real4_t norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda){ return norm_fro_tmpl<complex8_t>(ptype,uplo,m,n,a,lda); }
-/*-------------------------------------------------*/
-real_t  norm_euc(uint_t n, const real_t     *a) { return blas::nrm2(n, a, 1); }
-real4_t norm_euc(uint_t n, const real4_t    *a) { return blas::nrm2(n, a, 1); }
-real_t  norm_euc(uint_t n, const complex_t  *a) { return blas::nrm2(n, a, 1); }
-real4_t norm_euc(uint_t n, const complex8_t *a) { return blas::nrm2(n, a, 1); }
+template real_t  norm_euc(uint_t, const real_t    *);
+template real4_t norm_euc(uint_t, const real4_t   *);
+template real_t  norm_euc(uint_t, const complex_t *);
+template real4_t norm_euc(uint_t, const complex8_t*);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 static void permute_ge_left(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const int_t *P)
