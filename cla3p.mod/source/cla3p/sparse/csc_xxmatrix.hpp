@@ -255,7 +255,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @return The matrix `P*(*this)*Q`.
 		 *
 		 * @see permuteLeft(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q) const;
 
@@ -268,7 +267,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @return The matrix `P*(*this)`.
 		 *
 		 * @see permuteLeftRight(), permuteRight(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteLeft(const PxMatrix<int_t>& P) const;
 
@@ -281,7 +279,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @return The matrix `(*this)*Q`.
 		 *
 		 * @see permuteLeftRight(), permuteLeft(), permuteMirror()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteRight(const PxMatrix<int_t>& Q) const;
 
@@ -294,7 +291,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @return The matrix `P*(*this)*P^T`.
 		 *
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight()
-		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
 		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
 
