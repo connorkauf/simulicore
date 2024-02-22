@@ -844,7 +844,7 @@ static void permute_ge_left(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
-			entry(ldb, b, i, j) = entry(lda, a, P[i], j);
+			entry(ldb, b, P[i], j) = entry(lda, a, i, j);
 		} // i
 	} // j
 }
@@ -853,7 +853,7 @@ template <typename T_Scalar>
 static void permute_ge_right(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, const int_t *Q)
 {
 	for(uint_t j = 0; j < n; j++) {
-		copy(uplo_t::Full, m, 1, ptrmv(lda,a,0,j), lda, ptrmv(ldb,b,0,Q[j]), ldb);
+		copy(uplo_t::Full, m, 1, ptrmv(lda,a,0,Q[j]), lda, ptrmv(ldb,b,0,j), ldb);
 	} // j
 }
 /*-------------------------------------------------*/
@@ -862,7 +862,7 @@ static void permute_ge_both(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T
 {
 	for(uint_t j = 0; j < n; j++) {
 		for(uint_t i = 0; i < m; i++) {
-			entry(ldb, b, i, Q[j]) = entry(lda, a, P[i], j);
+			entry(ldb, b, P[i], j) = entry(lda, a, i, Q[j]);
 		} // i
 	} // j
 }
@@ -877,12 +877,22 @@ static void permute_xx_mirror(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t l
 		RowRange ir = irange(uplo, n, j);
 		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
 
-			Pi  = P[i];
-			Pj  = P[j];
+			Pi = P[i];
+			Pj = P[j];
 
-			/**/ if(uplo == uplo_t::Upper && Pj < Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
-			else if(uplo == uplo_t::Lower && Pj > Pi) entry(ldb,b,i,j) = opposite_element(entry(lda,a,Pj,Pi),ptype);
-			else                                      entry(ldb,b,i,j) = entry(lda,a,Pi,Pj);
+			if(uplo == uplo_t::Upper && Pj < Pi) {
+
+				entry(ldb,b,Pj,Pi) = opposite_element(entry(lda,a,i,j),ptype);
+
+			} else if(uplo == uplo_t::Lower && Pj > Pi) {
+
+				entry(ldb,b,Pj,Pi) = opposite_element(entry(lda,a,i,j),ptype);
+
+			} else {
+
+				entry(ldb,b,Pi,Pj) = entry(lda,a,i,j);
+
+			} // uplo switch
 
 		} // i
 	} // j

@@ -146,8 +146,12 @@ PxMatrix<T_Int> PxMatrix<T_Int>::inverse() const
 template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::permuteLeft(const PxMatrix<T_Int>& P) const
 {
-	PxMatrix<T_Int> ret;
-	Array2D<T_Int>::gePermuteToLeft(ret, P);
+	PxMatrix<T_Int> ret(size());
+
+	for(uint_t i = 0; i < size(); i++) {
+		ret(i) = P((*this)(i));
+	} // i
+
 	return ret;
 }
 /*-------------------------------------------------*/

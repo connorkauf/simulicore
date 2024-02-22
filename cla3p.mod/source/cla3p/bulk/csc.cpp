@@ -706,27 +706,22 @@ template real_t  norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const co
 template real4_t norm_fro(prop_t, uint_t, const uint_t*, const uint_t*, const complex8_t*);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-static void permute_ge_both(uint_t m, uint_t n,
+static void permute_ge_both(uint_t /*m*/, uint_t n,
 		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
 		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P, const int_t *Q)
 {
-	// dns: entry(ldb, b, i, Q[j]) = entry(lda, a, P[i], j);
-
-	int_t iP[m];
-	for(uint_t i = 0; i < m; i++) iP[P[i]] = i; // FIXME: find a way to drop this
-
 	colptr_out[0] = 0;
 	for(uint_t j = 0; j < n; j++) {
-		colptr_out[Q[j] + 1] = colptr[j+1] - colptr[j];
+		colptr_out[j + 1] = colptr[Q[j]+1] - colptr[Q[j]];
 	} // j
 
 	roll(n, colptr_out);
 
 	for(uint_t j = 0; j < n; j++) {
-		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
-			rowidx_out[colptr_out[Q[j]]] = iP[rowidx[irow]];
-			values_out[colptr_out[Q[j]]] = values[irow];
-			colptr_out[Q[j]]++;
+		for(T_Int irow = colptr[Q[j]]; irow < colptr[Q[j]+1]; irow++) {
+			rowidx_out[colptr_out[j]] = P[rowidx[irow]];
+			values_out[colptr_out[j]] = values[irow];
+			colptr_out[j]++;
 		} // irow
 	} // j
 	
@@ -736,18 +731,15 @@ static void permute_ge_both(uint_t m, uint_t n,
 }
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-static void permute_ge_left(uint_t m, uint_t n,
+static void permute_ge_left(uint_t /*m*/, uint_t n,
 		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
 		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P)
 {
 	std::copy(colptr, colptr + n + 1, colptr_out);
 
-	int_t iP[m];
-	for(uint_t i = 0; i < m; i++) iP[P[i]] = i; // FIXME: find a way to drop this
-
 	for(uint_t j = 0; j < n; j++) {
 		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
-			rowidx_out[colptr_out[j]] = iP[rowidx[irow]];
+			rowidx_out[colptr_out[j]] = P[rowidx[irow]];
 			values_out[colptr_out[j]] = values[irow];
 			colptr_out[j]++;
 		} // irow
@@ -765,14 +757,14 @@ static void permute_ge_right(uint_t /*m*/, uint_t n,
 {
 	colptr_out[0] = 0;
 	for(uint_t j = 0; j < n; j++) {
-		colptr_out[Q[j] + 1] = colptr[j+1] - colptr[j];
+		colptr_out[j + 1] = colptr[Q[j] + 1] - colptr[Q[j]];
 	} // j
 
 	roll(n, colptr_out);
 
 	for(uint_t j = 0; j < n; j++) {
-		std::copy(rowidx + colptr[j], rowidx + colptr[j+1], rowidx_out + colptr_out[Q[j]]);
-		std::copy(values + colptr[j], values + colptr[j+1], values_out + colptr_out[Q[j]]);
+		std::copy(rowidx + colptr[Q[j]], rowidx + colptr[Q[j] + 1], rowidx_out + colptr_out[j]);
+		std::copy(values + colptr[Q[j]], values + colptr[Q[j] + 1], values_out + colptr_out[j]);
 	} // j
 }
 /*-------------------------------------------------*/
@@ -781,9 +773,6 @@ void permute_xx_mirror(prop_t ptype, uplo_t uplo, uint_t n,
 		const T_Int *colptr, const T_Int *rowidx, const T_Scalar *values,
 		T_Int *colptr_out, T_Int *rowidx_out, T_Scalar *values_out, const int_t *P)
 {
-	int_t iP[n];
-	for(uint_t i = 0; i < n; i++) iP[P[i]] = i; // FIXME: find a way to drop this
-
 	T_Int Pi;
 	T_Int Pj;
 
@@ -792,8 +781,8 @@ void permute_xx_mirror(prop_t ptype, uplo_t uplo, uint_t n,
 
 	for(uint_t j = 0; j < n; j++) {
 		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
-			Pi = iP[rowidx[irow]];
-			Pj = iP[j];
+			Pi = P[rowidx[irow]];
+			Pj = P[j];
 			if(uplo == uplo_t::Upper && Pj < Pi) 
 				colptr_out[Pi+1]++;
 			else if(uplo == uplo_t::Lower && Pj > Pi) 
@@ -807,8 +796,8 @@ void permute_xx_mirror(prop_t ptype, uplo_t uplo, uint_t n,
 
 	for(uint_t j = 0; j < n; j++) {
 		for(T_Int irow = colptr[j]; irow < colptr[j+1]; irow++) {
-			Pi = iP[rowidx[irow]];
-			Pj = iP[j];
+			Pi = P[rowidx[irow]];
+			Pj = P[j];
 			if(uplo == uplo_t::Upper && Pj < Pi) {
 				rowidx_out[colptr_out[Pi]] = Pj;
 				values_out[colptr_out[Pi]] = opposite_element(values[irow],ptype);
@@ -859,7 +848,9 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n,
 
 		} else {
 
-			// FIXME: copy
+			std::copy(colptr, colptr + n + 1    , colptr_out);
+			std::copy(rowidx, rowidx + colptr[n], rowidx_out);
+			std::copy(values, values + colptr[n], values_out);
 
 		} // P/Q
 
@@ -871,7 +862,9 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n,
 
 		} else {
 
-			// FIXME: copy
+			std::copy(colptr, colptr + n + 1    , colptr_out);
+			std::copy(rowidx, rowidx + colptr[n], rowidx_out);
+			std::copy(values, values + colptr[n], values_out);
 
 		} // P
 
