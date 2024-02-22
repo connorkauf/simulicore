@@ -416,6 +416,8 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] pr The matrix property.
+		 * @param[in] lo The smallest value of each generated element.
+		 * @param[in] hi The largest value of each generated element.
 		 * @return The newly created matrix.
 		 */
 		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = defaultProperty(), 

@@ -279,6 +279,8 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 * Creates a n-sized vector with random values.
 		 *
 		 * @param[in] n The vector size.
+		 * @param[in] lo The smallest value of each generated element.
+		 * @param[in] hi The largest value of each generated element.
 		 * @return The newly created vector.
 		 */
 		static T_Vector random(uint_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
