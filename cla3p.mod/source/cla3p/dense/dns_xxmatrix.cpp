@@ -294,10 +294,10 @@ T_Matrix XxMatrixTmpl::init(uint_t nr, uint_t nc, const Property& pr)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, const Property& pr)
+T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, const Property& pr, T_RScalar lo, T_RScalar hi)
 {
 	T_Matrix ret = init(nr, nc, pr);
-	bulk::dns::rand(ret.prop().uplo(), ret.nrows(), ret.ncols(), ret.values(), ret.ld());
+	bulk::dns::rand(ret.prop().uplo(), ret.nrows(), ret.ncols(), ret.values(), ret.ld(), lo, hi);
 	bulk::dns::set_diag_zeros(ret.prop().type(), ret.ncols(), ret.values(), ret.ld());
 	return ret;
 }

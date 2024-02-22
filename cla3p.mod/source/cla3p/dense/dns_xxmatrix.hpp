@@ -409,7 +409,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @brief Creates a matrix with random values in (0,1).
+		 * @brief Creates a matrix with random values in (lo,hi).
 		 *
 		 * Creates a (nr x nc) matrix with random values.
 		 *
@@ -418,7 +418,8 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = defaultProperty(), 
+				T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @brief Creates a matrix from aux data.
