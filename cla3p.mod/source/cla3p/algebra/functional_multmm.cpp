@@ -39,6 +39,8 @@ void mult(typename T_Matrix::value_type alpha,
     op_t opB, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& C)
 {
+	using T_Scalar = typename T_Matrix::value_type;
+
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 	if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
 
@@ -68,7 +70,8 @@ void mult(typename T_Matrix::value_type alpha,
 					k, alpha, 
 					opA, A.values(), A.ld(), 
 					opB, B.values(), B.ld(), 
-					1, C.values(), C.ld());
+					T_Scalar(1), 
+					C.values(), C.ld());
 		} else {
 			blas::gemmt(C.prop().cuplo(), 
 					_opA.ctype(), 
@@ -87,7 +90,8 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				A.values(), A.ld(), 
 				B.values(), B.ld(), 
-				1, C.values(), C.ld());
+				T_Scalar(1), 
+				C.values(), C.ld());
 
 	} else if(A.prop().isHermitian() && B.prop().isGeneral()) {
 
@@ -98,7 +102,8 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				A.values(), A.ld(), 
 				B.values(), B.ld(), 
-				1, C.values(), C.ld());
+				T_Scalar(1), 
+				C.values(), C.ld());
 
 	} else if(A.prop().isGeneral() && B.prop().isSymmetric()) {
 
@@ -108,7 +113,8 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				B.values(), B.ld(), 
 				A.values(), A.ld(), 
-				1, C.values(), C.ld());
+				T_Scalar(1), 
+				C.values(), C.ld());
 
 	} else if(A.prop().isGeneral() && B.prop().isHermitian()) {
 
@@ -118,7 +124,8 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				B.values(), B.ld(), 
 				A.values(), A.ld(), 
-				1, C.values(), C.ld());
+				T_Scalar(1), 
+				C.values(), C.ld());
 
 	} else if(A.prop().isTriangular() && B.prop().isGeneral()) {
 

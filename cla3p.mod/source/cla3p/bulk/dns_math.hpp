@@ -29,177 +29,116 @@ namespace dns {
 // Update: C += alpha * A
 // C(m x n)
 //
-#define update_macro(typein) \
-void update(uplo_t uplo, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, typein *c, uint_t ldc)
-update_macro(real_t);
-update_macro(real4_t);
-update_macro(complex_t);
-update_macro(complex8_t);
-#undef update_macro
+template <typename T_Scalar>
+void update(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha, const T_Scalar *a, uint_t lda, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = alpha * A + beta * B
 // C(m x n)
 //
-#define add_macro(typein) \
-void add(uplo_t uplo, uint_t m, uint_t n, \
-		typein alpha, const typein *a, uint_t lda, \
-		typein beta , const typein *b, uint_t ldb, typein *c, uint_t ldc)
-add_macro(real_t);
-add_macro(real4_t);
-add_macro(complex_t);
-add_macro(complex8_t);
-#undef add_macro
+template <typename T_Scalar>
+void add(uplo_t uplo, uint_t m, uint_t n,
+		T_Scalar alpha, const T_Scalar *a, uint_t lda,
+		T_Scalar beta , const T_Scalar *b, uint_t ldb, T_Scalar *c, uint_t ldc);
 
 //
 // Update: y = beta * y + alpha * op(A) * x
 // A(m x n)
 //
-#define gem_x_vec_macro(typein) \
-void gem_x_vec(op_t opA, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, const typein *x, typein beta, typein *y)
-gem_x_vec_macro(real_t);
-gem_x_vec_macro(real4_t);
-gem_x_vec_macro(complex_t);
-gem_x_vec_macro(complex8_t);
-#undef gem_x_vec_macro
+template <typename T_Scalar>
+void gem_x_vec(op_t opA, uint_t m, uint_t n, T_Scalar alpha, 
+		const T_Scalar *a, uint_t lda, const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = beta * y + alpha * A * x
 //
-#define sym_x_vec_macro(typein) \
-void sym_x_vec(uplo_t uplo, uint_t n, typein alpha, const typein *a, uint_t lda, const typein *x, typein beta, typein *y)
-sym_x_vec_macro(real_t);
-sym_x_vec_macro(real4_t);
-sym_x_vec_macro(complex_t);
-sym_x_vec_macro(complex8_t);
-#undef sym_x_vec_macro
+template <typename T_Scalar>
+void sym_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha, const T_Scalar *a, uint_t lda, 
+		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = beta * y + alpha * A * x
 //
-#define hem_x_vec_macro(typein) \
-void hem_x_vec(uplo_t uplo, uint_t n, typein alpha, const typein *a, uint_t lda, const typein *x, typein beta, typein *y)
-hem_x_vec_macro(real_t); // exception
-hem_x_vec_macro(real4_t); // exception
-hem_x_vec_macro(complex_t);
-hem_x_vec_macro(complex8_t);
-#undef hem_x_vec_macro
+template <typename T_Scalar>
+void hem_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha, const T_Scalar *a, uint_t lda, 
+		const T_Scalar *x, T_Scalar beta, T_Scalar *y);
 
 //
 // Update: y = alpha * opA(A) * x
 //
-#define trm_x_vec_macro(typein) \
-void trm_x_vec(uplo_t uplo, op_t opA, uint_t m, uint_t n, typein alpha, const typein *a, uint_t lda, const typein *x, typein *y)
-trm_x_vec_macro(real_t);
-trm_x_vec_macro(real4_t);
-trm_x_vec_macro(complex_t);
-trm_x_vec_macro(complex8_t);
-#undef trm_x_vec_macro
+template <typename T_Scalar>
+void trm_x_vec(uplo_t uplo, op_t opA, uint_t m, uint_t n, T_Scalar alpha, 
+		const T_Scalar *a, uint_t lda, const T_Scalar *x, T_Scalar *y);
 
 //
 // Update: C = beta * C + alpha * opA(A) * opB(B)
 // C(m x n)
 //
-#define gem_x_gem_macro(typein) \
-void gem_x_gem(uint_t m, uint_t n, uint_t k, typein alpha, \
-		op_t opA, const typein *a, uint_t lda, \
-		op_t opB, const typein *b, uint_t ldb, \
-		typein beta, typein *c, uint_t ldc)
-gem_x_gem_macro(real_t);
-gem_x_gem_macro(real4_t);
-gem_x_gem_macro(complex_t);
-gem_x_gem_macro(complex8_t);
-#undef gem_x_gem_macro
+template <typename T_Scalar>
+void gem_x_gem(uint_t m, uint_t n, uint_t k, T_Scalar alpha,
+		op_t opA, const T_Scalar *a, uint_t lda,
+		op_t opB, const T_Scalar *b, uint_t ldb,
+		T_Scalar beta, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = beta * C + alpha * A * B
 // C(m x n)
 //
-#define sym_x_gem_macro(typein) \
-void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein beta, typein *c, uint_t ldc)
-sym_x_gem_macro(real_t);
-sym_x_gem_macro(real4_t);
-sym_x_gem_macro(complex_t);
-sym_x_gem_macro(complex8_t);
-#undef sym_x_gem_macro
+template <typename T_Scalar>
+void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar beta, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = beta * C + alpha * B * A
 // C(m x n)
 //
-#define gem_x_sym_macro(typein) \
-void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein beta, typein *c, uint_t ldc)
-gem_x_sym_macro(real_t);
-gem_x_sym_macro(real4_t);
-gem_x_sym_macro(complex_t);
-gem_x_sym_macro(complex8_t);
-#undef gem_x_sym_macro
+template <typename T_Scalar>
+void gem_x_sym(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar beta, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = beta * C + alpha * A * B
 // C(m x n)
 //
-#define hem_x_gem_macro(typein) \
-void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein beta, typein *c, uint_t ldc)
-hem_x_gem_macro(real_t); // exception
-hem_x_gem_macro(real4_t); // exception
-hem_x_gem_macro(complex_t);
-hem_x_gem_macro(complex8_t);
-#undef hem_x_gem_macro
+template <typename T_Scalar>
+void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar beta, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = beta * C + alpha * B * A
 // C(m x n)
 //
-#define gem_x_hem_macro(typein) \
-void gem_x_hem(uplo_t uplo, uint_t m, uint_t n, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein beta, typein *c, uint_t ldc)
-gem_x_hem_macro(real_t); // exception
-gem_x_hem_macro(real4_t); // exception
-gem_x_hem_macro(complex_t);
-gem_x_hem_macro(complex8_t);
-#undef gem_x_hem_macro
+template <typename T_Scalar>
+void gem_x_hem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar beta, T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = alpha * opA(A) * B
 // C(m x n)
 //
-#define trm_x_gem_macro(typein) \
-void trm_x_gem(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein *c, uint_t ldc)
-trm_x_gem_macro(real_t);
-trm_x_gem_macro(real4_t);
-trm_x_gem_macro(complex_t);
-trm_x_gem_macro(complex8_t);
-#undef trm_x_gem_macro
+template <typename T_Scalar>
+void trm_x_gem(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar *c, uint_t ldc);
 
 //
 // Update: C = alpha * B * opA(A)
 // C(m x n)
 //
-#define gem_x_trm_macro(typein) \
-void gem_x_trm(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, typein alpha, \
-		const typein *a, uint_t lda, \
-		const typein *b, uint_t ldb, \
-		typein *c, uint_t ldc)
-gem_x_trm_macro(real_t);
-gem_x_trm_macro(real4_t);
-gem_x_trm_macro(complex_t);
-gem_x_trm_macro(complex8_t);
-#undef gem_x_trm_macro
+template <typename T_Scalar>
+void gem_x_trm(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
+		const T_Scalar *a, uint_t lda,
+		const T_Scalar *b, uint_t ldb,
+		T_Scalar *c, uint_t ldc);
 
 /*-------------------------------------------------*/
 } // namespace dns

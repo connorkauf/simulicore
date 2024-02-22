@@ -412,6 +412,9 @@ static void recursive_conjugate(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, 
 	} // dim check
 }
 /*-------------------------------------------------*/
+template <> void conjugate(uplo_t, uint_t, uint_t, real_t*, uint_t, real_t) {}
+template <> void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) {}
+/*-------------------------------------------------*/
 template <typename T_Scalar>
 void conjugate(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
@@ -431,9 +434,6 @@ void conjugate(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scala
 		if(uplo == uplo_t::Lower) conjugate(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
 	} // lower
 }
-/*-------------------------------------------------*/
-template <> void conjugate(uplo_t, uint_t, uint_t, real_t*, uint_t, real_t) {}
-template <> void conjugate(uplo_t, uint_t, uint_t, real4_t*, uint_t, real4_t) {}
 /*-------------------------------------------------*/
 template void conjugate(uplo_t, uint_t, uint_t, complex_t *, uint_t, complex_t );
 template void conjugate(uplo_t, uint_t, uint_t, complex8_t*, uint_t, complex8_t);
