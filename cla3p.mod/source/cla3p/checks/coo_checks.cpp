@@ -52,11 +52,11 @@ void coo_check_coord(uint_t m, uint_t n, const Property& prop, const T_Int& i, c
 		throw err::OutOfBounds(msg::IndexOutOfBounds(m,n,i,j));
 	}
 
-	if(prop.isLower() && i > j) {
+	if(prop.isLower() && i < j) {
 		throw err::InvalidOp("Invalid insertion of " + coord2str(i,j) + " in upper part");
 	}
 
-	if(prop.isUpper() && i < j) {
+	if(prop.isUpper() && i > j) {
 		throw err::InvalidOp("Invalid insertion of " + coord2str(i,j) + " in lower part");
 	}
 
