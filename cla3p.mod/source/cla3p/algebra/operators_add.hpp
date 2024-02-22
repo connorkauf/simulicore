@@ -23,6 +23,7 @@
  */
 
 #include "cla3p/virtuals.hpp"
+#include "cla3p/algebra/functional_add.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -66,7 +67,8 @@ T_Object operator+(
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
 {
-	return cla3p::ops::add(1, A, 1, B);
+	typename T_Object::value_type one = 1;
+	return cla3p::ops::add(one, A.self(), one, B.self());
 }
 
 /**
@@ -84,7 +86,8 @@ T_Matrix operator+(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
-	return cla3p::ops::add(1, A, B);
+	typename T_Matrix::value_type one = 1;
+	return cla3p::ops::add(one, A, B);
 }
 
 /*-------------------------------------------------*/
@@ -104,7 +107,8 @@ T_Object operator-(
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
 {
-	return cla3p::ops::add(1, A, -1, B);
+	typename T_Object::value_type one = 1;
+	return cla3p::ops::add(one, A.self(), -one, B.self());
 }
 
 /**
@@ -122,7 +126,8 @@ T_Matrix operator-(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
-	return cla3p::ops::add(-1, B, A);
+	typename T_Matrix::value_type one = 1;
+	return cla3p::ops::add(-one, B, A);
 }
 
 /*-------------------------------------------------*/
