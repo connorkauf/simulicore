@@ -27,10 +27,9 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 template <typename T_Int> class PxMatrix;
-namespace dns {
-template <typename T_Scalar, typename T_Vector> class XxVector;
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -76,7 +75,7 @@ T_Vector operator*(
 
 /**
  * @ingroup module_index_math_operators_perm
- * @brief Multiplies permutation matrix with a general matrix.
+ * @brief Multiplies permutation matrix with a general dense matrix.
  *
  * Performs the operation <b>P * A</b>
  *
@@ -116,7 +115,27 @@ T_Matrix operator*(
 
 /**
  * @ingroup module_index_math_operators_perm
- * @brief Multiplies general matrix with a permutation matrix.
+ * @brief Multiplies permutation matrix with a general sparse matrix.
+ *
+ * Performs the operation <b>P * A</b>
+ *
+ * @param[in] P The input permutation matrix.
+ * @param[in] A The input general matrix.
+ * @return The permuted matrix.
+ */
+template <typename T_Int, typename T_Matrix>
+T_Matrix operator*(
+		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A)
+{
+	return A.permuteLeft(P);
+}
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_perm
+ * @brief Multiplies general dense matrix with a permutation matrix.
  *
  * Performs the operation <b>A * P</b>
  *
@@ -151,6 +170,27 @@ T_Matrix operator*(
 		const cla3p::PxMatrix<T_Int>& P) 
 {
 	return (P * vA.evaluate());
+}
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_perm
+ * @brief Multiplies general sparse matrix with a permutation matrix.
+ *
+ * Performs the operation <b>A * P</b>
+ *
+ * @param[in] A The input general matrix.
+ * @param[in] P The input permutation matrix.
+ * @return The permuted matrix.
+ */
+
+template <typename T_Int, typename T_Matrix>
+T_Matrix operator*(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+		const cla3p::PxMatrix<T_Int>& P)
+{
+	return A.permuteRight(P);
 }
 
 /*-------------------------------------------------*/

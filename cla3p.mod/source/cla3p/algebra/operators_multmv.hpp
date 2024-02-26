@@ -26,10 +26,9 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Vector> class XxVector;
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -93,6 +92,53 @@ cla3p::VirtualProdMv<T_Vector> operator*(
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::VirtualProdMv<T_Vector>& vX) 
+{ 
+	return (A * vX.evaluate()).evaluate();
+}
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_mult
+ * @brief Multiplies a sparse matrix with a vector.
+ *
+ * Performs the operation <b>A * X</b>
+ *
+ * @param[in] A The input matrix.
+ * @param[in] X The input vector.
+ * @return The virtual product.
+ */
+template <typename T_Vector, typename T_Matrix>
+T_Vector operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
+{ 
+	using T_Scalar = typename T_Matrix::value_type;
+	return cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X);
+}
+
+/*-------------------------------------------------*/
+
+/*
+ * XxMatrix * VirtualVector
+ */
+template <typename T_Vector, typename T_Matrix>
+T_Vector operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::VirtualVector<T_Vector>& vX) 
+{ 
+	return (A * vX.evaluate());
+}
+
+/*-------------------------------------------------*/
+
+/*
+ * XxMatrix * VirtualProdMv
+ */
+template <typename T_Vector, typename T_Matrix>
+T_Vector operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
 	const cla3p::VirtualProdMv<T_Vector>& vX) 
 { 
 	return (A * vX.evaluate()).evaluate();
