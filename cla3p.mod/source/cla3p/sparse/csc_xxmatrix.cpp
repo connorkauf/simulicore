@@ -36,6 +36,7 @@
 #include "cla3p/checks/block_ops_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
 #include "cla3p/checks/perm_checks.hpp"
+#include "cla3p/checks/hermitian_coeff_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -262,6 +263,13 @@ T_Matrix XxMatrixTmpl::move()
 	T_Matrix ret;
 	moveTo(ret);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::iscale(T_Scalar val)
+{
+	hermitian_coeff_check(prop(), val);
+	bulk::dns::scale(uplo_t::Full, nnz(), 1, values(), nnz(), val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
