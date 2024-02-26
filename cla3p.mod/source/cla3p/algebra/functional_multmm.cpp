@@ -22,11 +22,11 @@
 // 3rd
 
 // cla3p
+#include "cla3p/error/exceptions.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/checks/hermitian_coeff_checks.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/bulk/dns_math.hpp"
-#include "cla3p/error/literals.hpp"
 #include "cla3p/algebra/functional_update.hpp"
 
 /*-------------------------------------------------*/
@@ -57,7 +57,7 @@ void mult(typename T_Matrix::value_type alpha,
 			C.nrows(), 
 			C.ncols());
 
-	hermitian_coeff_check(A.prop(), alpha, msg::HermitianInconsistency());
+	hermitian_coeff_check(A.prop(), alpha);
 
 	if(A.prop().isGeneral() && B.prop().isGeneral()) {
 

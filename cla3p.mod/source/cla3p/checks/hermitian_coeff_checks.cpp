@@ -14,20 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_HERMITIAN_COEFF_CHECKS_HPP_
-#define CLA3P_HERMITIAN_COEFF_CHECKS_HPP_
+// this file inc
+#include "cla3p/checks/hermitian_coeff_checks.hpp"
 
-#include "cla3p/types.hpp"
+// system
+
+// 3rd
+
+// cla3p
+#include "cla3p/error/exceptions.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-
 template <typename T_Scalar>
-void hermitian_coeff_check(const Property& pr, T_Scalar coeff);
-
+void hermitian_coeff_check(const Property& pr, T_Scalar coeff)
+{
+  if(pr.isHermitian() && arith::getIm(coeff)) {
+    throw err::InvalidOp(msg::HermitianInconsistency());
+  }
+}
+/*-------------------------------------------------*/
+template void hermitian_coeff_check(const Property&, real_t);
+template void hermitian_coeff_check(const Property&, real4_t);
+template void hermitian_coeff_check(const Property&, complex_t);
+template void hermitian_coeff_check(const Property&, complex8_t);
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
-
-#endif // CLA3P_HERMITIAN_COEFF_CHECKS_HPP_

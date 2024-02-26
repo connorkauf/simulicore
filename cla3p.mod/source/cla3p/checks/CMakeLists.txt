@@ -8,6 +8,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	checks/csc_checks.cpp
 	checks/coo_checks.cpp
 	checks/lapack_checks.cpp
+	checks/hermitian_coeff_checks.cpp
 	checks/matrix_math_checks.cpp
 	checks/perm_checks.cpp
 	checks/transp_checks.cpp

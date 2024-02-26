@@ -22,9 +22,9 @@
 // 3rd
 
 // cla3p
+#include "cla3p/error/exceptions.hpp"
 #include "cla3p/checks/outer_checks.hpp"
 #include "cla3p/checks/hermitian_coeff_checks.hpp"
-#include "cla3p/error/literals.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 
 /*-------------------------------------------------*/
@@ -37,7 +37,7 @@ static void outerx(bool conjop, typename T_Vector::value_type alpha, const T_Vec
 	conjop = (TypeTraits<T_Matrix>::is_real() ? false : true);
 
 	outer_product_consistency_check(conjop, A.nrows(), A.ncols(), A.prop(), X.size(), Y.size());
-	hermitian_coeff_check(A.prop(), alpha, msg::HermitianInconsistency());
+	hermitian_coeff_check(A.prop(), alpha);
 
 	if(A.prop().isGeneral()) {
 
