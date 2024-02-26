@@ -38,7 +38,7 @@ namespace cla3p {
 namespace bulk {
 namespace dns {
 /*-------------------------------------------------*/
-static uint_t recursive_min_dim()
+static inline uint_t recursive_min_dim()
 {
 	return 256;
 }
@@ -295,7 +295,7 @@ static void recursive_scale(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Sc
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, n, j);
 			if(ir.ilen) {
-				mkl::imatcopy('C', 'N', ir.ilen, 1, coeff, ptrmv(lda,a,ir.ibgn,j), lda, lda);
+				blas::scal(ir.ilen, coeff, ptrmv(lda,a,ir.ibgn,j), 1);
 			} // ilen
 		} // j
 
@@ -328,12 +328,30 @@ void scale(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar co
 	} // coeff = 0
 	
 	if(uplo == uplo_t::Full) {
-		mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
+
+		if(m == 1) {
+
+			blas::scal(n, coeff, a, lda);
+
+		} else if(n == 1) {
+
+			blas::scal(m, coeff, a, 1);
+
+		} else {
+
+			mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
+
+		} // single dim check
+
 	} else {
+
 		uint_t k = std::min(m,n);
+
 		recursive_scale(uplo, k, a, lda, coeff);
+
 		if(uplo == uplo_t::Upper) scale(uplo_t::Full, m  , n-k, ptrmv(lda,a,0,k), lda, coeff);
 		if(uplo == uplo_t::Lower) scale(uplo_t::Full, m-k, n  , ptrmv(lda,a,k,0), lda, coeff);
+
 	} // uplo
 }
 /*-------------------------------------------------*/
