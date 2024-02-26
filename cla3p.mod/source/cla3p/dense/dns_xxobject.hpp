@@ -104,7 +104,7 @@ class XxObject : public Array2D<T_Scalar> {
 		T_Object move();
 
 		/**
-		 * @brief Scales the object by coeff.
+		 * @brief Multiplies the object by a scalar.
 		 * @param[in] val The scaling coefficient.
 		 */
 		void iscale(T_Scalar val);
