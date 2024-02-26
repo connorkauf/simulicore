@@ -26,11 +26,10 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Object> class XxObject;
-template <typename T_Scalar, typename T_Vector> class XxVector;
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -79,7 +78,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 
 /**
  * @ingroup module_index_math_operators_scal
- * @brief Multiplies a scalar with a matrix.
+ * @brief Multiplies a scalar with a dense matrix.
  *
  * Performs the operation <b>val * A</b>
  *
@@ -94,6 +93,26 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 { 
 	cla3p::VirtualMatrix<T_Matrix> sm(A.self());
   return sm.scale(val);
+}
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Multiplies a scalar with a sparse matrix.
+ *
+ * Performs the operation <b>val * A</b>
+ *
+ * @param[in] val The coefficient value.
+ * @param[in] A The input matrix.
+ * @return The scaled matrix copy.
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+		typename T_Matrix::value_type val, 
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A) 
+{ 
+	T_Matrix ret = A.copy();
+	ret.iscale(val);
+	return ret;
 }
 
 /*-------------------------------------------------*/
@@ -132,7 +151,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 
 /**
  * @ingroup module_index_math_operators_scal
- * @brief Multiplies a matrix with a scalar.
+ * @brief Multiplies a dense matrix with a scalar.
  *
  * Performs the operation <b>A * val</b>
  *
@@ -147,6 +166,24 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 { 
 	cla3p::VirtualMatrix<T_Matrix> sm(A.self());
   return sm.scale(val);
+}
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Multiplies a sparse matrix with a scalar.
+ *
+ * Performs the operation <b>A * val</b>
+ *
+ * @param[in] A The input matrix.
+ * @param[in] val The coefficient value.
+ * @return The scaled matrix copy.
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val) 
+{ 
+	return (val * A);
 }
 
 /*-------------------------------------------------*/
@@ -184,7 +221,7 @@ cla3p::VirtualVector<T_Vector> operator/(
 
 /**
  * @ingroup module_index_math_operators_scal
- * @brief Devides a matrix by a scalar.
+ * @brief Devides a dense matrix by a scalar.
  *
  * Performs the operation <b>(1/val) * A</b>
  *
@@ -195,6 +232,24 @@ cla3p::VirtualVector<T_Vector> operator/(
 template <typename T_Matrix>
 cla3p::VirtualMatrix<T_Matrix> operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val) 
+{ 
+	return (cla3p::arith::inv(val) * A);
+}
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Devides a sparse matrix by a scalar.
+ *
+ * Performs the operation <b>(1/val) * A</b>
+ *
+ * @param[in] A The input matrix.
+ * @param[in] val The non-zero coefficient value.
+ * @return The scaled matrix copy.
+ */
+template <typename T_Matrix>
+T_Matrix operator/(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
 		typename T_Matrix::value_type val) 
 { 
 	return (cla3p::arith::inv(val) * A);
@@ -232,6 +287,23 @@ void operator*=(
 	src.iscale(val);
 }
 
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Scaling operator.
+ *
+ * Scales `A` by `val`.
+ *
+ * @param[in] A The input sparse matrix.
+ * @param[in] val The scaling coefficient.
+ */
+template <typename T_Matrix>
+void operator*=(
+		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val)
+{
+	A.iscale(val);
+}
+
 /*-------------------------------------------------*/
 
 /*
@@ -262,6 +334,23 @@ void operator/=(
 		typename T_Object::value_type val)
 {
 	src.iscale(cla3p::arith::inv(val));
+}
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Scaling operator.
+ *
+ * Scales `A` by `1/val`.
+ *
+ * @param[in] A The input sparse matrix.
+ * @param[in] val The scaling coefficient.
+ */
+template <typename T_Matrix>
+void operator/=(
+		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val)
+{
+	A.iscale(cla3p::arith::inv(val));
 }
 
 /*-------------------------------------------------*/

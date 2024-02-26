@@ -99,6 +99,53 @@ T_Matrix operator*(
 
 /*-------------------------------------------------*/
 
+/**
+ * @ingroup module_index_math_operators_mult
+ * @brief Multiplies a sparse matrix with a dense matrix.
+ *
+ * Performs the operation <b>A * B</b>
+ *
+ * @param[in] A The lhs input matrix.
+ * @param[in] B The rhs input matrix.
+ * @return The virtual product.
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B) 
+{
+	using T_Scalar = typename T_Matrix::value_type;
+	return cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, B);
+}
+
+/*-------------------------------------------------*/
+
+/*
+ * XxMatrix * VirtualMatrix
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::VirtualMatrix<T_Matrix>& vB) 
+{ 
+	return (A * vB.evaluate());
+}
+
+/*-------------------------------------------------*/
+
+/*
+ * XxMatrix * VirtualProdMm
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::VirtualProdMm<T_Matrix>& vB) 
+{ 
+	return (A * vB.evaluate());
+}
+
+/*-------------------------------------------------*/
+
 /*
  * VirtualMatrix * XxMatrix
  */

@@ -27,12 +27,8 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Object> class XxObject;
-} // namespace dns
-namespace csc {
-template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace csc
+namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -86,8 +82,8 @@ T_Matrix operator+(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
 {
-	typename T_Matrix::value_type one = 1;
-	return cla3p::ops::add(one, A, B);
+	using T_Scalar = typename T_Matrix::value_type;
+	return cla3p::ops::add(T_Scalar(1), A, B);
 }
 
 /*-------------------------------------------------*/
