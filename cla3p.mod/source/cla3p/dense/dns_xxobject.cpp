@@ -99,7 +99,7 @@ T_Object XxObjectTmpl::move()
 XxObjectTlst
 void XxObjectTmpl::iscale(T_Scalar val)
 {
-	hermitian_coeff_check(this->property(), val, msg::HermitianInconsistency());
+	hermitian_coeff_check(this->property(), val);
 
 	bulk::dns::scale(
 			this->property().uplo(), 
