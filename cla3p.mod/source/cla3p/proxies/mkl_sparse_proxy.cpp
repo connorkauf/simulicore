@@ -358,8 +358,8 @@ void csc_add(uint_t m, uint_t n, T_Scalar alpha,
 	// 
 	// Csr/Csc operations are the same, only csr is supported (like working with the transposes)
 	//
-	CsrMatrix<T_Scalar> A(m, n, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA));
-	CsrMatrix<T_Scalar> B(m, n, const_cast<int_t*>(colptrB), const_cast<int_t*>(rowidxB), const_cast<T_Scalar*>(valuesB));
+	CsrMatrix<T_Scalar> A(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA));
+	CsrMatrix<T_Scalar> B(n, m, const_cast<int_t*>(colptrB), const_cast<int_t*>(rowidxB), const_cast<T_Scalar*>(valuesB));
 	CsrMatrix<T_Scalar> C;
 
 	sparse_operation_t opA = SPARSE_OPERATION_NON_TRANSPOSE;
