@@ -214,6 +214,12 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		std::string toString(uint_t nsd = 3) const;
 
 		/**
+		 * @brief Multiplies the sparse matrix by a scalar.
+		 * @param[in] val The scaling coefficient.
+		 */
+		void iscale(T_Scalar val);
+
+		/**
 		 * @brief Transposes a matrix.
 		 */
 		T_Matrix transpose() const;
