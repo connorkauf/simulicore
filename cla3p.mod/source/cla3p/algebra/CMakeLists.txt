@@ -8,6 +8,8 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	algebra/functional_update.cpp
 	algebra/functional_multmv.cpp
 	algebra/functional_multmm.cpp
+	algebra/operators_add.cpp
+	algebra/operators_update.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_ALGEBRA_HPP 
