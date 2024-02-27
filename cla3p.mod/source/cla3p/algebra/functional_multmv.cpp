@@ -103,6 +103,50 @@ instantiate_mult(dns::CfVector, dns::CfMatrix);
 #undef instantiate_mult
 /*-------------------------------------------------*/
 template <typename T_Vector, typename T_Matrix>
+void trimult(op_t opA,
+		const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
+{
+	Operation _opA(opA);
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, X.size());
+
+	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), X.values(), 1);
+}
+/*-------------------------------------------------*/
+#define instantiate_trimult(T_Vec, T_Mat) \
+template void trimult(op_t, \
+    const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+    dns::XxVector<typename T_Vec::value_type,T_Vec>&)
+instantiate_trimult(dns::RdVector, dns::RdMatrix);
+instantiate_trimult(dns::RfVector, dns::RfMatrix);
+instantiate_trimult(dns::CdVector, dns::CdMatrix);
+instantiate_trimult(dns::CfVector, dns::CfMatrix);
+#undef instantiate_trimult
+/*-------------------------------------------------*/
+template <typename T_Vector, typename T_Matrix>
+void trisol(op_t opA,
+    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+    dns::XxVector<typename T_Vector::value_type,T_Vector>& B)
+{
+	Operation _opA(opA);
+	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, B.size());
+
+	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), B.values(), 1);
+}
+/*-------------------------------------------------*/
+#define instantiate_trisol(T_Vec, T_Mat) \
+template void trisol(op_t, \
+    const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+    dns::XxVector<typename T_Vec::value_type,T_Vec>&)
+instantiate_trisol(dns::RdVector, dns::RdMatrix);
+instantiate_trisol(dns::RfVector, dns::RfMatrix);
+instantiate_trisol(dns::CdVector, dns::CdMatrix);
+instantiate_trisol(dns::CfVector, dns::CfMatrix);
+#undef instantiate_trisol
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
@@ -170,48 +214,6 @@ instantiate_mult(dns::RfVector, csc::RfMatrix);
 instantiate_mult(dns::CdVector, csc::CdMatrix);
 instantiate_mult(dns::CfVector, csc::CfMatrix);
 #undef instantiate_mult
-/*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
-void trimult(op_t opA,
-		const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-		dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
-{
-	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, X.size());
-
-	blas::trmv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), X.values(), 1);
-}
-/*-------------------------------------------------*/
-#define instantiate_trimult(T_Vec, T_Mat) \
-template void trimult(op_t, \
-    const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-    dns::XxVector<typename T_Vec::value_type,T_Vec>&)
-instantiate_trimult(dns::RdVector, dns::RdMatrix);
-instantiate_trimult(dns::RfVector, dns::RfMatrix);
-instantiate_trimult(dns::CdVector, dns::CdMatrix);
-instantiate_trimult(dns::CfVector, dns::CfMatrix);
-#undef instantiate_trimult
-/*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
-void trisol(op_t opA,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    dns::XxVector<typename T_Vector::value_type,T_Vector>& B)
-{
-	Operation _opA(opA);
-	trivec_mult_replace_check(A.prop(), A.nrows(), A.ncols(), _opA, B.size());
-
-	blas::trsv(A.prop().cuplo(), _opA.ctype(), 'N', A.ncols(), A.values(), A.ld(), B.values(), 1);
-}
-/*-------------------------------------------------*/
-#define instantiate_trisol(T_Vec, T_Mat) \
-template void trisol(op_t, \
-    const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-    dns::XxVector<typename T_Vec::value_type,T_Vec>&)
-instantiate_trisol(dns::RdVector, dns::RdMatrix);
-instantiate_trisol(dns::RfVector, dns::RfMatrix);
-instantiate_trisol(dns::CdVector, dns::CdMatrix);
-instantiate_trisol(dns::CfVector, dns::CfMatrix);
-#undef instantiate_trisol
 /*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p

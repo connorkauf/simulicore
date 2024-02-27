@@ -371,10 +371,16 @@ void csc_add(uint_t m, uint_t n, T_Scalar alpha,
 	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
 }
 /*-------------------------------------------------*/
-template void csc_add(uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const int_t*, const int_t*, const real_t    *, int_t**, int_t**, real_t    **);
-template void csc_add(uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const int_t*, const int_t*, const real4_t   *, int_t**, int_t**, real4_t   **);
-template void csc_add(uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const int_t*, const int_t*, const complex_t *, int_t**, int_t**, complex_t **);
-template void csc_add(uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const int_t*, const int_t*, const complex8_t*, int_t**, int_t**, complex8_t**);
+#define instantiate_csc_add(T_Scl) \
+template void csc_add(uint_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_csc_add(real_t);
+instantiate_csc_add(real4_t);
+instantiate_csc_add(complex_t);
+instantiate_csc_add(complex8_t);
+#undef instantiate_csc_add
 /*-------------------------------------------------*/
 #define sparse_mv_macro(typein, prefix) \
 static void sparse_mv( \
@@ -407,10 +413,15 @@ void csc_mv(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	sparse_mv(op, alpha, A.mat(), A.descr(), x, beta, y);
 }
 /*-------------------------------------------------*/
-template void csc_mv(prop_t, uplo_t, uint_t, uint_t, real_t    , op_t, const int_t*, const int_t*, const real_t    *, const real_t    *, real_t    , real_t    *);
-template void csc_mv(prop_t, uplo_t, uint_t, uint_t, real4_t   , op_t, const int_t*, const int_t*, const real4_t   *, const real4_t   *, real4_t   , real4_t   *);
-template void csc_mv(prop_t, uplo_t, uint_t, uint_t, complex_t , op_t, const int_t*, const int_t*, const complex_t *, const complex_t *, complex_t , complex_t *);
-template void csc_mv(prop_t, uplo_t, uint_t, uint_t, complex8_t, op_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, complex8_t, complex8_t*);
+#define instantiate_csc_mv(T_Scl) \
+template void csc_mv(prop_t, uplo_t, uint_t, uint_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, T_Scl, T_Scl*)
+instantiate_csc_mv(real_t);
+instantiate_csc_mv(real4_t);
+instantiate_csc_mv(complex_t);
+instantiate_csc_mv(complex8_t);
+#undef instantiate_csc_mv
 /*-------------------------------------------------*/
 #define sparse_mm_macro(typein, prefix) \
 static void sparse_mm( \
@@ -477,10 +488,14 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	} // prop / uplo
 }
 /*-------------------------------------------------*/
-template void csc_mm(prop_t, uplo_t, uint_t, uint_t, real_t    , op_t, const int_t*, const int_t*, const real_t    *, uint_t, const real_t    *, uint_t, real_t    , real_t    *, uint_t);
-template void csc_mm(prop_t, uplo_t, uint_t, uint_t, real4_t   , op_t, const int_t*, const int_t*, const real4_t   *, uint_t, const real4_t   *, uint_t, real4_t   , real4_t   *, uint_t);
-template void csc_mm(prop_t, uplo_t, uint_t, uint_t, complex_t , op_t, const int_t*, const int_t*, const complex_t *, uint_t, const complex_t *, uint_t, complex_t , complex_t *, uint_t);
-template void csc_mm(prop_t, uplo_t, uint_t, uint_t, complex8_t, op_t, const int_t*, const int_t*, const complex8_t*, uint_t, const complex8_t*, uint_t, complex8_t, complex8_t*, uint_t);
+#define instantiate_csc_mm(T_Scl) \
+template void csc_mm(prop_t, uplo_t, uint_t, uint_t, T_Scl, op_t, \
+		const int_t*, const int_t*, const T_Scl*, \
+		uint_t, const T_Scl*, uint_t, T_Scl, T_Scl*, uint_t)
+instantiate_csc_mm(real_t);
+instantiate_csc_mm(real4_t);
+instantiate_csc_mm(complex_t);
+instantiate_csc_mm(complex8_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_spmm(op_t opA,
@@ -504,10 +519,102 @@ void csc_spmm(op_t opA,
 	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
-template void csc_spmm(op_t, uint_t, uint_t, const int_t*, const int_t*, const real_t    *, uint_t, uint_t, const int_t*, const int_t*, const real_t    *, int_t**, int_t**, real_t    **);
-template void csc_spmm(op_t, uint_t, uint_t, const int_t*, const int_t*, const real4_t   *, uint_t, uint_t, const int_t*, const int_t*, const real4_t   *, int_t**, int_t**, real4_t   **);
-template void csc_spmm(op_t, uint_t, uint_t, const int_t*, const int_t*, const complex_t *, uint_t, uint_t, const int_t*, const int_t*, const complex_t *, int_t**, int_t**, complex_t **);
-template void csc_spmm(op_t, uint_t, uint_t, const int_t*, const int_t*, const complex8_t*, uint_t, uint_t, const int_t*, const int_t*, const complex8_t*, int_t**, int_t**, complex8_t**);
+#define instantiate_spmm(T_Scl) \
+template void csc_spmm(op_t, \
+		uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_spmm(real_t);
+instantiate_spmm(real4_t);
+instantiate_spmm(complex_t);
+instantiate_spmm(complex8_t);
+#undef instantiate_spmm
+/*-------------------------------------------------*/
+#define sparse_sp2md_macro(typein, prefix) \
+static void sparse_sp2md( \
+		const sparse_operation_t  opA   , \
+		const struct matrix_descr descrA, \
+		const sparse_matrix_t     A     , \
+		const sparse_operation_t  opB   , \
+		const struct matrix_descr descrB, \
+		const sparse_matrix_t     B     , \
+		const typein              alpha , \
+		const typein              beta  , \
+		typein*                   C     , \
+		const int_t               ldc   ) \
+{ \
+	sparse_status_t ierr = mkl_sparse_##prefix##_sp2md( \
+			opA, descrA, A, \
+			opB, descrB, B, \
+			alpha, beta, C, SPARSE_LAYOUT_COLUMN_MAJOR, ldc); \
+	spcheck(ierr); \
+}
+sparse_sp2md_macro(real_t, d)
+sparse_sp2md_macro(real4_t, s)
+sparse_sp2md_macro(complex_t, z)
+sparse_sp2md_macro(complex8_t, c)
+#undef sparse_sp2md_macro
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csc_sp2md(T_Scalar alpha, 
+		op_t opA, uint_t mA, uint_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
+		op_t opB, uint_t mB, uint_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
+		T_Scalar beta, T_Scalar* c, uint_t ldc)
+{
+	CscMatrix<T_Scalar> A(mA, nA, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA));
+	CscMatrix<T_Scalar> B(mB, nB, const_cast<int_t*>(colptrB), const_cast<int_t*>(rowidxB), const_cast<T_Scalar*>(valuesB));
+
+	sparse_sp2md(
+			op2sparseop(opA), A.descr(), A.mat(), 
+			op2sparseop(opB), B.descr(), B.mat(), 
+			alpha, beta, c, ldc);
+}
+/*-------------------------------------------------*/
+#define instantiate_sp2md(T_Scl) \
+template void csc_sp2md(T_Scl, \
+		op_t, uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, T_Scl*, uint_t)
+instantiate_sp2md(real_t);
+instantiate_sp2md(real4_t);
+instantiate_sp2md(complex_t);
+instantiate_sp2md(complex8_t);
+#undef instantiate_sp2md
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void csc_sp2m(
+    op_t opA, uint_t mA, uint_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
+    op_t opB, uint_t mB, uint_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
+    int_t** colptrC, int_t** rowidxC, T_Scalar** valuesC)
+{
+	CscMatrix<T_Scalar> A(mA, nA, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA));
+	CscMatrix<T_Scalar> B(mB, nB, const_cast<int_t*>(colptrB), const_cast<int_t*>(rowidxB), const_cast<T_Scalar*>(valuesB));
+	CscMatrix<T_Scalar> C;
+
+	sparse_status_t ierr = mkl_sparse_sp2m(
+			op2sparseop(opA), A.descr(), A.mat(),
+			op2sparseop(opB), B.descr(), B.mat(),
+			SPARSE_STAGE_FULL_MULT,
+			&C.mat());
+	spcheck(ierr);
+
+	int_t mC = 0;
+	int_t nC = 0;
+	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
+
+	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_sp2m(T_Scl) \
+template void csc_sp2m( \
+		op_t, uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, uint_t, uint_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_sp2m(real_t);
+instantiate_sp2m(real4_t);
+instantiate_sp2m(complex_t);
+instantiate_sp2m(complex8_t);
+#undef instantiate_sp2m
 /*-------------------------------------------------*/
 } // namespace mkl
 } // namespace cla3p
