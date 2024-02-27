@@ -67,6 +67,40 @@ T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
 
 /**
  * @ingroup module_index_math_op_matvec
+ * @brief Replaces a vector with a triangular matrix-vector product.
+ *
+ * Performs the operation <b>X := opA(A) * X</b>
+ *
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] X The vector to be replaced.
+ */
+template <typename T_Vector, typename T_Matrix>
+void trimult(op_t opA,
+    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+    dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
+
+/**
+ * @ingroup module_index_math_op_matvec
+ * @brief Replaces a vector with the solution of a triangular system.
+ *
+ * Solves the system <b>opA(A) * X = B</b>
+ *
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input triangular matrix.
+ * @param[in,out] B On entry, the rhs, on exit the system solution X.
+ */
+template <typename T_Vector, typename T_Matrix>
+void trisol(op_t opA,
+    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+    dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
+
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
  * Performs the operation <b>Y = Y + alpha * opA(A) * X</b>
@@ -100,36 +134,6 @@ template <typename T_Vector, typename T_Matrix>
 T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
-
-/**
- * @ingroup module_index_math_op_matvec
- * @brief Replaces a vector with a triangular matrix-vector product.
- *
- * Performs the operation <b>X := opA(A) * X</b>
- *
- * @param[in] opA The operation to be performed for matrix A.
- * @param[in] A The input triangular matrix.
- * @param[in,out] X The vector to be replaced.
- */
-template <typename T_Vector, typename T_Matrix>
-void trimult(op_t opA,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
-
-/**
- * @ingroup module_index_math_op_matvec
- * @brief Replaces a vector with the solution of a triangular system.
- *
- * Solves the system <b>opA(A) * X = B</b>
- *
- * @param[in] opA The operation to be performed for matrix A.
- * @param[in] A The input triangular matrix.
- * @param[in,out] B On entry, the rhs, on exit the system solution X.
- */
-template <typename T_Vector, typename T_Matrix>
-void trisol(op_t opA,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
 
 /*-------------------------------------------------*/
 } // namespace ops

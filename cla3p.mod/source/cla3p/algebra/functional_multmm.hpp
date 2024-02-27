@@ -161,6 +161,104 @@ void trisol(typename T_Matrix::value_type alpha,
     op_t opA, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_op_matmat
+ * @brief Updates a general dense matrix with a sparse-dense matrix-matrix product.
+ *
+ * Performs the operation <b>C = C + alpha * opA(A) * B</b>@n
+ *
+ * Valid combinations are the following:
+ @verbatim
+  A: General     B: General     opA: unconstrained      C: General
+  A: Symmetric   B: General     opA: ignored            C: General
+  A: Hermitian   B: General     opA: ignored            C: General
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input sparse matrix.
+ * @param[in] B The input dense matrix.
+ * @param[in,out] C The dense matrix to be updated.
+ */
+template <typename T_CscMatrix, typename T_DnsMatrix>
+void mult(typename T_CscMatrix::value_type alpha, op_t opA, 
+		const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+    const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
+    dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
+
+/**
+ * @ingroup module_index_math_op_matmat
+ * @brief Creates a general matrix from a sparse-dense matrix-matrix product.
+ *
+ * Performs the operation <b>alpha * opA(A) * B</b>@n
+ *
+ * Valid combinations are the following:
+ @verbatim
+  A: General     B: General     opA: unconstrained
+  A: Symmetric   B: General     opA: ignored      
+  A: Hermitian   B: General     opA: ignored      
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input sparse matrix.
+ * @param[in] B The input dense matrix.
+ * @return The matrix <b>(alpha * opA(A) * B)</b>.
+ */
+template <typename T_CscMatrix, typename T_DnsMatrix>
+T_DnsMatrix mult(typename T_CscMatrix::value_type alpha, op_t opA, 
+		const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+    const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B);
+
+/**
+ * @ingroup module_index_math_op_matmat
+ * @brief Updates a dense matrix with a sparse-sparse matrix-matrix product.
+ *
+ * Performs the operation <b>C = C + alpha * opA(A) * opB(B)</b>@n
+ *
+ * Valid combinations are the following:
+ @verbatim
+  A: General     B: General     opA: unconstrained      opB: unconstrained   
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input sparse matrix.
+ * @param[in] opB The operation to be performed for matrix B.
+ * @param[in] B The input dense matrix.
+ * @param[in,out] C The dense matrix to be updated.
+ */
+template <typename T_CscMatrix, typename T_DnsMatrix>
+void mult(typename T_CscMatrix::value_type alpha, 
+		op_t opA, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+		op_t opB, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& B,
+    dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
+
+/**
+ * @ingroup module_index_math_op_matmat
+ * @brief Creates a general sparse matrix from a sparse-sparse matrix-matrix product.
+ *
+ * Performs the operation <b>alpha * opA(A) * opB(B)</b>@n
+ *
+ * Valid combinations are the following:
+ @verbatim
+  A: General     B: General     opA: unconstrained      opB: unconstrained   
+ @endverbatim
+ *
+ * @param[in] alpha The scaling coefficient.
+ * @param[in] opA The operation to be performed for matrix A.
+ * @param[in] A The input sparse matrix.
+ * @param[in] opB The operation to be performed for matrix B.
+ * @param[in] B The input dense matrix.
+ * @return The matrix <b>(alpha * opA(A) * opB(B))</b>.
+ */
+template <typename T_Matrix>
+T_Matrix mult(typename T_Matrix::value_type alpha, 
+		op_t opA, const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+    op_t opB, const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
+
+/*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
 /*-------------------------------------------------*/

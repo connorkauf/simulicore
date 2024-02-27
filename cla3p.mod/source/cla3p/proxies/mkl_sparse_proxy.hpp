@@ -46,6 +46,18 @@ void csc_spmm(op_t opA,
     uint_t mB, uint_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
     int_t** colptrC, int_t** rowidxC, T_Scalar** valuesC);
 
+template <typename T_Scalar>
+void csc_sp2m(
+    op_t opA, uint_t mA, uint_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
+    op_t opB, uint_t mB, uint_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
+    int_t** colptrC, int_t** rowidxC, T_Scalar** valuesC);
+
+template <typename T_Scalar>
+void csc_sp2md(T_Scalar alpha,
+    op_t opA, uint_t mA, uint_t nA, const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
+    op_t opB, uint_t mB, uint_t nB, const int_t* colptrB, const int_t* rowidxB, const T_Scalar* valuesB,
+    T_Scalar beta, T_Scalar* c, uint_t ldc);
+
 /*-------------------------------------------------*/
 } // namespace mkl
 } // namespace cla3p

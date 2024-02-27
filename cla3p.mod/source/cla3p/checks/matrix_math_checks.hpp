@@ -23,14 +23,21 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
+void mult_dim_check(
+		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
+		uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
+		uint_t nrowsC, uint_t ncolsC);
+
 void mat_x_vec_mult_check(const Operation& opA, 
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, 
 		uint_t sizeX, uint_t sizeY);
 
+#if 0
 void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		const Property& prC, uint_t nrowsC, uint_t ncolsC);
+#endif
 
 void trivec_mult_replace_check(const Property& prA, 
 		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 

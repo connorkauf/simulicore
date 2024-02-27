@@ -29,7 +29,7 @@
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-static void mult_dim_check(
+void mult_dim_check(
 		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
 		uint_t nrowsC, uint_t ncolsC)
@@ -56,6 +56,7 @@ void mat_x_vec_mult_check(const Operation& opA,
 	mult_dim_check(nrowsA, ncolsA, opA, sizeX, 1, Operation(op_t::N), sizeY, 1);
 }
 /*-------------------------------------------------*/
+#if 0
 void mat_x_mat_mult_check(
 		const Property& prA, uint_t nrowsA, uint_t ncolsA, const Operation& opA, 
 		const Property& prB, uint_t nrowsB, uint_t ncolsB, const Operation& opB, 
@@ -68,7 +69,7 @@ void mat_x_mat_mult_check(
 	mult_dim_check(nrowsA, ncolsA, opA, nrowsB, ncolsB, opB, nrowsC, ncolsC);
 
 	//
-	// Check individual propertiues
+	// Check individual properties
 	//
 
 	bool specialA = (prA.isSymmetric() || prA.isHermitian() || prA.isTriangular());
@@ -107,6 +108,7 @@ void mat_x_mat_mult_check(
 		throw err::NoConsistency(msg::OpNotAllowed());
 	}
 }
+#endif
 /*-------------------------------------------------*/
 void trivec_mult_replace_check(const Property& prA, 
 		uint_t nrowsA, uint_t ncolsA, const Operation& opA, 

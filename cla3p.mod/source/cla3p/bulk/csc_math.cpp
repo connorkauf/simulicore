@@ -31,9 +31,9 @@ namespace csc {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void add(uint_t m, uint_t n, T_Scalar alpha,
-    const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
-    const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
-    int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
+		const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
+		const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
+		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
 {
 	mkl::csc_add(m, n, alpha,
 			colptrA, rowidxA, valuesA,
@@ -41,24 +41,35 @@ void add(uint_t m, uint_t n, T_Scalar alpha,
 			colptrC, rowidxC, valuesC);
 }
 /*-------------------------------------------------*/
-template void add(uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const int_t*, const int_t*, const real_t    *, int_t**, int_t**, real_t    **);
-template void add(uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const int_t*, const int_t*, const real4_t   *, int_t**, int_t**, real4_t   **);
-template void add(uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const int_t*, const int_t*, const complex_t *, int_t**, int_t**, complex_t **);
-template void add(uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const int_t*, const int_t*, const complex8_t*, int_t**, int_t**, complex8_t**);
+#define instantiate_add(T_Scl) \
+template void add(uint_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_add(real_t);
+instantiate_add(real4_t);
+instantiate_add(complex_t);
+instantiate_add(complex8_t);
+#undef instantiate_add
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void gem_x_vec(op_t opA, uint_t m, uint_t n, T_Scalar alpha,
-    const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
-    const T_Scalar *x, T_Scalar beta, T_Scalar *y)
+		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
+		const T_Scalar *x, T_Scalar beta, T_Scalar *y)
 {
 	Property pr = Property(prop_t::General, uplo_t::Full);
 	mkl::csc_mv(pr.type(), pr.uplo(), m, n, alpha, opA, colptr, rowidx, values, x, beta, y);
 }
 /*-------------------------------------------------*/
-template void gem_x_vec(op_t, uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, real_t    , real_t    *);
-template void gem_x_vec(op_t, uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, real4_t   , real4_t   *);
-template void gem_x_vec(op_t, uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, complex_t , complex_t *);
-template void gem_x_vec(op_t, uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, complex8_t, complex8_t*);
+#define instantiate_gem_x_vec(T_Scl) \
+template void gem_x_vec(op_t, uint_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, T_Scl, T_Scl*)
+instantiate_gem_x_vec(real_t);
+instantiate_gem_x_vec(real4_t);
+instantiate_gem_x_vec(complex_t);
+instantiate_gem_x_vec(complex8_t);
+#undef instantiate_gem_x_vec
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void sym_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
@@ -69,10 +80,15 @@ void sym_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
 	mkl::csc_mv(pr.type(), pr.uplo(), n, n, alpha, op_t::N, colptr, rowidx, values, x, beta, y);
 }
 /*-------------------------------------------------*/
-template void sym_x_vec(uplo_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, real_t    , real_t    *);
-template void sym_x_vec(uplo_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, real4_t   , real4_t   *);
-template void sym_x_vec(uplo_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, complex_t , complex_t *);
-template void sym_x_vec(uplo_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, complex8_t, complex8_t*);
+#define instantiate_sym_x_vec(T_Scl) \
+template void sym_x_vec(uplo_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, T_Scl, T_Scl*)
+instantiate_sym_x_vec(real_t);
+instantiate_sym_x_vec(real4_t);
+instantiate_sym_x_vec(complex_t);
+instantiate_sym_x_vec(complex8_t);
+#undef instantiate_sym_x_vec
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void hem_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
@@ -83,10 +99,15 @@ void hem_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
 	mkl::csc_mv(pr.type(), pr.uplo(), n, n, alpha, op_t::N, colptr, rowidx, values, x, beta, y);
 }
 /*-------------------------------------------------*/
-template void hem_x_vec(uplo_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, real_t    , real_t    *);
-template void hem_x_vec(uplo_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, real4_t   , real4_t   *);
-template void hem_x_vec(uplo_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, complex_t , complex_t *);
-template void hem_x_vec(uplo_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, complex8_t, complex8_t*);
+#define instantiate_hem_x_vec(T_Scl) \
+template void hem_x_vec(uplo_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, T_Scl, T_Scl*)
+instantiate_hem_x_vec(real_t);
+instantiate_hem_x_vec(real4_t);
+instantiate_hem_x_vec(complex_t);
+instantiate_hem_x_vec(complex8_t);
+#undef instantiate_hem_x_vec
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void gem_x_gem(op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
@@ -97,10 +118,15 @@ void gem_x_gem(op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 	mkl::csc_mm(pr.type(), pr.uplo(), m, n, alpha, opA, colptr, rowidx, values, k, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, uint_t, real_t    , real_t    *, uint_t );
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, uint_t, real4_t   , real4_t   *, uint_t );
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, uint_t, complex_t , complex_t *, uint_t );
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, uint_t, complex8_t, complex8_t*, uint_t );
+#define instantiate_gem_x_gem(T_Scl) \
+template void gem_x_gem(op_t, uint_t, uint_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, uint_t, T_Scl, T_Scl*, uint_t )
+instantiate_gem_x_gem(real_t);
+instantiate_gem_x_gem(real4_t);
+instantiate_gem_x_gem(complex_t);
+instantiate_gem_x_gem(complex8_t);
+#undef instantiate_gem_x_gem
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
@@ -111,10 +137,15 @@ void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
 	mkl::csc_mm(pr.type(), pr.uplo(), m, m, alpha, op_t::N, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-template void sym_x_gem(uplo_t, uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, uint_t, real_t    , real_t    *, uint_t);
-template void sym_x_gem(uplo_t, uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, uint_t, real4_t   , real4_t   *, uint_t);
-template void sym_x_gem(uplo_t, uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, uint_t, complex_t , complex_t *, uint_t);
-template void sym_x_gem(uplo_t, uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, uint_t, complex8_t, complex8_t*, uint_t);
+#define instantiate_sym_x_gem(T_Scl) \
+	template void sym_x_gem(uplo_t, uint_t, uint_t, T_Scl, \
+			const int_t*, const int_t*, const T_Scl*, \
+			const T_Scl*, uint_t, T_Scl, T_Scl*, uint_t)
+instantiate_sym_x_gem(real_t);
+instantiate_sym_x_gem(real4_t);
+instantiate_sym_x_gem(complex_t);
+instantiate_sym_x_gem(complex8_t);
+#undef instantiate_sym_x_gem
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
@@ -125,32 +156,71 @@ void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
 	mkl::csc_mm(pr.type(), pr.uplo(), m, m, alpha, op_t::N, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
-template void hem_x_gem(uplo_t, uint_t, uint_t, real_t    , const int_t*, const int_t*, const real_t    *, const real_t    *, uint_t, real_t    , real_t    *, uint_t);
-template void hem_x_gem(uplo_t, uint_t, uint_t, real4_t   , const int_t*, const int_t*, const real4_t   *, const real4_t   *, uint_t, real4_t   , real4_t   *, uint_t);
-template void hem_x_gem(uplo_t, uint_t, uint_t, complex_t , const int_t*, const int_t*, const complex_t *, const complex_t *, uint_t, complex_t , complex_t *, uint_t);
-template void hem_x_gem(uplo_t, uint_t, uint_t, complex8_t, const int_t*, const int_t*, const complex8_t*, const complex8_t*, uint_t, complex8_t, complex8_t*, uint_t);
+#define instantiate_hem_x_gem(T_Scl) \
+template void hem_x_gem(uplo_t, uint_t, uint_t, T_Scl, \
+		const int_t*, const int_t*, const T_Scl*, \
+		const T_Scl*, uint_t, T_Scl, T_Scl*, uint_t)
+instantiate_hem_x_gem(real_t);
+instantiate_hem_x_gem(real4_t);
+instantiate_hem_x_gem(complex_t);
+instantiate_hem_x_gem(complex8_t);
+#undef instantiate_hem_x_gem
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void gem_x_gem(op_t opA, uint_t m, uint_t n, uint_t k,
-    const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
-    const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
-    int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
+void gem_x_gem(uint_t m, uint_t n, uint_t k, T_Scalar alpha,
+		op_t opA, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
+		op_t opB, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
+		T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
 	uint_t mA = (opA == op_t::N ? m : k);
 	uint_t nA = (opA == op_t::N ? k : m);
-	uint_t mB = k;
-	uint_t nB = n;
+	uint_t mB = (opB == op_t::N ? n : k);
+	uint_t nB = (opB == op_t::N ? k : n);
 
-	mkl::csc_spmm(opA,
-    mA, nA, colptrA, rowidxA, valuesA,
-    mB, nB, colptrB, rowidxB, valuesB,
-    colptrC, rowidxC,  valuesC);
+	mkl::csc_sp2md(alpha,
+			opA, mA, nA, colptrA, rowidxA, valuesA,
+			opB, mB, nB, colptrB, rowidxB, valuesB,
+			beta, c, ldc);
 }
 /*-------------------------------------------------*/
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, const int_t*, const int_t*, const real_t    *, const int_t*, const int_t*, const real_t    *, int_t**, int_t**, real_t    **);
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, const int_t*, const int_t*, const real4_t   *, const int_t*, const int_t*, const real4_t   *, int_t**, int_t**, real4_t   **);
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, const int_t*, const int_t*, const complex_t *, const int_t*, const int_t*, const complex_t *, int_t**, int_t**, complex_t **);
-template void gem_x_gem(op_t, uint_t, uint_t, uint_t, const int_t*, const int_t*, const complex8_t*, const int_t*, const int_t*, const complex8_t*, int_t**, int_t**, complex8_t**);
+#define instantiate_gem_x_gem(T_Scl) \
+template void gem_x_gem(uint_t, uint_t, uint_t, T_Scl, \
+		op_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, const int_t*, const int_t*, const T_Scl*, \
+		T_Scl, T_Scl*, uint_t)
+instantiate_gem_x_gem(real_t);
+instantiate_gem_x_gem(real4_t);
+instantiate_gem_x_gem(complex_t);
+instantiate_gem_x_gem(complex8_t);
+#undef instantiate_gem_x_gem
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void gem_x_gem(uint_t m, uint_t n, uint_t k,
+		op_t opA, const int_t *colptrA, const int_t *rowidxA, const T_Scalar *valuesA,
+		op_t opB, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
+		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
+{
+	uint_t mA = (opA == op_t::N ? m : k);
+	uint_t nA = (opA == op_t::N ? k : m);
+	uint_t mB = (opB == op_t::N ? n : k);
+	uint_t nB = (opB == op_t::N ? k : n);
+
+	mkl::csc_sp2m(
+			opA, mA, nA, colptrA, rowidxA, valuesA,
+			opB, mB, nB, colptrB, rowidxB, valuesB,
+			colptrC, rowidxC, valuesC);
+}
+/*-------------------------------------------------*/
+#define instantiate_gem_x_gem(T_Scl) \
+template void gem_x_gem(uint_t, uint_t, uint_t, \
+		op_t, const int_t*, const int_t*, const T_Scl*, \
+		op_t, const int_t*, const int_t*, const T_Scl*, \
+		int_t**, int_t**, T_Scl**)
+instantiate_gem_x_gem(real_t);
+instantiate_gem_x_gem(real4_t);
+instantiate_gem_x_gem(complex_t);
+instantiate_gem_x_gem(complex8_t);
+#undef instantiate_gem_x_gem
 /*-------------------------------------------------*/
 } // namespace csc
 } // namespace bulk
