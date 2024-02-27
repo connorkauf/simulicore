@@ -26,9 +26,10 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Object> class XxObject;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -44,56 +45,77 @@ template <typename T_Scalar, typename T_Object> class XxObject;
 
 /**
  * @ingroup module_index_math_operators_update
- * @brief Update an object with another compatible object.
+ * @brief Update a dense vector with another dense vector.
  *
- * Performs the operation <b>A = A + B</b>
+ * Performs the operation <b>Y = Y + X</b>
  *
- * @param[in,out] A object to be updated.
- * @param[in] B The rhs object.
+ * @param[in,out] Y vector to be updated.
+ * @param[in] X The rhs vector.
  */
-template <typename T_Object>
+template <typename T_Vector>
 void operator+=(
-		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
-{
-	cla3p::ops::update(1, B, A);
-}
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& Y,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /**
  * @ingroup module_index_math_operators_update
- * @brief Update a sparse matrix with another compatible sparse matrix.
+ * @brief Update a dense vector with another dense vector.
  *
- * Performs the operation <b>A = A + B</b>
+ * Performs the operation <b>Y = Y - X</b>
  *
- * @param[in,out] A sparse matrix to be updated.
- * @param[in] B The rhs sparse matrix.
+ * @param[in,out] Y vector to be updated.
+ * @param[in] X The rhs vector.
  */
-template <typename T_Matrix>
-void operator+=(
-		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
-{
-	cla3p::ops::update(1, B, A);
-}
+template <typename T_Vector>
+void operator-=(
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& Y,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_update
- * @brief Update an object with another compatible object.
+ * @brief Update a dense matrix with another compatible dense matrix.
+ *
+ * Performs the operation <b>A = A + B</b>
+ *
+ * @param[in,out] A matrix to be updated.
+ * @param[in] B The rhs matrix.
+ */
+template <typename T_Matrix>
+void operator+=(
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
+
+/**
+ * @ingroup module_index_math_operators_update
+ * @brief Update a dense matrix with another compatible dense matrix.
  *
  * Performs the operation <b>A = A - B</b>
  *
- * @param[in,out] A object to be updated.
- * @param[in] B The rhs object.
+ * @param[in,out] A matrix to be updated.
+ * @param[in] B The rhs matrix.
  */
-template <typename T_Object>
+template <typename T_Matrix>
 void operator-=(
-		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
-{
-	cla3p::ops::update(-1, B, A);
-}
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_update
+ * @brief Update a sparse matrix with another compatible sparse matrix.
+ *
+ * Performs the operation <b>A = A + B</b>
+ *
+ * @param[in,out] A sparse matrix to be updated.
+ * @param[in] B The rhs sparse matrix.
+ */
+template <typename T_Matrix>
+void operator+=(
+		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
  * @ingroup module_index_math_operators_update
@@ -107,10 +129,7 @@ void operator-=(
 template <typename T_Matrix>
 void operator-=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
-{
-	cla3p::ops::update(-1, B, A);
-}
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /*-------------------------------------------------*/
 
@@ -119,21 +138,17 @@ void operator-=(
  */
 template <typename T_Object, typename T_Virtual> 
 void operator+=(
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
 	vB.update(1, A);
 }
 
-/*-------------------------------------------------*/
-
 /*
  * XxObject -= VirtualEntity
  */
 template <typename T_Object, typename T_Virtual> 
 void operator-=(
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {

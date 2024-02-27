@@ -23,7 +23,6 @@
  */
 
 #include "cla3p/virtuals.hpp"
-#include "cla3p/algebra/functional_add.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -61,32 +60,7 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 template <typename T_Object>
 T_Object operator+(
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
-{
-	typename T_Object::value_type one = 1;
-	return cla3p::ops::add(one, A.self(), one, B.self());
-}
-
-/**
- * @ingroup module_index_math_operators_add
- * @brief Adds two compatible sparse matrices.
- *
- * Performs the operation <b>A + B</b>
- *
- * @param[in] A The first sparse matrix.
- * @param[in] B The second sparse matrix.
- * @return The sparse matrix that is the sum of the two.
- */
-template <typename T_Matrix>
-T_Matrix operator+(
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
-{
-	using T_Scalar = typename T_Matrix::value_type;
-	return cla3p::ops::add(T_Scalar(1), A, B);
-}
-
-/*-------------------------------------------------*/
+		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B);
 
 /**
  * @ingroup module_index_math_operators_add
@@ -101,11 +75,24 @@ T_Matrix operator+(
 template <typename T_Object>
 T_Object operator-(
 		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
-{
-	typename T_Object::value_type one = 1;
-	return cla3p::ops::add(one, A.self(), -one, B.self());
-}
+		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B);
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_add
+ * @brief Adds two compatible sparse matrices.
+ *
+ * Performs the operation <b>A + B</b>
+ *
+ * @param[in] A The first sparse matrix.
+ * @param[in] B The second sparse matrix.
+ * @return The sparse matrix that is the sum of the two.
+ */
+template <typename T_Matrix>
+T_Matrix operator+(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
  * @ingroup module_index_math_operators_add
@@ -120,11 +107,7 @@ T_Object operator-(
 template <typename T_Matrix>
 T_Matrix operator-(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B)
-{
-	typename T_Matrix::value_type one = 1;
-	return cla3p::ops::add(-one, B, A);
-}
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /*-------------------------------------------------*/
 
@@ -133,7 +116,6 @@ T_Matrix operator-(
  */
 template <typename T_Object, typename T_Virtual> 
 T_Object operator+(
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		const T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
@@ -142,14 +124,11 @@ T_Object operator+(
 	return ret;
 }
 
-/*-------------------------------------------------*/
-
 /*
  * XxObject - VirtualEntity
  */
 template <typename T_Object, typename T_Virtual> 
 T_Object operator-(
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
 		const T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
@@ -166,7 +145,6 @@ T_Object operator-(
 template <typename T_Object, typename T_Virtual>
 T_Object operator+(
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vA,
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
 		const T_Object& B)
 {
 	T_Object ret = vA.evaluate();
@@ -174,15 +152,12 @@ T_Object operator+(
 	return ret;
 }
 
-/*-------------------------------------------------*/
-
 /*
- * VirtualEntity + XxObject
+ * VirtualEntity - XxObject
  */
 template <typename T_Object, typename T_Virtual> 
 T_Object operator-(
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vA,
-		//const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B)
 		const T_Object& B)
 {
 	T_Object ret = vA.evaluate();
@@ -204,8 +179,6 @@ T_Object operator+(
 	ret += vB;
 	return ret;
 }
-
-/*-------------------------------------------------*/
 
 /*
  * VirtualEntity - VirtualEntity
