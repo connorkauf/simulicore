@@ -14,6 +14,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	algebra/operators_multvv.cpp
 	algebra/operators_multmv.cpp
 	algebra/operators_multmm.cpp
+	algebra/operators_perm.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_ALGEBRA_HPP 
