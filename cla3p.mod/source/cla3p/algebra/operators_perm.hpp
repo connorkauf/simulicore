@@ -46,10 +46,7 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 template <typename T_Int, typename T_Vector>
 T_Vector operator*(
 		const cla3p::PxMatrix<T_Int>& P, 
-		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
-{
-	return X.permuteLeft(P);
-}
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /*-------------------------------------------------*/
 
@@ -86,10 +83,7 @@ T_Vector operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::PxMatrix<T_Int>& P, 
-		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A)
-{
-	return A.permuteLeft(P);
-}
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
 
@@ -126,10 +120,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::PxMatrix<T_Int>& P, 
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A)
-{
-	return A.permuteLeft(P);
-}
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
 
@@ -147,10 +138,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
-		const cla3p::PxMatrix<T_Int>& P)
-{
-	return A.permuteRight(P);
-}
+		const cla3p::PxMatrix<T_Int>& P);
 
 /*-------------------------------------------------*/
 
@@ -188,10 +176,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		const cla3p::PxMatrix<T_Int>& P)
-{
-	return A.permuteRight(P);
-}
+		const cla3p::PxMatrix<T_Int>& P);
 
 /*-------------------------------------------------*/
 
@@ -208,10 +193,7 @@ T_Matrix operator*(
 template <typename T_Int>
 cla3p::PxMatrix<T_Int> operator*(
 		const cla3p::PxMatrix<T_Int>& P,
-		const cla3p::PxMatrix<T_Int>& Q)
-{
-	return Q.permuteLeft(P);
-}
+		const cla3p::PxMatrix<T_Int>& Q);
 
 /*-------------------------------------------------*/
 
