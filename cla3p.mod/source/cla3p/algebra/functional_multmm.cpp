@@ -534,6 +534,16 @@ T_Matrix mult(typename T_Matrix::value_type alpha,
 	return ret;
 }
 /*-------------------------------------------------*/
+#define instantiate_mult(T_Mat) \
+template T_Mat mult(typename T_Mat::value_type, \
+    op_t, const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
+    op_t, const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&)
+instantiate_mult(csc::RdMatrix);
+instantiate_mult(csc::RfMatrix);
+instantiate_mult(csc::CdMatrix);
+instantiate_mult(csc::CfMatrix);
+#undef instantiate_mult
+/*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
 /*-------------------------------------------------*/
