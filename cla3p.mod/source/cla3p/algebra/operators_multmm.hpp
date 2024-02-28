@@ -26,9 +26,8 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; } 
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; } 
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -107,16 +106,12 @@ T_Matrix operator*(
  *
  * @param[in] A The lhs input matrix.
  * @param[in] B The rhs input matrix.
- * @return The virtual product.
+ * @return The resulting dense matrix.
  */
 template <typename T_CscMatrix, typename T_DnsMatrix>
 T_DnsMatrix operator*(
 	const cla3p::csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A, 
-	const cla3p::dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B) 
-{
-	using T_Scalar = typename T_CscMatrix::value_type;
-	return cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, B);
-}
+	const cla3p::dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B); 
 
 /*-------------------------------------------------*/
 
@@ -143,6 +138,23 @@ T_Matrix operator*(
 { 
 	return (A * vB.evaluate());
 }
+
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_mult
+ * @brief Multiplies a sparse matrix with a sparse matrix.
+ *
+ * Performs the operation <b>A * B</b>
+ *
+ * @param[in] A The lhs input matrix.
+ * @param[in] B The rhs input matrix.
+ * @return The resulting sparse matrix.
+ */
+template <typename T_Matrix>
+T_Matrix operator*(
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
+	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B); 
 
 /*-------------------------------------------------*/
 

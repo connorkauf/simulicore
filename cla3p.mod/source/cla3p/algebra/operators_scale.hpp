@@ -282,10 +282,7 @@ T_Virtual operator/(
 template <typename T_Object>
 void operator*=(
 		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
-		typename T_Object::value_type val)
-{
-	src.iscale(val);
-}
+		typename T_Object::value_type val);
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -299,10 +296,7 @@ void operator*=(
 template <typename T_Matrix>
 void operator*=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		typename T_Matrix::value_type val)
-{
-	A.iscale(val);
-}
+		typename T_Matrix::value_type val);
 
 /*-------------------------------------------------*/
 
@@ -331,10 +325,7 @@ void operator*=(
 template <typename T_Object>
 void operator/=(
 		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
-		typename T_Object::value_type val)
-{
-	src.iscale(cla3p::arith::inv(val));
-}
+		typename T_Object::value_type val);
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -348,10 +339,7 @@ void operator/=(
 template <typename T_Matrix>
 void operator/=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		typename T_Matrix::value_type val)
-{
-	A.iscale(cla3p::arith::inv(val));
-}
+		typename T_Matrix::value_type val);
 
 /*-------------------------------------------------*/
 

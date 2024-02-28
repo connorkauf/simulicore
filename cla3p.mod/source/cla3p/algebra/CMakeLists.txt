@@ -10,6 +10,10 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	algebra/functional_multmm.cpp
 	algebra/operators_add.cpp
 	algebra/operators_update.cpp
+	algebra/operators_scale.cpp
+	algebra/operators_multvv.cpp
+	algebra/operators_multmv.cpp
+	algebra/operators_multmm.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_ALGEBRA_HPP 
