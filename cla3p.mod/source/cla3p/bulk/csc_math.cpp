@@ -174,8 +174,8 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 {
 	uint_t mA = (opA == op_t::N ? m : k);
 	uint_t nA = (opA == op_t::N ? k : m);
-	uint_t mB = (opB == op_t::N ? n : k);
-	uint_t nB = (opB == op_t::N ? k : n);
+	uint_t mB = (opB == op_t::N ? k : n);
+	uint_t nB = (opB == op_t::N ? n : k);
 
 	mkl::csc_sp2md(alpha,
 			opA, mA, nA, colptrA, rowidxA, valuesA,
@@ -202,8 +202,8 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k,
 {
 	uint_t mA = (opA == op_t::N ? m : k);
 	uint_t nA = (opA == op_t::N ? k : m);
-	uint_t mB = (opB == op_t::N ? n : k);
-	uint_t nB = (opB == op_t::N ? k : n);
+	uint_t mB = (opB == op_t::N ? k : n);
+	uint_t nB = (opB == op_t::N ? n : k);
 
 	mkl::csc_sp2m(
 			opA, mA, nA, colptrA, rowidxA, valuesA,
