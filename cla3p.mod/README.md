@@ -99,7 +99,7 @@ or by using the mult() function
 ```cpp
 Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
 ```
-Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculation is virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** are currently available for dense objects. Sparse virtual support will soon be supported.
+Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculations are virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** are currently available for dense objects. Sparse virtual support will soon be supported.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
