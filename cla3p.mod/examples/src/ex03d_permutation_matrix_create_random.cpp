@@ -12,7 +12,7 @@ int main()
 	 * with randomly generated unique values
 	 */
 
-	cla3p::PiMatrix P = cla3p::PiMatrix::random(4);
+	cla3p::prm::PiMatrix P = cla3p::prm::PiMatrix::random(4);
 
 	std::cout << P.info("P") << P;
 

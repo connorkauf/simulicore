@@ -86,7 +86,7 @@ template class Guard<csc::RfMatrix>;
 template class Guard<csc::CdMatrix>;
 template class Guard<csc::CfMatrix>;
 /*-------------------------------------------------*/
-template class Guard<PiMatrix>;
+template class Guard<prm::PiMatrix>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -26,7 +26,7 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 
-template <typename T_Int> class PxMatrix;
+namespace prm { template <typename T_Int> class PxMatrix; }
 
 /**
  * @nosubgrouping 
@@ -128,15 +128,15 @@ class Array2D : public Ownership {
 		void copyToShallow(Array2D<T_Scalar>&);
 		void moveTo(Array2D<T_Scalar>&);
 
-		void gePermuteToLeftRight(Array2D<T_Scalar>& trg, const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q) const;
-		void gePermuteToLeft(Array2D<T_Scalar>& trg, const PxMatrix<int_t>& P) const;
-		void gePermuteToRight(Array2D<T_Scalar>& trg, const PxMatrix<int_t>& Q) const;
-		void xxPermuteToMirror(Array2D<T_Scalar>& trg, const PxMatrix<int_t>& P) const;
+		void gePermuteToLeftRight(Array2D<T_Scalar>& trg, const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
+		void gePermuteToLeft(Array2D<T_Scalar>& trg, const prm::PxMatrix<int_t>& P) const;
+		void gePermuteToRight(Array2D<T_Scalar>& trg, const prm::PxMatrix<int_t>& Q) const;
+		void xxPermuteToMirror(Array2D<T_Scalar>& trg, const prm::PxMatrix<int_t>& P) const;
 
-		void gePermuteIpLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q);
-		void gePermuteIpLeft(const PxMatrix<int_t>& P);
-		void gePermuteIpRight(const PxMatrix<int_t>& Q);
-		void xxPermuteIpMirror(const PxMatrix<int_t>& P);
+		void gePermuteIpLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q);
+		void gePermuteIpLeft(const prm::PxMatrix<int_t>& P);
+		void gePermuteIpRight(const prm::PxMatrix<int_t>& Q);
+		void xxPermuteIpMirror(const prm::PxMatrix<int_t>& P);
 
 		T_Scalar& operator()(uint_t i, uint_t j);
 		const T_Scalar& operator()(uint_t i, uint_t j) const;

@@ -27,7 +27,7 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 
-template <typename T_Int> class PxMatrix;
+namespace prm { template <typename T_Int> class PxMatrix; }
 namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 
 /*-------------------------------------------------*/
@@ -176,7 +176,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 *
 		 * @see ipermuteLeft()
 		 */
-		T_Vector permuteLeft(const PxMatrix<int_t>& P) const;
+		T_Vector permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the entries of a vector in-place.
@@ -187,7 +187,7 @@ class XxVector : public XxObject<T_Scalar,T_Vector> {
 		 *
 		 * @see permuteLeft()
 		 */
-		void ipermuteLeft(const PxMatrix<int_t>& P);
+		void ipermuteLeft(const prm::PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Gets a subvector with content copy.

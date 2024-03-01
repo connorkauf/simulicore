@@ -300,7 +300,7 @@ const T_Scalar& Array2D<T_Scalar>::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteToLeftRight(Array2D<T_Scalar>& trg, const PiMatrix& P, const PiMatrix& Q) const
+void Array2D<T_Scalar>::gePermuteToLeftRight(Array2D<T_Scalar>& trg, const prm::PiMatrix& P, const prm::PiMatrix& Q) const
 {
 	perm_ge_op_consistency_check(property().type(), rsize(), csize(), P.size(), Q.size());
 
@@ -309,7 +309,7 @@ void Array2D<T_Scalar>::gePermuteToLeftRight(Array2D<T_Scalar>& trg, const PiMat
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteToLeft(Array2D<T_Scalar>& trg, const PiMatrix& P) const
+void Array2D<T_Scalar>::gePermuteToLeft(Array2D<T_Scalar>& trg, const prm::PiMatrix& P) const
 {
 	perm_ge_op_consistency_check(property().type(), rsize(), csize(), P.size(), csize());
 
@@ -318,7 +318,7 @@ void Array2D<T_Scalar>::gePermuteToLeft(Array2D<T_Scalar>& trg, const PiMatrix& 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteToRight(Array2D<T_Scalar>& trg, const PiMatrix& Q) const
+void Array2D<T_Scalar>::gePermuteToRight(Array2D<T_Scalar>& trg, const prm::PiMatrix& Q) const
 {
 	perm_ge_op_consistency_check(property().type(), rsize(), csize(), rsize(), Q.size());
 
@@ -327,11 +327,11 @@ void Array2D<T_Scalar>::gePermuteToRight(Array2D<T_Scalar>& trg, const PiMatrix&
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::xxPermuteToMirror(Array2D<T_Scalar>& trg, const PiMatrix& P) const
+void Array2D<T_Scalar>::xxPermuteToMirror(Array2D<T_Scalar>& trg, const prm::PiMatrix& P) const
 {
 	perm_op_consistency_check(rsize(), csize(), P.size(), P.size());
 
-	PiMatrix iP;
+	prm::PiMatrix iP;
 	if(property().isGeneral()) iP = P.inverse();
 
 	trg = Array2D<T_Scalar>(rsize(), csize(), rsize(), property());
@@ -339,7 +339,7 @@ void Array2D<T_Scalar>::xxPermuteToMirror(Array2D<T_Scalar>& trg, const PiMatrix
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteIpLeftRight(const PiMatrix& P, const PiMatrix& Q)
+void Array2D<T_Scalar>::gePermuteIpLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q)
 {
 	Array2D<T_Scalar> tmp;
 	gePermuteToLeftRight(tmp, P, Q);
@@ -347,7 +347,7 @@ void Array2D<T_Scalar>::gePermuteIpLeftRight(const PiMatrix& P, const PiMatrix& 
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteIpLeft(const PiMatrix& P)
+void Array2D<T_Scalar>::gePermuteIpLeft(const prm::PiMatrix& P)
 {
 	Array2D<T_Scalar> tmp;
 	gePermuteToLeft(tmp, P);
@@ -355,7 +355,7 @@ void Array2D<T_Scalar>::gePermuteIpLeft(const PiMatrix& P)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::gePermuteIpRight(const PiMatrix& Q)
+void Array2D<T_Scalar>::gePermuteIpRight(const prm::PiMatrix& Q)
 {
 	Array2D<T_Scalar> tmp;
 	gePermuteToRight(tmp, Q);
@@ -363,7 +363,7 @@ void Array2D<T_Scalar>::gePermuteIpRight(const PiMatrix& Q)
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void Array2D<T_Scalar>::xxPermuteIpMirror(const PiMatrix& P)
+void Array2D<T_Scalar>::xxPermuteIpMirror(const prm::PiMatrix& P)
 {
 	Array2D<T_Scalar> tmp;
 	xxPermuteToMirror(tmp, P);

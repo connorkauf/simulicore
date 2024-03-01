@@ -205,7 +205,7 @@ void XxMatrixTmpl::igeneral()
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q) const
 {
 	T_Matrix ret;
 	this->gePermuteToLeftRight(ret, P, Q);
@@ -213,7 +213,7 @@ T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) co
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P) const
 {
 	T_Matrix ret;
 	this->gePermuteToLeft(ret, P);
@@ -221,7 +221,7 @@ T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q) const
 {
 	T_Matrix ret;
 	this->gePermuteToRight(ret, Q);
@@ -229,7 +229,7 @@ T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P) const
 {
 	T_Matrix ret;
 	this->xxPermuteToMirror(ret, P);
@@ -237,25 +237,25 @@ T_Matrix XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::ipermuteLeftRight(const PiMatrix& P, const PiMatrix& Q) 
+void XxMatrixTmpl::ipermuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q) 
 { 
 	this->gePermuteIpLeftRight(P, Q);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::ipermuteLeft(const PiMatrix& P) 
+void XxMatrixTmpl::ipermuteLeft(const prm::PiMatrix& P) 
 { 
 	this->gePermuteIpLeft(P);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::ipermuteRight(const PiMatrix& Q) 
+void XxMatrixTmpl::ipermuteRight(const prm::PiMatrix& Q) 
 { 
 	this->gePermuteIpRight(Q);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::ipermuteMirror(const PiMatrix& P) 
+void XxMatrixTmpl::ipermuteMirror(const prm::PiMatrix& P) 
 { 
 	this->xxPermuteIpMirror(P);
 }

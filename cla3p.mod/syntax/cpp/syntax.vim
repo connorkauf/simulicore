@@ -63,6 +63,7 @@ syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc
 syn keyword cTypeCustomNSpace coo
+syn keyword cTypeCustomNSpace prm
 
 syn keyword cTypeCustomNSpace arith
 syn keyword cTypeCustomNSpace err

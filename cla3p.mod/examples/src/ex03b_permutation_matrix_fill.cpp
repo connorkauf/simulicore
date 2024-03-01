@@ -7,9 +7,9 @@
 
 int main()
 {
-	cla3p::PiMatrix P1(3);
-	cla3p::PiMatrix P2(3);
-	cla3p::PiMatrix P3(3);
+	cla3p::prm::PiMatrix P1(3);
+	cla3p::prm::PiMatrix P2(3);
+	cla3p::prm::PiMatrix P3(3);
 
 	/* 
 	 * Set all values in P1 to 0 (not a valid permutation matrix)

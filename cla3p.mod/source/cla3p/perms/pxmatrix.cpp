@@ -28,6 +28,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace prm {
 /*-------------------------------------------------*/
 template <typename T_Int>
 PxMatrix<T_Int>::PxMatrix()
@@ -188,5 +189,6 @@ PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 /*-------------------------------------------------*/
 template class PxMatrix<int_t>;
 /*-------------------------------------------------*/
+} // namespace prm
 } // namespace cla3p
 /*-------------------------------------------------*/

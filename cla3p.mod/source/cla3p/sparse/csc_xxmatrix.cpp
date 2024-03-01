@@ -389,7 +389,7 @@ typename XxMatrixTmpl::T_DnsMatrix XxMatrixTmpl::dense() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
 
@@ -403,7 +403,7 @@ T_Matrix XxMatrixTmpl::permuteLeftRight(const PiMatrix& P, const PiMatrix& Q) co
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
 
@@ -417,7 +417,7 @@ T_Matrix XxMatrixTmpl::permuteLeft(const PiMatrix& P) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
+T_Matrix XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q) const
 {
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
 
@@ -431,12 +431,9 @@ T_Matrix XxMatrixTmpl::permuteRight(const PiMatrix& Q) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::permuteMirror(const PiMatrix& P) const
+T_Matrix XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P) const
 {
 	perm_op_consistency_check(nrows(), ncols(), P.size(), P.size());
-
-	//PiMatrix iP;
-	//if(prop().isGeneral()) iP = P.inverse();
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
 	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 

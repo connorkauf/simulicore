@@ -141,7 +141,7 @@ typename XxVectorTmpl::T_RScalar XxVectorTmpl::normEuc() const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_Vector XxVectorTmpl::permuteLeft(const PiMatrix& P) const
+T_Vector XxVectorTmpl::permuteLeft(const prm::PiMatrix& P) const
 {
 	T_Vector ret;
 	this->gePermuteToLeft(ret, P);
@@ -149,7 +149,7 @@ T_Vector XxVectorTmpl::permuteLeft(const PiMatrix& P) const
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::ipermuteLeft(const PiMatrix& P) 
+void XxVectorTmpl::ipermuteLeft(const prm::PiMatrix& P) 
 { 
 	this->gePermuteIpLeft(P);
 }

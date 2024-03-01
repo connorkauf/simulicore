@@ -26,7 +26,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-template <typename T_Int> class PxMatrix;
+namespace prm { template <typename T_Int> class PxMatrix; }
 namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
 namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
@@ -45,14 +45,14 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
  */
 template <typename T_Int, typename T_Vector>
 T_Vector operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /*-------------------------------------------------*/
 
 template <typename T_Int, typename T_Vector>
 T_Vector operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::VirtualVector<T_Vector>& vX)
 {
 	return (P * vX.evaluate());
@@ -62,7 +62,7 @@ T_Vector operator*(
 
 template <typename T_Int, typename T_Vector>
 T_Vector operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::VirtualProdMv<T_Vector>& vX)
 {
 	return (P * vX.evaluate());
@@ -82,14 +82,14 @@ T_Vector operator*(
  */
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
 
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::VirtualMatrix<T_Matrix>& vA)
 {
 	return (P * vA.evaluate());
@@ -99,7 +99,7 @@ T_Matrix operator*(
 
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::VirtualProdMm<T_Matrix>& vA)
 {
 	return (P * vA.evaluate());
@@ -119,7 +119,7 @@ T_Matrix operator*(
  */
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::PxMatrix<T_Int>& P, 
+		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
@@ -138,14 +138,14 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
-		const cla3p::PxMatrix<T_Int>& P);
+		const cla3p::prm::PxMatrix<T_Int>& P);
 
 /*-------------------------------------------------*/
 
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::VirtualMatrix<T_Matrix>& vA,
-		const cla3p::PxMatrix<T_Int>& P) 
+		const cla3p::prm::PxMatrix<T_Int>& P) 
 {
 	return (P * vA.evaluate());
 }
@@ -155,7 +155,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::VirtualProdMm<T_Matrix>& vA,
-		const cla3p::PxMatrix<T_Int>& P) 
+		const cla3p::prm::PxMatrix<T_Int>& P) 
 {
 	return (P * vA.evaluate());
 }
@@ -176,7 +176,7 @@ T_Matrix operator*(
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		const cla3p::PxMatrix<T_Int>& P);
+		const cla3p::prm::PxMatrix<T_Int>& P);
 
 /*-------------------------------------------------*/
 
@@ -191,9 +191,9 @@ T_Matrix operator*(
  * @return The permuted permutation matrix.
  */
 template <typename T_Int>
-cla3p::PxMatrix<T_Int> operator*(
-		const cla3p::PxMatrix<T_Int>& P,
-		const cla3p::PxMatrix<T_Int>& Q);
+cla3p::prm::PxMatrix<T_Int> operator*(
+		const cla3p::prm::PxMatrix<T_Int>& P,
+		const cla3p::prm::PxMatrix<T_Int>& Q);
 
 /*-------------------------------------------------*/
 

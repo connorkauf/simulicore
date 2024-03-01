@@ -11,7 +11,7 @@ int main()
 	 * An empty permutation matrix
 	 */
 
-	cla3p::PiMatrix P;
+	cla3p::prm::PiMatrix P;
 
 	std::cout << P.info("P");
 
@@ -19,7 +19,7 @@ int main()
 	 * (3x3) permutation matrix (uninitialized values)
 	 */
 
-	cla3p::PiMatrix Q(3);
+	cla3p::prm::PiMatrix Q(3);
 
 	std::cout << Q.info("Q");
 
@@ -27,7 +27,7 @@ int main()
 	 * Allocate space for a (5x5) P (uninitialized values)
 	 */
 
-	P = cla3p::PiMatrix::init(5);
+	P = cla3p::prm::PiMatrix::init(5);
 
 	std::cout << P.info("P");
 
