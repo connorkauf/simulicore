@@ -97,7 +97,7 @@ T_Matrix operator/(
  */
 template <typename T_Vector, typename T_Matrix>
 void operator/=(
-		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B, 
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B, 
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
