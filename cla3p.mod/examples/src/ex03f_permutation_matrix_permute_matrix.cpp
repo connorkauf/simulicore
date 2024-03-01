@@ -15,8 +15,8 @@ int main()
 		for(cla3p::uint_t i = 0; i < 3; i++)
 			A(i,j) = icnt++;
 
-	cla3p::PiMatrix P(3);
-	cla3p::PiMatrix Q(3);
+	cla3p::prm::PiMatrix P(3);
+	cla3p::prm::PiMatrix Q(3);
 
 	P(0) = 1;
 	P(1) = 2;

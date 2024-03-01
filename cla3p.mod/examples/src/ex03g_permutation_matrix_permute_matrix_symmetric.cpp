@@ -24,7 +24,7 @@ int main()
 	 * Create a (3x3) random permutation matrix
 	 */
 
-	cla3p::PiMatrix P(3);
+	cla3p::prm::PiMatrix P(3);
 
 	P(0) = 1;
 	P(1) = 2;

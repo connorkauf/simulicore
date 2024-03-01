@@ -27,7 +27,7 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 
-template <typename T_Int> class PxMatrix;
+namespace prm { template <typename T_Int> class PxMatrix; }
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -205,7 +205,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeft(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
-		T_Matrix permuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q) const;
+		T_Matrix permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes the rows of a general matrix.
@@ -218,7 +218,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
-		T_Matrix permuteLeft(const PxMatrix<int_t>& P) const;
+		T_Matrix permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes the columns of a general matrix.
@@ -231,7 +231,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
-		T_Matrix permuteRight(const PxMatrix<int_t>& Q) const;
+		T_Matrix permuteRight(const prm::PxMatrix<int_t>& Q) const;
 
 		/**
 		 * @brief Permutes a matrix symmetrically.
@@ -244,7 +244,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
-		T_Matrix permuteMirror(const PxMatrix<int_t>& P) const;
+		T_Matrix permuteMirror(const prm::PxMatrix<int_t>& P) const;
 
 		/**
 		 * @brief Permutes a general matrix in-place.
@@ -257,7 +257,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeft(), ipermuteRight(), ipermuteMirror()
 		 */
-		void ipermuteLeftRight(const PxMatrix<int_t>& P, const PxMatrix<int_t>& Q);
+		void ipermuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes the rows of a general matrix in-place.
@@ -269,7 +269,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteRight(), ipermuteMirror()
 		 */
-		void ipermuteLeft(const PxMatrix<int_t>& P);
+		void ipermuteLeft(const prm::PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Permutes the columns of a general matrix in-place.
@@ -281,7 +281,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteMirror()
 		 */
-		void ipermuteRight(const PxMatrix<int_t>& Q);
+		void ipermuteRight(const prm::PxMatrix<int_t>& Q);
 
 		/**
 		 * @brief Permutes a matrix symmetrically in-place.
@@ -293,7 +293,7 @@ class XxMatrix : public XxObject<T_Scalar,T_Matrix> {
 		 * @see permuteLeftRight(), permuteLeft(), permuteRight(), permuteMirror()
 		 * @see ipermuteLeftRight(), ipermuteLeft(), ipermuteRight()
 		 */
-		void ipermuteMirror(const PxMatrix<int_t>& P);
+		void ipermuteMirror(const prm::PxMatrix<int_t>& P);
 
 		/**
 		 * @brief Gets a submatrix with content copy.

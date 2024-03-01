@@ -20,6 +20,7 @@
 #include "cla3p/perms/pxmatrix.hpp"
 
 namespace cla3p {
+namespace prm {
 
 /**
  * @ingroup module_index_matrices_perm
@@ -27,6 +28,7 @@ namespace cla3p {
  */
 using PiMatrix = PxMatrix<int_t>;
 
+} // namespace prm
 } // namespace cla3p
 
 #endif // CLA3P_PERMS_HPP_

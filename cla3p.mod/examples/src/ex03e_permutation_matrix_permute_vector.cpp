@@ -14,7 +14,7 @@ int main()
 	for(cla3p::uint_t i = 0; i < 3; i++)
 		X(i) = 3 - i;
 
-	cla3p::PiMatrix P(3);
+	cla3p::prm::PiMatrix P(3);
 	P(0) = 1;
 	P(1) = 2;
 	P(2) = 0;

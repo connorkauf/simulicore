@@ -33,6 +33,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
+namespace prm {
 /*-------------------------------------------------*/
 
 /**
@@ -236,9 +237,11 @@ class PxMatrix : public Array2D<T_Int> {
 };
 
 /*-------------------------------------------------*/
+} // namespace prm
+/*-------------------------------------------------*/
 
 template<typename T_Int>
-class TypeTraits<PxMatrix<T_Int>> {
+class TypeTraits<prm::PxMatrix<T_Int>> {
 	public:
 		static std::string type_name() { return msg::PermutationMatrix(); };
 };
@@ -252,7 +255,7 @@ class TypeTraits<PxMatrix<T_Int>> {
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Int>
-std::ostream& operator<<(std::ostream& os, const cla3p::PxMatrix<T_Int>& mat)
+std::ostream& operator<<(std::ostream& os, const cla3p::prm::PxMatrix<T_Int>& mat)
 {
 	os << mat.toString();
 	return os;
