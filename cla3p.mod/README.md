@@ -28,14 +28,14 @@
 **Compact Linear Algebra Parallel Portable Package** is a modern lightweight numerical linear algebra library distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCore/index.html).  
 With its minimalistic design **CLA3P** is ideal for beginners, while the advanced API offering allows experienced users get peak performance.
 
-Starting with dense linear algebra support as a base framework, **CLA3P** will constantly evolve and expand to new fields such as sparse linear algebra, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
+Starting with dense linear algebra support as a base framework, as well a sparse algebra addition, **CLA3P** will constantly evolve and expand to new fields such as sparse linear algebra, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
 
 ### Features so far
 
 **CLA3P** is a new and constantly evolving library. The currently supported and near-future features are:
 
 - [x] Dense Matrix algebra
-- [ ] Sparse Matrix algebra
+- [x] Sparse Matrix algebra
 - [x] Smart operator sets with symbolic layer where applicable
 - [x] Property specification for matrices
 - [x] Column & Block operations
@@ -99,7 +99,7 @@ or by using the mult() function
 ```cpp
 Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
 ```
-At the moment the operation `A.transpose()` is performed explicitly, but do not be afraid of using the operator interface, **CLA3P Virtuals** are on the way. With **CLA3P Virtuals** a symbolic operation layer is added to the computation, making such explicit calculations dissapear. **CLA3P Virtuals** will soon be available in the next **CLA3P** version.
+Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculation is virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** are currently available for dense objects. Sparse virtual support will soon be supported.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
