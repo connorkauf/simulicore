@@ -6,10 +6,14 @@ SimuliCore next version with various features, bug-fixes and patches.
 
 ### New Features
 - Vector dot product
+- Add sparse matrix utility class (coordinate format)
+- Add sparse matrix class (compressed sparse column format)
 - [CLA3P-25](https://github.com/connorkauf/SimuliCore/issues/25) Virtual Operations Implementation.
+- [CLA3P-34](https://github.com/connorkauf/SimuliCore/issues/34) Implementation of sparse algebra
 
 ### Changes
 - Rename dns::XxObject member function "scale()" to "iscale()"
+- Move PxMatrix to 'prm' namespace: prm::PxMatrix
 
 ### Fixes
 
