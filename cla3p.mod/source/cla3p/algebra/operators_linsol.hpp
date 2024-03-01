@@ -26,10 +26,8 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
-template <typename T_Scalar, typename T_Vector> class XxVector;
-template <typename T_Scalar, typename T_Matrix> class XxMatrix;
-} // namespace dns
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -51,15 +49,10 @@ template <typename T_Scalar, typename T_Matrix> class XxMatrix;
  * @param[in] B The rhs vector.
  * @return The solution vector X.
  */
-template <typename T_Matrix>
-typename cla3p::TypeTraits<T_Matrix>::vector_type operator/(
+template <typename T_Vector, typename T_Matrix>
+T_Vector operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-		const typename cla3p::TypeTraits<T_Matrix>::vector_type& B)
-{
-	typename cla3p::TypeTraits<T_Matrix>::vector_type ret = B.copy();
-	ret /= A;
-	return ret;
-}
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
 
 /**
  * @ingroup module_index_math_operators_linsol
@@ -82,12 +75,7 @@ typename cla3p::TypeTraits<T_Matrix>::vector_type operator/(
 template <typename T_Matrix>
 T_Matrix operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B) 
-{
-	T_Matrix ret = B.copy();
-	ret /= A;
-	return ret;
-}
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B); 
 
 /**
  * @ingroup module_index_math_operators_linsol
@@ -107,24 +95,10 @@ T_Matrix operator/(
  * @param[in] B The rhs vector.
  * @param[in] A The lhs matrix.
  */
-template <typename T_Matrix>
+template <typename T_Vector, typename T_Matrix>
 void operator/=(
-		typename cla3p::TypeTraits<T_Matrix>::vector_type& B, 
-		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A)
-{
-	using T_Vector = typename cla3p::TypeTraits<T_Matrix>::vector_type;
-
-	if(A.prop().isTriangular() && A.nrows() == A.ncols()) {
-
-		cla3p::ops::trisol(cla3p::op_t::N, A, B);
-
-	} else {
-
-		T_Vector rhs = B.rcopy();
-		cla3p::dns::default_linear_solver<T_Matrix,T_Vector>(A.self(), rhs);
-
-	} // property case
-}
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B, 
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
  * @ingroup module_index_math_operators_linsol
@@ -147,19 +121,7 @@ void operator/=(
 template <typename T_Matrix>
 void operator/=(
 		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B, 
-		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A)
-{
-	if(A.prop().isTriangular() && A.nrows() == A.ncols()) {
-
-		cla3p::ops::trisol(1., cla3p::op_t::N, A, B);
-
-	} else {
-
-		T_Matrix rhs = B.rcopy();
-		cla3p::dns::default_linear_solver<T_Matrix,T_Matrix>(A.self(), rhs);
-
-	} // property case
-}
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /*-------------------------------------------------*/
 
