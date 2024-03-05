@@ -249,7 +249,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @brief Converts a matrix to dense.
 		 * @return A copy of `(*this)` as a dense matrix.
 		 */
-		T_DnsMatrix dense() const;
+		T_DnsMatrix toDns() const;
 
 		/**
 		 * @brief Permutes a general matrix.

@@ -375,7 +375,7 @@ T_Matrix XxMatrixTmpl::general() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-typename XxMatrixTmpl::T_DnsMatrix XxMatrixTmpl::dense() const
+typename XxMatrixTmpl::T_DnsMatrix XxMatrixTmpl::toDns() const
 {
 	T_DnsMatrix ret(nrows(), ncols(), prop());
 	ret = 0;
