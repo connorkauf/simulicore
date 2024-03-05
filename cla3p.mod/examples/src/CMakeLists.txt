@@ -42,6 +42,14 @@ set(CLA3P_EXAMPLES_SRC
 	ex05b_solving_linear_systems_ldlt.cpp
 	ex05c_solving_linear_systems_auto.cpp
 	ex05d_solving_linear_systems_operators.cpp
+	ex06a_sparse_matrix_create.cpp
+	ex06c_sparse_matrix_create_with_property.cpp
+	ex06d_sparse_matrix_create_from_aux_data.cpp
+	ex06b_sparse_matrix_fill.cpp
+	ex06k_sparse_matrix_algebra_scale.cpp
+	ex06l_sparse_matrix_algebra_add.cpp
+	ex06m_sparse_matrix_algebra_vmult.cpp
+	ex06n_sparse_matrix_algebra_mmult.cpp
 	)
 
 #-----------------------------------------------

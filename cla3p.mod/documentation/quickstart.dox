@@ -163,6 +163,7 @@
  *
  * @page quick_start_matrices Matrices
  *  - @subpage quick_start_matrices_dense
+ *  - @subpage quick_start_matrices_sparse
  *
  * @page quick_start_matrices_dense Dense Matrices
  *
@@ -221,7 +222,7 @@
  *
  *
  * @section quick_start_matrices_dense_fill Accessing matrix elements
- * Examples on how to access/fill values of dense  matrices:
+ * Examples on how to access/fill values of dense matrices:
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -280,6 +281,110 @@
  *   </table>
  *
  *
+ *
+ * @page quick_start_matrices_sparse Sparse Matrices
+ *
+ * CLA3P supports two kinds of sparse matrices:
+ *  - Coordinate storage format (coo), used as a utility class for creating sparse matrices.
+ *  - Compressed sparse column storage format (csc), used as the main class for algebraic operations.
+ *
+ * @code
+ * /** */
+ *
+ * cla3p::coo::RdMatrix Ad; // double precision real matrix (coordinate format)
+ * cla3p::coo::RfMatrix As; // single precision real matrix (coordinate format)
+ * cla3p::coo::CdMatrix Az; // double precision complex matrix (coordinate format)
+ * cla3p::coo::CfMatrix Ac; // single precision complex matrix (coordinate format)
+ *
+ * cla3p::csc::RdMatrix Ad; // double precision real matrix (compressed sparse column format)
+ * cla3p::csc::RfMatrix As; // single precision real matrix (compressed sparse column format)
+ * cla3p::csc::CdMatrix Az; // double precision complex matrix (compressed sparse column format)
+ * cla3p::csc::CfMatrix Ac; // single precision complex matrix (compressed sparse column format)
+ *
+ * /** */
+ * @endcode
+ *
+ *
+ * @section quick_start_matrices_sparse_create Creating matrices
+ * You can create sparse matrices in the following ways:
+ *
+ *   @subsection quick_start_matrices_sparse_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06a_sparse_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex06a_sparse_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection quick_start_matrices_sparse_create_property Default creation with property
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06c_sparse_matrix_create_with_property.cpp </td>
+ *       <td> @include i32/out/ex06c_sparse_matrix_create_with_property.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection quick_start_matrices_sparse_create_aux Create dense matrix from aux data
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06d_sparse_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex06d_sparse_matrix_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ * @section quick_start_matrices_sparse_fill Inserting matrix elements
+ * Examples on how to fill values of sparse matrices:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex06b_sparse_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex06b_sparse_matrix_fill.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section quick_start_matrices_sparse_algebra Algebra
+ * Examples on how to perform algebraic operations using dense matrices:
+ *
+ *   @subsection quick_start_matrices_sparse_algebra_scale Scale
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06k_sparse_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex06k_sparse_matrix_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection quick_start_matrices_sparse_algebra_add Add
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06l_sparse_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex06l_sparse_matrix_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection quick_start_matrices_sparse_algebra_mvmult Matrix-Vector Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06m_sparse_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex06m_sparse_matrix_algebra_vmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection quick_start_matrices_sparse_algebra_mmmult Matrix-Matrix Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06n_sparse_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex06n_sparse_matrix_algebra_mmult.out </td>
+ *     </tr>
+ *   </table>
  *
  *
  *
@@ -410,7 +515,7 @@
  * Permutation matrices are used to rearrange a vector or matrix enties.@n 
  * Permutation matrices are represented by an array of integers.@n 
  * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1] (0-based indexing).@n 
- * CLA3P uses the @ref cla3p::PxMatrix<cla3p::int_t> class to represent such matrices.@n 
+ * CLA3P uses the @ref cla3p::prm::PxMatrix<cla3p::int_t> class to represent such matrices.@n 
  * For more information about permutation matrices see <a href="https://en.wikipedia.org/wiki/Permutation_matrix">here</a>.
  *
  *

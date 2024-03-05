@@ -25,6 +25,11 @@
           <tab type="user" url="@ref quick_start_matrices_dense_fill" title="Fill/Access"/>
           <tab type="user" url="@ref quick_start_matrices_dense_algebra" title="Algebra"/>
         </tab>
+        <tab type="usergroup" url="@ref quick_start_matrices_sparse" title="Sparse">
+          <tab type="user" url="@ref quick_start_matrices_sparse_create" title="Create"/>
+          <tab type="user" url="@ref quick_start_matrices_sparse_fill" title="Fill"/>
+          <tab type="user" url="@ref quick_start_matrices_sparse_algebra" title="Algebra"/>
+        </tab>
       </tab>
 
       <tab type="user" url="@ref quick_start_guard" title="Guards"/>
