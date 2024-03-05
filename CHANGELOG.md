@@ -1,4 +1,4 @@
-# [v1.1.0] - yyyy-mm-dd
+# [v1.1.0] - 2024-03-05
 
 SimuliCore next version with various features, bug-fixes and patches.
 
