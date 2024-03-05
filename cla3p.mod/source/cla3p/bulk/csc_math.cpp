@@ -114,8 +114,10 @@ void gem_x_gem(op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *b, uint_t ldb, T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
+	uint_t mA = (opA == op_t::N ? m : k);
+	uint_t nA = (opA == op_t::N ? k : m);
 	Property pr = Property(prop_t::General, uplo_t::Full);
-	mkl::csc_mm(pr.type(), pr.uplo(), m, n, alpha, opA, colptr, rowidx, values, k, b, ldb, beta, c, ldc);
+	mkl::csc_mm(pr.type(), pr.uplo(), mA, nA, alpha, opA, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
 }
 /*-------------------------------------------------*/
 #define instantiate_gem_x_gem(T_Scl) \
