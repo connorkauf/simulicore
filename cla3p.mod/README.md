@@ -28,7 +28,7 @@
 **Compact Linear Algebra Parallel Portable Package** is a modern lightweight numerical linear algebra library distributed as a part of [**SimuliCore**](https://connorkauf.github.io/SimuliCore/index.html).  
 With its minimalistic design **CLA3P** is ideal for beginners, while the advanced API offering allows experienced users get peak performance.
 
-Starting with dense linear algebra support as a base framework, as well a sparse algebra addition, **CLA3P** will constantly evolve and expand to new fields such as sparse linear algebra, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
+Starting with dense linear algebra support as a base framework, as well a sparse algebra addition, **CLA3P** will constantly evolve and expand to new fields such as sparse linear solvers, custom matrix decomposition implementations, eigenvalue problem solvers and many more.
 
 ### Features so far
 
