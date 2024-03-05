@@ -567,7 +567,7 @@
  *
  * Below you can find examples on how to use permutation matrices using operators as well as member functions.
  *
- * @section quick_start_perm_ops_vector Permuting dense vectors
+ * @section quick_start_perm_ops_vector Permuting vectors
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -576,7 +576,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_perm_ops_matrix Permuting dense matrices
+ * @section quick_start_perm_ops_matrix Permuting matrices
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -585,7 +585,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_perm_ops_matrix_sym Permuting symmetric/hermitian dense matrices
+ * @section quick_start_perm_ops_matrix_sym Permuting symmetric/hermitian matrices
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
