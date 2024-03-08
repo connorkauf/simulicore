@@ -31,6 +31,7 @@
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
+#include "cla3p/support/imalloc.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 
 /*-------------------------------------------------*/
@@ -574,7 +575,7 @@ static norm_one_skew(uplo_t uplo, uint_t n, const T_Scalar *a, uint_t lda)
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	T_RScalar ret = 0;
-	T_RScalar *tmp = alloc<T_RScalar>(n, 1, n, true);
+	T_RScalar *tmp = i_calloc<T_RScalar>(n);
 
 	for(uint_t j = 0; j < n; j++) {
 		RowRange ir = irange_strict(uplo, n, j);

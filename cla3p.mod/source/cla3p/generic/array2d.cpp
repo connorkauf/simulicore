@@ -170,7 +170,7 @@ void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals,
 template <typename T_Scalar>
 void Array2D<T_Scalar>::creator(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
 {
-	T_Scalar *vals = bulk::dns::alloc<T_Scalar>(nr, nc, nl);
+	T_Scalar *vals = i_malloc<T_Scalar>(nl * nc);
 	wrapper(nr, nc, nl, vals, true, pr);
 }
 /*-------------------------------------------------*/

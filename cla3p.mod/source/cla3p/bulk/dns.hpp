@@ -18,7 +18,6 @@
 #define CLA3P_BULK_DNS_HPP_
 
 #include "cla3p/types.hpp"
-#include "cla3p/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -69,19 +68,6 @@ template <typename T_Scalar>
 void zero(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda)
 {
 	fill(uplo, m, n, a, lda, T_Scalar(0));
-}
-
-//
-// Allocate memory
-//
-template <typename T_Scalar>
-T_Scalar* alloc(uint_t m, uint_t n, uint_t lda, bool wipe = false)
-{
-	T_Scalar *ret = static_cast<T_Scalar*>(i_malloc(lda * n, sizeof(T_Scalar)));
-	if(wipe) {
-		zero(uplo_t::Full, m, n, ret, lda);
-	} // wipe
-	return ret;
 }
 
 //
