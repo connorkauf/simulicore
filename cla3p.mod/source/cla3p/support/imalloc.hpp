@@ -124,6 +124,23 @@ T* i_calloc(bulk_t nmemb)
 	return static_cast<T*>(i_calloc(nmemb, size));
 }
 
+/**
+ * @ingroup module_index_allocators
+ * @brief The templated cla3p re-allocator.
+ *
+ * Reallocates the given area of memory to `(nmemb x sizeof(T))` bytes.
+ *
+ * @param[in] ptr The pointer to the memory area to be reallocated.
+ * @param[in] size The new size of each member in bytes.
+ * @return On success, a pointer to the beginning of newly allocated memory. Otherwise a null pointer.
+ */
+template <typename T>
+T* i_realloc(T* ptr, bulk_t nmemb)
+{
+	bulk_t size = sizeof(T);
+	return static_cast<T*>(i_realloc(ptr, nmemb, size));
+}
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

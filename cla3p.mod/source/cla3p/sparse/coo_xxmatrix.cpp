@@ -174,7 +174,7 @@ XxMatrixTmpl::operator typename XxMatrixTmpl::T_CscMatrix() const
 XxMatrixTlst
 typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) const
 {
-	T_Int *colptr = static_cast<T_Int*>(i_calloc(ncols() + 1, sizeof(T_Int)));
+	T_Int *colptr = i_calloc<T_Int>(ncols() + 1);
 
 	std::for_each(tupleVec().begin(), tupleVec().end(), 
 			[&](const Tuple<T_Int,T_Scalar> &tuple) 
@@ -191,8 +191,8 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 
 	if(nnz) {
 
-		rowidx = static_cast<T_Int   *>(i_malloc(nnz, sizeof(T_Int   )));
-		values = static_cast<T_Scalar*>(i_malloc(nnz, sizeof(T_Scalar)));
+		rowidx = i_malloc<T_Int>(nnz);
+		values = i_malloc<T_Scalar>(nnz);
 
 		std::for_each(tupleVec().begin(), tupleVec().end(), 
 				[&](const Tuple<T_Int,T_Scalar> &tuple) 

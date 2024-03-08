@@ -54,9 +54,9 @@ XxMatrixTmpl::XxMatrix()
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
 {
-	T_Int    *cptr = static_cast<T_Int   *>(i_malloc(nc + 1, sizeof(T_Int   )));
-	T_Int    *ridx = static_cast<T_Int   *>(i_malloc(nz    , sizeof(T_Int   )));
-	T_Scalar *vals = static_cast<T_Scalar*>(i_malloc(nz    , sizeof(T_Scalar)));
+	T_Int    *cptr = i_malloc<T_Int>(nc + 1);
+	T_Int    *ridx = i_malloc<T_Int>(nz);
+	T_Scalar *vals = i_malloc<T_Scalar>(nz);
 
 	cptr[nc] = nz;
 
@@ -451,7 +451,7 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 
 	if(!ni || !nj) return T_Matrix();
 
-	T_Int *cptr = static_cast<T_Int*>(i_calloc(nj + 1, sizeof(T_Int)));
+	T_Int *cptr = i_calloc<T_Int>(nj + 1);
 
 	uint_t iend = ibgn + ni;
 	uint_t jend = jbgn + nj;
@@ -474,8 +474,8 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 
 	if(nnz) {
 
-		ridx = static_cast<T_Int   *>(i_malloc(nnz, sizeof(T_Int   )));
-		vals = static_cast<T_Scalar*>(i_malloc(nnz, sizeof(T_Scalar)));
+		ridx = i_malloc<T_Int>(nnz);
+		vals = i_malloc<T_Scalar>(nnz);
 
 		for(uint_t j = jbgn; j < jend; j++) {
 			uint_t jlocal = j - jbgn;
