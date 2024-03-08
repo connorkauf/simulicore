@@ -26,7 +26,8 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
@@ -49,33 +50,63 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 
 /**
  * @ingroup module_index_math_operators_add
- * @brief Adds two compatible objects.
+ * @brief Adds two compatible vectors.
  *
  * Performs the operation <b>A + B</b>
  *
- * @param[in] A The first object.
- * @param[in] B The second object.
- * @return The object that is the sum of the two.
+ * @param[in] A The first vector.
+ * @param[in] B The second vector.
+ * @return The vector that is the sum of the two.
  */
-template <typename T_Object>
-T_Object operator+(
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B);
+template <typename T_Vector>
+T_Vector operator+(
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& A,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
 
 /**
  * @ingroup module_index_math_operators_add
- * @brief Subtracts two compatible objects.
+ * @brief Adds two compatible matrices.
+ *
+ * Performs the operation <b>A + B</b>
+ *
+ * @param[in] A The first matrix.
+ * @param[in] B The second matrix.
+ * @return The matrix that is the sum of the two.
+ */
+template <typename T_Matrix>
+T_Matrix operator+(
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
+
+/**
+ * @ingroup module_index_math_operators_add
+ * @brief Subtracts two compatible vectors.
  *
  * Performs the operation <b>A - B</b>
  *
- * @param[in] A The first object.
- * @param[in] B The second object.
- * @return The object that is the difference of the two.
+ * @param[in] A The first vector.
+ * @param[in] B The second vector.
+ * @return The vector that is the difference of the two.
  */
-template <typename T_Object>
-T_Object operator-(
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& A,
-		const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& B);
+template <typename T_Vector>
+T_Vector operator-(
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& A,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
+
+/**
+ * @ingroup module_index_math_operators_add
+ * @brief Subtracts two compatible matrices.
+ *
+ * Performs the operation <b>A - B</b>
+ *
+ * @param[in] A The first matrix.
+ * @param[in] B The second matrix.
+ * @return The matrix that is the difference of the two.
+ */
+template <typename T_Matrix>
+T_Matrix operator-(
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /*-------------------------------------------------*/
 

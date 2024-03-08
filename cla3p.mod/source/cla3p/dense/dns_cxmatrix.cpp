@@ -58,7 +58,7 @@ const CxMatrixTmpl& CxMatrixTmpl::self() const
 CxMatrixTlst
 void CxMatrixTmpl::operator=(T_Scalar val)
 {
-	CxMatrixTmpl::XxMatrix::operator=(val);
+	this->fill(val);
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
@@ -73,8 +73,8 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 			this->nrows(), 
 			this->ncols(), 
 			this->values(), 
-			this->lsize(), 
-			ret.values(), ret.lsize());
+			this->ld(), 
+			ret.values(), ret.ld());
 
 	return ret;
 }
@@ -91,8 +91,8 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 			this->nrows(), 
 			this->ncols(), 
 			this->values(), 
-			this->lsize(), 
-			ret.values(), ret.lsize());
+			this->ld(), 
+			ret.values(), ret.ld());
 
 	return ret;
 }

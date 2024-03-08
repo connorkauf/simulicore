@@ -19,7 +19,7 @@ syn keyword cTypeCustomDatatype VirtualObject VirtualVector VirtualMatrix
 syn keyword cTypeCustomDatatype VirtualProdXx VirtualProdMv VirtualProdMm
 syn keyword cTypeCustomDatatype PxMatrix PiMatrix PuMatrix
 syn keyword cTypeCustomDatatype XxObject
-syn keyword cTypeCustomDatatype XxVector RxVector CxVector
+syn keyword cTypeCustomDatatype XiVector XxVector RxVector CxVector
 syn keyword cTypeCustomDatatype RdVector RfVector CdVector CfVector
 syn keyword cTypeCustomDatatype XxMatrix RxMatrix CxMatrix
 syn keyword cTypeCustomDatatype RdMatrix RfMatrix CdMatrix CfMatrix

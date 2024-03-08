@@ -26,7 +26,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
 namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
 namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
@@ -276,13 +275,27 @@ T_Virtual operator/(
  *
  * Scales `src` by `val`.
  *
- * @param[in] src The input object.
+ * @param[in] src The input dense vector.
  * @param[in] val The scaling coefficient.
  */
-template <typename T_Object>
+template <typename T_Vector>
 void operator*=(
-		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
-		typename T_Object::value_type val);
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src, 
+		typename T_Vector::value_type val);
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Scaling operator.
+ *
+ * Scales `src` by `val`.
+ *
+ * @param[in] src The input dense matrix.
+ * @param[in] val The scaling coefficient.
+ */
+template <typename T_Matrix>
+void operator*=(
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src, 
+		typename T_Matrix::value_type val);
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -319,13 +332,27 @@ void operator*=(
  *
  * Scales `src` by `1/val`.
  *
- * @param[in] src The input object.
+ * @param[in] src The input dense vector.
  * @param[in] val The non-zero scaling coefficient.
  */
-template <typename T_Object>
+template <typename T_Vector>
 void operator/=(
-		cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src, 
-		typename T_Object::value_type val);
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src, 
+		typename T_Vector::value_type val);
+
+/**
+ * @ingroup module_index_math_operators_scal
+ * @brief Scaling operator.
+ *
+ * Scales `src` by `1/val`.
+ *
+ * @param[in] src The input dense matrix.
+ * @param[in] val The non-zero scaling coefficient.
+ */
+template <typename T_Matrix>
+void operator/=(
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src, 
+		typename T_Matrix::value_type val);
 
 /**
  * @ingroup module_index_math_operators_scal

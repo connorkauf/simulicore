@@ -26,22 +26,36 @@
 #include "cla3p/sparse.hpp"
 
 /*-------------------------------------------------*/
-template <typename T_Object>
+template <typename T_Vector>
 void operator*=(
-    cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src,
-    typename T_Object::value_type val)
+    cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src,
+    typename T_Vector::value_type val)
 {
   src.iscale(val);
 }
 /*-------------------------------------------------*/
-#define instantiate_scale(T_Obj) \
+#define instantiate_scale(T_Vec) \
 template void operator*=( \
-		cla3p::dns::XxObject<typename T_Obj::value_type,T_Obj>&, \
-		typename T_Obj::value_type)
+		cla3p::dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
+		typename T_Vec::value_type)
 instantiate_scale(cla3p::dns::RdVector);
 instantiate_scale(cla3p::dns::RfVector);
 instantiate_scale(cla3p::dns::CdVector);
 instantiate_scale(cla3p::dns::CfVector);
+#undef instantiate_scale
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void operator*=(
+    cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src,
+    typename T_Matrix::value_type val)
+{
+  src.iscale(val);
+}
+/*-------------------------------------------------*/
+#define instantiate_scale(T_Mat) \
+template void operator*=( \
+		cla3p::dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+		typename T_Mat::value_type)
 instantiate_scale(cla3p::dns::RdMatrix);
 instantiate_scale(cla3p::dns::RfMatrix);
 instantiate_scale(cla3p::dns::CdMatrix);
@@ -66,22 +80,36 @@ instantiate_scale(cla3p::csc::CdMatrix);
 instantiate_scale(cla3p::csc::CfMatrix);
 #undef instantiate_scale
 /*-------------------------------------------------*/
-template <typename T_Object>
+template <typename T_Vector>
 void operator/=(
-    cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& src,
-    typename T_Object::value_type val)
+    cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src,
+    typename T_Vector::value_type val)
 {
   src.iscale(cla3p::arith::inv(val));
 }
 /*-------------------------------------------------*/
-#define instantiate_scale(T_Obj) \
+#define instantiate_scale(T_Vec) \
 template void operator/=( \
-		cla3p::dns::XxObject<typename T_Obj::value_type,T_Obj>&, \
-		typename T_Obj::value_type)
+		cla3p::dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
+		typename T_Vec::value_type)
 instantiate_scale(cla3p::dns::RdVector);
 instantiate_scale(cla3p::dns::RfVector);
 instantiate_scale(cla3p::dns::CdVector);
 instantiate_scale(cla3p::dns::CfVector);
+#undef instantiate_scale
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void operator/=(
+    cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src,
+    typename T_Matrix::value_type val)
+{
+  src.iscale(cla3p::arith::inv(val));
+}
+/*-------------------------------------------------*/
+#define instantiate_scale(T_Mat) \
+template void operator/=( \
+		cla3p::dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+		typename T_Mat::value_type)
 instantiate_scale(cla3p::dns::RdMatrix);
 instantiate_scale(cla3p::dns::RfMatrix);
 instantiate_scale(cla3p::dns::CdMatrix);

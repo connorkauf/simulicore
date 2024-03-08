@@ -26,7 +26,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns { template <typename T_Scalar, typename T_Object> class XxObject; }
 namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
 namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }

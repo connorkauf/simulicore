@@ -22,8 +22,6 @@
 // 3rd
 
 // cla3p
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 
 /*-------------------------------------------------*/
@@ -37,7 +35,7 @@ PxMatrix<T_Int>::PxMatrix()
 /*-------------------------------------------------*/
 template <typename T_Int>
 PxMatrix<T_Int>::PxMatrix(uint_t n)
-	: Array2D<T_Int>(n, 1, n, defaultProperty())
+	: dns::XiVector<T_Int,PxMatrix<T_Int>>(n)
 {
 }
 /*-------------------------------------------------*/
@@ -47,97 +45,17 @@ PxMatrix<T_Int>::~PxMatrix()
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
-T_Int& PxMatrix<T_Int>::operator()(uint_t i)
-{
-	if(i >= size()) {
-		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
-	} // out-of-bounds
-
-	return Array2D<T_Int>::operator()(i,0);
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-const T_Int& PxMatrix<T_Int>::operator()(uint_t i) const
-{
-	if(i >= size()) {
-		throw err::OutOfBounds(msg::IndexOutOfBounds(size(),i));
-	} // out-of-bounds
-
-	return Array2D<T_Int>::operator()(i,0);
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
 void PxMatrix<T_Int>::operator=(T_Int val)
 {
 	this->fill(val);
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
-uint_t PxMatrix<T_Int>::size() const 
-{ 
-	return Array2D<T_Int>::rsize(); 
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-std::string PxMatrix<T_Int>::info(const std::string& msg) const
-{
-	std::string top;
-	std::string bottom;
-	fill_info_margins(msg, top, bottom);
-
-	std::ostringstream ss;
-
-	ss << top << "\n";
-
-	ss << "  Object Type.......... " << TypeTraits<PxMatrix<T_Int>>::type_name() << "\n";
-	ss << "  Datatype............. " << TypeTraits<T_Int>::type_name() << "\n";
-	ss << "  Precision............ " << TypeTraits<T_Int>::prec_name() << "\n";
-	ss << "  Size................. " << size() << "\n";
-	ss << "  Values............... " << Array2D<T_Int>::values() << "\n";
-	ss << "  Owner................ " << bool2yn(Array2D<T_Int>::owner()) << "\n";
-
-	ss << bottom << "\n";
-
-	return ss.str();
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-PxMatrix<T_Int> PxMatrix<T_Int>::copy() const
-{
-	PxMatrix<T_Int> ret;
-  Array2D<T_Int>::copyTo(ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-PxMatrix<T_Int> PxMatrix<T_Int>::rcopy()
-{
-	PxMatrix<T_Int> ret;
-  Array2D<T_Int>::copyToShallow(ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-Guard<PxMatrix<T_Int>> PxMatrix<T_Int>::rcopy() const
-{
-	Guard<PxMatrix<T_Int>> ret(*this);
-  return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-PxMatrix<T_Int> PxMatrix<T_Int>::move()
-{
-	PxMatrix<T_Int> ret;
-	Array2D<T_Int>::moveTo(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::inverse() const
 {
-	PxMatrix<T_Int> ret(size());
+	PxMatrix<T_Int> ret(this->size());
 
-	for(uint_t i = 0; i < size(); i++) {
+	for(uint_t i = 0; i < this->size(); i++) {
 		ret((*this)(i)) = i;
 	} // i
 
@@ -147,25 +65,12 @@ PxMatrix<T_Int> PxMatrix<T_Int>::inverse() const
 template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::permuteLeft(const PxMatrix<T_Int>& P) const
 {
-	PxMatrix<T_Int> ret(size());
+	PxMatrix<T_Int> ret(this->size());
 
-	for(uint_t i = 0; i < size(); i++) {
+	for(uint_t i = 0; i < this->size(); i++) {
 		ret(i) = P((*this)(i));
 	} // i
 
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-void PxMatrix<T_Int>::ipermuteLeft(const PxMatrix<T_Int>& P)
-{
-	Array2D<T_Int>::gePermuteIpLeft(P);
-}
-/*-------------------------------------------------*/
-template <typename T_Int>
-PxMatrix<T_Int> PxMatrix<T_Int>::init(uint_t n)
-{
-	PxMatrix<T_Int> ret(n);
 	return ret;
 }
 /*-------------------------------------------------*/

@@ -17,7 +17,9 @@
 #ifndef CLA3P_DNS_XXOBJECT_HPP_
 #define CLA3P_DNS_XXOBJECT_HPP_
 
-#include "cla3p/generic/array2d.hpp"
+#include <cstddef>
+
+#include "cla3p/generic/ownership.hpp"
 #include "cla3p/generic/guard.hpp"
 
 /*-------------------------------------------------*/
@@ -29,24 +31,68 @@ namespace dns {
  * @nosubgrouping 
  * @brief The dense object class.
  */
+template <typename T_Scalar>
+class XxObject : public Ownership {
+
+	public:
+		using value_type = T_Scalar;
+
+	public:
+
+		explicit XxObject();
+		explicit XxObject(std::size_t numElements);
+		~XxObject();
+
+		/**
+		 * @brief The values array.
+		 * @return The pointer to the contents of the object.
+		 */
+		T_Scalar* values();
+
+		/**
+		 * @copydoc cla3p::dns::XxObject::values()
+		 */
+		const T_Scalar* values() const;
+
+	protected:
+
+		void clear();
+
+		void wrapper(T_Scalar *vals, bool bind);
+
+	private:
+
+		T_Scalar *m_values;
+
+		void defaults();
+
+		void setValues(T_Scalar *vals);
+};
+
+#if 0
+
+/**
+ * @nosubgrouping 
+ * @brief The dense object class.
+ */
 template <typename T_Scalar, typename T_Object>
-class XxObject : public Array2D<T_Scalar> {
+class XxObject2 : public Array2D<T_Scalar> {
 	
 	private:
 		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	public:
-		explicit XxObject();
-		explicit XxObject(uint_t nr, uint_t nc, uint_t nl, const Property& pr);
-		~XxObject();
+		explicit XxObject2();
+		explicit XxObject2(uint_t nr, uint_t nc, uint_t nl, const Property& pr);
+		~XxObject2();
 
 		// no copy
-		XxObject(const XxObject<T_Scalar,T_Object>&) = delete;
-		XxObject<T_Scalar,T_Object>& operator=(const XxObject<T_Scalar,T_Object>&) = delete;
+		XxObject2(const XxObject2<T_Scalar,T_Object>&) = delete;
+		XxObject2<T_Scalar,T_Object>& operator=(const XxObject2<T_Scalar,T_Object>&) = delete;
 
 		// move
-		XxObject(XxObject<T_Scalar,T_Object>&& other) = default;
-		XxObject<T_Scalar,T_Object>& operator=(XxObject<T_Scalar,T_Object>&& other) = default;
+		XxObject2(XxObject2<T_Scalar,T_Object>&& other) = default;
+		XxObject2<T_Scalar,T_Object>& operator=(XxObject2<T_Scalar,T_Object>&& other) = default;
 
 		virtual const T_Object& self() const = 0;
 
@@ -74,32 +120,24 @@ class XxObject : public Array2D<T_Scalar> {
 		/**
 		 * @brief Copies an object.
 		 * @return A deep copy of `(*this)`.
-		 *
-		 * @see rcopy() const, rcopy(), move()
 		 */
 		T_Object copy() const;
 
 		/**
 		 * @brief Shallow-copies an object.
 		 * @return A shallow copy of `(*this)`, `(*this)` is unchanged.
-		 *
-		 * @see copy(), rcopy() const, move()
 		 */
 		T_Object rcopy();
 
 		/**
 		 * @brief Shallow-copies an immutable object.
 		 * @return A guard shallow copy of `(*this)`.
-		 *
-		 * @see copy(), rcopy(), move()
 		 */
 		Guard<T_Object> rcopy() const;
 
 		/**
 		 * @brief Moves an object.
 		 * @return A shallow copy of `(*this)`, `(*this)` is destroyed.
-		 *
-		 * @see copy(), rcopy() const, rcopy()
 		 */
 		T_Object move();
 
@@ -144,24 +182,14 @@ class XxObject : public Array2D<T_Scalar> {
 		T_Object getBlockCopy(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
 		T_Object getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj);
 		Guard<T_Object> getBlockReference(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) const;
-		void setBlockCopy(const XxObject<T_Scalar,T_Object>&, uint_t ibgn, uint_t jbgn);
+		void setBlockCopy(const XxObject2<T_Scalar,T_Object>&, uint_t ibgn, uint_t jbgn);
 
 };
+#endif // 0 FIXME: DELETE
 
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
-
-/**
- * @ingroup module_index_stream_operators
- * @brief Writes to os the contents of obj.
- */
-template <typename T_Object>
-std::ostream& operator<<(std::ostream& os, const cla3p::dns::XxObject<typename T_Object::value_type,T_Object>& obj)
-{
-  os << obj.toString();
-  return os;
-}
 
 #endif // CLA3P_DNS_XXOBJECT_HPP_

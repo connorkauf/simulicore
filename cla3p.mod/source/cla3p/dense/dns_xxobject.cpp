@@ -22,36 +22,99 @@
 // 3rd
 
 // cla3p
-#include "cla3p/dense.hpp"
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/error/literals.hpp"
-#include "cla3p/bulk/dns.hpp"
-#include "cla3p/bulk/dns_math.hpp"
-
-#include "cla3p/checks/hermitian_coeff_checks.hpp"
-#include "cla3p/checks/basic_checks.hpp"
-#include "cla3p/checks/block_ops_checks.hpp"
+#include "cla3p/support/imalloc.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 namespace dns {
 /*-------------------------------------------------*/
-#define XxObjectTmpl XxObject<T_Scalar,T_Object>
-#define XxObjectTlst template <typename T_Scalar, typename T_Object>
+#define XxObjectTmpl XxObject<T_Scalar>
+#define XxObjectTlst template <typename T_Scalar>
 /*-------------------------------------------------*/
 XxObjectTlst
 XxObjectTmpl::XxObject()
 {
+  defaults();
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-XxObjectTmpl::XxObject(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
+XxObjectTmpl::XxObject(std::size_t numElements)
+{
+	T_Scalar *vals = i_malloc<T_Scalar>(numElements);
+	wrapper(vals, true);
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl::~XxObject()
+{
+  clear();
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::defaults()
+{
+	setValues(nullptr);
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::setValues(T_Scalar *vals)
+{
+	m_values = vals;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+T_Scalar* XxObjectTmpl::values()
+{
+	return m_values;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+const T_Scalar* XxObjectTmpl::values() const
+{
+	return m_values;
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::clear()
+{
+	if(owner()) {
+		i_free(values());
+	} // owner
+
+	Ownership::clear();
+
+	defaults();
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::wrapper(T_Scalar *vals, bool bind)
+{
+	clear();
+	setValues(vals);
+	setOwner(bind);
+}
+/*-------------------------------------------------*/
+#undef XxObjectTmpl
+#undef XxObjectTlst
+/*-------------------------------------------------*/
+#if 0
+/*-------------------------------------------------*/
+#define XxObjectTmpl XxObject2<T_Scalar,T_Object>
+#define XxObjectTlst template <typename T_Scalar, typename T_Object>
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl::XxObject2()
+{
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+XxObjectTmpl::XxObject2(uint_t nr, uint_t nc, uint_t nl, const Property& pr)
 	: Array2D<T_Scalar>(nr, nc, nl, pr)
 {
 }
 /*-------------------------------------------------*/
 XxObjectTlst
-XxObjectTmpl::~XxObject()
+XxObjectTmpl::~XxObject2()
 {
 }
 /*-------------------------------------------------*/
@@ -214,14 +277,20 @@ void XxObjectTmpl::setBlockCopy(const XxObjectTmpl& src, uint_t ibgn, uint_t jbg
 #undef XxObjectTmpl
 #undef XxObjectTlst
 /*-------------------------------------------------*/
-template class XxObject<real_t,RdVector>;
-template class XxObject<real4_t,RfVector>;
-template class XxObject<complex_t,CdVector>;
-template class XxObject<complex8_t,CfVector>;
-template class XxObject<real_t,RdMatrix>;
-template class XxObject<real4_t,RfMatrix>;
-template class XxObject<complex_t,CdMatrix>;
-template class XxObject<complex8_t,CfMatrix>;
+template class XxObject2<real_t,RdMatrix>;
+template class XxObject2<real4_t,RfMatrix>;
+template class XxObject2<complex_t,CdMatrix>;
+template class XxObject2<complex8_t,CfMatrix>;
+#endif // 0 FIXME: DELETE
+/*-------------------------------------------------*/
+#define instantiate_xxobject(T_Scl) \
+template class XxObject<T_Scl>
+instantiate_xxobject(int_t);
+instantiate_xxobject(real_t);
+instantiate_xxobject(real4_t);
+instantiate_xxobject(complex_t);
+instantiate_xxobject(complex8_t);
+#undef instantiate_xxobject
 /*-------------------------------------------------*/
 } // namespace dns
 } // namespace cla3p

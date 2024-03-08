@@ -9,7 +9,6 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	generic/tuple.cpp
 	generic/guard.cpp
 	generic/ownership.cpp
-	generic/array2d.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_GENERIC_HPP 
@@ -20,7 +19,6 @@ set(CLA3P_GENERIC_HPP
 	tuple.hpp
 	guard.hpp
 	ownership.hpp
-	array2d.hpp
 	type_traits.hpp
 	)
 

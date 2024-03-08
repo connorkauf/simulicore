@@ -68,9 +68,9 @@ enum class uplo_t : char {
  * For efficiency purposes in matrix operations, this flag is used to designate a virtual operation that is not explicitly applied to the matrix.@n
  * For example in order for the operation Y = A<sup>T</sup> * X to be calculated we do not need to explicitly calculate A<sup>T</sup>.@n
  * Instead we can use the mult() function with the appropriate op_t value for the matrix A:
- @verbatim
+ @code
  Y = cla3p::ops::mult(1, cla3p::op_t::T, A, X);
- @endverbatim
+ @endcode
  to calculate the matrix product much more efficiently.
  */
 enum class op_t : char {

@@ -55,7 +55,7 @@ const RxMatrixTmpl& RxMatrixTmpl::self() const
 RxMatrixTlst
 void RxMatrixTmpl::operator=(T_Scalar val)
 {
-	RxMatrixTmpl::XxMatrix::operator=(val);
+	this->fill(val);
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

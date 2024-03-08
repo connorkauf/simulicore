@@ -53,22 +53,34 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix()
+		 * @brief The default constructor.
+		 *
+		 * Constructs an empty matrix.
 		 */
 		explicit RxMatrix();
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a general (nr x nc) matrix with uninitialized values.
+		 *
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] pr The matrix property.
 		 */
 		explicit RxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
+		 * @brief The move constructor.
+		 *
+		 * Constructs a matrix with the contents of `other`, `other` is destroyed.
 		 */
 		RxMatrix(RxMatrix<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
+		 * @brief Destroys the matrix.
+		 *
+		 * Destroy the matrix and free content memory if needed.
 		 */
 		~RxMatrix();
 
@@ -80,12 +92,20 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
+		 * @brief The move assignment operator.
+		 *
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 */
 		RxMatrix<T_Scalar>& operator=(RxMatrix<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
+		 * @brief The value setter operator.
+		 *
+		 * Sets all entries of `(*this)` to a single value.@n
+		 * Imaginary part of diagonal is set to zero for Hermitian cases.@n
+		 * Diagonal is set to zero for Skew cases.
+		 *
+		 * @param[in] val The value to be set.
 		 */
 		void operator=(T_Scalar val);
 

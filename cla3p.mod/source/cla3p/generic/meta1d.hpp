@@ -59,7 +59,6 @@ class Meta1D {
 
 	protected:
 		void clear();
-		void setSize(uint_t n);
 
 		void wrapper(uint_t n);
 
@@ -67,6 +66,8 @@ class Meta1D {
 		uint_t m_size;
 
 		void defaults();
+
+		void setSize(uint_t n);
 };
 
 /*-------------------------------------------------*/

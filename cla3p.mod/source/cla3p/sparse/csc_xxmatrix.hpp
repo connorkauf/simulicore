@@ -177,32 +177,24 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		/**
 		 * @brief Copies a matrix.
 		 * @return A deep copy of `(*this)`.
-		 *
-		 * @see rcopy() const, rcopy(), move()
 		 */
 		T_Matrix copy() const;
 
 		/**
 		 * @brief Shallow-copies a matrix.
 		 * @return A shallow copy of `(*this)`, `(*this)` is unchanged.
-		 *
-		 * @see copy(), rcopy() const, move()
 		 */
 		T_Matrix rcopy();
 
 		/**
 		 * @brief Shallow-copies an immutable matrix.
 		 * @return A guard shallow copy of `(*this)`.
-		 *
-		 * @see copy(), rcopy(), move()
 		 */
 		Guard<T_Matrix> rcopy() const;
 
 		/**
 		 * @brief Moves a matrix.
 		 * @return A shallow copy of `(*this)`, `(*this)` is destroyed.
-		 *
-		 * @see copy(), rcopy() const, rcopy()
 		 */
 		T_Matrix move();
 
@@ -259,8 +251,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `P*(*this)*Q`.
-		 *
-		 * @see permuteLeft(), permuteRight(), permuteMirror()
 		 */
 		T_Matrix permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
 
@@ -271,8 +261,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 *
 		 * @param[in] P The left side permutation matrix.
 		 * @return The matrix `P*(*this)`.
-		 *
-		 * @see permuteLeftRight(), permuteRight(), permuteMirror()
 		 */
 		T_Matrix permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
@@ -283,8 +271,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 *
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `(*this)*Q`.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteMirror()
 		 */
 		T_Matrix permuteRight(const prm::PxMatrix<int_t>& Q) const;
 
@@ -295,8 +281,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 *
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The matrix `P*(*this)*P^T`.
-		 *
-		 * @see permuteLeftRight(), permuteLeft(), permuteRight()
 		 */
 		T_Matrix permuteMirror(const prm::PxMatrix<int_t>& P) const;
 

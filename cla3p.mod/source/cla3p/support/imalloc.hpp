@@ -131,7 +131,7 @@ T* i_calloc(bulk_t nmemb)
  * Reallocates the given area of memory to `(nmemb x sizeof(T))` bytes.
  *
  * @param[in] ptr The pointer to the memory area to be reallocated.
- * @param[in] size The new size of each member in bytes.
+ * @param[in] nmemb The new number of members requested.
  * @return On success, a pointer to the beginning of newly allocated memory. Otherwise a null pointer.
  */
 template <typename T>

@@ -150,6 +150,12 @@ Property& Array2D<T_Scalar>::property()
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+void Array2D<T_Scalar>::wrapper(uint_t n, T_Scalar *vals, bool bind)
+{
+	wrapper(n, 1, n, vals, bind, defaultProperty());
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void Array2D<T_Scalar>::wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr)
 {
 	Property pr2 = checkProperty<T_Scalar>(pr);

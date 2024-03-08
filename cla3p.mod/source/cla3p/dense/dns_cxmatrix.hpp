@@ -58,22 +58,22 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix()
+		 * @copydoc cla3p::dns::RxMatrix::RxMatrix()
 		 */
 		explicit CxMatrix();
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
+		 * @copydoc cla3p::dns::RxMatrix::RxMatrix(uint_t nr, uint_t nc, const Property& pr)
 		 */
 		explicit CxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::XxMatrix(XxMatrix&& other)
+		 * @copydoc cla3p::dns::RxMatrix::RxMatrix(RxMatrix&& other)
 		 */
 		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::~XxMatrix()
+		 * @copydoc cla3p::dns::RxMatrix::~RxMatrix()
 		 */
 		~CxMatrix();
 
@@ -85,12 +85,12 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(XxMatrix&& other)
+		 * @copydoc cla3p::dns::RxMatrix::operator=(RxMatrix&& other)
 		 */
 		CxMatrix<T_Scalar>& operator=(CxMatrix<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxMatrix::operator=(T_Scalar val)
+		 * @copydoc cla3p::dns::RxMatrix::operator=(T_Scalar val)
 		 */
 		void operator=(T_Scalar val);
 

@@ -52,22 +52,32 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector()
+		 * @brief The default constructor.
+		 *
+		 * Constructs an empty vector.
 		 */
 		explicit RxVector();
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(uint_t n)
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a n-sized vector with uninitialized values.
+		 *
+		 * @param[in] n The vector size.
 		 */
 		explicit RxVector(uint_t n);
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::XxVector(XxVector&& other)
+		 * @brief The move constructor.
+		 *
+		 * Constructs a vector with the contents of `other`, `other` is destroyed.
 		 */
 		RxVector(RxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::~XxVector()
+		 * @brief Destroys the vector.
+		 *
+		 * Destroy the vector and free content memory if needed.
 		 */
 		~RxVector();
 
@@ -79,12 +89,18 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(XxVector&& other)
+		 * @brief The move assignment operator.
+		 *
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 */
 		RxVector<T_Scalar>& operator=(RxVector<T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::dns::XxVector::operator=(T_Scalar val)
+		 * @brief The value setter operator.
+		 *
+		 * Sets all entries of `(*this)` to a single value.
+		 *
+		 * @param[in] val The value to be set.
 		 */
 		void operator=(T_Scalar val);
 

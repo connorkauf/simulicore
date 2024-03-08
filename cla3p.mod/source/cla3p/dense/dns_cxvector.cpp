@@ -57,14 +57,14 @@ const CxVectorTmpl& CxVectorTmpl::self() const
 CxVectorTlst
 void CxVectorTmpl::operator=(T_Scalar val)
 {
-	CxVectorTmpl::XxVector::operator=(val);
+	this->fill(val);
 }
 /*-------------------------------------------------*/
 CxVectorTlst
 typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
 {
 	T_RVector ret(this->size());
-	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
+	bulk::dns::get_real(uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size());
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -72,7 +72,7 @@ CxVectorTlst
 typename CxVectorTmpl::T_RVector CxVectorTmpl::imag() const
 {
 	T_RVector ret(this->size());
-	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->lsize(), ret.values(), ret.lsize());
+	bulk::dns::get_imag(uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size());
 	return ret;
 }
 /*-------------------------------------------------*/

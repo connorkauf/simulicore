@@ -115,6 +115,8 @@ class Array2D : public Ownership {
 		 * @return The string containing the formatted numerical values of the object.
 		 */
 		std::string toString(uint_t nsd = 3) const;
+
+		void wrapper(uint_t n, T_Scalar *vals, bool bind);
 		
 	protected:
 		void wrapper(uint_t nr, uint_t nc, uint_t nl, T_Scalar *vals, bool bind, const Property& pr);

@@ -36,11 +36,11 @@ void update(typename T_Vector::value_type alpha,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
-	  similarity_check(
-      defaultProperty(), X.size(), 1,
-      defaultProperty(), Y.size(), 1);
+	similarity_check(
+			defaultProperty(), X.size(), 1,
+			defaultProperty(), Y.size(), 1);
 
-		blas::axpy(X.size(), alpha, X.values(), 1, Y.values(), 1);
+	blas::axpy(X.size(), alpha, X.values(), 1, Y.values(), 1);
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Vec) \
