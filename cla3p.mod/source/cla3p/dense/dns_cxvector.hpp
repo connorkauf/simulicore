@@ -17,6 +17,10 @@
 #ifndef CLA3P_DNS_CXVECTOR_HPP_
 #define CLA3P_DNS_CXVECTOR_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/types/literals.hpp"
 #include "cla3p/generic/type_traits.hpp"
 #include "cla3p/dense/dns_xxvector.hpp"

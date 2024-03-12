@@ -17,6 +17,10 @@
 #ifndef CLA3P_BLAS_PROXY_HPP_
 #define CLA3P_BLAS_PROXY_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/

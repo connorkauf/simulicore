@@ -17,6 +17,10 @@
 #ifndef CLA3P_TYPE_LITERALS_HPP_
 #define CLA3P_TYPE_LITERALS_HPP_
 
+/** 
+ * @file
+ */
+
 #include <string>
 
 /*-------------------------------------------------*/

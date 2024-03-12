@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Cholesky LLt dense linear solver
  */
 
 #include "cla3p/linsol/dns_lsolver_base.hpp"

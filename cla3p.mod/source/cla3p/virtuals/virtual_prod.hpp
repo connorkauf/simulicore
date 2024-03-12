@@ -19,7 +19,6 @@
 
 /**
  * @file
- * The ShelvedObject class
  */
 
 #include "cla3p/types.hpp"

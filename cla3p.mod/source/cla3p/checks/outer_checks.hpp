@@ -17,6 +17,10 @@
 #ifndef CLA3P_OUTER_CHECKS_HPP_
 #define CLA3P_OUTER_CHECKS_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/

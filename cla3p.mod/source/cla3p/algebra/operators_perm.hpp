@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Global permutation operator definitions
  */
 
 #include "cla3p/virtuals.hpp"

@@ -17,6 +17,10 @@
 #ifndef CLA3P_DNS_XXOBJECT_HPP_
 #define CLA3P_DNS_XXOBJECT_HPP_
 
+/**
+ * @file
+ */
+
 #include <cstddef>
 
 #include "cla3p/generic/ownership.hpp"

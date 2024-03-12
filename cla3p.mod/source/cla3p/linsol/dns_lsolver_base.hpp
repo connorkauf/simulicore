@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Base class for dense linear solvers
  */
 
 #include <vector>

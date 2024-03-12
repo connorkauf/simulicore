@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Global linear solution operator definitions
  */
 
 #include "cla3p/linsol/dns_auto_lsolver.hpp"

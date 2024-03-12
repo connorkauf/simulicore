@@ -17,6 +17,10 @@
 #ifndef CLA3P_SPARSE_HPP_
 #define CLA3P_SPARSE_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/sparse/csc_rxmatrix.hpp"
 #include "cla3p/sparse/csc_cxmatrix.hpp"
 #include "cla3p/sparse/coo_rxmatrix.hpp"

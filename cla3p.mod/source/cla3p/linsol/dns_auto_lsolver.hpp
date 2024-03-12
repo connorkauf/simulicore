@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Dense linear system solver with automatic method detection.
  */
 
 #include "cla3p/linsol/dns_lsolver_base.hpp"

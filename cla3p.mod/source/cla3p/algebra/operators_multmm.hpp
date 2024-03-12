@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Global multiplication operator definitions
  */
 
 #include "cla3p/virtuals.hpp"

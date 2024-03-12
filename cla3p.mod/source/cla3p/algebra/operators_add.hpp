@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Global addition/subtraction operator definitions
  */
 
 #include "cla3p/virtuals.hpp"

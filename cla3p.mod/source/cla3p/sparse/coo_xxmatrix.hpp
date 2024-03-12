@@ -17,6 +17,10 @@
 #ifndef CLA3P_COO_XXMATRIX_HPP_
 #define CLA3P_COO_XXMATRIX_HPP_
 
+/**
+ * @file
+ */
+
 #include <ostream>
 #include <string>
 #include <vector>

@@ -17,6 +17,10 @@
 #ifndef CLA3P_TUPLE_HPP_
 #define CLA3P_TUPLE_HPP_
 
+/**
+ * @file
+ */
+
 #include <ostream>
 
 #include "cla3p/generic/coord.hpp"

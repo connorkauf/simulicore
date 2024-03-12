@@ -17,6 +17,10 @@
 #ifndef CLA3P_DECOMP_LLT_CHECKS_HPP_
 #define CLA3P_DECOMP_LLT_CHECKS_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/types.hpp"
 #include "cla3p/dense.hpp"
 #include "cla3p/error/exceptions.hpp"

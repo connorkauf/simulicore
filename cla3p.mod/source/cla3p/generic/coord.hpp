@@ -17,6 +17,10 @@
 #ifndef CLA3P_COORD_HPP_
 #define CLA3P_COORD_HPP_
 
+/**
+ * @file
+ */
+
 #include <ostream>
 
 /*-------------------------------------------------*/

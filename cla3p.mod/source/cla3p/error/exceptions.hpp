@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Basic error control features.
  */
 
 #include <string>

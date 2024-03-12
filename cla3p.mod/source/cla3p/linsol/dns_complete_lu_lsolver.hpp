@@ -19,7 +19,6 @@
 
 /**
  * @file
- * LU dense linear solver with complete pivoting
  */
 
 #include "cla3p/linsol/dns_lsolver_base.hpp"

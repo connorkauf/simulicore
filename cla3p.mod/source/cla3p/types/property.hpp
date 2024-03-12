@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Property configuration
  */
 
 #include <ostream>

@@ -17,6 +17,10 @@
 #ifndef CLA3P_BULK_DNS_IO_HPP_
 #define CLA3P_BULK_DNS_IO_HPP_
 
+/**
+ * @file
+ */
+
 #include <string>
 
 #include "cla3p/types.hpp"

@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Basic allocation features. The behaviour of each function is similar to the ones found in the standard.
  */
 
 #include "cla3p/types.hpp"

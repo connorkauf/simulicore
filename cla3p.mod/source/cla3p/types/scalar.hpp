@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Scalar configuration
  */
 
 #include <cstddef>

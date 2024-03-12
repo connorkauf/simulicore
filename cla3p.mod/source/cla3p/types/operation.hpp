@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Operation configuration
  */
 
 #include <ostream>

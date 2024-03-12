@@ -17,6 +17,10 @@
 #ifndef CLA3P_DNS_XXMATRIX_HPP_
 #define CLA3P_DNS_XXMATRIX_HPP_
 
+/**
+ * @file
+ */
+
 #include <string>
 
 #include "cla3p/generic/matrix_meta.hpp"

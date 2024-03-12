@@ -17,6 +17,10 @@
 #ifndef CLA3P_MATRIX_META_HPP_
 #define CLA3P_MATRIX_META_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/generic/meta2d.hpp"
 #include "cla3p/types/property.hpp"
 

@@ -20,6 +20,10 @@
 #include "cla3p/types/literals.hpp"
 #include "cla3p/sparse/coo_xxmatrix.hpp"
 
+/**
+ * @file
+ */
+
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/

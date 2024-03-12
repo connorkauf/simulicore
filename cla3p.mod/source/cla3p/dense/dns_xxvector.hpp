@@ -17,6 +17,10 @@
 #ifndef CLA3P_DNS_XXVECTOR_HPP_
 #define CLA3P_DNS_XXVECTOR_HPP_
 
+/**
+ * @file
+ */
+
 #include <string>
 #include <ostream>
 

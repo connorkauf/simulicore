@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Integer configuration
  */
 
 #include <string>

@@ -17,6 +17,10 @@
 #ifndef CLA3P_CSC_CXMATRIX_HPP_
 #define CLA3P_CSC_CXMATRIX_HPP_
 
+/**
+ * @file
+ */
+
 #include "cla3p/types/literals.hpp"
 #include "cla3p/sparse/csc_xxmatrix.hpp"
 

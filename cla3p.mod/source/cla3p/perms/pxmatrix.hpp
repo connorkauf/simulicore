@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * The permutation matrix definitions.
  */
 
 #include <string>

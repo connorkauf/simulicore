@@ -19,7 +19,6 @@
 
 /**
  * @file
- * Global scaling operator definitions
  */
 
 #include "cla3p/virtuals.hpp"

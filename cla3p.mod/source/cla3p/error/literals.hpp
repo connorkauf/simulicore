@@ -17,6 +17,10 @@
 #ifndef CLA3P_ERROR_LITERALS_HPP_
 #define CLA3P_ERROR_LITERALS_HPP_
 
+/** 
+ * @file
+ */
+
 #include <string>
 
 #include "cla3p/types.hpp"

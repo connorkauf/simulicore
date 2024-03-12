@@ -19,7 +19,6 @@
 
 /** 
  * @file
- * Enumerations
  */
 
 #include <ostream>
