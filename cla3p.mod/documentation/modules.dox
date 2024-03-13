@@ -17,7 +17,12 @@
  *
  *
  * @defgroup module_index_datatypes Datatypes
- * List of the basic datatypes that are used in CLA3P.
+ * @brief The basic CLA3P datatypes.
+ *
+ * List of the basic datatypes that are used in CLA3P.@n
+ * Includes classes:
+ *  - cla3p::Property
+ *  - cla3p::Operation
  *
  *
  *
@@ -63,7 +68,9 @@
  *
  *
  * @defgroup module_index_guard Guard
- * The CLA3P guard utility class.
+ * The CLA3P guard utility class.@n
+ * Includes class:
+ *  - cla3p::Guard
  *
  *
  *
@@ -91,7 +98,13 @@
  * List of CLA3P classes for solving systems of linear equations.
  * @{
  *   @defgroup module_index_linsol_dense Dense Linear Solvers
- *   List of CLA3P dense linear solvers.
+ *   List of CLA3P dense linear solvers.@n
+ *   Includes classes:
+ *    - cla3p::dns::LSolverAuto
+ *    - cla3p::dns::LSolverLLt
+ *    - cla3p::dns::LSolverLDLt
+ *    - cla3p::dns::LSolverLU
+ *    - cla3p::dns::LSolverCompleteLU
  * @}
  *
  *
@@ -129,5 +142,11 @@
  *
  *
  * @defgroup module_index_exceptions Exceptions
- * List of CLA3P exceptions for error handling.
+ * List of CLA3P exceptions for error handling.@n
+ *   Includes classes:
+ *    - cla3p::err::Exception
+ *    - cla3p::err::NoConsistency
+ *    - cla3p::err::InvalidOp
+ *    - cla3p::err::OutOfMemory
+ *    - cla3p::err::OutOfBounds
  */

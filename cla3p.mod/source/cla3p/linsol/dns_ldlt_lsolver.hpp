@@ -29,7 +29,6 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_linsol_dense
  * @nosubgrouping
  * @brief The indefinite Cholesky (LDL') linear solver for dense matrices.
  */

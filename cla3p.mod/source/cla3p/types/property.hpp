@@ -33,7 +33,6 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_datatypes
  * @brief The property class.
  *
  * Used to define matrix properties.@n

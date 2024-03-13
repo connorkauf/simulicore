@@ -31,7 +31,6 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_datatypes
  * @brief The operation class.
  *
  * Utility class for easy handling of the op_t flag.

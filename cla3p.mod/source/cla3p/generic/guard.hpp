@@ -25,7 +25,6 @@
 namespace cla3p { 
 /*-------------------------------------------------*/
 /**
-* @ingroup module_index_guard
 * @brief Encloses an object and prevents its contents from being changed.
 *
 * Some functions need to return objects that contain immutable data.

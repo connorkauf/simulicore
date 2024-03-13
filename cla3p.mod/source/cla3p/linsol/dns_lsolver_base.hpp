@@ -31,7 +31,6 @@ namespace dns {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_linsol_dense
  * @nosubgrouping
  * @brief The abstract linear solver base for dense matrices.
  */
