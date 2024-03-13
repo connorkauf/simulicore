@@ -229,8 +229,8 @@ class XxMatrix : public MatrixMeta {
  * @ingroup module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
-template <typename T_Int, typename T_Scalar, typename T_Matrix>
-std::ostream& operator<<(std::ostream& os, const cla3p::coo::XxMatrix<T_Int,T_Scalar,T_Matrix>& mat)
+template <typename T_Matrix>
+std::ostream& operator<<(std::ostream& os, const cla3p::coo::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& mat)
 {
 	os << mat.toString();
 	return os;

@@ -381,8 +381,8 @@ class XxMatrix : public Ownership, public MatrixMeta {
  * @ingroup module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
-template <typename T_Int, typename T_Scalar, typename T_Matrix>
-std::ostream& operator<<(std::ostream& os, const cla3p::csc::XxMatrix<T_Int,T_Scalar,T_Matrix>& mat)
+template <typename T_Matrix>
+std::ostream& operator<<(std::ostream& os, const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& mat)
 {
 	os << mat.toString();
 	return os;
