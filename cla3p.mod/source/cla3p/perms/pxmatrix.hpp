@@ -33,7 +33,6 @@ namespace prm {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_matrices_perm
  * @nosubgrouping
  * @brief The permutation matrix object.
  *
