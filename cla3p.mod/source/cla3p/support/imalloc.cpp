@@ -39,11 +39,6 @@ static void check_allocation(const void *ptr, bulk_t nmemb, bulk_t size)
 	} // ptr
 }
 /*-------------------------------------------------*/
-void* i_malloc(bulk_t nmemb, bulk_t size)
-{
-	return i_malloc(nmemb * size);
-}
-/*-------------------------------------------------*/
 void* i_malloc(bulk_t size)
 {
 	void *ret = nullptr;
@@ -84,11 +79,6 @@ void* i_realloc(void *ptr, bulk_t size)
 	check_allocation(ret, 1, size);
 
 	return ret;
-}
-/*-------------------------------------------------*/
-void* i_realloc(void *ptr, bulk_t nmemb, bulk_t size)
-{
-	return i_realloc(ptr, nmemb * size);
 }
 /*-------------------------------------------------*/
 void i_free(void *ptr)

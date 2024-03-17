@@ -206,8 +206,8 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 		bulk::csc::sort(ncols(), colptr, rowidx, values);
 		bulk::csc::remove_duplicates(ncols(), colptr, rowidx, values, duplicatePolicy);
 
-		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[ncols()], sizeof(T_Int   )));
-		values = static_cast<T_Scalar*>(i_realloc(values, colptr[ncols()], sizeof(T_Scalar)));
+		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[ncols()] * sizeof(T_Int   )));
+		values = static_cast<T_Scalar*>(i_realloc(values, colptr[ncols()] * sizeof(T_Scalar)));
 
 	} // nnz
 
