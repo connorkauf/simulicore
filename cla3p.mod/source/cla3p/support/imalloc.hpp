@@ -64,46 +64,46 @@ void* i2realloc(void *ptr, bulk_t size);
  * @ingroup module_index_allocators
  * @brief The templated cla3p allocator.
  *
- * Allocates `(nmemb x sizeof(T))` bytes of uninitialized storage.
+ * Allocates `(nmemb x sizeof(T_Elem))` bytes of uninitialized storage.
  *
  * @param[in] nmemb The number of members to allocate.
  * @return On success, a pointer to the allocated space. Otherwise a null pointer.
  */
-template <typename T>
-T* i_malloc(bulk_t nmemb)
+template <typename T_Elem>
+T_Elem* i_malloc(bulk_t nmemb)
 {
-	return static_cast<T*>(i2malloc(nmemb * sizeof(T)));
+	return static_cast<T_Elem*>(i2malloc(nmemb * sizeof(T_Elem)));
 }
 
-/**
+/*
  * @ingroup module_index_allocators
  * @brief The templated cla3p allocator.
  *
- * Allocates `(nmemb x sizeof(T))` bytes of storage and initializes it to all bits zero.
+ * Allocates `(nmemb x sizeof(T_Elem))` bytes of storage and initializes it to all bits zero.
  *
  * @param[in] nmemb The number of members to allocate.
  * @return On success, a pointer to the allocated space. Otherwise a null pointer.
  */
-template <typename T>
-T* i_calloc(bulk_t nmemb)
+template <typename T_Elem>
+T_Elem* i_calloc(bulk_t nmemb)
 {
-	return static_cast<T*>(i2calloc(nmemb, sizeof(T)));
+	return static_cast<T_Elem*>(i2calloc(nmemb, sizeof(T_Elem)));
 }
 
 /**
  * @ingroup module_index_allocators
  * @brief The templated cla3p re-allocator.
  *
- * Reallocates the given area of memory to `(nmemb x sizeof(T))` bytes.
+ * Reallocates the given area of memory to `(nmemb x sizeof(T_Elem))` bytes.
  *
  * @param[in] ptr The pointer to the memory area to be reallocated.
  * @param[in] nmemb The new number of members requested.
  * @return On success, a pointer to the beginning of newly allocated memory. Otherwise a null pointer.
  */
-template <typename T>
-T* i_realloc(T* ptr, bulk_t nmemb)
+template <typename T_Elem>
+T_Elem* i_realloc(T_Elem* ptr, bulk_t nmemb)
 {
-	return static_cast<T*>(i2realloc(ptr, nmemb * sizeof(T)));
+	return static_cast<T_Elem*>(i2realloc(ptr, nmemb * sizeof(T_Elem)));
 }
 
 /**
