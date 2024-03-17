@@ -36,7 +36,7 @@ namespace cla3p {
  * @param[in] size The requested size in bytes.
  * @return On success, a pointer to the allocated space. Otherwise a null pointer.
  */
-void* i_malloc(bulk_t size);
+void* i2malloc(bulk_t size);
 
 /**
  * @ingroup module_index_allocators
@@ -48,7 +48,7 @@ void* i_malloc(bulk_t size);
  * @param[in] size The size of each member in bytes.
  * @return On success, a pointer to the allocated space. Otherwise a null pointer.
  */
-void* i_calloc(bulk_t nmemb, bulk_t size);
+void* i2calloc(bulk_t nmemb, bulk_t size);
 
 /**
  * @ingroup module_index_allocators
@@ -58,15 +58,7 @@ void* i_calloc(bulk_t nmemb, bulk_t size);
  * @param[in] size The new size of the array.
  * @return On success, a pointer to the beginning of newly allocated memory. Otherwise a null pointer.
  */
-void* i_realloc(void *ptr, bulk_t size);
-
-/**
- * @ingroup module_index_allocators
- * @brief The default cla3p deallocator.
- *
- * Deallocates the space previously allocated by i_malloc(), i_calloc(), or i_realloc().
- */
-void i_free(void *ptr);
+void* i2realloc(void *ptr, bulk_t size);
 
 /**
  * @ingroup module_index_allocators
@@ -80,7 +72,7 @@ void i_free(void *ptr);
 template <typename T>
 T* i_malloc(bulk_t nmemb)
 {
-	return static_cast<T*>(i_malloc(nmemb * sizeof(T)));
+	return static_cast<T*>(i2malloc(nmemb * sizeof(T)));
 }
 
 /**
@@ -95,7 +87,7 @@ T* i_malloc(bulk_t nmemb)
 template <typename T>
 T* i_calloc(bulk_t nmemb)
 {
-	return static_cast<T*>(i_calloc(nmemb, sizeof(T)));
+	return static_cast<T*>(i2calloc(nmemb, sizeof(T)));
 }
 
 /**
@@ -111,8 +103,16 @@ T* i_calloc(bulk_t nmemb)
 template <typename T>
 T* i_realloc(T* ptr, bulk_t nmemb)
 {
-	return static_cast<T*>(i_realloc(ptr, nmemb * sizeof(T)));
+	return static_cast<T*>(i2realloc(ptr, nmemb * sizeof(T)));
 }
+
+/**
+ * @ingroup module_index_allocators
+ * @brief The default cla3p deallocator.
+ *
+ * Deallocates the space previously allocated by i_malloc(), i_calloc(), or i_realloc().
+ */
+void i_free(void *ptr);
 
 /*-------------------------------------------------*/
 } // namespace cla3p
