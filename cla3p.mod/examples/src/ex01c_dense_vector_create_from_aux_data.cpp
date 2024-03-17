@@ -12,8 +12,8 @@ int main()
 	 * Allocate space for x & y
 	 */
 
-	cla3p::real_t *x = static_cast<cla3p::real_t*>(cla3p::i_calloc(5, sizeof(cla3p::real_t))); 
-	cla3p::real_t *y = static_cast<cla3p::real_t*>(cla3p::i_calloc(3, sizeof(cla3p::real_t))); 
+	cla3p::real_t *x = cla3p::i_calloc<cla3p::real_t>(5); 
+	cla3p::real_t *y = cla3p::i_calloc<cla3p::real_t>(3); 
 
 	for(cla3p::uint_t i = 0; i < 5; i++)
 		x[i] = i;
