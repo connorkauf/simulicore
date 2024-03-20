@@ -17,10 +17,6 @@
 #ifndef CLA3P_PERMS_HPP_
 #define CLA3P_PERMS_HPP_
 
-/**
- * @file
- */
-
 #include "cla3p/perms/pxmatrix.hpp"
 
 namespace cla3p {

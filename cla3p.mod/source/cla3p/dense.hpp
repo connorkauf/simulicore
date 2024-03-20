@@ -17,10 +17,6 @@
 #ifndef CLA3P_DENSE_HPP_
 #define CLA3P_DENSE_HPP_
 
-/**
- * @file
- */
-
 #include "cla3p/dense/dns_rxvector.hpp"
 #include "cla3p/dense/dns_cxvector.hpp"
 #include "cla3p/dense/dns_rxmatrix.hpp"
