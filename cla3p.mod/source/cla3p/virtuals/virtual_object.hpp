@@ -91,7 +91,6 @@ class VirtualVector : public VirtualObject<T_Vector, VirtualVector<T_Vector>> {
 		const VirtualVector<T_Vector>& self() const override;
 		T_Vector evaluate() const override;
 		void update(T_Scalar c, T_Vector& Y) const override;
-		operator T_Vector() const;
 
 		T_Scalar evaluateInner(const T_Vector& Y) const;
 		T_Matrix evaluateOuter(const T_Vector& X) const;

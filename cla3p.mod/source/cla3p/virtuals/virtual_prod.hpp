@@ -75,7 +75,6 @@ class VirtualProdMv : public VirtualProdXx<
 		const VirtualProdMv<T_Vector>& self() const override;
 		T_Vector evaluate() const override;
 		void update(T_Scalar c, T_Vector& Y) const override;
-		operator T_Vector() const;
 };
 /*-------------------------------------------------*/
 template <typename T_Matrix>

@@ -176,12 +176,6 @@ void VirtualProdMv<T_Vector>::update(T_Scalar c, T_Vector& Y) const
 	} // conjop
 }
 /*-------------------------------------------------*/
-template <typename T_Vector>
-VirtualProdMv<T_Vector>::operator T_Vector() const 
-{ 
-	return evaluate(); 
-};
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Matrix>

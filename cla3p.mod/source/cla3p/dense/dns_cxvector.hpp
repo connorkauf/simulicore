@@ -32,6 +32,9 @@ namespace cla3p {
 namespace dns { template <typename T_Scalar> class CxMatrix; }
 namespace dns { template <typename T_Scalar> class RxVector; }
 
+template <typename T_Vector> class VirtualVector;
+template <typename T_Vector> class VirtualProdMv;
+
 /*-------------------------------------------------*/
 namespace dns {
 /*-------------------------------------------------*/
@@ -49,11 +52,19 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 
 	public:
 
+		const CxVector<T_Scalar>& self() const override;
+		CxVector<T_Scalar>& self() override;
+
 		// no copy
 		CxVector(const CxVector<T_Scalar>&) = delete;
 		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>&) = delete;
 
-		const CxVector<T_Scalar>& self() const override;
+		// virtuals to vector
+		CxVector(const VirtualVector<CxVector<T_Scalar>>&);
+		CxVector<T_Scalar>& operator=(const VirtualVector<CxVector<T_Scalar>>&);
+
+		CxVector(const VirtualProdMv<CxVector<T_Scalar>>&);
+		CxVector<T_Scalar>& operator=(const VirtualProdMv<CxVector<T_Scalar>>&);
 
 		/**
 		 * @name Constructors

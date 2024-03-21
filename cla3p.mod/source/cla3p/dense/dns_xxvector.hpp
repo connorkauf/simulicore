@@ -27,13 +27,15 @@
 #include "cla3p/generic/meta1d.hpp"
 #include "cla3p/generic/guard.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
-#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
 
 namespace prm { template <typename T_Int> class PxMatrix; }
+
+template <typename T_Vector> class VirtualVector;
+template <typename T_Vector> class VirtualProdMv;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -204,9 +206,10 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		~XxVector();
 
 		virtual const T_Vector& self() const = 0;
+		virtual T_Vector& self() = 0;
 
-		XxVector(XxVector<T_Scalar,T_Vector>&& other) = default;
-		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&& other) = default;
+		XxVector(XxVector<T_Scalar,T_Vector>&&) = default;
+		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&&) = default;
 
 		/** 
 		 * @name Operators
@@ -369,6 +372,10 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		static T_Vector random(uint_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/** @} */
+
+	protected:
+		void fillFromVirtual(const VirtualVector<T_Vector>&);
+		void fillFromVirtual(const VirtualProdMv<T_Vector>&);
 
 };
 

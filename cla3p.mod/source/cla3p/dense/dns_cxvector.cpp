@@ -22,8 +22,10 @@
 // 3rd
 
 // cla3p
+#include "cla3p/dense.hpp"
+#include "cla3p/virtuals.hpp"
+
 #include "cla3p/bulk/dns.hpp"
-#include "cla3p/dense/dns_rxvector.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -55,9 +57,41 @@ const CxVectorTmpl& CxVectorTmpl::self() const
 }
 /*-------------------------------------------------*/
 CxVectorTlst
+CxVectorTmpl& CxVectorTmpl::self()
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
+CxVectorTlst
 void CxVectorTmpl::operator=(T_Scalar val)
 {
 	this->fill(val);
+}
+/*-------------------------------------------------*/
+CxVectorTlst
+CxVectorTmpl::CxVector(const VirtualVector<CxVectorTmpl>& v)
+{ 
+	this->fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+CxVectorTlst
+CxVectorTmpl& CxVectorTmpl::operator=(const VirtualVector<CxVectorTmpl>& v)
+{ 
+	this->fillFromVirtual(v);
+	return *this; 
+}
+/*-------------------------------------------------*/
+CxVectorTlst
+CxVectorTmpl::CxVector(const VirtualProdMv<CxVectorTmpl>& v)
+{ 
+	this->fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+CxVectorTlst
+CxVectorTmpl& CxVectorTmpl::operator=(const VirtualProdMv<CxVectorTmpl>& v)
+{ 
+	this->fillFromVirtual(v);
+	return *this; 
 }
 /*-------------------------------------------------*/
 CxVectorTlst

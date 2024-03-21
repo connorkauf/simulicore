@@ -252,12 +252,6 @@ void VirtualVector<T_Vector>::update(T_Scalar c, T_Vector& Y) const
 }
 /*-------------------------------------------------*/
 template <typename T_Vector>
-VirtualVector<T_Vector>::operator T_Vector() const
-{
-	return evaluate();
-}
-/*-------------------------------------------------*/
-template <typename T_Vector>
 typename T_Vector::value_type VirtualVector<T_Vector>::evaluateInner(const T_Vector& Y) const
 {
 	T_Scalar ret = 0;

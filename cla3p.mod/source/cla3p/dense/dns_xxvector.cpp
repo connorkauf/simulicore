@@ -25,6 +25,7 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/perms.hpp"
+#include "cla3p/virtuals.hpp"
 
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_io.hpp"
@@ -374,6 +375,36 @@ T_Vector XxVectorTmpl::random(uint_t n, T_RScalar lo, T_RScalar hi)
 	T_Vector ret(n);
 	bulk::dns::rand(uplo_t::Full, ret.size(), 1, ret.values(), ret.size(), lo, hi);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::fillFromVirtual(const VirtualVector<T_Vector>& v)
+{
+	if(!(*this)) {
+
+		*this = v.evaluate();
+
+	} else {
+
+		this->fill(0);
+		v.update(1, this->self());
+
+	} // empty check
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::fillFromVirtual(const VirtualProdMv<T_Vector>& v)
+{
+	if(!(*this)) {
+
+		*this = v.evaluate();
+
+	} else {
+
+		this->fill(0);
+		v.update(1, this->self());
+
+	} // empty check
 }
 /*-------------------------------------------------*/
 #undef XxVectorTmpl
