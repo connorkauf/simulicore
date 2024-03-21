@@ -70,27 +70,27 @@ void CxVectorTmpl::operator=(T_Scalar val)
 /*-------------------------------------------------*/
 CxVectorTlst
 CxVectorTmpl::CxVector(const VirtualVector<CxVectorTmpl>& v)
+	: CxVectorTmpl::XxVector(v)
 { 
-	this->fillFromVirtual(v);
 }
 /*-------------------------------------------------*/
 CxVectorTlst
 CxVectorTmpl& CxVectorTmpl::operator=(const VirtualVector<CxVectorTmpl>& v)
 { 
-	this->fillFromVirtual(v);
+	CxVectorTmpl::XxVector::operator=(v);
 	return *this; 
 }
 /*-------------------------------------------------*/
 CxVectorTlst
 CxVectorTmpl::CxVector(const VirtualProdMv<CxVectorTmpl>& v)
+	: CxVectorTmpl::XxVector(v)
 { 
-	this->fillFromVirtual(v);
 }
 /*-------------------------------------------------*/
 CxVectorTlst
 CxVectorTmpl& CxVectorTmpl::operator=(const VirtualProdMv<CxVectorTmpl>& v)
 { 
-	this->fillFromVirtual(v);
+	CxVectorTmpl::XxVector::operator=(v);
 	return *this; 
 }
 /*-------------------------------------------------*/

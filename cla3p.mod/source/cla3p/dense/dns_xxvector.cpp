@@ -237,6 +237,32 @@ XxVectorTmpl::~XxVector()
 }
 /*-------------------------------------------------*/
 XxVectorTlst
+XxVectorTmpl::XxVector(const VirtualVector<T_Vector>& v)
+{
+	fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVectorTmpl::XxVector(const VirtualProdMv<T_Vector>& v)
+{
+	fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVectorTmpl& XxVectorTmpl::operator=(const VirtualVector<T_Vector>& v)
+{
+	fillFromVirtual(v);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVectorTmpl& XxVectorTmpl::operator=(const VirtualProdMv<T_Vector>& v)
+{
+	fillFromVirtual(v);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
 VirtualVector<T_Vector> XxVectorTmpl::operator-() const
 {
 	VirtualVector<T_Vector> ret(this->self());

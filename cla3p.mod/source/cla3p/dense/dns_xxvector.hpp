@@ -211,6 +211,12 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		XxVector(XxVector<T_Scalar,T_Vector>&&) = default;
 		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&&) = default;
 
+		XxVector(const VirtualVector<T_Vector>&);
+		XxVector<T_Scalar,T_Vector>& operator=(const VirtualVector<T_Vector>&);
+
+		XxVector(const VirtualProdMv<T_Vector>&);
+		XxVector<T_Scalar,T_Vector>& operator=(const VirtualProdMv<T_Vector>&);
+
 		/** 
 		 * @name Operators
 		 * @{
@@ -373,7 +379,7 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 
 		/** @} */
 
-	protected:
+	private:
 		void fillFromVirtual(const VirtualVector<T_Vector>&);
 		void fillFromVirtual(const VirtualProdMv<T_Vector>&);
 
