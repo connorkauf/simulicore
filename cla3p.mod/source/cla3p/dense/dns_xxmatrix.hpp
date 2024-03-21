@@ -81,11 +81,11 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		/**
 		 * @brief Unary minus operator.
 		 *
-		 * Negates the matrix.
+		 * Virtually negates the matrix.
 		 *
-		 * @return The result of the operation `-(*this)`.
+		 * @return The result of the virtual operation `-(*this)`.
 		 */
-		T_Matrix operator-() const;
+		VirtualMatrix<T_Matrix> operator-() const;
 
 		/** @} */
 

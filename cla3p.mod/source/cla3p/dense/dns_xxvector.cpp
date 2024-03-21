@@ -236,11 +236,11 @@ XxVectorTmpl::~XxVector()
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-T_Vector XxVectorTmpl::operator-() const
+VirtualVector<T_Vector> XxVectorTmpl::operator-() const
 {
-  T_Vector ret = this->copy();
-  ret.iscale(-1);
-  return ret;
+	VirtualVector<T_Vector> ret(this->self());
+	ret.iscale(-1);
+	return ret;
 }
 /*-------------------------------------------------*/
 XxVectorTlst

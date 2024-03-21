@@ -133,9 +133,9 @@ const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::operator-() const
+VirtualMatrix<T_Matrix> XxMatrixTmpl::operator-() const
 {
-  T_Matrix ret = copy();
+  VirtualMatrix<T_Matrix> ret(this->self());
   ret.iscale(-1);
   return ret;
 }

@@ -216,11 +216,11 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		/**
 		 * @brief Unary minus operator.
 		 *
-		 * Negates the vector.
+		 * Virtually negates the vector.
 		 *
-		 * @return The result of the operation `-(*this)`.
+		 * @return The result of the virtual operation `-(*this)`.
 		 */
-		T_Vector operator-() const;
+		VirtualVector<T_Vector> operator-() const;
 
 		/** @} */
 
