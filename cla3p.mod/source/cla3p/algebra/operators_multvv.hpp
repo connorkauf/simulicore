@@ -53,7 +53,7 @@ cla3p::VirtualProdMm<typename cla3p::TypeTraits<T_Vector>::matrix_type> operator
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
-	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vA(X.rmatrix());
+	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vA(X.rmatrix().get());
 	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type> vB(vY);
 	cla3p::VirtualProdMm<T_Vector> ret(vA,vB);
 	return ret;
