@@ -54,6 +54,9 @@ class XiVector : public Meta1D, public XxObject<T_Scalar> {
 		explicit XiVector(uint_t n);
 		~XiVector();
 
+		XiVector(const XiVector<T_Scalar,T_Vector>&);
+		XiVector<T_Scalar,T_Vector>& operator=(const XiVector<T_Scalar,T_Vector>&);
+
 		XiVector(XiVector<T_Scalar,T_Vector>&&);
 		XiVector<T_Scalar,T_Vector>& operator=(XiVector<T_Scalar,T_Vector>&&);
 
@@ -185,6 +188,8 @@ class XiVector : public Meta1D, public XxObject<T_Scalar> {
 	private:
 
 		void moveTo(XiVector<T_Scalar,T_Vector>&);
+		void copyTo(XiVector<T_Scalar,T_Vector>&) const;
+		void copyToExisting(XiVector<T_Scalar,T_Vector>&) const;
 		void wrapper(uint_t n, T_Scalar *vals, bool bind);
 };
 
@@ -207,6 +212,9 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 
 		virtual const T_Vector& self() const = 0;
 		virtual T_Vector& self() = 0;
+
+		XxVector(const XxVector<T_Scalar,T_Vector>&) = default;
+		XxVector<T_Scalar,T_Vector>& operator=(const XxVector<T_Scalar,T_Vector>&) = default;
 
 		XxVector(XxVector<T_Scalar,T_Vector>&&) = default;
 		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&&) = default;

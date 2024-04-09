@@ -50,10 +50,6 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		const RxVector<T_Scalar>& self() const override;
 		RxVector<T_Scalar>& self() override;
 
-		// no copy
-		RxVector(const RxVector<T_Scalar>&) = delete;
-		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>&) = delete;
-
 		// virtuals to vector
 		RxVector(const VirtualVector<RxVector<T_Scalar>>&);
 		RxVector<T_Scalar>& operator=(const VirtualVector<RxVector<T_Scalar>>&);
@@ -83,6 +79,13 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		explicit RxVector(uint_t n);
 
 		/**
+		 * @brief The copy constructor.
+		 *
+		 * Constructs a vector with the contents of `other`, `other` is unchanged.
+		 */
+		RxVector(const RxVector<T_Scalar>& other) = default;
+
+		/**
 		 * @brief The move constructor.
 		 *
 		 * Constructs a vector with the contents of `other`, `other` is destroyed.
@@ -102,6 +105,14 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		 * @name Operators
 		 * @{
 		 */
+
+		/**
+		 * @brief The copy assignment operator.
+		 *
+		 * If `(*this)` is empty, constructs a vector with a copy of the contents of `other`, `other` is unchanged.@n
+		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size of `(*this)` should match the size of `other`.
+		 */
+		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>& other) = default;
 
 		/**
 		 * @brief The move assignment operator.

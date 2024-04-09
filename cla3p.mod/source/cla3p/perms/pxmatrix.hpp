@@ -45,10 +45,6 @@ class PxMatrix : public dns::XiVector<T_Int,PxMatrix<T_Int>> {
 
 	public:
 
-		// no copy
-		PxMatrix(const PxMatrix<T_Int>&) = delete;
-		PxMatrix& operator=(const PxMatrix<T_Int>&) = delete;
-
 		/** 
 		 * @name Constructors
 		 * @{
@@ -71,9 +67,16 @@ class PxMatrix : public dns::XiVector<T_Int,PxMatrix<T_Int>> {
 		explicit PxMatrix(uint_t n);
 
 		/**
+		 * @brief The copy constructor.
+		 *
+		 * Constructs a permutation matrix with a copy of the contents of `other`, `other` is unchanged.
+		 */
+		PxMatrix(const PxMatrix<T_Int>& other) = default;
+
+		/**
 		 * @brief The move constructor.
 		 *
-		 * Constructs a permutation matrix with the contents of other, other is destroyed.
+		 * Constructs a permutation matrix with the contents of `other`, `other` is destroyed.
 		 */
 		PxMatrix(PxMatrix<T_Int>&& other) = default;
 
@@ -90,9 +93,17 @@ class PxMatrix : public dns::XiVector<T_Int,PxMatrix<T_Int>> {
 		 */
 
 		/**
+		 * @brief The copy assignment operator.
+		 *
+		 * If `(*this)` is empty, constructs a permutation matrix with a copy of the contents of `other`, `other` is unchanged.@n
+		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size of `(*this)` should match the size of `other`.
+		 */
+		PxMatrix& operator=(const PxMatrix<T_Int>& other) = default;
+
+		/**
 		 * @brief The move assignment operator.
 		 *
-		 * Replaces the contents with those of other, other is destroyed.
+		 * Replaces the contents with those of `other`, `other` is destroyed.
 		 */
 		PxMatrix<T_Int>& operator=(PxMatrix<T_Int>&& other) = default;
 

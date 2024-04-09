@@ -35,6 +35,7 @@
 #include "cla3p/error/literals.hpp"
 
 #include "cla3p/support/utils.hpp"
+#include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/dns_checks.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/checks/perm_checks.hpp"
@@ -61,6 +62,24 @@ XxVectorTmpl::XiVector(uint_t n)
 XxVectorTlst
 XxVectorTmpl::~XiVector()
 {
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVectorTmpl::XiVector(const XxVectorTmpl& other)
+	: Meta1D(other.size()), XxObject<T_Scalar>(other.size())
+{
+	other.copyToExisting(*this);
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+XxVectorTmpl& XxVectorTmpl::operator=(const XxVectorTmpl& other)
+{
+	if(other) {
+		other.copyToExisting(*this);
+	} else {
+		other.copyTo(*this);
+	}
+	return *this;
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -112,8 +131,8 @@ const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
 XxVectorTlst
 T_Vector XxVectorTmpl::copy() const
 {
-	T_Vector ret(size());
-	std::copy(this->values(), this->values() + size(), ret.values());
+	T_Vector ret;
+	copyTo(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -187,6 +206,24 @@ void XxVectorTmpl::moveTo(XxVectorTmpl& trg)
 		trg.wrapper(size(), this->values(), this->owner());
 		this->unbind();
 		clear();
+	} // do not apply on self
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::copyTo(XxVectorTmpl& trg) const
+{
+	if(this != &trg) {
+		trg = init(size());
+		copyToExisting(trg);
+	} // do not apply on self
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::copyToExisting(XxVectorTmpl& trg) const
+{
+	if(this != &trg) {
+		similarity_dim_check(size(), trg.size());
+		std::copy(this->values(), this->values() + size(), trg.values());
 	} // do not apply on self
 }
 /*-------------------------------------------------*/

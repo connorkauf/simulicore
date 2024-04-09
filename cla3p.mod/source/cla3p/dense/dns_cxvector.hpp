@@ -55,10 +55,6 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 		const CxVector<T_Scalar>& self() const override;
 		CxVector<T_Scalar>& self() override;
 
-		// no copy
-		CxVector(const CxVector<T_Scalar>&) = delete;
-		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>&) = delete;
-
 		// virtuals to vector
 		CxVector(const VirtualVector<CxVector<T_Scalar>>&);
 		CxVector<T_Scalar>& operator=(const VirtualVector<CxVector<T_Scalar>>&);
@@ -82,6 +78,11 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 		explicit CxVector(uint_t n);
 
 		/**
+		 * @copydoc cla3p::dns::RxVector::RxVector(const RxVector& other)
+		 */
+		CxVector(const CxVector<T_Scalar>& other) = default;
+
+		/**
 		 * @copydoc cla3p::dns::RxVector::RxVector(RxVector&& other)
 		 */
 		CxVector(CxVector<T_Scalar>&& other) = default;
@@ -97,6 +98,11 @@ class CxVector : public XxVector<T_Scalar,CxVector<T_Scalar>> {
 		 * @name Operators
 		 * @{
 		 */
+
+		/**
+		 * @copydoc cla3p::dns::RxVector::operator=(const RxVector& other)
+		 */
+		CxVector<T_Scalar>& operator=(const CxVector<T_Scalar>& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::RxVector::operator=(RxVector&& other)
