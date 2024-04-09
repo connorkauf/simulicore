@@ -46,13 +46,19 @@ void property_compatibility_check(const Property& prop, uint_t m, uint_t n)
 	}
 }
 /*-------------------------------------------------*/
+void similarity_dim_check(uint_t n1, uint_t n2)
+{
+	if(n1 != n2) {
+		throw err::NoConsistency(msg::InvalidDimensions());
+	}
+}
+/*-------------------------------------------------*/
 void similarity_check(
 		const Property& prop1, uint_t nrows1, uint_t ncols1, 
 		const Property& prop2, uint_t nrows2, uint_t ncols2)
 {
-	if(nrows1 != nrows2 || ncols1 != ncols2) {
-		throw err::NoConsistency(msg::InvalidDimensions());
-	}
+	similarity_dim_check(nrows1, nrows2);
+	similarity_dim_check(ncols1, ncols2);
 
 	if(prop1 != prop2) {
 		throw err::NoConsistency(msg::InvalidProperty());
