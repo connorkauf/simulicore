@@ -33,6 +33,7 @@
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 
+#include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/dns_checks.hpp"
 #include "cla3p/checks/matrix_math_checks.hpp"
 #include "cla3p/checks/transp_checks.hpp"
@@ -64,6 +65,23 @@ XxMatrixTlst
 XxMatrixTmpl::~XxMatrix()
 {
 	clear();
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl::XxMatrix(const XxMatrixTmpl& other)
+	: XxMatrix(other.nrows(), other.ncols(), other.prop())
+{
+	other.copyToExisting(*this);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl& XxMatrixTmpl::operator=(const XxMatrixTmpl& other)
+{
+	if(!(*this)) {
+		*this = init(other.nrows(), other.ncols(), other.prop());
+	}
+	other.copyToExisting(*this);
+	return *this;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -135,17 +153,17 @@ const T_Scalar& XxMatrixTmpl::operator()(uint_t i, uint_t j) const
 XxMatrixTlst
 VirtualMatrix<T_Matrix> XxMatrixTmpl::operator-() const
 {
-  VirtualMatrix<T_Matrix> ret(this->self());
-  ret.iscale(-1);
-  return ret;
+	VirtualMatrix<T_Matrix> ret(this->self());
+	ret.iscale(-1);
+	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::copy() const
 {
-  T_Matrix ret(nrows(), ncols(), prop());
-	bulk::dns::copy(prop().uplo(), nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld());
-  return ret;
+	T_Matrix ret(nrows(), ncols(), prop());
+	copyToExisting(ret);
+	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -163,9 +181,9 @@ Guard<T_Matrix> XxMatrixTmpl::rcopy() const
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::move()
 {
-  T_Matrix ret;
-  moveTo(ret);
-  return ret;
+	T_Matrix ret;
+	moveTo(ret);
+	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -183,14 +201,14 @@ std::string XxMatrixTmpl::toString(uint_t nsd) const
 XxMatrixTlst
 void XxMatrixTmpl::iscale(T_Scalar val)
 {
-  hermitian_coeff_check(prop(), val);
+	hermitian_coeff_check(prop(), val);
 
-  bulk::dns::scale(
-      prop().uplo(),
-      nrows(),
-      ncols(),
-      this->values(),
-      ld(), val);
+	bulk::dns::scale(
+			prop().uplo(),
+			nrows(),
+			ncols(),
+			this->values(),
+			ld(), val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -252,49 +270,49 @@ void XxMatrixTmpl::iconjugate()
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normOne() const
 {
-  return bulk::dns::norm_one(
-      prop().type(),
-      prop().uplo(),
-      nrows(),
-      ncols(),
-      this->values(),
-      ld());
+	return bulk::dns::norm_one(
+			prop().type(),
+			prop().uplo(),
+			nrows(),
+			ncols(),
+			this->values(),
+			ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normInf() const
 {
-  return bulk::dns::norm_inf(
-      prop().type(),
-      prop().uplo(),
-      nrows(),
-      ncols(),
-      this->values(),
-      ld());
+	return bulk::dns::norm_inf(
+			prop().type(),
+			prop().uplo(),
+			nrows(),
+			ncols(),
+			this->values(),
+			ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
 {
-  return bulk::dns::norm_max(
-      prop().type(),
-      prop().uplo(),
-      nrows(),
-      ncols(),
-      this->values(),
-      ld());
+	return bulk::dns::norm_max(
+			prop().type(),
+			prop().uplo(),
+			nrows(),
+			ncols(),
+			this->values(),
+			ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 {
-  return bulk::dns::norm_fro(
-      prop().type(),
-      prop().uplo(),
-      nrows(),
-      ncols(),
-      this->values(),
-      ld());
+	return bulk::dns::norm_fro(
+			prop().type(),
+			prop().uplo(),
+			nrows(),
+			ncols(),
+			this->values(),
+			ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -489,6 +507,15 @@ void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 		trg.wrapper(nrows(), ncols(), this->values(), ld(), this->owner(), prop());
 		this->unbind();
 		clear();
+	} // do not apply on self
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
+{
+	if(this != &trg) {
+		similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
+		bulk::dns::copy(prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld());
 	} // do not apply on self
 }
 /*-------------------------------------------------*/

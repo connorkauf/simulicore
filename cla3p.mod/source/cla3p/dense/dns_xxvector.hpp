@@ -188,7 +188,6 @@ class XiVector : public Meta1D, public XxObject<T_Scalar> {
 	private:
 
 		void moveTo(XiVector<T_Scalar,T_Vector>&);
-		void copyTo(XiVector<T_Scalar,T_Vector>&) const;
 		void copyToExisting(XiVector<T_Scalar,T_Vector>&) const;
 		void wrapper(uint_t n, T_Scalar *vals, bool bind);
 };

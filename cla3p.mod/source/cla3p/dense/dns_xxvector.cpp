@@ -66,7 +66,7 @@ XxVectorTmpl::~XiVector()
 /*-------------------------------------------------*/
 XxVectorTlst
 XxVectorTmpl::XiVector(const XxVectorTmpl& other)
-	: Meta1D(other.size()), XxObject<T_Scalar>(other.size())
+	: XiVector(other.size())
 {
 	other.copyToExisting(*this);
 }
@@ -74,11 +74,10 @@ XxVectorTmpl::XiVector(const XxVectorTmpl& other)
 XxVectorTlst
 XxVectorTmpl& XxVectorTmpl::operator=(const XxVectorTmpl& other)
 {
-	if(other) {
-		other.copyToExisting(*this);
-	} else {
-		other.copyTo(*this);
+	if(!(*this)) {
+		*this = init(other.size());
 	}
+	other.copyToExisting(*this);
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -131,8 +130,8 @@ const T_Scalar& XxVectorTmpl::operator()(uint_t i) const
 XxVectorTlst
 T_Vector XxVectorTmpl::copy() const
 {
-	T_Vector ret;
-	copyTo(ret);
+	T_Vector ret(size());
+	copyToExisting(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -206,15 +205,6 @@ void XxVectorTmpl::moveTo(XxVectorTmpl& trg)
 		trg.wrapper(size(), this->values(), this->owner());
 		this->unbind();
 		clear();
-	} // do not apply on self
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::copyTo(XxVectorTmpl& trg) const
-{
-	if(this != &trg) {
-		trg = init(size());
-		copyToExisting(trg);
 	} // do not apply on self
 }
 /*-------------------------------------------------*/

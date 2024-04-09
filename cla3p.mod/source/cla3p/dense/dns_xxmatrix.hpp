@@ -56,6 +56,10 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		~XxMatrix();
 
 		virtual const T_Matrix& self() const = 0;
+		virtual T_Matrix& self() = 0;
+
+		XxMatrix(const XxMatrix<T_Scalar,T_Matrix>&);
+		XxMatrix<T_Scalar,T_Matrix>& operator=(const XxMatrix<T_Scalar,T_Matrix>&);
 
 		XxMatrix(XxMatrix<T_Scalar,T_Matrix>&&);
 		XxMatrix<T_Scalar,T_Matrix>& operator=(XxMatrix<T_Scalar,T_Matrix>&&);
@@ -431,6 +435,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		void setLd(uint_t ld);
 
 		void moveTo(XxMatrix<T_Scalar,T_Matrix>&);
+		void copyToExisting(XxMatrix<T_Scalar,T_Matrix>&) const;
 		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr);
 };
 

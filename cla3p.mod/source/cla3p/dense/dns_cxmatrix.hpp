@@ -50,11 +50,8 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 
 	public:
 
-		// no copy
-		CxMatrix(const CxMatrix<T_Scalar>&) = delete;
-		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>&) = delete;
-
 		const CxMatrix<T_Scalar>& self() const override;
+		CxMatrix<T_Scalar>& self() override;
 
 		/**
 		 * @name Constructors
@@ -72,6 +69,11 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		explicit CxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
+		 * @copydoc cla3p::dns::RxMatrix::RxMatrix(const RxMatrix& other)
+		 */
+		CxMatrix(const CxMatrix<T_Scalar>& other) = default;
+
+		/**
 		 * @copydoc cla3p::dns::RxMatrix::RxMatrix(RxMatrix&& other)
 		 */
 		CxMatrix(CxMatrix<T_Scalar>&& other) = default;
@@ -87,6 +89,11 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		 * @name Operators
 		 * @{
 		 */
+
+		/**
+		 * @copydoc cla3p::dns::RxMatrix::operator=(RxMatrix&& other)
+		 */
+		CxMatrix<T_Scalar>& operator=(const CxMatrix<T_Scalar>& other) = default;
 
 		/**
 		 * @copydoc cla3p::dns::RxMatrix::operator=(RxMatrix&& other)
