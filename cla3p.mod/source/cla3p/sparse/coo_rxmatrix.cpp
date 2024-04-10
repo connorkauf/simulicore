@@ -52,6 +52,12 @@ const RxMatrixTmpl& RxMatrixTmpl::self() const
 	return (*this);
 }
 /*-------------------------------------------------*/
+RxMatrixTlst
+RxMatrixTmpl& RxMatrixTmpl::self()
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #undef RxMatrixTmpl
