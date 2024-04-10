@@ -102,7 +102,6 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 		/**
 		 * @brief The copy assignment operator.
 		 *
-		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 * If `(*this)` is empty, constructs a matrix with a copy of the contents of `other`, `other` is unchanged.@n
 		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size and property of `(*this)` should match those of `other`.
 		 */
