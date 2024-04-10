@@ -139,7 +139,7 @@ void operator+=(
 		T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
-	vB.update(1, A);
+	vB.addToExisting(A);
 }
 
 /*
@@ -150,7 +150,7 @@ void operator-=(
 		T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
-	vB.update(-1, A);
+	vB.scale(-1).addToExisting(A);
 }
 
 /*-------------------------------------------------*/

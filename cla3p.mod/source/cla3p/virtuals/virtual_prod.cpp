@@ -282,12 +282,6 @@ void VirtualProdMm<T_Matrix>::addToExisting(T_Matrix& B) const
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-VirtualProdMm<T_Matrix>::operator T_Matrix() const 
-{ 
-	return evaluate(); 
-};
-/*-------------------------------------------------*/
-template <typename T_Matrix>
 void VirtualProdMm<T_Matrix>::swap() 
 {
 	VirtualMatrix<T_Matrix> tmp = this->rhs();

@@ -96,7 +96,6 @@ class VirtualProdMm : public VirtualProdXx<
 		T_Matrix evaluate() const override;
 		void evaluateOnExisting(T_Matrix&) const override;
 		void addToExisting(T_Matrix&) const override;
-		operator T_Matrix() const;
 
 		VirtualProdMm<T_Matrix> transpose() const;
 		VirtualProdMm<T_Matrix> ctranspose() const;

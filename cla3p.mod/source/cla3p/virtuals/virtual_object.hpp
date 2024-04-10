@@ -116,7 +116,6 @@ class VirtualMatrix : public VirtualObject<T_Matrix,VirtualMatrix<T_Matrix>> {
 		T_Matrix evaluate() const override;
 		void evaluateOnExisting(T_Matrix&) const override;
 		void addToExisting(T_Matrix&) const override;
-		operator T_Matrix() const;
 };
 /*-------------------------------------------------*/
 } // namespace cla3p

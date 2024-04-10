@@ -385,12 +385,6 @@ void VirtualMatrix<T_Matrix>::addToExisting(T_Matrix& B) const
 	} // conjop
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualMatrix<T_Matrix>::operator T_Matrix() const
-{
-	return evaluate();
-}
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template class VirtualObject<dns::RdVector, VirtualVector<dns::RdVector>>;

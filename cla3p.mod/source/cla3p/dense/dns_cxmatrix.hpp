@@ -53,6 +53,13 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		const CxMatrix<T_Scalar>& self() const override;
 		CxMatrix<T_Scalar>& self() override;
 
+		// virtuals to matrix
+		CxMatrix(const VirtualMatrix<CxMatrix<T_Scalar>>&);
+		CxMatrix<T_Scalar>& operator=(const VirtualMatrix<CxMatrix<T_Scalar>>&);
+
+		CxMatrix(const VirtualProdMm<CxMatrix<T_Scalar>>&);
+		CxMatrix<T_Scalar>& operator=(const VirtualProdMm<CxMatrix<T_Scalar>>&);
+
 		/**
 		 * @name Constructors
 		 * @{

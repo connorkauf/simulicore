@@ -24,6 +24,7 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/perms.hpp"
+#include "cla3p/virtuals.hpp"
 
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_math.hpp"
@@ -94,6 +95,32 @@ XxMatrixTlst
 XxMatrixTmpl& XxMatrixTmpl::operator=(XxMatrixTmpl&& other)
 {
 	other.moveTo(*this);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl::XxMatrix(const VirtualMatrix<T_Matrix>& v)
+{
+	fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl::XxMatrix(const VirtualProdMm<T_Matrix>& v)
+{
+	fillFromVirtual(v);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl& XxMatrixTmpl::operator=(const VirtualMatrix<T_Matrix>& v)
+{
+	fillFromVirtual(v);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl& XxMatrixTmpl::operator=(const VirtualProdMm<T_Matrix>& v)
+{
+	fillFromVirtual(v);
 	return *this;
 }
 /*-------------------------------------------------*/
@@ -517,6 +544,34 @@ void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 		similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
 		bulk::dns::copy(prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld());
 	} // do not apply on self
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::fillFromVirtual(const VirtualMatrix<T_Matrix>& v)
+{
+	if(!(*this)) {
+
+		*this = v.evaluate();
+
+	} else {
+
+		v.evaluateOnExisting(this->self());
+
+	} // empty check
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::fillFromVirtual(const VirtualProdMm<T_Matrix>& v)
+{
+	if(!(*this)) {
+
+		*this = v.evaluate();
+
+	} else {
+
+		v.evaluateOnExisting(this->self());
+
+	} // empty check
 }
 /*-------------------------------------------------*/
 #undef XxMatrixTmpl
