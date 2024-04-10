@@ -38,12 +38,12 @@ class VirtualObject : public VirtualEntity<T_Object,T_Virtual> {
 
 	public:
 		explicit VirtualObject();
-		explicit VirtualObject(const T_Object& obj);
+		explicit VirtualObject(const T_Object&);
 		~VirtualObject();
 
 		void clear();
 
-		void iscale(T_Scalar val) override;
+		void iscale(T_Scalar) override;
 		void iconjugate() override;
 		void itranspose();
 		void ictranspose();
@@ -85,12 +85,13 @@ class VirtualVector : public VirtualObject<T_Vector, VirtualVector<T_Vector>> {
 		using value_type = T_Vector;
 
 		explicit VirtualVector();
-		explicit VirtualVector(const T_Vector& vec);
+		explicit VirtualVector(const T_Vector&);
 		~VirtualVector();
 
 		const VirtualVector<T_Vector>& self() const override;
 		T_Vector evaluate() const override;
-		void update(T_Scalar c, T_Vector& Y) const override;
+		void evaluateOnExisting(T_Vector&) const override;
+		void addToExisting(T_Vector&) const override;
 
 		T_Scalar evaluateInner(const T_Vector& Y) const;
 		T_Matrix evaluateOuter(const T_Vector& X) const;
@@ -107,13 +108,14 @@ class VirtualMatrix : public VirtualObject<T_Matrix,VirtualMatrix<T_Matrix>> {
 		using value_type = T_Matrix;
 
 		explicit VirtualMatrix();
-		explicit VirtualMatrix(const T_Matrix& mat);
-		explicit VirtualMatrix(const VirtualVector<T_Vector>& v);
+		explicit VirtualMatrix(const T_Matrix&);
+		explicit VirtualMatrix(const VirtualVector<T_Vector>&);
 		~VirtualMatrix();
 
 		const VirtualMatrix<T_Matrix>& self() const override;
 		T_Matrix evaluate() const override;
-		void update(T_Scalar c, T_Matrix& B) const override;
+		void evaluateOnExisting(T_Matrix&) const override;
+		void addToExisting(T_Matrix&) const override;
 		operator T_Matrix() const;
 };
 /*-------------------------------------------------*/

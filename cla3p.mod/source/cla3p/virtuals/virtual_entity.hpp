@@ -37,7 +37,8 @@ class VirtualEntity {
 
 		virtual const T_Virtual& self() const = 0;
 		virtual T_Object evaluate() const = 0;
-		virtual void update(T_Scalar c, T_Object& other) const = 0;
+		virtual void evaluateOnExisting(T_Object&) const = 0;
+		virtual void addToExisting(T_Object&) const = 0;
 
 		virtual void iscale(T_Scalar val) = 0;
 		virtual void iconjugate() = 0;

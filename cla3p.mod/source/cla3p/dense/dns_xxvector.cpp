@@ -439,8 +439,7 @@ void XxVectorTmpl::fillFromVirtual(const VirtualVector<T_Vector>& v)
 
 	} else {
 
-		this->fill(0);
-		v.update(1, this->self());
+		v.evaluateOnExisting(this->self());
 
 	} // empty check
 }
@@ -454,8 +453,7 @@ void XxVectorTmpl::fillFromVirtual(const VirtualProdMv<T_Vector>& v)
 
 	} else {
 
-		this->fill(0);
-		v.update(1, this->self());
+		v.evaluateOnExisting(this->self());
 
 	} // empty check
 }

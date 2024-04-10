@@ -219,6 +219,14 @@ const VirtualVector<T_Vector>& VirtualVector<T_Vector>::self() const
 template <typename T_Vector>
 T_Vector VirtualVector<T_Vector>::evaluate() const
 {
+	T_Vector ret(this->obj().size());
+	evaluateOnExisting(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Vector>
+void VirtualVector<T_Vector>::evaluateOnExisting(T_Vector& Y) const
+{
 	if(this->transOp() != op_t::N) {
 		throw err::InvalidOp(
 				std::string("Cannot") + 
@@ -226,28 +234,26 @@ T_Vector VirtualVector<T_Vector>::evaluate() const
 				std::string("transpose a vector"));
 	} // op
 
-	T_Vector ret = this->obj().copy();
+	Y = this->obj();
 
-	ret.iscale(this->coeff());
+	Y.iscale(this->coeff());
 
 	if(this->conjOp()) {
-		ret.iconjugate();
+		Y.iconjugate();
 	} // conjop
-
-	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Vector>
-void VirtualVector<T_Vector>::update(T_Scalar c, T_Vector& Y) const
+void VirtualVector<T_Vector>::addToExisting(T_Vector& Y) const
 {
 	if(this->transOp() != op_t::N) {
 		throw err::InvalidOp("Cannot update");
 	}
 
 	if(!this->conjOp()) {
-		ops::update(c * this->coeff(), this->obj(), Y);
+		ops::update(this->coeff(), this->obj(), Y);
 	} else {
-		ops::update(c, evaluate(), Y);
+		ops::update(T_Scalar(1), evaluate(), Y);
 	} // conjop
 }
 /*-------------------------------------------------*/
@@ -333,45 +339,49 @@ const VirtualMatrix<T_Matrix>& VirtualMatrix<T_Matrix>::self() const
 template <typename T_Matrix>
 T_Matrix VirtualMatrix<T_Matrix>::evaluate() const
 {
-	const T_Matrix& src = this->obj();
+	uint_t m = (this->transOp() == op_t::N ? this->obj().nrows() : this->obj().ncols());
+	uint_t n = (this->transOp() == op_t::N ? this->obj().ncols() : this->obj().nrows());
 
-	uint_t m = (this->transOp() == op_t::N ? src.nrows() : src.ncols());
-	uint_t n = (this->transOp() == op_t::N ? src.ncols() : src.nrows());
-
-	T_Matrix ret(m, n, src.prop());
-
-	if(this->transOp() == op_t::N) {
-
-		bulk::dns::copy(src.prop().uplo(), src.nrows(), src.ncols(), src.values(), src.ld(), ret.values(), ret.ld(), this->coeff());
-
-	} else if (this->transOp() == op_t::T) {
-
-		transp_op_consistency_check(src.prop().type(), false);
-		bulk::dns::transpose(src.nrows(), src.ncols(), src.values(), src.ld(), ret.values(), ret.ld(), this->coeff());
-
-	} else if(this->transOp() == op_t::C) {
-
-		transp_op_consistency_check(src.prop().type(), true);
-		bulk::dns::conjugate_transpose(src.nrows(), src.ncols(), src.values(), src.ld(), ret.values(), ret.ld(), this->coeff());
-
-	} // op
-
-	if(this->conjOp()) {
-		ret.iconjugate();
-	} // conjop
-
+	T_Matrix ret(m, n, this->obj().prop());
+	evaluateOnExisting(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void VirtualMatrix<T_Matrix>::update(T_Scalar c, T_Matrix& B) const
+void VirtualMatrix<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
+{
+	const T_Matrix& src = this->obj();
+
+	if(this->transOp() == op_t::N) {
+
+		bulk::dns::copy(src.prop().uplo(), src.nrows(), src.ncols(), src.values(), src.ld(), trg.values(), trg.ld(), this->coeff());
+
+	} else if (this->transOp() == op_t::T) {
+
+		transp_op_consistency_check(src.prop().type(), false);
+		bulk::dns::transpose(src.nrows(), src.ncols(), src.values(), src.ld(), trg.values(), trg.ld(), this->coeff());
+
+	} else if(this->transOp() == op_t::C) {
+
+		transp_op_consistency_check(src.prop().type(), true);
+		bulk::dns::conjugate_transpose(src.nrows(), src.ncols(), src.values(), src.ld(), trg.values(), trg.ld(), this->coeff());
+
+	} // op
+
+	if(this->conjOp()) {
+		trg.iconjugate();
+	} // conjop
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void VirtualMatrix<T_Matrix>::addToExisting(T_Matrix& B) const
 {
 	// FIXME: add transpose with no extra mem
 
 	if(this->transOp() == op_t::N && !this->conjOp()) {
-		ops::update(c * this->coeff(), this->obj(), B);
+		ops::update(this->coeff(), this->obj(), B);
 	} else {
-		ops::update(c, evaluate(), B);
+		ops::update(T_Scalar(1), evaluate(), B);
 	} // conjop
 }
 /*-------------------------------------------------*/

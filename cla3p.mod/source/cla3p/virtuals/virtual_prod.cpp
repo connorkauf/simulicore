@@ -119,35 +119,16 @@ const VirtualProdMv<T_Vector>& VirtualProdMv<T_Vector>::self() const
 template <typename T_Vector>
 T_Vector VirtualProdMv<T_Vector>::evaluate() const
 {
-	if(this->rhs().transOp() != op_t::N) {
-		throw err::InvalidOp("Cannot multiply");
-	}
-
-	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		return ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj());
-
-	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		return ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj());
-
-	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
-
-		T_Vector rhs = this->rhs().evaluate();
-		return ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs);
-
-	} else {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		T_Vector rhs = this->rhs().evaluate();
-		return ops::mult(T_Scalar(1), op_t::N, lhs, rhs);
-
-	} // conjop
+	T_Vector ret(
+			this->lhs().transOp() == op_t::N ? 
+			this->lhs().obj().nrows() : 
+			this->lhs().obj().ncols());
+	evaluateOnExisting(ret);
+	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Vector>
-void VirtualProdMv<T_Vector>::update(T_Scalar c, T_Vector& Y) const
+void VirtualProdMv<T_Vector>::evaluateOnExisting(T_Vector& trg) const
 {
 	if(this->rhs().transOp() != op_t::N) {
 		throw err::InvalidOp("Cannot multiply");
@@ -155,23 +136,53 @@ void VirtualProdMv<T_Vector>::update(T_Scalar c, T_Vector& Y) const
 
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
-		ops::mult(c * this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), Y);
+		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), trg);
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(c * this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), Y);
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), trg);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
 		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(c * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, Y);
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, trg);
 
 	} else {
 
 		T_Matrix lhs = this->lhs().evaluate();
 		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(c, op_t::N, lhs, rhs, Y);
+		ops::mult(T_Scalar(1), op_t::N, lhs, trg);
+
+	} // conjop
+}
+/*-------------------------------------------------*/
+template <typename T_Vector>
+void VirtualProdMv<T_Vector>::addToExisting(T_Vector& Y) const
+{
+	if(this->rhs().transOp() != op_t::N) {
+		throw err::InvalidOp("Cannot multiply");
+	}
+
+	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
+
+		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), Y);
+
+	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
+
+		T_Matrix lhs = this->lhs().evaluate();
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), Y);
+
+	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
+
+		T_Vector rhs = this->rhs().evaluate();
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, Y);
+
+	} else {
+
+		T_Matrix lhs = this->lhs().evaluate();
+		T_Vector rhs = this->rhs().evaluate();
+		ops::mult(T_Scalar(1), op_t::N, lhs, rhs, Y);
 
 	} // conjop
 }
@@ -203,39 +214,50 @@ const VirtualProdMm<T_Matrix>& VirtualProdMm<T_Matrix>::self() const
 template <typename T_Matrix>
 T_Matrix VirtualProdMm<T_Matrix>::evaluate() const
 {
+	uint_t m = (this->lhs().transOp() == op_t::N ? this->lhs().obj().nrows() : this->lhs().obj().ncols());
+	uint_t n = (this->rhs().transOp() == op_t::N ? this->rhs().obj().ncols() : this->rhs().obj().nrows());
+
+  T_Matrix ret(m, n);
+	evaluateOnExisting(ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void VirtualProdMm<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
+{
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
-	return ops::mult(
+	ops::mult(
 			this->rhs().coeff() * this->lhs().coeff(), 
 			this->lhs().transOp(), this->lhs().obj(), 
-			this->rhs().transOp(), this->rhs().obj());
+			this->rhs().transOp(), this->rhs().obj(), trg);
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		T_Matrix lhs = this->lhs().evaluate();
-		return ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj());
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), trg);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
 		T_Matrix rhs = this->rhs().evaluate();
-		return ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs);
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, trg);
 
 	} else {
 
 		T_Matrix lhs = this->lhs().evaluate();
 		T_Matrix rhs = this->rhs().evaluate();
-		return ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs);
+		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, trg);
 
 	} // conjop
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void VirtualProdMm<T_Matrix>::update(T_Scalar c, T_Matrix& B) const
+void VirtualProdMm<T_Matrix>::addToExisting(T_Matrix& B) const
 {
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		ops::mult(
-				c * this->rhs().coeff() * this->lhs().coeff(), 
+				this->rhs().coeff() * this->lhs().coeff(), 
 				this->lhs().transOp(), this->lhs().obj(), 
 				this->rhs().transOp(), this->rhs().obj(), 
 				B);
@@ -243,18 +265,18 @@ void VirtualProdMm<T_Matrix>::update(T_Scalar c, T_Matrix& B) const
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(c * this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), B);
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), B);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
 		T_Matrix rhs = this->rhs().evaluate();
-		ops::mult(c * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, B);
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, B);
 
 	} else {
 
 		T_Matrix lhs = this->lhs().evaluate();
 		T_Matrix rhs = this->rhs().evaluate();
-		ops::mult(c, op_t::N, lhs, op_t::N, rhs, B);
+		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, B);
 
 	} // conjop
 }

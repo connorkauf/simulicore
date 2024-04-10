@@ -74,7 +74,8 @@ class VirtualProdMv : public VirtualProdXx<
 
 		const VirtualProdMv<T_Vector>& self() const override;
 		T_Vector evaluate() const override;
-		void update(T_Scalar c, T_Vector& Y) const override;
+		void evaluateOnExisting(T_Vector&) const override;
+		void addToExisting(T_Vector&) const override;
 };
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -93,7 +94,8 @@ class VirtualProdMm : public VirtualProdXx<
 
 		const VirtualProdMm<T_Matrix>& self() const override;
 		T_Matrix evaluate() const override;
-		void update(T_Scalar c, T_Matrix& B) const override;
+		void evaluateOnExisting(T_Matrix&) const override;
+		void addToExisting(T_Matrix&) const override;
 		operator T_Matrix() const;
 
 		VirtualProdMm<T_Matrix> transpose() const;
