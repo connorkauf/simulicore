@@ -67,7 +67,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(const XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 
 		XxMatrix(XxMatrix<T_Int,T_Scalar,T_Matrix>&&);
-		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(XxMatrix<T_Int,T_Scalar,T_Matrix>&& other);
+		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(XxMatrix<T_Int,T_Scalar,T_Matrix>&&);
 
 		/** 
 		 * @name Arguments
