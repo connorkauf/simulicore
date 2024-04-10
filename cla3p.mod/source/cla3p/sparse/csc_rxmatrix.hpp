@@ -43,11 +43,8 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 
 	public:
 
-		// no copy
-		RxMatrix(const RxMatrix<T_Int,T_Scalar>&) = delete;
-		RxMatrix<T_Int,T_Scalar>& operator=(const RxMatrix<T_Int,T_Scalar>&) = delete;
-
 		const RxMatrix<T_Int,T_Scalar>& self() const override;
+		RxMatrix<T_Int,T_Scalar>& self() override;
 
 		/**
 		 * @name Constructors
@@ -55,22 +52,42 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::csc::XxMatrix::XxMatrix()
+		 * @brief The default constructor.
+		 *
+		 * Constructs an empty matrix.
 		 */
 		explicit RxMatrix();
 
 		/**
-		 * @copydoc cla3p::csc::XxMatrix::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a (nr x nc) matrix with nz non-zero uninitialized values.
+		 *
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] nz The number of matrix non zeros.
+		 * @param[in] pr The matrix property.
 		 */
 		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
 
 		/**
-		 * @copydoc cla3p::csc::XxMatrix::XxMatrix(XxMatrix&& other)
+		 * @brief The copy constructor.
+		 *
+		 * Constructs a matrix with a copy of the contents of `other`, `other` is destroyed.
+		 */
+		RxMatrix(const RxMatrix<T_Int,T_Scalar>& other) = default;
+
+		/**
+		 * @brief The move constructor.
+		 *
+		 * Constructs a matrix with the contents of `other`, `other` is destroyed.
 		 */
 		RxMatrix(RxMatrix<T_Int,T_Scalar>&& other) = default;
 
 		/**
-		 * @copydoc cla3p::csc::XxMatrix::~XxMatrix()
+		 * @brief Destroys the matrix.
+		 *
+		 * Destroy the matrix and free content memory if needed.
 		 */
 		~RxMatrix();
 
@@ -82,7 +99,18 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		 */
 
 		/**
-		 * @copydoc cla3p::csc::XxMatrix::operator=(XxMatrix&& other)
+		 * @brief The copy assignment operator.
+		 *
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
+		 * If `(*this)` is empty, constructs a matrix with a copy of the contents of `other`, `other` is unchanged.@n
+		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The sizes, non-zeros and property of `(*this)` should match those of `other`.
+		 */
+		RxMatrix<T_Int,T_Scalar>& operator=(const RxMatrix<T_Int,T_Scalar>& other) = default;
+
+		/**
+		 * @brief The move assignment operator.
+		 *
+		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
 		 */
 		RxMatrix<T_Int,T_Scalar>& operator=(RxMatrix<T_Int,T_Scalar>&& other) = default;
 

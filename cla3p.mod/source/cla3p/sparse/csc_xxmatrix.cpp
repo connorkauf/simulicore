@@ -64,15 +64,32 @@ XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-XxMatrixTmpl::XxMatrix(XxMatrixTmpl&& other)
-{
-	other.moveTo(*this);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
 XxMatrixTmpl::~XxMatrix()
 {
 	clear();
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl::XxMatrix(const XxMatrixTmpl& other)
+	: XxMatrix(other.nrows(), other.ncols(), other.nnz(), other.prop())
+{
+	other.copyToExisting(*this);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl& XxMatrixTmpl::operator=(const XxMatrixTmpl& other)
+{
+	if(!(*this)) {
+		*this = init(other.nrows(), other.ncols(), other.nnz(), other.prop());
+	}
+	other.copyToExisting(*this);
+	return *this;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+XxMatrixTmpl::XxMatrix(XxMatrixTmpl&& other)
+{
+	other.moveTo(*this);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -197,25 +214,24 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::copyTo(XxMatrixTmpl& trg) const
+void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 {
-	trg = init(nrows(), ncols(), nnz(), prop());
+	if(this != &trg) {
 
-	uint_t nc = ncols() + 1;
-	uint_t nz = nnz();
+		similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
+		similarity_dim_check(nnz(), trg.nnz());
 
-	// 
-	// TODO: perhaps use a copy for 1D arrays
-	//
-	bulk::dns::copy(uplo_t::Full, nc, 1, colptr(), nc, trg.colptr(), nc);
-	bulk::dns::copy(uplo_t::Full, nz, 1, rowidx(), nz, trg.rowidx(), nz);
-	bulk::dns::copy(uplo_t::Full, nz, 1, values(), nz, trg.values(), nz);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::shallowCopyTo(XxMatrixTmpl& trg)
-{
-	trg.wrapper(nrows(), ncols(), colptr(), rowidx(), values(), false, prop());
+		uint_t nc = ncols() + 1;
+		uint_t nz = nnz();
+
+		// 
+		// TODO: perhaps use a copy for 1D arrays
+		//
+		bulk::dns::copy(uplo_t::Full, nc, 1, colptr(), nc, trg.colptr(), nc);
+		bulk::dns::copy(uplo_t::Full, nz, 1, rowidx(), nz, trg.rowidx(), nz);
+		bulk::dns::copy(uplo_t::Full, nz, 1, values(), nz, trg.values(), nz);
+
+	} // do not apply on self
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -236,25 +252,21 @@ std::string XxMatrixTmpl::toString(uint_t nsd) const
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::copy() const
 {
-	T_Matrix ret;
-	copyTo(ret);
+	T_Matrix ret(nrows(), ncols(), nnz(), prop());
+	copyToExisting(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::rcopy()
 {
-	T_Matrix ret;
-	shallowCopyTo(ret);
-	return ret;
+	return T_Matrix::wrap(nrows(), ncols(), colptr(), rowidx(), values(), false, prop());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 Guard<T_Matrix> XxMatrixTmpl::rcopy() const
 {
-	T_Matrix tmp = const_cast<XxMatrixTmpl&>(*this).rcopy();
-	Guard<T_Matrix> ret(tmp);
-	return ret;
+	return T_Matrix::wrap(nrows(), ncols(), colptr(), rowidx(), values(), prop());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

@@ -56,63 +56,18 @@ class XxMatrix : public Ownership, public MatrixMeta {
 
 	public:
 
-		// no copy
-		XxMatrix(const XxMatrix<T_Int,T_Scalar,T_Matrix>&) = delete;
-		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(const XxMatrix<T_Int,T_Scalar,T_Matrix>&) = delete;
-
-		virtual const T_Matrix& self() const = 0;
-
-		/** 
-		 * @name Constructors
-		 * @{
-		 */
-
-		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty matrix.
-		 */
 		explicit XxMatrix();
-
-		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs a (nr x nc) matrix with nz non-zero uninitialized values.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] nz The number of matrix non zeros.
-		 * @param[in] pr The matrix property.
-		 */
 		explicit XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
-
-		/**
-		 * @brief The move constructor.
-		 *
-		 * Constructs a matrix with the contents of `other`, `other` is destroyed.
-		 */
-		XxMatrix(XxMatrix<T_Int,T_Scalar,T_Matrix>&& other);
-
-		/**
-		 * @brief Destroys the matrix.
-		 */
 		~XxMatrix();
 
-		/** @} */
+		virtual const T_Matrix& self() const = 0;
+		virtual T_Matrix& self() = 0;
 
-		/** 
-		 * @name Operators
-		 * @{
-		 */
+		XxMatrix(const XxMatrix<T_Int,T_Scalar,T_Matrix>&);
+		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(const XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 
-		/**
-		 * @brief The move assignment operator.
-		 *
-		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
-		 */
+		XxMatrix(XxMatrix<T_Int,T_Scalar,T_Matrix>&&);
 		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(XxMatrix<T_Int,T_Scalar,T_Matrix>&& other);
-
-		/** @} */
 
 		/** 
 		 * @name Arguments
@@ -365,8 +320,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		void setRowidx(T_Int*);
 		void setValues(T_Scalar*);
 
-		void copyTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&) const;
-		void shallowCopyTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);
+		void copyToExisting(XxMatrix<T_Int,T_Scalar,T_Matrix>&) const;
 		void moveTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 		void wrapper(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr);
 };

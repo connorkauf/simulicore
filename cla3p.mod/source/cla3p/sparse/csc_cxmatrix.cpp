@@ -55,6 +55,12 @@ const CxMatrixTmpl& CxMatrixTmpl::self() const
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
+CxMatrixTmpl& CxMatrixTmpl::self()
+{
+	return (*this);
+}
+/*-------------------------------------------------*/
+CxMatrixTlst
 typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 {
 	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());
