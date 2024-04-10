@@ -134,6 +134,8 @@ void VirtualProdMv<T_Vector>::evaluateOnExisting(T_Vector& trg) const
 		throw err::InvalidOp("Cannot multiply");
 	}
 
+	trg = 0;
+
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), trg);
@@ -225,12 +227,14 @@ T_Matrix VirtualProdMm<T_Matrix>::evaluate() const
 template <typename T_Matrix>
 void VirtualProdMm<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
 {
+	trg = 0;
+
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
-	ops::mult(
-			this->rhs().coeff() * this->lhs().coeff(), 
-			this->lhs().transOp(), this->lhs().obj(), 
-			this->rhs().transOp(), this->rhs().obj(), trg);
+		ops::mult(
+				this->rhs().coeff() * this->lhs().coeff(), 
+				this->lhs().transOp(), this->lhs().obj(), 
+				this->rhs().transOp(), this->rhs().obj(), trg);
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
