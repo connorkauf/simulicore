@@ -89,36 +89,6 @@ template void outerc(dns::RfVector::value_type, const dns::RfVector&, const dns:
 template void outerc(dns::CdVector::value_type, const dns::CdVector&, const dns::CdVector&, dns::CdMatrix&);
 template void outerc(dns::CfVector::value_type, const dns::CfVector&, const dns::CfVector&, dns::CfMatrix&);
 /*-------------------------------------------------*/
-template <typename T_Vector>
-typename TypeTraits<T_Vector>::matrix_type outer(const T_Vector& X, const T_Vector& Y, const Property& pr)
-{
-	typename T_Vector::value_type alpha = 1;
-  typename TypeTraits<T_Vector>::matrix_type ret(X.size(), Y.size(), pr);
-  ret = 0;
-  outer(alpha, X, Y, ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-template typename TypeTraits<dns::RdVector>::matrix_type outer(const dns::RdVector&, const dns::RdVector&, const Property&);
-template typename TypeTraits<dns::RfVector>::matrix_type outer(const dns::RfVector&, const dns::RfVector&, const Property&);
-template typename TypeTraits<dns::CdVector>::matrix_type outer(const dns::CdVector&, const dns::CdVector&, const Property&);
-template typename TypeTraits<dns::CfVector>::matrix_type outer(const dns::CfVector&, const dns::CfVector&, const Property&);
-/*-------------------------------------------------*/
-template <typename T_Vector>
-typename TypeTraits<T_Vector>::matrix_type outerc(const T_Vector& X, const T_Vector& Y, const Property& pr)
-{
-	typename T_Vector::value_type alpha = 1;
-  typename TypeTraits<T_Vector>::matrix_type ret(X.size(), Y.size(), pr);
-  ret = 0;
-  outerc(alpha, X, Y, ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-template typename TypeTraits<dns::RdVector>::matrix_type outerc(const dns::RdVector&, const dns::RdVector&, const Property&);
-template typename TypeTraits<dns::RfVector>::matrix_type outerc(const dns::RfVector&, const dns::RfVector&, const Property&);
-template typename TypeTraits<dns::CdVector>::matrix_type outerc(const dns::CdVector&, const dns::CdVector&, const Property&);
-template typename TypeTraits<dns::CfVector>::matrix_type outerc(const dns::CfVector&, const dns::CfVector&, const Property&);
-/*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
 /*-------------------------------------------------*/

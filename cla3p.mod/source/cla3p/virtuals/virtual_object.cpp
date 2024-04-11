@@ -289,8 +289,10 @@ typename TypeTraits<T_Vector>::matrix_type VirtualVector<T_Vector>::evaluateOute
 
 		if(this->conjOp()) throw err::Exception(); // should have been simplified
 
-		if(this->transOp() == op_t::T) ret = ops::outer (X, this->obj());
-		if(this->transOp() == op_t::C) ret = ops::outerc(X, this->obj());
+		ret = T_Matrix::init(X.size(), this->obj().size());
+
+		if(this->transOp() == op_t::T) ops::outer (1, X, this->obj(), ret);
+		if(this->transOp() == op_t::C) ops::outerc(1, X, this->obj(), ret);
 
 		ret.iscale(this->coeff());
 

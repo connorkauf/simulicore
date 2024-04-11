@@ -62,40 +62,6 @@ void outer(typename T_Vector::value_type alpha, const T_Vector& X, const T_Vecto
 template <typename T_Vector, typename T_Matrix>
 void outerc(typename T_Vector::value_type alpha, const T_Vector& X, const T_Vector& Y, T_Matrix& A);
 
-/**
- * @ingroup module_index_math_op_vecvec
- * @brief Calculate vector outer product.
- *
- * Performs the operation <b>X Y<sup>T</sup></b>.@n
- * %Property pr can be General/Symmetric/Hermitian.@n
- * If pr is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>X Y<sup>T</sup></b> is also Symmetric/Hermitian
- * and only the corresponding part (upper/lower) will be calculated.
- *
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
- * @param[in] pr The property of the output matrix.
- * @return The outer product matrix.
- */
-template <typename T_Vector>
-typename TypeTraits<T_Vector>::matrix_type outer(const T_Vector& X, const T_Vector& Y, const Property& pr = defaultProperty());
-
-/**
- * @ingroup module_index_math_op_vecvec
- * @brief Calculate vector conjugate outer product.
- *
- * Performs the operation <b>X Y<sup>H</sup></b>@n
- * %Property pr can be General/Symmetric/Hermitian.@n
- * If pr is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>X Y<sup>H</sup></b> is also Symmetric/Hermitian
- * and only the corresponding part (upper/lower) will be calculated.
- *
- * @param[in] X The input vector.
- * @param[in] Y The input vector.
- * @param[in] pr The property of the output matrix.
- * @return The conjugate outer product matrix.
- */
-template <typename T_Vector>
-typename TypeTraits<T_Vector>::matrix_type outerc(const T_Vector& X, const T_Vector& Y, const Property& pr = defaultProperty());
-
 /*-------------------------------------------------*/
 } // namespace ops
 } // namespace cla3p
