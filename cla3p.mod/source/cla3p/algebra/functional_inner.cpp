@@ -23,7 +23,7 @@
 
 // cla3p
 #include "cla3p/dense.hpp"
-#include "cla3p/checks/dot_checks.hpp"
+#include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
 
 /*-------------------------------------------------*/
@@ -33,7 +33,8 @@ namespace ops {
 template <typename T_Vector>
 typename T_Vector::value_type dot(const T_Vector& X, const T_Vector& Y)
 {
-	dot_product_consistency_check(X.size(), Y.size());
+	similarity_dim_check(X.size(), Y.size());
+
 	return blas::dot(X.size(), X.values(), 1, Y.values(), 1);
 }
 /*-------------------------------------------------*/
@@ -45,7 +46,8 @@ template dns::CfVector::value_type dot(const dns::CfVector&, const dns::CfVector
 template <typename T_Vector>
 typename T_Vector::value_type dotc(const T_Vector& X, const T_Vector& Y)
 {
-	dot_product_consistency_check(X.size(), Y.size());
+	similarity_dim_check(X.size(), Y.size());
+
 	return blas::dotc(X.size(), X.values(), 1, Y.values(), 1);
 }
 /*-------------------------------------------------*/
