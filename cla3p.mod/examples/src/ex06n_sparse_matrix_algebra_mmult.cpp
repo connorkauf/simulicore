@@ -46,7 +46,9 @@ int main()
 	cla3p::dns::RdMatrix C1 = Acsc * Bdns;
 	std::cout << "C1 (dns) = A (csc) * B (dns):\n" << C1;
 
-	cla3p::dns::RdMatrix C2 = cla3p::ops::mult(1., opA, Acsc, Bdns);
+	cla3p::dns::RdMatrix C2(5,3);
+	C2 = 0;
+	cla3p::ops::mult(1., opA, Acsc, Bdns, C2);
 	std::cout << "C2 (dns) = mult(1.,opA,A(csc),B(dns)):\n" << C2 << "\n";
 
 	cla3p::csc::RdMatrix C3 = Acsc * Bcsc;

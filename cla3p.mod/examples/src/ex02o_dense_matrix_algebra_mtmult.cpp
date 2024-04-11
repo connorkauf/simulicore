@@ -21,12 +21,12 @@ int main()
 	 */
 
 	cla3p::dns::RdMatrix C1 = A.transpose() * B;
-	std::cout << "C1 = A' * B:\n" << C1;
+	std::cout << "C1:\n" << C1;
 
-	cla3p::op_t opA = cla3p::op_t::T;
-	cla3p::op_t opB = cla3p::op_t::N;
-	cla3p::dns::RdMatrix C2 = cla3p::ops::mult(1., opA, A, opB, B);
-	std::cout << "C2 = mult(1,opA,A,opB,B):\n" << C2;
+	cla3p::dns::RdMatrix C2(3,3);
+	C2 = 0;
+	cla3p::ops::mult(1., cla3p::op_t::T, A, cla3p::op_t::N, B, C2);
+	std::cout << "C2:\n" << C2;
 
 	return 0;
 }

@@ -64,40 +64,6 @@ void mult(typename T_Matrix::value_type alpha,
 
 /**
  * @ingroup module_index_math_op_matmat
- * @brief Creates a general matrix from a matrix-matrix product.
- *
- * Performs the operation <b>alpha * opA(A) * opB(B)</b>@n
- * %Property pr can be General/Symmetric/Hermitian.@n
- * If pr is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>opA(A) * opB(B)</b> is also Symmetric/Hermitian
- * and only the corresponding part (upper/lower) will be calculated.
- *
- * Valid combinations are the following:
- @verbatim
-  A: General     B: General     opA: unconstrained      opB: unconstrained      pr: General/Symmetric/Hermitian
-  A: Symmetric   B: General     opA: ignored            opB: must be set to N   pr: General
-  A: Hermitian   B: General     opA: ignored            opB: must be set to N   pr: General
-  A: Triangular  B: General     opA: unconstrained      opB: must be set to N   pr: General
-  A: General     B: Symmetric   opA: must be set to N   opB: ignored            pr: General
-  A: General     B: Hermitian   opA: must be set to N   opB: ignored            pr: General
-  A: General     B: Triangular  opA: must be set to N   opB: unconstrained      pr: General
- @endverbatim
- *
- * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A.
- * @param[in] A The input matrix.
- * @param[in] opB The operation to be performed for matrix B.
- * @param[in] B The input matrix.
- * @param[in] pr The property of the output matrix.
- * @return The matrix <b>(alpha * opA(A) * opB(B))</b>.
- */
-template <typename T_Matrix>
-T_Matrix mult(typename T_Matrix::value_type alpha,
-    op_t opA, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    op_t opB, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B,
-    const Property& pr = defaultProperty());
-
-/**
- * @ingroup module_index_math_op_matmat
  * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
  *
  * Performs the operation <b>B := alpha * opA(A) * B</b>
@@ -186,30 +152,6 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 		const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
     const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
-
-/**
- * @ingroup module_index_math_op_matmat
- * @brief Creates a general matrix from a sparse-dense matrix-matrix product.
- *
- * Performs the operation <b>alpha * opA(A) * B</b>@n
- *
- * Valid combinations are the following:
- @verbatim
-  A: General     B: General     opA: unconstrained
-  A: Symmetric   B: General     opA: ignored      
-  A: Hermitian   B: General     opA: ignored      
- @endverbatim
- *
- * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A.
- * @param[in] A The input sparse matrix.
- * @param[in] B The input dense matrix.
- * @return The matrix <b>(alpha * opA(A) * B)</b>.
- */
-template <typename T_CscMatrix, typename T_DnsMatrix>
-T_DnsMatrix mult(typename T_CscMatrix::value_type alpha, op_t opA, 
-		const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
-    const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B);
 
 /**
  * @ingroup module_index_math_op_matmat

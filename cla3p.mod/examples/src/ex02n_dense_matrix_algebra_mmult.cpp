@@ -25,7 +25,9 @@ int main()
 
 	cla3p::op_t opA = cla3p::op_t::N;
 	cla3p::op_t opB = cla3p::op_t::N;
-	cla3p::dns::RdMatrix C2 = cla3p::ops::mult(1., opA, A, opB, B);
+	cla3p::dns::RdMatrix C2(3,3);
+	C2 = 0;
+	cla3p::ops::mult(1., opA, A, opB, B, C2);
 	std::cout << "C2 = mult(1.,opA,A,opB,B):\n" << C2 << "\n";
 
 	/*
