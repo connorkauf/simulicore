@@ -50,23 +50,6 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 
 /**
  * @ingroup module_index_math_op_matvec
- * @brief Creates a vector from a matrix-vector product.
- *
- * Performs the operation <b>alpha * opA(A) * X</b>
- *
- * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
- * @param[in] A The input matrix.
- * @param[in] X The input vector.
- * @return The vector <b>(alpha * opA(A) * X)</b>.
- */
-template <typename T_Vector, typename T_Matrix>
-T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
-
-/**
- * @ingroup module_index_math_op_matvec
  * @brief Replaces a vector with a triangular matrix-vector product.
  *
  * Performs the operation <b>X := opA(A) * X</b>
@@ -117,23 +100,6 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
-
-/**
- * @ingroup module_index_math_op_matvec
- * @brief Creates a vector from a matrix-vector product.
- *
- * Performs the operation <b>alpha * opA(A) * X</b>
- *
- * @param[in] alpha The scaling coefficient.
- * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
- * @param[in] A The input matrix.
- * @param[in] X The input vector.
- * @return The vector <b>(alpha * opA(A) * X)</b>.
- */
-template <typename T_Vector, typename T_Matrix>
-T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /*-------------------------------------------------*/
 } // namespace ops

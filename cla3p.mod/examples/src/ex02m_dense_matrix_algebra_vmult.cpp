@@ -24,7 +24,9 @@ int main()
 	std::cout << "Y1 = A * X:\n" << Y1;
 
 	cla3p::op_t opA = cla3p::op_t::N;
-	cla3p::dns::RdVector Y2 = cla3p::ops::mult(1., opA, A, X);
+	cla3p::dns::RdVector Y2(3);
+	Y2 = 0;
+	cla3p::ops::mult(1., opA, A, X, Y2);
 	std::cout << "Y2 = mult(1.,opA,A,X):\n" << Y2 << "\n";
 
 	/*

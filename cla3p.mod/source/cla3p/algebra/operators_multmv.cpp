@@ -29,11 +29,14 @@
 /*-------------------------------------------------*/
 template <typename T_Vector, typename T_Matrix>
 T_Vector operator*(
-  const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-  const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
 {
-  using T_Scalar = typename T_Matrix::value_type;
-  return cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X);
+	using T_Scalar = typename T_Matrix::value_type;
+	T_Vector ret(A.nrows());
+	ret = 0;
+	cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X, ret);
+	return ret;
 }
 /*-------------------------------------------------*/
 #define instantiate_op_mv(T_Mat, T_Vec) \

@@ -81,28 +81,6 @@ instantiate_mult(dns::CfVector, dns::CfMatrix);
 #undef instantiate_mult
 /*-------------------------------------------------*/
 template <typename T_Vector, typename T_Matrix>
-T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
-    const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
-{
-  Operation _opA(opA);
-  T_Vector ret(_opA.isTranspose() ? A.ncols() : A.nrows());
-  ret = 0;
-  mult(alpha, opA, A, X, ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-#define instantiate_mult(T_Vec, T_Mat) \
-template T_Vec mult(typename T_Vec::value_type, op_t, \
-		const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-		const dns::XxVector<typename T_Vec::value_type,T_Vec>&)
-instantiate_mult(dns::RdVector, dns::RdMatrix);
-instantiate_mult(dns::RfVector, dns::RfMatrix);
-instantiate_mult(dns::CdVector, dns::CdMatrix);
-instantiate_mult(dns::CfVector, dns::CfMatrix);
-#undef instantiate_mult
-/*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
 void trimult(op_t opA,
 		const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
@@ -187,28 +165,6 @@ template void mult(typename T_Vec::value_type, op_t, \
     const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
     const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
     dns::XxVector<typename T_Vec::value_type,T_Vec>&)
-instantiate_mult(dns::RdVector, csc::RdMatrix);
-instantiate_mult(dns::RfVector, csc::RfMatrix);
-instantiate_mult(dns::CdVector, csc::CdMatrix);
-instantiate_mult(dns::CfVector, csc::CfMatrix);
-#undef instantiate_mult
-/*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
-T_Vector mult(typename T_Vector::value_type alpha, op_t opA,
-    const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
-    const dns::XxVector<typename T_Vector::value_type,T_Vector>& X)
-{
-  Operation _opA(opA);
-  T_Vector ret(_opA.isTranspose() ? A.ncols() : A.nrows());
-  ret = 0;
-  mult(alpha, opA, A, X, ret);
-  return ret;
-}
-/*-------------------------------------------------*/
-#define instantiate_mult(T_Vec, T_Mat) \
-template T_Vec mult(typename T_Vec::value_type, op_t, \
-		const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
-		const dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_mult(dns::RdVector, csc::RdMatrix);
 instantiate_mult(dns::RfVector, csc::RfMatrix);
 instantiate_mult(dns::CdVector, csc::CdMatrix);
