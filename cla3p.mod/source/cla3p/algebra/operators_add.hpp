@@ -149,7 +149,7 @@ T_Object operator+(
 		const T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
-	T_Object ret = A.copy();
+	T_Object ret = A;
 	ret += vB;
 	return ret;
 }
@@ -162,7 +162,7 @@ T_Object operator-(
 		const T_Object& A,
 		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
 {
-	T_Object ret = A.copy();
+	T_Object ret = A;
 	ret -= vB;
 	return ret;
 }

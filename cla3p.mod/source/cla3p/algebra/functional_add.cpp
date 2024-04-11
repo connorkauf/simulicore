@@ -37,13 +37,15 @@ T_Vector add(
 		typename T_Vector::value_type alpha, const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
 		typename T_Vector::value_type beta , const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
-	similarity_check(
-			defaultProperty(), X.size(), 1,
-			defaultProperty(), Y.size(), 1);
+	similarity_dim_check(X.size(), Y.size());
 
-	T_Vector ret = Y.copy();
-	ret.iscale(beta);
-	update(alpha, X, ret);
+	T_Vector ret(X.size());
+
+	bulk::dns::add(uplo_t::Full, X.size(), 1, 
+		alpha, X.values(), X.size(),
+		beta , Y.values(), Y.size(), 
+		ret.values(), ret.size());
+
 	return ret;
 }
 /*-------------------------------------------------*/
@@ -74,7 +76,7 @@ T_Matrix add(
 
 	bulk::dns::add(pr.uplo(), m, n, 
 			alpha, A.values(), A.ld(),
-			beta, B.values(), A.ld(), 
+			beta, B.values(), B.ld(), 
 			ret.values(), ret.ld());
 
 	return ret;
