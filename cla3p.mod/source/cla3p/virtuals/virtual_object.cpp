@@ -376,7 +376,7 @@ void VirtualMatrix<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
 template <typename T_Matrix>
 void VirtualMatrix<T_Matrix>::addToExisting(T_Matrix& B) const
 {
-	// FIXME: add transpose with no extra mem
+	// FIXME: add transpose without evaluation
 
 	if(this->transOp() == op_t::N && !this->conjOp()) {
 		ops::update(this->coeff(), this->obj(), B);

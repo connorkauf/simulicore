@@ -135,28 +135,7 @@ void VirtualProdMv<T_Vector>::evaluateOnExisting(T_Vector& trg) const
 	}
 
 	trg = 0;
-
-	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), trg);
-
-	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), trg);
-
-	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
-
-		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, trg);
-
-	} else {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, trg);
-
-	} // conjop
+	addToExisting(trg);
 }
 /*-------------------------------------------------*/
 template <typename T_Vector>
@@ -228,31 +207,7 @@ template <typename T_Matrix>
 void VirtualProdMm<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
 {
 	trg = 0;
-
-	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		ops::mult(
-				this->rhs().coeff() * this->lhs().coeff(), 
-				this->lhs().transOp(), this->lhs().obj(), 
-				this->rhs().transOp(), this->rhs().obj(), trg);
-
-	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), trg);
-
-	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
-
-		T_Matrix rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, trg);
-
-	} else {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		T_Matrix rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, trg);
-
-	} // conjop
+	addToExisting(trg);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
