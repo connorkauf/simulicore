@@ -78,10 +78,10 @@ typename T_Vector::value_type operator*(
 /*
  * VirtualVector * VirtualProdMv
  */
-template <typename T_Vector>
+template <typename T_Matrix, typename T_Vector>
 typename T_Vector::value_type operator*(
 	const cla3p::VirtualVector<T_Vector>& vX, 
-	const cla3p::VirtualProdMv<T_Vector>& vY) 
+	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vY) 
 { 
 	return (vX * vY.evaluate());
 }
@@ -91,9 +91,9 @@ typename T_Vector::value_type operator*(
 /*
  * VirtualProdMv * VirtualVector
  */
-template <typename T_Vector>
+template <typename T_Matrix, typename T_Vector>
 typename cla3p::TypeTraits<T_Vector>::matrix_type operator*(
-	const cla3p::VirtualProdMv<T_Vector>& vX, 
+	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
 	return vY.evaluateOuter(vX.evaluate());

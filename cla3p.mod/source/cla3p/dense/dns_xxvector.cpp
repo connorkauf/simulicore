@@ -270,7 +270,7 @@ XxVectorTmpl::XxVector(const VirtualVector<T_Vector>& v)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-XxVectorTmpl::XxVector(const VirtualProdMv<T_Vector>& v)
+XxVectorTmpl::XxVector(const VirtualProdMv<T_Matrix,T_Vector>& v)
 {
 	fillFromVirtual(v);
 }
@@ -283,7 +283,7 @@ XxVectorTmpl& XxVectorTmpl::operator=(const VirtualVector<T_Vector>& v)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-XxVectorTmpl& XxVectorTmpl::operator=(const VirtualProdMv<T_Vector>& v)
+XxVectorTmpl& XxVectorTmpl::operator=(const VirtualProdMv<T_Matrix,T_Vector>& v)
 {
 	fillFromVirtual(v);
 	return *this;
@@ -445,7 +445,7 @@ void XxVectorTmpl::fillFromVirtual(const VirtualVector<T_Vector>& v)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-void XxVectorTmpl::fillFromVirtual(const VirtualProdMv<T_Vector>& v)
+void XxVectorTmpl::fillFromVirtual(const VirtualProdMv<T_Matrix,T_Vector>& v)
 {
 	if(!(*this)) {
 

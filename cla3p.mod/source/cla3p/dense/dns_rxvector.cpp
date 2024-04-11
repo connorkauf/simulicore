@@ -80,13 +80,13 @@ RxVectorTmpl& RxVectorTmpl::operator=(const VirtualVector<RxVectorTmpl>& v)
 }
 /*-------------------------------------------------*/
 RxVectorTlst
-RxVectorTmpl::RxVector(const VirtualProdMv<RxVectorTmpl>& v)
+RxVectorTmpl::RxVector(const VirtualProdMv<RxMatrix<T_Scalar>,RxVectorTmpl>& v)
 	: RxVectorTmpl::XxVector(v)
 { 
 }
 /*-------------------------------------------------*/
 RxVectorTlst
-RxVectorTmpl& RxVectorTmpl::operator=(const VirtualProdMv<RxVectorTmpl>& v)
+RxVectorTmpl& RxVectorTmpl::operator=(const VirtualProdMv<RxMatrix<T_Scalar>,RxVectorTmpl>& v)
 { 
 	RxVectorTmpl::XxVector::operator=(v);
 	return *this; 

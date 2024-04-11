@@ -27,7 +27,7 @@
 #include "cla3p/algebra/functional_multmv.hpp"
 
 /*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
+template <typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X)

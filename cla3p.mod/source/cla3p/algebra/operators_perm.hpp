@@ -59,10 +59,10 @@ T_Vector operator*(
 
 /*-------------------------------------------------*/
 
-template <typename T_Int, typename T_Vector>
+template <typename T_Int, typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualProdMv<T_Vector>& vX)
+		const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX)
 {
 	return (P * vX.evaluate());
 }
