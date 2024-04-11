@@ -21,6 +21,8 @@
  * @file
  */
 
+#include <ostream>
+
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
@@ -52,5 +54,16 @@ class VirtualEntity {
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_stream_operators
+ * @brief Writes to os the contents of v.
+ */
+template <typename T_Object, typename T_Virtual>
+std::ostream& operator<<(std::ostream& os, const cla3p::VirtualEntity<T_Object,T_Virtual>& v)
+{
+	os << v.evaluate().toString();
+	return os;
+}
 
 #endif // CLA3P_VIRTUAL_ENTITY_HPP_
