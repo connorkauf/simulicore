@@ -192,7 +192,7 @@ void mult(typename T_CscMatrix::value_type alpha,
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input sparse matrix.
  * @param[in] opB The operation to be performed for matrix B.
- * @param[in] B The input dense matrix.
+ * @param[in] B The input sparse matrix.
  * @return The matrix <b>(alpha * opA(A) * opB(B))</b>.
  */
 template <typename T_Matrix>
