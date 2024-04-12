@@ -32,7 +32,8 @@ namespace cla3p {
 namespace dns { template <typename T_Scalar> class RxMatrix; }
 
 template <typename T_Vector> class VirtualVector;
-template <typename T_Matrix, typename T_Vector> class VirtualProdMv;
+template <typename T_Matrix> class VirtualMatrix;
+template <typename T_Lhs, typename T_Rhs> class VirtualProdMv;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -54,8 +55,8 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 		RxVector(const VirtualVector<RxVector<T_Scalar>>&);
 		RxVector<T_Scalar>& operator=(const VirtualVector<RxVector<T_Scalar>>&);
 
-		RxVector(const VirtualProdMv<RxMatrix<T_Scalar>,RxVector<T_Scalar>>&);
-		RxVector<T_Scalar>& operator=(const VirtualProdMv<RxMatrix<T_Scalar>,RxVector<T_Scalar>>&);
+		RxVector(const VirtualProdMv<VirtualMatrix<RxMatrix<T_Scalar>>,VirtualVector<RxVector<T_Scalar>>>&);
+		RxVector<T_Scalar>& operator=(const VirtualProdMv<VirtualMatrix<RxMatrix<T_Scalar>>,VirtualVector<RxVector<T_Scalar>>>&);
 
 		/**
 		 * @name Constructors

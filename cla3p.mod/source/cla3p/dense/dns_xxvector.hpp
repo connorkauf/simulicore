@@ -35,7 +35,8 @@ namespace cla3p {
 namespace prm { template <typename T_Int> class PxMatrix; }
 
 template <typename T_Vector> class VirtualVector;
-template <typename T_Matrix, typename T_Vector> class VirtualProdMv;
+template <typename T_Matrix> class VirtualMatrix;
+template <typename T_Lhs, typename T_Rhs> class VirtualProdMv;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -221,8 +222,8 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		XxVector(const VirtualVector<T_Vector>&);
 		XxVector<T_Scalar,T_Vector>& operator=(const VirtualVector<T_Vector>&);
 
-		XxVector(const VirtualProdMv<T_Matrix,T_Vector>&);
-		XxVector<T_Scalar,T_Vector>& operator=(const VirtualProdMv<T_Matrix,T_Vector>&);
+		XxVector(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
+		XxVector<T_Scalar,T_Vector>& operator=(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
 
 		/** 
 		 * @name Operators
@@ -388,7 +389,7 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 
 	private:
 		void fillFromVirtual(const VirtualVector<T_Vector>&);
-		void fillFromVirtual(const VirtualProdMv<T_Matrix,T_Vector>&);
+		void fillFromVirtual(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
 
 };
 

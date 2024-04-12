@@ -57,21 +57,20 @@ class VirtualProdXx : public VirtualEntity<typename T_Rhs::value_type,T_Virtual>
 		T_Rhs m_rhs;
 };
 /*-------------------------------------------------*/
-template <typename T_Matrix, typename T_Vector>
-class VirtualProdMv : public VirtualProdXx<
-											VirtualMatrix<T_Matrix>, 
-											VirtualVector<T_Vector>,
-											VirtualProdMv<T_Matrix,T_Vector>> {
+template <typename T_Lhs, typename T_Rhs>
+class VirtualProdMv : public VirtualProdXx<T_Lhs, T_Rhs, VirtualProdMv<T_Lhs,T_Rhs>> {
 
 	private:
+		using T_Vector = typename T_Rhs::value_type;
+		using T_Matrix = typename T_Lhs::value_type;
 		using T_Scalar = typename T_Vector::value_type;
 
 	public:
 		explicit VirtualProdMv();
-		explicit VirtualProdMv(const VirtualMatrix<T_Matrix>& lhs, const VirtualVector<T_Vector>& rhs);
+		explicit VirtualProdMv(const T_Lhs& lhs, const T_Rhs& rhs);
 		~VirtualProdMv();
 
-		const VirtualProdMv<T_Matrix,T_Vector>& self() const override;
+		const VirtualProdMv<T_Lhs,T_Rhs>& self() const override;
 		T_Vector evaluate() const override;
 		void evaluateOnExisting(T_Vector&) const override;
 		void addToExisting(T_Vector&) const override;
