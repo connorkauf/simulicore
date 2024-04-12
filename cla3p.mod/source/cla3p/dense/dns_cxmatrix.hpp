@@ -57,8 +57,8 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		CxMatrix(const VirtualMatrix<CxMatrix<T_Scalar>>&);
 		CxMatrix<T_Scalar>& operator=(const VirtualMatrix<CxMatrix<T_Scalar>>&);
 
-		CxMatrix(const VirtualProdMm<CxMatrix<T_Scalar>>&);
-		CxMatrix<T_Scalar>& operator=(const VirtualProdMm<CxMatrix<T_Scalar>>&);
+		CxMatrix(const VirtualProdMm<CxMatrix<T_Scalar>,CxMatrix<T_Scalar>>&);
+		CxMatrix<T_Scalar>& operator=(const VirtualProdMm<CxMatrix<T_Scalar>,CxMatrix<T_Scalar>>&);
 
 		/**
 		 * @name Constructors

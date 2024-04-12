@@ -96,10 +96,10 @@ T_Matrix operator*(
 
 /*-------------------------------------------------*/
 
-template <typename T_Int, typename T_Matrix>
-T_Matrix operator*(
+template <typename T_Int, typename T_Lhs, typename T_Rhs>
+T_Rhs operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualProdMm<T_Matrix>& vA)
+		const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA)
 {
 	return (P * vA.evaluate());
 }
@@ -151,9 +151,9 @@ T_Matrix operator*(
 
 /*-------------------------------------------------*/
 
-template <typename T_Int, typename T_Matrix>
-T_Matrix operator*(
-		const cla3p::VirtualProdMm<T_Matrix>& vA,
+template <typename T_Int, typename T_Lhs, typename T_Rhs>
+T_Rhs operator*(
+		const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA,
 		const cla3p::prm::PxMatrix<T_Int>& P) 
 {
 	return (P * vA.evaluate());

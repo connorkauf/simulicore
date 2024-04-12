@@ -35,7 +35,7 @@ namespace cla3p {
 namespace prm { template <typename T_Int> class PxMatrix; }
 
 template <typename T_Matrix> class VirtualMatrix;
-template <typename T_Matrix> class VirtualProdMm;
+template <typename T_Lhs, typename T_Rhs> class VirtualProdMm;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -70,8 +70,8 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		XxMatrix(const VirtualMatrix<T_Matrix>&);
 		XxMatrix<T_Scalar,T_Matrix>& operator=(const VirtualMatrix<T_Matrix>&);
 
-		XxMatrix(const VirtualProdMm<T_Matrix>&);
-		XxMatrix<T_Scalar,T_Matrix>& operator=(const VirtualProdMm<T_Matrix>&);
+		XxMatrix(const VirtualProdMm<T_Matrix,T_Matrix>&);
+		XxMatrix<T_Scalar,T_Matrix>& operator=(const VirtualProdMm<T_Matrix,T_Matrix>&);
 
 		/**
 		 * @name Operators
@@ -448,7 +448,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr);
 
 		void fillFromVirtual(const VirtualMatrix<T_Matrix>&);
-		void fillFromVirtual(const VirtualProdMm<T_Matrix>&);
+		void fillFromVirtual(const VirtualProdMm<T_Matrix,T_Matrix>&);
 
 };
 

@@ -105,7 +105,7 @@ XxMatrixTmpl::XxMatrix(const VirtualMatrix<T_Matrix>& v)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-XxMatrixTmpl::XxMatrix(const VirtualProdMm<T_Matrix>& v)
+XxMatrixTmpl::XxMatrix(const VirtualProdMm<T_Matrix,T_Matrix>& v)
 {
 	fillFromVirtual(v);
 }
@@ -118,7 +118,7 @@ XxMatrixTmpl& XxMatrixTmpl::operator=(const VirtualMatrix<T_Matrix>& v)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-XxMatrixTmpl& XxMatrixTmpl::operator=(const VirtualProdMm<T_Matrix>& v)
+XxMatrixTmpl& XxMatrixTmpl::operator=(const VirtualProdMm<T_Matrix,T_Matrix>& v)
 {
 	fillFromVirtual(v);
 	return *this;
@@ -561,7 +561,7 @@ void XxMatrixTmpl::fillFromVirtual(const VirtualMatrix<T_Matrix>& v)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::fillFromVirtual(const VirtualProdMm<T_Matrix>& v)
+void XxMatrixTmpl::fillFromVirtual(const VirtualProdMm<T_Matrix,T_Matrix>& v)
 {
 	if(!(*this)) {
 

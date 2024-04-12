@@ -186,9 +186,9 @@ T_Vector operator*(
 /*
  * VirtualProdMm * XxVector
  */
-template <typename T_Matrix, typename T_Vector>
+template <typename T_Lhs, typename T_Rhs, typename T_Vector>
 T_Vector operator*(
-	const cla3p::VirtualProdMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	return (vA.evaluate() * X).evaluate();
@@ -199,9 +199,9 @@ T_Vector operator*(
 /*
  * VirtualProdMm * VirtualVector
  */
-template <typename T_Matrix, typename T_Vector>
+template <typename T_Lhs, typename T_Rhs, typename T_Vector>
 T_Vector operator*(
-	const cla3p::VirtualProdMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
 	return (vA.evaluate() * vX).evaluate();
@@ -212,9 +212,9 @@ T_Vector operator*(
 /*
  * VirtualProdMm * VirtualProdMv
  */
-template <typename T_Matrix, typename T_Vector>
+template <typename T_Lhs, typename T_Rhs, typename T_Matrix, typename T_Vector>
 T_Vector operator*(
-	const cla3p::VirtualProdMm<T_Matrix>& vA, 
+	const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA, 
 	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX) 
 { 
 	return (vA.evaluate() * vX.evaluate()).evaluate();

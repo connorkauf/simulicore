@@ -170,48 +170,48 @@ void VirtualProdMv<T_Matrix,T_Vector>::addToExisting(T_Vector& Y) const
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualProdMm<T_Matrix>::VirtualProdMm()
+template <typename T_Lhs, typename T_Rhs>
+VirtualProdMm<T_Lhs,T_Rhs>::VirtualProdMm()
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualProdMm<T_Matrix>::VirtualProdMm(const VirtualMatrix<T_Matrix>& lhs, const VirtualMatrix<T_Matrix>& rhs)
-	: VirtualProdXx<VirtualMatrix<T_Matrix>, VirtualMatrix<T_Matrix>, VirtualProdMm<T_Matrix>>(lhs, rhs)
+template <typename T_Lhs, typename T_Rhs>
+VirtualProdMm<T_Lhs,T_Rhs>::VirtualProdMm(const VirtualMatrix<T_Lhs>& lhs, const VirtualMatrix<T_Rhs>& rhs)
+	: VirtualProdXx<VirtualMatrix<T_Lhs>, VirtualMatrix<T_Rhs>, VirtualProdMm<T_Lhs,T_Rhs>>(lhs, rhs)
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualProdMm<T_Matrix>::~VirtualProdMm()
+template <typename T_Lhs, typename T_Rhs>
+VirtualProdMm<T_Lhs,T_Rhs>::~VirtualProdMm()
 {
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-const VirtualProdMm<T_Matrix>& VirtualProdMm<T_Matrix>::self() const
+template <typename T_Lhs, typename T_Rhs>
+const VirtualProdMm<T_Lhs,T_Rhs>& VirtualProdMm<T_Lhs,T_Rhs>::self() const
 {
 	return (*this);
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-T_Matrix VirtualProdMm<T_Matrix>::evaluate() const
+template <typename T_Lhs, typename T_Rhs>
+T_Rhs VirtualProdMm<T_Lhs,T_Rhs>::evaluate() const
 {
 	uint_t m = (this->lhs().transOp() == op_t::N ? this->lhs().obj().nrows() : this->lhs().obj().ncols());
 	uint_t n = (this->rhs().transOp() == op_t::N ? this->rhs().obj().ncols() : this->rhs().obj().nrows());
 
-  T_Matrix ret(m, n);
+  T_Rhs ret(m, n);
 	evaluateOnExisting(ret);
 	return ret;
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void VirtualProdMm<T_Matrix>::evaluateOnExisting(T_Matrix& trg) const
+template <typename T_Lhs, typename T_Rhs>
+void VirtualProdMm<T_Lhs,T_Rhs>::evaluateOnExisting(T_Rhs& trg) const
 {
 	trg = 0;
 	addToExisting(trg);
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void VirtualProdMm<T_Matrix>::addToExisting(T_Matrix& B) const
+template <typename T_Lhs, typename T_Rhs>
+void VirtualProdMm<T_Lhs,T_Rhs>::addToExisting(T_Rhs& B) const
 {
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
@@ -223,47 +223,33 @@ void VirtualProdMm<T_Matrix>::addToExisting(T_Matrix& B) const
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
-		T_Matrix lhs = this->lhs().evaluate();
+		T_Lhs lhs = this->lhs().evaluate();
 		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), B);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
-		T_Matrix rhs = this->rhs().evaluate();
+		T_Rhs rhs = this->rhs().evaluate();
 		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, B);
 
 	} else {
 
-		T_Matrix lhs = this->lhs().evaluate();
-		T_Matrix rhs = this->rhs().evaluate();
+		T_Lhs lhs = this->lhs().evaluate();
+		T_Rhs rhs = this->rhs().evaluate();
 		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, B);
 
 	} // conjop
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void VirtualProdMm<T_Matrix>::swap() 
+template <typename T_Lhs, typename T_Rhs>
+T_Rhs VirtualProdMm<T_Lhs,T_Rhs>::transpose() const
 {
-	VirtualMatrix<T_Matrix> tmp = this->rhs();
-	this->rhs() = this->lhs();
-	this->lhs() = tmp;
+	return evaluate().transpose();
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualProdMm<T_Matrix> VirtualProdMm<T_Matrix>::transpose() const
+template <typename T_Lhs, typename T_Rhs>
+T_Rhs VirtualProdMm<T_Lhs,T_Rhs>::ctranspose() const
 {
-	VirtualProdMm<T_Matrix> ret(this->rhs(), this->lhs());
-	ret.lhs().itranspose();
-	ret.rhs().itranspose();
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-VirtualProdMm<T_Matrix> VirtualProdMm<T_Matrix>::ctranspose() const
-{
-	VirtualProdMm<T_Matrix> ret(this->rhs(), this->lhs());
-	ret.lhs().ictranspose();
-	ret.rhs().ictranspose();
-	return ret;
+	return evaluate().ctranspose();
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -278,15 +264,15 @@ template class VirtualProdMv<dns::RfMatrix, dns::RfVector>;
 template class VirtualProdMv<dns::CdMatrix, dns::CdVector>;
 template class VirtualProdMv<dns::CfMatrix, dns::CfVector>;
 /*-------------------------------------------------*/
-template class VirtualProdXx<VirtualMatrix<dns::RdMatrix>, VirtualMatrix<dns::RdMatrix>, VirtualProdMm<dns::RdMatrix>>;
-template class VirtualProdXx<VirtualMatrix<dns::RfMatrix>, VirtualMatrix<dns::RfMatrix>, VirtualProdMm<dns::RfMatrix>>;
-template class VirtualProdXx<VirtualMatrix<dns::CdMatrix>, VirtualMatrix<dns::CdMatrix>, VirtualProdMm<dns::CdMatrix>>;
-template class VirtualProdXx<VirtualMatrix<dns::CfMatrix>, VirtualMatrix<dns::CfMatrix>, VirtualProdMm<dns::CfMatrix>>;
+template class VirtualProdXx<VirtualMatrix<dns::RdMatrix>, VirtualMatrix<dns::RdMatrix>, VirtualProdMm<dns::RdMatrix,dns::RdMatrix>>;
+template class VirtualProdXx<VirtualMatrix<dns::RfMatrix>, VirtualMatrix<dns::RfMatrix>, VirtualProdMm<dns::RfMatrix,dns::RfMatrix>>;
+template class VirtualProdXx<VirtualMatrix<dns::CdMatrix>, VirtualMatrix<dns::CdMatrix>, VirtualProdMm<dns::CdMatrix,dns::CdMatrix>>;
+template class VirtualProdXx<VirtualMatrix<dns::CfMatrix>, VirtualMatrix<dns::CfMatrix>, VirtualProdMm<dns::CfMatrix,dns::CfMatrix>>;
 /*-------------------------------------------------*/
-template class VirtualProdMm<dns::RdMatrix>;
-template class VirtualProdMm<dns::RfMatrix>;
-template class VirtualProdMm<dns::CdMatrix>;
-template class VirtualProdMm<dns::CfMatrix>;
+template class VirtualProdMm<dns::RdMatrix,dns::RdMatrix>;
+template class VirtualProdMm<dns::RfMatrix,dns::RfMatrix>;
+template class VirtualProdMm<dns::CdMatrix,dns::CdMatrix>;
+template class VirtualProdMm<dns::CfMatrix,dns::CfMatrix>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -37,6 +37,8 @@ class VirtualObject : public VirtualEntity<T_Object,T_Virtual> {
 		using T_Scalar = typename T_Object::value_type;
 
 	public:
+		using value_type = T_Object;
+
 		explicit VirtualObject();
 		explicit VirtualObject(const T_Object&);
 		~VirtualObject();
@@ -82,8 +84,6 @@ class VirtualVector : public VirtualObject<T_Vector, VirtualVector<T_Vector>> {
 		using T_Matrix = typename TypeTraits<T_Vector>::matrix_type;
 
 	public:
-		using value_type = T_Vector;
-
 		explicit VirtualVector();
 		explicit VirtualVector(const T_Vector&);
 		~VirtualVector();
@@ -105,8 +105,6 @@ class VirtualMatrix : public VirtualObject<T_Matrix,VirtualMatrix<T_Matrix>> {
 		using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
-		using value_type = T_Matrix;
-
 		explicit VirtualMatrix();
 		explicit VirtualMatrix(const T_Matrix&);
 		explicit VirtualMatrix(const VirtualVector<T_Vector>&);
