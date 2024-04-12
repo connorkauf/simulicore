@@ -49,7 +49,9 @@ namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; 
  * XxVector * VirtualVector
  */
 template <typename T_Vector>
-cla3p::VirtualProdMm<typename cla3p::TypeTraits<T_Vector>::matrix_type, typename cla3p::TypeTraits<T_Vector>::matrix_type>
+cla3p::VirtualProdMm<
+	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type>, 
+	cla3p::VirtualMatrix<typename cla3p::TypeTraits<T_Vector>::matrix_type>>
 operator*(
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
@@ -57,7 +59,7 @@ operator*(
 	using T_Matrix = typename cla3p::TypeTraits<T_Vector>::matrix_type;
 	cla3p::VirtualMatrix<T_Matrix> vA(X.rmatrix().get());
 	cla3p::VirtualMatrix<T_Matrix> vB(vY);
-	cla3p::VirtualProdMm<T_Matrix,T_Matrix> ret(vA,vB);
+	cla3p::VirtualProdMm<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualMatrix<T_Matrix>> ret(vA,vB);
 	return ret;
 }
 
@@ -82,7 +84,7 @@ typename T_Vector::value_type operator*(
 template <typename T_Matrix, typename T_Vector>
 typename T_Vector::value_type operator*(
 	const cla3p::VirtualVector<T_Vector>& vX, 
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vY) 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vY) 
 { 
 	return (vX * vY.evaluate());
 }
@@ -94,7 +96,7 @@ typename T_Vector::value_type operator*(
  */
 template <typename T_Matrix, typename T_Vector>
 typename cla3p::TypeTraits<T_Vector>::matrix_type operator*(
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX, 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vX, 
 	const cla3p::VirtualVector<T_Vector>& vY) 
 { 
 	return vY.evaluateOuter(vX.evaluate());

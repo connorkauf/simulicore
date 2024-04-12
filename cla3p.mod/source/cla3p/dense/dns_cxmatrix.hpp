@@ -33,6 +33,9 @@ namespace dns { template <typename T_Scalar> class CxVector; }
 namespace dns { template <typename T_Scalar> class RxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class CxMatrix; }
 
+template <typename T_Vector> class VirtualVector;
+template <typename T_Lhs, typename T_Rhs> class VirtualProdMm;
+
 /*-------------------------------------------------*/
 namespace dns {
 /*-------------------------------------------------*/
@@ -57,8 +60,8 @@ class CxMatrix : public XxMatrix<T_Scalar,CxMatrix<T_Scalar>> {
 		CxMatrix(const VirtualMatrix<CxMatrix<T_Scalar>>&);
 		CxMatrix<T_Scalar>& operator=(const VirtualMatrix<CxMatrix<T_Scalar>>&);
 
-		CxMatrix(const VirtualProdMm<CxMatrix<T_Scalar>,CxMatrix<T_Scalar>>&);
-		CxMatrix<T_Scalar>& operator=(const VirtualProdMm<CxMatrix<T_Scalar>,CxMatrix<T_Scalar>>&);
+		CxMatrix(const VirtualProdMm<VirtualMatrix<CxMatrix<T_Scalar>>,VirtualMatrix<CxMatrix<T_Scalar>>>&);
+		CxMatrix<T_Scalar>& operator=(const VirtualProdMm<VirtualMatrix<CxMatrix<T_Scalar>>,VirtualMatrix<CxMatrix<T_Scalar>>>&);
 
 		/**
 		 * @name Constructors

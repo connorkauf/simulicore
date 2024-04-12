@@ -68,10 +68,10 @@ template class VirtualEntity<dns::RfVector, VirtualProdMv<VirtualMatrix<dns::RfM
 template class VirtualEntity<dns::CdVector, VirtualProdMv<VirtualMatrix<dns::CdMatrix>,VirtualVector<dns::CdVector>>>;
 template class VirtualEntity<dns::CfVector, VirtualProdMv<VirtualMatrix<dns::CfMatrix>,VirtualVector<dns::CfVector>>>;
 /*-------------------------------------------------*/
-template class VirtualEntity<dns::RdMatrix, VirtualProdMm<dns::RdMatrix,dns::RdMatrix>>;
-template class VirtualEntity<dns::RfMatrix, VirtualProdMm<dns::RfMatrix,dns::RfMatrix>>;
-template class VirtualEntity<dns::CdMatrix, VirtualProdMm<dns::CdMatrix,dns::CdMatrix>>;
-template class VirtualEntity<dns::CfMatrix, VirtualProdMm<dns::CfMatrix,dns::CfMatrix>>;
+template class VirtualEntity<dns::RdMatrix, VirtualProdMm<VirtualMatrix<dns::RdMatrix>,VirtualMatrix<dns::RdMatrix>>>;
+template class VirtualEntity<dns::RfMatrix, VirtualProdMm<VirtualMatrix<dns::RfMatrix>,VirtualMatrix<dns::RfMatrix>>>;
+template class VirtualEntity<dns::CdMatrix, VirtualProdMm<VirtualMatrix<dns::CdMatrix>,VirtualMatrix<dns::CdMatrix>>>;
+template class VirtualEntity<dns::CfMatrix, VirtualProdMm<VirtualMatrix<dns::CfMatrix>,VirtualMatrix<dns::CfMatrix>>>;
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

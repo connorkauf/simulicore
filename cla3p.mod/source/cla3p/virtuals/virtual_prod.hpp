@@ -77,26 +77,24 @@ class VirtualProdMv : public VirtualProdXx<T_Lhs, T_Rhs, VirtualProdMv<T_Lhs,T_R
 };
 /*-------------------------------------------------*/
 template <typename T_Lhs, typename T_Rhs>
-class VirtualProdMm : public VirtualProdXx<
-											VirtualMatrix<T_Lhs>, 
-											VirtualMatrix<T_Rhs>,
-											VirtualProdMm<T_Lhs,T_Rhs>> {
+class VirtualProdMm : public VirtualProdXx<T_Lhs, T_Rhs, VirtualProdMm<T_Lhs,T_Rhs>> {
 
 	private:
-		using T_Scalar = typename T_Rhs::value_type;
+		using T_Matrix = typename T_Rhs::value_type;
+		using T_Scalar = typename T_Matrix::value_type;
 
 	public:
 		explicit VirtualProdMm();
-		explicit VirtualProdMm(const VirtualMatrix<T_Lhs>& lhs, const VirtualMatrix<T_Rhs>& rhs);
+		explicit VirtualProdMm(const T_Lhs& lhs, const T_Rhs& rhs);
 		~VirtualProdMm();
 
 		const VirtualProdMm<T_Lhs,T_Rhs>& self() const override;
-		T_Rhs evaluate() const override;
-		void evaluateOnExisting(T_Rhs&) const override;
-		void addToExisting(T_Rhs&) const override;
+		T_Matrix evaluate() const override;
+		void evaluateOnExisting(T_Matrix&) const override;
+		void addToExisting(T_Matrix&) const override;
 
-		T_Rhs transpose() const;
-		T_Rhs ctranspose() const;
+		T_Matrix transpose() const;
+		T_Matrix ctranspose() const;
 };
 /*-------------------------------------------------*/
 } // namespace cla3p

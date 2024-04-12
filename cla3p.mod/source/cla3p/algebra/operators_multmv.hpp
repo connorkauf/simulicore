@@ -58,13 +58,14 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
  * @return The virtual product.
  */
 template <typename T_Matrix, typename T_Vector>
-cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
+cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> 
+operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> vA(A.self());
 	cla3p::VirtualVector<T_Vector> vX(X.self());
-	cla3p::VirtualProdMv<T_Matrix,T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> ret(vA,vX);
 	return ret;
 }
 
@@ -74,12 +75,13 @@ cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
  * XxMatrix * VirtualVector
  */
 template <typename T_Matrix, typename T_Vector>
-cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
+cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> 
+operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> vA(A.self());
-	cla3p::VirtualProdMv<T_Matrix,T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> ret(vA,vX);
 	return ret;
 }
 
@@ -91,7 +93,7 @@ cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
 template <typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 	const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX) 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vX) 
 { 
 	return (A * vX.evaluate()).evaluate();
 }
@@ -134,7 +136,7 @@ T_Vector operator*(
 template <typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX) 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vX) 
 { 
 	return (A * vX.evaluate()).evaluate();
 }
@@ -145,12 +147,13 @@ T_Vector operator*(
  * VirtualMatrix * XxVector
  */
 template <typename T_Matrix, typename T_Vector>
-cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
+cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> 
+operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
 	const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	cla3p::VirtualVector<T_Vector> vX(X.self());
-	cla3p::VirtualProdMv<T_Matrix,T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> ret(vA,vX);
 	return ret;
 }
 
@@ -160,11 +163,12 @@ cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
  * VirtualMatrix * VirtualVector
  */
 template <typename T_Matrix, typename T_Vector>
-cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
+cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> 
+operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
 	const cla3p::VirtualVector<T_Vector>& vX) 
 { 
-	cla3p::VirtualProdMv<T_Matrix,T_Vector> ret(vA,vX);
+	cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>> ret(vA,vX);
 	return ret;
 }
 
@@ -176,7 +180,7 @@ cla3p::VirtualProdMv<T_Matrix,T_Vector> operator*(
 template <typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 	const cla3p::VirtualMatrix<T_Matrix>& vA, 
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX) 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vX) 
 { 
 	return (vA * vX.evaluate()).evaluate();
 }
@@ -215,7 +219,7 @@ T_Vector operator*(
 template <typename T_Lhs, typename T_Rhs, typename T_Matrix, typename T_Vector>
 T_Vector operator*(
 	const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA, 
-	const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX) 
+	const cla3p::VirtualProdMv<cla3p::VirtualMatrix<T_Matrix>,cla3p::VirtualVector<T_Vector>>& vX) 
 { 
 	return (vA.evaluate() * vX.evaluate()).evaluate();
 }
