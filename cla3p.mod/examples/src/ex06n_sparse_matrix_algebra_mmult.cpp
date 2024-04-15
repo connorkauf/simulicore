@@ -9,8 +9,8 @@
 
 int main()
 {
-	cla3p::coo::RdMatrix Acoo(5, 5, 10);
-	cla3p::coo::RdMatrix Bcoo(5, 3, 10);
+	cla3p::coo::RdMatrix Acoo(5, 5);
+	cla3p::coo::RdMatrix Bcoo(5, 3);
 
 	Acoo.insert(0,0,1.0);
 	Acoo.insert(1,1,2.0);

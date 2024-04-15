@@ -8,7 +8,7 @@
 
 int main()
 {
-	cla3p::coo::RdMatrix Acoo(5, 5, 10);
+	cla3p::coo::RdMatrix Acoo(5, 5);
 
 	Acoo.insert(0,0,1.0);
 	Acoo.insert(1,1,2.0);
@@ -37,9 +37,9 @@ int main()
 	cla3p::csc::RdMatrix B2 = A  * 2.;
 	cla3p::csc::RdMatrix B3 = 2. * A ;
 
-	std::cout << "B = A/2:\n" << B1 << "\n";
-	std::cout << "B = A*2:\n" << B2 << "\n";
-	std::cout << "B = 2*A:\n" << B3 << "\n";
+	std::cout << "B1:\n" << B1 << "\n";
+	std::cout << "B2:\n" << B2 << "\n";
+	std::cout << "B3:\n" << B3 << "\n";
 
 	return 0;
 }

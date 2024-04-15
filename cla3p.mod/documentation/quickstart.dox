@@ -24,7 +24,6 @@
  * CLA3P uses the following datatypes:
  *
  * @code
- * /** */
  *
  * cla3p::int_t i; // integer
  * cla3p::uint_t u; // unsigned integer
@@ -34,11 +33,10 @@
  * cla3p::complex_t z; // double precision complex (std::complex<double>)
  * cla3p::complex8_t c; // single precision complex (std::complex<float>)
  *
- * /** */
  * @endcode
  *
- * The default length ot the (unsigned) integer is 32bits.@n 
- * You can use 64bit integers by adding -DCLA3P_I64 to your compilation flags and linking with the appropriate library (cla3p_i64).
+ * For 32-bit integer length, link with the default library (libcla3p.so / cla3p.lib).@n 
+ * For 64-bit integer length add -DCLA3P_I64 to your compilation flags and link with the i64 library (libcla3p_i64.so / cla3p_i64.lib).
  *
  *
  *
@@ -53,19 +51,17 @@
  * CLA3P supports the following dense vectors:
  *
  * @code
- * /** */
  *
  * cla3p::dns::RdVector Xd; // double precision real vector
  * cla3p::dns::RfVector Xs; // single precision real vector
  * cla3p::dns::CdVector Xz; // double precision complex vector
  * cla3p::dns::CfVector Xc; // single precision complex vector
  *
- * /** */
  * @endcode
  *
  *
  * @section quick_start_vectors_dense_create Creating vectors
- * You can create dense vectors in the following ways:
+ * You can declare/create dense vectors in the following ways:
  *
  *   @subsection quick_start_vectors_dense_create_default Default creation
  *   <table>
@@ -139,12 +135,10 @@
  * In order to define a property, you will need the following enumerations:
  *
  * @code
- * /** */
  *
  * cla3p::prop_t prop; // general/symmetric/hermitian etc
  * cla3p::uplo_t uplo; // data fill part 
  *
- * /** */
  * @endcode
  *
  * Here is an example of how to define various properties:
@@ -170,19 +164,17 @@
  * CLA3P supports the following dense matrices:
  *
  * @code
- * /** */
  *
  * cla3p::dns::RdMatrix Ad; // double precision real matrix
  * cla3p::dns::RfMatrix As; // single precision real matrix
  * cla3p::dns::CdMatrix Az; // double precision complex matrix
  * cla3p::dns::CfMatrix Ac; // single precision complex matrix
  *
- * /** */
  * @endcode
  *
  *
  * @section quick_start_matrices_dense_create Creating matrices
- * You can create dense matrices in the following ways:
+ * You can declare/create dense matrices in the following ways:
  *
  *   @subsection quick_start_matrices_dense_create_default Default creation
  *   <table>
@@ -289,7 +281,6 @@
  *  - Compressed sparse column storage format (csc), used as the main class for algebraic operations.
  *
  * @code
- * /** */
  *
  * cla3p::coo::RdMatrix Ad; // double precision real matrix (coordinate format)
  * cla3p::coo::RfMatrix As; // single precision real matrix (coordinate format)
@@ -301,12 +292,11 @@
  * cla3p::csc::CdMatrix Az; // double precision complex matrix (compressed sparse column format)
  * cla3p::csc::CfMatrix Ac; // single precision complex matrix (compressed sparse column format)
  *
- * /** */
  * @endcode
  *
  *
  * @section quick_start_matrices_sparse_create Creating matrices
- * You can create sparse matrices in the following ways:
+ * You can declare/create sparse matrices in the following ways:
  *
  *   @subsection quick_start_matrices_sparse_create_default Default creation
  *   <table>
@@ -396,13 +386,12 @@
  * You can create your own guarded objects and/or retrieve a const reference to the object by calling the @ref cla3p::Guard::get() member function.
  *
  * @code
- * /** */
  *
  * const cla3p::dns::RdVector X = cla3p::dns::RdVector::random(3);
  * const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(3,3);
  *
- * cla3p::Guard<cla3p::dns::RdVector> Xgrd = X;
- * cla3p::Guard<cla3p::dns::RdMatrix> Agrd = A;
+ * cla3p::Guard<cla3p::dns::RdVector> Xgrd(X);
+ * cla3p::Guard<cla3p::dns::RdMatrix> Agrd(A);
  *
  * const cla3p::dns::RdVector& Xref = Xgrd.get();
  * const cla3p::dns::RdMatrix& Aref = Agrd.get();
@@ -410,7 +399,6 @@
  * std::cout << Xref.info() << Xref << std::endl;
  * std::cout << Aref.info() << Aref << std::endl;
  *
- * /** */
  * @endcode
  *
  *
@@ -419,8 +407,8 @@
  *
  *
  * @page quick_start_assign Copying/Moving/Referencing
- * Copy constructors and copy assignment operators are disabled.@n 
- * You can explicitly copy and move an object to another.@n 
+ * You can copy objects using simple assignment, copy constructors and copy assignments are fully supported.@n 
+ * You can explicitly copy and move an object to another using member functions.@n 
  * You can also shallow-copy an object, be aware of content referencing!@n 
  *
  * @section quick_start_assign_copy Deep Copying

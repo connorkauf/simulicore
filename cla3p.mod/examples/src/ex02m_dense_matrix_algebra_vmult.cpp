@@ -21,23 +21,22 @@ int main()
 	 */
 
 	cla3p::dns::RdVector Y1 = A * X;
-	std::cout << "Y1 = A * X:\n" << Y1;
+	std::cout << "Y1:\n" << Y1;
 
-	cla3p::op_t opA = cla3p::op_t::N;
 	cla3p::dns::RdVector Y2(3);
 	Y2 = 0;
-	cla3p::ops::mult(1., opA, A, X, Y2);
-	std::cout << "Y2 = mult(1.,opA,A,X):\n" << Y2 << "\n";
+	cla3p::ops::mult(1., cla3p::op_t::N, A, X, Y2);
+	std::cout << "Y2:\n" << Y2 << "\n";
 
 	/*
 	 * Perform the operation (Yx += A * X) using operators and the mult function respectively
 	 */
 
 	Y1 += A * X;
-	std::cout << "Y1 += A * X:\n" << Y1;
+	std::cout << "Y1:\n" << Y1;
 
-	cla3p::ops::mult(1., opA, A, X, Y2);
-	std::cout << "mult(1,opA,A,X,Y2):\n" << Y2;
+	cla3p::ops::mult(1., cla3p::op_t::N, A, X, Y2);
+	std::cout << "Y2:\n" << Y2;
 
 	return 0;
 }

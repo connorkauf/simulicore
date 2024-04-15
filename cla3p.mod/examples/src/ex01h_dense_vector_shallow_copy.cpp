@@ -13,7 +13,7 @@ int main()
 	std::cout << X.info("X") << X;
 
 	/*
-	 * Reference Copy X to Y (X & Y share contents)
+	 * Shallow copy X to Y (X & Y share contents)
 	 */
 
 	cla3p::dns::RfVector Y = X.rcopy();
@@ -23,8 +23,8 @@ int main()
 	Y(0) = 0;
 	Y(2) = 0;
 
-	std::cout << "X after zero set:\n" << X;
-	std::cout << "Y after zero set:\n" << Y;
+	std::cout << "X:\n" << X;
+	std::cout << "Y:\n" << Y;
 
 	return 0;
 }

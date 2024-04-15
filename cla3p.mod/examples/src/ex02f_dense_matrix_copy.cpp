@@ -13,16 +13,23 @@ int main()
 	std::cout << A.info("A") << A;
 
 	/*
-	 * Copy A to B using copy()
-	 *
-	 * Copy assignment: 
-	 * cla3p::dns::RfMatrix B = A;
-	 * is not allowed
+	 * Copy A to B using assignment
+	 * Copy A to C using copy()
 	 */
 
-	cla3p::dns::RfMatrix B = A.copy();
+	cla3p::dns::RfMatrix B = A;
+	cla3p::dns::RfMatrix C = A.copy();
 
 	std::cout << B.info("B") << B;
+	std::cout << C.info("C") << C;
+
+	/*
+	 * Copy B to C using assignment (C is already allocated)
+	 */
+
+	C = B;
+
+	std::cout << C.info("C") << C;
 
 	return 0;
 }

@@ -22,20 +22,20 @@ int main()
 	 */
 
 	cla3p::dns::RdVector Z1 = X + 2. * Y;
-	std::cout << "Z1 = X + 2*Y:\n" << Z1;
+	std::cout << "Z1:\n" << Z1;
 
 	cla3p::dns::RdVector Z2 = cla3p::ops::add(1., X, 2., Y);
-	std::cout << "Z2 = add(1,X,2,Y):\n" << Z2 << "\n";
+	std::cout << "Z2:\n" << Z2 << "\n";
 
 	/*
 	 * Perform the operation (Zx += 3 * X) using operators and the update function respectively
 	 */
 
 	Z1 += 3. * X;
-	std::cout << "Z1 += 3 * X:\n" << Z1;
+	std::cout << "Z1:\n" << Z1;
 
 	cla3p::ops::update(3., X, Z2);
-	std::cout << "update(3,X,Z2):\n" << Z2;
+	std::cout << "Z2:\n" << Z2;
 
 	return 0;
 }

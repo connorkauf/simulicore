@@ -21,7 +21,8 @@ int main()
 	 * (3x4) single precision real matrix (reservation for 10 non-zero insertions)
 	 */
 
-	cla3p::coo::RfMatrix C(3,4,10);
+	cla3p::coo::RfMatrix C(3,4);
+	C.reserve(10);
 
 	std::cout << C.info("C");
 
@@ -29,7 +30,8 @@ int main()
 	 * Allocate space for A (5x2, reservation for 7 non-zero insertions)
 	 */
 
-	B = cla3p::coo::RdMatrix::init(5,2,7);
+	B = cla3p::coo::RdMatrix::init(5,2);
+	B.reserve(7);
 
 	std::cout << B.info("B");
 

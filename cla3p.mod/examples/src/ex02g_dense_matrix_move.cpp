@@ -21,5 +21,15 @@ int main()
 	std::cout << A.info("A") << A;
 	std::cout << B.info("B") << B;
 
+	/*
+	 * Move B to C
+	 * C is non-empty, so it is cleared
+	 */
+
+	cla3p::dns::RfMatrix C(2,2);
+	C = B.move();
+
+	std::cout << C.info("C") << C;
+
 	return 0;
 }

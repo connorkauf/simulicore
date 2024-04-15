@@ -13,16 +13,23 @@ int main()
 	std::cout << X.info("X") << X;
 
 	/*
-	 * Copy X to Y using copy()
-	 *
-	 * Copy assignment: 
-	 * cla3p::dns::RfVector Y = X;
-	 * is not allowed
+	 * Copy X to Y using assignment
+	 * Copy X to Z using copy()
 	 */
 	
-	cla3p::dns::RfVector Y = X.copy();
+	cla3p::dns::RfVector Y = X;
+	cla3p::dns::RfVector Z = X.copy();
 
 	std::cout << Y.info("Y") << Y;
+	std::cout << Z.info("Z") << Z;
+
+	/*
+	 * Copy Y to Z using assignment (Z is already allocated)
+	 */
+
+	Z = Y;
+
+	std::cout << Z.info("Z") << Z;
 
 	return 0;
 }

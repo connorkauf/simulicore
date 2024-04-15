@@ -30,9 +30,9 @@ int main()
 	cla3p::dns::RdMatrix B2 = A  * 2.;
 	cla3p::dns::RdMatrix B3 = 2. * A ;
 
-	std::cout << "B = A/2:\n" << B1;
-	std::cout << "B = A*2:\n" << B2;
-	std::cout << "B = 2*A:\n" << B3;
+	std::cout << "B1:\n" << B1;
+	std::cout << "B2:\n" << B2;
+	std::cout << "B3:\n" << B3;
 
 	return 0;
 }

@@ -13,8 +13,6 @@ int main()
 		for(cla3p::uint_t i = 0; i < 5; i++)
 			A(i,j) = icnt++;
 
-	const cla3p::dns::RdMatrix& Aref = A;
-
 	std::cout << "A:\n" << A << "\n";
 
 	/*
@@ -22,28 +20,38 @@ int main()
 	 * Get a shallow copy of column 3 of A as a vector
 	 */
 
-	cla3p::dns::RdVector Acol1 = A.column(1);
-	cla3p::dns::RdVector Aref3 = A.rcolumn(3);
+	cla3p::dns::RdVector Xc = A.column(1);
+	cla3p::dns::RdVector Xr = A.rcolumn(3);
 
-	std::cout << "column 1 (copy):\n" << Acol1;
-	std::cout << "column 3 (reference):\n" << Aref3;
+	std::cout << "Xc:\n" << Xc;
+	std::cout << "Xr:\n" << Xr;
 
 	/*
 	 * Get a guarded shallow copy of column 3 of Aref as a vector
 	 */
 
-	cla3p::Guard<cla3p::dns::RdVector> Agcol3 = Aref.rcolumn(3);
+	const cla3p::dns::RdMatrix& Aref = A;
 
-	std::cout << "column 3 (guarded reference):\n" << Agcol3.get() << "\n";
+	cla3p::Guard<cla3p::dns::RdVector> Xg = Aref.rcolumn(3);
+
+	std::cout << "Xg:\n" << Xg.get() << "\n";
 
 	/*
 	 * Change values in columns
 	 */
 
-	Acol1 = -2;
-	Aref3 = -1;
+	Xr = -1;
 
-	std::cout << "A after value changes in Acol1 & Aref3:\n" << A;
+	std::cout << "A:\n" << A;
+
+	/*
+	 * Set values of Xc to A, at column 2
+	 */
+
+	Xc = -2;
+	A.rcolumn(2) = Xc;
+
+	std::cout << "A:\n" << A;
 
 	return 0;
 }

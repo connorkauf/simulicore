@@ -36,8 +36,8 @@ RxMatrixTmpl::RxMatrix()
 }
 /*-------------------------------------------------*/
 RxMatrixTlst
-RxMatrixTmpl::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
-	: RxMatrixTmpl::XxMatrix(nr, nc, nz, pr)
+RxMatrixTmpl::RxMatrix(uint_t nr, uint_t nc, const Property& pr)
+	: RxMatrixTmpl::XxMatrix(nr, nc, pr)
 {
 }
 /*-------------------------------------------------*/

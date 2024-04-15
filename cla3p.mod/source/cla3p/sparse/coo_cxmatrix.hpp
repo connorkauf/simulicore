@@ -59,9 +59,9 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 		explicit CxMatrix();
 
 		/**
-		 * @copydoc cla3p::coo::RxMatrix::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+		 * @copydoc cla3p::coo::RxMatrix::RxMatrix(uint_t nr, uint_t nc, const Property& pr)
 		 */
-		explicit CxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		explicit CxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
 		 * @copydoc cla3p::coo::RxMatrix::RxMatrix(const RxMatrix& other)

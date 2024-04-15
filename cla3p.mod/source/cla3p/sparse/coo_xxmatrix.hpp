@@ -51,7 +51,7 @@ class XxMatrix : public MatrixMeta {
 	public:
 
 		explicit XxMatrix();
-		explicit XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		explicit XxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 		~XxMatrix();
 
 		virtual const T_Matrix& self() const = 0;
@@ -160,15 +160,14 @@ class XxMatrix : public MatrixMeta {
 		/**
 		 * @brief Creates a matrix.
 		 *
-		 * Creates a (nr x nc) matrix with reserved space for nz values.
+		 * Creates a (nr x nc) sparse matrix container.
 		 *
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
-		 * @param[in] nz The number of matrix non zeros (estimation).
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix init(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/** @} */
 

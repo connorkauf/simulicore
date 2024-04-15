@@ -61,14 +61,13 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		/**
 		 * @brief The dimensional constructor.
 		 *
-		 * Creates a (nr x nc) matrix with reserved space for nz values.
+		 * Creates a (nr x nc) sparse matrix container.
 		 *
 		 * @param[in] nr The number of matrix rows.
 		 * @param[in] nc The number of matrix columns.
-		 * @param[in] nz The number of matrix non zeros (estimation).
 		 * @param[in] pr The matrix property.
 		 */
-		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		explicit RxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
 
 		/**
 		 * @brief The copy constructor.

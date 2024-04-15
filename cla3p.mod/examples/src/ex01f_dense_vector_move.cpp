@@ -21,5 +21,15 @@ int main()
 	std::cout << X.info("X") << X;
 	std::cout << Y.info("Y") << Y;
 
+	/*
+	 * Move Y to Z
+	 * Z is non-empty, so it is cleared
+	 */
+
+	cla3p::dns::RfVector Z(2);
+	Z = Y.move();
+
+	std::cout << Z.info("Z") << Z;
+
 	return 0;
 }

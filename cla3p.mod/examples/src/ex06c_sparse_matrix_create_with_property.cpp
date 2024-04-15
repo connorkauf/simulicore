@@ -20,9 +20,9 @@ int main()
 	 */
 
 	{
-		cla3p::coo::RfMatrix A(30, 40, 10, prA);
-		cla3p::coo::RfMatrix B(30, 30, 10, prB);
-		cla3p::coo::CdMatrix C(30, 30, 10, prC);
+		cla3p::coo::RfMatrix A(30, 40, prA);
+		cla3p::coo::RfMatrix B(30, 30, prB);
+		cla3p::coo::CdMatrix C(30, 30, prC);
 		std::cout << A.info("A") << B.info("B") << C.info("C");
 	}
 
@@ -31,9 +31,9 @@ int main()
 	 */
 
 	{
-		cla3p::coo::RfMatrix A = cla3p::coo::RfMatrix::init(3, 4, 10, prA);
-		cla3p::coo::RfMatrix B = cla3p::coo::RfMatrix::init(3, 3, 10, prB);
-		cla3p::coo::CdMatrix C = cla3p::coo::CdMatrix::init(3, 3, 10, prC);
+		cla3p::coo::RfMatrix A = cla3p::coo::RfMatrix::init(3, 4, prA);
+		cla3p::coo::RfMatrix B = cla3p::coo::RfMatrix::init(3, 3, prB);
+		cla3p::coo::CdMatrix C = cla3p::coo::CdMatrix::init(3, 3, prC);
 	}
 
 	return 0;

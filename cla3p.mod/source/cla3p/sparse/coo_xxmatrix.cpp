@@ -45,11 +45,10 @@ XxMatrixTmpl::XxMatrix()
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
 	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
 	coo_consistency_check(prop(), nrows(), ncols());
-	reserve(nz);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -219,9 +218,9 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::init(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+T_Matrix XxMatrixTmpl::init(uint_t nr, uint_t nc, const Property& pr)
 {
-	T_Matrix ret(nr, nc, nz, pr);
+	T_Matrix ret(nr, nc, pr);
 	return ret;
 }
 /*-------------------------------------------------*/

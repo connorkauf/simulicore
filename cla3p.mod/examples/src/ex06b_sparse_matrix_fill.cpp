@@ -7,7 +7,7 @@
 
 int main()
 {
-	cla3p::coo::RdMatrix A(5, 5, 10);
+	cla3p::coo::RdMatrix A(5, 5);
 
 	/* 
 	 * Insert values in A

@@ -12,13 +12,16 @@ int main()
 	cla3p::dns::RdVector Z(3);
 
 	/* 
-	 * Set all values in X to 1.5 and in Y to -2.7
-	 * Insert values in Z
+	 * Set all values in X to 1.5 (using member function)
+	 * Set all values in Y to -2.7 (using operator=)
 	 */
 
 	X.fill(1.5);
-
 	Y = -2.7;
+
+	/* 
+	 * Insert values in Z manually
+	 */
 
 	Z(0) = 3.;
 	Z(1) = 2.;

@@ -13,7 +13,7 @@ int main()
 	std::cout << A.info("A") << A;
 
 	/*
-	 * Shallow Copy A to B (A & B share contents)
+	 * Shallow copy A to B (A & B share contents)
 	 */
 
 	cla3p::dns::RfMatrix B = A.rcopy();
@@ -25,8 +25,8 @@ int main()
 	B(0,2) = 0;
 	B(1,2) = 0;
 
-	std::cout << "A after zero set:\n" << A;
-	std::cout << "B after zero set:\n" << B;
+	std::cout << "A:\n" << A;
+	std::cout << "B:\n" << B;
 
 	return 0;
 }

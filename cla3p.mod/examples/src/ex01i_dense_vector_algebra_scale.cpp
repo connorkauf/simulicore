@@ -30,9 +30,9 @@ int main()
 	cla3p::dns::RdVector Y2 = X  * 2.;
 	cla3p::dns::RdVector Y3 = 2. * X ;
 
-	std::cout << "Y = X/2:\n" << Y1 << "\n";
-	std::cout << "Y = X*2:\n" << Y2 << "\n";
-	std::cout << "Y = 2*X:\n" << Y3;
+	std::cout << "Y1:\n" << Y1 << "\n";
+	std::cout << "Y2:\n" << Y2 << "\n";
+	std::cout << "Y3:\n" << Y3;
 
 	return 0;
 }
