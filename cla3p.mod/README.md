@@ -89,7 +89,7 @@ See section [Third-Party Dependencies](#third-party-dependencies) for more infor
 <a name="useful-info"></a>
 ## Useful info
 
-In order to ensure a minimum-copy policy, copy constructors for the basic math objects are disabled for now. Objects can be explicitly copied using function calls. Move constructors are defined for rapid data passing between objects. This guarantees total control over memory and keeps allocations to a minimum.  
+Copy constructors are fully supported, objects can also be explicitly copied using function calls. Move constructors are defined for rapid data passing between objects. This guarantees total control over memory and keeps allocations to a minimum.  
 
 **CLA3P** comes with an intuitive operator-based interface, as well as an advanced functional-based interface for maximum efficiency. For example, a transpose matrix-vector multiplication operation can be called using operators
 ```cpp
