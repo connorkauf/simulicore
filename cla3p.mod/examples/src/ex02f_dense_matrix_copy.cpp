@@ -24,7 +24,10 @@ int main()
 	std::cout << C.info("C") << C;
 
 	/*
-	 * Copy B to C using assignment (C is already allocated)
+	 * Copy B to C using assignment 
+	 * C is already allocated 
+	 * No re-allocation performed 
+	 * Needs matching dimensions/property
 	 */
 
 	C = B;

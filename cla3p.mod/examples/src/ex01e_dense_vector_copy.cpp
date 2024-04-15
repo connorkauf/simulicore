@@ -24,7 +24,10 @@ int main()
 	std::cout << Z.info("Z") << Z;
 
 	/*
-	 * Copy Y to Z using assignment (Z is already allocated)
+	 * Copy Y to Z using assignment
+	 * Z is already allocated 
+	 * No re-allocation performed 
+	 * Needs matching sizes
 	 */
 
 	Z = Y;
