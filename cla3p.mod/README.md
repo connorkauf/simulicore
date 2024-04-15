@@ -94,10 +94,13 @@ In order to ensure a minimum-copy policy, copy constructors for the basic math o
 **CLA3P** comes with an intuitive operator-based interface, as well as an advanced functional-based interface for maximum efficiency. For example, a transpose matrix-vector multiplication operation can be called using operators
 ```cpp
 Y = A.transpose() * X;
+Z += A.transpose() * X;
 ```
 or by using the mult() function
 ```cpp
-Y = cla3p::ops::mult(1., cla3p::op_t::T, A, X);
+Y = 0;
+cla3p::ops::mult(1., cla3p::op_t::T, A, X, Y);
+cla3p::ops::mult(1., cla3p::op_t::T, A, X, Z);
 ```
 Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculations are virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** are currently available for dense objects. Sparse virtual support will soon be supported.
 
