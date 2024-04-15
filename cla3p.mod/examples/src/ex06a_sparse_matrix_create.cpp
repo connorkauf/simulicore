@@ -18,20 +18,18 @@ int main()
 	std::cout << B.info("B");
 
 	/*
-	 * (3x4) single precision real matrix (reservation for 10 non-zero insertions)
+	 * (3x4) single precision real matrix
 	 */
 
 	cla3p::coo::RfMatrix C(3,4);
-	C.reserve(10);
 
 	std::cout << C.info("C");
 
 	/*
-	 * Allocate space for A (5x2, reservation for 7 non-zero insertions)
+	 * Initialize a (5x2) empty sparse matrix
 	 */
 
 	B = cla3p::coo::RdMatrix::init(5,2);
-	B.reserve(7);
 
 	std::cout << B.info("B");
 

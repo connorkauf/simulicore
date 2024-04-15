@@ -9,6 +9,12 @@ int main()
 {
 	cla3p::coo::RdMatrix A(5, 5);
 
+	/*
+	 * Reserve space for insertions (optional)
+	 */
+
+	A.reserve(10);
+
 	/* 
 	 * Insert values in A
 	 */

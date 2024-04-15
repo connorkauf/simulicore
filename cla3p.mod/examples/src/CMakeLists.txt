@@ -13,6 +13,7 @@ set(CLA3P_EXAMPLES_SRC
 	ex01h_dense_vector_shallow_copy.cpp
 	ex01i_dense_vector_algebra_scale.cpp
 	ex01j_dense_vector_algebra_add.cpp
+	ex01k_dense_vector_algebra_dot.cpp
 	ex02a_dense_matrix_create.cpp
 	ex02b_dense_matrix_fill.cpp
 	ex02c_dense_matrix_create_with_property.cpp

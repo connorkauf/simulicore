@@ -123,6 +123,15 @@
  *     </tr>
  *   </table>
  *
+ *   @subsection quick_start_vectors_dense_algebra_dot Dot Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01k_dense_vector_algebra_dot.cpp </td>
+ *       <td> @include i32/out/ex01k_dense_vector_algebra_dot.out </td>
+ *     </tr>
+ *   </table>
+ *
  *
  *
  *
