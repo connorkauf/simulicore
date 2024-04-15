@@ -27,7 +27,7 @@ int main()
 		 * Overwrite X with the solution (A^{-1} * B1)
 		 */
 
-		cla3p::dns::RdVector X = B1.copy();
+		cla3p::dns::RdVector X = B1;
 
 		luSolver.solve(X);
 
@@ -41,7 +41,7 @@ int main()
 		 * Overwrite X with the solution (A^{-1} * B2)
 		 */
 
-		cla3p::dns::RdMatrix X = B2.copy();
+		cla3p::dns::RdMatrix X = B2;
 
 		luSolver.solve(X);
 

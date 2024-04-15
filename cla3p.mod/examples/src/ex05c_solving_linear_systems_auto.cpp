@@ -19,7 +19,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 
 	autoSolver.decompose(A);
 
-	T_Rhs X = B.copy();
+	T_Rhs X = B;
 
 	/*
 	 * Overwrite X with the solution (A^{-1} * B1)
