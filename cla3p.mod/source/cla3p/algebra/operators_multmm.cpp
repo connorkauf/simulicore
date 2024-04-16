@@ -34,8 +34,7 @@ T_DnsMatrix operator*(
 {
 	using T_Scalar = typename T_CscMatrix::value_type;
 	T_DnsMatrix ret(A.nrows(), B.ncols());
-	ret = 0;
-	cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, B, ret);
+	cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, B, T_Scalar(0), ret);
 	return ret;
 }
 /*-------------------------------------------------*/

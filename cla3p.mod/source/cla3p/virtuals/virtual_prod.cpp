@@ -147,23 +147,23 @@ void VirtualProdMv<T_Lhs,T_Rhs>::addToExisting(T_Vector& Y) const
 
 	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
 
-		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), Y);
+		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), T_Scalar(1), Y);
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), Y);
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), T_Scalar(1), Y);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
 		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, Y);
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, T_Scalar(1), Y);
 
 	} else {
 
 		T_Matrix lhs = this->lhs().evaluate();
 		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, rhs, Y);
+		ops::mult(T_Scalar(1), op_t::N, lhs, rhs, T_Scalar(1), Y);
 
 	} // conjop
 }
@@ -219,23 +219,23 @@ void VirtualProdMm<T_Lhs,T_Rhs>::addToExisting(T_Matrix& B) const
 				this->rhs().coeff() * this->lhs().coeff(), 
 				this->lhs().transOp(), this->lhs().obj(), 
 				this->rhs().transOp(), this->rhs().obj(), 
-				B);
+				T_Scalar(1), B);
 
 	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
 
 		typename T_Lhs::value_type lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), B);
+		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), T_Scalar(1), B);
 
 	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
 
 		typename T_Rhs::value_type rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, B);
+		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, T_Scalar(1), B);
 
 	} else {
 
 		typename T_Lhs::value_type lhs = this->lhs().evaluate();
 		typename T_Rhs::value_type rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, B);
+		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, T_Scalar(1), B);
 
 	} // conjop
 }

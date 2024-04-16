@@ -37,12 +37,11 @@ template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
     const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
 	Operation _opA(opA);
 	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), Y.size());
-
-	typename T_Vector::value_type beta = 1;
 
 	if(A.prop().isGeneral()) {
 
@@ -60,6 +59,7 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 
 		T_Vector tmp(Y.size());
 		bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
+		Y.iscale(beta);
 		ops::update(1, tmp, Y);
 
 	} else {
@@ -73,6 +73,7 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 template void mult(typename T_Vec::value_type, op_t, \
     const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
     const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
+		typename T_Vec::value_type, \
     dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_mult(dns::RdVector, dns::RdMatrix);
 instantiate_mult(dns::RfVector, dns::RfMatrix);
@@ -128,12 +129,11 @@ template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
 	Operation _opA(opA);
 	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), Y.size());
-
-	typename T_Vector::value_type beta = 1;
 
 	if(A.prop().isGeneral() || A.prop().isTriangular()) {
 
@@ -164,6 +164,7 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 template void mult(typename T_Vec::value_type, op_t, \
     const csc::XxMatrix<typename T_Mat::index_type,typename T_Mat::value_type,T_Mat>&, \
     const dns::XxVector<typename T_Vec::value_type,T_Vec>&, \
+		typename T_Vec::value_type, \
     dns::XxVector<typename T_Vec::value_type,T_Vec>&)
 instantiate_mult(dns::RdVector, csc::RdMatrix);
 instantiate_mult(dns::RfVector, csc::RfMatrix);

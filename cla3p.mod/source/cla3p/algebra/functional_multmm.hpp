@@ -33,7 +33,7 @@ namespace ops {
  * @ingroup module_index_math_op_matmat
  * @brief Updates a general matrix with a matrix-matrix product.
  *
- * Performs the operation <b>C = C + alpha * opA(A) * opB(B)</b>@n
+ * Performs the operation <b>C := beta * C + alpha * opA(A) * opB(B)</b>@n
  * C can be General/Symmetric/Hermitian.@n
  * If C is Symmetric/Hermitian, it is assumed that the outcome of the operation <b>opA(A) * opB(B)</b> is also Symmetric/Hermitian
  * and only the corresponding part (upper/lower) will be calculated.
@@ -54,12 +54,14 @@ namespace ops {
  * @param[in] A The input matrix.
  * @param[in] opB The operation to be performed for matrix B.
  * @param[in] B The input matrix.
+ * @param[in] beta The scaling coefficient for C.
  * @param[in,out] C The matrix to be updated.
  */
 template <typename T_Matrix>
 void mult(typename T_Matrix::value_type alpha,
     op_t opA, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
     op_t opB, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B,
+		typename T_Matrix::value_type beta,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& C);
 
 /**
@@ -132,7 +134,7 @@ void trisol(typename T_Matrix::value_type alpha,
  * @ingroup module_index_math_op_matmat
  * @brief Updates a general dense matrix with a sparse-dense matrix-matrix product.
  *
- * Performs the operation <b>C = C + alpha * opA(A) * B</b>@n
+ * Performs the operation <b>C := beta * C + alpha * opA(A) * B</b>@n
  *
  * Valid combinations are the following:
  @verbatim
@@ -145,19 +147,21 @@ void trisol(typename T_Matrix::value_type alpha,
  * @param[in] opA The operation to be performed for matrix A.
  * @param[in] A The input sparse matrix.
  * @param[in] B The input dense matrix.
+ * @param[in] beta The scaling coefficient for C.
  * @param[in,out] C The dense matrix to be updated.
  */
 template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha, op_t opA, 
 		const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
     const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
+		typename T_CscMatrix::value_type beta,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
 
 /**
  * @ingroup module_index_math_op_matmat
  * @brief Updates a dense matrix with a sparse-sparse matrix-matrix product.
  *
- * Performs the operation <b>C = C + alpha * opA(A) * opB(B)</b>@n
+ * Performs the operation <b>C := beta * C + alpha * opA(A) * opB(B)</b>@n
  *
  * Valid combinations are the following:
  @verbatim
@@ -169,12 +173,14 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
  * @param[in] A The input sparse matrix.
  * @param[in] opB The operation to be performed for matrix B.
  * @param[in] B The input dense matrix.
+ * @param[in] beta The scaling coefficient for C.
  * @param[in,out] C The dense matrix to be updated.
  */
 template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha, 
 		op_t opA, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
 		op_t opB, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& B,
+		typename T_CscMatrix::value_type beta,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
 
 /**

@@ -24,8 +24,7 @@ int main()
 	std::cout << "Y1:\n" << Y1;
 
 	cla3p::dns::RdVector Y2(3);
-	Y2 = 0;
-	cla3p::ops::mult(1., cla3p::op_t::N, A, X, Y2);
+	cla3p::ops::mult(1., cla3p::op_t::N, A, X, 0., Y2);
 	std::cout << "Y2:\n" << Y2 << "\n";
 
 	/*
@@ -35,7 +34,7 @@ int main()
 	Y1 += A * X;
 	std::cout << "Y1:\n" << Y1;
 
-	cla3p::ops::mult(1., cla3p::op_t::N, A, X, Y2);
+	cla3p::ops::mult(1., cla3p::op_t::N, A, X, 1., Y2);
 	std::cout << "Y2:\n" << Y2;
 
 	return 0;

@@ -65,10 +65,9 @@ template <typename T_Matrix>
 void mult(typename T_Matrix::value_type alpha,
     op_t opA, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
     op_t opB, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B,
+		typename T_Matrix::value_type beta,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& C)
 {
-	using T_Scalar = typename T_Matrix::value_type;
-
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 	if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
 
@@ -84,6 +83,7 @@ void mult(typename T_Matrix::value_type alpha,
 			C.nrows(), C.ncols());
 
 	hermitian_coeff_check(C.prop(), alpha);
+	hermitian_coeff_check(C.prop(), beta);
 
 	if(A.prop().isGeneral() && B.prop().isGeneral()) {
 
@@ -97,8 +97,7 @@ void mult(typename T_Matrix::value_type alpha,
 					k, alpha, 
 					opA, A.values(), A.ld(), 
 					opB, B.values(), B.ld(), 
-					T_Scalar(1), 
-					C.values(), C.ld());
+					beta, C.values(), C.ld());
 
 		} else if(C.prop().isSymmetric() || C.prop().isHermitian()) {
 
@@ -108,7 +107,8 @@ void mult(typename T_Matrix::value_type alpha,
 					C.nrows(), C.ncols(), alpha, 
 					A.values(), A.ld(), 
 					B.values(), B.ld(), 
-					1, C.values(), C.ld());
+					beta, 
+					C.values(), C.ld());
 
 		} else {
 
@@ -124,7 +124,7 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				A.values(), A.ld(), 
 				B.values(), B.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
@@ -136,7 +136,7 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				A.values(), A.ld(), 
 				B.values(), B.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else if(A.prop().isGeneral() && B.prop().isSymmetric() && C.prop().isGeneral()) {
@@ -147,7 +147,7 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				B.values(), B.ld(), 
 				A.values(), A.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else if(A.prop().isGeneral() && B.prop().isHermitian() && C.prop().isGeneral()) {
@@ -158,7 +158,7 @@ void mult(typename T_Matrix::value_type alpha,
 				alpha, 
 				B.values(), B.ld(), 
 				A.values(), A.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else if(A.prop().isTriangular() && B.prop().isGeneral() && C.prop().isGeneral()) {
@@ -174,6 +174,7 @@ void mult(typename T_Matrix::value_type alpha,
 				B.values(), B.ld(), 
 				tmp.values(), tmp.ld());
 
+		C.iscale(beta);
 		ops::update(1, tmp, C);
 
 	} else if(A.prop().isGeneral() && B.prop().isTriangular() && C.prop().isGeneral()) {
@@ -189,6 +190,7 @@ void mult(typename T_Matrix::value_type alpha,
 				A.values(), A.ld(), 
 				tmp.values(), tmp.ld());
 
+		C.iscale(beta);
 		ops::update(1, tmp, C);
 
 	} else {
@@ -202,6 +204,7 @@ void mult(typename T_Matrix::value_type alpha,
 template void mult(typename T_Mat::value_type, \
 		op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
     op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+		typename T_Mat::value_type, \
     dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
 instantiate_mult(dns::RdMatrix);
 instantiate_mult(dns::RfMatrix);
@@ -223,8 +226,7 @@ static void trimult(typename T_Matrix::value_type alpha, side_t sideA,
   blas::trmm(
       static_cast<char>(sideA), A.prop().cuplo(), _opA.ctype(), 'N',
       B.nrows(), B.ncols(), alpha, A.values(), A.ld(),
-      B.values(),
-      B.ld());
+      B.values(), B.ld());
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -322,10 +324,9 @@ template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
     const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
+		typename T_CscMatrix::value_type beta, 
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
 {
-	using T_Scalar = typename T_CscMatrix::value_type;
-
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
 	opA = (TypeTraits<T_CscMatrix>::is_real() && opA == op_t::C ? op_t::T : opA);
@@ -349,7 +350,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 					alpha,
 					A.colptr(), A.rowidx(), A.values(),
 					B.values(), B.ld(), 
-					T_Scalar(1), 
+					beta, 
 					C.values(), C.ld());
 
 	} else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
@@ -360,7 +361,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 				alpha,
 				A.colptr(), A.rowidx(), A.values(),
 				B.values(), B.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
@@ -371,7 +372,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 				alpha,
 				A.colptr(), A.rowidx(), A.values(),
 				B.values(), B.ld(), 
-				T_Scalar(1), 
+				beta, 
 				C.values(), C.ld());
 
 	} else {
@@ -385,6 +386,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 template void mult(typename T_Csc::value_type, op_t, \
     const csc::XxMatrix<typename T_Csc::index_type,typename T_Csc::value_type,T_Csc>&, \
     const dns::XxMatrix<typename T_Dns::value_type,T_Dns>&, \
+		typename T_Csc::value_type, \
     dns::XxMatrix<typename T_Dns::value_type,T_Dns>&)
 instantiate_mult(csc::RdMatrix, dns::RdMatrix);
 instantiate_mult(csc::RfMatrix, dns::RfMatrix);
@@ -396,10 +398,9 @@ template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha,
     op_t opA, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
     op_t opB, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& B,
+		typename T_CscMatrix::value_type beta,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
 {
-	using T_Scalar = typename T_CscMatrix::value_type;
-
 	opA = (TypeTraits<T_CscMatrix>::is_real() && opA == op_t::C ? op_t::T : opA);
 	opB = (TypeTraits<T_CscMatrix>::is_real() && opB == op_t::C ? op_t::T : opB);
 
@@ -418,7 +419,7 @@ void mult(typename T_CscMatrix::value_type alpha,
 		bulk::csc::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
 				opA, A.colptr(), A.rowidx(), A.values(),
 				opB, B.colptr(), B.rowidx(), B.values(),
-				T_Scalar(1), C.values(), C.ld());
+				beta, C.values(), C.ld());
 
 	} else {
 
@@ -431,6 +432,7 @@ void mult(typename T_CscMatrix::value_type alpha,
 template void mult(typename T_Csc::value_type, \
 		op_t, const csc::XxMatrix<typename T_Csc::index_type,typename T_Csc::value_type,T_Csc>&, \
 		op_t, const csc::XxMatrix<typename T_Csc::index_type,typename T_Csc::value_type,T_Csc>&, \
+		typename T_Csc::value_type, \
 		dns::XxMatrix<typename T_Dns::value_type,T_Dns>&)
 instantiate_mult(csc::RdMatrix, dns::RdMatrix);
 instantiate_mult(csc::RfMatrix, dns::RfMatrix);

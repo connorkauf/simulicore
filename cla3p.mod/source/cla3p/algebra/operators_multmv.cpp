@@ -34,8 +34,7 @@ T_Vector operator*(
 {
 	using T_Scalar = typename T_Matrix::value_type;
 	T_Vector ret(A.nrows());
-	ret = 0;
-	cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X, ret);
+	cla3p::ops::mult(T_Scalar(1), cla3p::op_t::N, A, X, T_Scalar(0), ret);
 	return ret;
 }
 /*-------------------------------------------------*/

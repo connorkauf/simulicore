@@ -33,12 +33,13 @@ namespace ops {
  * @ingroup module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
- * Performs the operation <b>Y = Y + alpha * opA(A) * X</b>
+ * Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
+ * @param[in] beta The scaling coefficient for Y.
  * @param[in,out] Y The vector to be updated.
  */
 
@@ -46,6 +47,7 @@ template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
     const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /**
@@ -86,12 +88,13 @@ void trisol(op_t opA,
  * @ingroup module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
- * Performs the operation <b>Y = Y + alpha * opA(A) * X</b>
+ * Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>
  *
  * @param[in] alpha The scaling coefficient.
  * @param[in] opA The operation to be performed for matrix A. If A is symmetric or hermitian, opA is ignored.
  * @param[in] A The input matrix.
  * @param[in] X The input vector.
+ * @param[in] beta The scaling coefficient for Y.
  * @param[in,out] Y The vector to be updated.
  */
 
@@ -99,6 +102,7 @@ template <typename T_Vector, typename T_Matrix>
 void mult(typename T_Vector::value_type alpha, op_t opA,
     const csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
     const dns::XxVector<typename T_Vector::value_type,T_Vector>& X,
+		typename T_Vector::value_type beta,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /*-------------------------------------------------*/

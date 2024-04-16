@@ -68,7 +68,7 @@ enum class uplo_t : char {
  * For example in order for the operation Y = A<sup>T</sup> * X to be calculated we do not need to explicitly calculate A<sup>T</sup>.@n
  * Instead we can use the mult() function with the appropriate op_t value for the matrix A:
  @code
- Y = cla3p::ops::mult(1, cla3p::op_t::T, A, X);
+ cla3p::ops::mult(1, cla3p::op_t::T, A, X, 0, Y);
  @endcode
  to calculate the matrix product much more efficiently.
  */
