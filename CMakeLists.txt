@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7.0)
 
 set(project_name "SimuliCore")
-set(project_version "1.1.0")
+set(project_version "1.2.0")
 project(${project_name} VERSION ${project_version} LANGUAGES CXX)
 
 #-----------------------------------------------
