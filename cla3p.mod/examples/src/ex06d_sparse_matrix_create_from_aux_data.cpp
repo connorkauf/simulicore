@@ -39,7 +39,7 @@ int main()
 	 * B takes ownership of csc vectors, no free call for the csc vectors is required
 	 */
 
-	cla3p::Property prB(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
+	cla3p::Property prB = cla3p::Property::SymmetricLower();
 	cla3p::csc::RdMatrix B = cla3p::csc::RdMatrix::wrap(nc, nc, colptrB, rowidxB, valuesB, true, prB);
 
 	std::cout << B.info("B");

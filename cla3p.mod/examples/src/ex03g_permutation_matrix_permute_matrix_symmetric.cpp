@@ -13,8 +13,7 @@ int main()
 	 * Create a (3x3) random symmetric lower matrix
 	 */
 
-	cla3p::Property prA(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
-	cla3p::dns::RdMatrix A(3,3,prA);
+	cla3p::dns::RdMatrix A(3, 3, cla3p::Property::SymmetricLower());
 
 	for(cla3p::uint_t j = 0, icnt = 0; j < 3; j++)
 		for(cla3p::uint_t i = j; i < 3; i++)

@@ -79,7 +79,7 @@ class RxMatrix : public XxMatrix<T_Scalar,RxMatrix<T_Scalar>> {
 		 * @param[in] nc The number of matrix columns.
 		 * @param[in] pr The matrix property.
 		 */
-		explicit RxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		explicit RxMatrix(uint_t nr, uint_t nc, const Property& pr = Property::General());
 
 		/**
 		 * @brief The copy constructor.

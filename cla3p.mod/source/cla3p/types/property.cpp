@@ -173,19 +173,64 @@ bool Property::isLower() const
 	return (uplo() == uplo_t::Lower);
 }
 /*-------------------------------------------------*/
+Property Property::General()
+{
+	return Property(prop_t::General, uplo_t::Full);
+}
+/*-------------------------------------------------*/
+Property Property::SymmetricUpper()
+{
+	return Property(prop_t::Symmetric, uplo_t::Upper);
+}
+/*-------------------------------------------------*/
+Property Property::SymmetricLower()
+{
+	return Property(prop_t::Symmetric, uplo_t::Lower);
+}
+/*-------------------------------------------------*/
+Property Property::HermitianUpper()
+{
+	return Property(prop_t::Hermitian, uplo_t::Upper);
+}
+/*-------------------------------------------------*/
+Property Property::HermitianLower()
+{
+	return Property(prop_t::Hermitian, uplo_t::Lower);
+}
+/*-------------------------------------------------*/
+Property Property::TriangularUpper()
+{
+	return Property(prop_t::Triangular, uplo_t::Upper);
+}
+/*-------------------------------------------------*/
+Property Property::TriangularLower()
+{
+	return Property(prop_t::Triangular, uplo_t::Lower);
+}
+/*-------------------------------------------------*/
+Property Property::SkewUpper()
+{
+	return Property(prop_t::Skew, uplo_t::Upper);
+}
+/*-------------------------------------------------*/
+Property Property::SkewLower()
+{
+	return Property(prop_t::Skew, uplo_t::Lower);
+}
+/*-------------------------------------------------*/
 std::vector<Property> allProperties()
 {
 	std::vector<cla3p::Property> ret(9);
 
-	ret[0] = cla3p::Property(cla3p::prop_t::General   , cla3p::uplo_t::Full );
-	ret[1] = cla3p::Property(cla3p::prop_t::Symmetric , cla3p::uplo_t::Upper);
-	ret[2] = cla3p::Property(cla3p::prop_t::Symmetric , cla3p::uplo_t::Lower);
-	ret[3] = cla3p::Property(cla3p::prop_t::Hermitian , cla3p::uplo_t::Upper);
-	ret[4] = cla3p::Property(cla3p::prop_t::Hermitian , cla3p::uplo_t::Lower);
-	ret[5] = cla3p::Property(cla3p::prop_t::Triangular, cla3p::uplo_t::Upper);
-	ret[6] = cla3p::Property(cla3p::prop_t::Triangular, cla3p::uplo_t::Lower);
-	ret[7] = cla3p::Property(cla3p::prop_t::Skew      , cla3p::uplo_t::Upper);
-	ret[8] = cla3p::Property(cla3p::prop_t::Skew      , cla3p::uplo_t::Lower);
+	ret[0] = cla3p::Property::General();
+	ret[1] = cla3p::Property::SymmetricUpper();
+	ret[2] = cla3p::Property::SymmetricLower();
+	ret[3] = cla3p::Property::HermitianUpper();
+	ret[4] = cla3p::Property::HermitianLower();
+	ret[5] = cla3p::Property::TriangularUpper();
+	ret[6] = cla3p::Property::TriangularLower();
+	ret[7] = cla3p::Property::SkewUpper();
+	ret[8] = cla3p::Property::SkewLower();
 
 	return ret;
 }

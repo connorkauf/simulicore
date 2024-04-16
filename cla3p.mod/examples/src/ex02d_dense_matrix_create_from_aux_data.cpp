@@ -40,7 +40,7 @@ int main()
 	 * B takes ownership of b, no free call for b is required
 	 */
 
-	cla3p::Property prB(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
+	cla3p::Property prB = cla3p::Property::SymmetricLower();
 	cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::wrap(5, 5, b, ldb, true, prB);
 
 	std::cout << B.info("B") << B;

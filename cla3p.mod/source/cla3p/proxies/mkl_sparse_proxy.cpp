@@ -273,7 +273,7 @@ class CsrMatrix : public CsxMatrix<T_Scalar> {
 		CsrMatrix() = default;
 		~CsrMatrix() = default;
 
-		CsrMatrix(uint_t m, uint_t n, int_t *rowptr, int_t *colidx, T_Scalar *values, const Property& pr = defaultProperty());
+		CsrMatrix(uint_t m, uint_t n, int_t *rowptr, int_t *colidx, T_Scalar *values, const Property& pr = Property::General());
 
 		void export3(int_t *m, int_t *n, int_t **rowptr, int_t **colidx, T_Scalar **values) const;
 };
@@ -300,7 +300,7 @@ class CscMatrix : public CsxMatrix<T_Scalar> {
 		CscMatrix() = default;
 		~CscMatrix() = default;
 
-		CscMatrix(uint_t m, uint_t n, int_t *colptr, int_t *rowidx, T_Scalar *values, const Property& pr = defaultProperty());
+		CscMatrix(uint_t m, uint_t n, int_t *colptr, int_t *rowidx, T_Scalar *values, const Property& pr = Property::General());
 
 		void export3(int_t *m, int_t *n, int_t **colptr, int_t **rowidx, T_Scalar **values) const;
 

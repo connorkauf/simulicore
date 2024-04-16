@@ -141,14 +141,16 @@
  *
  * The @ref cla3p::Property class is used to specify special matrix properties like symmetry. 
  *
- * In order to define a property, you will need the following enumerations:
+ * Properties consist of two fields:
  *
  * @code
  *
- * cla3p::prop_t prop; // general/symmetric/hermitian etc
- * cla3p::uplo_t uplo; // data fill part 
+ * cla3p::prop_t prop; // main matrix property: general/symmetric/hermitian etc
+ * cla3p::uplo_t uplo; // matrix data fill part 
  *
  * @endcode
+ *
+ * You can manually declare a property using the class constructor or you can use the pre-defined property creator functions in the cla3p::Property class.
  *
  * Here is an example of how to define various properties:
  * <table>

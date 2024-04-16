@@ -387,7 +387,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = Property::General());
 
 		/**
 		 * @brief Creates a matrix with random values in (lo,hi).
@@ -401,7 +401,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		 * @param[in] hi The largest value of each generated element.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = defaultProperty(), 
+		static T_Matrix random(uint_t nr, uint_t nc, const Property& pr = Property::General(), 
 				T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
@@ -417,7 +417,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr = defaultProperty());
+		static T_Matrix wrap(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr = Property::General());
 
 		/**
 		 * @brief Creates a matrix guard from aux data.
@@ -431,7 +431,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created guard.
 		 */
-		static Guard<T_Matrix> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = defaultProperty());
+		static Guard<T_Matrix> wrap(uint_t nr, uint_t nc, const T_Scalar *vals, uint_t ldv, const Property& pr = Property::General());
 
 		/** @} */
 

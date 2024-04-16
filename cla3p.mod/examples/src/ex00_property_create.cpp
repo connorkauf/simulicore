@@ -11,8 +11,8 @@ int main()
 	 * Instantiate various properties
 	 */
 
-	cla3p::Property prG(cla3p::prop_t::General  , cla3p::uplo_t::Full ); // the default property
-	cla3p::Property prS(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower); // symmetric lower property
+	cla3p::Property prG = cla3p::Property::General(); // the default property
+	cla3p::Property prS = cla3p::Property::SymmetricLower(); // symmetric lower property
 	cla3p::Property prH(cla3p::prop_t::Hermitian, cla3p::uplo_t::Upper); // hermitian upper property
 
 	std::cout << "Property G: " << prG << std::endl;

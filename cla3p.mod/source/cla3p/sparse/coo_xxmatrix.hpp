@@ -51,7 +51,7 @@ class XxMatrix : public MatrixMeta {
 	public:
 
 		explicit XxMatrix();
-		explicit XxMatrix(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		explicit XxMatrix(uint_t nr, uint_t nc, const Property& pr = Property::General());
 		~XxMatrix();
 
 		virtual const T_Matrix& self() const = 0;
@@ -167,7 +167,7 @@ class XxMatrix : public MatrixMeta {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = defaultProperty());
+		static T_Matrix init(uint_t nr, uint_t nc, const Property& pr = Property::General());
 
 		/** @} */
 

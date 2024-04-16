@@ -5,17 +5,18 @@ SimuliCore new version with copy constructor support & more efficient virtual op
 ## CLA3P Module
 
 ### New Features
-- Copy constructor/assignment support for all entities
-- Enhanced virtual operations efficiency
+- Copy constructor/assignment support for all entities.
+- Enhanced virtual operations efficiency.
+- Add property creation functions in Property class.
 
 ### Changes
-- Remove functional multiplications that return new objects
-- Remove 'nz' argument from coo matrix constructors
+- Remove functional multiplications that return new objects.
+- Remove 'nz' argument from coo matrix constructors.
 - [CLA3P-33](https://github.com/connorkauf/simulicore/issues/33) More efficient reconstruction of dense objects.
 
 ### Fixes
-- Fix in documentation links
-- Fix in virtual outer product
+- Fix in documentation links.
+- Fix in virtual outer product.
 
 
 # [v1.1.0] - 2024-03-05
@@ -25,11 +26,11 @@ SimuliCore next version with various features, bug-fixes and patches.
 ## CLA3P Module
 
 ### New Features
-- Vector dot product
-- Add sparse matrix utility class (coordinate format)
-- Add sparse matrix class (compressed sparse column format)
+- Vector dot product.
+- Add sparse matrix utility class (coordinate format).
+- Add sparse matrix class (compressed sparse column format).
 - [CLA3P-25](https://github.com/connorkauf/simulicore/issues/25) Virtual Operations Implementation.
-- [CLA3P-34](https://github.com/connorkauf/simulicore/issues/34) Implementation of sparse algebra
+- [CLA3P-34](https://github.com/connorkauf/simulicore/issues/34) Implementation of sparse algebra.
 
 ### Changes
 - Rename dns::XxObject member function "scale()" to "iscale()"

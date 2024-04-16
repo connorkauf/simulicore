@@ -176,6 +176,71 @@ class Property {
 		 */
 		bool isLower() const;
 
+	public:
+
+		/**
+		 * @brief The General property.
+		 *
+		 * Constructs a general property.
+		 */
+		static Property General();
+
+		/**
+		 * @brief The Symmetric property (upper fill).
+		 *
+		 * Constructs a symmetric property, upper matrix part will be filled/used.
+		 */
+		static Property SymmetricUpper();
+
+		/**
+		 * @brief The Symmetric property (lower fill).
+		 *
+		 * Constructs a symmetric property, lower matrix part will be filled/used.
+		 */
+		static Property SymmetricLower();
+
+		/**
+		 * @brief The Hermitian property (upper fill).
+		 *
+		 * Constructs a hermitian property, upper matrix part will be filled/used.
+		 */
+		static Property HermitianUpper();
+
+		/**
+		 * @brief The Hermitian property (lower fill).
+		 *
+		 * Constructs a hermitian property, lower matrix part will be filled/used.
+		 */
+		static Property HermitianLower();
+
+		/**
+		 * @brief The Triangular property (upper fill).
+		 *
+		 * Constructs a triangular/trapezoidal property, upper matrix part will be filled/used.
+		 */
+		static Property TriangularUpper();
+
+		/**
+		 * @brief The Triangular property (lower fill).
+		 *
+		 * Constructs a triangular/trapezoidal property, lower matrix part will be filled/used.
+		 */
+		static Property TriangularLower();
+
+		/**
+		 * @brief The Skew property (upper fill).
+		 *
+		 * Constructs a skew property, upper matrix part will be filled/used.
+		 */
+		static Property SkewUpper();
+
+		/**
+		 * @brief The Skew property (lower fill).
+		 *
+		 * Constructs a skew property, lower matrix part will be filled/used.
+		 */
+		static Property SkewLower();
+
 	private:
 		prop_t m_type;
 		uplo_t m_uplo;
@@ -185,11 +250,6 @@ class Property {
 };
 
 /*-------------------------------------------------*/
-
-inline Property defaultProperty()
-{
-	return Property(prop_t::General, uplo_t::Full);
-}
 
 template <typename T_Scalar>
 inline Property sanitizeProperty(const Property& pr)

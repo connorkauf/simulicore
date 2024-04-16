@@ -163,7 +163,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isTriangular() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		T_Matrix tmp(C.nrows(), C.ncols(), defaultProperty());
+		T_Matrix tmp(C.nrows(), C.ncols());
 
 		bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
 				C.nrows(), 
@@ -178,7 +178,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isGeneral() && B.prop().isTriangular() && C.prop().isGeneral()) {
 
-		T_Matrix tmp(C.nrows(), C.ncols(), defaultProperty());
+		T_Matrix tmp(C.nrows(), C.ncols());
 
 		bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
 				C.nrows(), 

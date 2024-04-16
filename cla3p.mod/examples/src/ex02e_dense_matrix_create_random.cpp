@@ -21,7 +21,7 @@ int main()
 	 * with random values in [0,1]
 	 */
 
-	cla3p::Property prB(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
+	cla3p::Property prB = cla3p::Property::SymmetricLower();
 	cla3p::dns::RdMatrix B = cla3p::dns::RdMatrix::random(4, 4, prB);
 
 	std::cout << B.info("B") << B;

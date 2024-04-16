@@ -13,7 +13,7 @@ int main()
 	 * Create a random symmetric matrix
 	 */
 
-	cla3p::Property prA(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
+	cla3p::Property prA = cla3p::Property::SymmetricLower();
 	const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(5,5,prA);
 
 	/*

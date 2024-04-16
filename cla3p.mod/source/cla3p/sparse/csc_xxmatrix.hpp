@@ -57,7 +57,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 	public:
 
 		explicit XxMatrix();
-		explicit XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		explicit XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
 		~XxMatrix();
 
 		virtual const T_Matrix& self() const = 0;
@@ -274,7 +274,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix init(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		static T_Matrix init(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
 
 		/**
 		 * @brief Creates a matrix from aux data.
@@ -290,7 +290,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created matrix.
 		 */
-		static T_Matrix wrap(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = defaultProperty());
+		static T_Matrix wrap(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr = Property::General());
 
 		/**
 		 * @brief Creates a matrix guard from aux data.
@@ -305,7 +305,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @param[in] pr The matrix property.
 		 * @return The newly created guard.
 		 */
-		static Guard<T_Matrix> wrap(uint_t nr, uint_t nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr = defaultProperty());
+		static Guard<T_Matrix> wrap(uint_t nr, uint_t nc, const T_Int *cptr, const T_Int *ridx, const T_Scalar *vals, const Property& pr = Property::General());
 
 		/** @} */
 

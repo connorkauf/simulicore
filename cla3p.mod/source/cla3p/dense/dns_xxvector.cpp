@@ -384,7 +384,7 @@ T_Vector XxVectorTmpl::block(uint_t ibgn, uint_t ni) const
 XxVectorTlst
 T_Vector XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 {
-	block_op_consistency_check(defaultProperty(), this->size(), 1, ibgn, 0, ni, 1);
+	block_op_consistency_check(Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
 	return T_Vector::wrap(ni, this->values() + ibgn, false);
 }
@@ -392,7 +392,7 @@ T_Vector XxVectorTmpl::rblock(uint_t ibgn, uint_t ni)
 XxVectorTlst
 Guard<T_Vector> XxVectorTmpl::rblock(uint_t ibgn, uint_t ni) const
 {
-	block_op_consistency_check(defaultProperty(), this->size(), 1, ibgn, 0, ni, 1);
+	block_op_consistency_check(Property::General(), this->size(), 1, ibgn, 0, ni, 1);
 
 	return T_Vector::wrap(ni, this->values() + ibgn);
 }

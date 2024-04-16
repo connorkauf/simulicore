@@ -48,14 +48,14 @@ int main()
 	 * Create a random symmetric matrix
 	 */
 
-	cla3p::Property prS(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
+	cla3p::Property prS = cla3p::Property::SymmetricLower();
 	const cla3p::dns::RdMatrix Asym = cla3p::dns::RdMatrix::random(5, 5, prS);
 
 	/*
 	 * Create a random triangular matrix
 	 */
 
-	cla3p::Property prT(cla3p::prop_t::Triangular, cla3p::uplo_t::Upper);
+	cla3p::Property prT = cla3p::Property::TriangularUpper();
 	const cla3p::dns::RdMatrix Atri = cla3p::dns::RdMatrix::random(5, 5, prT);
 
 	/*

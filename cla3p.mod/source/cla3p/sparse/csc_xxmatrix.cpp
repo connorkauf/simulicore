@@ -375,7 +375,7 @@ T_Matrix XxMatrixTmpl::general() const
 	} else if(prop().isTriangular()) {
 
 		ret = copy();
-		ret.setProp(defaultProperty());
+		ret.setProp(Property::General());
 
 	} else {
 

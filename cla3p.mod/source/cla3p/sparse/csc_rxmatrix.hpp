@@ -68,7 +68,7 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		 * @param[in] nz The number of matrix non zeros.
 		 * @param[in] pr The matrix property.
 		 */
-		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = defaultProperty());
+		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
 
 		/**
 		 * @brief The copy constructor.

@@ -11,9 +11,9 @@ int main()
 	 * Create properties for A, B and C
 	 */
 
-	cla3p::Property prA(cla3p::prop_t::General  , cla3p::uplo_t::Full );
-	cla3p::Property prB(cla3p::prop_t::Symmetric, cla3p::uplo_t::Lower);
-	cla3p::Property prC(cla3p::prop_t::Hermitian, cla3p::uplo_t::Upper);
+	cla3p::Property prA = cla3p::Property::General();
+	cla3p::Property prB = cla3p::Property::SymmetricLower();
+	cla3p::Property prC = cla3p::Property::HermitianUpper();
 
 	/*
 	 * Declare matrices with a property
