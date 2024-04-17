@@ -46,6 +46,18 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		const RxMatrix<T_Int,T_Scalar>& self() const override;
 		RxMatrix<T_Int,T_Scalar>& self() override;
 
+		/* DO NOT DOCUMENT
+		 * @brief The dimensional constructor.
+		 *
+		 * Constructs a (nr x nc) matrix with nz non-zero uninitialized values.
+		 *
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] nz The number of matrix non zeros.
+		 * @param[in] pr The matrix property.
+		 */
+		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -57,18 +69,6 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		 * Constructs an empty matrix.
 		 */
 		explicit RxMatrix();
-
-		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs a (nr x nc) matrix with nz non-zero uninitialized values.
-		 *
-		 * @param[in] nr The number of matrix rows.
-		 * @param[in] nc The number of matrix columns.
-		 * @param[in] nz The number of matrix non zeros.
-		 * @param[in] pr The matrix property.
-		 */
-		explicit RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
 
 		/**
 		 * @brief The copy constructor.

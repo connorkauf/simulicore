@@ -51,6 +51,11 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 		const CxMatrix<T_Int,T_Scalar>& self() const override;
 		CxMatrix<T_Int,T_Scalar>& self() override;
 
+		/* DO NOT DOCUMENT
+		 * @copydoc cla3p::csc::RxMatrix::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+		 */
+		explicit CxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
+
 		/**
 		 * @name Constructors
 		 * @{
@@ -60,11 +65,6 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 		 * @copydoc cla3p::csc::RxMatrix::RxMatrix()
 		 */
 		explicit CxMatrix();
-
-		/**
-		 * @copydoc cla3p::csc::RxMatrix::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
-		 */
-		explicit CxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
 
 		/**
 		 * @copydoc cla3p::csc::RxMatrix::RxMatrix(const RxMatrix& other)
