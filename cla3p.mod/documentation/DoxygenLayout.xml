@@ -6,55 +6,55 @@
 
     <!-- ==================================================================== -->
 
-    <tab type="usergroup" url="@ref quick_start" title="Quick Start">
-      <tab type="user" url="@ref quick_start_datatypes" title="Datatypes"/>
+    <tab type="usergroup" url="@ref tutorial" title="Tutorial">
+      <tab type="user" url="@ref tutorial_datatypes" title="Datatypes"/>
 
-      <tab type="usergroup" url="@ref quick_start_vectors" title="Vectors">
-        <tab type="usergroup" url="@ref quick_start_vectors_dense" title="Dense">
-          <tab type="user" url="@ref quick_start_vectors_dense_create" title="Create"/>
-          <tab type="user" url="@ref quick_start_vectors_dense_fill" title="Fill/Access"/>
-          <tab type="user" url="@ref quick_start_vectors_dense_algebra" title="Algebra"/>
+      <tab type="usergroup" url="@ref tutorial_vectors" title="Vectors">
+        <tab type="usergroup" url="@ref tutorial_vectors_dense" title="Dense">
+          <tab type="user" url="@ref tutorial_vectors_dense_create" title="Create"/>
+          <tab type="user" url="@ref tutorial_vectors_dense_fill" title="Fill/Access"/>
+          <tab type="user" url="@ref tutorial_vectors_dense_algebra" title="Algebra"/>
         </tab>
       </tab>
 
-      <tab type="user" url="@ref quick_start_property" title="Property"/>
+      <tab type="user" url="@ref tutorial_property" title="Property"/>
 
-      <tab type="usergroup" url="@ref quick_start_matrices" title="Matrices">
-        <tab type="usergroup" url="@ref quick_start_matrices_dense" title="Dense">
-          <tab type="user" url="@ref quick_start_matrices_dense_create" title="Create"/>
-          <tab type="user" url="@ref quick_start_matrices_dense_fill" title="Fill/Access"/>
-          <tab type="user" url="@ref quick_start_matrices_dense_algebra" title="Algebra"/>
+      <tab type="usergroup" url="@ref tutorial_matrices" title="Matrices">
+        <tab type="usergroup" url="@ref tutorial_matrices_dense" title="Dense">
+          <tab type="user" url="@ref tutorial_matrices_dense_create" title="Create"/>
+          <tab type="user" url="@ref tutorial_matrices_dense_fill" title="Fill/Access"/>
+          <tab type="user" url="@ref tutorial_matrices_dense_algebra" title="Algebra"/>
         </tab>
-        <tab type="usergroup" url="@ref quick_start_matrices_sparse" title="Sparse">
-          <tab type="user" url="@ref quick_start_matrices_sparse_create" title="Create"/>
-          <tab type="user" url="@ref quick_start_matrices_sparse_fill" title="Fill"/>
-          <tab type="user" url="@ref quick_start_matrices_sparse_algebra" title="Algebra"/>
+        <tab type="usergroup" url="@ref tutorial_matrices_sparse" title="Sparse">
+          <tab type="user" url="@ref tutorial_matrices_sparse_create" title="Create"/>
+          <tab type="user" url="@ref tutorial_matrices_sparse_fill" title="Fill"/>
+          <tab type="user" url="@ref tutorial_matrices_sparse_algebra" title="Algebra"/>
         </tab>
       </tab>
 
-      <tab type="user" url="@ref quick_start_guard" title="Guards"/>
+      <tab type="user" url="@ref tutorial_guard" title="Guards"/>
 
-      <tab type="usergroup" url="@ref quick_start_assign" title="Copying/Moving/Referencing">
-        <tab type="user" url="@ref quick_start_assign_copy" title="Copy"/>
-        <tab type="user" url="@ref quick_start_assign_move" title="Move"/>
-        <tab type="user" url="@ref quick_start_assign_rcopy" title="Shallow Copy"/>
+      <tab type="usergroup" url="@ref tutorial_assign" title="Copying/Moving/Referencing">
+        <tab type="user" url="@ref tutorial_assign_copy" title="Copy"/>
+        <tab type="user" url="@ref tutorial_assign_move" title="Move"/>
+        <tab type="user" url="@ref tutorial_assign_rcopy" title="Shallow Copy"/>
       </tab>
 
-      <tab type="user" url="@ref quick_start_block_ops" title="Block Operations"/>
+      <tab type="user" url="@ref tutorial_block_ops" title="Block Operations"/>
 
-      <tab type="usergroup" url="@ref quick_start_perm" title="Permutations">
-        <tab type="usergroup" url="@ref quick_start_perm_matrix" title="Permutation Matrix">
-          <tab type="user" url="@ref quick_start_perm_matrix_create" title="Create"/>
-          <tab type="user" url="@ref quick_start_perm_matrix_fill" title="Fill/Access"/>
+      <tab type="usergroup" url="@ref tutorial_perm" title="Permutations">
+        <tab type="usergroup" url="@ref tutorial_perm_matrix" title="Permutation Matrix">
+          <tab type="user" url="@ref tutorial_perm_matrix_create" title="Create"/>
+          <tab type="user" url="@ref tutorial_perm_matrix_fill" title="Fill/Access"/>
         </tab>
-        <tab type="user" url="@ref quick_start_perm_ops" title="Permutation Operations"/>
+        <tab type="user" url="@ref tutorial_perm_ops" title="Permutation Operations"/>
       </tab>
 
-      <tab type="usergroup" url="@ref quick_start_linsol" title="Linear System Solvers">
-        <tab type="user" url="@ref quick_start_linsol_lu" title="LU"/>
-        <tab type="user" url="@ref quick_start_linsol_ldlt" title="LDL'"/>
-        <tab type="user" url="@ref quick_start_linsol_auto" title="Auto"/>
-        <tab type="user" url="@ref quick_start_linsol_operators" title="Operators"/>
+      <tab type="usergroup" url="@ref tutorial_linsol" title="Linear System Solvers">
+        <tab type="user" url="@ref tutorial_linsol_lu" title="LU"/>
+        <tab type="user" url="@ref tutorial_linsol_ldlt" title="LDL'"/>
+        <tab type="user" url="@ref tutorial_linsol_auto" title="Auto"/>
+        <tab type="user" url="@ref tutorial_linsol_operators" title="Operators"/>
       </tab>
     </tab>
 

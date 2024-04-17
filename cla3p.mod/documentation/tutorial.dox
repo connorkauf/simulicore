@@ -1,25 +1,25 @@
 /**
- * @page quick_start Quick Start Guide
+ * @page tutorial Quick Start Guide
  * In this section we present a collection of examples that demonstrate the basic concepts of CLA3P.@n 
  * The purpose of this guide is to help users get familiar with the CLA3P API and grasp its capabilities.@n
  * Simply choose the category you are interested in and browse the related code.
  *
- *  - @subpage quick_start_datatypes
- *  - @subpage quick_start_vectors
- *  - @subpage quick_start_property
- *  - @subpage quick_start_matrices
- *  - @subpage quick_start_guard
- *  - @subpage quick_start_assign
- *  - @subpage quick_start_block_ops
- *  - @subpage quick_start_perm
- *  - @subpage quick_start_linsol
+ *  - @subpage tutorial_datatypes
+ *  - @subpage tutorial_vectors
+ *  - @subpage tutorial_property
+ *  - @subpage tutorial_matrices
+ *  - @subpage tutorial_guard
+ *  - @subpage tutorial_assign
+ *  - @subpage tutorial_block_ops
+ *  - @subpage tutorial_perm
+ *  - @subpage tutorial_linsol
  * 
  *
  *
  *
  *
  *
- * @page quick_start_datatypes Datatypes
+ * @page tutorial_datatypes Datatypes
  *
  * CLA3P uses the following datatypes:
  *
@@ -43,10 +43,10 @@
  *
  *
  *
- * @page quick_start_vectors Vectors
- *  - @subpage quick_start_vectors_dense
+ * @page tutorial_vectors Vectors
+ *  - @subpage tutorial_vectors_dense
  *
- * @page quick_start_vectors_dense Dense Vectors
+ * @page tutorial_vectors_dense Dense Vectors
  *
  * CLA3P supports the following dense vectors:
  *
@@ -60,10 +60,10 @@
  * @endcode
  *
  *
- * @section quick_start_vectors_dense_create Creating vectors
+ * @section tutorial_vectors_dense_create Creating vectors
  * You can declare/create dense vectors in the following ways:
  *
- *   @subsection quick_start_vectors_dense_create_default Default creation
+ *   @subsection tutorial_vectors_dense_create_default Default creation
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -72,7 +72,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_vectors_dense_create_random Create random dense vector
+ *   @subsection tutorial_vectors_dense_create_random Create random dense vector
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -81,7 +81,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_vectors_dense_create_aux Create dense vector from aux data
+ *   @subsection tutorial_vectors_dense_create_aux Create dense vector from aux data
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -91,7 +91,7 @@
  *   </table>
  *
  *
- * @section quick_start_vectors_dense_fill Accessing dense vector elements
+ * @section tutorial_vectors_dense_fill Accessing dense vector elements
  * Examples on how to access/fill values of dense vectors:
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -102,10 +102,10 @@
  * </table>
  *
  *
- * @section quick_start_vectors_dense_algebra Algebra
+ * @section tutorial_vectors_dense_algebra Algebra
  * Examples on how to perform algebraic operations using dense vectors:
  *
- *   @subsection quick_start_vectors_dense_algebra_scale Scale
+ *   @subsection tutorial_vectors_dense_algebra_scale Scale
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -114,7 +114,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_vectors_dense_algebra_add Add
+ *   @subsection tutorial_vectors_dense_algebra_add Add
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -123,7 +123,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_vectors_dense_algebra_dot Dot Product
+ *   @subsection tutorial_vectors_dense_algebra_dot Dot Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -137,7 +137,7 @@
  *
  *
  *
- * @page quick_start_property Property
+ * @page tutorial_property Property
  *
  * The @ref cla3p::Property class is used to specify special matrix properties like symmetry. 
  *
@@ -166,11 +166,11 @@
  *
  *
  *
- * @page quick_start_matrices Matrices
- *  - @subpage quick_start_matrices_dense
- *  - @subpage quick_start_matrices_sparse
+ * @page tutorial_matrices Matrices
+ *  - @subpage tutorial_matrices_dense
+ *  - @subpage tutorial_matrices_sparse
  *
- * @page quick_start_matrices_dense Dense Matrices
+ * @page tutorial_matrices_dense Dense Matrices
  *
  * CLA3P supports the following dense matrices:
  *
@@ -184,10 +184,10 @@
  * @endcode
  *
  *
- * @section quick_start_matrices_dense_create Creating matrices
+ * @section tutorial_matrices_dense_create Creating matrices
  * You can declare/create dense matrices in the following ways:
  *
- *   @subsection quick_start_matrices_dense_create_default Default creation
+ *   @subsection tutorial_matrices_dense_create_default Default creation
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -196,7 +196,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_create_property Default creation with property
+ *   @subsection tutorial_matrices_dense_create_property Default creation with property
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -205,7 +205,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_create_random Create random dense matrix
+ *   @subsection tutorial_matrices_dense_create_random Create random dense matrix
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -214,7 +214,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_create_aux Create dense matrix from aux data
+ *   @subsection tutorial_matrices_dense_create_aux Create dense matrix from aux data
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -224,7 +224,7 @@
  *   </table>
  *
  *
- * @section quick_start_matrices_dense_fill Accessing matrix elements
+ * @section tutorial_matrices_dense_fill Accessing matrix elements
  * Examples on how to access/fill values of dense matrices:
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -235,10 +235,10 @@
  * </table>
  *
  *
- * @section quick_start_matrices_dense_algebra Algebra
+ * @section tutorial_matrices_dense_algebra Algebra
  * Examples on how to perform algebraic operations using dense matrices:
  *
- *   @subsection quick_start_matrices_dense_algebra_scale Scale
+ *   @subsection tutorial_matrices_dense_algebra_scale Scale
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -247,7 +247,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_algebra_add Add
+ *   @subsection tutorial_matrices_dense_algebra_add Add
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -256,7 +256,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_algebra_mvmult Matrix-Vector Product
+ *   @subsection tutorial_matrices_dense_algebra_mvmult Matrix-Vector Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -265,7 +265,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_algebra_mmmult Matrix-Matrix Product
+ *   @subsection tutorial_matrices_dense_algebra_mmmult Matrix-Matrix Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -274,7 +274,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_dense_algebra_mtmmult Transposed Matrix-Matrix Product
+ *   @subsection tutorial_matrices_dense_algebra_mtmmult Transposed Matrix-Matrix Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -285,7 +285,7 @@
  *
  *
  *
- * @page quick_start_matrices_sparse Sparse Matrices
+ * @page tutorial_matrices_sparse Sparse Matrices
  *
  * CLA3P supports two kinds of sparse matrices:
  *  - Coordinate storage format (coo), used as a utility class for creating sparse matrices.
@@ -306,10 +306,10 @@
  * @endcode
  *
  *
- * @section quick_start_matrices_sparse_create Creating matrices
+ * @section tutorial_matrices_sparse_create Creating matrices
  * You can declare/create sparse matrices in the following ways:
  *
- *   @subsection quick_start_matrices_sparse_create_default Default creation
+ *   @subsection tutorial_matrices_sparse_create_default Default creation
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -318,7 +318,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_create_property Default creation with property
+ *   @subsection tutorial_matrices_sparse_create_property Default creation with property
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -327,7 +327,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_create_aux Create sparse matrix from aux data
+ *   @subsection tutorial_matrices_sparse_create_aux Create sparse matrix from aux data
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -337,7 +337,7 @@
  *   </table>
  *
  *
- * @section quick_start_matrices_sparse_fill Inserting matrix elements
+ * @section tutorial_matrices_sparse_fill Inserting matrix elements
  * Examples on how to fill values of sparse matrices:
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -348,10 +348,10 @@
  * </table>
  *
  *
- * @section quick_start_matrices_sparse_algebra Algebra
+ * @section tutorial_matrices_sparse_algebra Algebra
  * Examples on how to perform algebraic operations using dense matrices:
  *
- *   @subsection quick_start_matrices_sparse_algebra_scale Scale
+ *   @subsection tutorial_matrices_sparse_algebra_scale Scale
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -360,7 +360,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_algebra_add Add
+ *   @subsection tutorial_matrices_sparse_algebra_add Add
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -369,7 +369,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_algebra_mvmult Matrix-Vector Product
+ *   @subsection tutorial_matrices_sparse_algebra_mvmult Matrix-Vector Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -378,7 +378,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_algebra_mmmult Matrix-Matrix Product
+ *   @subsection tutorial_matrices_sparse_algebra_mmmult Matrix-Matrix Product
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>
@@ -390,7 +390,7 @@
  *
  *
  *
- * @page quick_start_guard Guards
+ * @page tutorial_guard Guards
  * Guard utility for vectors and matrices.@n 
  * Some functions need to return objects that contain immutable data.@n 
  * Instead of returning the vector or matrix, they return a guard to that object.@n 
@@ -417,12 +417,12 @@
  *
  *
  *
- * @page quick_start_assign Copying/Moving/Referencing
+ * @page tutorial_assign Copying/Moving/Referencing
  * You can copy objects using simple assignment, copy constructors and copy assignments are fully supported.@n 
  * You can explicitly copy and move an object to another using member functions.@n 
  * You can also shallow-copy an object, be aware of content referencing!@n 
  *
- * @section quick_start_assign_copy Deep Copying
+ * @section tutorial_assign_copy Deep Copying
  * Copy the contents of a vector or matrix to another. Original object is unchanged.
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -437,7 +437,7 @@
  * </table>
  *
  *
- * @section quick_start_assign_move Moving
+ * @section tutorial_assign_move Moving
  * Moving contents of a vector or matrix to another. Original object is destroyed.
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -452,7 +452,7 @@
  * </table>
  *
  *
- * @section quick_start_assign_rcopy Shallow Copying
+ * @section tutorial_assign_rcopy Shallow Copying
  * Create a copy of a vector or matrix to another. Copied object contains a reference to the contents of the original object. Original object is unchanged.
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -471,7 +471,7 @@
  *
  *
  *
- * @page quick_start_block_ops Block Operations
+ * @page tutorial_block_ops Block Operations
  *
  * You can set/get a (shallow-)copy of a portion of a dense vector:
  * <table>
@@ -505,11 +505,11 @@
  *
  *
  *
- * @page quick_start_perm Permutations
- *  - @subpage quick_start_perm_matrix
- *  - @subpage quick_start_perm_ops
+ * @page tutorial_perm Permutations
+ *  - @subpage tutorial_perm_matrix
+ *  - @subpage tutorial_perm_ops
  *
- * @page quick_start_perm_matrix Permutation Matrix
+ * @page tutorial_perm_matrix Permutation Matrix
  *
  * Permutation matrices are used to rearrange a vector or matrix enties.@n 
  * Permutation matrices are represented by an array of integers.@n 
@@ -518,10 +518,10 @@
  * For more information about permutation matrices see <a href="https://en.wikipedia.org/wiki/Permutation_matrix">here</a>.
  *
  *
- * @section quick_start_perm_matrix_create Creating permutation matrices
+ * @section tutorial_perm_matrix_create Creating permutation matrices
  * You can create permutation matrices like this:
  *
- *   @subsection quick_start_perm_matrix_create_default Default creation
+ *   @subsection tutorial_perm_matrix_create_default Default creation
  *   <table>
  *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
@@ -531,7 +531,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_perm_matrix_create_identity Create Identity
+ *   @subsection tutorial_perm_matrix_create_identity Create Identity
  *   <table>
  *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
@@ -541,7 +541,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_perm_matrix_create_random Create Random
+ *   @subsection tutorial_perm_matrix_create_random Create Random
  *   <table>
  *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
  *     <tr>
@@ -552,7 +552,7 @@
  *   </table>
  *
  *
- * @section quick_start_perm_matrix_fill Accessing permutation matrix elements
+ * @section tutorial_perm_matrix_fill Accessing permutation matrix elements
  * Examples on how to access/fill values in permutation matrices:
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
@@ -562,11 +562,11 @@
  *   </tr>
  * </table>
  *
- * @page quick_start_perm_ops Permutation Operations
+ * @page tutorial_perm_ops Permutation Operations
  *
  * Below you can find examples on how to use permutation matrices using operators as well as member functions.
  *
- * @section quick_start_perm_ops_vector Permuting vectors
+ * @section tutorial_perm_ops_vector Permuting vectors
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -575,7 +575,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_perm_ops_matrix Permuting matrices
+ * @section tutorial_perm_ops_matrix Permuting matrices
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -584,7 +584,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_perm_ops_matrix_sym Permuting symmetric/hermitian matrices
+ * @section tutorial_perm_ops_matrix_sym Permuting symmetric/hermitian matrices
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -593,7 +593,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_perm_ops_perm Permuting permutation matrices
+ * @section tutorial_perm_ops_perm Permuting permutation matrices
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -607,11 +607,11 @@
  *
  *
  *
- * @page quick_start_linsol Linear System Solvers
+ * @page tutorial_linsol Linear System Solvers
  *
  * Below you can find examples on how to solve systems of linear equations.
  *
- * @section quick_start_linsol_lu LU Decomposition (General/Symmetric/Hermitian Matrices)
+ * @section tutorial_linsol_lu LU Decomposition (General/Symmetric/Hermitian Matrices)
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -620,7 +620,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_linsol_ldlt LDL' Decomposition (Symmetric/Hermitian Matrices)
+ * @section tutorial_linsol_ldlt LDL' Decomposition (Symmetric/Hermitian Matrices)
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -629,7 +629,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_linsol_auto Auto Detect Decomposition Method
+ * @section tutorial_linsol_auto Auto Detect Decomposition Method
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -638,7 +638,7 @@
  *   </tr>
  * </table>
  *
- * @section quick_start_linsol_operators Using Operators to Solve Linear Systems
+ * @section tutorial_linsol_operators Using Operators to Solve Linear Systems
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
