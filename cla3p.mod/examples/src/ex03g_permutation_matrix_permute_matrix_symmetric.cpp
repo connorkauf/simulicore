@@ -45,11 +45,11 @@ int main()
 
 	cla3p::dns::RdMatrix PAPT1 = P * A.general() * P.inverse();
 
-	std::cout << "P * A * P':\n" << PAPT1;
+	std::cout << "PAPT1:\n" << PAPT1;
 
 	cla3p::dns::RdMatrix PAPT2 = A.permuteMirror(P);
 
-	std::cout << "A.permuteMirror(P):\n" << PAPT2;
+	std::cout << "PAPT2:\n" << PAPT2;
 
 	return 0;
 }

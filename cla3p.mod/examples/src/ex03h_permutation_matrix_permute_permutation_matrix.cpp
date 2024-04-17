@@ -39,11 +39,11 @@ int main()
 
 	cla3p::dns::RdMatrix PQA1 = A.permuteLeft(PQ);
 
-	std::cout << "A.permuteLeft(Q.permuteLeft(P)):\n" << PQA1;
+	std::cout << "PQA1:\n" << PQA1;
 
 	cla3p::dns::RdMatrix PQA2 = (P * Q) * A;
 
-	std::cout << "(P * Q) * A:\n" << PQA2;
+	std::cout << "PQA2:\n" << PQA2;
 
 	return 0;
 }

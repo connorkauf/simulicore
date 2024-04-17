@@ -327,7 +327,7 @@
  *     </tr>
  *   </table>
  *
- *   @subsection quick_start_matrices_sparse_create_aux Create dense matrix from aux data
+ *   @subsection quick_start_matrices_sparse_create_aux Create sparse matrix from aux data
  *   <table>
  *     <tr><th>Code</th><th>Output</th></tr>
  *     <tr>

@@ -24,7 +24,7 @@ int main()
 	std::cout << "C1:\n" << C1;
 
 	cla3p::dns::RdMatrix C2 = cla3p::ops::add(1., A, 2., B);
-	std::cout << "C2):\n" << C2 << "\n";
+	std::cout << "C2:\n" << C2 << "\n";
 
 	/*
 	 * Perform the operation (Cx += 3 * A) using operators and the update function respectively

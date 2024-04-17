@@ -29,11 +29,11 @@ int main()
 
 	cla3p::dns::RdVector PX1 = P * X;
 
-	std::cout << "P * X:\n" << PX1;
+	std::cout << "PX1:\n" << PX1;
 
 	cla3p::dns::RdVector PX2 = X.permuteLeft(P);
 
-	std::cout << "X.permuteLeft(P):\n" << PX2;
+	std::cout << "PX2:\n" << PX2;
 
 	return 0;
 }
