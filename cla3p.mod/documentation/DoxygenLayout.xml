@@ -34,7 +34,7 @@
 
       <tab type="user" url="@ref tutorial_guard" title="Guards"/>
 
-      <tab type="usergroup" url="@ref tutorial_assign" title="Copying/Moving/Referencing">
+      <tab type="usergroup" url="@ref tutorial_assign" title="Assignments">
         <tab type="user" url="@ref tutorial_assign_copy" title="Copy"/>
         <tab type="user" url="@ref tutorial_assign_move" title="Move"/>
         <tab type="user" url="@ref tutorial_assign_rcopy" title="Shallow Copy"/>

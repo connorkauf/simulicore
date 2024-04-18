@@ -417,7 +417,7 @@
  *
  *
  *
- * @page tutorial_assign Copying/Moving/Referencing
+ * @page tutorial_assign Assignments
  * You can copy objects using simple assignment, copy constructors and copy assignments are fully supported.@n 
  * You can explicitly copy and move an object to another using member functions.@n 
  * You can also shallow-copy an object, be aware of content referencing!@n 
