@@ -1,0 +1,31 @@
+<map id="cla3p::MatrixMeta" name="cla3p::MatrixMeta">
+<area shape="rect" id="Node000001" title="The matrix metadata class." alt="" coords="169,256,309,281"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1coo_1_1XxMatrix.html" title=" " alt="" coords="357,5,556,60"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,242,263,204,286,158,317,111,356,69,372,58,375,62,359,73,321,114,291,161,268,206,252,244"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1coo_1_1XxMatrix.html" title=" " alt="" coords="357,84,556,139"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="256,244,299,196,326,170,356,148,375,137,378,141,359,152,330,175,303,200,260,247"/>
+<area shape="rect" id="Node000007" href="$classcla3p_1_1dns_1_1XxMatrix.html" title=" " alt="" coords="377,163,536,217"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="287,249,379,215,381,220,289,254"/>
+<area shape="rect" id="Node000009" href="$classcla3p_1_1dns_1_1XxMatrix.html" title=" " alt="" coords="377,241,536,296"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="324,266,377,266,377,271,324,271"/>
+<area shape="rect" id="Node000011" href="$classcla3p_1_1coo_1_1XxMatrix.html" title="The sparse matrix class (coordinate format)." alt="" coords="379,320,534,375"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="289,284,381,317,379,322,287,289"/>
+<area shape="rect" id="Node000012" href="$classcla3p_1_1csc_1_1XxMatrix.html" title="The sparse matrix class (compressed sparse column format)." alt="" coords="380,399,533,453"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="260,290,303,338,330,363,359,385,381,398,379,402,356,390,326,367,299,341,256,294"/>
+<area shape="rect" id="Node000015" href="$classcla3p_1_1dns_1_1XxMatrix.html" title="The dense matrix class." alt="" coords="371,478,543,518"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="252,293,267,331,290,377,320,424,359,464,378,476,375,480,356,468,316,427,285,380,262,334,247,295"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1Meta2D.html" title="The double dimension metadata class." alt="" coords="5,256,121,281"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,266,169,266,169,271,135,271"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1coo_1_1CxMatrix.html" title="The sparse complex matrix class (coordinate format)." alt="" coords="604,13,759,53"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="570,30,604,30,604,35,570,35"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1coo_1_1RxMatrix.html" title="The sparse real matrix class (coordinate format)." alt="" coords="604,91,759,131"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="570,109,604,109,604,114,570,114"/>
+<area shape="rect" id="Node000008" href="$classcla3p_1_1dns_1_1CxMatrix.html" title="The dense complex matrix class." alt="" coords="604,170,759,210"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="550,187,604,187,604,193,550,193"/>
+<area shape="rect" id="Node000010" href="$classcla3p_1_1dns_1_1RxMatrix.html" title="The dense real matrix class." alt="" coords="604,249,759,289"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="550,266,604,266,604,271,550,271"/>
+<area shape="rect" id="Node000013" href="$classcla3p_1_1csc_1_1CxMatrix.html" title="The sparse complex matrix class (compressed sparse column format)." alt="" coords="605,374,758,414"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="547,410,604,402,605,408,548,416"/>
+<area shape="rect" id="Node000014" href="$classcla3p_1_1csc_1_1RxMatrix.html" title="The sparse real matrix class (compressed sparse column format)." alt="" coords="605,438,758,478"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="548,436,605,444,604,450,547,442"/>
+</map>
