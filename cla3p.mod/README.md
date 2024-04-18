@@ -111,7 +111,7 @@ Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculat
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/simulicore/v1.1.0/cla3p/html/index.html).
+You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/simulicore/v1.2.0/cla3p/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
