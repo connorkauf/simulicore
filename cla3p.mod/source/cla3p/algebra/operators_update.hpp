@@ -32,14 +32,28 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 /*-------------------------------------------------*/
 
 /*
- * Combinations                   | Valid Op | Return Type
- * -------------------------------------------------------
- * XxObject += XxObject           | YES      | T_Object&
- * XxObject -= XxObject           | YES      | T_Object&
- *                                |          |
- * XxObject += VirtualEntity      | YES      | T_Object&
- * XxObject -= VirtualEntity      | YES      | T_Object&
+ * Generic Update Operator
  */
+template <typename T_Virtual> 
+void operator+=(
+		typename T_Virtual::value_type& A,
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& vB)
+{
+	vB.addToTarget(1, A);
+}
+
+/*
+ * Generic Update Operator
+ */
+template <typename T_Virtual> 
+void operator-=(
+		typename T_Virtual::value_type& A,
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& vB)
+{
+	vB.scale(-1).addToTarget(1, A);
+}
+
+/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_update
@@ -128,30 +142,6 @@ template <typename T_Matrix>
 void operator-=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
-
-/*-------------------------------------------------*/
-
-/*
- * XxObject += VirtualEntity
- */
-template <typename T_Object, typename T_Virtual> 
-void operator+=(
-		T_Object& A,
-		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
-{
-	vB.addToExisting(A);
-}
-
-/*
- * XxObject -= VirtualEntity
- */
-template <typename T_Object, typename T_Virtual> 
-void operator-=(
-		T_Object& A,
-		const cla3p::VirtualEntity<T_Object,T_Virtual>& vB)
-{
-	vB.scale(-1).addToExisting(A);
-}
 
 /*-------------------------------------------------*/
 

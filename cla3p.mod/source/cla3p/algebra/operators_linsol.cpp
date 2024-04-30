@@ -28,7 +28,7 @@
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
-template <typename T_Vector, typename T_Matrix>
+template <typename T_Matrix, typename T_Vector>
 T_Vector operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B)
@@ -38,14 +38,14 @@ T_Vector operator/(
 	return ret;
 }
 /*-------------------------------------------------*/
-#define instantiate_op_linsol(T_Vec, T_Mat) \
+#define instantiate_op_linsol(T_Mat, T_Vec) \
 template T_Vec operator/( \
 		const cla3p::dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
 		const cla3p::dns::XxVector<typename T_Vec::value_type,T_Vec>&)
-instantiate_op_linsol(cla3p::dns::RdVector, cla3p::dns::RdMatrix);
-instantiate_op_linsol(cla3p::dns::RfVector, cla3p::dns::RfMatrix);
-instantiate_op_linsol(cla3p::dns::CdVector, cla3p::dns::CdMatrix);
-instantiate_op_linsol(cla3p::dns::CfVector, cla3p::dns::CfMatrix);
+instantiate_op_linsol(cla3p::dns::RdMatrix, cla3p::dns::RdVector);
+instantiate_op_linsol(cla3p::dns::RfMatrix, cla3p::dns::RfVector);
+instantiate_op_linsol(cla3p::dns::CdMatrix, cla3p::dns::CdVector);
+instantiate_op_linsol(cla3p::dns::CfMatrix, cla3p::dns::CfVector);
 #undef instantiate_op_linsol
 /*-------------------------------------------------*/
 template <typename T_Matrix>

@@ -21,6 +21,7 @@
  * @file
  */
 
+#include "cla3p/virtuals.hpp"
 #include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
@@ -48,7 +49,7 @@ namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; 
  * @param[in] B The rhs vector.
  * @return The solution vector X.
  */
-template <typename T_Vector, typename T_Matrix>
+template <typename T_Matrix, typename T_Vector>
 T_Vector operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
@@ -75,6 +76,18 @@ template <typename T_Matrix>
 T_Matrix operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B); 
+
+template <typename T_Matrix, typename T_Virtual>
+typename T_Virtual::value_type operator/(
+		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& vB)
+{
+	return (A / vB.evaluate());
+}
+
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_linsol

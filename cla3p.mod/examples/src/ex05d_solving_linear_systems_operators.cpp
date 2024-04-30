@@ -19,7 +19,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 		T_Rhs X = A / B;
 
 		std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
-		std::cout << "Absolute error: " << (B - A * X).normOne() << std::endl;
+		std::cout << "Absolute error: " << (B - A * X).evaluate().normOne() << std::endl;
 	}
 
 	{
@@ -32,7 +32,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 		X /= A;
 
 		std::cout << "  " << cla3p::TypeTraits<T_Rhs>::type_name() << " rhs::";
-		std::cout << "Absolute error: " << (B - A * X).normOne() << std::endl;
+		std::cout << "Absolute error: " << (B - A * X).evaluate().normOne() << std::endl;
 	}
 }
 /*--------------------------------------------------------------------*/

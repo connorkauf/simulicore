@@ -101,7 +101,29 @@ or by using the mult() function
 cla3p::ops::mult(1., cla3p::op_t::T, A, X, 0., Y);
 cla3p::ops::mult(1., cla3p::op_t::T, A, X, 1., Z);
 ```
-Thanks to the **CLA3P Virtuals** symbolic layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculations are virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** are currently available for dense objects. Sparse virtual support will soon be supported.
+Thanks to the **CLA3P Virtuals** symbolic operation layer, `A.transpose()` is not calculated explicitly. Instead a virtually transposed matrix is generated and plugged in the multiplication operator. This way the above calculations are virtually the same with no extra memory allocated, or explicit calculations performed. **CLA3P Virtuals** allows you to perform more complex one-line operations without allocating memory for temporary objects when not necessary. Using template expressions the operation brakes down to individual sub-operations that are stacked and evaluated at assignment. 
+
+```cpp
+cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(3,3);
+cla3p::dns::RdVector X = cla3p::dns::RdVector::random(3);
+cla3p::dns::RdVector Y(3);
+
+Y = 2. * A * X - A.transpose() * X; // (1) no space needed
+Y += A.transpose() * ( - A * X + 2. * X ); // (2) extra space needed only for evaluation of vector (- A * X + 2. * X)
+```
+The equivalent operations using the functional interface would be
+```cpp
+// operation (1)
+cla3p::ops::mult( 2., cla3p::op_t::N, A, X, 0., Y); // Y = 2 * A * X
+cla3p::ops::mult(-1., cla3p::op_t::T, A, X, 1., Y); // Y -= A' * X
+// operation (2)
+cla3p::dns::RdVector tmp(3);
+cla3p::ops::mult(-1., cla3p::op_t::N, A, X, 0., tmp); // tmp = - A * X
+cla3p::ops::update(2., X, tmp); // tmp += 2 * X
+cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
+```
+
+**CLA3P Virtuals** are currently available for all objects. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

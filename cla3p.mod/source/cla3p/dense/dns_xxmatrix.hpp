@@ -24,8 +24,8 @@
 #include <string>
 
 #include "cla3p/generic/matrix_meta.hpp"
-#include "cla3p/generic/guard.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
+#include "cla3p/generic/guard.hpp"
 #include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
@@ -33,9 +33,6 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 namespace prm { template <typename T_Int> class PxMatrix; }
-
-template <typename T_Matrix> class VirtualMatrix;
-template <typename T_Lhs, typename T_Rhs> class VirtualProdMm;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -66,12 +63,6 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 
 		XxMatrix(XxMatrix<T_Scalar,T_Matrix>&&);
 		XxMatrix<T_Scalar,T_Matrix>& operator=(XxMatrix<T_Scalar,T_Matrix>&&);
-
-		XxMatrix(const VirtualMatrix<T_Matrix>&);
-		XxMatrix<T_Scalar,T_Matrix>& operator=(const VirtualMatrix<T_Matrix>&);
-
-		XxMatrix(const VirtualProdMm<VirtualMatrix<T_Matrix>,VirtualMatrix<T_Matrix>>&);
-		XxMatrix<T_Scalar,T_Matrix>& operator=(const VirtualProdMm<VirtualMatrix<T_Matrix>,VirtualMatrix<T_Matrix>>&);
 
 		/**
 		 * @name Operators
@@ -446,9 +437,6 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		void moveTo(XxMatrix<T_Scalar,T_Matrix>&);
 		void copyToExisting(XxMatrix<T_Scalar,T_Matrix>&) const;
 		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr);
-
-		void fillFromVirtual(const VirtualMatrix<T_Matrix>&);
-		void fillFromVirtual(const VirtualProdMm<VirtualMatrix<T_Matrix>,VirtualMatrix<T_Matrix>>&);
 
 };
 

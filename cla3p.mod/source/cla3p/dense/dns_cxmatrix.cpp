@@ -68,32 +68,6 @@ void CxMatrixTmpl::operator=(T_Scalar val)
 }
 /*-------------------------------------------------*/
 CxMatrixTlst
-CxMatrixTmpl::CxMatrix(const VirtualMatrix<CxMatrixTmpl>& v)
-	: CxMatrixTmpl::XxMatrix(v)
-{ 
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
-CxMatrixTmpl& CxMatrixTmpl::operator=(const VirtualMatrix<CxMatrixTmpl>& v)
-{ 
-	CxMatrixTmpl::XxMatrix::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
-CxMatrixTmpl::CxMatrix(const VirtualProdMm<VirtualMatrix<CxMatrixTmpl>,VirtualMatrix<CxMatrixTmpl>>& v)
-	: CxMatrixTmpl::XxMatrix(v)
-{ 
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
-CxMatrixTmpl& CxMatrixTmpl::operator=(const VirtualProdMm<VirtualMatrix<CxMatrixTmpl>,VirtualMatrix<CxMatrixTmpl>>& v)
-{ 
-	CxMatrixTmpl::XxMatrix::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
-CxMatrixTlst
 typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 {
 	Property ret_prop = (this->prop().isHermitian() ? Property(prop_t::Symmetric, this->prop().uplo()) : this->prop());

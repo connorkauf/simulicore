@@ -25,18 +25,15 @@
 #include <ostream>
 
 #include "cla3p/generic/meta1d.hpp"
-#include "cla3p/generic/guard.hpp"
 #include "cla3p/dense/dns_xxobject.hpp"
+#include "cla3p/generic/guard.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
 
 namespace prm { template <typename T_Int> class PxMatrix; }
-
-template <typename T_Vector> class VirtualVector;
-template <typename T_Matrix> class VirtualMatrix;
-template <typename T_Lhs, typename T_Rhs> class VirtualProdMv;
 
 /*-------------------------------------------------*/
 namespace dns {
@@ -219,12 +216,6 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		XxVector(XxVector<T_Scalar,T_Vector>&&) = default;
 		XxVector<T_Scalar,T_Vector>& operator=(XxVector<T_Scalar,T_Vector>&&) = default;
 
-		XxVector(const VirtualVector<T_Vector>&);
-		XxVector<T_Scalar,T_Vector>& operator=(const VirtualVector<T_Vector>&);
-
-		XxVector(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
-		XxVector<T_Scalar,T_Vector>& operator=(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
-
 		/** 
 		 * @name Operators
 		 * @{
@@ -256,13 +247,13 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		 * @brief Virtually transposes a vector.
 		 * @return A virtual vector object that represents the transposed vector.
 		 */
-		VirtualVector<T_Vector> transpose() const;
+		VirtualRowVec<T_Vector> transpose() const;
 
 		/**
 		 * @brief Virtually conjugate-transposes a vector.
 		 * @return A virtual vector object that represents the conjugate-transposed vector.
 		 */
-		VirtualVector<T_Vector> ctranspose() const;
+		VirtualRowVec<T_Vector> ctranspose() const;
 
 		/**
 		 * @brief Virtually conjugates a vector.
@@ -386,10 +377,6 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 		static T_Vector random(uint_t n, T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/** @} */
-
-	private:
-		void fillFromVirtual(const VirtualVector<T_Vector>&);
-		void fillFromVirtual(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>&);
 
 };
 

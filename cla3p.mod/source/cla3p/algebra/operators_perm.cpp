@@ -65,24 +65,6 @@ instantiate_perm(cla3p::prm::PiMatrix, cla3p::dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P,
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A)
-{
-	return A.permuteLeft(P);
-}
-/*-------------------------------------------------*/
-#define instantiate_perm(T_Prm, T_Mat) \
-template T_Mat operator*( \
-		const cla3p::prm::PxMatrix<T_Prm::value_type>&, \
-		const cla3p::csc::XxMatrix<T_Mat::index_type,T_Mat::value_type,T_Mat>&)
-instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::RdMatrix);
-instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::RfMatrix);
-instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::CdMatrix);
-instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::CfMatrix);
-#undef instantiate_perm
-/*-------------------------------------------------*/
-template <typename T_Int, typename T_Matrix>
-T_Matrix operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::prm::PxMatrix<T_Int>& P)
 {
@@ -97,6 +79,24 @@ instantiate_perm(cla3p::prm::PiMatrix, cla3p::dns::RdMatrix);
 instantiate_perm(cla3p::prm::PiMatrix, cla3p::dns::RfMatrix);
 instantiate_perm(cla3p::prm::PiMatrix, cla3p::dns::CdMatrix);
 instantiate_perm(cla3p::prm::PiMatrix, cla3p::dns::CfMatrix);
+#undef instantiate_perm
+/*-------------------------------------------------*/
+template <typename T_Int, typename T_Matrix>
+T_Matrix operator*(
+		const cla3p::prm::PxMatrix<T_Int>& P,
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A)
+{
+	return A.permuteLeft(P);
+}
+/*-------------------------------------------------*/
+#define instantiate_perm(T_Prm, T_Mat) \
+template T_Mat operator*( \
+		const cla3p::prm::PxMatrix<T_Prm::value_type>&, \
+		const cla3p::csc::XxMatrix<T_Mat::index_type,T_Mat::value_type,T_Mat>&)
+instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::RdMatrix);
+instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::RfMatrix);
+instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::CdMatrix);
+instantiate_perm(cla3p::prm::PiMatrix, cla3p::csc::CfMatrix);
 #undef instantiate_perm
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Matrix>

@@ -66,32 +66,6 @@ void RxVectorTmpl::operator=(T_Scalar val)
 	this->fill(val);
 }
 /*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl::RxVector(const VirtualVector<RxVectorTmpl>& v)
-	: RxVectorTmpl::XxVector(v)
-{ 
-}
-/*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl& RxVectorTmpl::operator=(const VirtualVector<RxVectorTmpl>& v)
-{ 
-	RxVectorTmpl::XxVector::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl::RxVector(const VirtualProdMv<VirtualMatrix<RxMatrix<T_Scalar>>,VirtualVector<RxVectorTmpl>>& v)
-	: RxVectorTmpl::XxVector(v)
-{ 
-}
-/*-------------------------------------------------*/
-RxVectorTlst
-RxVectorTmpl& RxVectorTmpl::operator=(const VirtualProdMv<VirtualMatrix<RxMatrix<T_Scalar>>,VirtualVector<RxVectorTmpl>>& v)
-{ 
-	RxVectorTmpl::XxVector::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 #undef RxVectorTmpl

@@ -69,32 +69,6 @@ void CxVectorTmpl::operator=(T_Scalar val)
 }
 /*-------------------------------------------------*/
 CxVectorTlst
-CxVectorTmpl::CxVector(const VirtualVector<CxVectorTmpl>& v)
-	: CxVectorTmpl::XxVector(v)
-{ 
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl& CxVectorTmpl::operator=(const VirtualVector<CxVectorTmpl>& v)
-{ 
-	CxVectorTmpl::XxVector::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl::CxVector(const VirtualProdMv<VirtualMatrix<CxMatrix<T_Scalar>>,VirtualVector<CxVectorTmpl>>& v)
-	: CxVectorTmpl::XxVector(v)
-{ 
-}
-/*-------------------------------------------------*/
-CxVectorTlst
-CxVectorTmpl& CxVectorTmpl::operator=(const VirtualProdMv<VirtualMatrix<CxMatrix<T_Scalar>>,VirtualVector<CxVectorTmpl>>& v)
-{ 
-	CxVectorTmpl::XxVector::operator=(v);
-	return *this; 
-}
-/*-------------------------------------------------*/
-CxVectorTlst
 typename CxVectorTmpl::T_RVector CxVectorTmpl::real() const
 {
 	T_RVector ret(this->size());

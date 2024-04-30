@@ -46,6 +46,12 @@ class RxMatrix : public XxMatrix<T_Int,T_Scalar,RxMatrix<T_Int,T_Scalar>> {
 		const RxMatrix<T_Int,T_Scalar>& self() const override;
 		RxMatrix<T_Int,T_Scalar>& self() override;
 
+		// virtuals to matrix
+		template <typename T_Virtual>
+		RxMatrix(const VirtualEntity<RxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { v.addToTarget(T_Scalar(0), *this); }
+		template <typename T_Virtual>
+		RxMatrix<T_Int,T_Scalar>& operator=(const VirtualEntity<RxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { v.addToTarget(T_Scalar(0), *this); return *this; }
+
 		/* DO NOT DOCUMENT
 		 * @brief The dimensional constructor.
 		 *

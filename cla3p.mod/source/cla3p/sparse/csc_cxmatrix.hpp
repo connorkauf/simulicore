@@ -51,6 +51,12 @@ class CxMatrix : public XxMatrix<T_Int,T_Scalar,CxMatrix<T_Int,T_Scalar>> {
 		const CxMatrix<T_Int,T_Scalar>& self() const override;
 		CxMatrix<T_Int,T_Scalar>& self() override;
 
+		// virtuals to matrix
+		template <typename T_Virtual>
+		CxMatrix(const VirtualEntity<CxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { v.addToTarget(T_Scalar(0), *this); }
+		template <typename T_Virtual>
+		CxMatrix<T_Int,T_Scalar>& operator=(const VirtualEntity<CxMatrix<T_Int,T_Scalar>,T_Virtual>& v) { v.addToTarget(T_Scalar(0), *this); return *this; }
+
 		/* DO NOT DOCUMENT
 		 * @copydoc cla3p::csc::RxMatrix::RxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
 		 */

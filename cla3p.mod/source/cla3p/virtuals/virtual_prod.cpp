@@ -22,257 +22,177 @@
 // 3rd
 
 // cla3p
+#include "cla3p/error.hpp"
 #include "cla3p/dense.hpp"
-#include "cla3p/error/exceptions.hpp"
+#include "cla3p/sparse.hpp"
+#include "cla3p/algebra/functional_update.hpp"
 #include "cla3p/algebra/functional_multmv.hpp"
 #include "cla3p/algebra/functional_multmm.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::VirtualProdXx()
+template <typename T_Matrix, typename T_Vector>
+void performVirtualMult(
+		const VirtualMatrix<T_Matrix>& vA,
+		const VirtualVector<T_Vector>& vX,
+		typename T_Vector::value_type beta, 
+		dns::XxVector<typename T_Vector::value_type, T_Vector>& Y)
 {
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::VirtualProdXx(const T_Lhs& lhs, const T_Rhs& rhs)
-{
-	m_lhs = lhs;
-	m_rhs = rhs;
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::~VirtualProdXx()
-{
-	clear();
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-const T_Lhs& VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::lhs() const
-{ 
-	return m_lhs; 
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-T_Lhs& VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::lhs()
-{ 
-	return m_lhs; 
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-const T_Rhs& VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::rhs() const
-{ 
-	return m_rhs; 
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-T_Rhs& VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::rhs()
-{ 
-	return m_rhs; 
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-void VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::clear()
-{
-	lhs().clear();
-	rhs().clear();
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-void VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::iscale(T_Scalar val)
-{
-	lhs().iscale(val);
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs, typename T_Virtual>
-void VirtualProdXx<T_Lhs,T_Rhs,T_Virtual>::iconjugate()
-{
-	lhs().iconjugate();
-	rhs().iconjugate();
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMv<T_Lhs,T_Rhs>::VirtualProdMv()
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMv<T_Lhs,T_Rhs>::VirtualProdMv(const T_Lhs& lhs, const T_Rhs& rhs)
-	: VirtualProdXx<T_Lhs, T_Rhs, VirtualProdMv<T_Lhs,T_Rhs>>(lhs, rhs)
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMv<T_Lhs,T_Rhs>::~VirtualProdMv()
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-const VirtualProdMv<T_Lhs,T_Rhs>& VirtualProdMv<T_Lhs,T_Rhs>::self() const
-{
-	return (*this);
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-typename T_Rhs::value_type VirtualProdMv<T_Lhs,T_Rhs>::evaluate() const
-{
-	T_Vector ret(
-			this->lhs().transOp() == op_t::N ? 
-			this->lhs().obj().nrows() : 
-			this->lhs().obj().ncols());
-	evaluateOnExisting(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-void VirtualProdMv<T_Lhs,T_Rhs>::evaluateOnExisting(T_Vector& trg) const
-{
-	if(this->rhs().transOp() != op_t::N) {
-		throw err::InvalidOp("Cannot multiply");
-	}
+	using T_Scalar = typename T_Vector::value_type;
 
-	trg = 0;
-	addToExisting(trg);
+	if(beta == T_Scalar(0) && !Y) {
+		Y = T_Vector::init(vA.size1());
+	} // alloc if needed
+
+	T_Scalar coeff =
+		(vA.needsEvaluation() ? T_Scalar(1) : vA.coeff())*
+		(vX.needsEvaluation() ? T_Scalar(1) : vX.coeff());
+
+	ops::mult(
+			coeff,
+			vA.needsEvaluation() ? op_t::N : vA.transOp(),
+			vA.needsEvaluation() ? vA.evaluate() : vA.obj(),
+			vX.needsEvaluation() ? vX.evaluate() : vX.obj(),
+			beta, Y.self());
 }
 /*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-void VirtualProdMv<T_Lhs,T_Rhs>::addToExisting(T_Vector& Y) const
+#define instantiate_virtual_mult(T_Mat, T_Vec) \
+template void performVirtualMult( \
+		const VirtualMatrix<T_Mat>&, \
+		const VirtualVector<T_Vec>&, \
+		typename T_Vec::value_type, \
+		dns::XxVector<typename T_Vec::value_type, T_Vec>&)
+instantiate_virtual_mult(dns::RdMatrix, dns::RdVector);
+instantiate_virtual_mult(dns::RfMatrix, dns::RfVector);
+instantiate_virtual_mult(dns::CdMatrix, dns::CdVector);
+instantiate_virtual_mult(dns::CfMatrix, dns::CfVector);
+instantiate_virtual_mult(csc::RdMatrix, dns::RdVector);
+instantiate_virtual_mult(csc::RfMatrix, dns::RfVector);
+instantiate_virtual_mult(csc::CdMatrix, dns::CdVector);
+instantiate_virtual_mult(csc::CfMatrix, dns::CfVector);
+#undef instantiate_virtual_mult
+/*-------------------------------------------------*/
+template <typename T_LhsMatrix, typename T_RhsMatrix>
+static void performVirtualMultSpecialization(
+		typename T_RhsMatrix::value_type alpha,
+		op_t opA, const dns::XxMatrix<typename T_LhsMatrix::value_type,T_LhsMatrix>& A,
+		op_t opB, const dns::XxMatrix<typename T_RhsMatrix::value_type,T_RhsMatrix>& B,
+		typename T_RhsMatrix::value_type beta, 
+		dns::XxMatrix<typename T_RhsMatrix::value_type,T_RhsMatrix>& C)
 {
-	if(this->rhs().transOp() != op_t::N) {
-		throw err::InvalidOp("Cannot multiply");
-	}
+	ops::mult(alpha, opA, A.self(), opB, B.self(), beta, C.self());
+}
+/*-------------------------------------------------*/
+template <typename T_LhsMatrix, typename T_RhsMatrix>
+static void performVirtualMultSpecialization(
+		typename T_RhsMatrix::value_type alpha,
+		op_t opA, const csc::XxMatrix<typename T_LhsMatrix::index_type,typename T_LhsMatrix::value_type,T_LhsMatrix>& A,
+		op_t opB, const dns::XxMatrix<typename T_RhsMatrix::value_type,T_RhsMatrix>& B,
+		typename T_RhsMatrix::value_type beta, 
+		dns::XxMatrix<typename T_RhsMatrix::value_type,T_RhsMatrix>& C)
+{
+	// Only No-Operation for B is supported
 
-	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
+	if(opB == op_t::N) {
 
-		ops::mult(this->rhs().coeff() * this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), this->rhs().obj(), T_Scalar(1), Y);
+		ops::mult(alpha, opA, A.self(), B.self(), beta, C.self());
 
-	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
+	} else if(opB == op_t::T) {
 
-		T_Matrix lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().obj(), T_Scalar(1), Y);
+		T_RhsMatrix Bt = B.transpose();
+		ops::mult(alpha, opA, A.self(), Bt, beta, C.self());
 
-	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
+	} else if(opB == op_t::C) {
 
-		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), rhs, T_Scalar(1), Y);
+		T_RhsMatrix Bc = B.ctranspose();
+		ops::mult(alpha, opA, A.self(), Bc, beta, C.self());
 
+	} // opB
+}
+/*-------------------------------------------------*/
+template <typename T_LhsMatrix, typename T_RhsMatrix>
+void performVirtualMult(
+		const VirtualMatrix<T_LhsMatrix>& vA,
+		const VirtualMatrix<T_RhsMatrix>& vB,
+		typename T_RhsMatrix::value_type beta,
+		dns::XxMatrix<typename T_RhsMatrix::value_type, T_RhsMatrix>& C)
+{
+	using T_Scalar = typename T_RhsMatrix::value_type;
+
+	if(beta == T_Scalar(0) && !C) {
+		C = T_RhsMatrix::init(vA.size1(), vB.size2());
+	} // alloc if needed
+
+	T_Scalar coeff =
+		(vA.needsEvaluation() ? T_Scalar(1) : vA.coeff())*
+		(vB.needsEvaluation() ? T_Scalar(1) : vB.coeff());
+
+	performVirtualMultSpecialization(
+			coeff,
+			vA.needsEvaluation() ? op_t::N : vA.transOp(),
+			vA.needsEvaluation() ? vA.evaluate() : vA.obj(),
+			vB.needsEvaluation() ? op_t::N : vB.transOp(),
+			vB.needsEvaluation() ? vB.evaluate() : vB.obj(),
+			beta, C.self());
+}
+/*-------------------------------------------------*/
+#define instantiate_virtual_mult(T_LMat,T_RMat) \
+template void performVirtualMult( \
+		const VirtualMatrix<T_LMat>&, \
+		const VirtualMatrix<T_RMat>&, \
+		typename T_RMat::value_type, \
+		dns::XxMatrix<typename T_RMat::value_type, T_RMat>&)
+instantiate_virtual_mult(dns::RdMatrix,dns::RdMatrix);
+instantiate_virtual_mult(dns::RfMatrix,dns::RfMatrix);
+instantiate_virtual_mult(dns::CdMatrix,dns::CdMatrix);
+instantiate_virtual_mult(dns::CfMatrix,dns::CfMatrix);
+instantiate_virtual_mult(csc::RdMatrix,dns::RdMatrix);
+instantiate_virtual_mult(csc::RfMatrix,dns::RfMatrix);
+instantiate_virtual_mult(csc::CdMatrix,dns::CdMatrix);
+instantiate_virtual_mult(csc::CfMatrix,dns::CfMatrix);
+#undef instantiate_virtual_mult
+/*-------------------------------------------------*/
+template <typename T_Matrix>
+void performVirtualMult(
+		const VirtualMatrix<T_Matrix>& vA,
+		const VirtualMatrix<T_Matrix>& vB,
+		typename T_Matrix::value_type beta,
+		csc::XxMatrix<typename T_Matrix::index_type, typename T_Matrix::value_type, T_Matrix>& C)
+{
+	using T_Scalar = typename T_Matrix::value_type;
+
+	T_Scalar coeff =
+		(vA.needsEvaluation() ? T_Scalar(1) : vA.coeff())*
+		(vB.needsEvaluation() ? T_Scalar(1) : vB.coeff());
+
+	T_Matrix tmp = ops::mult(
+			coeff,
+			vA.needsEvaluation() ? op_t::N : vA.transOp(),
+			vA.needsEvaluation() ? vA.evaluate() : vA.obj(),
+			vB.needsEvaluation() ? op_t::N : vB.transOp(),
+			vB.needsEvaluation() ? vB.evaluate() : vB.obj());
+
+	if(beta == T_Scalar(0)) {
+		C.clear();
+		C.self() = tmp.move();
 	} else {
-
-		T_Matrix lhs = this->lhs().evaluate();
-		T_Vector rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, rhs, T_Scalar(1), Y);
-
-	} // conjop
+		C.iscale(beta);
+		ops::update(T_Scalar(1), tmp, C);
+	} // beta
 }
 /*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMm<T_Lhs,T_Rhs>::VirtualProdMm()
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMm<T_Lhs,T_Rhs>::VirtualProdMm(const T_Lhs& lhs, const T_Rhs& rhs)
-	: VirtualProdXx<T_Lhs, T_Rhs, VirtualProdMm<T_Lhs,T_Rhs>>(lhs, rhs)
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-VirtualProdMm<T_Lhs,T_Rhs>::~VirtualProdMm()
-{
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-const VirtualProdMm<T_Lhs,T_Rhs>& VirtualProdMm<T_Lhs,T_Rhs>::self() const
-{
-	return (*this);
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-typename T_Rhs::value_type VirtualProdMm<T_Lhs,T_Rhs>::evaluate() const
-{
-	uint_t m = (this->lhs().transOp() == op_t::N ? this->lhs().obj().nrows() : this->lhs().obj().ncols());
-	uint_t n = (this->rhs().transOp() == op_t::N ? this->rhs().obj().ncols() : this->rhs().obj().nrows());
-
-  T_Matrix ret(m, n);
-	evaluateOnExisting(ret);
-	return ret;
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-void VirtualProdMm<T_Lhs,T_Rhs>::evaluateOnExisting(T_Matrix& trg) const
-{
-	trg = 0;
-	addToExisting(trg);
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-void VirtualProdMm<T_Lhs,T_Rhs>::addToExisting(T_Matrix& B) const
-{
-	if(!this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		ops::mult(
-				this->rhs().coeff() * this->lhs().coeff(), 
-				this->lhs().transOp(), this->lhs().obj(), 
-				this->rhs().transOp(), this->rhs().obj(), 
-				T_Scalar(1), B);
-
-	} else if(this->lhs().conjOp() && !this->rhs().conjOp()) {
-
-		typename T_Lhs::value_type lhs = this->lhs().evaluate();
-		ops::mult(this->rhs().coeff(), op_t::N, lhs, this->rhs().transOp(), this->rhs().obj(), T_Scalar(1), B);
-
-	} else if(!this->lhs().conjOp() && this->rhs().conjOp()) {
-
-		typename T_Rhs::value_type rhs = this->rhs().evaluate();
-		ops::mult(this->lhs().coeff(), this->lhs().transOp(), this->lhs().obj(), op_t::N, rhs, T_Scalar(1), B);
-
-	} else {
-
-		typename T_Lhs::value_type lhs = this->lhs().evaluate();
-		typename T_Rhs::value_type rhs = this->rhs().evaluate();
-		ops::mult(T_Scalar(1), op_t::N, lhs, op_t::N, rhs, T_Scalar(1), B);
-
-	} // conjop
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-typename T_Rhs::value_type VirtualProdMm<T_Lhs,T_Rhs>::transpose() const
-{
-	return evaluate().transpose();
-}
-/*-------------------------------------------------*/
-template <typename T_Lhs, typename T_Rhs>
-typename T_Rhs::value_type VirtualProdMm<T_Lhs,T_Rhs>::ctranspose() const
-{
-	return evaluate().ctranspose();
-}
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-/*-------------------------------------------------*/
-template class VirtualProdXx<VirtualMatrix<dns::RdMatrix>, VirtualVector<dns::RdVector>, VirtualProdMv<VirtualMatrix<dns::RdMatrix>, VirtualVector<dns::RdVector>>>;
-template class VirtualProdXx<VirtualMatrix<dns::RfMatrix>, VirtualVector<dns::RfVector>, VirtualProdMv<VirtualMatrix<dns::RfMatrix>, VirtualVector<dns::RfVector>>>;
-template class VirtualProdXx<VirtualMatrix<dns::CdMatrix>, VirtualVector<dns::CdVector>, VirtualProdMv<VirtualMatrix<dns::CdMatrix>, VirtualVector<dns::CdVector>>>;
-template class VirtualProdXx<VirtualMatrix<dns::CfMatrix>, VirtualVector<dns::CfVector>, VirtualProdMv<VirtualMatrix<dns::CfMatrix>, VirtualVector<dns::CfVector>>>;
-/*-------------------------------------------------*/
-template class VirtualProdMv<VirtualMatrix<dns::RdMatrix>, VirtualVector<dns::RdVector>>;
-template class VirtualProdMv<VirtualMatrix<dns::RfMatrix>, VirtualVector<dns::RfVector>>;
-template class VirtualProdMv<VirtualMatrix<dns::CdMatrix>, VirtualVector<dns::CdVector>>;
-template class VirtualProdMv<VirtualMatrix<dns::CfMatrix>, VirtualVector<dns::CfVector>>;
-/*-------------------------------------------------*/
-template class VirtualProdXx<VirtualMatrix<dns::RdMatrix>, VirtualMatrix<dns::RdMatrix>, VirtualProdMm<VirtualMatrix<dns::RdMatrix>,VirtualMatrix<dns::RdMatrix>>>;
-template class VirtualProdXx<VirtualMatrix<dns::RfMatrix>, VirtualMatrix<dns::RfMatrix>, VirtualProdMm<VirtualMatrix<dns::RfMatrix>,VirtualMatrix<dns::RfMatrix>>>;
-template class VirtualProdXx<VirtualMatrix<dns::CdMatrix>, VirtualMatrix<dns::CdMatrix>, VirtualProdMm<VirtualMatrix<dns::CdMatrix>,VirtualMatrix<dns::CdMatrix>>>;
-template class VirtualProdXx<VirtualMatrix<dns::CfMatrix>, VirtualMatrix<dns::CfMatrix>, VirtualProdMm<VirtualMatrix<dns::CfMatrix>,VirtualMatrix<dns::CfMatrix>>>;
-/*-------------------------------------------------*/
-template class VirtualProdMm<VirtualMatrix<dns::RdMatrix>,VirtualMatrix<dns::RdMatrix>>;
-template class VirtualProdMm<VirtualMatrix<dns::RfMatrix>,VirtualMatrix<dns::RfMatrix>>;
-template class VirtualProdMm<VirtualMatrix<dns::CdMatrix>,VirtualMatrix<dns::CdMatrix>>;
-template class VirtualProdMm<VirtualMatrix<dns::CfMatrix>,VirtualMatrix<dns::CfMatrix>>;
+#define instantiate_virtual_mult(T_Mat) \
+template void performVirtualMult( \
+		const VirtualMatrix<T_Mat>&, \
+		const VirtualMatrix<T_Mat>&, \
+		typename T_Mat::value_type, \
+		csc::XxMatrix<typename T_Mat::index_type, typename T_Mat::value_type, T_Mat>&)
+instantiate_virtual_mult(csc::RdMatrix);
+instantiate_virtual_mult(csc::RfMatrix);
+instantiate_virtual_mult(csc::CdMatrix);
+instantiate_virtual_mult(csc::CfMatrix);
+#undef instantiate_virtual_mult
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

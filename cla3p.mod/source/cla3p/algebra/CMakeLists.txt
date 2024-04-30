@@ -8,12 +8,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	algebra/functional_update.cpp
 	algebra/functional_multmv.cpp
 	algebra/functional_multmm.cpp
-	algebra/operators_add.cpp
 	algebra/operators_update.cpp
-	algebra/operators_scale.cpp
-	algebra/operators_multvv.cpp
-	algebra/operators_multmv.cpp
-	algebra/operators_multmm.cpp
 	algebra/operators_perm.cpp
 	algebra/operators_linsol.cpp
 	PARENT_SCOPE)
@@ -28,7 +23,9 @@ set(CLA3P_ALGEBRA_HPP
 	operators_add.hpp
 	operators_update.hpp
 	operators_scale.hpp
-	operators_multvv.hpp
+	operators_mult_inner.hpp
+	operators_mult_outer.hpp
+	operators_multxx.hpp
 	operators_multmv.hpp
 	operators_multmm.hpp
 	operators_perm.hpp

@@ -23,6 +23,16 @@
 
 #include <ostream>
 
+#include "cla3p/types/integer.hpp"
+
+/*-------------------------------------------------*/
+
+namespace cla3p {
+namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
+namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
+} // namespace cla3p
+
 /*-------------------------------------------------*/
 namespace cla3p { 
 /*-------------------------------------------------*/
@@ -34,21 +44,30 @@ class VirtualEntity {
 		using T_Scalar = typename T_Object::value_type;
 
 	public:
+		using value_type = T_Object;
+
 		VirtualEntity() = default;
 		~VirtualEntity() = default;
 
 		virtual const T_Virtual& self() const = 0;
-		virtual T_Object evaluate() const = 0;
-		virtual void evaluateOnExisting(T_Object&) const = 0;
-		virtual void addToExisting(T_Object&) const = 0;
+		virtual uint_t size1() const = 0;
+		virtual uint_t size2() const = 0;
+		virtual T_Virtual scale(T_Scalar val) const = 0;
+		virtual T_Virtual conjugate() const = 0;
 
-		virtual void iscale(T_Scalar val) = 0;
-		virtual void iconjugate() = 0;
+		virtual void addToTarget(T_Scalar, T_Object&) const = 0;
 
-		T_Virtual scale(T_Scalar val) const;
-		T_Virtual conjugate() const;
+		T_Object evaluate() const
+		{
+			T_Object ret;
+			addToTarget(T_Scalar(0), ret);
+			return ret;
+		}
 
-		T_Virtual operator-() const;
+		T_Virtual operator-() const
+		{
+			return scale(T_Scalar(-1));
+		}
 };
 
 /*-------------------------------------------------*/
@@ -57,12 +76,12 @@ class VirtualEntity {
 
 /**
  * @ingroup module_index_stream_operators
- * @brief Writes to os the contents of v.
+ * @brief Writes to os the contents of the evaluated v.
  */
-template <typename T_Object, typename T_Virtual>
-std::ostream& operator<<(std::ostream& os, const cla3p::VirtualEntity<T_Object,T_Virtual>& v)
+template <typename T_Virtual>
+std::ostream& operator<<(std::ostream& os, const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v)
 {
-	os << v.evaluate().toString();
+	os << v.evaluate();
 	return os;
 }
 

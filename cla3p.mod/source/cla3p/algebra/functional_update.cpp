@@ -85,7 +85,7 @@ void update(typename T_Matrix::value_type alpha,
 			B.prop(), B.nrows(), B.ncols());
 
 	T_Matrix tmp = add(alpha, A, B);
-	B = tmp.move();
+	B.self() = tmp.move();
 }
 /*-------------------------------------------------*/
 #define instantiate_update(T_Mat) \

@@ -32,28 +32,15 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 /*-------------------------------------------------*/
 
 /*
- * Combinations                  | Valid Op | Return Type
- * ------------------------------------------------------
- * T_Scalar      * XxVector      | YES      | VirtualVector
- * T_Scalar      * XxMatrix      | YES      | VirtualMatrix
- * T_Scalar      * VirtualEntity | YES      | T_Virtual
- *                               |          |
- * XxVector      * T_Scalar      | YES      | VirtualVector
- * XxMatrix      * T_Scalar      | YES      | VirtualMatrix
- * VirtualEntity * T_Scalar      | YES      | T_Virtual
- *                               |          |
- * XxVector      / T_Scalar      | YES      | VirtualVector
- * XxMatrix      / T_Scalar      | YES      | VirtualMatrix
- * VirtualEntity / T_Scalar      | YES      | T_Virtual
- *                               |          |
- * XxVector      *= T_Scalar     | YES      | void
- * XxMatrix      *= T_Scalar     | YES      | void
- * VirtualEntity *= T_Scalar     | YES      | void
- *                               |          |
- * XxVector      /= T_Scalar     | YES      | void
- * XxMatrix      /= T_Scalar     | YES      | void
- * VirtualEntity /= T_Scalar     | YES      | void
+ * Generic scale operator
  */
+template <typename T_Virtual> 
+T_Virtual operator*(
+		typename T_Virtual::value_type::value_type val, 
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v)
+{ 
+	return v.scale(val); 
+}
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -71,7 +58,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X) 
 { 
 	cla3p::VirtualVector<T_Vector> sv(X.self());
-  return sv.scale(val);
+	return sv.scale(val);
 }
 
 /**
@@ -90,7 +77,7 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> sm(A.self());
-  return sm.scale(val);
+	return sm.scale(val);
 }
 
 /**
@@ -104,29 +91,28 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
  * @return The scaled matrix copy.
  */
 template <typename T_Matrix>
-T_Matrix operator*(
+cla3p::VirtualMatrix<T_Matrix> operator*(
 		typename T_Matrix::value_type val, 
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A) 
 { 
-	T_Matrix ret = A.copy();
-	ret.iscale(val);
-	return ret;
+	cla3p::VirtualMatrix<T_Matrix> sm(A.self());
+	return sm.scale(val);
 }
 
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 /*-------------------------------------------------*/
 
 /*
- * T_Scalar * VirtualEntity
+ * Generic scale operator
  */
-template <typename T_Object, typename T_Virtual> 
+template <typename T_Virtual>
 T_Virtual operator*(
-		typename T_Object::value_type val, 
-		const cla3p::VirtualEntity<T_Object,T_Virtual>& v)
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v, 
+		typename T_Virtual::value_type::value_type val)
 { 
-	return v.scale(val); 
+	return (val * v);
 }
-
-/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -143,8 +129,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
 		typename T_Vector::value_type val) 
 { 
-	cla3p::VirtualVector<T_Vector> sv(X.self());
-  return sv.scale(val);
+	return (val * X);
 }
 
 /**
@@ -162,8 +147,7 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 		typename T_Matrix::value_type val) 
 { 
-	cla3p::VirtualMatrix<T_Matrix> sm(A.self());
-  return sm.scale(val);
+	return (val * A);
 }
 
 /**
@@ -177,7 +161,7 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
  * @return The scaled matrix copy.
  */
 template <typename T_Matrix>
-T_Matrix operator*(
+cla3p::VirtualMatrix<T_Matrix> operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
 		typename T_Matrix::value_type val) 
 { 
@@ -185,19 +169,19 @@ T_Matrix operator*(
 }
 
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 
 /*
- * VirtualEntity * T_Scalar
+ * Generic scale operator
  */
-template <typename T_Object, typename T_Virtual>
-T_Virtual operator*(
-		const cla3p::VirtualEntity<T_Object,T_Virtual>& v, 
-		typename T_Object::value_type val)
+template <typename T_Virtual>
+T_Virtual operator/(
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v, 
+		typename T_Virtual::value_type::value_type val)
 { 
-	return (val * v);
+	return (cla3p::arith::inv(val) * v);
 }
-
-/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -246,7 +230,7 @@ cla3p::VirtualMatrix<T_Matrix> operator/(
  * @return The scaled matrix copy.
  */
 template <typename T_Matrix>
-T_Matrix operator/(
+cla3p::VirtualMatrix<T_Matrix> operator/(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
 		typename T_Matrix::value_type val) 
 { 
@@ -254,47 +238,53 @@ T_Matrix operator/(
 }
 
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
 
 /*
- * VirtualEntity / T_Scalar
+ * Generic scale operator
  */
-template <typename T_Object, typename T_Virtual>
-T_Virtual operator/(
-		const cla3p::VirtualEntity<T_Object,T_Virtual>& v, 
-		typename T_Object::value_type val)
+template <typename T_Virtual>
+void operator*=(
+		cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v, 
+		typename T_Virtual::value_type::value_type val)
 { 
-	return v.scale(cla3p::arith::inv(val));
+	v.iscale(val); 
 }
-
-/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
- * Scales `src` by `val`.
+ * Scales `X` by `val`.
  *
- * @param[in] src The input dense vector.
+ * @param[in] X The input dense vector.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Vector>
 void operator*=(
-		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src, 
-		typename T_Vector::value_type val);
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
+		typename T_Vector::value_type val)
+{
+	X.iscale(val);
+}
 
 /**
  * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
- * Scales `src` by `val`.
+ * Scales `A` by `val`.
  *
- * @param[in] src The input dense matrix.
+ * @param[in] A The input dense matrix.
  * @param[in] val The scaling coefficient.
  */
 template <typename T_Matrix>
 void operator*=(
-		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src, 
-		typename T_Matrix::value_type val);
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val)
+{
+	A.iscale(val);
+}
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -308,50 +298,59 @@ void operator*=(
 template <typename T_Matrix>
 void operator*=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		typename T_Matrix::value_type val);
-
-/*-------------------------------------------------*/
-
-/*
- * VirtualEntity *= T_Scalar
- */
-template <typename T_Object, typename T_Virtual>
-void operator*=(
-		cla3p::VirtualEntity<T_Object,T_Virtual>& v, 
-		typename T_Object::value_type val)
-{ 
-	v.iscale(val); 
+		typename T_Matrix::value_type val)
+{
+	A.iscale(val);
 }
 
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+
+/*
+ * Generic scale operator
+ */
+template <typename T_Virtual>
+void operator/=(
+		cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v, 
+		typename T_Virtual::value_type::value_type val)
+{ 
+	v.iscale(cla3p::arith::inv(val)); 
+}
 
 /**
  * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
- * Scales `src` by `1/val`.
+ * Scales `X` by `1/val`.
  *
- * @param[in] src The input dense vector.
+ * @param[in] X The input dense vector.
  * @param[in] val The non-zero scaling coefficient.
  */
 template <typename T_Vector>
 void operator/=(
-		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& src, 
-		typename T_Vector::value_type val);
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X, 
+		typename T_Vector::value_type val)
+{
+	X.iscale(cla3p::arith::inv(val));
+}
 
 /**
  * @ingroup module_index_math_operators_scal
  * @brief Scaling operator.
  *
- * Scales `src` by `1/val`.
+ * Scales `A` by `1/val`.
  *
- * @param[in] src The input dense matrix.
+ * @param[in] A The input dense matrix.
  * @param[in] val The non-zero scaling coefficient.
  */
 template <typename T_Matrix>
 void operator/=(
-		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& src, 
-		typename T_Matrix::value_type val);
+		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
+		typename T_Matrix::value_type val)
+{
+	A.iscale(cla3p::arith::inv(val));
+}
 
 /**
  * @ingroup module_index_math_operators_scal
@@ -365,20 +364,12 @@ void operator/=(
 template <typename T_Matrix>
 void operator/=(
 		cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
-		typename T_Matrix::value_type val);
+		typename T_Matrix::value_type val)
+{
+	A.iscale(cla3p::arith::inv(val));
+}
 
 /*-------------------------------------------------*/
-
-/*
- * VirtualEntity /= T_Scalar
- */
-template <typename T_Object, typename T_Virtual>
-void operator/=(
-		cla3p::VirtualEntity<T_Object,T_Virtual>& v, 
-		typename T_Object::value_type val)
-{ 
-	v.iscale(cla3p::arith::inv(val)); 
-}
 
 /*-------------------------------------------------*/
 

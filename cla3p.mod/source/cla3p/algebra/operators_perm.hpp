@@ -47,28 +47,6 @@ T_Vector operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
-/*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Vector>
-T_Vector operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualVector<T_Vector>& vX)
-{
-	return (P * vX.evaluate());
-}
-
-/*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Matrix, typename T_Vector>
-T_Vector operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualProdMv<T_Matrix,T_Vector>& vX)
-{
-	return (P * vX.evaluate());
-}
-
-/*-------------------------------------------------*/
-
 /**
  * @ingroup module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a general dense matrix.
@@ -83,45 +61,6 @@ template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P, 
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
-
-/*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Matrix>
-T_Matrix operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualMatrix<T_Matrix>& vA)
-{
-	return (P * vA.evaluate());
-}
-
-/*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Lhs, typename T_Rhs>
-T_Rhs operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA)
-{
-	return (P * vA.evaluate());
-}
-
-/*-------------------------------------------------*/
-
-/**
- * @ingroup module_index_math_operators_perm
- * @brief Multiplies permutation matrix with a general sparse matrix.
- *
- * Performs the operation <b>P * A</b>
- *
- * @param[in] P The input permutation matrix.
- * @param[in] A The input general matrix.
- * @return The permuted matrix.
- */
-template <typename T_Int, typename T_Matrix>
-T_Matrix operator*(
-		const cla3p::prm::PxMatrix<T_Int>& P, 
-		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
-
-/*-------------------------------------------------*/
 
 /**
  * @ingroup module_index_math_operators_perm
@@ -139,27 +78,20 @@ T_Matrix operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A, 
 		const cla3p::prm::PxMatrix<T_Int>& P);
 
-/*-------------------------------------------------*/
-
+/**
+ * @ingroup module_index_math_operators_perm
+ * @brief Multiplies permutation matrix with a general sparse matrix.
+ *
+ * Performs the operation <b>P * A</b>
+ *
+ * @param[in] P The input permutation matrix.
+ * @param[in] A The input general matrix.
+ * @return The permuted matrix.
+ */
 template <typename T_Int, typename T_Matrix>
 T_Matrix operator*(
-		const cla3p::VirtualMatrix<T_Matrix>& vA,
-		const cla3p::prm::PxMatrix<T_Int>& P) 
-{
-	return (P * vA.evaluate());
-}
-
-/*-------------------------------------------------*/
-
-template <typename T_Int, typename T_Lhs, typename T_Rhs>
-T_Rhs operator*(
-		const cla3p::VirtualProdMm<T_Lhs,T_Rhs>& vA,
-		const cla3p::prm::PxMatrix<T_Int>& P) 
-{
-	return (P * vA.evaluate());
-}
-
-/*-------------------------------------------------*/
+		const cla3p::prm::PxMatrix<T_Int>& P, 
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
  * @ingroup module_index_math_operators_perm
@@ -177,8 +109,6 @@ T_Matrix operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A, 
 		const cla3p::prm::PxMatrix<T_Int>& P);
 
-/*-------------------------------------------------*/
-
 /**
  * @ingroup module_index_math_operators_perm
  * @brief Multiplies a permutation matrix with a permutation matrix.
@@ -193,6 +123,26 @@ template <typename T_Int>
 cla3p::prm::PxMatrix<T_Int> operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P,
 		const cla3p::prm::PxMatrix<T_Int>& Q);
+
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+
+template <typename T_Int, typename T_Virtual>
+typename T_Virtual::value_type operator*(
+		const cla3p::prm::PxMatrix<T_Int>& P, 
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v)
+{
+	return (P * v.evaluate());
+}
+
+template <typename T_Int, typename T_Virtual>
+typename T_Virtual::value_type operator*(
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v,
+		const cla3p::prm::PxMatrix<T_Int>& P) 
+{
+	return (v.evaluate() * P);
+}
 
 /*-------------------------------------------------*/
 

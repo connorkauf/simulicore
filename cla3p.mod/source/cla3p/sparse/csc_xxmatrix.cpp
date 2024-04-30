@@ -141,6 +141,12 @@ void XxMatrixTmpl::setValues(T_Scalar* values)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
+VirtualMatrix<T_Matrix> XxMatrixTmpl::operator-() const
+{
+	return VirtualMatrix<T_Matrix>(self()).scale(-1);
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
 uint_t XxMatrixTmpl::nnz() const
 {
 	if(!empty()) {
@@ -285,41 +291,21 @@ void XxMatrixTmpl::iscale(T_Scalar val)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::transpose() const
+VirtualMatrix<T_Matrix> XxMatrixTmpl::transpose() const
 {
-	transp_op_consistency_check(prop().type(), false);
-
-	T_Matrix ret(ncols(), nrows(), nnz(), prop());
-
-	bulk::csc::transpose(
-			nrows(), ncols(), 
-			colptr(), 
-			rowidx(), 
-			values(), 
-			ret.colptr(), 
-			ret.rowidx(), 
-			ret.values());
-
-	return ret;
+  return VirtualMatrix<T_Matrix>(self()).transpose();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-T_Matrix XxMatrixTmpl::ctranspose() const
+VirtualMatrix<T_Matrix> XxMatrixTmpl::ctranspose() const
 {
-	transp_op_consistency_check(prop().type(), true);
-
-	T_Matrix ret(ncols(), nrows(), nnz(), prop());
-
-	bulk::csc::conjugate_transpose(
-			nrows(), ncols(), 
-			colptr(), 
-			rowidx(), 
-			values(), 
-			ret.colptr(), 
-			ret.rowidx(), 
-			ret.values());
-
-	return ret;
+  return VirtualMatrix<T_Matrix>(self()).ctranspose();
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+VirtualMatrix<T_Matrix> XxMatrixTmpl::conjugate() const
+{
+  return VirtualMatrix<T_Matrix>(self()).conjugate();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -329,14 +315,6 @@ void XxMatrixTmpl::iconjugate()
 	// TODO: perhaps use a conjugate for 1D arrays
 	//
 	bulk::dns::conjugate(uplo_t::Full, nnz(), 1, values(), nnz());
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Matrix XxMatrixTmpl::conjugate() const
-{
-	T_Matrix ret = copy();
-	ret.iconjugate();
-	return ret;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

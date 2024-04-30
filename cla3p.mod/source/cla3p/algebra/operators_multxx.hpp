@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-// this file inc
-#include "cla3p/algebra/operators_multvv.hpp"
+#ifndef CLA3P_OPERATORS_MULT_HPP_
+#define CLA3P_OPERATORS_MULT_HPP_
 
-// system
+/**
+ * @file
+ */
 
-// 3rd
-
-// cla3p
+#include "cla3p/virtuals.hpp"
 
 /*-------------------------------------------------*/
+
+template <typename T_Lhs, typename T_Rhs>
+cla3p::VirtualProd<T_Lhs,T_Rhs>
+operator*(
+		const cla3p::VirtualEntity<typename T_Lhs::value_type,T_Lhs>& vA,
+		const cla3p::VirtualEntity<typename T_Rhs::value_type,T_Rhs>& vB)
+{
+	return cla3p::VirtualProd<T_Lhs,T_Rhs>(vA.self(),vB.self());
+}
+
+#endif // CLA3P_OPERATORS_MULT_HPP_

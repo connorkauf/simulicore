@@ -24,11 +24,10 @@
 #include <ostream>
 #include <string>
 
-#include "cla3p/types.hpp"
 #include "cla3p/generic/ownership.hpp"
 #include "cla3p/generic/matrix_meta.hpp"
 #include "cla3p/generic/guard.hpp"
-//#include "cla3p/virtuals/virtual_object.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -68,6 +67,22 @@ class XxMatrix : public Ownership, public MatrixMeta {
 
 		XxMatrix(XxMatrix<T_Int,T_Scalar,T_Matrix>&&);
 		XxMatrix<T_Int,T_Scalar,T_Matrix>& operator=(XxMatrix<T_Int,T_Scalar,T_Matrix>&&);
+
+		/**
+		 * @name Operators
+		 * @{
+		 */
+
+		/**
+		 * @brief Unary minus operator.
+		 *
+		 * Virtually negates the matrix.
+		 *
+		 * @return The result of the virtual operation `-(*this)`.
+		 */
+		VirtualMatrix<T_Matrix> operator-() const;
+
+		/** @} */
 
 		/** 
 		 * @name Arguments
@@ -171,24 +186,27 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		void iscale(T_Scalar val);
 
 		/**
-		 * @brief Transposes a matrix.
+		 * @brief Virtually transposes a matrix.
+		 * @return A virtual matrix object that represents the transposed matrix.
 		 */
-		T_Matrix transpose() const;
+		VirtualMatrix<T_Matrix> transpose() const;
 
 		/**
-		 * @brief Conjugate-transposes a matrix.
+		 * @brief Virtually conjugate-transposes a matrix.
+		 * @return A virtual matrix object that represents the conjugate-transposed matrix.
 		 */
-		T_Matrix ctranspose() const;
+		VirtualMatrix<T_Matrix> ctranspose() const;
+
+		/**
+		 * @brief Virtually conjugates a matrix.
+		 * @return A virtual matrix object that represents the conjugated matrix.
+		 */
+		VirtualMatrix<T_Matrix> conjugate() const;
 
 		/**
 		 * @brief Conjugates a matrix in-place.
 		 */
 		void iconjugate();
-
-		/**
-		 * @brief Conjugates a matrix.
-		 */
-		T_Matrix conjugate() const;
 
 		/**
 		 * @brief Converts a matrix to general.

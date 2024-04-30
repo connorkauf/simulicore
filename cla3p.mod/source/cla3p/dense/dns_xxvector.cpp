@@ -25,7 +25,7 @@
 // cla3p
 #include "cla3p/dense.hpp"
 #include "cla3p/perms.hpp"
-#include "cla3p/virtuals.hpp"
+#include "cla3p/virtuals/virtual_object.hpp"
 
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/dns_io.hpp"
@@ -264,37 +264,9 @@ XxVectorTmpl::~XxVector()
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-XxVectorTmpl::XxVector(const VirtualVector<T_Vector>& v)
-{
-	fillFromVirtual(v);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-XxVectorTmpl::XxVector(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>& v)
-{
-	fillFromVirtual(v);
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-XxVectorTmpl& XxVectorTmpl::operator=(const VirtualVector<T_Vector>& v)
-{
-	fillFromVirtual(v);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-XxVectorTmpl& XxVectorTmpl::operator=(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>& v)
-{
-	fillFromVirtual(v);
-	return *this;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
 VirtualVector<T_Vector> XxVectorTmpl::operator-() const
 {
-	VirtualVector<T_Vector> ret(this->self());
-	ret.iscale(-1);
-	return ret;
+	return VirtualVector<T_Vector>(this->self()).scale(-1);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -304,27 +276,21 @@ void XxVectorTmpl::iscale(T_Scalar val)
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-VirtualVector<T_Vector> XxVectorTmpl::transpose() const
+VirtualRowVec<T_Vector> XxVectorTmpl::transpose() const
 {
-	VirtualVector<T_Vector> ret(this->self());
-	ret.itranspose();
-	return ret;
+	return VirtualRowVec<T_Vector>(this->self(), false);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
-VirtualVector<T_Vector> XxVectorTmpl::ctranspose() const
+VirtualRowVec<T_Vector> XxVectorTmpl::ctranspose() const
 {
-	VirtualVector<T_Vector> ret(this->self());
-	ret.ictranspose();
-	return ret;
+	return VirtualRowVec<T_Vector>(this->self(), true);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 VirtualVector<T_Vector> XxVectorTmpl::conjugate() const
 {
-	VirtualVector<T_Vector> ret(this->self());
-	ret.iconjugate();
-	return ret;
+	return VirtualVector<T_Vector>(this->self()).conjugate();
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -428,34 +394,6 @@ T_Vector XxVectorTmpl::random(uint_t n, T_RScalar lo, T_RScalar hi)
 	T_Vector ret(n);
 	bulk::dns::rand(uplo_t::Full, ret.size(), 1, ret.values(), ret.size(), lo, hi);
 	return ret;
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::fillFromVirtual(const VirtualVector<T_Vector>& v)
-{
-	if(!(*this)) {
-
-		*this = v.evaluate();
-
-	} else {
-
-		v.evaluateOnExisting(this->self());
-
-	} // empty check
-}
-/*-------------------------------------------------*/
-XxVectorTlst
-void XxVectorTmpl::fillFromVirtual(const VirtualProdMv<VirtualMatrix<T_Matrix>,VirtualVector<T_Vector>>& v)
-{
-	if(!(*this)) {
-
-		*this = v.evaluate();
-
-	} else {
-
-		v.evaluateOnExisting(this->self());
-
-	} // empty check
 }
 /*-------------------------------------------------*/
 #undef XxVectorTmpl

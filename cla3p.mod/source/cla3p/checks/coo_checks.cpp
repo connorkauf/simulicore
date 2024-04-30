@@ -75,7 +75,6 @@ void coo_check_triplet(uint_t m, uint_t n, const Property& prop, const T_Int& i,
 
 	if(prop.isHermitian() && i == j && arith::getIm(v)) {
 		throw err::InvalidOp(msg::HermitianInconsistency() + " (imaginary value on diagonal)");
-		// FIXME : fill
 	}
 }
 /*-------------------------------------------------*/
