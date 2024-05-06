@@ -170,13 +170,19 @@ template void sort(uint_t, const int_t*, int_t*);
 template void sort(uint_t, const uint_t*, uint_t*);
 /*-------------------------------------------------*/
 template <typename T_Int, typename T_Scalar>
-struct RowValuePair {
-	T_Int    i;
-	T_Scalar v;
-	bool operator<(const struct RowValuePair<T_Int,T_Scalar>& other)
-	{
-		return (i < other.i);
-	}
+class RowValuePair {
+	public:
+		RowValuePair() = default;
+		~RowValuePair() = default;
+		RowValuePair(const RowValuePair<T_Int,T_Scalar>& r) : i(r.i), v(r.v) {} // Removes ABI warning
+
+		T_Int    i;
+		T_Scalar v;
+
+		bool operator<(const struct RowValuePair<T_Int,T_Scalar>& other)
+		{
+			return (i < other.i);
+		}
 };
 /*-------------------------------------------------*/
 // 
@@ -191,7 +197,7 @@ void sort(uint_t n, const T_Int *colptr, T_Int *rowidx, T_Scalar *values)
 
 	if(!milen) return;
 
-	std::vector<struct RowValuePair<T_Int,T_Scalar>> row_pairs;
+	std::vector<RowValuePair<T_Int,T_Scalar>> row_pairs;
 	row_pairs.reserve(milen);
 
 	for(uint_t j = 0; j < n; j++) {
