@@ -1,0 +1,43 @@
+<map id="cla3p::Ownership" name="cla3p::Ownership">
+<area shape="rect" id="Node000001" title="The ownership metadata class." alt="" coords="5,85,140,110"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1dns_1_1XxObject.html" title=" " alt="" coords="188,5,343,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,77,210,43,212,48,121,82"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1csc_1_1XxMatrix.html" title="The sparse matrix class (compressed sparse column format)." alt="" coords="189,70,342,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,95,188,95,188,100,154,100"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1dns_1_1XxObject.html" title="The dense object class." alt="" coords="188,345,343,385"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="93,120,252,344,248,347,89,123"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1csc_1_1CxMatrix.html" title="The sparse complex matrix class (compressed sparse column format)." alt="" coords="400,13,553,53"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="354,68,409,51,411,56,356,73"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1csc_1_1RxMatrix.html" title="The sparse real matrix class (compressed sparse column format)." alt="" coords="400,77,553,117"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="355,95,400,95,400,100,355,100"/>
+<area shape="rect" id="Node000007" href="$classcla3p_1_1dns_1_1XiVector.html" title=" " alt="" coords="397,142,556,197"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="283,332,327,269,356,236,389,206,406,194,409,199,392,210,360,239,331,272,288,335"/>
+<area shape="rect" id="Node000008" href="$classcla3p_1_1dns_1_1XiVector.html" title=" " alt="" coords="397,221,556,275"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="306,335,389,284,412,273,414,278,392,289,309,340"/>
+<area shape="rect" id="Node000009" href="$classcla3p_1_1dns_1_1XiVector.html" title=" " alt="" coords="397,299,556,354"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="356,346,397,339,398,344,357,351"/>
+<area shape="rect" id="Node000011" href="$classcla3p_1_1dns_1_1XxMatrix.html" title=" " alt="" coords="397,378,556,433"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="357,380,398,388,397,393,356,385"/>
+<area shape="rect" id="Node000013" href="$classcla3p_1_1dns_1_1XxMatrix.html" title=" " alt="" coords="397,457,556,511"/>
+<area shape="poly" id="edge12_Node000006_Node000013" title=" " alt="" coords="309,391,392,442,416,454,414,459,389,446,306,396"/>
+<area shape="rect" id="Node000015" href="$classcla3p_1_1dns_1_1XiVector.html" title="The general purpose dense vector class." alt="" coords="391,536,562,576"/>
+<area shape="poly" id="edge14_Node000006_Node000015" title=" " alt="" coords="287,396,330,459,360,492,392,521,415,534,412,538,389,525,356,495,326,462,283,399"/>
+<area shape="rect" id="Node000021" href="$classcla3p_1_1dns_1_1XxMatrix.html" title="The dense matrix class." alt="" coords="391,600,563,640"/>
+<area shape="poly" id="edge20_Node000006_Node000021" title=" " alt="" coords="279,398,296,440,320,491,352,542,392,586,410,598,407,602,389,590,348,545,315,493,291,442,274,400"/>
+<area shape="rect" id="Node000010" href="$classcla3p_1_1prm_1_1PxMatrix.html" title="The permutation matrix object." alt="" coords="617,307,775,347"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="570,324,617,324,617,329,570,329"/>
+<area shape="rect" id="Node000012" href="$classcla3p_1_1dns_1_1CxMatrix.html" title="The dense complex matrix class." alt="" coords="619,385,773,425"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="570,403,618,403,618,408,570,408"/>
+<area shape="rect" id="Node000014" href="$classcla3p_1_1dns_1_1RxMatrix.html" title="The dense real matrix class." alt="" coords="619,456,773,496"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="570,478,618,476,618,481,570,483"/>
+<area shape="rect" id="Node000016" href="$classcla3p_1_1dns_1_1XxVector.html" title=" " alt="" coords="617,521,775,575"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="576,550,616,548,617,554,576,555"/>
+<area shape="rect" id="Node000018" href="$classcla3p_1_1dns_1_1XxVector.html" title=" " alt="" coords="617,599,775,654"/>
+<area shape="poly" id="edge17_Node000015_Node000018" title=" " alt="" coords="554,578,617,599,616,604,552,583"/>
+<area shape="rect" id="Node000020" href="$classcla3p_1_1dns_1_1XxVector.html" title="The floating point dense vector class." alt="" coords="611,679,781,719"/>
+<area shape="poly" id="edge19_Node000015_Node000020" title=" " alt="" coords="558,581,565,586,581,606,589,626,597,646,612,665,630,676,628,681,609,669,592,648,584,628,577,609,561,590,555,585"/>
+<area shape="rect" id="Node000017" href="$classcla3p_1_1dns_1_1CxVector.html" title="The dense complex vector class." alt="" coords="829,528,984,568"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="789,545,829,545,829,551,789,551"/>
+<area shape="rect" id="Node000019" href="$classcla3p_1_1dns_1_1RxVector.html" title="The dense real vector class." alt="" coords="829,607,984,647"/>
+<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="789,624,829,624,829,629,789,629"/>
+</map>

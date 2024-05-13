@@ -1,3 +1,21 @@
+# [v1.2.1] - 2024-05-15
+
+SimuliCore virtual operations layer add-ons & performance boosters.
+
+## CLA3P Module
+
+### New Features
+- New enhanced virtual operations with template expressions.
+- Sparse (csc) matrices now included in virtual operation layer.
+
+### Changes
+- Move dense linear solver class outside of the `dns` namespace.
+- Rename dense linear solver class from `cla3p::LSolver<type>` to `cla3p::Lapack<type>`.
+
+### Fixes
+- Fix ABI compiler warning.
+
+
 # [v1.2.0] - 2024-04-25
 
 SimuliCore new version with copy constructor support & more efficient virtual operations.

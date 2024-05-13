@@ -1,0 +1,11 @@
+<map id="cla3p::prm::PxMatrix&lt; T_Int &gt;" name="cla3p::prm::PxMatrix&lt; T_Int &gt;">
+<area shape="rect" id="Node000001" title="The permutation matrix object." alt="" coords="65,269,222,309"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1dns_1_1XiVector.html" title=" " alt="" coords="64,167,223,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,235,146,269,141,269,141,235"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1Meta1D.html" title="The single dimension metadata class." alt="" coords="5,86,121,111"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,120,123,165,119,168,80,123"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1dns_1_1XxObject.html" title="The dense object class." alt="" coords="146,79,301,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="200,131,168,168,164,165,196,127"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1Ownership.html" title="The ownership metadata class." alt="" coords="156,5,291,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="226,44,226,79,221,79,221,44"/>
+</map>

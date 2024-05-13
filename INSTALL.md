@@ -18,8 +18,8 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 2. Clone the repo
    
    ```sh
-   git clone git@github.com:connorkauf/SimuliCore.git
-   cd SimuliCore
+   git clone git@github.com:connorkauf/simulicore.git
+   cd simulicore
    ```
    
    For the purposes of this document, the top directory is marked as `<simulicore_root>`.
@@ -58,8 +58,8 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 1. Clone the repo using a cloning method of your choice
    
    ```sh
-   https: https://github.com/connorkauf/SimuliCore.git
-   ssh: git@github.com:connorkauf/SimuliCore.git
+   https: https://github.com/connorkauf/simulicore.git
+   ssh: git@github.com:connorkauf/simulicore.git
    ```
    
    For the purposes of this document, the top directory is marked as `<simulicore_root>`.
