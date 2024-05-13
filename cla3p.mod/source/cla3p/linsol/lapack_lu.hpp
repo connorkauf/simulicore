@@ -14,34 +14,56 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DECOMP_LU_CHECKS_HPP_
-#define CLA3P_DECOMP_LU_CHECKS_HPP_
+#ifndef CLA3P_LAPACK_LU_HPP_
+#define CLA3P_LAPACK_LU_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/error/exceptions.hpp"
-#include "cla3p/checks/decomp_xx_checks.hpp"
+#include "cla3p/linsol/lapack_base.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p {
+namespace cla3p { 
 /*-------------------------------------------------*/
 
+/**
+ * @nosubgrouping
+ * @brief The partial pivoting LU linear solver for dense matrices.
+ */
 template <typename T_Matrix>
-void lu_decomp_input_check(const T_Matrix& mat)
-{
-	decomp_generic_check(mat);
+class LapackLU : public LapackBase<T_Matrix> {
 
-	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian()); 
+	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
-	if(!supported_prop) {
-		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for LU decomposition");
-	} // valid prop
-}
+	public:
+
+		// no copy
+		LapackLU(const LapackLU&) = delete;
+		LapackLU& operator=(const LapackLU&) = delete;
+
+		/**
+		 * @copydoc cla3p::LapackLLt::LapackLLt()
+		 */
+		LapackLU();
+
+		/**
+		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
+		 */
+		LapackLU(uint_t n);
+
+		/**
+		 * @copydoc cla3p::LapackLLt::~LapackLLt()
+		 */
+		~LapackLU();
+
+	private:
+		void decomposeFactor() override;
+		void solveForRhs(T_Matrix& rhs) const override;
+};
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DECOMP_LU_CHECKS_HPP_
+#endif // CLA3P_LAPACK_LU_HPP_

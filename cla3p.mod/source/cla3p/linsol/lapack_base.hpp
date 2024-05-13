@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_LSOLVER_BASE_HPP_
-#define CLA3P_DNS_LSOLVER_BASE_HPP_
+#ifndef CLA3P_LAPACK_BASE_HPP_
+#define CLA3P_LAPACK_BASE_HPP_
 
 /**
  * @file
@@ -27,7 +27,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns { 
 /*-------------------------------------------------*/
 
 /**
@@ -35,68 +34,63 @@ namespace dns {
  * @brief The abstract linear solver base for dense matrices.
  */
 template <typename T_Matrix>
-class LSolverBase {
+class LapackBase {
 
 	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
 
-		// no copy
-		LSolverBase(const LSolverBase&) = delete;
-		LSolverBase& operator=(const LSolverBase&) = delete;
-
-		LSolverBase();
-		~LSolverBase();
+		LapackBase();
+		LapackBase(uint_t n);
+		~LapackBase();
 
 		/**
 		 * @brief Allocates internal buffers.
+		 * @param[in] n The maximum dimension for the buffers.
 		 */
-		virtual void reserve(uint_t n);
+		void reserve(uint_t n);
 
 		/**
 		 * @brief Clears the solver internal data.
 		 */
-		virtual void clear();
+		void clear();
 
 		/**
 		 * @brief Performs matrix decomposition.
 		 * @param[in] mat The matrix to be decomposed.
 		 */
-		virtual void decompose(const T_Matrix& mat) = 0;
+		void decompose(const T_Matrix& mat);
 
 		/**
 		 * @brief Performs in-place matrix decomposition.
 		 * @param[in] mat The matrix to be decomposed, destroyed after the operation.
 		 */
-		virtual void idecompose(T_Matrix& mat) = 0;
+		void idecompose(T_Matrix& mat);
 
 		/**
 		 * @brief Performs in-place matrix solution.
 		 * @param[in] rhs The right hand side matrix, overwritten with the solution.
 		 */
-		virtual void solve(T_Matrix& rhs) const = 0;
+		void solve(T_Matrix& rhs) const;
 
 		/**
 		 * @brief Performs in-place vector solution.
 		 * @param[in] rhs The right hand side vector, overwritten with the solution.
 		 */
-		virtual void solve(T_Vector& rhs) const = 0;
+		void solve(T_Vector& rhs) const;
 
 	protected:
-		int_t& info();
-		const int_t& info() const;
-		T_Matrix& factor();
-		const T_Matrix& factor() const;
-		std::vector<int_t>& ipiv1();
-		const std::vector<int_t>& ipiv1() const;
-		std::vector<int_t>& jpiv1();
-		const std::vector<int_t>& jpiv1() const;
+		int_t info() const;
+		void setInfo(int_t);
 
-		void reserveBuffer(uint_t n);
-		void reserveIpiv(uint_t n);
-		void reserveJpiv(uint_t n);
-		void absorbInput(const T_Matrix& mat);
-		void clearAll();
+		const T_Matrix& factor() const;
+		T_Matrix& factor();
+
+		const std::vector<int_t>& ipiv1() const;
+		std::vector<int_t>& ipiv1();
+
+		const std::vector<int_t>& jpiv1() const;
+		std::vector<int_t>& jpiv1();
 
 	private:
 		int_t m_info;
@@ -109,11 +103,14 @@ class LSolverBase {
 		const T_Matrix& buffer() const;
 
 		void defaults();
+
+		void initializeFactor(const T_Matrix& mat);
+		virtual void decomposeFactor() = 0;
+		virtual void solveForRhs(T_Matrix& rhs) const = 0;
 };
 
 /*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_LSOLVER_BASE_HPP_
+#endif // CLA3P_LAPACK_BASE_HPP_

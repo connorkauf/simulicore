@@ -22,7 +22,6 @@
  */
 
 #include "cla3p/virtuals.hpp"
-#include "cla3p/linsol/dns_auto_lsolver.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {

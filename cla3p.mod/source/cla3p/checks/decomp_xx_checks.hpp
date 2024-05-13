@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DECOMP_LU_CHECKS_HPP_
-#define CLA3P_DECOMP_LU_CHECKS_HPP_
+#ifndef CLA3P_DECOMP_XX_CHECKS_HPP_
+#define CLA3P_DECOMP_XX_CHECKS_HPP_
 
 /**
  * @file
  */
 
 #include "cla3p/error/exceptions.hpp"
-#include "cla3p/checks/decomp_xx_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
 /*-------------------------------------------------*/
 
 template <typename T_Matrix>
-void lu_decomp_input_check(const T_Matrix& mat)
+void decomp_generic_check(const T_Matrix& mat)
 {
-	decomp_generic_check(mat);
+	if(!mat) {
+		throw err::InvalidOp("Input matrix is empty");
+	} // empty
 
-	bool supported_prop = (mat.prop().isGeneral() || mat.prop().isSymmetric() || mat.prop().isHermitian()); 
-
-	if(!supported_prop) {
-		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for LU decomposition");
-	} // valid prop
+	if(mat.nrows() != mat.ncols()) {
+		throw err::InvalidOp("Only square matrices are supported for linear decomposition");
+	} // square
 }
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DECOMP_LU_CHECKS_HPP_
+#endif // CLA3P_DECOMP_XX_CHECKS_HPP_

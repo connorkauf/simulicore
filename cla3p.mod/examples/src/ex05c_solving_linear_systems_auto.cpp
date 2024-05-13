@@ -11,7 +11,7 @@
 template <typename T_Rhs>
 static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 {
-	cla3p::dns::LSolverAuto<cla3p::dns::RdMatrix> autoSolver;
+	cla3p::LapackAuto<cla3p::dns::RdMatrix> autoSolver;
 
 	/*
 	 * Decompose A into a product depending on property
@@ -22,7 +22,7 @@ static void solve_linear_system(const cla3p::dns::RdMatrix& A, const T_Rhs& B)
 	T_Rhs X = B;
 
 	/*
-	 * Overwrite X with the solution (A^{-1} * B1)
+	 * Overwrite X with the solution (A^{-1} * B)
 	 */
 
 	autoSolver.solve(X);

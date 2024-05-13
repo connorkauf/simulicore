@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_DNS_AUTO_LSOLVER_HPP_
-#define CLA3P_DNS_AUTO_LSOLVER_HPP_
+#ifndef CLA3P_LAPACK_AUTO_HPP_
+#define CLA3P_LAPACK_AUTO_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/linsol/dns_lsolver_base.hpp"
+#include "cla3p/linsol/lapack_base.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
-namespace dns { 
 /*-------------------------------------------------*/
 
 /**
@@ -33,75 +32,46 @@ namespace dns {
  * @brief The linear solver for dense matrices with automatic method detection.
  */
 template <typename T_Matrix>
-class LSolverAuto : public LSolverBase<T_Matrix> {
+class LapackAuto : public LapackBase<T_Matrix> {
 
 	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	public:
 
 		// no copy
-		LSolverAuto(const LSolverAuto&) = delete;
-		LSolverAuto& operator=(const LSolverAuto&) = delete;
+		LapackAuto(const LapackAuto&) = delete;
+		LapackAuto& operator=(const LapackAuto&) = delete;
 
 		/**
-		 * @brief The default constructor.
-		 *
-		 * Constructs an empty solver object.
+		 * @copydoc cla3p::LapackLLt::LapackLLt()
 		 */
-		LSolverAuto();
+		LapackAuto();
 
 		/**
-		 * @brief The dimensional constructor.
-		 *
-		 * Constructs a preallocated solver object with n<sup>2</sup> buffered size.
+		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
 		 */
-		LSolverAuto(uint_t n);
+		LapackAuto(uint_t n);
 
 		/**
-		 * @brief Destroys the solver.
+		 * @copydoc cla3p::LapackLLt::~LapackLLt()
 		 */
-		~LSolverAuto();
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::reserve(uint_t n)
-		 */
-		void reserve(uint_t n) override;
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::decompose()
-		 */
-		void decompose(const T_Matrix& mat) override;
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::idecompose()
-		 */
-		void idecompose(T_Matrix& mat) override;
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::solve(T_Matrix& rhs) const
-		 */
-		void solve(T_Matrix& rhs) const override;
-
-		/**
-		 * @copydoc cla3p::dns::LSolverBase::solve(T_Vector& rhs) const
-		 */
-		void solve(T_Vector& rhs) const override;
+		~LapackAuto();
 
 	private:
-		void fdecompose();
+		void decomposeFactor() override;
+		void solveForRhs(T_Matrix& rhs) const override;
 };
 
 template <typename T_Matrix, typename T_Rhs>
 void default_linear_solver(const T_Matrix& mat, T_Rhs& rhs)
 {
-	LSolverAuto<T_Matrix> solver;
+	LapackAuto<T_Matrix> solver;
 	solver.decompose(mat);
 	solver.solve(rhs);
 }
 
 /*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_DNS_AUTO_LSOLVER_HPP_
+#endif // CLA3P_LAPACK_AUTO_HPP_

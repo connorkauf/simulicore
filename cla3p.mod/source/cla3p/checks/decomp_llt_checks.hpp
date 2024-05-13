@@ -24,6 +24,7 @@
 #include "cla3p/types.hpp"
 #include "cla3p/dense.hpp"
 #include "cla3p/error/exceptions.hpp"
+#include "cla3p/checks/decomp_xx_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -32,21 +33,15 @@ namespace cla3p {
 template <typename T_Matrix>
 void llt_decomp_input_check(const T_Matrix& mat)
 {
-	bool supported_prop = (
-			(std::is_same<T_Matrix,dns::RdMatrix>::value && mat.prop().isSymmetric()) || 
-			(std::is_same<T_Matrix,dns::RfMatrix>::value && mat.prop().isSymmetric()) || 
-			(std::is_same<T_Matrix,dns::CdMatrix>::value && mat.prop().isHermitian()) || 
-			(std::is_same<T_Matrix,dns::CfMatrix>::value && mat.prop().isHermitian()) ); 
+	decomp_generic_check(mat);
 
-	if(mat.empty()) {
-		throw err::InvalidOp("Input matrix is empty");
-	} else if(!supported_prop) {
+	bool supported_prop = (
+			(TypeTraits<dns::RfMatrix>::is_real()    && mat.prop().isSymmetric()) || 
+			(TypeTraits<dns::CfMatrix>::is_complex() && mat.prop().isHermitian()) ); 
+
+	if(!supported_prop) {
 		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for PD Cholesky (LL') decomposition");
 	} // valid prop
-
-	if(mat.nrows() != mat.ncols()) {
-		throw err::InvalidOp("Only square matrices are supported for linear decomposition");
-	} // square
 }
 
 /*-------------------------------------------------*/

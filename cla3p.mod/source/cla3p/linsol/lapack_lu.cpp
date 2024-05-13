@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/linsol/dns_lu_lsolver.hpp"
+#include "cla3p/linsol/lapack_lu.hpp"
 
 // system
 
@@ -32,52 +32,55 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLU<T_Matrix>::LSolverLU()
+LapackLU<T_Matrix>::LapackLU()
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLU<T_Matrix>::LSolverLU(uint_t n)
+LapackLU<T_Matrix>::LapackLU(uint_t n)
+	: LapackBase<T_Matrix>(n)
 {
-	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLU<T_Matrix>::~LSolverLU()
+LapackLU<T_Matrix>::~LapackLU()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverLU<T_Matrix>::reserve(uint_t n)
+void LapackLU<T_Matrix>::decomposeFactor()
 {
-	this->reserveBuffer(n);
-	this->reserveIpiv(n);
+	lu_decomp_input_check(this->factor());
+
+	int_t info = 0;
+	this->factor().igeneral();
+
+	if(this->factor().prop().isGeneral()) {
+
+		this->ipiv1().resize(std::min(this->factor().nrows(), this->factor().ncols()));
+
+		info = lapack::getrf(
+				this->factor().nrows(),
+				this->factor().ncols(),
+				this->factor().values(),
+				this->factor().ld(),
+				this->ipiv1().data());
+
+	} else {
+
+		throw err::Exception("Unreachable");
+
+	} // prop
+
+	this->setInfo(info);
+	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverLU<T_Matrix>::decompose(const T_Matrix& mat)
-{
-	this->factor().clear();
-	lu_decomp_input_check(mat);
-	this->absorbInput(mat);
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLU<T_Matrix>::idecompose(T_Matrix& mat)
-{
-	this->factor().clear();
-	lu_decomp_input_check(mat);
-	this->factor() = mat.move();
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLU<T_Matrix>::solve(T_Matrix& rhs) const
+void LapackLU<T_Matrix>::solveForRhs(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw err::InvalidOp("Decomposition stage is not performed");
@@ -107,45 +110,13 @@ void LSolverLU<T_Matrix>::solve(T_Matrix& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLU<T_Matrix>::solve(T_Vector& rhs) const
-{
-	LSolverBase<T_Matrix>::solve(rhs);
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLU<T_Matrix>::fdecompose()
-{
-	this->factor().igeneral();
-
-	if(this->factor().prop().isGeneral()) {
-
-		this->ipiv1().resize(std::min(this->factor().nrows(), this->factor().ncols()));
-
-		this->info() = lapack::getrf(
-				this->factor().nrows(),
-				this->factor().ncols(),
-				this->factor().values(),
-				this->factor().ld(),
-				this->ipiv1().data());
-
-	} else {
-
-		throw err::Exception("Unreachable");
-
-	} // prop
-
-	lapack_info_check(this->info());
-}
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template class LapackLU<dns::RdMatrix>;
+template class LapackLU<dns::RfMatrix>;
+template class LapackLU<dns::CdMatrix>;
+template class LapackLU<dns::CfMatrix>;
 /*-------------------------------------------------*/
-template class LSolverLU<RdMatrix>;
-template class LSolverLU<RfMatrix>;
-template class LSolverLU<CdMatrix>;
-template class LSolverLU<CfMatrix>;
-/*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 

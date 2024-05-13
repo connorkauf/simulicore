@@ -25,7 +25,7 @@
 #include "cla3p/dense.hpp"
 #include "cla3p/algebra/functional_multmv.hpp"
 #include "cla3p/algebra/functional_multmm.hpp"
-#include "cla3p/linsol/dns_auto_lsolver.hpp"
+#include "cla3p/linsol/lapack_auto.hpp"
 
 /*-------------------------------------------------*/
 template <typename T_Matrix, typename T_Vector>
@@ -80,7 +80,7 @@ void operator/=(
 	} else {
 
 		T_Vector rhs = B.rcopy();
-		cla3p::dns::default_linear_solver<T_Matrix,T_Vector>(A.self(), rhs);
+		cla3p::default_linear_solver<T_Matrix,T_Vector>(A.self(), rhs);
 
 	} // property case
 }
@@ -109,7 +109,7 @@ void operator/=(
 	} else {
 
 		T_Matrix rhs = B.rcopy();
-		cla3p::dns::default_linear_solver<T_Matrix,T_Matrix>(A.self(), rhs);
+		cla3p::default_linear_solver<T_Matrix,T_Matrix>(A.self(), rhs);
 
 	} // property case
 }

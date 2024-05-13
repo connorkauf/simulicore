@@ -2,21 +2,21 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
-	linsol/dns_lsolver_base.cpp
-	linsol/dns_auto_lsolver.cpp
-	linsol/dns_llt_lsolver.cpp
-	linsol/dns_ldlt_lsolver.cpp
-	linsol/dns_lu_lsolver.cpp
-	linsol/dns_complete_lu_lsolver.cpp
+	linsol/lapack_base.cpp
+	linsol/lapack_auto.cpp
+	linsol/lapack_llt.cpp
+	linsol/lapack_ldlt.cpp
+	linsol/lapack_lu.cpp
+	linsol/lapack_complete_lu.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_LINSOL_HPP 
-	dns_lsolver_base.hpp
-	dns_auto_lsolver.hpp
-	dns_llt_lsolver.hpp
-	dns_ldlt_lsolver.hpp
-	dns_lu_lsolver.hpp
-	dns_complete_lu_lsolver.hpp
+	lapack_base.hpp
+	lapack_auto.hpp
+	lapack_llt.hpp
+	lapack_ldlt.hpp
+	lapack_lu.hpp
+	lapack_complete_lu.hpp
 	)
 
 #-----------------------------------------------

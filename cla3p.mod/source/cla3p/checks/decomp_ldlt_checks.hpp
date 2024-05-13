@@ -22,6 +22,7 @@
  */
 
 #include "cla3p/error/exceptions.hpp"
+#include "cla3p/checks/decomp_xx_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -30,17 +31,13 @@ namespace cla3p {
 template <typename T_Matrix>
 void ldlt_decomp_input_check(const T_Matrix& mat)
 {
+	decomp_generic_check(mat);
+
 	bool supported_prop = (mat.prop().isSymmetric() || mat.prop().isHermitian()); 
 
-	if(mat.empty()) {
-		throw err::InvalidOp("Input matrix is empty");
-	} else if(!supported_prop) {
+	if(!supported_prop) {
 		throw err::InvalidOp("Matrices with property " + mat.prop().name() + " not supported for NPD Cholesky (LDL') decomposition");
 	} // valid prop
-
-	if(mat.nrows() != mat.ncols()) {
-		throw err::InvalidOp("Only square matrices are supported for linear decomposition");
-	} // square
 }
 
 /*-------------------------------------------------*/

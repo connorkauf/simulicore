@@ -23,7 +23,7 @@ int main()
 	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
 	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5,3);
 
-	cla3p::dns::LSolverLDLt<cla3p::dns::RdMatrix> ldltSolver;
+	cla3p::LapackLDLt<cla3p::dns::RdMatrix> ldltSolver;
 
 	/*
 	 * Decompose A into LDL' product

@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/linsol/dns_ldlt_lsolver.hpp"
+#include "cla3p/linsol/lapack_ldlt.hpp"
 
 // system
 
@@ -32,52 +32,65 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLDLt<T_Matrix>::LSolverLDLt()
+LapackLDLt<T_Matrix>::LapackLDLt()
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLDLt<T_Matrix>::LSolverLDLt(uint_t n)
+LapackLDLt<T_Matrix>::LapackLDLt(uint_t n)
+	: LapackBase<T_Matrix>(n)
 {
-	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverLDLt<T_Matrix>::~LSolverLDLt()
+LapackLDLt<T_Matrix>::~LapackLDLt()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::reserve(uint_t n)
+void LapackLDLt<T_Matrix>::decomposeFactor()
 {
-	this->reserveBuffer(n);
-	this->reserveIpiv(n);
+	ldlt_decomp_input_check(this->factor());
+
+	int_t info = 0;
+
+	if(this->factor().prop().isSymmetric()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		info = lapack::sytrf(
+				this->factor().prop().cuplo(),
+				this->factor().ncols(),
+				this->factor().values(),
+				this->factor().ld(),
+				this->ipiv1().data());
+
+	} else if(this->factor().prop().isHermitian()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		info = lapack::hetrf(
+				this->factor().prop().cuplo(),
+				this->factor().ncols(),
+				this->factor().values(),
+				this->factor().ld(),
+				this->ipiv1().data());
+
+	} else {
+
+		throw err::Exception("Unreachable");
+
+	} // prop
+
+	this->setInfo(info);
+	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::decompose(const T_Matrix& mat)
-{
-	this->factor().clear();
-	ldlt_decomp_input_check(mat);
-	this->absorbInput(mat);
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::idecompose(T_Matrix& mat)
-{
-	this->factor().clear();
-	ldlt_decomp_input_check(mat);
-	this->factor() = mat.move();
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
+void LapackLDLt<T_Matrix>::solveForRhs(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw err::InvalidOp("Decomposition stage is not performed");
@@ -120,54 +133,13 @@ void LSolverLDLt<T_Matrix>::solve(T_Matrix& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::solve(T_Vector& rhs) const
-{
-	LSolverBase<T_Matrix>::solve(rhs);
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverLDLt<T_Matrix>::fdecompose()
-{
-	if(this->factor().prop().isSymmetric()) {
-
-		this->ipiv1().resize(this->factor().ncols());
-
-		this->info() = lapack::sytrf(
-				this->factor().prop().cuplo(),
-				this->factor().ncols(),
-				this->factor().values(),
-				this->factor().ld(),
-				this->ipiv1().data());
-
-	} else if(this->factor().prop().isHermitian()) {
-
-		this->ipiv1().resize(this->factor().ncols());
-
-		this->info() = lapack::hetrf(
-				this->factor().prop().cuplo(),
-				this->factor().ncols(),
-				this->factor().values(),
-				this->factor().ld(),
-				this->ipiv1().data());
-
-	} else {
-
-		throw err::Exception("Unreachable");
-
-	} // prop
-
-	lapack_info_check(this->info());
-}
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template class LapackLDLt<dns::RdMatrix>;
+template class LapackLDLt<dns::RfMatrix>;
+template class LapackLDLt<dns::CdMatrix>;
+template class LapackLDLt<dns::CfMatrix>;
 /*-------------------------------------------------*/
-template class LSolverLDLt<RdMatrix>;
-template class LSolverLDLt<RfMatrix>;
-template class LSolverLDLt<CdMatrix>;
-template class LSolverLDLt<CfMatrix>;
-/*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
 

@@ -26,7 +26,7 @@ syn keyword cTypeCustomDatatype XxMatrix RxMatrix CxMatrix
 syn keyword cTypeCustomDatatype RdMatrix RfMatrix CdMatrix CfMatrix
 syn keyword cTypeCustomDatatype RdUMatrix RfUMatrix CdUMatrix CfUMatrix
 
-syn keyword cTypeCustomDatatype LSolverBase LSolverAuto LSolverLLt LSolverLDLt LSolverLU LSolverCompleteLU
+syn keyword cTypeCustomDatatype LapackBase LapackAuto LapackLLt LapackLDLt LapackLU LapackCompleteLU
 
 hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 

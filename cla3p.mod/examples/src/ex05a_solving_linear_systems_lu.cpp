@@ -13,7 +13,7 @@ int main()
 	const cla3p::dns::RdVector B1 = cla3p::dns::RdVector::random(5);
 	const cla3p::dns::RdMatrix B2 = cla3p::dns::RdMatrix::random(5,3);
 
-	cla3p::dns::LSolverLU<cla3p::dns::RdMatrix> luSolver;
+	cla3p::LapackLU<cla3p::dns::RdMatrix> luSolver;
 
 	/*
 	 * Decompose A into LU product

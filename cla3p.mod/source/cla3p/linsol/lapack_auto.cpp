@@ -15,7 +15,7 @@
  */
 
 // this file inc
-#include "cla3p/linsol/dns_auto_lsolver.hpp"
+#include "cla3p/linsol/lapack_auto.hpp"
 
 // system
 
@@ -32,52 +32,76 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace dns { 
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverAuto<T_Matrix>::LSolverAuto()
+LapackAuto<T_Matrix>::LapackAuto()
 {
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverAuto<T_Matrix>::LSolverAuto(uint_t n)
+LapackAuto<T_Matrix>::LapackAuto(uint_t n)
+	: LapackBase<T_Matrix>(n)
 {
-	reserve(n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-LSolverAuto<T_Matrix>::~LSolverAuto()
+LapackAuto<T_Matrix>::~LapackAuto()
 {
 	this->clear();
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::reserve(uint_t n)
+void LapackAuto<T_Matrix>::decomposeFactor()
 {
-	this->reserveBuffer(n);
-	this->reserveIpiv(n);
+	auto_decomp_input_check(this->factor());
+
+	int_t info = 0;
+
+	if(this->factor().prop().isGeneral()) {
+
+		this->ipiv1().resize(std::min(this->factor().nrows(), this->factor().ncols()));
+
+		info = lapack::getrf(
+				this->factor().nrows(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else if(this->factor().prop().isSymmetric()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		info = lapack::sytrf(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else if(this->factor().prop().isHermitian()) {
+
+		this->ipiv1().resize(this->factor().ncols());
+
+		info = lapack::hetrf(
+				this->factor().prop().cuplo(), 
+				this->factor().ncols(), 
+				this->factor().values(), 
+				this->factor().ld(), 
+				this->ipiv1().data());
+
+	} else {
+
+		throw err::Exception("Unreachable");
+
+	} // prop
+
+	this->setInfo(info);
+	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::decompose(const T_Matrix& mat)
-{
-	this->factor().clear();
-	auto_decomp_input_check(mat);
-	this->absorbInput(mat);
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::idecompose(T_Matrix& mat)
-{
-	this->factor().clear();
-	auto_decomp_input_check(mat);
-	this->factor() = mat.move();
-	fdecompose();
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
+void LapackAuto<T_Matrix>::solveForRhs(T_Matrix& rhs) const
 {
 	if(this->factor().empty()) {
 		throw err::InvalidOp("Decomposition stage is not performed");
@@ -131,64 +155,12 @@ void LSolverAuto<T_Matrix>::solve(T_Matrix& rhs) const
 	lapack_info_check(info);
 }
 /*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::solve(T_Vector& rhs) const
-{
-	LSolverBase<T_Matrix>::solve(rhs);
-}
-/*-------------------------------------------------*/
-template <typename T_Matrix>
-void LSolverAuto<T_Matrix>::fdecompose()
-{
-	if(this->factor().prop().isGeneral()) {
-
-		this->ipiv1().resize(std::min(this->factor().nrows(), this->factor().ncols()));
-
-		this->info() = lapack::getrf(
-				this->factor().nrows(), 
-				this->factor().ncols(), 
-				this->factor().values(), 
-				this->factor().ld(), 
-				this->ipiv1().data());
-
-	} else if(this->factor().prop().isSymmetric()) {
-
-		this->ipiv1().resize(this->factor().ncols());
-
-		this->info() = lapack::sytrf(
-				this->factor().prop().cuplo(), 
-				this->factor().ncols(), 
-				this->factor().values(), 
-				this->factor().ld(), 
-				this->ipiv1().data());
-
-	} else if(this->factor().prop().isHermitian()) {
-
-		this->ipiv1().resize(this->factor().ncols());
-
-		this->info() = lapack::hetrf(
-				this->factor().prop().cuplo(), 
-				this->factor().ncols(), 
-				this->factor().values(), 
-				this->factor().ld(), 
-				this->ipiv1().data());
-
-	} else {
-
-		throw err::Exception("Unreachable");
-
-	} // prop
-
-	lapack_info_check(this->info());
-}
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template class LapackAuto<dns::RdMatrix>;
+template class LapackAuto<dns::RfMatrix>;
+template class LapackAuto<dns::CdMatrix>;
+template class LapackAuto<dns::CfMatrix>;
 /*-------------------------------------------------*/
-template class LSolverAuto<RdMatrix>;
-template class LSolverAuto<RfMatrix>;
-template class LSolverAuto<CdMatrix>;
-template class LSolverAuto<CfMatrix>;
-/*-------------------------------------------------*/
-} // namespace dns
 } // namespace cla3p
 /*-------------------------------------------------*/
