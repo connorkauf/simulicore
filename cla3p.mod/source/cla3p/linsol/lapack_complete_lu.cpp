@@ -55,7 +55,7 @@ void LapackCompleteLU<T_Matrix>::decomposeFactor()
 {
 	lu_decomp_input_check(this->factor());
 
-	int info = 0;
+	int_t info = 0;
 	this->factor().igeneral();
 
 	if(this->factor().prop().isGeneral()) {

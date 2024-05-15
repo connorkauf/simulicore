@@ -38,6 +38,11 @@ void fill_info_margins(const std::string& msg, std::string& top, std::string& bo
 std::string bool2yn(bool flg);
 
 /*-------------------------------------------------*/
+inline uint_t opposite_element(const uint_t& x, const prop_t&)
+{
+	return x; // should never happen
+}
+/*-------------------------------------------------*/
 template <typename T_Scalar>
 inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
 {
@@ -109,10 +114,10 @@ typedef struct RowRange {
 /*-------------------------------------------------*/
 inline RowRange irange(uplo_t uplo, uint_t m, uint_t j)
 {
-	RowRange ret;
-	ret.ibgn = 0;
-	ret.iend = m;
-	ret.ilen = m;
+	RowRange ret = {0, m, m};
+	//ret.ibgn = 0;
+	//ret.iend = m;
+	//ret.ilen = m;
 
 	if(!m) return ret;
 
@@ -148,10 +153,10 @@ inline RowRange irange_strict(uplo_t uplo, uint_t m, uint_t j)
 /*-------------------------------------------------*/
 inline RowRange irange_complement(uplo_t uplo, uint_t m, uint_t j)
 {
-	RowRange ret;
-	ret.ibgn = 0;
-	ret.iend = 0;
-	ret.ilen = 0;
+	RowRange ret = {0, 0, 0};
+	//ret.ibgn = 0;
+	//ret.iend = 0;
+	//ret.ilen = 0;
 
 	if(!m) return ret;
 

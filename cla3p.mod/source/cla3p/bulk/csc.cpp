@@ -172,14 +172,14 @@ template void sort(uint_t, const uint_t*, uint_t*);
 template <typename T_Int, typename T_Scalar>
 class RowValuePair {
 	public:
-		RowValuePair() = default;
+		RowValuePair() : i(0), v(0) {}
 		~RowValuePair() = default;
 		RowValuePair(const RowValuePair<T_Int,T_Scalar>& r) : i(r.i), v(r.v) {} // Removes ABI warning
 
 		T_Int    i;
 		T_Scalar v;
 
-		bool operator<(const struct RowValuePair<T_Int,T_Scalar>& other)
+		bool operator<(const RowValuePair<T_Int,T_Scalar>& other)
 		{
 			return (i < other.i);
 		}

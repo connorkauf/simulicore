@@ -67,7 +67,7 @@ void XxMatrixTmpl::clear()
 XxMatrixTlst
 uint_t XxMatrixTmpl::nnz() const
 {
-	return tupleVec().size();
+	return static_cast<uint_t>(tupleVec().size());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
