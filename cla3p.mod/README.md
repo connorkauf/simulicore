@@ -125,12 +125,12 @@ cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
 
 **CLA3P Virtuals** are currently available for all objects. 
 
-> **_NOTE:_**  
+> <b><i>NOTE:</i></b>  
 > The outer vector product operation is not currently virtually supported.
 > The matrix resulting from an outer vector product is calculated explicitly.
 > You can use the function `cla3p::ops::outer()` to update a matrix with an outer vector product.
 
-> **_NOTE:_**  
+> <b><i>NOTE:</i></b>  
 > The virtual matrix product `A * B.transpose()` where A is sparse and B is dense calculates
 > the transpose of B explicitly. If you plan to use the specific product in a loop,
 > it is recommended to pre-calculate the transpose of B.

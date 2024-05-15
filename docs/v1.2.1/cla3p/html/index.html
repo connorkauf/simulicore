@@ -209,11 +209,11 @@ Useful info</h2>
 <div class="ttc" id="agroup__module__index__math__op__add_html_ga3e6273d34255ddd194804b913f643e44"><div class="ttname"><a href="group__module__index__math__op__add.html#ga3e6273d34255ddd194804b913f643e44">cla3p::ops::update</a></div><div class="ttdeci">void update(typename T_Vector::value_type alpha, const dns::XxVector&lt; typename T_Vector::value_type, T_Vector &gt; &amp;X, dns::XxVector&lt; typename T_Vector::value_type, T_Vector &gt; &amp;Y)</div><div class="ttdoc">Update a dense vector with a compatible scaled dense vector.</div></div>
 </div><!-- fragment --><p><b>CLA3P Virtuals</b> are currently available for all objects.</p>
 <blockquote class="doxtable">
-<p>&zwj;**_NOTE:_** <br  />
+<p>&zwj;<b><i>NOTE:</i></b> <br  />
  The outer vector product operation is not currently virtually supported. The matrix resulting from an outer vector product is calculated explicitly. You can use the function <code><a class="el" href="group__module__index__math__op__vecvec.html#ga27a1c7d7db9a06544a7f4b96a0cf0f58" title="Update a matrix with a vector outer product.">cla3p::ops::outer()</a></code> to update a matrix with an outer vector product. </p>
 </blockquote>
 <blockquote class="doxtable">
-<p>&zwj;**_NOTE:_** <br  />
+<p>&zwj;<b><i>NOTE:</i></b> <br  />
  The virtual matrix product <code>A * B.transpose()</code> where A is sparse and B is dense calculates the transpose of B explicitly. If you plan to use the specific product in a loop, it is recommended to pre-calculate the transpose of B. </p>
 </blockquote>
 <p>(<a href="#readme-top">back to top</a>)</p>

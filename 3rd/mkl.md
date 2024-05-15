@@ -22,7 +22,7 @@ message(STATUS "IntelMKL lib list (64bit ints): ${MKL_I64_LIB}")
 ```
 This sets the `MKL_INC`, `MKL_LIB` and `MKL_I64_LIB` variables to the MKL include directory and the MKL library dependencies respectively.
 
-> **_NOTE:_**  
+> <b><i>NOTE:</i></b>  
 > **MKL_LIB** is the library list needed for building applications using 32bit integers.  
 > **MKL_I64_LIB** is the library list needed for building applications using 64bit integers.  
 > Select only one library list per target.  
