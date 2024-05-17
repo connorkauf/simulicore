@@ -48,22 +48,13 @@ namespace csc {
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix()
 {
-	defaults();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
-	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr))
+	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxObject<T_Int,T_Scalar>(nc, nz)
 {
 	if(nr && nc) {
-
-		setColptr(i_malloc<T_Int>(nc + 1));
-		setRowidx(i_malloc<T_Int>(nz));
-		setValues(i_malloc<T_Scalar>(nz));
-
-		colptr()[nc] = nz;
-
-		setOwner(true);
 
 		checker();
 
@@ -111,44 +102,16 @@ XxMatrixTmpl& XxMatrixTmpl::operator=(XxMatrixTmpl&& other)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-void XxMatrixTmpl::defaults()
-{
-	setColptr(nullptr);
-	setRowidx(nullptr);
-	setValues(nullptr);
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
 void XxMatrixTmpl::clear()
 {
-	if(owner()) {
-		i_free(colptr());
-		i_free(rowidx());
-		i_free(values());
+	if(this->owner()) {
+		i_free(this->colptr());
+		i_free(this->rowidx());
+		i_free(this->values());
 	} // owner
 
 	MatrixMeta::clear();
 	Ownership::clear();
-
-	defaults();
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::setColptr(T_Int* colptr)
-{
-	m_colptr = colptr;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::setRowidx(T_Int* rowidx)
-{
-	m_rowidx = rowidx;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-void XxMatrixTmpl::setValues(T_Scalar* values)
-{
-	m_values = values;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -161,45 +124,9 @@ XxMatrixTlst
 uint_t XxMatrixTmpl::nnz() const
 {
 	if(!empty()) {
-		return colptr()[ncols()];
+		return (this->colptr())[ncols()];
 	}
 	return 0;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-const T_Int* XxMatrixTmpl::colptr() const
-{
-	return m_colptr;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Int* XxMatrixTmpl::colptr()
-{
-	return m_colptr;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-const T_Int* XxMatrixTmpl::rowidx() const
-{
-	return m_rowidx;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Int* XxMatrixTmpl::rowidx()
-{
-	return m_rowidx;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-const T_Scalar* XxMatrixTmpl::values() const
-{
-	return m_values;
-}
-/*-------------------------------------------------*/
-XxMatrixTlst
-T_Scalar* XxMatrixTmpl::values()
-{
-	return m_values;
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -219,9 +146,9 @@ std::string XxMatrixTmpl::info(const std::string& msg) const
 	ss << "  Number of rows....... " << nrows() << "\n";
 	ss << "  Number of columns.... " << ncols() << "\n";
 	ss << "  Number of non zeros.. " << nnz() << "\n";
-	ss << "  Colptr............... " << colptr() << "\n";
-	ss << "  Rowidx............... " << rowidx() << "\n";
-	ss << "  Values............... " << values() << "\n";
+	ss << "  Colptr............... " << this->colptr() << "\n";
+	ss << "  Rowidx............... " << this->rowidx() << "\n";
+	ss << "  Values............... " << this->values() << "\n";
 	ss << "  Property............. " << prop() << "\n";
 	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";
 
@@ -244,9 +171,9 @@ void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 		// 
 		// TODO: perhaps use a copy for 1D arrays
 		//
-		bulk::dns::copy(uplo_t::Full, nc, 1, colptr(), nc, trg.colptr(), nc);
-		bulk::dns::copy(uplo_t::Full, nz, 1, rowidx(), nz, trg.rowidx(), nz);
-		bulk::dns::copy(uplo_t::Full, nz, 1, values(), nz, trg.values(), nz);
+		bulk::dns::copy(uplo_t::Full, nc, 1, this->colptr(), nc, trg.colptr(), nc);
+		bulk::dns::copy(uplo_t::Full, nz, 1, this->rowidx(), nz, trg.rowidx(), nz);
+		bulk::dns::copy(uplo_t::Full, nz, 1, this->values(), nz, trg.values(), nz);
 
 	} // do not apply on self
 }
@@ -254,16 +181,16 @@ void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 XxMatrixTlst
 void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 {
-	trg.wrapper(nrows(), ncols(), colptr(), rowidx(), values(), owner(), prop());
+	trg.wrapper(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), this->owner(), prop());
 
-	unbind();
+	this->unbind();
 	clear();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 std::string XxMatrixTmpl::toString(uint_t nsd) const
 {
-	return bulk::csc::print_to_string(ncols(), colptr(), rowidx(), values(), nsd);
+	return bulk::csc::print_to_string(ncols(), this->colptr(), this->rowidx(), this->values(), nsd);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -277,13 +204,13 @@ T_Matrix XxMatrixTmpl::copy() const
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::rcopy()
 {
-	return T_Matrix::wrap(nrows(), ncols(), colptr(), rowidx(), values(), false, prop());
+	return T_Matrix::wrap(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), false, prop());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 Guard<T_Matrix> XxMatrixTmpl::rcopy() const
 {
-	return T_Matrix::wrap(nrows(), ncols(), colptr(), rowidx(), values(), prop());
+	return T_Matrix::wrap(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), prop());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -298,7 +225,7 @@ XxMatrixTlst
 void XxMatrixTmpl::iscale(T_Scalar val)
 {
 	hermitian_coeff_check(prop(), val);
-	bulk::dns::scale(uplo_t::Full, nnz(), 1, values(), nnz(), val);
+	bulk::dns::scale(uplo_t::Full, nnz(), 1, this->values(), nnz(), val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -325,7 +252,7 @@ void XxMatrixTmpl::iconjugate()
 	//
 	// TODO: perhaps use a conjugate for 1D arrays
 	//
-	bulk::dns::conjugate(uplo_t::Full, nnz(), 1, values(), nnz());
+	bulk::dns::conjugate(uplo_t::Full, nnz(), 1, this->values(), nnz());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -344,21 +271,21 @@ T_Matrix XxMatrixTmpl::general() const
 	} else if(prop().isSymmetric()) {
 
 		colptr_ge = i_malloc<T_Int>(ncols() + 1);
-		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), colptr(), rowidx(), colptr_ge);
+		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[ncols()];
 		rowidx_ge = i_malloc<T_Int>(nz);
 		values_ge = i_malloc<T_Scalar>(nz);
-		bulk::csc::sy2ge(prop().uplo(), ncols(), colptr(), rowidx(), values(), colptr_ge, rowidx_ge, values_ge);
+		bulk::csc::sy2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isHermitian()) {
 
 		colptr_ge = i_malloc<T_Int>(ncols() + 1);
-		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), colptr(), rowidx(), colptr_ge);
+		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[ncols()];
 		rowidx_ge = i_malloc<T_Int>(nz);
 		values_ge = i_malloc<T_Scalar>(nz);
-		bulk::csc::he2ge(prop().uplo(), ncols(), colptr(), rowidx(), values(), colptr_ge, rowidx_ge, values_ge);
+		bulk::csc::he2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isTriangular()) {
@@ -381,8 +308,8 @@ typename XxMatrixTmpl::T_DnsMatrix XxMatrixTmpl::toDns() const
 	T_DnsMatrix ret(nrows(), ncols(), prop());
 	ret = 0;
 	for(uint_t j = 0; j < ncols(); j++) {
-		for(T_Int irow = colptr()[j]; irow < colptr()[j+1]; irow++) {
-			ret(rowidx()[irow],j) = values()[irow];
+		for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
+			ret((this->rowidx())[irow],j) = (this->values())[irow];
 		} // irow
 	} // j
 
@@ -396,7 +323,7 @@ T_Matrix XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMat
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
 	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
-			colptr(), rowidx(), values(), 
+			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), Q.values());
 
@@ -410,7 +337,7 @@ T_Matrix XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P) const
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
 	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
-			colptr(), rowidx(), values(), 
+			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), nullptr);
 
@@ -424,7 +351,7 @@ T_Matrix XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q) const
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
 	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
-			colptr(), rowidx(), values(), 
+			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			nullptr, Q.values());
 
@@ -438,7 +365,7 @@ T_Matrix XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P) const
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
 	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
-			colptr(), rowidx(), values(), 
+			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), nullptr);
 
@@ -459,8 +386,8 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 
 	for(uint_t j = jbgn; j < jend; j++) {
 		uint_t jlocal = j - jbgn;
-		for(T_Int irow = colptr()[j]; irow < colptr()[j+1]; irow++) {
-			T_Int i = rowidx()[irow];
+		for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
+			T_Int i = (this->rowidx())[irow];
 			if(static_cast<T_Int>(ibgn) <= i && i < static_cast<T_Int>(iend)) {
 				cptr[jlocal+1]++;
 			} // i in range
@@ -480,10 +407,10 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 
 		for(uint_t j = jbgn; j < jend; j++) {
 			uint_t jlocal = j - jbgn;
-			for(T_Int irow = colptr()[j]; irow < colptr()[j+1]; irow++) {
-				T_Int i = rowidx()[irow];
+			for(T_Int irow = (this->colptr())[j]; irow < (this->colptr())[j+1]; irow++) {
+				T_Int i = (this->rowidx())[irow];
 				T_Int ilocal = i - ibgn;
-				T_Scalar v = values()[irow];
+				T_Scalar v = (this->values())[irow];
 				if(static_cast<T_Int>(ibgn) <= i && i < static_cast<T_Int>(iend)) {
 					ridx[cptr[jlocal]] = ilocal;
 					vals[cptr[jlocal]] = v;
@@ -504,22 +431,23 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 XxMatrixTlst
 void XxMatrixTmpl::wrapper(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr)
 {
-	clear();
+	if(nr && nc) {
 
-	MatrixMeta::wrapper(nr, nc, sanitizeProperty<T_Scalar>(pr));
-	setOwner(bind);
+		MatrixMeta::wrapper(nr, nc, sanitizeProperty<T_Scalar>(pr));
+		XxObject<T_Int,T_Scalar>::wrapper(cptr, ridx, vals, bind);
+		checker();
 
-	setColptr(cptr);
-	setRowidx(ridx);
-	setValues(vals);
+	} else {
 
-	checker();
+		clear();
+
+	} // nr/nc
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 void XxMatrixTmpl::checker() const
 {
-	csc_consistency_check(prop(), nrows(), ncols(), nnz(), colptr(), rowidx(), values());
+	csc_consistency_check(prop(), nrows(), ncols(), nnz(), this->colptr(), this->rowidx(), this->values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

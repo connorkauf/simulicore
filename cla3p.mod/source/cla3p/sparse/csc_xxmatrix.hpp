@@ -24,8 +24,8 @@
 #include <ostream>
 #include <string>
 
-#include "cla3p/generic/ownership.hpp"
 #include "cla3p/generic/matrix_meta.hpp"
+#include "cla3p/sparse/csc_xxobject.hpp"
 #include "cla3p/generic/guard.hpp"
 #include "cla3p/virtuals/virtual_object.hpp"
 
@@ -44,14 +44,10 @@ namespace csc {
  * @brief The sparse matrix class (compressed sparse column format).
  */
 template <typename T_Int, typename T_Scalar, typename T_Matrix>
-class XxMatrix : public Ownership, public MatrixMeta {
+class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 	private:
 		using T_DnsMatrix = typename TypeTraits<T_Matrix>::dns_type;
-
-	public:
-		using index_type = T_Int;
-		using value_type = T_Scalar;
 
 	public:
 
@@ -94,39 +90,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		 * @return The number of non-zero elements in `(*this)`.
 		 */
 		uint_t nnz() const;
-
-		/**
-		 * @brief The matrix column pointer array.
-		 * @return The array containing the number of non-zero elements in each column of `(*this)`.
-		 */
-		T_Int* colptr();
-
-		/**
-		 * @copydoc colptr()
-		 */
-		const T_Int* colptr() const;
-
-		/**
-		 * @brief The matrix row index array.
-		 * @return The array containing the non-zero element row index in each column of `(*this)`.
-		 */
-		T_Int* rowidx();
-
-		/**
-		 * @copydoc rowidx()
-		 */
-		const T_Int* rowidx() const;
-
-		/**
-		 * @brief The matrix values array.
-		 * @return The array containing the non-zero element values in each column of `(*this)`.
-		 */
-		T_Scalar* values();
-
-		/**
-		 * @copydoc values()
-		 */
-		const T_Scalar* values() const;
 
 		/** @} */
 
@@ -331,12 +294,6 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		T_Int*    m_colptr;
 		T_Int*    m_rowidx;
 		T_Scalar* m_values;
-
-		void defaults();
-
-		void setColptr(T_Int*);
-		void setRowidx(T_Int*);
-		void setValues(T_Scalar*);
 
 		void copyToExisting(XxMatrix<T_Int,T_Scalar,T_Matrix>&) const;
 		void moveTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);

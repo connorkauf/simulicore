@@ -2,6 +2,7 @@
 # source setup
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
+	sparse/csc_xxobject.cpp
 	sparse/csc_xxmatrix.cpp
 	sparse/csc_rxmatrix.cpp
 	sparse/csc_cxmatrix.cpp
@@ -11,6 +12,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 	PARENT_SCOPE)
 
 set(CLA3P_SPARSE_HPP 
+	csc_xxobject.hpp
 	csc_xxmatrix.hpp
 	csc_rxmatrix.hpp
 	csc_cxmatrix.hpp
