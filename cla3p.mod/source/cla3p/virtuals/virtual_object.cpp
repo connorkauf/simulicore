@@ -394,7 +394,7 @@ static void addToTargetSpecialization(
 	if(beta == T_Scalar(0)) {
 
 		if(!trg) {
-			trg.self() = T_Matrix::init(v.size1(), v.size2());
+			trg.self() = T_Matrix::init(v.size1(), v.size2(), v.obj().prop());
 		} // alloc if needed
 
 		if(v.transOp() == op_t::N) {
