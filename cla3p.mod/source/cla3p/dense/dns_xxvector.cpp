@@ -57,6 +57,11 @@ XxVectorTlst
 XxVectorTmpl::XiVector(uint_t n)
 	: Meta1D(n), XxObject<T_Scalar>(n)
 {
+	if(n) {
+		checker();
+	} else {
+		clear();
+	}
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -193,9 +198,23 @@ std::string XxVectorTmpl::toString(uint_t nsd) const
 XxVectorTlst
 void XxVectorTmpl::wrapper(uint_t n, T_Scalar *vals, bool bind)
 {
-	dns_consistency_check(n, 1, vals, n);
-	Meta1D::wrapper(n);
-	XxObject<T_Scalar>::wrapper(vals, bind);
+	if(n) {
+
+		Meta1D::wrapper(n);
+		XxObject<T_Scalar>::wrapper(vals, bind);
+		checker();
+
+	} else {
+
+		clear();
+
+	} // n
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::checker() const
+{
+	dns_consistency_check(size(), 1, this->values(), size());
 }
 /*-------------------------------------------------*/
 XxVectorTlst

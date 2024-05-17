@@ -437,6 +437,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		void moveTo(XxMatrix<T_Scalar,T_Matrix>&);
 		void copyToExisting(XxMatrix<T_Scalar,T_Matrix>&) const;
 		void wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr);
+		void checker() const;
 
 };
 

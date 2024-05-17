@@ -56,9 +56,14 @@ XxMatrixTmpl::XxMatrix()
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
-	: MatrixMeta(nr, nc, pr), XxObject<T_Scalar>(nr * nc)
+	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr)), XxObject<T_Scalar>(nr * nc)
 {
-	setLd(nr);
+	if(nr && nc) {
+		setLd(nr);
+		checker();
+	} else {
+		clear();
+	} // nr/nc
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -484,12 +489,24 @@ Guard<T_Matrix> XxMatrixTmpl::wrap(uint_t nr, uint_t nc, const T_Scalar *vals, u
 XxMatrixTlst
 void XxMatrixTmpl::wrapper(uint_t nr, uint_t nc, T_Scalar *vals, uint_t ldv, bool bind, const Property& pr)
 {
-	Property pr_fix = sanitizeProperty<T_Scalar>(pr);
-	dns_consistency_check(pr_fix, nr, nc, vals, ldv);
+	if(nr && nc) {
 
-	MatrixMeta::wrapper(nr, nc, pr_fix);
-	XxObject<T_Scalar>::wrapper(vals, bind);
-	setLd(ldv);
+		MatrixMeta::wrapper(nr, nc, sanitizeProperty<T_Scalar>(pr));
+		XxObject<T_Scalar>::wrapper(vals, bind);
+		setLd(ldv);
+		checker();
+
+	} else {
+
+		clear();
+
+	} // nr/nc
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::checker() const
+{
+	dns_consistency_check(prop(), nrows(), ncols(), this->values(), ld());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

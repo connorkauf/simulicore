@@ -341,6 +341,7 @@ class XxMatrix : public Ownership, public MatrixMeta {
 		void copyToExisting(XxMatrix<T_Int,T_Scalar,T_Matrix>&) const;
 		void moveTo(XxMatrix<T_Int,T_Scalar,T_Matrix>&);
 		void wrapper(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Scalar *vals, bool bind, const Property& pr);
+		void checker() const;
 };
 
 /*-------------------------------------------------*/

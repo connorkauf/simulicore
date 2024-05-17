@@ -53,14 +53,25 @@ XxMatrixTmpl::XxMatrix()
 /*-------------------------------------------------*/
 XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
+	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
-	T_Int    *cptr = i_malloc<T_Int>(nc + 1);
-	T_Int    *ridx = i_malloc<T_Int>(nz);
-	T_Scalar *vals = i_malloc<T_Scalar>(nz);
+	if(nr && nc) {
 
-	cptr[nc] = nz;
+		setColptr(i_malloc<T_Int>(nc + 1));
+		setRowidx(i_malloc<T_Int>(nz));
+		setValues(i_malloc<T_Scalar>(nz));
 
-	wrapper(nr, nc, cptr, ridx, vals, true, pr);
+		colptr()[nc] = nz;
+
+		setOwner(true);
+
+		checker();
+
+	} else {
+
+		clear();
+
+	} // nr/nc
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -495,17 +506,20 @@ void XxMatrixTmpl::wrapper(uint_t nr, uint_t nc, T_Int *cptr, T_Int *ridx, T_Sca
 {
 	clear();
 
-	Property pr2 = sanitizeProperty<T_Scalar>(pr);
-
-	csc_consistency_check(pr2, nr, nc, cptr[nc], cptr, ridx, vals);
-
-	MatrixMeta::wrapper(nr, nc, pr2);
+	MatrixMeta::wrapper(nr, nc, sanitizeProperty<T_Scalar>(pr));
+	setOwner(bind);
 
 	setColptr(cptr);
 	setRowidx(ridx);
 	setValues(vals);
 
-	setOwner(bind);
+	checker();
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::checker() const
+{
+	csc_consistency_check(prop(), nrows(), ncols(), nnz(), colptr(), rowidx(), values());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
