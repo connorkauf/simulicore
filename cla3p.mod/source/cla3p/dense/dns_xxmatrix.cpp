@@ -315,7 +315,7 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::general() const
 {
-	T_Matrix ret = copy();
+	T_Matrix ret = self();
 	ret.igeneral();
 	return ret;
 }

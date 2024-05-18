@@ -33,7 +33,7 @@ T_Vector operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B)
 {
-	T_Vector ret = B.copy();
+	T_Vector ret = B.self();
 	ret /= A;
 	return ret;
 }
@@ -53,7 +53,7 @@ T_Matrix operator/(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A,
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B)
 {
-	T_Matrix ret = B.copy();
+	T_Matrix ret = B.self();
 	ret /= A;
 	return ret;
 }
