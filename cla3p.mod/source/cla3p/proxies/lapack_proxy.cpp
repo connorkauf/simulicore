@@ -57,10 +57,15 @@ laset_macro(complex_t , z)
 laset_macro(complex8_t, c)
 #undef laset_macro
 /*-------------------------------------------------*/
+//
+// LAPACKE returns error for uplo = U/L & single precision & dim >= 128
+//
 #define lacpy_macro(typein, prefix) \
 int_t lacpy(char uplo, int_t m, int_t n, const typein *a, int_t lda, typein *b, int_t ldb) \
 { \
-	return LAPACKE_##prefix##lacpy(LAPACK_COL_MAJOR, uplo, m, n, a, lda, b, ldb); \
+	/* return LAPACKE_##prefix##lacpy(LAPACK_COL_MAJOR, uplo, m, n, a, lda, b, ldb);*/ \
+	prefix##lacpy(&uplo, &m, &n, a, &lda, b, &ldb); \
+	return 0; \
 }
 lacpy_macro(real_t    , d)
 lacpy_macro(real4_t   , s)
@@ -88,10 +93,22 @@ lange_macro(complex_t , z)
 lange_macro(complex8_t, c)
 #undef lange_macro
 /*-------------------------------------------------*/
+//
+// LAPACKE fro norm for Symmetric/Hermitian wrong for n >= 128
+// calling simple lansy does not work either
+// calling simple lanhe does not work either
+//
 #define lansy_macro(typein, prefix) \
 TypeTraits<typein>::real_type lansy(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 { \
-	return LAPACKE_##prefix##lansy(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
+	TypeTraits<typein>::real_type ret = 0; \
+	if(norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') { \
+		TypeTraits<typein>::real_type work; \
+		ret = prefix##lansy(&norm, &uplo, &n, a, &lda, &work); \
+	} else { \
+		ret = LAPACKE_##prefix##lansy(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
+	} \
+	return ret; \
 }
 lansy_macro(real_t    , d)
 lansy_macro(real4_t   , s)
@@ -102,7 +119,7 @@ lansy_macro(complex8_t, c)
 #define lanhe_macro(typein, prefix) \
 TypeTraits<typein>::real_type lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 { \
-	return LAPACKE_##prefix##lansy(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
+	return lansy(norm, uplo, n, a, lda); \
 }
 lanhe_macro(real_t , d)
 lanhe_macro(real4_t, s)
@@ -111,7 +128,14 @@ lanhe_macro(real4_t, s)
 #define lanhe_macro(typein, prefix) \
 TypeTraits<typein>::real_type lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 { \
-	return LAPACKE_##prefix##lanhe(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
+	TypeTraits<typein>::real_type ret = 0; \
+	if(norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') { \
+		TypeTraits<typein>::real_type work; \
+		ret = prefix##lanhe(&norm, &uplo, &n, a, &lda, &work); \
+	} else { \
+		ret = LAPACKE_##prefix##lanhe(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
+	} \
+	return ret; \
 }
 lanhe_macro(complex_t , z)
 lanhe_macro(complex8_t, c)
