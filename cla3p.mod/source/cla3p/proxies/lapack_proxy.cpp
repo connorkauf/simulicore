@@ -25,6 +25,7 @@
 // cla3p
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
+#include "cla3p/bulk/dns.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -93,6 +94,43 @@ lange_macro(complex_t , z)
 lange_macro(complex8_t, c)
 #undef lange_macro
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+static typename TypeTraits<T_Scalar>::real_type
+lanxx_fro_sq_recursive(bool conjop, char uplo, int_t n, const T_Scalar *a, int_t lda)
+{
+	char norm = 'F';
+	typename TypeTraits<T_Scalar>::real_type ret = 0;
+	typename TypeTraits<T_Scalar>::real_type tmp = 0;
+
+	if(n < 128) {
+
+		if(conjop)
+			tmp = lanhe(norm, uplo, n, a, lda);
+		else
+			tmp = lansy(norm, uplo, n, a, lda);
+
+		ret = (tmp * tmp);
+
+	} else {
+
+		int_t n1 = n/2;
+		int_t n2 = n - n1;
+
+		ret += lanxx_fro_sq_recursive(conjop, uplo, n1, a, lda);
+		ret += lanxx_fro_sq_recursive(conjop, uplo, n2, bulk::dns::ptrmv(lda,a,n1,n1), lda);
+
+		if(uplo == 'U')
+			tmp += lange(norm, n1, n2, bulk::dns::ptrmv(lda,a,0,n1), lda);
+		else if(uplo == 'L')
+			tmp += lange(norm, n2, n1, bulk::dns::ptrmv(lda,a,n1,0), lda);
+
+		ret += (2 * tmp * tmp);
+
+	} // n
+
+	return ret;
+}
+/*-------------------------------------------------*/
 //
 // LAPACKE fro norm for Symmetric/Hermitian wrong for n >= 128
 // calling simple lansy does not work either
@@ -102,9 +140,9 @@ lange_macro(complex8_t, c)
 TypeTraits<typein>::real_type lansy(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 { \
 	TypeTraits<typein>::real_type ret = 0; \
-	if(norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') { \
-		TypeTraits<typein>::real_type work; \
-		ret = prefix##lansy(&norm, &uplo, &n, a, &lda, &work); \
+	if((norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') && n >= 128) { \
+		TypeTraits<typein>::real_type tmp = lanxx_fro_sq_recursive(false, uplo, n, a, lda); \
+		ret = std::sqrt(tmp); \
 	} else { \
 		ret = LAPACKE_##prefix##lansy(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
 	} \
@@ -129,9 +167,9 @@ lanhe_macro(real4_t, s)
 TypeTraits<typein>::real_type lanhe(char norm, char uplo, int_t n, const typein *a, int_t lda) \
 { \
 	TypeTraits<typein>::real_type ret = 0; \
-	if(norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') { \
-		TypeTraits<typein>::real_type work; \
-		ret = prefix##lanhe(&norm, &uplo, &n, a, &lda, &work); \
+	if((norm == 'F' || norm == 'f' || norm == 'E' || norm == 'e') && n >= 128) { \
+		TypeTraits<typein>::real_type tmp = lanxx_fro_sq_recursive(true, uplo, n, a, lda); \
+		ret = std::sqrt(tmp); \
 	} else { \
 		ret = LAPACKE_##prefix##lanhe(LAPACK_COL_MAJOR, norm, uplo, n, a, lda); \
 	} \

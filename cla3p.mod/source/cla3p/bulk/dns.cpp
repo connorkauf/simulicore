@@ -747,7 +747,6 @@ template real_t  norm_max(prop_t, uplo_t, uint_t, uint_t, const complex_t *, uin
 template real4_t norm_max(prop_t, uplo_t, uint_t, uint_t, const complex8_t*, uint_t);
 /*-------------------------------------------------*/
 //
-// fro norm for Symmetric/Hermitian wrong in lapack for n >= 128
 // TODO: more efficient
 //
 template <typename T_Scalar>
@@ -814,19 +813,11 @@ norm_fro(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_
 
 	} else if(prop.isSymmetric()) {
 
-		if(n >= 128) {
-			return naive_xx_norm_fro(uplo, n, a, lda, prop.type());
-		} else {
-			return lapack::lansy('F', prop.cuplo(), n, a, lda);
-		}
+		return lapack::lansy('F', prop.cuplo(), n, a, lda);
 
 	} else if(prop.isHermitian()) { 
 
-		if(n >= 128) {
-			return naive_xx_norm_fro(uplo, n, a, lda, prop.type());
-		} else {
-			return lapack::lanhe('F', prop.cuplo(), n, a, lda);
-		}
+		return lapack::lanhe('F', prop.cuplo(), n, a, lda);
 
 	} else if(prop.isTriangular()) {
 
