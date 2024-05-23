@@ -64,6 +64,8 @@ template<> class TypeTraits<real_t> {
 		static std::string prec_name();
 		constexpr static bool is_real() { return true; }
 		constexpr static bool is_complex() { return false; }
+		constexpr static bool is_single_precision() { return false; }
+		constexpr static bool is_double_precision() { return true; }
 		static real_type epsilon();
 };
 
@@ -74,6 +76,8 @@ template<> class TypeTraits<real4_t> {
 		static std::string prec_name();
 		constexpr static bool is_real() { return true; }
 		constexpr static bool is_complex() { return false; }
+		constexpr static bool is_single_precision() { return true; }
+		constexpr static bool is_double_precision() { return false; }
 		static real_type epsilon();
 };
 
@@ -84,6 +88,8 @@ template<> class TypeTraits<complex_t> {
 		static std::string prec_name();
 		constexpr static bool is_real() { return false; }
 		constexpr static bool is_complex() { return true; }
+		constexpr static bool is_single_precision() { return false; }
+		constexpr static bool is_double_precision() { return true; }
 		static real_type epsilon();
 };
 
@@ -94,6 +100,8 @@ template<> class TypeTraits<complex8_t> {
 		static std::string prec_name();
 		constexpr static bool is_real() { return false; }
 		constexpr static bool is_complex() { return true; }
+		constexpr static bool is_single_precision() { return true; }
+		constexpr static bool is_double_precision() { return false; }
 		static real_type epsilon();
 };
 

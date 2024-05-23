@@ -30,6 +30,7 @@ namespace cla3p {
 
 namespace dns { template <typename T_Scalar> class CxMatrix; }
 namespace csc { template <typename T_Int, typename T_Scalar> class RxMatrix; }
+namespace coo { template <typename T_Int, typename T_Scalar> class CxMatrix; }
 
 /*-------------------------------------------------*/
 namespace csc {
@@ -143,6 +144,7 @@ class TypeTraits<csc::CxMatrix<T_Int,T_Scalar>> {
 		static std::string type_name() { return msg::SparseCscMatrix(); }
 		using real_type = csc::RxMatrix<T_Int,T_RScalar>;
 		using dns_type = dns::CxMatrix<T_Scalar>;
+		using coo_type = coo::CxMatrix<T_Int,T_Scalar>;
 };
 
 /*-------------------------------------------------*/

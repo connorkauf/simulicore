@@ -40,12 +40,11 @@ hi cTypeCustomConst ctermfg=darkmagenta guifg=darkblue
 
 "---------------------------------------------------------------------------
 
-syn keyword cTypeCustomTemplate T_Int T_PrmInt T_CscInt
+syn keyword cTypeCustomTemplate T_Int
 syn keyword cTypeCustomTemplate T_Scalar T_RScalar
-syn keyword cTypeCustomTemplate T_Return
 syn keyword cTypeCustomTemplate T_Object
 syn keyword cTypeCustomTemplate T_Vector T_RVector
-syn keyword cTypeCustomTemplate T_Matrix T_RMatrix T_DnsMatrix T_CscMatrix
+syn keyword cTypeCustomTemplate T_Matrix T_RMatrix T_DnsMatrix T_CscMatrix T_CooMatrix
 syn keyword cTypeCustomTemplate T_Rhs T_Lhs T_RhsMatrix T_LhsMatrix
 syn keyword cTypeCustomTemplate T_Virtual
 
