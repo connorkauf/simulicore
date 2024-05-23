@@ -27,6 +27,7 @@
 namespace cla3p {
 namespace dns { template <typename T_Scalar, typename T_Vector> class XxVector; }
 namespace dns { template <typename T_Scalar, typename T_Matrix> class XxMatrix; }
+namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> class XxMatrix; }
 } // namespace cla3p
 /*-------------------------------------------------*/
 
@@ -133,6 +134,110 @@ template <typename T_Matrix>
 void operator/=(
 		cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B, 
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
+
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_linsol
+ * @brief Solves a sparse system of linear equations.
+ *
+ * Solves the  linear system <b>A X = B</b>
+ *
+ * Valid types for A:
+ @verbatim
+  A: General            
+  A: Symmetric          
+  A: Hermitian          
+ @endverbatim
+ *
+ * @param[in] A The lhs matrix.
+ * @param[in] B The rhs vector.
+ * @return The solution vector X.
+ */
+template <typename T_Matrix, typename T_Vector>
+T_Vector operator/(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
+
+/**
+ * @ingroup module_index_math_operators_linsol
+ * @brief Solves a sparse system of linear equations.
+ *
+ * Solves the  linear system <b>A X = B</b>
+ *
+ * Valid type combinations:
+ @verbatim
+  A: General              B: General
+  A: Symmetric            B: General
+  A: Hermitian            B: General
+ @endverbatim
+ *
+ * @param[in] A The lhs matrix.
+ * @param[in] B The rhs matrix.
+ * @return The solution matrix X.
+ */
+template <typename T_CscMatrix, typename T_DnsMatrix>
+T_DnsMatrix operator/(
+		const cla3p::csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+		const cla3p::dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B); 
+
+template <typename T_Matrix, typename T_Virtual>
+typename T_Virtual::value_type operator/(
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A,
+		const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& vB)
+{
+	return (A / vB.evaluate());
+}
+
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+/*-------------------------------------------------*/
+
+/**
+ * @ingroup module_index_math_operators_linsol
+ * @brief Overwrites rhs with the sparse linear system solution.
+ *
+ * Solves the  linear system <b>A X = B</b>
+ * replacing the rhs B with the solution X.
+ *
+ * Valid types for A:
+ @verbatim
+  A: General            
+  A: Symmetric          
+  A: Hermitian          
+ @endverbatim
+ *
+ * @param[in] B The rhs vector.
+ * @param[in] A The lhs matrix.
+ */
+template <typename T_Vector, typename T_Matrix>
+void operator/=(
+		cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B, 
+		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
+
+/**
+ * @ingroup module_index_math_operators_linsol
+ * @brief Overwrites rhs with the sparse linear system solution.
+ *
+ * Solves the  linear system <b>A X = B</b>
+ * replacing the rhs B with the solution X. 
+ *
+ * Valid type combinations:
+ @verbatim
+  A: General              B: General
+  A: Symmetric            B: General
+  A: Hermitian            B: General
+ @endverbatim
+ *
+ * @param[in] B The rhs matrix.
+ * @param[in] A The lhs matrix.
+ */
+template <typename T_DnsMatrix, typename T_CscMatrix>
+void operator/=(
+		cla3p::dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B, 
+		const cla3p::csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A);
 
 /*-------------------------------------------------*/
 

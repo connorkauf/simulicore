@@ -10,6 +10,7 @@
  *  - @subpage module_index_math_operators
  *  - @subpage module_index_stream_operators
  *  - @subpage module_index_exceptions
+ *  - @subpage module_index_special_enums
  *
  *
  *
@@ -21,8 +22,8 @@
  *
  * List of the basic datatypes that are used in CLA3P.@n
  * Includes classes:
- *  - cla3p::Property
- *  - cla3p::Operation
+ *  - @ref cla3p::Property
+ *  - @ref cla3p::Operation
  *
  *
  *
@@ -70,7 +71,7 @@
  * @defgroup module_index_guard Guard
  * The CLA3P guard utility class.@n
  * Includes class:
- *  - cla3p::Guard
+ *  - @ref cla3p::Guard
  *
  *
  *
@@ -100,11 +101,19 @@
  *   @defgroup module_index_linsol_dense Dense Linear Solvers
  *   List of CLA3P dense linear solvers.@n
  *   Includes classes:
- *    - cla3p::dns::LSolverAuto
- *    - cla3p::dns::LSolverLLt
- *    - cla3p::dns::LSolverLDLt
- *    - cla3p::dns::LSolverLU
- *    - cla3p::dns::LSolverCompleteLU
+ *    - @ref cla3p::LapackAuto
+ *    - @ref cla3p::LapackLLt
+ *    - @ref cla3p::LapackLDLt
+ *    - @ref cla3p::LapackLU
+ *    - @ref cla3p::LapackCompleteLU
+ *
+ *   @defgroup module_index_linsol_sparse Sparse Linear Solvers
+ *   List of CLA3P sparse linear solvers.@n
+ *   Includes classes:
+ *    - @ref cla3p::PardisoLLt
+ *    - @ref cla3p::PardisoLDLt
+ *    - @ref cla3p::PardisoLU
+ *    - @ref cla3p::PardisoSymmetricLU
  * @}
  *
  *
@@ -144,9 +153,17 @@
  * @defgroup module_index_exceptions Exceptions
  * List of CLA3P exceptions for error handling.@n
  *   Includes classes:
- *    - cla3p::err::Exception
- *    - cla3p::err::NoConsistency
- *    - cla3p::err::InvalidOp
- *    - cla3p::err::OutOfMemory
- *    - cla3p::err::OutOfBounds
+ *    - @ref cla3p::err::Exception
+ *    - @ref cla3p::err::NoConsistency
+ *    - @ref cla3p::err::InvalidOp
+ *    - @ref cla3p::err::OutOfMemory
+ *    - @ref cla3p::err::OutOfBounds
+ *
+ *
+ *
+ *
+ *
+ *
+ * @defgroup module_index_special_enums Special Enumerations
+ * @brief The CLA3P enumerations for special operations.
  */

@@ -132,19 +132,10 @@ std::string XxMatrixTmpl::toString(uint_t nsd) const
 {
 	if(empty() || !nnz()) return "";
 
-#define BUFFER_LEN 1024
+	ListPrinter listPrinter(nsd, nrows(), ncols(), nnz());
 
-	nint_t ndr = std::max(5, static_cast<nint_t>(inumlen(nrows())));
-	nint_t ndc = std::max(5, static_cast<nint_t>(inumlen(ncols())));
-	nint_t ndn = std::max(5, static_cast<nint_t>(inumlen(nnz())));
-
-	std::string ret;
-	ret.reserve(nnz() * 128);
-	char cbuff[BUFFER_LEN];
-
-	std::snprintf(cbuff, BUFFER_LEN, "%*s %*s %*s %s\n", ndn, "#nz", ndr, "row", ndc, "col", "  val"); ret.append(cbuff);
-	ret.append (ndr + ndc + ndn + 8, '-');
-	ret.append ("\n");
+	std::string ret = listPrinter.header();
+	std::string entry;
 
 	for(uint_t cnt = 0; cnt < nnz(); cnt++) {
 
@@ -152,16 +143,12 @@ std::string XxMatrixTmpl::toString(uint_t nsd) const
 			T_Int    j = tupleVec()[cnt].col();
 			T_Scalar v = tupleVec()[cnt].val();
 
-			val2char(cbuff, BUFFER_LEN, ndn, cnt); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN, ndr, i  ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN, ndc, j  ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN, nsd, v  ); ret.append(cbuff); ret.append("\n");
+			entry = listPrinter.tuple(cnt, i, j, v);
+			ret.append(entry);
 
 	} // cnt
 
 	return ret;
-
-#undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

@@ -45,6 +45,7 @@ std::string LapackError();
 std::string DivisionByZero();
 std::string HermitianInconsistency();
 std::string SkewInconsistency();
+std::string PardisoError();
 
 /*-------------------------------------------------*/
 } // namespace msg

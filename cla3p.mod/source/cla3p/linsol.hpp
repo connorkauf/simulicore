@@ -24,4 +24,11 @@
 #include "cla3p/linsol/lapack_lu.hpp"
 #include "cla3p/linsol/lapack_complete_lu.hpp"
 
+#include "cla3p/linsol/pardiso_base.hpp"
+#include "cla3p/linsol/pardiso_auto.hpp"
+#include "cla3p/linsol/pardiso_llt.hpp"
+#include "cla3p/linsol/pardiso_ldlt.hpp"
+#include "cla3p/linsol/pardiso_lu.hpp"
+#include "cla3p/linsol/pardiso_symmetric_lu.hpp"
+
 #endif // CLA3P_LINSOL_HPP_

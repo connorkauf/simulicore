@@ -1,3 +1,23 @@
+# [v1.2.3] - 2024-??-??
+
+Title ...
+
+## CLA3P Module
+
+### New Features
+- Pardiso sparse solver (Intel MKL version)
+- Sparse solution operators (`/` and `/=`)
+
+### Changes
+
+### Fixes
+- Fix in matrix multiplication when output is Symmetric/Hermitian.
+- Fix in matrix copy (caused by LAPACKE)
+- Fix in Matrix/Vector instantiations with invalid input
+- Fix in virtual sum
+- Fix type trait in mult operators
+
+
 # [v1.2.1] - 2024-05-15
 
 SimuliCore virtual operations layer add-ons & performance boosters.

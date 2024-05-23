@@ -2,7 +2,7 @@
 
 syn keyword cTypeCustomDatatype MKL_INT MKL_UINT MKL_Complex8 MKL_Complex16
 syn keyword cTypeCustomDatatype nint_t int_t uint_t real4_t real_t complex8_t complex_t bulk_t
-syn keyword cTypeCustomDatatype prop_t uplo_t op_t side_t diag_t dup_t
+syn keyword cTypeCustomDatatype prop_t uplo_t op_t side_t diag_t dup_t decomp_t
 syn keyword cTypeCustomDatatype Property Operation
 syn keyword cTypeCustomDatatype Printer
 syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOfMemory OutOfBounds
@@ -27,6 +27,11 @@ syn keyword cTypeCustomDatatype RdMatrix RfMatrix CdMatrix CfMatrix
 syn keyword cTypeCustomDatatype RdUMatrix RfUMatrix CdUMatrix CfUMatrix
 
 syn keyword cTypeCustomDatatype LapackBase LapackAuto LapackLLt LapackLDLt LapackLU LapackCompleteLU
+syn keyword cTypeCustomDatatype mtype_t phase_t
+syn keyword cTypeCustomDatatype reorder_t perm_t pivot_t
+syn keyword cTypeCustomDatatype ImmutableParams GlobalParams
+syn keyword cTypeCustomDatatype AnalysisParams DecompParams SolveParams
+syn keyword cTypeCustomDatatype PardisoBase PardisoAuto PardisoLLt PardisoLDLt PardisoLU PardisoSymmetricLU
 
 hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 
@@ -59,6 +64,7 @@ syn keyword cTypeCustomNSpace cmpi
 syn keyword cTypeCustomNSpace mkl
 syn keyword cTypeCustomNSpace blas
 syn keyword cTypeCustomNSpace lapack
+syn keyword cTypeCustomNSpace pardiso
 
 syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns

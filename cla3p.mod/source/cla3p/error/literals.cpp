@@ -104,6 +104,11 @@ std::string SkewInconsistency()
 	return "Operation is not consistent with skew property"; 
 }
 /*-------------------------------------------------*/
+std::string PardisoError()
+{ 
+	return "Pardiso error";
+}
+/*-------------------------------------------------*/
 } // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/

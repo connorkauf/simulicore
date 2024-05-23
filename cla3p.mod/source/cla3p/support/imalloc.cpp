@@ -34,7 +34,7 @@ namespace cla3p {
 static void check_allocation(const void *ptr, bulk_t nmemb, bulk_t size)
 {
 	if(!ptr) {
-		std::string mem2str = bytes2human(nmemb * size);
+		std::string mem2str = bytesToString(nmemb * size);
 		throw err::OutOfMemory("Failed to allocate " + mem2str);
 	} // ptr
 }

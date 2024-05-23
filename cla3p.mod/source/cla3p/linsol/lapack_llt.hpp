@@ -47,25 +47,22 @@ class LapackLLt : public LapackBase<T_Matrix> {
 		 *
 		 * Constructs an empty solver object.
 		 */
-		LapackLLt();
+		LapackLLt() : LapackBase<T_Matrix>(decomp_t::LLT) {}
 
 		/**
 		 * @brief The dimensional constructor.
+		 * @param[in] n The expected problem dimension.
 		 *
-		 * Constructs a preallocated solver object with n<sup>2</sup> buffered size.
+		 * Constructs a solver object with n<sup>2</sup> preallocated buffered size.
 		 */
-		LapackLLt(uint_t n);
+		LapackLLt(uint_t n) : LapackBase<T_Matrix>(decomp_t::LLT, n) {}
 
 		/**
 		 * @brief Destroys the solver.
 		 *
 		 * Clears all internal data and destroys the solver.
 		 */
-		~LapackLLt();
-
-	private:
-		void decomposeFactor() override;
-		void solveForRhs(T_Matrix& rhs) const override;
+		~LapackLLt() = default;
 };
 
 /*-------------------------------------------------*/

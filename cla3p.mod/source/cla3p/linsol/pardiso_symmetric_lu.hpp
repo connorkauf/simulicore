@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_LAPACK_LU_HPP_
-#define CLA3P_LAPACK_LU_HPP_
+#ifndef CLA3P_PARDISO_SYMMETRIC_LU_HPP_
+#define CLA3P_PARDISO_SYMMETRIC_LU_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/linsol/lapack_base.hpp"
+#include "cla3p/linsol/pardiso_base.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p { 
@@ -29,37 +29,30 @@ namespace cla3p {
 
 /**
  * @nosubgrouping
- * @brief The partial pivoting LU linear solver for dense matrices.
+ * @brief The LU linear solver for structurally symmetric sparse matrices.
  */
 template <typename T_Matrix>
-class LapackLU : public LapackBase<T_Matrix> {
-
-	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
+class PardisoSymmetricLU : public PardisoBase<T_Matrix> {
 
 	public:
 
 		// no copy
-		LapackLU(const LapackLU&) = delete;
-		LapackLU& operator=(const LapackLU&) = delete;
+		PardisoSymmetricLU(const PardisoSymmetricLU&) = delete;
+		PardisoSymmetricLU& operator=(const PardisoSymmetricLU&) = delete;
 
 		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt()
+		 * @copydoc cla3p::PardisoLLt::PardisoLLt()
 		 */
-		LapackLU() : LapackBase<T_Matrix>(decomp_t::LU) {}
+		PardisoSymmetricLU() : PardisoBase<T_Matrix>(decomp_t::SymmetricLU) {}
 
 		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
+		 * @copydoc cla3p::PardisoLLt::~PardisoLLt()
 		 */
-		LapackLU(uint_t n) : LapackBase<T_Matrix>(decomp_t::LU, n) {}
-
-		/**
-		 * @copydoc cla3p::LapackLLt::~LapackLLt()
-		 */
-		~LapackLU() = default;
+		~PardisoSymmetricLU() = default;
 };
 
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_LAPACK_LU_HPP_
+#endif // CLA3P_PARDISO_SYMMETRIC_LU_HPP_

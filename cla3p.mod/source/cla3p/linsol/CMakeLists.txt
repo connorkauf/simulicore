@@ -3,11 +3,8 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
 	linsol/lapack_base.cpp
-	linsol/lapack_auto.cpp
-	linsol/lapack_llt.cpp
-	linsol/lapack_ldlt.cpp
-	linsol/lapack_lu.cpp
-	linsol/lapack_complete_lu.cpp
+	linsol/pardiso_options.cpp
+	linsol/pardiso_base.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_LINSOL_HPP 
@@ -17,6 +14,13 @@ set(CLA3P_LINSOL_HPP
 	lapack_ldlt.hpp
 	lapack_lu.hpp
 	lapack_complete_lu.hpp
+	pardiso_options.hpp
+	pardiso_base.hpp
+	pardiso_auto.hpp
+	pardiso_llt.hpp
+	pardiso_ldlt.hpp
+	pardiso_lu.hpp
+	pardiso_symmetric_lu.hpp
 	)
 
 #-----------------------------------------------

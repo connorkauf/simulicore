@@ -31,80 +31,119 @@
 namespace cla3p {
 /*-------------------------------------------------*/
 
+/*
+ * Returns the number of digits of n
+ * Sign not included
+ */
 uint_t inumlen(int_t n);
+
+/*
+ * Bounds nsd in [1,16]
+ */
 void sanitize_nsd(uint_t& nsd);
-std::string bytes2human(bulk_t nbytes, uint_t nsd = 3);
-void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom);
-std::string bool2yn(bool flg);
 
-/*-------------------------------------------------*/
-inline uint_t opposite_element(const uint_t& x, const prop_t&)
-{
-	return x; // should never happen
-}
-/*-------------------------------------------------*/
+/*
+ * Bytes to human readable string
+ * KBytes to human readable string
+ * MBytes to human readable string
+ */
+std::string bytesToString(std::size_t nbytes, uint_t nsd = 3);
+std::string kbytesToString(std::size_t nkbytes, uint_t nsd = 3);
+std::string mbytesToString(std::size_t nmbytes, uint_t nsd = 3);
+
+/*
+ * Fills object info top & bottom margin strings
+ */
+void fill_info_margins(const std::string& header, std::string& top, std::string& bottom);
+
+/*
+ * Boolean to yes/no
+ * Boolean to on/off
+ */
+std::string boolToYesNo(bool flg);
+std::string boolToOnOff(bool flg);
+
+/*
+ * Given Aij returns Aji depending on property
+ */
+uint_t opposite_element(const uint_t&, const prop_t&);
 template <typename T_Scalar>
-inline T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
-{
-	if(ptype == prop_t::Symmetric) return x;
-	if(ptype == prop_t::Hermitian) return arith::conj(x);
-	if(ptype == prop_t::Skew     ) return (-x);
+T_Scalar opposite_element(const T_Scalar&, const prop_t&);
 
-	throw err::Exception("Invalid Property");
-	return x;
-}
-/*-------------------------------------------------*/
+/*
+ * Coordinate to string (i,j)
+ */
 template <typename T_Int>
-std::string coord2str(T_Int i, T_Int j)
-{
-	std::string ret = "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
-	return ret;
-}
-/*-------------------------------------------------*/
+std::string coordToString(T_Int i, T_Int j);
+
+/*
+ * Random number in [lo,hi]
+ * In complex cases real/complex part in [lo,hi]
+ */
 template <typename T_Scalar>
 T_Scalar rand(
-		typename TypeTraits<T_Scalar>::real_type low, 
-		typename TypeTraits<T_Scalar>::real_type high)
-{
-  if(low > high) {
-    throw err::Exception("Need low <= high");
-  } // error
+		typename TypeTraits<T_Scalar>::real_type lo, 
+		typename TypeTraits<T_Scalar>::real_type hi);
 
-	cla3p::real_t rval = static_cast<cla3p::real_t>(std::rand());
-	cla3p::real_t diff = static_cast<cla3p::real_t>(high - low);
-  cla3p::real_t inc = (rval * diff) / static_cast<cla3p::real_t>(RAND_MAX + 1U);
+/*
+ * Value to string
+ *
+ * if nsd > 0
+ *   for integers, nsd: number of spaces for val
+ *   for scalars , nsd: number of significant digits
+ * if nsd = 0
+ *   default spacing
+ *
+ * Does not sanitize nsd
+ */
+template <typename T_Scalar>
+std::string valToString(T_Scalar val, uint_t nsd);
 
-  return (low + static_cast<T_Scalar>(inc));
-}
-/*-------------------------------------------------*/
-template <>
-complex_t rand<complex_t>(real_t low, real_t high); 
-template <>
-complex8_t rand<complex8_t>(real4_t low, real4_t high);
-/*-------------------------------------------------*/
+/*
+ * Unified code for Matrix element print in list form
+ */
+class ListPrinter {
+	public:
+		ListPrinter(uint_t nsd, uint_t maxRows, uint_t maxCols, uint_t maxNnz);
+		~ListPrinter() = default;
 
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val);
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, uint_t val);
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, real_t val);
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, real4_t val);
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex_t val);
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex8_t val);
+		std::string header() const;
 
-uplo_t auto_uplo(prop_t ptype);
+		template <typename T_Int, typename T_Scalar>
+		std::string tuple(uint_t k, T_Int i, T_Int j, T_Scalar v) const
+		{
+			std::string ret;
+			ret.append(valToString(k, m_ndCount)); ret.append(" | ");
+			ret.append(valToString(i, m_ndRows )); ret.append(" ");
+			ret.append(valToString(j, m_ndCols )); ret.append("   ");
+			ret.append(valToString(v, m_ndVals )); ret.append("\n");
+			return ret;
+		}
 
-void fill_identity_perm(uint_t n, uint_t *P);
-void fill_identity_perm(uint_t n, int_t *P);
-void fill_random_perm(uint_t n, uint_t *P);
-void fill_random_perm(uint_t n, int_t *P);
+	private:
+		nint_t m_ndCount;
+		nint_t m_ndRows ;
+		nint_t m_ndCols ;
+		nint_t m_ndVals ;
+};
 
-/*-------------------------------------------------*/
+/*
+ * Identity permutation vector
+ */
 template <typename T_Int>
-std::vector<T_Int> create_random_perm(uint_t n)
-{
-	std::vector<T_Int> ret(n);
-	fill_random_perm(n, ret.data());
-	return ret;
-}
+void fill_identity_perm(uint_t n, T_Int *P);
+
+/*
+ * Random permutation vector
+ */
+template <typename T_Int>
+void fill_random_perm(uint_t n, T_Int *P);
+
+/*
+ * Checks for auto & returns appropriate type
+ */
+decomp_t determineDecompType(decomp_t, const Property&);
+
 /*-------------------------------------------------*/
 typedef struct RowRange {
 	uint_t ibgn;

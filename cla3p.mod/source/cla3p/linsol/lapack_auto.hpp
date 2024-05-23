@@ -45,30 +45,18 @@ class LapackAuto : public LapackBase<T_Matrix> {
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt()
 		 */
-		LapackAuto();
+		LapackAuto() : LapackBase<T_Matrix>(decomp_t::Auto) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
 		 */
-		LapackAuto(uint_t n);
+		LapackAuto(uint_t n) : LapackBase<T_Matrix>(decomp_t::Auto, n) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::~LapackLLt()
 		 */
-		~LapackAuto();
-
-	private:
-		void decomposeFactor() override;
-		void solveForRhs(T_Matrix& rhs) const override;
+		~LapackAuto() = default;
 };
-
-template <typename T_Matrix, typename T_Rhs>
-void default_linear_solver(const T_Matrix& mat, T_Rhs& rhs)
-{
-	LapackAuto<T_Matrix> solver;
-	solver.decompose(mat);
-	solver.solve(rhs);
-}
 
 /*-------------------------------------------------*/
 } // namespace cla3p

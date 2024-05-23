@@ -19,6 +19,7 @@
 
 // system
 #include <cstdio>
+#include <cstring>
 #include <string>
 #include <cmath>
 #include <algorithm>
@@ -30,11 +31,6 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-/*-------------------------------------------------*/
-#define SIZEKB 1024LLU 
-#define SIZEMB 1048576LLU
-#define SIZEGB 1073741824LLU
-#define SIZETB 1099511627776LLU
 /*-------------------------------------------------*/
 uint_t inumlen(int_t n)
 {
@@ -55,42 +51,58 @@ void sanitize_nsd(uint_t& nsd)
 	nsd = std::min(nsd, nsd_max);
 }
 /*-------------------------------------------------*/
-std::string bytes2human(bulk_t nbytes, uint_t nsd)
+static constexpr std::size_t SIZEKB = 1024LLU;
+static constexpr std::size_t SIZEMB = 1048576LLU;
+static constexpr std::size_t SIZEGB = 1073741824LLU;
+static constexpr std::size_t SIZETB = 1099511627776LLU;
+/*-------------------------------------------------*/
+static std::string bytesToString(std::size_t nbytes, uint_t nsd, std::size_t base, const char *suffix)
 {
-#define BUFFER_LEN 128
+	constexpr std::size_t BUFFER_LEN = 128;
+	char ret[BUFFER_LEN];
 
 	sanitize_nsd(nsd);
-
 	nint_t nd = static_cast<nint_t>(nsd);
-	char ret[BUFFER_LEN];
-	real_t rsize = static_cast<real_t>(nbytes);
 
-	if(nbytes >= SIZEGB) {
-		real_t b2r = rsize / static_cast<real_t>(SIZETB);
-		std::snprintf(ret, BUFFER_LEN, "%.*lf Tb", nd, b2r);
-	} else if(nbytes >= SIZEGB) {
-		real_t b2r = rsize / static_cast<real_t>(SIZEGB);
-		std::snprintf(ret, BUFFER_LEN, "%.*lf Gb", nd, b2r);
-	} else if(nbytes >= SIZEMB) {
-		real_t b2r = rsize / static_cast<real_t>(SIZEMB);
-		std::snprintf(ret, BUFFER_LEN, "%.*lf Mb", nd, b2r);
-	} else if(nbytes >= SIZEKB) {
-		real_t b2r = rsize / static_cast<real_t>(SIZEKB);
-		std::snprintf(ret, BUFFER_LEN, "%.*lf Kb", nd, b2r);
-	} else {
-		real_t b2r = rsize;
-		std::snprintf(ret, BUFFER_LEN, "%.*lf b", nd, b2r);
-	} // nbytes
+	real_t scaledBytes = static_cast<real_t>(nbytes) / static_cast<real_t>(base);
+
+	std::snprintf(ret, BUFFER_LEN, "%.*lf %s", nd, scaledBytes, suffix);
 
 	return ret;
-
-#undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
-void fill_info_margins(const std::string& msg, std::string& top, std::string& bottom)
+std::string bytesToString(std::size_t nbytes, uint_t nsd)
+{
+	if(nbytes >= SIZETB)
+		return bytesToString(nbytes, nsd, SIZETB, "Tb");
+
+	else if(nbytes >= SIZEGB)
+		return bytesToString(nbytes, nsd, SIZEGB, "Gb");
+
+	else if(nbytes >= SIZEMB)
+		return bytesToString(nbytes, nsd, SIZEMB, "Mb");
+
+	else if(nbytes >= SIZEKB)
+		return bytesToString(nbytes, nsd, SIZEKB, "Kb");
+
+	else
+		return bytesToString(nbytes, nsd, 1, "b");
+}
+/*-------------------------------------------------*/
+std::string kbytesToString(std::size_t nkbytes, uint_t nsd)
+{
+	return bytesToString(nkbytes * SIZEKB, nsd);
+}
+/*-------------------------------------------------*/
+std::string mbytesToString(std::size_t nmbytes, uint_t nsd)
+{
+	return bytesToString(nmbytes * SIZEMB, nsd);
+}
+/*-------------------------------------------------*/
+void fill_info_margins(const std::string& header, std::string& top, std::string& bottom)
 {
 	const bulk_t deflen = 44;
-	const bulk_t msglen = msg.size();
+	const bulk_t msglen = header.size();
 
 	top.clear();
 	bottom.clear();
@@ -98,12 +110,12 @@ void fill_info_margins(const std::string& msg, std::string& top, std::string& bo
 	if(!msglen) {
 		top.resize(deflen, '=');
 	} else if(msglen > deflen - 2) {
-		top = msg;
+		top = header;
 	} else {
 		bulk_t lenmargin = (deflen - msglen - 2) / 2;
 		top.append(lenmargin, '=');
 		top.append(" ");
-		top.append(msg);
+		top.append(header);
 		top.append(" ");
 		top.append(lenmargin, '=');
 	} // msglen
@@ -111,104 +123,251 @@ void fill_info_margins(const std::string& msg, std::string& top, std::string& bo
 	bottom.resize(top.size(), '=');
 }
 /*-------------------------------------------------*/
-std::string bool2yn(bool flg)
+std::string boolToYesNo(bool flg)
 {
 	return (flg ? "Yes" : "No");
 }
 /*-------------------------------------------------*/
-template <>
-complex_t rand<complex_t>(real_t low, real_t high)
+std::string boolToOnOff(bool flg)
 {
-  return complex_t(cla3p::rand<real_t>(low, high), cla3p::rand<real_t>(low, high));
+	return (flg ? "On" : "Off");
 }
 /*-------------------------------------------------*/
-template <>
-complex8_t rand<complex8_t>(real4_t low, real4_t high)
+uint_t opposite_element(const uint_t& x, const prop_t&)
 {
-  return complex8_t(cla3p::rand<real4_t>(low, high), cla3p::rand<real4_t>(low, high));
+  throw err::Exception("Invalid Datatype");
+  return x;
 }
 /*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, int_t val)
+template <typename T_Scalar>
+T_Scalar opposite_element(const T_Scalar& x, const prop_t& ptype)
 {
-	if(nsd) {
-		std::snprintf(buff, bufflen, "%*" _DFMT_ , static_cast<nint_t>(nsd), val);
-	} else {
-		std::snprintf(buff, bufflen, "%" _DFMT_ , val);
-	} // nsd
-}
-/*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, uint_t val)
-{
-	if(nsd) {
-		std::snprintf(buff, bufflen, "%*" _UFMT_ , static_cast<nint_t>(nsd), val);
-	} else {
-		std::snprintf(buff, bufflen, "%" _UFMT_ , val);
-	} // nsd
-}
-/*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, real_t val)
-{
-	if(nsd) {
-		std::snprintf(buff, bufflen, " % .*le", static_cast<nint_t>(nsd), val);
-	} else {
-		std::snprintf(buff, bufflen, " % .le", val);
-	} // nsd
-}
-/*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, real4_t val)
-{
-	if(nsd) {
-		std::snprintf(buff, bufflen, " % .*e", static_cast<nint_t>(nsd), val);
-	} else {
-		std::snprintf(buff, bufflen, " % .e", val);
-	} // nsd
-}
-/*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex_t val)
-{
-	if(nsd) {
-		std::snprintf(buff, bufflen, " (% .*le,% .*le)", 
-			static_cast<nint_t>(nsd), val.real(), 
-			static_cast<nint_t>(nsd), val.imag());
-	} else {
-		std::snprintf(buff, bufflen, " (% .le,% .le)", val.real(), val.imag());
-	} // nsd
-}
-/*-------------------------------------------------*/
-void val2char(char *buff, bulk_t bufflen, uint_t nsd, complex8_t val)
-{
-	if(nsd) {
-		std::snprintf(buff, bufflen, " (% .*e,% .*e)", 
-			static_cast<nint_t>(nsd), val.real(), 
-			static_cast<nint_t>(nsd), val.imag());
-	} else {
-		std::snprintf(buff, bufflen, " (% .e,% .e)", val.real(), val.imag());
-	} // nsd
-}
-/*-------------------------------------------------*/
-uplo_t auto_uplo(prop_t ptype)
-{
-	if(ptype == prop_t::General  ) return uplo_t::Full;
-	if(ptype == prop_t::Symmetric) return uplo_t::Lower;
-	if(ptype == prop_t::Hermitian) return uplo_t::Lower;
+  if(ptype == prop_t::Symmetric)
+		return x;
 
-	throw err::Exception();
-	return uplo_t::Full;
+  if(ptype == prop_t::Hermitian)
+		return arith::conj(x);
+
+  if(ptype == prop_t::Skew)
+		return (-x);
+
+  throw err::Exception("Invalid Property");
+  return x;
+}
+/*-------------------------------------------------*/
+template int_t      opposite_element(const int_t     &, const prop_t&);
+template real_t     opposite_element(const real_t    &, const prop_t&);
+template real4_t    opposite_element(const real4_t   &, const prop_t&);
+template complex_t  opposite_element(const complex_t &, const prop_t&);
+template complex8_t opposite_element(const complex8_t&, const prop_t&);
+/*-------------------------------------------------*/
+template <typename T_Int>
+std::string coordToString(T_Int i, T_Int j)
+{
+  std::string ret = "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
+  return ret;
+}
+/*-------------------------------------------------*/
+template std::string coordToString(int_t , int_t );
+template std::string coordToString(uint_t, uint_t);
+/*-------------------------------------------------*/
+template <typename T_Int>
+static T_Int randomCaseInt(T_Int lo, T_Int hi)
+{
+	T_Int diff = hi - lo;
+	T_Int stdRandVal = std::rand();
+	T_Int inc = stdRandVal % diff;
+	return (lo + inc);
+}
+/*-------------------------------------------------*/
+template int_t  randomCaseInt(int_t , int_t );
+template uint_t randomCaseInt(uint_t, uint_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static T_Scalar randomCaseReal(T_Scalar lo, T_Scalar hi)
+{
+  T_Scalar diff = hi - lo;
+	T_Scalar stdRandVal = static_cast<T_Scalar>(std::rand());
+  T_Scalar inc = diff * (stdRandVal / static_cast<T_Scalar>(RAND_MAX + 1U));
+	return (lo + inc);
+}
+/*-------------------------------------------------*/
+template real_t  randomCaseReal(real_t , real_t );
+template real4_t randomCaseReal(real4_t, real4_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static T_Scalar randomCaseComplex(
+		typename TypeTraits<T_Scalar>::real_type lo, 
+		typename TypeTraits<T_Scalar>::real_type hi)
+{
+	return T_Scalar(randomCaseReal(lo,hi), randomCaseReal(lo,hi));
+}
+/*-------------------------------------------------*/
+template complex_t  randomCaseComplex(real_t , real_t );
+template complex8_t randomCaseComplex(real4_t, real4_t);
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static T_Scalar randomCase(
+		typename TypeTraits<T_Scalar>::real_type lo,
+		typename TypeTraits<T_Scalar>::real_type hi);
+/*-------------------------------------------------*/
+template<> int_t  randomCase<int_t >(int_t  lo, int_t  hi) { return randomCaseInt<int_t >(lo,hi); }
+template<> uint_t randomCase<uint_t>(uint_t lo, uint_t hi) { return randomCaseInt<uint_t>(lo,hi); }
+/*-------------------------------------------------*/
+template<> real_t  randomCase<real_t >(real_t  lo, real_t  hi) { return randomCaseReal<real_t >(lo,hi); }
+template<> real4_t randomCase<real4_t>(real4_t lo, real4_t hi) { return randomCaseReal<real4_t>(lo,hi); }
+/*-------------------------------------------------*/
+template<> complex_t  randomCase<complex_t >(real_t  lo, real_t  hi) { return randomCaseComplex<complex_t >(lo,hi); }
+template<> complex8_t randomCase<complex8_t>(real4_t lo, real4_t hi) { return randomCaseComplex<complex8_t>(lo,hi); }
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+T_Scalar rand(
+		typename TypeTraits<T_Scalar>::real_type lo,
+		typename TypeTraits<T_Scalar>::real_type hi)
+{
+	if(lo > hi)
+		throw err::Exception("Need lo <= hi");
+
+	return randomCase<T_Scalar>(lo,hi);
+}
+/*-------------------------------------------------*/
+template int_t      rand(int_t  , int_t  );
+template uint_t     rand(uint_t , uint_t );
+template real_t     rand(real_t , real_t );
+template real4_t    rand(real4_t, real4_t);
+template complex_t  rand(real_t , real_t );
+template complex8_t rand(real4_t, real4_t);
+/*-------------------------------------------------*/
+static std::string valToStringSpec(int_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "%*" _DFMT_ , static_cast<nint_t>(nsd), val);
+	else
+		std::snprintf(ret, BUFFER_LEN, "%" _DFMT_ , val);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+static std::string valToStringSpec(uint_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "%*" _UFMT_ , static_cast<nint_t>(nsd), val);
+	else
+		std::snprintf(ret, BUFFER_LEN, "%" _UFMT_ , val);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+static std::string valToStringSpec(real_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "% .*le" , static_cast<nint_t>(nsd), val);
+	else
+		std::snprintf(ret, BUFFER_LEN, "% le" , val);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+static std::string valToStringSpec(real4_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "% .*e" , static_cast<nint_t>(nsd), val);
+	else
+		std::snprintf(ret, BUFFER_LEN, "% e" , val);
+
+	return ret;
+}
+/*-------------------------------------------------*/
+static std::string valToStringSpec(complex_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "(% .*le,% .*le)", 
+				static_cast<nint_t>(nsd), val.real(), 
+				static_cast<nint_t>(nsd), val.imag());
+	else
+		std::snprintf(ret, BUFFER_LEN, "(% le,% le)", val.real(), val.imag());
+
+	return ret;
+}
+/*-------------------------------------------------*/
+static std::string valToStringSpec(complex8_t val, uint_t nsd)
+{
+	constexpr std::size_t BUFFER_LEN = 64;
+	char ret[BUFFER_LEN];
+
+	if(nsd)
+		std::snprintf(ret, BUFFER_LEN, "(% .*e,% .*e)", 
+			static_cast<nint_t>(nsd), val.real(), 
+			static_cast<nint_t>(nsd), val.imag());
+	else
+		std::snprintf(ret, BUFFER_LEN, "(% e,% e)", val.real(), val.imag());
+	
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+std::string valToString(T_Scalar val, uint_t nsd)
+{
+	return valToStringSpec(val, nsd);
+}
+/*-------------------------------------------------*/
+template std::string valToString(int_t     , uint_t);
+template std::string valToString(uint_t    , uint_t);
+template std::string valToString(real_t    , uint_t);
+template std::string valToString(real4_t   , uint_t);
+template std::string valToString(complex_t , uint_t);
+template std::string valToString(complex8_t, uint_t);
+/*-------------------------------------------------*/
+ListPrinter::ListPrinter(uint_t nsd, uint_t maxRows, uint_t maxCols, uint_t maxNnz)
+{
+	m_ndCount = std::max(5, static_cast<nint_t>(inumlen(maxNnz )));
+	m_ndRows  = std::max(5, static_cast<nint_t>(inumlen(maxRows)));
+	m_ndCols  = std::max(8, static_cast<nint_t>(inumlen(maxCols)));
+	m_ndVals  = static_cast<nint_t>(nsd);
+}
+/*-------------------------------------------------*/
+std::string ListPrinter::header() const
+{
+	char cbuff[512];
+	std::snprintf(cbuff, 512, "%*s | %*s %*s %s", m_ndCount, "#nz", m_ndRows, "row", m_ndCols, "column", "  value");
+
+	std::string ret;
+	ret.append(cbuff);
+	ret.append("\n");
+	ret.append(std::strlen(cbuff), '-');
+	ret.append("\n");
+
+	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
-static void fill_identity_perm_tmpl(uint_t n, T_Int *P)
+void fill_identity_perm(uint_t n, T_Int *P)
 {
 	for(uint_t i = 0; i < n; i++) {
 		P[i] = static_cast<T_Int>(i);
 	} // i
 }
 /*-------------------------------------------------*/
-void fill_identity_perm(uint_t n, uint_t *P){ fill_identity_perm_tmpl(n, P); }
-void fill_identity_perm(uint_t n,  int_t *P){ fill_identity_perm_tmpl(n, P); }
+template void fill_identity_perm(uint_t, uint_t*);
+template void fill_identity_perm(uint_t, int_t*);
 /*-------------------------------------------------*/
 template <typename T_Int>
-static void fill_random_perm_tmpl(uint_t n, T_Int *P)
+void fill_random_perm(uint_t n, T_Int *P)
 {
 	if(!n) return;
 
@@ -222,8 +381,25 @@ static void fill_random_perm_tmpl(uint_t n, T_Int *P)
 	} // i
 }
 /*-------------------------------------------------*/
-void fill_random_perm(uint_t n, uint_t *P) { fill_random_perm_tmpl(n, P); }
-void fill_random_perm(uint_t n,  int_t *P) { fill_random_perm_tmpl(n, P); }
+template void fill_random_perm(uint_t, uint_t*);
+template void fill_random_perm(uint_t, int_t*);
+/*-------------------------------------------------*/
+decomp_t determineDecompType(decomp_t dtype, const Property& pr)
+{
+	decomp_t ret = dtype;
+
+	if(ret == decomp_t::Auto) {
+
+		if(pr.isSymmetric() || pr.isHermitian())
+			ret = decomp_t::LDLT;
+
+		else if(pr.isGeneral())
+			ret = decomp_t::LU;
+
+	} // auto
+
+	return ret;
+}
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -45,21 +45,17 @@ class LapackLDLt : public LapackBase<T_Matrix> {
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt()
 		 */
-		LapackLDLt();
+		LapackLDLt() : LapackBase<T_Matrix>(decomp_t::LDLT) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
 		 */
-		LapackLDLt(uint_t n);
+		LapackLDLt(uint_t n) : LapackBase<T_Matrix>(decomp_t::LDLT, n) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::~LapackLLt()
 		 */
-		~LapackLDLt();
-
-	private:
-		void decomposeFactor() override;
-		void solveForRhs(T_Matrix& rhs) const override;
+		~LapackLDLt() = default;
 };
 
 /*-------------------------------------------------*/

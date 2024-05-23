@@ -608,10 +608,14 @@
  *
  *
  * @page tutorial_linsol Linear System Solvers
+ *  - @subpage tutorial_linsol_lapack
+ *  - @subpage tutorial_linsol_pardiso
+ *
+ * @page tutorial_linsol_lapack Dense (Lapack Based)
  *
  * Below you can find examples on how to solve systems of linear equations.
  *
- * @section tutorial_linsol_lu LU Decomposition (General/Symmetric/Hermitian Matrices)
+ * @section tutorial_linsol_lapack_lu LU Decomposition (General/Symmetric/Hermitian Matrices)
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -620,7 +624,7 @@
  *   </tr>
  * </table>
  *
- * @section tutorial_linsol_ldlt LDL' Decomposition (Symmetric/Hermitian Matrices)
+ * @section tutorial_linsol_lapack_ldlt LDL' Decomposition (Symmetric/Hermitian Matrices)
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -629,7 +633,7 @@
  *   </tr>
  * </table>
  *
- * @section tutorial_linsol_auto Auto Detect Decomposition Method
+ * @section tutorial_linsol_lapack_auto Auto Detect Decomposition Method
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
@@ -638,12 +642,52 @@
  *   </tr>
  * </table>
  *
- * @section tutorial_linsol_operators Using Operators to Solve Linear Systems
+ * @section tutorial_linsol_lapack_operators Using Operators to Solve Linear Systems
  * <table>
  *   <tr><th>Code</th><th>Output</th></tr>
  *   <tr>
  *     <td> @include     src/ex05d_solving_linear_systems_operators.cpp </td>
  *     <td> @include i32/out/ex05d_solving_linear_systems_operators.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @page tutorial_linsol_pardiso Pardiso (Intel MKL)
+ *
+ * Below you can find examples on how to solve sparse linear systems.
+ *
+ * @section tutorial_linsol_pardiso_lu LU Decomposition (General Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07a_solving_sparse_linear_systems_lu.cpp </td>
+ *     <td> @include i32/out/ex07a_solving_sparse_linear_systems_lu.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_ldlt LDL' Decomposition (Symmetric/Hermitian Indefinite Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07c_solving_sparse_linear_systems_ldlt.cpp </td>
+ *     <td> @include i32/out/ex07c_solving_sparse_linear_systems_ldlt.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_auto Auto Detect Decomposition Method
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07e_solving_sparse_linear_systems_auto.cpp </td>
+ *     <td> @include i32/out/ex07e_solving_sparse_linear_systems_auto.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_operators Using Operators to Solve Linear Systems
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07d_solving_sparse_linear_systems_operators.cpp </td>
+ *     <td> @include i32/out/ex07d_solving_sparse_linear_systems_operators.out </td>
  *   </tr>
  * </table>
  *

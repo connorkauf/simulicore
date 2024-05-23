@@ -51,10 +51,18 @@
       </tab>
 
       <tab type="usergroup" url="@ref tutorial_linsol" title="Linear System Solvers">
-        <tab type="user" url="@ref tutorial_linsol_lu" title="LU"/>
-        <tab type="user" url="@ref tutorial_linsol_ldlt" title="LDL'"/>
-        <tab type="user" url="@ref tutorial_linsol_auto" title="Auto"/>
-        <tab type="user" url="@ref tutorial_linsol_operators" title="Operators"/>
+        <tab type="usergroup" url="@ref tutorial_linsol_lapack" title="Dense (Lapack)">
+          <tab type="user" url="@ref tutorial_linsol_lapack_lu" title="LU"/>
+          <tab type="user" url="@ref tutorial_linsol_lapack_ldlt" title="LDL'"/>
+          <tab type="user" url="@ref tutorial_linsol_lapack_auto" title="Auto"/>
+          <tab type="user" url="@ref tutorial_linsol_lapack_operators" title="Operators"/>
+        </tab>
+        <tab type="usergroup" url="@ref tutorial_linsol_pardiso" title="Pardiso (Intel MKL version)">
+          <tab type="user" url="@ref tutorial_linsol_pardiso_lu" title="LU"/>
+          <tab type="user" url="@ref tutorial_linsol_pardiso_ldlt" title="LDL'"/>
+          <tab type="user" url="@ref tutorial_linsol_pardiso_auto" title="Auto"/>
+          <tab type="user" url="@ref tutorial_linsol_pardiso_operators" title="Operators"/>
+        </tab>
       </tab>
     </tab>
 
@@ -85,6 +93,7 @@
 
       <tab type="usergroup" url="@ref module_index_linsol" title="Linear Solvers">
         <tab type="user" url="@ref module_index_linsol_dense" title="Dense"/>
+        <tab type="user" url="@ref module_index_linsol_sparse" title="Sparse"/>
       </tab>
 
       <tab type="usergroup" url="@ref module_index_math_operators" title="Algebra Operators">
@@ -98,6 +107,7 @@
 
       <tab type="user" url="@ref module_index_stream_operators" title="Stream Operators"/>
       <tab type="user" url="@ref module_index_exceptions" title="Exceptions"/>
+      <tab type="user" url="@ref module_index_special_enums" title="Special Enumerations"/>
     </tab>
 
     <!-- ==================================================================== -->

@@ -14,52 +14,44 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_LAPACK_LU_HPP_
-#define CLA3P_LAPACK_LU_HPP_
+#ifndef CLA3P_MKL_PARDISO_PROXY_HPP_
+#define CLA3P_MKL_PARDISO_PROXY_HPP_
 
 /**
  * @file
  */
 
-#include "cla3p/linsol/lapack_base.hpp"
+#include <string>
+
+#include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/
-namespace cla3p { 
+namespace cla3p {
+namespace mkl {
 /*-------------------------------------------------*/
 
-/**
- * @nosubgrouping
- * @brief The partial pivoting LU linear solver for dense matrices.
- */
-template <typename T_Matrix>
-class LapackLU : public LapackBase<T_Matrix> {
+int_t pardisoDriver(
+		void *pt, 
+		int_t maxfct, 
+		int_t mnum, 
+		int_t mtype,
+		int_t phase, 
+		int_t n, 
+		const void *values, 
+		const int_t *colptr,
+		const int_t *rowidx, 
+		int_t *perm, 
+		int_t nrhs, 
+		int_t *iparm,
+		int_t msglvl, 
+		void *b,
+		void *x);
 
-	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
-
-	public:
-
-		// no copy
-		LapackLU(const LapackLU&) = delete;
-		LapackLU& operator=(const LapackLU&) = delete;
-
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt()
-		 */
-		LapackLU() : LapackBase<T_Matrix>(decomp_t::LU) {}
-
-		/**
-		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
-		 */
-		LapackLU(uint_t n) : LapackBase<T_Matrix>(decomp_t::LU, n) {}
-
-		/**
-		 * @copydoc cla3p::LapackLLt::~LapackLLt()
-		 */
-		~LapackLU() = default;
-};
+std::string pardisoGetErrorMsg(int_t error);
 
 /*-------------------------------------------------*/
+} // namespace mkl
 } // namespace cla3p
 /*-------------------------------------------------*/
 
-#endif // CLA3P_LAPACK_LU_HPP_
+#endif // CLA3P_MKL_PARDISO_HPP_

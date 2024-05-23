@@ -53,11 +53,11 @@ void coo_check_coord(uint_t m, uint_t n, const Property& prop, const T_Int& i, c
 	}
 
 	if(prop.isLower() && i < j) {
-		throw err::InvalidOp("Invalid insertion of " + coord2str(i,j) + " in upper part");
+		throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in upper part");
 	}
 
 	if(prop.isUpper() && i > j) {
-		throw err::InvalidOp("Invalid insertion of " + coord2str(i,j) + " in lower part");
+		throw err::InvalidOp("Invalid insertion of " + coordToString(i,j) + " in lower part");
 	}
 
 	if(prop.isSkew() && i == j) {

@@ -115,11 +115,11 @@ void check(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Int *colptr, c
 			}
 
 			if(prop.isLower() && i < j) {
-				throw err::NoConsistency("Found coordinate " + coord2str(i,j) + " in upper part");
+				throw err::NoConsistency("Found coordinate " + coordToString(i,j) + " in upper part");
 			}
 
 			if(prop.isUpper() && i > j) {
-				throw err::NoConsistency("Found coordinate " + coord2str(i,j) + " in lower part");
+				throw err::NoConsistency("Found coordinate " + coordToString(i,j) + " in lower part");
 			}
 
 			// TODO: perhaps check skew diagonals for values
@@ -132,7 +132,7 @@ void check(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Int *colptr, c
 			}
 
 			if(mark[i]) {
-				throw err::NoConsistency("Duplicate entry detected at " + coord2str(i,j));
+				throw err::NoConsistency("Duplicate entry detected at " + coordToString(i,j));
 			}
 
 			mark[i] = true;
@@ -239,17 +239,16 @@ std::string print_to_string(uint_t n, const T_Int *colptr, const T_Int *rowidx, 
 {
 	if(!n) return "";
 
-#define BUFFER_LEN 1024
+	T_Int maxRowIdx = 0;
+	for(T_Int k = 0; k < colptr[n]; k++) 
+		maxRowIdx = std::max(maxRowIdx, rowidx[k]);
 
-	std::string ret;
-	ret.reserve(colptr[n] * 128);
-	char cbuff[BUFFER_LEN];
+	ListPrinter listPrinter(nsd, maxRowIdx, n, colptr[n]);
 
-	std::snprintf(cbuff, BUFFER_LEN, "       #nz        row     column  value          \n"); ret.append(cbuff);
-	std::snprintf(cbuff, BUFFER_LEN, "-------------------------------------------------\n"); ret.append(cbuff);
+	std::string ret = listPrinter.header();
+	std::string entry;
 
-	uint_t icnt = 0;
-	for(uint_t j = 0; j < n; j++) {
+	for(T_Int j = 0, cnt = 0; j < static_cast<T_Int>(n); j++) {
 
 		T_Int ibgn = colptr[j];
 		T_Int iend = colptr[j+1];
@@ -259,18 +258,14 @@ std::string print_to_string(uint_t n, const T_Int *colptr, const T_Int *rowidx, 
 			T_Int    i = rowidx[irow];
 			T_Scalar v = values[irow];
 
-			val2char(cbuff, BUFFER_LEN,  10, icnt++); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN,  10, i     ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN,  10, j     ); ret.append(cbuff); ret.append(" ");
-			val2char(cbuff, BUFFER_LEN, nsd, v     ); ret.append(cbuff); ret.append("\n");
+			entry = listPrinter.tuple(cnt++, i, j, v);
+			ret.append(entry);
 
 		} // irow
 
 	} // j
 
 	return ret;
-
-#undef BUFFER_LEN
 }
 /*-------------------------------------------------*/
 template std::string print_to_string(uint_t n, const int_t *, const int_t *, const real_t    *, uint_t);

@@ -176,7 +176,7 @@ std::string XxVectorTmpl::info(const std::string& header) const
 	ss << "  Precision............ " << TypeTraits<T_Scalar>::prec_name() << "\n";
 	ss << "  Size................. " << size() << "\n";
 	ss << "  Values............... " << this->values() << "\n";
-	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";
+	ss << "  Owner................ " << boolToYesNo(this->owner()) << "\n";
 
 	ss << bottom << "\n";
 

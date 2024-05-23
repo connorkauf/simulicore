@@ -233,7 +233,7 @@ std::string XxMatrixTmpl::info(const std::string& header) const
 	ss << "  Leading dimension.... " << ld() << "\n";
 	ss << "  Values............... " << this->values() << "\n";
 	ss << "  Property............. " << prop() << "\n";
-	ss << "  Owner................ " << bool2yn(this->owner()) << "\n";
+	ss << "  Owner................ " << boolToYesNo(this->owner()) << "\n";
 
 	ss << bottom << "\n";
 

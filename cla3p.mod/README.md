@@ -43,7 +43,7 @@ Starting with dense linear algebra support as a base framework, as well a sparse
 - [x] Dense linear system solvers
 - [ ] Dense QR decompositions
 - [ ] Dense eigensolvers
-- [ ] Sparse linear system solvers
+- [x] Sparse linear system solvers
 
 All the above are supported by a wide range of **operators** for easy development, as well as an **advanced functional math interface** for peak performance. Choose which one fits your needs and start coding! The list will be expanded with new features on every new version. Feel free to [contact](https://connorkauf.github.io/simulicore/index.html#contact) us and submit your requests.
 

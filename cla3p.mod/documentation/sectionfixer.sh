@@ -16,5 +16,7 @@ sed -i 's/#tutorial_perm\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#tutorial_perm_matrix\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#tutorial_perm_ops\>//g' ${ROOT_DIR}/html/*.js
 sed -i 's/#tutorial_linsol\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#tutorial_linsol_lapack\>//g' ${ROOT_DIR}/html/*.js
+sed -i 's/#tutorial_linsol_pardiso\>//g' ${ROOT_DIR}/html/*.js
 
 exit 0

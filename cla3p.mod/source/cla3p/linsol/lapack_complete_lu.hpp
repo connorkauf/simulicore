@@ -45,21 +45,17 @@ class LapackCompleteLU : public LapackBase<T_Matrix> {
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt()
 		 */
-		LapackCompleteLU();
+		LapackCompleteLU() : LapackBase<T_Matrix>(decomp_t::CompleteLU) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::LapackLLt(uint_t n)
 		 */
-		LapackCompleteLU(uint_t n);
+		LapackCompleteLU(uint_t n) : LapackBase<T_Matrix>(decomp_t::CompleteLU, n) {}
 
 		/**
 		 * @copydoc cla3p::LapackLLt::~LapackLLt()
 		 */
-		~LapackCompleteLU();
-
-	private:
-		void decomposeFactor() override;
-		void solveForRhs(T_Matrix& rhs) const override;
+		~LapackCompleteLU() = default;
 };
 
 /*-------------------------------------------------*/
