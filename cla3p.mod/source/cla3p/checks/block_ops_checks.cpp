@@ -57,7 +57,7 @@ Property block_op_consistency_check(
 		}
 
 		if(ibgn == jbgn) {
-			if(iend != jend) {
+			if(prop.isSquare() && iend != jend) {
 				throw err::NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
 			}
 		} else {
@@ -77,7 +77,7 @@ Property block_op_consistency_check(
 		}
 
 		if(ibgn == jbgn) {
-			if(iend != jend) {
+			if(prop.isSquare() && iend != jend) {
 				throw err::NoConsistency("Start of block on diagonal of " + prop.name() + " matrices should be associated with a diagonal block");
 			}
 		} else {
