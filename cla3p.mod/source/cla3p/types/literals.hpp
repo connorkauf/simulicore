@@ -64,6 +64,16 @@ std::string Full();
 std::string Upper();
 std::string Lower();
 
+std::string Left();
+std::string Right();
+
+std::string DecompAuto();
+std::string DecompLLt();
+std::string DecompLDLt();
+std::string DecompPartialLU();
+std::string DecompCompleteLU();
+std::string DecompSymmetricLU();
+
 /*-------------------------------------------------*/
 } // namespace msg
 } // namespace cla3p

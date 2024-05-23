@@ -102,6 +102,15 @@ enum class dup_t {
 	Amin      /**< Keeps absolute minimum entry */
 };
 
+enum class decomp_t {
+	Auto        = 0,
+	LLT         = 1,
+	LDLT        = 2,
+	LU          = 3,
+	CompleteLU  = 4,
+	SymmetricLU = 5
+};
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
@@ -123,5 +132,8 @@ std::ostream& operator<<(std::ostream& os, const cla3p::uplo_t& uplo);
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::op_t& op);
+
+std::ostream& operator<<(std::ostream& os, const cla3p::side_t& side);
+std::ostream& operator<<(std::ostream& os, const cla3p::decomp_t& decomp);
 
 #endif // CLA3P_ENUMS_HPP_

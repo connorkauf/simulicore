@@ -69,3 +69,29 @@ std::ostream& operator<<(std::ostream& os, const cla3p::op_t& op)
 	return os;
 }
 /*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::side_t& side)
+{
+	std::string str = cla3p::msg::Unknown();
+
+	if(side == cla3p::side_t::Left ) str = cla3p::msg::Left();
+	if(side == cla3p::side_t::Right) str = cla3p::msg::Right();
+
+	os << str;
+	return os;
+}
+/*-------------------------------------------------*/
+std::ostream& operator<<(std::ostream& os, const cla3p::decomp_t& decomp)
+{
+	std::string str = cla3p::msg::Unknown();
+
+	if(decomp == cla3p::decomp_t::Auto       ) str = cla3p::msg::DecompAuto();
+	if(decomp == cla3p::decomp_t::LLT        ) str = cla3p::msg::DecompLLt();
+	if(decomp == cla3p::decomp_t::LDLT       ) str = cla3p::msg::DecompLDLt();
+	if(decomp == cla3p::decomp_t::LU         ) str = cla3p::msg::DecompPartialLU();
+	if(decomp == cla3p::decomp_t::CompleteLU ) str = cla3p::msg::DecompCompleteLU();
+	if(decomp == cla3p::decomp_t::SymmetricLU) str = cla3p::msg::DecompSymmetricLU();
+
+	os << str;
+	return os;
+}
+/*-------------------------------------------------*/

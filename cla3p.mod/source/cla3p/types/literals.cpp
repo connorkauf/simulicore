@@ -175,6 +175,46 @@ std::string Lower()
 	return "Lower"; 
 }
 /*-------------------------------------------------*/
+std::string Left()
+{
+	return "Left";
+}
+/*-------------------------------------------------*/
+std::string Right()
+{
+	return "Right";
+}
+/*-------------------------------------------------*/
+std::string DecompAuto()
+{
+	return "Auto detection decomposition method";
+}
+/*-------------------------------------------------*/
+std::string DecompLLt()
+{
+	return "Definite Cholesky (LL')";
+}
+/*-------------------------------------------------*/
+std::string DecompLDLt()
+{
+	return "Indefinite Cholesky (LDL')";
+}
+/*-------------------------------------------------*/
+std::string DecompPartialLU()
+{
+	return "Partial Pivoting LU";
+}
+/*-------------------------------------------------*/
+std::string DecompCompleteLU()
+{
+	return "Complete Pivoting LU";
+}
+/*-------------------------------------------------*/
+std::string DecompSymmetricLU()
+{
+	return "Structurally Symmetric LU";
+}
+/*-------------------------------------------------*/
 } // namespace msg
 } // namespace cla3p
 /*-------------------------------------------------*/
