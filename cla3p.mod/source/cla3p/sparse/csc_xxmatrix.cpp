@@ -130,11 +130,11 @@ uint_t XxMatrixTmpl::nnz() const
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-std::string XxMatrixTmpl::info(const std::string& msg) const
+std::string XxMatrixTmpl::info(const std::string& header) const
 { 
 	std::string top;
 	std::string bottom;
-	fill_info_margins(msg, top, bottom);
+	fill_info_margins(header, top, bottom);
 
 	std::ostringstream ss;
 
@@ -253,6 +253,49 @@ void XxMatrixTmpl::iconjugate()
 	// TODO: perhaps use a conjugate for 1D arrays
 	//
 	bulk::dns::conjugate(uplo_t::Full, nnz(), 1, this->values(), nnz());
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normOne() const
+{
+	return bulk::csc::norm_one(
+			prop().type(),
+			ncols(), 
+			this->colptr(), 
+			this->rowidx(), 
+			this->values());
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normInf() const
+{
+	return bulk::csc::norm_inf(
+			prop().type(),
+			nrows(),
+			ncols(),
+			this->colptr(), 
+			this->rowidx(), 
+			this->values());
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
+{
+	return bulk::csc::norm_max(
+			ncols(),
+			this->colptr(), 
+			this->values());
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
+{
+	return bulk::csc::norm_fro(
+			prop().type(),
+			ncols(),
+			this->colptr(), 
+			this->rowidx(), 
+			this->values());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -457,6 +500,68 @@ T_Matrix XxMatrixTmpl::init(uint_t nr, uint_t nc, uint_t nz, const Property& pr)
 {
 	T_Matrix ret(nr, nc, nz, pr);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, uint_t nz, const Property& pr, T_RScalar lo, T_RScalar hi)
+{
+	if(!nr || !nc)
+		return T_Matrix();
+
+	using T_CooMatrix = typename TypeTraits<T_Matrix>::coo_type;
+
+	T_CooMatrix Acoo(nr, nc, pr);
+
+	uint_t offDiagNnz = nz;
+
+	/*
+	 * Fill diagonal if needed
+	 */
+	if(pr.isSymmetric() || pr.isHermitian() || pr.isTriangular() || (pr.isGeneral() && nr == nc)) {
+
+		uint_t diagNnz = std::min(nc,nz);
+		offDiagNnz = nz - diagNnz;
+
+		for(uint_t j = 0; j < diagNnz; j++) {
+
+			T_Scalar Ajj = rand<T_Scalar>(lo,hi);
+
+			if(pr.isHermitian())
+				arith::setIm(Ajj,0);
+
+			Acoo.insert(j,j,Ajj);
+
+		} // j
+
+	} // sy/he
+
+	/*
+	 * Fill off-diagonal
+	 * Do not use while loops
+	 * Do not treat cases where i == j
+	 * Trivial cases like 1x1 Skew are insignificant
+	 */
+	for(uint_t k = 0; k < offDiagNnz; k++) {
+
+		T_Int i = rand<T_Int>(0,nr-1);
+		T_Int j = rand<T_Int>(0,nc-1);
+
+		if((pr.isUpper() && i > j) || (pr.isLower() && i < j))
+			std::swap(i,j);
+
+		T_Scalar Aij = rand<T_Scalar>(lo,hi);
+
+		if(i == j && pr.isHermitian())
+			arith::setIm(Aij,0);
+
+		if(i == j && pr.isSkew())
+			continue;
+
+		Acoo.insert(i,j,Aij);
+
+	} // off diag
+
+	return Acoo.toCsc();
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

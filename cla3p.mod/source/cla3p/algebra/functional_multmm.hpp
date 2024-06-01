@@ -191,7 +191,7 @@ void mult(typename T_CscMatrix::value_type alpha,
  *
  * Valid combinations are the following:
  @verbatim
-  A: General     B: General     opA: unconstrained      opB: unconstrained   
+  A: General     B: General     opA: N or T             opB: N or T          
  @endverbatim
  *
  * @param[in] alpha The scaling coefficient.

@@ -455,16 +455,17 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	//
 
 	Property prA(propA, uploA);
-	prA.switchUplo();
 
 	if((prA.isGeneral() || prA.isTriangular()) && opA == op_t::N) {
 
+		prA.switchUplo();
 		CsrMatrix<T_Scalar> A(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 		sparse_operation_t op = op2sparseop(op_t::T);
 		sparse_mm(op, alpha, A.mat(), A.descr(), b, k, ldb, beta, c, ldc);
 
 	} else if((prA.isGeneral() || prA.isTriangular()) && opA == op_t::T) {
 
+		prA.switchUplo();
 		CsrMatrix<T_Scalar> A(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 		sparse_operation_t op = op2sparseop(op_t::N);
 		sparse_mm(op, alpha, A.mat(), A.descr(), b, k, ldb, beta, c, ldc);
@@ -474,12 +475,24 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		CscMatrix<T_Scalar> A(m, n, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 		sparse_operation_t op = op2sparseop(opA);
 
+		// TODO: use openMP for this loop
+		for(uint_t l = 0; l < k; l++) {
+			sparse_mv(op, alpha, A.mat(), A.descr(), bulk::dns::ptrmv(ldb,b,0,l), beta, bulk::dns::ptrmv(ldc,c,0,l));
+		} // l
+
+	} else if(prA.isHermitian()) {
+	
+		CscMatrix<T_Scalar> A(m, n, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
+		sparse_operation_t op = op2sparseop(opA);
+	
+		// TODO: use openMP for this loop
 		for(uint_t l = 0; l < k; l++) {
 			sparse_mv(op, alpha, A.mat(), A.descr(), bulk::dns::ptrmv(ldb,b,0,l), beta, bulk::dns::ptrmv(ldc,c,0,l));
 		} // l
 
 	} else {
 
+		prA.switchUplo();
 		CsrMatrix<T_Scalar> A(n, m, const_cast<int_t*>(colptrA), const_cast<int_t*>(rowidxA), const_cast<T_Scalar*>(valuesA), prA);
 
 		sparse_operation_t op = op2sparseop(opA);

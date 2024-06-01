@@ -34,6 +34,7 @@ namespace csc {
 XxObjectTlst
 XxObjectTmpl::XxObject()
 {
+	defaults();
 }
 /*-------------------------------------------------*/
 XxObjectTlst
@@ -52,6 +53,14 @@ XxObjectTlst
 XxObjectTmpl::~XxObject()
 {
   clear();
+}
+/*-------------------------------------------------*/
+XxObjectTlst
+void XxObjectTmpl::defaults()
+{
+	setColptr(nullptr);
+	setRowidx(nullptr);
+	setValues(nullptr);
 }
 /*-------------------------------------------------*/
 XxObjectTlst
@@ -118,6 +127,8 @@ void XxObjectTmpl::clear()
 	} // owner
 
 	Ownership::clear();
+
+	defaults();
 }
 /*-------------------------------------------------*/
 XxObjectTlst

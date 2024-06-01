@@ -47,6 +47,7 @@ template <typename T_Int, typename T_Scalar, typename T_Matrix>
 class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 	private:
+		using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 		using T_DnsMatrix = typename TypeTraits<T_Matrix>::dns_type;
 
 	public:
@@ -107,9 +108,9 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 		/**
 		 * @brief Prints matrix information.
-		 * @param[in] msg Set a header identifier.
+		 * @param[in] header Set a header identifier.
 		 */
-		std::string info(const std::string& msg = "") const;
+		std::string info(const std::string& header = "") const;
 
 		/**
 		 * @brief Copies a matrix.
@@ -170,6 +171,30 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 		 * @brief Conjugates a matrix in-place.
 		 */
 		void iconjugate();
+
+		/**
+		 * @brief The 1-norm.
+		 * @return The 1-norm of `(*this)`.
+		 */
+		T_RScalar normOne() const;
+
+		/**
+		 * @brief The infinite norm.
+		 * @return The infinite norm of `(*this)`.
+		 */
+		T_RScalar normInf() const;
+
+		/**
+		 * @brief The maximum norm.
+		 * @return The maximum norm of `(*this)`.
+		 */
+		T_RScalar normMax() const;
+
+		/**
+		 * @brief The Frobenius norm.
+		 * @return The Frobenius norm of `(*this)`.
+		 */
+		T_RScalar normFro() const;
 
 		/**
 		 * @brief Converts a matrix to general.
@@ -256,6 +281,22 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 		 * @return The newly created matrix.
 		 */
 		static T_Matrix init(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General());
+
+		/**
+		 * @brief Creates a matrix with random values in (lo,hi).
+		 *
+		 * Creates a (nr x nc) matrix with at most nz random values.
+		 *
+		 * @param[in] nr The number of matrix rows.
+		 * @param[in] nc The number of matrix columns.
+		 * @param[in] nz The (maximum) number of matrix non-zero elements.
+		 * @param[in] pr The matrix property.
+		 * @param[in] lo The smallest value of each generated element.
+		 * @param[in] hi The largest value of each generated element.
+		 * @return The newly created matrix.
+		 */
+		static T_Matrix random(uint_t nr, uint_t nc, uint_t nz, const Property& pr = Property::General(),
+				T_RScalar lo = T_RScalar(0), T_RScalar hi = T_RScalar(1));
 
 		/**
 		 * @brief Creates a matrix from aux data.

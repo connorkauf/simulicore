@@ -48,7 +48,15 @@ XxMatrixTlst
 XxMatrixTmpl::XxMatrix(uint_t nr, uint_t nc, const Property& pr)
 	: MatrixMeta(nr, nc, sanitizeProperty<T_Scalar>(pr))
 {
-	coo_consistency_check(prop(), nrows(), ncols());
+	if(nr && nc) {
+
+		checker();
+
+	} else {
+
+		clear();
+
+	} // nr/nc
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -104,11 +112,11 @@ void XxMatrixTmpl::insert(T_Int i, T_Int j, T_Scalar v)
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
-std::string XxMatrixTmpl::info(const std::string& msg) const
+std::string XxMatrixTmpl::info(const std::string& header) const
 { 
 	std::string top;
 	std::string bottom;
-	fill_info_margins(msg, top, bottom);
+	fill_info_margins(header, top, bottom);
 
 	std::ostringstream ss;
 
@@ -160,6 +168,9 @@ XxMatrixTmpl::operator typename XxMatrixTmpl::T_CscMatrix() const
 XxMatrixTlst
 typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) const
 {
+	if(!nrows() || !ncols())
+		return T_CscMatrix();
+
 	T_Int *colptr = i_calloc<T_Int>(ncols() + 1);
 
 	std::for_each(tupleVec().begin(), tupleVec().end(), 
@@ -200,6 +211,12 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 	T_CscMatrix ret = T_CscMatrix::wrap(nrows(), ncols(), colptr, rowidx, values, true, prop());
 
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::checker() const
+{
+	coo_consistency_check(prop(), nrows(), ncols());
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

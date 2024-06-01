@@ -46,7 +46,7 @@ operator*(
 template <typename T_Virtual, typename T_Matrix>
 cla3p::VirtualProd<T_Virtual,cla3p::VirtualMatrix<T_Matrix>> 
 operator*(
-	const cla3p::VirtualEntity<typename T_Virtual::vaule_type,T_Virtual>& v, 
+	const cla3p::VirtualEntity<typename T_Virtual::value_type,T_Virtual>& v, 
 	const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A) 
 { 
 	cla3p::VirtualMatrix<T_Matrix> vA(A.self());

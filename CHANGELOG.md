@@ -7,6 +7,8 @@ Title ...
 ### New Features
 - Pardiso sparse solver (Intel MKL version)
 - Sparse solution operators (`/` and `/=`)
+- Norms for sparse matrices
+- Random csc matrix generator
 
 ### Changes
 
@@ -14,6 +16,7 @@ Title ...
 - Fix in matrix multiplication when output is Symmetric/Hermitian.
 - Fix in matrix copy (caused by LAPACKE)
 - Fix in Matrix/Vector instantiations with invalid input
+- Fix in [SparseMatrix x DenseMatrix] product (Hermitian case)
 - Fix in virtual sum
 - Fix type trait in mult operators
 

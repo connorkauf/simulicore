@@ -132,9 +132,9 @@ class XxMatrix : public MatrixMeta {
 
 		/**
 		 * @brief Prints matrix information.
-		 * @param[in] msg Set a header identifier.
+		 * @param[in] header Set a header identifier.
 		 */
-		std::string info(const std::string& msg = "") const;
+		std::string info(const std::string& header = "") const;
 
 		/**
 		 * @brief Prints the contents of the object to a string.
@@ -179,6 +179,8 @@ class XxMatrix : public MatrixMeta {
 
 		TupleVec& tupleVec();
 		const TupleVec& tupleVec() const;
+
+		void checker() const;
 };
 
 /*-------------------------------------------------*/
