@@ -17,6 +17,7 @@ Title ...
 - Fix in matrix copy (caused by LAPACKE)
 - Fix in Matrix/Vector instantiations with invalid input
 - Fix in [SparseMatrix x DenseMatrix] product (Hermitian case)
+- Fix in sparse matrix permutation (Hermitian case)
 - Fix in virtual sum
 - Fix type trait in mult operators
 

@@ -809,7 +809,7 @@ void permute_xx_mirror(prop_t ptype, uplo_t uplo, uint_t n,
 				colptr_out[Pi]++;
 			} else {
 				rowidx_out[colptr_out[Pj]] = Pi;
-				values_out[colptr_out[Pj]] = opposite_element(values[irow],ptype);
+				values_out[colptr_out[Pj]] = values[irow];
 				colptr_out[Pj]++;
 			}
 		} // irow
