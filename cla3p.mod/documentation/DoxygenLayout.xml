@@ -57,7 +57,7 @@
           <tab type="user" url="@ref tutorial_linsol_lapack_auto" title="Auto"/>
           <tab type="user" url="@ref tutorial_linsol_lapack_operators" title="Operators"/>
         </tab>
-        <tab type="usergroup" url="@ref tutorial_linsol_pardiso" title="Pardiso (Intel MKL version)">
+        <tab type="usergroup" url="@ref tutorial_linsol_pardiso" title="Pardiso (Intel(R) MKL)">
           <tab type="user" url="@ref tutorial_linsol_pardiso_lu" title="LU"/>
           <tab type="user" url="@ref tutorial_linsol_pardiso_ldlt" title="LDL'"/>
           <tab type="user" url="@ref tutorial_linsol_pardiso_auto" title="Auto"/>
@@ -84,7 +84,7 @@
 
       <tab type="user" url="@ref module_index_guard" title="Guard"/>
 
-      <tab type="usergroup" url="@ref module_index_math_op" title="Algebra">
+      <tab type="usergroup" url="@ref module_index_math_op" title="Functional Algebra">
         <tab type="user" url="@ref module_index_math_op_add" title="Add/Update"/>
         <tab type="user" url="@ref module_index_math_op_vecvec" title="Vector-Vector"/>
         <tab type="user" url="@ref module_index_math_op_matvec" title="Matrix-Vector"/>

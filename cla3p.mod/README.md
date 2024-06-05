@@ -123,17 +123,16 @@ cla3p::ops::update(2., X, tmp); // tmp += 2 * X
 cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
 ```
 
-**CLA3P Virtuals** are currently available for all objects. 
+**CLA3P Virtuals** are currently available for all vector and matrix objects. 
 
 > <b><i>NOTE:</i></b>  
-> The outer vector product operation is not currently virtually supported.
-> The matrix resulting from an outer vector product is calculated explicitly.
+> The outer vector product operation is not currently virtually supported.<br>
+> The matrix resulting from an outer vector product is calculated explicitly.<br>
 > You can use the function `cla3p::ops::outer()` to update a matrix with an outer vector product.
 
 > <b><i>NOTE:</i></b>  
-> The virtual matrix product `A * B.transpose()` where A is sparse and B is dense calculates
-> the transpose of B explicitly. If you plan to use the specific product in a loop,
-> it is recommended to pre-calculate the transpose of B.
+> The virtual matrix product `A * B.transpose()` where A is sparse and B is dense calculates the transpose of B explicitly.<br>
+> If you plan to use the specific product in a loop, it is recommended to pre-calculate the transpose of B.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -143,7 +142,7 @@ cla3p::ops::mult(1., cla3p::op_t::T, A, tmp, 1., Y); // Y += A' * tmp
 <a name="documentation"></a>
 ## Documentation
 
-You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/simulicore/v1.2.1/cla3p/html/index.html).
+You can find the latest **CLA3P** version documentation [here](https://connorkauf.github.io/simulicore/v1.3.0/cla3p/html/index.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

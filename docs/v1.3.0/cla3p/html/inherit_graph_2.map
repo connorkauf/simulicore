@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcla3p_1_1LapackBase.html" title="The abstract linear solver base for dense matrices." alt="" coords="5,133,160,173"/>
+<area shape="rect" id="Node000001" href="$classcla3p_1_1LapackAuto.html" title="The linear solver for dense matrices with automatic method detection." alt="" coords="227,5,379,45"/>
+<area shape="poly" id="edge5_Node000000_Node000001" title=" " alt="" coords="114,122,156,88,207,55,233,43,235,48,209,60,159,92,117,126"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1LapackCompleteLU.html" title="The complete pivoting LU linear solver for dense matrices." alt="" coords="208,69,399,109"/>
+<area shape="poly" id="edge6_Node000000_Node000002" title=" " alt="" coords="165,127,233,107,235,112,166,132"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1LapackLDLt.html" title="The indefinite Cholesky (LDL&#39;) linear solver for dense matrices." alt="" coords="228,133,379,173"/>
+<area shape="poly" id="edge7_Node000000_Node000003" title=" " alt="" coords="174,151,228,151,228,156,174,156"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1LapackLLt.html" title="The definite Cholesky (LL&#39;) linear solver for dense matrices." alt="" coords="227,197,380,237"/>
+<area shape="poly" id="edge8_Node000000_Node000004" title=" " alt="" coords="166,175,235,195,233,200,165,180"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1LapackLU.html" title="The partial pivoting LU linear solver for dense matrices." alt="" coords="228,261,379,301"/>
+<area shape="poly" id="edge9_Node000000_Node000005" title=" " alt="" coords="117,180,159,215,209,247,235,259,233,264,207,252,156,219,114,185"/>
+</map>

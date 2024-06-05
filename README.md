@@ -32,7 +32,7 @@ The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Port
 
 # Build and Install
 
-To build and install the suite, follow these simple steps.
+To build and install the suite, see the guide below.
 
 ## Prerequisites
 

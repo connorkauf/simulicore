@@ -1,0 +1,15 @@
+<map id="cla3p::pardiso::SolveParams" name="cla3p::pardiso::SolveParams">
+<area shape="rect" id="Node000001" title="The Pardiso solution phase parameters." alt="" coords="5,141,211,166"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1PardisoBase.html" title="The Pardiso linear solver base for sparse matrices." alt="" coords="259,133,403,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,151,258,151,258,156,224,156"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1PardisoAuto.html" title="The definite Cholesky (LL&#39;) linear solver for sparse matrices." alt="" coords="479,5,622,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,121,401,87,449,55,478,42,480,47,452,60,404,91,364,125"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1PardisoLDLt.html" title="The indefinite Cholesky (LDL&#39;) linear solver for sparse matrices." alt="" coords="480,69,621,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="412,127,481,107,482,112,414,132"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1PardisoLLt.html" title="The definite Cholesky (LL&#39;) linear solver for sparse matrices." alt="" coords="479,133,622,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="417,151,479,151,479,156,417,156"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1PardisoLU.html" title="The LU linear solver for non&#45;symmetric sparse matrices." alt="" coords="475,197,627,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="414,175,482,195,481,200,412,180"/>
+<area shape="rect" id="Node000007" href="$classcla3p_1_1PardisoSymmetricLU.html" title="The LU linear solver for structurally symmetric sparse matrices." alt="" coords="451,261,651,301"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="364,181,404,215,452,247,478,259,476,264,449,252,401,220,361,185"/>
+</map>

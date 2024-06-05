@@ -1,0 +1,21 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classcla3p_1_1pardiso_1_1AnalysisParams.html" title="The Pardiso analysis phase parameters." alt="" coords="29,51,205,91"/>
+<area shape="rect" id="Node000001" href="$classcla3p_1_1PardisoBase.html" title="The Pardiso linear solver base for sparse matrices." alt="" coords="276,133,420,173"/>
+<area shape="poly" id="edge45_Node000000_Node000001" title=" " alt="" coords="206,92,229,100,304,131,302,136,227,105,204,97"/>
+<area shape="rect" id="Node000002" href="$classcla3p_1_1PardisoAuto.html" title="The definite Cholesky (LL&#39;) linear solver for sparse matrices." alt="" coords="497,5,639,45"/>
+<area shape="poly" id="edge46_Node000001_Node000002" title=" " alt="" coords="378,121,419,87,467,55,495,42,497,47,469,60,422,91,382,125"/>
+<area shape="rect" id="Node000003" href="$classcla3p_1_1PardisoLDLt.html" title="The indefinite Cholesky (LDL&#39;) linear solver for sparse matrices." alt="" coords="497,69,639,109"/>
+<area shape="poly" id="edge47_Node000001_Node000003" title=" " alt="" coords="430,127,498,107,499,112,431,132"/>
+<area shape="rect" id="Node000004" href="$classcla3p_1_1PardisoLLt.html" title="The definite Cholesky (LL&#39;) linear solver for sparse matrices." alt="" coords="497,133,639,173"/>
+<area shape="poly" id="edge48_Node000001_Node000004" title=" " alt="" coords="434,151,496,151,496,156,434,156"/>
+<area shape="rect" id="Node000005" href="$classcla3p_1_1PardisoLU.html" title="The LU linear solver for non&#45;symmetric sparse matrices." alt="" coords="492,197,644,237"/>
+<area shape="poly" id="edge49_Node000001_Node000005" title=" " alt="" coords="431,175,499,195,498,200,430,180"/>
+<area shape="rect" id="Node000006" href="$classcla3p_1_1PardisoSymmetricLU.html" title="The LU linear solver for structurally symmetric sparse matrices." alt="" coords="468,261,668,301"/>
+<area shape="poly" id="edge50_Node000001_Node000006" title=" " alt="" coords="382,181,422,215,469,247,495,259,493,264,467,252,419,220,378,185"/>
+<area shape="rect" id="Node000007" href="$classcla3p_1_1pardiso_1_1DecompParams.html" title="The Pardiso decomposition phase parameters." alt="" coords="5,115,228,141"/>
+<area shape="poly" id="edge51_Node000007_Node000001" title=" " alt="" coords="242,139,276,143,276,148,241,144"/>
+<area shape="rect" id="Node000008" href="$classcla3p_1_1pardiso_1_1GlobalParams.html" title="The Pardiso global parameters." alt="" coords="11,165,222,190"/>
+<area shape="poly" id="edge52_Node000008_Node000001" title=" " alt="" coords="236,162,276,158,276,163,236,168"/>
+<area shape="rect" id="Node000009" href="$classcla3p_1_1pardiso_1_1SolveParams.html" title="The Pardiso solution phase parameters." alt="" coords="14,214,219,239"/>
+<area shape="poly" id="edge53_Node000009_Node000001" title=" " alt="" coords="194,208,227,199,301,171,303,176,229,204,195,213"/>
+</map>

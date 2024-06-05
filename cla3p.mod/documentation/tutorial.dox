@@ -651,7 +651,7 @@
  *   </tr>
  * </table>
  *
- * @page tutorial_linsol_pardiso Pardiso (Intel MKL)
+ * @page tutorial_linsol_pardiso Pardiso (Intel&reg; MKL)
  *
  * Below you can find examples on how to solve sparse linear systems.
  *

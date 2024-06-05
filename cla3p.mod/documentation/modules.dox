@@ -78,7 +78,7 @@
  *
  *
  *
- * @addtogroup module_index_math_op Algebra Operations
+ * @addtogroup module_index_math_op Functional Algebra
  * List of CLA3P algebraic operations (functional).
  * @{
  *   @defgroup module_index_math_op_add Add/Update Operations

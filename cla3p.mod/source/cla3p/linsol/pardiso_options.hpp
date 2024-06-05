@@ -76,7 +76,7 @@ class ImmutableParams {
 		int_t m_iparm18; // Report number of floating point operations
 		int_t m_iparm23; // Parallel factorization control
 		int_t m_iparm24; // Parallel forward/backward solve control
-		int_t m_iparm27; // Single or double precision Intel® oneAPI Math Kernel Library
+		int_t m_iparm27; // Single or double precision Intel(R) oneAPI Math Kernel Library
 		int_t m_iparm30; // Partial solve and computing selected components of the solution vectors
 		int_t m_iparm33; // Optimal number of OpenMP threads for conditional numerical reproducibility (CNR) mode
 		int_t m_iparm34; // One- or zero-based indexing of columns and rows
@@ -85,7 +85,7 @@ class ImmutableParams {
 		int_t m_iparm38; // Enable low rank update
 		int_t m_iparm42; // Control parameter for the computation of the diagonal of inverse matrix
 		int_t m_iparm55; // Diagonal and pivoting control
-		int_t m_iparm59; // Intel® oneAPI Math Kernel Library (oneMKL) PARDISO mode
+		int_t m_iparm59; // Intel(R) oneAPI Math Kernel Library (oneMKL) PARDISO mode
 };
 
 /*-------------------------------------------------*/

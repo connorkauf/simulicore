@@ -103,6 +103,11 @@ operator*(
  *
  * Performs the operation <b>A * B</b>
  *
+ * @warning The virtual matrix product `A * B.transpose()` 
+ * where A is sparse and B is dense calculates the transpose of B explicitly.@n
+ * If you plan to use the specific product in a loop, 
+ * it is recommended to pre-calculate the transpose of B.
+ *
  * @param[in] A The lhs input matrix.
  * @param[in] B The rhs input matrix.
  * @return The resulting dense matrix.

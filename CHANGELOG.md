@@ -1,11 +1,11 @@
-# [v1.2.3] - 2024-??-??
+# [v1.3.0] - 2024-06-05
 
-Title ...
+SimuliCore Intel&reg; MKL Pardiso Sparse Solver & various fixes
 
 ## CLA3P Module
 
 ### New Features
-- Pardiso sparse solver (Intel MKL version)
+- Pardiso sparse solver (Intel&reg; MKL version)
 - Sparse solution operators (`/` and `/=`)
 - Norms for sparse matrices
 - Random csc matrix generator
