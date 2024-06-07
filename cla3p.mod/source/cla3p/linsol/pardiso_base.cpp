@@ -27,12 +27,14 @@
 #include "cla3p/dense.hpp"
 #include "cla3p/sparse.hpp"
 #include "cla3p/support/utils.hpp"
-#include "cla3p/proxies/mkl_pardiso_proxy.hpp"
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 #include "cla3p/checks/decomp_xx_checks.hpp"
 #include "cla3p/checks/solve_checks.hpp"
+#if defined(CLA3P_INTEL_MKL)
+#include "cla3p/proxies/mkl_pardiso_proxy.hpp"
+#endif
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -396,6 +398,7 @@ void PardisoBase<T_Matrix>::clearOutputParams()
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::callDriver(phase_t phase, int_t nrhs, T_Scalar *b, T_Scalar *x)
 {
+#if defined(CLA3P_INTEL_MKL)
 	int_t error = mkl::pardisoDriver(
     m_pt,
     m_maxfct,
@@ -414,13 +417,78 @@ void PardisoBase<T_Matrix>::callDriver(phase_t phase, int_t nrhs, T_Scalar *b, T
     x);
 
 	checkError(error);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
+}
+/*-------------------------------------------------*/
+static std::string pardisoGetErrorMsg(int_t error)
+{
+	std::string ret;
+
+	switch(error) {
+
+		case 0:
+			ret = "Success";
+			break;
+
+		case -1:
+			ret = "Input inconsistent";
+			break;
+
+		case -2:
+			ret = "Not enough memory";
+			break;
+
+		case -3:
+			ret = "Reordering problem";
+			break;
+
+		case -4:
+			ret = "Zero pivot, numerical factorization or iterative refinement problem";
+			break;
+
+		case -5:
+			ret = "Unclassified (internal) error";
+			break;
+
+		case -6:
+			ret = "Reordering failed";
+			break;
+
+		case -7:
+			ret = "Diagonal matrix is singular";
+			break;
+
+		case -8:
+			ret = "32-bit integer overflow problem";
+			break;
+
+		case -9:
+			ret = "Not enough memory for OOC";
+			break;
+
+		case -10:
+			ret = "Problems with opening OOC temporary files";
+			break;
+
+		case -11:
+			ret = "Read/write problems with the OOC data file";
+			break;
+
+		default:
+			ret = "Unknown Error";
+
+	} // error switch
+
+	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
 void PardisoBase<T_Matrix>::checkError(int_t error) const
 {
 	if(error != 0)
-		throw err::Exception(msg::PardisoError() + ": " + mkl::pardisoGetErrorMsg(error));
+		throw err::Exception(msg::PardisoError() + ": " + pardisoGetErrorMsg(error));
 }
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/

@@ -1,12 +1,18 @@
 #-----------------------------------------------
 # source setup
 #-----------------------------------------------
+if(DEFINED CLA3P_MKL_DEFAULT_DEFS)
+	set(CLA3P_MKL_SRC
+		proxies/mkl_proxy.cpp
+		proxies/mkl_sparse_proxy.cpp
+		proxies/mkl_pardiso_proxy.cpp
+		)
+endif()
+
 set(CLA3P_SRC ${CLA3P_SRC}
 	proxies/blas_proxy.cpp
 	proxies/lapack_proxy.cpp
-	proxies/mkl_proxy.cpp
-	proxies/mkl_sparse_proxy.cpp
-	proxies/mkl_pardiso_proxy.cpp
+	${CLA3P_MKL_SRC}
 	PARENT_SCOPE)
 
 set(CLA3P_PROXY_HPP 

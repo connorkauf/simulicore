@@ -71,7 +71,7 @@ All the above are supported by a wide range of **operators** for easy developmen
 # sample linux CMake setup
 #
 
-include(<simulicore_install>/3rd/mkl.lin.cmake)
+include(<simulicore_install>/cmake/3rd/mkl.lin.cmake)
 set(CLA3P_INC <simulicore_install>/include)
 set(CLA3P_LIB -L<simulicore_install>/lib -lcla3p)
 
@@ -152,7 +152,7 @@ You can find the latest **CLA3P** version documentation [here](https://connorkau
 <a name="third-party-dependencies"></a>
 ## Third-Party Dependencies
 
-**CLA3P** depends on [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations. See this [guide](https://github.com/connorkauf/simulicore/blob/stable-latest/3rd/mkl.md) about linking with **Intel&reg; MKL** library.
+**CLA3P** depends on [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations. See this [guide](https://github.com/connorkauf/simulicore/blob/stable-latest/cmake/3rd/mkl.md) about linking with **Intel&reg; MKL** library.
 
 Also, in the examples folder `<simulicore_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel&reg; MKL**.
 

@@ -48,12 +48,13 @@ add_library(${CLA3P_I64_LIB} SHARED ${CLA3P_SRC})
 #-----------------------------------------------
 # dependencies setup
 #-----------------------------------------------
-target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
-target_link_libraries(${CLA3P_LIB} ${CLA3P_3RD_PARTY_LIB})
+target_compile_definitions(${CLA3P_LIB} PRIVATE ${CLA3P_3RD_PARTY_DEF})
+target_compile_definitions(${CLA3P_I64_LIB} PRIVATE ${CLA3P_3RD_PARTY_I64_DEF})
 
-target_compile_definitions(${CLA3P_I64_LIB} PRIVATE CLA3P_I64)
-target_compile_definitions(${CLA3P_I64_LIB} PRIVATE MKL_ILP64)
+target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
 target_include_directories(${CLA3P_I64_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
+
+target_link_libraries(${CLA3P_LIB} ${CLA3P_3RD_PARTY_LIB})
 target_link_libraries(${CLA3P_I64_LIB} ${CLA3P_3RD_PARTY_I64_LIB})
 
 #-----------------------------------------------

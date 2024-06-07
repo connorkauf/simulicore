@@ -27,12 +27,12 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 3. Open file
    
    ```sh
-   <simulicore_root>/3rd/mkl.lin.cmake
+   <simulicore_root>/cmake/3rd/mkl.lin.cmake
    ```
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
    
-   For more information, check this [Intel&reg; MKL Linking Guide](3rd/mkl.md).
+   For more information, check this [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
    <a name="linux-cmake-config"></a>
 4. Choose a build directory `build_dir` and use cmake command to configure the project
@@ -67,12 +67,12 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 2. Open file
    
    ```sh
-   <simulicore_root>/3rd/mkl.win.cmake
+   <simulicore_root>/cmake/3rd/mkl.win.cmake
    ```
    
    and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
 
-   For more information, check this [Intel&reg; MKL Linking Guide](3rd/mkl.md).
+   For more information, check this [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
 3. Start Microsoft Visual Studio and open the `simulicore_root` directory.
 

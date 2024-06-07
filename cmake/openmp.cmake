@@ -1,0 +1,20 @@
+if(${SIMULICORE_CMAKE_MACOS})
+
+	if(DEFINED BREW_PREFIX_DIR)
+		set(MACOS_OMP_ROOT ${BREW_PREFIX_DIR}/opt/libomp)
+		set(MACOS_OMP_INC ${MACOS_OMP_ROOT}/include)
+		set(MACOS_OMP_LIB -L${MACOS_OMP_ROOT}/lib -lomp)
+		set(ENV{OpenMP_ROOT} ${MACOS_OMP_ROOT})
+	endif()
+
+endif()
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+	message(STATUS "Configuring OpenMP ${OpenMP_CXX_VERSION}...")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+else()
+	message(WARNING "OpenMP not found")
+endif()

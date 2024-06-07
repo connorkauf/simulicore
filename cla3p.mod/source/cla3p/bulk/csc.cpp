@@ -179,7 +179,7 @@ class RowValuePair {
 		T_Int    i;
 		T_Scalar v;
 
-		bool operator<(const RowValuePair<T_Int,T_Scalar>& other)
+		bool operator<(const RowValuePair<T_Int,T_Scalar>& other) const
 		{
 			return (i < other.i);
 		}

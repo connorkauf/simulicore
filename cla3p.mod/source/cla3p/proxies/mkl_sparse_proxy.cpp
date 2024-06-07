@@ -21,7 +21,7 @@
 #include <algorithm>
 
 // 3rd
-#include <mkl.h>
+#include <mkl_spblas.h>
 
 // cla3p
 #include "cla3p/bulk/dns.hpp"

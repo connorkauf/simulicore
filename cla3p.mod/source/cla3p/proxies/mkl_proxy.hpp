@@ -30,6 +30,11 @@ namespace mkl {
 
 std::string version();
 
+void* malloc(std::size_t size);
+void* calloc(std::size_t size, std::size_t nmemb);
+void* realloc(void *ptr, std::size_t nmemb);
+void free(void *ptr);
+
 #define omatcopy_macro(typeout, typein) \
 typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
 		const typein *a, bulk_t lda, \

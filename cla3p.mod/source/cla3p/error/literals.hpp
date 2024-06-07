@@ -33,6 +33,8 @@ namespace msg {
 std::string IndexOutOfBounds(uint_t m, uint_t n, uint_t i, uint_t j);
 std::string IndexOutOfBounds(uint_t n, uint_t i);
 
+std::string MissingIntelMKL();
+
 std::string Success();
 std::string InvalidDimensions();
 std::string InvalidPointer();

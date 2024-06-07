@@ -30,10 +30,17 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 #if defined (CLA3P_I64)
+#if defined (SIMULICORE_MACOS)
+#define _DFMT_ "ld"
+#define _UFMT_ "lu"
+using int_t = long int;
+using uint_t = unsigned long int;
+#else
 #define _DFMT_ "lld"
 #define _UFMT_ "llu"
 using int_t = long long int;
 using uint_t = unsigned long long int;
+#endif
 #else
 #define _DFMT_ "d"
 #define _UFMT_ "u"

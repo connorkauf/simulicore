@@ -21,8 +21,6 @@
  * @file
  */
 
-#include <string>
-
 #include "cla3p/types.hpp"
 
 /*-------------------------------------------------*/
@@ -46,8 +44,6 @@ int_t pardisoDriver(
 		int_t msglvl, 
 		void *b,
 		void *x);
-
-std::string pardisoGetErrorMsg(int_t error);
 
 /*-------------------------------------------------*/
 } // namespace mkl

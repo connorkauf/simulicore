@@ -60,7 +60,7 @@ In the installation directory you will find the following folders:
 ```
 <simulicore_install>/include : the SimuliCore include directory
 <simulicore_install>/lib     : the SimuliCore library directory
-<simulicore_install>/3rd     : directory containing the 3rd party library configurations
+<simulicore_install>/cmake   : directory containing the build & 3rd party cmake configurations
 <simulicore_install>/examples: the SimuliCore examples directory
 <simulicore_install>/license : licensing related documents
 ```

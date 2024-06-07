@@ -22,7 +22,11 @@
 // 3rd
 
 // cla3p
+#include "cla3p/error/exceptions.hpp"
+#include "cla3p/error/literals.hpp"
+#if defined(CLA3P_INTEL_MKL)
 #include "cla3p/proxies/mkl_sparse_proxy.hpp"
+#endif
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -35,10 +39,14 @@ void add(uint_t m, uint_t n, T_Scalar alpha,
 		const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
 		int_t **colptrC, int_t **rowidxC, T_Scalar **valuesC)
 {
+#if defined(CLA3P_INTEL_MKL)
 	mkl::csc_add(m, n, alpha,
 			colptrA, rowidxA, valuesA,
 			colptrB, rowidxB, valuesB,
 			colptrC, rowidxC, valuesC);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_add(T_Scl) \
@@ -57,8 +65,12 @@ void gem_x_vec(op_t opA, uint_t m, uint_t n, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y)
 {
+#if defined(CLA3P_INTEL_MKL)
 	Property pr = Property::General();
 	mkl::csc_mv(pr.type(), pr.uplo(), m, n, alpha, opA, colptr, rowidx, values, x, beta, y);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_gem_x_vec(T_Scl) \
@@ -76,8 +88,12 @@ void sym_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y)
 {
+#if defined(CLA3P_INTEL_MKL)
 	Property pr = Property(prop_t::Symmetric, uplo);
 	mkl::csc_mv(pr.type(), pr.uplo(), n, n, alpha, op_t::N, colptr, rowidx, values, x, beta, y);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_sym_x_vec(T_Scl) \
@@ -95,8 +111,12 @@ void hem_x_vec(uplo_t uplo, uint_t n, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *x, T_Scalar beta, T_Scalar *y)
 {
+#if defined(CLA3P_INTEL_MKL)
 	Property pr = sanitizeProperty<T_Scalar>(Property(prop_t::Hermitian, uplo));
 	mkl::csc_mv(pr.type(), pr.uplo(), n, n, alpha, op_t::N, colptr, rowidx, values, x, beta, y);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_hem_x_vec(T_Scl) \
@@ -114,10 +134,14 @@ void gem_x_gem(op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *b, uint_t ldb, T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
+#if defined(CLA3P_INTEL_MKL)
 	uint_t mA = (opA == op_t::N ? m : k);
 	uint_t nA = (opA == op_t::N ? k : m);
 	Property pr = Property::General();
 	mkl::csc_mm(pr.type(), pr.uplo(), mA, nA, alpha, opA, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_gem_x_gem(T_Scl) \
@@ -135,8 +159,12 @@ void sym_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *b, uint_t ldb, T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
+#if defined(CLA3P_INTEL_MKL)
 	Property pr = Property(prop_t::Symmetric, uplo);
 	mkl::csc_mm(pr.type(), pr.uplo(), m, m, alpha, op_t::N, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_sym_x_gem(T_Scl) \
@@ -154,8 +182,12 @@ void hem_x_gem(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha,
 		const int_t *colptr, const int_t *rowidx, const T_Scalar *values,
 		const T_Scalar *b, uint_t ldb, T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
+#if defined(CLA3P_INTEL_MKL)
 	Property pr = sanitizeProperty<T_Scalar>(Property(prop_t::Hermitian, uplo));
 	mkl::csc_mm(pr.type(), pr.uplo(), m, m, alpha, op_t::N, colptr, rowidx, values, n, b, ldb, beta, c, ldc);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_hem_x_gem(T_Scl) \
@@ -174,6 +206,7 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 		op_t opB, const int_t *colptrB, const int_t *rowidxB, const T_Scalar *valuesB,
 		T_Scalar beta, T_Scalar *c, uint_t ldc)
 {
+#if defined(CLA3P_INTEL_MKL)
 	uint_t mA = (opA == op_t::N ? m : k);
 	uint_t nA = (opA == op_t::N ? k : m);
 	uint_t mB = (opB == op_t::N ? k : n);
@@ -183,6 +216,9 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k, T_Scalar alpha,
 			opA, mA, nA, colptrA, rowidxA, valuesA,
 			opB, mB, nB, colptrB, rowidxB, valuesB,
 			beta, c, ldc);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_gem_x_gem(T_Scl) \
@@ -207,10 +243,14 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k,
 	uint_t mB = (opB == op_t::N ? k : n);
 	uint_t nB = (opB == op_t::N ? n : k);
 
+#if defined(CLA3P_INTEL_MKL)
 	mkl::csc_sp2m(
 			opA, mA, nA, colptrA, rowidxA, valuesA,
 			opB, mB, nB, colptrB, rowidxB, valuesB,
 			colptrC, rowidxC, valuesC);
+#else
+	throw err::InvalidOp(msg::MissingIntelMKL());
+#endif
 }
 /*-------------------------------------------------*/
 #define instantiate_gem_x_gem(T_Scl) \

@@ -6,14 +6,14 @@ Before compiling **SimuliCore** you need to edit file `mkl.lin.cmake` and/or `mk
 
 In these files, a standard setup of custom CMake variables is performed in order to make the compilation and linking process easier. The default configuration is dynamic linking using **Intel&reg; openMP** as threading layer. You can edit these files to create your own configuration if, for example, you want to link statically with **Intel&reg; MKL** libraries, or to use **GNU openMP** instead of **Intel&reg; openMP**. Consider visiting [**Intel&reg; MKL Link Line Advisor**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html) for creating the setup that fits your needs.
 
-After **SimuliCore** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<simulicore_install>/3rd` directory. You can use these configuration files to build your own project using CMake.  
+After **SimuliCore** is installed, a copy of the edited files `mkl.lin.cmake` and `mkl.win.cmake` will be available in the `<simulicore_install>/cmake/3rd` directory. You can use these configuration files to build your own project using CMake.  
 
 In order to generate the MKL CMake variables you can just include the appropriate file in your CMakeLists.txt
 ```cmake
 if(WIN32)
-  include(<simulicore_install>/3rd/mkl.win.cmake)
+  include(<simulicore_install>/cmake/3rd/mkl.win.cmake)
 else()
-  include(<simulicore_install>/3rd/mkl.lin.cmake)
+  include(<simulicore_install>/cmake/3rd/mkl.lin.cmake)
 endif()
 
 message(STATUS "IntelMKL include dir: ${MKL_INC}")

@@ -18,18 +18,19 @@
 #include "cla3p/support/imalloc.hpp"
 
 // system
+#include <cstdlib>
 
 // 3rd
-#include <mkl_service.h>
 
 // cla3p
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/support/utils.hpp"
+#if defined(CLA3P_INTEL_MKL)
+#include "cla3p/proxies/mkl_proxy.hpp"
+#endif
 
 /*-------------------------------------------------*/
 namespace cla3p {
-/*-------------------------------------------------*/
-#define MKL_ALLOC_ALIGNMENT 64
 /*-------------------------------------------------*/
 static void check_allocation(const void *ptr, bulk_t nmemb, bulk_t size)
 {
@@ -45,7 +46,11 @@ void* i2malloc(bulk_t size)
 
 	if(!size) return ret;
 
-	ret = mkl_malloc(size, MKL_ALLOC_ALIGNMENT);
+#if defined(CLA3P_INTEL_MKL)
+	ret = mkl::malloc(size);
+#else
+	ret = std::malloc(size);
+#endif
 
 	check_allocation(ret, 1, size);
 
@@ -58,7 +63,11 @@ void* i2calloc(bulk_t nmemb, bulk_t size)
 
 	if(!nmemb || !size) return ret;
 
-	ret = mkl_calloc(nmemb, size, MKL_ALLOC_ALIGNMENT);
+#if defined(CLA3P_INTEL_MKL)
+	ret = mkl::calloc(nmemb, size);
+#else
+	ret = std::calloc(nmemb, size);
+#endif
 
 	check_allocation(ret, nmemb, size);
 
@@ -74,7 +83,11 @@ void* i2realloc(void *ptr, bulk_t size)
 		return ret;
 	} // empty allocation
 
-	ret = mkl_realloc(ptr, size);
+#if defined(CLA3P_INTEL_MKL)
+	ret = mkl::realloc(ptr, size);
+#else
+	ret = std::realloc(ptr, size);
+#endif
 
 	check_allocation(ret, 1, size);
 
@@ -84,11 +97,13 @@ void* i2realloc(void *ptr, bulk_t size)
 void i_free(void *ptr)
 {
 	if(ptr) {
-		mkl_free(ptr);
+#if defined(CLA3P_INTEL_MKL)
+		mkl::free(ptr);
+#else
+		std::free(ptr);
+#endif
 	} // ptr
 }
-/*-------------------------------------------------*/
-#undef MKL_ALLOC_ALIGNMENT
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/

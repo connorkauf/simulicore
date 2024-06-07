@@ -1,35 +1,63 @@
 #-----------------------------------------------
 # set openmp
 #-----------------------------------------------
-find_package(OpenMP)
-if (OPENMP_FOUND)
-  message(STATUS "Configuring OpenMP ${OpenMP_CXX_VERSION}...")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-else()
-  message(WARNING "OpenMP not found")
-endif()
+include(${SIMULICORE_ROOT}/cmake/openmp.cmake)
 
 #-----------------------------------------------
 # set 3rd parties
 #-----------------------------------------------
 
+set(CLA3P_3RD_PARTY_DEF)
+set(CLA3P_3RD_PARTY_I64_DEF CLA3P_I64)
 set(CLA3P_3RD_PARTY_INC)
 set(CLA3P_3RD_PARTY_LIB)
 set(CLA3P_3RD_PARTY_I64_LIB)
 
-# mkl setup
-add_definitions(-DMKL_Complex8=std::complex<float>)
-add_definitions(-DMKL_Complex16=std::complex<double>)
-if(LINUX)
-	include(${SIMULICORE_ROOT}/3rd/mkl.lin.cmake)
-elseif(WIN32)
-	include(${SIMULICORE_ROOT}/3rd/mkl.win.cmake)
+# 
+# accelerate setup
+#
+if(${SIMULICORE_CMAKE_MACOS})
+
+	# definitions
+	set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ACCELERATE_NEW_LAPACK)
+	set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ACCELERATE_NEW_LAPACK ACCELERATE_LAPACK_ILP64)
+
+	# includes
+	set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MACOS_OMP_INC})
+
+	# libraries
+	set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MACOS_OMP_LIB} "-framework Accelerate")
+	set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${MACOS_OMP_LIB} "-framework Accelerate")
+
 endif()
-set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MKL_INC})
-set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MKL_LIB})
-set(CLA3P_3RD_PARTY_I64_LIB  ${CLA3P_3RD_PARTY_I64_LIB} ${MKL_I64_LIB})
+
+# 
+# mkl setup
+#
+if(${SIMULICORE_CMAKE_LINUX_X86_64} OR ${SIMULICORE_CMAKE_WIN32_X86_64})
+
+	if(${SIMULICORE_CMAKE_LINUX_X86_64})
+		include(${SIMULICORE_ROOT}/cmake/3rd/mkl.lin.cmake)
+	elseif(${SIMULICORE_CMAKE_WIN32_X86_64})
+		include(${SIMULICORE_ROOT}/cmake/3rd/mkl.win.cmake)
+	endif()
+
+	message(STATUS "Intel MKL ROOT: ${MKL_ROOT}")
+	message(STATUS "Intel ICC ROOT: ${ICC_ROOT}")
+
+	# definitions
+	set(CLA3P_MKL_DEFAULT_DEFS CLA3P_INTEL_MKL MKL_Complex8=std::complex<float> MKL_Complex16=std::complex<double>)
+	set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ${CLA3P_MKL_DEFAULT_DEFS})
+	set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ${CLA3P_MKL_DEFAULT_DEFS} MKL_ILP64)
+
+	# includes
+	set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MKL_INC})
+
+	# libraries
+	set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MKL_LIB})
+	set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${MKL_I64_LIB})
+
+endif()
 
 #-----------------------------------------------
 # sub-directory setup

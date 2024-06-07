@@ -49,6 +49,11 @@ std::string Success()
 	return "Success";
 }
 /*-------------------------------------------------*/
+std::string MissingIntelMKL()
+{
+	return "Intel(R) MKL missing";
+}
+/*-------------------------------------------------*/
 std::string InvalidDimensions()
 { 
 	return "Invalid/mismatching dimension(s)";

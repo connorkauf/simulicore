@@ -27,7 +27,9 @@
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/proxies/blas_proxy.hpp"
+#if defined(CLA3P_INTEL_MKL)
 #include "cla3p/proxies/mkl_proxy.hpp"
+#endif
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -61,6 +63,7 @@ void add(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha, const T_Scalar *a, uin
 		return;
 	} // alpha = 0 & beta = 0
 
+#if defined(CLA3P_INTEL_MKL)
 	if(uplo == uplo_t::Full) {
 		mkl::omatadd('C', 'N', 'N', m, n, alpha, a, lda, beta, b, ldb, c, ldc);
 	} else {
@@ -68,6 +71,11 @@ void add(uplo_t uplo, uint_t m, uint_t n, T_Scalar alpha, const T_Scalar *a, uin
 		update(uplo, m, n, alpha, a, lda, c, ldc);
 		update(uplo, m, n, beta , b, ldb, c, ldc);
 	} // uplo
+#else
+	zero(uplo, m, n, c, ldc);
+	update(uplo, m, n, alpha, a, lda, c, ldc);
+	update(uplo, m, n, beta , b, ldb, c, ldc);
+#endif
 }
 /*-------------------------------------------------*/
 template void add(uplo_t, uint_t, uint_t, real_t    , const real_t    *, uint_t, real_t    , const real_t    *, uint_t, real_t    *, uint_t);

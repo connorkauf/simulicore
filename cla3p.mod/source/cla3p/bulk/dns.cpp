@@ -27,12 +27,14 @@
 
 #include "cla3p/proxies/blas_proxy.hpp"
 #include "cla3p/proxies/lapack_proxy.hpp"
-#include "cla3p/proxies/mkl_proxy.hpp"
 #include "cla3p/error/exceptions.hpp"
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/support/imalloc.hpp"
 #include "cla3p/checks/basic_checks.hpp"
+#if defined(CLA3P_INTEL_MKL)
+#include "cla3p/proxies/mkl_proxy.hpp"
+#endif
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -141,6 +143,18 @@ template void rand(uplo_t, uint_t, uint_t, complex8_t*, uint_t, real4_t, real4_t
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+static void copy_lapack_no_mkl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+{
+	int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
+
+	if(info) {
+		throw err::Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
+	} // info
+
+	scale(uplo, m, n, b, ldb, coeff);
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 static void copy_lapack(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
@@ -150,15 +164,14 @@ static void copy_lapack(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint
 		return;
 	} // coeff = 0
 
-	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
+	if(uplo == uplo_t::Full)
 		mkl::omatcopy('C', 'N', m, n, coeff, a, lda, b, ldb);
-	} else {
-		int_t info = lapack::lacpy(static_cast<char>(uplo), m, n, a, lda, b, ldb);
-		if(info) {
-			throw err::Exception(msg::LapackError() + " (info:" + std::to_string(info) + ")");
-		} // info
-		scale(uplo, m, n, b, ldb, coeff);
-	} // uplo
+	else
+		copy_lapack_no_mkl(uplo, m, n, a, lda, b, ldb, coeff);
+#else
+	copy_lapack_no_mkl(uplo, m, n, a, lda, b, ldb, coeff);
+#endif
 }
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -193,98 +206,149 @@ template <> void copy(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void get_real(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
-		typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
+static void get_real_no_mkl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
+{
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		if(ir.ilen) {
+			blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
+		} // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void get_real(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
+	if(uplo == uplo_t::Full)
 		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const T_RScalar*>(a), 2 * lda, 2, b, ldb, 1);
-	} else {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)), 2, ptrmv(ldb,b,ir.ibgn,j), 1);
-			} // ilen
-		} // j
-	}
+	else
+		get_real_no_mkl(uplo, m, n, a, lda, b, ldb);
+#else
+	get_real_no_mkl(uplo, m, n, a, lda, b, ldb);
+#endif
 }
 /*-------------------------------------------------*/
 template void get_real(uplo_t, uint_t, uint_t, const complex_t *, uint_t, real_t *, uint_t);
 template void get_real(uplo_t, uint_t, uint_t, const complex8_t*, uint_t, real4_t*, uint_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void set_real(uplo_t uplo, uint_t m, uint_t n, 
-		const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
+static void set_real_no_mkl(uplo_t uplo, uint_t m, uint_t n, const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
+{
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		if(ir.ilen) {
+			blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
+		} // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void set_real(uplo_t uplo, uint_t m, uint_t n, const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
+	if(uplo == uplo_t::Full)
 		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<T_RScalar*>(b), 2 * ldb, 2);
-	} else {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			if(ir.ilen) {
-				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)), 2);
-			} // ilen
-		} // j
-	}
+	else
+		set_real_no_mkl(uplo, m, n, a, lda, b, ldb);
+#else
+	set_real_no_mkl(uplo, m, n, a, lda, b, ldb);
+#endif
 }
 /*-------------------------------------------------*/
 template void set_real(uplo_t, uint_t, uint_t, const real_t *, uint_t, complex_t *, uint_t);
 template void set_real(uplo_t, uint_t, uint_t, const real4_t*, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void get_imag(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, 
-		typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
+static void get_imag_no_mkl(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
+{
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		if(ir.ilen) {
+			blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
+		} // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void get_imag(uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, uint_t lda, typename TypeTraits<T_Scalar>::real_type *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
+	if(uplo == uplo_t::Full)
 		mkl::omatcopy('C', 'N', m, n, 1, reinterpret_cast<const T_RScalar*>(a) + 1, 2 * lda, 2, b, ldb, 1);
-	} else {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			if(ir.ilen) {
-				blas::copy(ir.ilen, reinterpret_cast<const T_RScalar*>(ptrmv(lda,a,ir.ibgn,j)) + 1, 2, ptrmv(ldb,b,ir.ibgn,j), 1);
-			} // ilen
-		} // j
-	}
+	else
+		get_imag_no_mkl(uplo, m, n, a, lda, b, ldb);
+#else
+	get_imag_no_mkl(uplo, m, n, a, lda, b, ldb);
+#endif
 }
 /*-------------------------------------------------*/
 template void get_imag(uplo_t, uint_t, uint_t, const complex_t *, uint_t, real_t *, uint_t);
 template void get_imag(uplo_t, uint_t, uint_t, const complex8_t*, uint_t, real4_t*, uint_t);
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-void set_imag(uplo_t uplo, uint_t m, uint_t n, 
-		const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
+static void set_imag_no_mkl(uplo_t uplo, uint_t m, uint_t n, const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
+{
+	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
+
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		if(ir.ilen) {
+			blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
+		} // ilen
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+void set_imag(uplo_t uplo, uint_t m, uint_t n, const typename TypeTraits<T_Scalar>::real_type *a, uint_t lda, T_Scalar *b, uint_t ldb)
 {
 	using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 
 	if(!m || !n) return;
 
-	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
+	if(uplo == uplo_t::Full)
 		mkl::omatcopy('C', 'N', m, n, 1, a, lda, 1, reinterpret_cast<T_RScalar*>(b) + 1, 2 * ldb, 2);
-	} else {
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, m, j);
-			if(ir.ilen) {
-				blas::copy(ir.ilen, ptrmv(lda,a,ir.ibgn,j), 1, reinterpret_cast<T_RScalar*>(ptrmv(ldb,b,ir.ibgn,j)) + 1, 2);
-			} // ilen
-		} // j
-	}
+	else
+		set_imag_no_mkl(uplo, m, n, a, lda, b, ldb);
+#else
+	set_imag_no_mkl(uplo, m, n, a, lda, b, ldb);
+#endif
 }
 /*-------------------------------------------------*/
 template void set_imag(uplo_t, uint_t, uint_t, const real_t *, uint_t, complex_t *, uint_t);
 template void set_imag(uplo_t, uint_t, uint_t, const real4_t*, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static void scale_no_mkl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+{
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, m, j);
+		if(ir.ilen) {
+			blas::scal(ir.ilen, coeff, ptrmv(lda,a,ir.ibgn,j), 1);
+		} // ilen
+	} // j
+}
 /*-------------------------------------------------*/
 template<typename T_Scalar>
 static void recursive_scale(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
@@ -293,12 +357,7 @@ static void recursive_scale(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Sc
 
 	if(n < recursive_min_dim()) {
 
-		for(uint_t j = 0; j < n; j++) {
-			RowRange ir = irange(uplo, n, j);
-			if(ir.ilen) {
-				blas::scal(ir.ilen, coeff, ptrmv(lda,a,ir.ibgn,j), 1);
-			} // ilen
-		} // j
+		scale_no_mkl(uplo, n, n, a, lda, coeff);
 
 	} else {
 
@@ -340,7 +399,11 @@ void scale(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar co
 
 		} else {
 
+#if defined(CLA3P_INTEL_MKL)
 			mkl::imatcopy('C', 'N', m, n, coeff, a, lda, lda);
+#else
+			scale_no_mkl(uplo, m, n, a, lda, coeff);
+#endif
 
 		} // single dim check
 
@@ -364,6 +427,17 @@ template void scale(uplo_t, uint_t, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 template <typename T_Scalar>
+static void transpose_no_mkl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+{
+	// TODO: more efficiently
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			entry(ldb,b,j,i) = coeff * entry(lda,a,i,j);
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
+template <typename T_Scalar>
 void transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
 {
 	if(!m || !n) return;
@@ -373,7 +447,11 @@ void transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, u
 		return;
 	} // coeff = 0
 
+#if defined(CLA3P_INTEL_MKL)
 	mkl::omatcopy('C', 'T', m, n, coeff, a, lda, b, ldb);
+#else
+	transpose_no_mkl(m, n, a, lda, b, ldb, coeff);
+#endif
 }
 /*-------------------------------------------------*/
 template void transpose(uint_t, uint_t, const real_t    *, uint_t, real_t    *, uint_t, real_t    );
@@ -382,6 +460,17 @@ template void transpose(uint_t, uint_t, const complex_t *, uint_t, complex_t *, 
 template void transpose(uint_t, uint_t, const complex8_t*, uint_t, complex8_t*, uint_t, complex8_t);
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static void conjugate_transpose_no_mkl(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
+{
+	// TODO: more efficiently
+	for(uint_t j = 0; j < n; j++) {
+		for(uint_t i = 0; i < m; i++) {
+			entry(ldb,b,j,i) = coeff * arith::conj(entry(lda,a,i,j));
+		} // i
+	} // j
+}
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void conjugate_transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Scalar *b, uint_t ldb, T_Scalar coeff)
@@ -393,7 +482,11 @@ void conjugate_transpose(uint_t m, uint_t n, const T_Scalar *a, uint_t lda, T_Sc
 		return;
 	} // coeff = 0
 
+#if defined(CLA3P_INTEL_MKL)
 	mkl::omatcopy('C', 'C', m, n, coeff, a, lda, b, ldb);
+#else
+	conjugate_transpose_no_mkl(m, n, a, lda, b, ldb, coeff);
+#endif
 }
 /*-------------------------------------------------*/
 template void conjugate_transpose(uint_t, uint_t, const real_t    *, uint_t, real_t    *, uint_t, real_t    );
@@ -403,6 +496,17 @@ template void conjugate_transpose(uint_t, uint_t, const complex8_t*, uint_t, com
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
+template <typename T_Scalar>
+static void conjugate_no_mkl(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
+{
+	for(uint_t j = 0; j < n; j++) {
+		RowRange ir = irange(uplo, n, j);
+		for(uint_t i = ir.ibgn; i < ir.iend; i++) {
+			entry(lda,a,i,j) = coeff * arith::conj(entry(lda,a,i,j));
+		} // i
+	} // j
+}
+/*-------------------------------------------------*/
 template<typename T_Scalar>
 static void recursive_conjugate(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, T_Scalar coeff)
 {
@@ -410,12 +514,16 @@ static void recursive_conjugate(uplo_t uplo, uint_t n, T_Scalar *a, uint_t lda, 
 
 	if(n < recursive_min_dim()) {
 
+#if defined(CLA3P_INTEL_MKL)
 		for(uint_t j = 0; j < n; j++) {
 			RowRange ir = irange(uplo, n, j);
 			if(ir.ilen) {
 				mkl::imatcopy('C', 'R', ir.ilen, 1, coeff, ptrmv(lda,a,ir.ibgn,j), lda, lda);
 			} // ilen
 		} // j
+#else
+		conjugate_no_mkl(uplo, n, n, a, lda, coeff);
+#endif
 
 	} else {
 
@@ -445,7 +553,11 @@ void conjugate(uplo_t uplo, uint_t m, uint_t n, T_Scalar *a, uint_t lda, T_Scala
 	} // coeff = 0
 
 	if(uplo == uplo_t::Full) {
+#if defined(CLA3P_INTEL_MKL)
 		mkl::imatcopy('C', 'R', m, n, coeff, a, lda, lda);
+#else
+		conjugate_no_mkl(uplo, m, n, a, lda, coeff);
+#endif
 	} else {
 		uint_t k = std::min(m,n);
 		recursive_conjugate(uplo, k, a, lda, coeff);

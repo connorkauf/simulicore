@@ -38,14 +38,6 @@ iamax_macro(complex_t);
 iamax_macro(complex8_t);
 #undef iamax_macro
 
-#define iamin_macro(typein) \
-int_t iamin(int_t n, const typein *x, int_t incx)
-iamin_macro(real_t);
-iamin_macro(real4_t);
-iamin_macro(complex_t);
-iamin_macro(complex8_t);
-#undef iamin_macro
-
 #define asum_macro(typein) \
 TypeTraits<typein>::real_type asum(int_t n, const typein *x, int_t incx)
 asum_macro(real_t);

@@ -20,7 +20,7 @@
 // system
 
 // 3rd
-#include <mkl.h>
+#include <mkl_pardiso.h>
 
 // cla3p
 
@@ -52,68 +52,6 @@ int_t pardisoDriver(
 			&msglvl, b, x, &error);
 
 	return error;
-}
-/*-------------------------------------------------*/
-std::string pardisoGetErrorMsg(int_t error)
-{
-	std::string ret;
-
-	switch(error) {
-
-		case 0:
-			ret = "Success";
-			break;
-
-		case -1:
-			ret = "Input inconsistent";
-			break;
-
-		case -2:
-			ret = "Not enough memory";
-			break;
-
-		case -3:
-			ret = "Reordering problem";
-			break;
-
-		case -4:
-			ret = "Zero pivot, numerical factorization or iterative refinement problem";
-			break;
-
-		case -5:
-			ret = "Unclassified (internal) error";
-			break;
-
-		case -6:
-			ret = "Reordering failed";
-			break;
-
-		case -7:
-			ret = "Diagonal matrix is singular";
-			break;
-
-		case -8:
-			ret = "32-bit integer overflow problem";
-			break;
-
-		case -9:
-			ret = "Not enough memory for OOC";
-			break;
-
-		case -10:
-			ret = "Problems with opening OOC temporary files";
-			break;
-
-		case -11:
-			ret = "Read/write problems with the OOC data file";
-			break;
-
-		default:
-			ret = "Unknown Error";
-
-	} // error switch
-
-	return ret;
 }
 /*-------------------------------------------------*/
 } // namespace mkl

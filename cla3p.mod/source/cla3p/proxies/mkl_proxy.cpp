@@ -36,6 +36,30 @@ std::string version()
 	return buffer;
 }
 /*-------------------------------------------------*/
+#define MKL_ALLOC_ALIGNMENT 64
+/*-------------------------------------------------*/
+void* malloc(std::size_t size)
+{
+	return mkl_malloc(size, MKL_ALLOC_ALIGNMENT);
+}
+/*-------------------------------------------------*/
+void* calloc(std::size_t size, std::size_t nmemb)
+{
+	return mkl_calloc(size, nmemb, MKL_ALLOC_ALIGNMENT);
+}
+/*-------------------------------------------------*/
+#undef MKL_ALLOC_ALIGNMENT
+/*-------------------------------------------------*/
+void* realloc(void *ptr, std::size_t nmemb)
+{
+	return mkl_realloc(ptr, nmemb);
+}
+/*-------------------------------------------------*/
+void free(void *ptr)
+{
+	mkl_free(ptr);
+}
+/*-------------------------------------------------*/
 #define omatcopy_macro(typeout, typein, prefix) \
 typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
 		const typein *a, bulk_t lda, \
