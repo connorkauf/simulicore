@@ -2,6 +2,7 @@ set(CONFIG_3RD
 	mkl.md
 	mkl.lin.cmake
 	mkl.win.cmake
+	armpl.mac.cmake
 	)
 
 #-----------------------------------------------

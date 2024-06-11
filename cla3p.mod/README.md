@@ -68,7 +68,7 @@ All the above are supported by a wide range of **operators** for easy developmen
 
 ```cmake
 #
-# sample linux CMake setup
+# sample linux x86_64 CMake setup
 #
 
 include(<simulicore_install>/cmake/3rd/mkl.lin.cmake)
@@ -77,7 +77,7 @@ set(CLA3P_LIB -L<simulicore_install>/lib -lcla3p)
 
 add_executable(<target> main.cpp)
 target_include_directories(<target> PRIVATE ${CLA3P_INC})
-target_link_libraries(<target> ${CLA3P_LIB} ${MKL_LIB})
+target_link_libraries(<target> ${CLA3P_LIB} ${INTEL_MKL_LIB})
 ```
 See section [Third-Party Dependencies](#third-party-dependencies) for more information.
 
@@ -152,9 +152,14 @@ You can find the latest **CLA3P** version documentation [here](https://connorkau
 <a name="third-party-dependencies"></a>
 ## Third-Party Dependencies
 
-**CLA3P** depends on [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) in order to accelerate calculations. See this [guide](https://github.com/connorkauf/simulicore/blob/stable-latest/cmake/3rd/mkl.md) about linking with **Intel&reg; MKL** library.
+In order to accelerate calculations **CLA3P** depends on
+  * [**Intel&reg; Math Kernel Library**](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) for Linux/Windows x86_64.
+  * [**Arm Performance Libraries**](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries) for MacOS arm64.
 
-Also, in the examples folder `<simulicore_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P** and **Intel&reg; MKL**.
+See this [guide](https://github.com/connorkauf/simulicore/blob/stable-latest/cmake/3rd/mkl.md) about linking with **Intel&reg; MKL**.  
+See this [guide](https://github.com/connorkauf/simulicore/blob/stable-latest/cmake/3rd/armpl.md) about linking with **Arm Performance Libraries**.
+
+Also, in the examples folder `<simulicore_install>/examples/cla3p` you can find examples on how to compile your own project using **CLA3P**.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -166,8 +171,8 @@ Also, in the examples folder `<simulicore_install>/examples/cla3p` you can find 
 
 Folder `<simulicore_install>/examples/cla3p` contains numerus examples describing the basics of **CLA3P**.  
 
-### Building examples on linux
-From a linux terminal:
+### Building examples on Linux/MacOS
+From a terminal:
 ```sh
 cd <simulicore_install>/examples/cla3p
 ./example_builder.sh
@@ -178,7 +183,7 @@ Select an example `ex<number>_<description>.sh` and run it:
 ./i32/bin/ex01a_dense_vector_create.sh
 ```
 
-### Building examples on windows
+### Building examples on Windows
 Open directory `<simulicore_install>/examples/cla3p` in Visual Studio and compile.  
 Set the CMake variable `-DCLA3P_EXAMPLES_I64=true` to build examples using the 64bit integer interface.  
 All example executables are located in the `ixx/bin` directory. ixx is either i32 or i64 depending on the integer interface selected.  

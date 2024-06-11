@@ -1,20 +1,36 @@
-set(MKL_ROOT "C:/Program Files (x86)/Intel/oneAPI/mkl/2023.2.0")
-set(ICC_ROOT "C:/Program Files (x86)/Intel/oneAPI/compiler/2023.2.0")
+set(INTEL_MKL_ROOT "C:/Program Files (x86)/Intel/oneAPI/mkl/2023.2.0")
+set(INTEL_ICC_ROOT "C:/Program Files (x86)/Intel/oneAPI/compiler/2023.2.0")
 
-set(MKL_INC "${MKL_ROOT}/include")
-set(MKL_LIB_DIR "${MKL_ROOT}/lib/intel64")
-set(MKL_DLL_DIR "${MKL_ROOT}/redist/intel64")
-set(ICC_LIB_DIR "${ICC_ROOT}/windows/compiler/lib/intel64_win")
-set(ICC_DLL_DIR "${ICC_ROOT}/windows/redist/intel64_win/compiler")
+#
+# definitions
+#
+set(INTEL_MKL_DEF MKL_Complex8=std::complex<float> MKL_Complex16=std::complex<double>)
+set(INTEL_MKL_I64_DEF MKL_Complex8=std::complex<float> MKL_Complex16=std::complex<double> MKL_ILP64)
 
-set(MKL_LIB 
-	${MKL_LIB_DIR}/mkl_intel_lp64_dll.lib 
-	${MKL_LIB_DIR}/mkl_intel_thread_dll.lib 
-	${MKL_LIB_DIR}/mkl_core_dll.lib 
-	${ICC_LIB_DIR}/libiomp5md.lib)
+#
+# include
+#
+set(INTEL_MKL_INC ${INTEL_MKL_ROOT}/include)
 
-set(MKL_I64_LIB 
-	${MKL_LIB_DIR}/mkl_intel_ilp64_dll.lib 
-	${MKL_LIB_DIR}/mkl_intel_thread_dll.lib 
-	${MKL_LIB_DIR}/mkl_core_dll.lib 
-	${ICC_LIB_DIR}/libiomp5md.lib)
+#
+# library paths
+#
+set(INTEL_MKL_LIB_DIR ${INTEL_MKL_ROOT}/lib/intel64)
+set(INTEL_MKL_DLL_DIR ${INTEL_MKL_ROOT}/redist/intel64)
+set(INTEL_ICC_LIB_DIR ${INTEL_ICC_ROOT}/windows/compiler/lib/intel64_win)
+set(INTEL_ICC_DLL_DIR ${INTEL_ICC_ROOT}/windows/redist/intel64_win/compiler)
+
+#
+# libraries
+#
+set(INTEL_MKL_LIB 
+	${INTEL_MKL_LIB_DIR}/mkl_intel_lp64_dll.lib 
+	${INTEL_MKL_LIB_DIR}/mkl_intel_thread_dll.lib 
+	${INTEL_MKL_LIB_DIR}/mkl_core_dll.lib 
+	${INTEL_ICC_LIB_DIR}/libiomp5md.lib)
+
+set(INTEL_MKL_I64_LIB 
+	${INTEL_MKL_LIB_DIR}/mkl_intel_ilp64_dll.lib 
+	${INTEL_MKL_LIB_DIR}/mkl_intel_thread_dll.lib 
+	${INTEL_MKL_LIB_DIR}/mkl_core_dll.lib 
+	${INTEL_ICC_LIB_DIR}/libiomp5md.lib)

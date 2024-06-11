@@ -6,7 +6,8 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 1. [Linux installation](#linux-installation)
 2. [Windows installation](#windows-installation)
-3. [Extra configuration arguments](#extra-configuration-arguments)
+3. [MacOs installation](#macos-installation)
+4. [Extra configuration arguments](#extra-configuration-arguments)
 
 
 
@@ -24,13 +25,13 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
    
    For the purposes of this document, the top directory is marked as `<simulicore_root>`.
 
-3. Open file
+3. For x86_64 architectures open file
    
    ```sh
    <simulicore_root>/cmake/3rd/mkl.lin.cmake
    ```
    
-   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
+   and set paths `INTEL_MKL_ROOT` and `INTEL_ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
    
    For more information, check this [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
@@ -64,13 +65,13 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
    
    For the purposes of this document, the top directory is marked as `<simulicore_root>`.
 
-2. Open file
+2. For x86_64 architectures open file
    
    ```sh
    <simulicore_root>/cmake/3rd/mkl.win.cmake
    ```
    
-   and set paths `MKL_ROOT` and `ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
+   and set paths `INTEL_MKL_ROOT` and `INTEL_ICC_ROOT` to point to your installed copy of **Intel&reg; MKL** and **Intel&reg; Compiler** respectively.
 
    For more information, check this [Intel&reg; MKL Linking Guide](cmake/3rd/mkl.md).
 
@@ -88,16 +89,59 @@ Before continuing with installation, check the [Prerequisites](README.md#prerequ
 
 
 
+## MacOS Installation
+
+1. Open the terminal
+  
+2. Clone the repo
+   
+   ```sh
+   git clone git@github.com:connorkauf/simulicore.git
+   cd simulicore
+   ```
+   
+   For the purposes of this document, the top directory is marked as `<simulicore_root>`.
+
+3. Open file
+   
+   ```sh
+   <simulicore_root>/cmake/3rd/armpl.mac.cmake
+   ```
+   
+   and set path `ARMPL_ROOT` to point to your installed copy of **Arm Performance Libraries**.
+   
+   For more information, check this [Arm Performance Libraries Linking Guide](cmake/3rd/armpl.md).
+
+   <a name="macos-cmake-config"></a>
+4. Choose a build directory `build_dir` and use cmake command to configure the project
+   
+   ```sh
+   cmake -S <simulicore_root> -B <build_dir>
+   ```
+   
+   For extra configuration options see section [Extra Configuration Arguments](#extra-configuration-arguments) further below.
+
+5. Compile and install
+    
+   ```sh
+   cmake --build <build_dir>
+   cmake --install <build_dir>
+   ```
+
+
+
+
 ## Extra configuration arguments
 
 Below there is a list of configuration arguments for the entire project.  
 For Linux append the desired options to the [CMake Configuration](#linux-cmake-config).  
+For MacOS append the desired options to the [CMake Configuration](#macos-cmake-config).  
 For Windows add the desired options in the section "CMake command arguments" in [CMake Settings](#windows-cmake-config).
 
 #### <ins>Installation directory</ins>
 
 The default installation directories are:  
-`<simulicore_root>/install` for Linux and  
+`<simulicore_root>/install` for Linux/MacOS and  
 `<simulicore_root>/out/install/<build-type>` for Windows.  
 
 You can specify an install directory by:

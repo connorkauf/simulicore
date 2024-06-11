@@ -37,8 +37,12 @@ To build and install the suite, see the guide below.
 ## Prerequisites
 
 In order to build **SimuliCore** you will need:
-  * [CMake](https://cmake.org) 3.7.0 and above.
-  * [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html) available for download [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+  * [CMake](https://cmake.org) 3.12.0 and above.
+  * For <b>Linux/Windows x86_64</b>: [Intel&reg; Math Kernel Library](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl.html)
+    available for download [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html).
+  * For <b>MacOS M-Series (arm64)</b>: [Arm Performance Libraries](https://developer.arm.com/Tools%20and%20Software/Arm%20Performance%20Libraries)
+    available for download [here](https://developer.arm.com/downloads/-/arm-performance-libraries).
+  * <b>Linux/Windows arm64</b>: Soon to be supported (using ArmPL)
 
 Development process default compilers are:
   * [GNU C++ compiler](https://gcc.gnu.org) v11.4.0

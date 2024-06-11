@@ -1,7 +1,7 @@
 #-----------------------------------------------
 # source setup
 #-----------------------------------------------
-if(DEFINED CLA3P_MKL_DEFAULT_DEFS)
+if(${CLA3P_CMAKE_INTEL_MKL})
 	set(CLA3P_MKL_SRC
 		proxies/mkl_proxy.cpp
 		proxies/mkl_sparse_proxy.cpp

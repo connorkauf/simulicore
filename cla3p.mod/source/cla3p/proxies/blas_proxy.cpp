@@ -20,11 +20,11 @@
 // system
 
 // 3rd
-#if defined(SIMULICORE_MACOS)
-#include <Accelerate/Accelerate.h>
-#elif defined(CLA3P_INTEL_MKL)
+#if defined(CLA3P_INTEL_MKL)
 #include <mkl_blas.h>
-#include <mkl_lapack.h> // blas header misses some definitions
+#include <mkl_lapack.h>
+#elif defined(CLA3P_ARMPL)
+#include <armpl.h>
 #endif
 
 // cla3p
@@ -33,10 +33,10 @@
 #include "cla3p/bulk/dns.hpp"
 
 /*-------------------------------------------------*/
-#if defined(SIMULICORE_MACOS)
-#define blas_func_name(name) name##_
-#else
+#if defined(CLA3P_INTEL_MKL)
 #define blas_func_name(name) name
+#elif defined(CLA3P_ARMPL)
+#define blas_func_name(name) name##_
 #endif
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -128,6 +128,7 @@ real_dot_macro(real_t , d, c)
 real_dot_macro(real4_t, s, c)
 #undef real_dot_macro
 /*-------------------------------------------------*/
+#if defined(CLA3P_INTEL_MKL)
 #define complex_dot_macro(typeio, prefix, suffix, blas_suffix) \
 typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t incy) \
 { \
@@ -135,6 +136,13 @@ typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t 
 	blas_func_name(prefix##dot##blas_suffix)(&res, &n, x, &incx, y, &incy); \
 	return res; \
 }
+#elif defined(CLA3P_ARMPL)
+#define complex_dot_macro(typeio, prefix, suffix, blas_suffix) \
+typeio dot##suffix(int_t n, const typeio *x, int_t incx, const typeio *y, int_t incy) \
+{ \
+	return blas_func_name(prefix##dot##blas_suffix)(&n, x, &incx, y, &incy); \
+}
+#endif
 complex_dot_macro(complex_t , z,  , u)
 complex_dot_macro(complex8_t, c,  , u)
 complex_dot_macro(complex_t , z, c, c)

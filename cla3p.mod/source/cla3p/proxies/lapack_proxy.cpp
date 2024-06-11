@@ -20,13 +20,12 @@
 // system
 
 // 3rd
-#if defined(SIMULICORE_MACOS)
-#include <Accelerate/Accelerate.h>
-#elif defined(CLA3P_INTEL_MKL)
+#if defined(CLA3P_INTEL_MKL)
 #include <mkl_lapack.h>
 #include <mkl_lapacke.h>
+#elif defined(CLA3P_ARMPL)
+#include <armpl.h>
 #endif
-
 
 // cla3p
 #include "cla3p/error/exceptions.hpp"
@@ -35,12 +34,13 @@
 #include "cla3p/bulk/dns.hpp"
 
 /*-------------------------------------------------*/
-#if defined(SIMULICORE_MACOS)
-#define lapack_func_name(name) name##_
-#else
 #define CLA3P_PREFER_LAPACKE
-#define lapack_func_name(name) name
 #define lapacke_func_name(name) LAPACKE_##name
+
+#if defined(CLA3P_INTEL_MKL)
+#define lapack_func_name(name) name
+#elif defined(CLA3P_ARMPL)
+#define lapack_func_name(name) name##_
 #endif
 /*-------------------------------------------------*/
 namespace cla3p {
