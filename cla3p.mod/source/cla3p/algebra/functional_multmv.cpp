@@ -40,6 +40,8 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 		typename T_Vector::value_type beta,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y)
 {
+	using T_Scalar = typename T_Vector::value_type;
+
 	Operation _opA(opA);
 	mat_x_vec_mult_check(_opA, A.prop(), A.nrows(), A.ncols(), X.size(), Y.size());
 
@@ -57,10 +59,18 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 
 	} else if(A.prop().isTriangular()) {
 
-		T_Vector tmp(Y.size());
-		bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
-		Y.iscale(beta);
-		ops::update(1, tmp, Y);
+		if(beta == T_Scalar(0)) {
+
+			bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), Y.values());
+
+		} else {
+
+			T_Vector tmp(Y.size());
+			bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
+			Y.iscale(beta);
+			ops::update(1, tmp, Y);
+
+		} // beta
 
 	} else {
 

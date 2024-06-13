@@ -54,6 +54,16 @@ std::string MissingIntelMKL()
 	return "Intel(R) MKL missing";
 }
 /*-------------------------------------------------*/
+std::string MissingArmPL()
+{
+	return "Arm Performance Libraries missing";
+}
+/*-------------------------------------------------*/
+std::string MissingThirdParty()
+{
+	return "Third party libraries missing";
+}
+/*-------------------------------------------------*/
 std::string InvalidDimensions()
 { 
 	return "Invalid/mismatching dimension(s)";

@@ -9,10 +9,17 @@ if(${CLA3P_CMAKE_INTEL_MKL})
 		)
 endif()
 
+if(${CLA3P_CMAKE_ARMPL})
+	set(CLA3P_ARMPL_SRC
+		proxies/armpl_sparse_proxy.cpp
+		)
+endif()
+
 set(CLA3P_SRC ${CLA3P_SRC}
 	proxies/blas_proxy.cpp
 	proxies/lapack_proxy.cpp
 	${CLA3P_MKL_SRC}
+	${CLA3P_ARMPL_SRC}
 	PARENT_SCOPE)
 
 set(CLA3P_PROXY_HPP 

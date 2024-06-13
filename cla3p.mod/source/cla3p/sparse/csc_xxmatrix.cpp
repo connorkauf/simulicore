@@ -519,7 +519,7 @@ T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, uint_t nz, const Property& p
 	 */
 	if(pr.isSymmetric() || pr.isHermitian() || pr.isTriangular() || (pr.isGeneral() && nr == nc)) {
 
-		uint_t diagNnz = std::min(nc,nz);
+		uint_t diagNnz = std::min(std::min(nr,nc),nz);
 		offDiagNnz = nz - diagNnz;
 
 		for(uint_t j = 0; j < diagNnz; j++) {
@@ -543,8 +543,14 @@ T_Matrix XxMatrixTmpl::random(uint_t nr, uint_t nc, uint_t nz, const Property& p
 	 */
 	for(uint_t k = 0; k < offDiagNnz; k++) {
 
-		T_Int i = rand<T_Int>(0,nr-1);
-		T_Int j = rand<T_Int>(0,nc-1);
+		int_t iend = nr - 1;
+		int_t jend = nc - 1;
+
+		if(pr.isTriangular() && pr.isUpper() && nr > nc) iend = jend; 
+		if(pr.isTriangular() && pr.isLower() && nr < nc) jend = iend; 
+
+		T_Int i = rand<T_Int>(0,iend);
+		T_Int j = rand<T_Int>(0,jend);
 
 		if((pr.isUpper() && i > j) || (pr.isLower() && i < j))
 			std::swap(i,j);

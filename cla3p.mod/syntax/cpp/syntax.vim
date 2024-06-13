@@ -62,6 +62,7 @@ syn keyword cTypeCustomNSpace cla3p
 syn keyword cTypeCustomNSpace cmpi
 
 syn keyword cTypeCustomNSpace mkl
+syn keyword cTypeCustomNSpace armpl
 syn keyword cTypeCustomNSpace blas
 syn keyword cTypeCustomNSpace lapack
 syn keyword cTypeCustomNSpace pardiso

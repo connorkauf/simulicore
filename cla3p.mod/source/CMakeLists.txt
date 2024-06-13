@@ -1,4 +1,14 @@
 #-----------------------------------------------
+# set 3rd parties
+#-----------------------------------------------
+
+set(CLA3P_3RD_PARTY_DEF )
+set(CLA3P_3RD_PARTY_I64_DEF CLA3P_I64)
+set(CLA3P_3RD_PARTY_INC )
+set(CLA3P_3RD_PARTY_LIB )
+set(CLA3P_3RD_PARTY_I64_LIB )
+
+#-----------------------------------------------
 # set openmp
 #-----------------------------------------------
 include(${SIMULICORE_ROOT}/cmake/openmp.cmake)
@@ -10,28 +20,17 @@ if(${SIMULICORE_CMAKE_MACOS})
 endif()
 
 #-----------------------------------------------
-# set 3rd parties
-#-----------------------------------------------
-
-set(CLA3P_3RD_PARTY_DEF)
-set(CLA3P_3RD_PARTY_I64_DEF CLA3P_I64)
-set(CLA3P_3RD_PARTY_INC)
-set(CLA3P_3RD_PARTY_LIB)
-set(CLA3P_3RD_PARTY_I64_LIB)
-
-# 
 # armpl/accelerate setup
-#
+#-----------------------------------------------
+set(CLA3P_CMAKE_ARMPL false)
 if(${SIMULICORE_CMAKE_MACOS})
 
 	# definitions
 	# set(CLA3P_3RD_PARTY_DEF ${CLA3P_3RD_PARTY_DEF} ACCELERATE_NEW_LAPACK)
 	# set(CLA3P_3RD_PARTY_I64_DEF ${CLA3P_3RD_PARTY_I64_DEF} ACCELERATE_NEW_LAPACK ACCELERATE_LAPACK_ILP64)
-	# includes
-	# set(CLA3P_3RD_PARTY_INC ${CLA3P_3RD_PARTY_INC} ${MACOS_OMP_INC})
 	# libraries
-	# set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} ${MACOS_OMP_LIB} "-framework Accelerate")
-	# set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} ${MACOS_OMP_LIB} "-framework Accelerate")
+	# set(CLA3P_3RD_PARTY_LIB ${CLA3P_3RD_PARTY_LIB} "-framework Accelerate")
+	# set(CLA3P_3RD_PARTY_I64_LIB ${CLA3P_3RD_PARTY_I64_LIB} "-framework Accelerate")
 
 	include(${SIMULICORE_ROOT}/cmake/3rd/armpl.mac.cmake)
 
@@ -55,9 +54,10 @@ if(${SIMULICORE_CMAKE_LINUX_ARM64} OR ${SIMULICORE_CMAKE_WIN32_ARM64})
 	message(FATAL "Arm Performance Libraries for Linux/Windows not yet supported")
 endif()
 
-# 
+#-----------------------------------------------
 # mkl setup
-#
+#-----------------------------------------------
+set(CLA3P_CMAKE_INTEL_MKL false)
 if(${SIMULICORE_CMAKE_LINUX_X86_64} OR ${SIMULICORE_CMAKE_WIN32_X86_64})
 
 	if(${SIMULICORE_CMAKE_LINUX_X86_64})

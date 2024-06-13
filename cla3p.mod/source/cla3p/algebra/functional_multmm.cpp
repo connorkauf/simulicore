@@ -68,6 +68,8 @@ void mult(typename T_Matrix::value_type alpha,
 		typename T_Matrix::value_type beta,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& C)
 {
+	using T_Scalar = typename T_Matrix::value_type;
+
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 	if(B.prop().isSymmetric() || B.prop().isHermitian()) opB = op_t::N;
 
@@ -163,35 +165,61 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isTriangular() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		T_Matrix tmp(C.nrows(), C.ncols());
+		if(beta == T_Scalar(0)) {
 
-		bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
-				C.nrows(), 
-				C.ncols(), 
-				B.nrows(), 
-				alpha, 
-				A.values(), A.ld(), 
-				B.values(), B.ld(), 
-				tmp.values(), tmp.ld());
+			bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
+					C.nrows(), 
+					C.ncols(), 
+					B.nrows(), 
+					alpha, 
+					A.values(), A.ld(), 
+					B.values(), B.ld(), 
+					C.values(), C.ld());
 
-		C.iscale(beta);
-		ops::update(1, tmp, C);
+		} else {
+
+			T_Matrix tmp(C.nrows(), C.ncols());
+			bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
+					C.nrows(), 
+					C.ncols(), 
+					B.nrows(), 
+					alpha, 
+					A.values(), A.ld(), 
+					B.values(), B.ld(), 
+					tmp.values(), tmp.ld());
+			C.iscale(beta);
+			ops::update(1, tmp, C);
+
+		} // beta
 
 	} else if(A.prop().isGeneral() && B.prop().isTriangular() && C.prop().isGeneral()) {
 
-		T_Matrix tmp(C.nrows(), C.ncols());
+		if(beta == T_Scalar(0)) {
 
-		bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
-				C.nrows(), 
-				C.ncols(), 
-				A.nrows(), 
-				alpha, 
-				B.values(), B.ld(), 
-				A.values(), A.ld(), 
-				tmp.values(), tmp.ld());
+			bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
+					C.nrows(), 
+					C.ncols(), 
+					A.nrows(), 
+					alpha, 
+					B.values(), B.ld(), 
+					A.values(), A.ld(), 
+					C.values(), C.ld());
 
-		C.iscale(beta);
-		ops::update(1, tmp, C);
+		} else {
+
+			T_Matrix tmp(C.nrows(), C.ncols());
+			bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
+					C.nrows(), 
+					C.ncols(), 
+					A.nrows(), 
+					alpha, 
+					B.values(), B.ld(), 
+					A.values(), A.ld(), 
+					tmp.values(), tmp.ld());
+			C.iscale(beta);
+			ops::update(1, tmp, C);
+
+		} // beta
 
 	} else {
 
@@ -202,10 +230,10 @@ void mult(typename T_Matrix::value_type alpha,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Mat) \
 template void mult(typename T_Mat::value_type, \
-		op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-    op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-		typename T_Mat::value_type, \
-    dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
+	op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+	op_t, const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+	typename T_Mat::value_type, \
+	dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
 instantiate_mult(dns::RdMatrix);
 instantiate_mult(dns::RfMatrix);
 instantiate_mult(dns::CdMatrix);
@@ -292,8 +320,8 @@ void trisol(typename T_Matrix::value_type alpha, op_t opA,
 /*-------------------------------------------------*/
 #define instantiate_trisol(T_Mat) \
 template void trisol(typename T_Mat::value_type, op_t, \
-		const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
-    dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
+	const dns::XxMatrix<typename T_Mat::value_type,T_Mat>&, \
+	dns::XxMatrix<typename T_Mat::value_type,T_Mat>&)
 instantiate_trisol(dns::RdMatrix);
 instantiate_trisol(dns::RfMatrix);
 instantiate_trisol(dns::CdMatrix);
@@ -322,10 +350,10 @@ instantiate_trisol(dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha, op_t opA,
-    const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
-    const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
-		typename T_CscMatrix::value_type beta, 
-    dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
+	const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+	const dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& B,
+	typename T_CscMatrix::value_type beta, 
+	dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
 {
 	if(A.prop().isSymmetric() || A.prop().isHermitian()) opA = op_t::N;
 
@@ -339,7 +367,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 			B.nrows(), B.ncols(), _opB, 
 			C.nrows(), C.ncols());
 
-	if(A.prop().isGeneral() && B.prop().isGeneral() && C.prop().isGeneral()) {
+	if((A.prop().isGeneral() || A.prop().isTriangular()) && B.prop().isGeneral() && C.prop().isGeneral()) {
 
 		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
@@ -384,10 +412,10 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 /*-------------------------------------------------*/
 #define instantiate_mult(T_Csc, T_Dns) \
 template void mult(typename T_Csc::value_type, op_t, \
-    const csc::XxMatrix<typename T_Csc::index_type,typename T_Csc::value_type,T_Csc>&, \
-    const dns::XxMatrix<typename T_Dns::value_type,T_Dns>&, \
-		typename T_Csc::value_type, \
-    dns::XxMatrix<typename T_Dns::value_type,T_Dns>&)
+	const csc::XxMatrix<typename T_Csc::index_type,typename T_Csc::value_type,T_Csc>&, \
+	const dns::XxMatrix<typename T_Dns::value_type,T_Dns>&, \
+	typename T_Csc::value_type, \
+	dns::XxMatrix<typename T_Dns::value_type,T_Dns>&)
 instantiate_mult(csc::RdMatrix, dns::RdMatrix);
 instantiate_mult(csc::RfMatrix, dns::RfMatrix);
 instantiate_mult(csc::CdMatrix, dns::CdMatrix);
@@ -396,10 +424,10 @@ instantiate_mult(csc::CfMatrix, dns::CfMatrix);
 /*-------------------------------------------------*/
 template <typename T_CscMatrix, typename T_DnsMatrix>
 void mult(typename T_CscMatrix::value_type alpha,
-    op_t opA, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
-    op_t opB, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& B,
-		typename T_CscMatrix::value_type beta,
-    dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
+	op_t opA, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& A,
+	op_t opB, const csc::XxMatrix<typename T_CscMatrix::index_type,typename T_CscMatrix::value_type,T_CscMatrix>& B,
+	typename T_CscMatrix::value_type beta,
+	dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C)
 {
 	opA = (TypeTraits<T_CscMatrix>::is_real() && opA == op_t::C ? op_t::T : opA);
 	opB = (TypeTraits<T_CscMatrix>::is_real() && opB == op_t::C ? op_t::T : opB);

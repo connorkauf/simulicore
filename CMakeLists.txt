@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12.0)
+cmake_policy(SET CMP0074 NEW)
 
 set(project_name "SimuliCore")
 set(project_version "1.3.0")
