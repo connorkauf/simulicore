@@ -26,6 +26,7 @@
 #include "cla3p/bulk/dns.hpp"
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/error/exceptions.hpp"
+#include "cla3p/error/literals.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -201,6 +202,32 @@ class DnsMatrix : public ArmPlMatrix {
 		DnsMatrix(uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 		{
 			armpl_sparse_create_dns(&mat(), m, n, a, lda);
+		}
+
+		void exportd(T_Scalar *c, uint_t ldc)
+		{
+			// This is stupid...
+			int_t m = 0;
+			int_t n = 0;
+			T_Scalar *res = nullptr;
+			armpl_sparse_export_dns(mat(), &m, &n, &res);
+			bulk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
+			std::free(res);
+		}
+
+		void exportd(uint_t m, uint_t n, T_Scalar *c, uint_t ldc)
+		{
+			// This is stupid...
+			int_t mRes = 0;
+			int_t nRes = 0;
+			T_Scalar *res = nullptr;
+			armpl_sparse_export_dns(mat(), &mRes, &nRes, &res);
+
+			if(mRes != m || nRes != n)
+				throw err::NoConsistency(msg::InvalidDimensions());
+
+			bulk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
+			std::free(res);
 		}
 };
 /*-------------------------------------------------*/
@@ -388,7 +415,7 @@ void csc_mv(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 	} else if(prA.isSymmetric()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 
 		// y := beta * y + alpha * tri(A) * x
@@ -408,7 +435,7 @@ void csc_mv(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 	} else if(prA.isHermitian()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMV_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 
 		// y := beta * y + alpha * tri(A) * x
@@ -463,18 +490,6 @@ armpl_sparse_spmm_macro(complex8_t, c)
 #undef armpl_sparse_spmm_macro
 /*-------------------------------------------------*/
 template <typename T_Scalar>
-static void copy_to_original_output(const DnsMatrix<T_Scalar>& C, uint_t m, uint_t n, T_Scalar *c, uint_t ldc)
-{
-	// This is stupid...
-	int_t mRes = 0;
-	int_t nRes = 0;
-	T_Scalar *res = nullptr;
-	armpl_sparse_export_dns(C.mat(), &mRes, &nRes, &res);
-	bulk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
-	std::free(res);
-}
-/*-------------------------------------------------*/
-template <typename T_Scalar>
 void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t opA,
 		const int_t* colptrA, const int_t* rowidxA, const T_Scalar* valuesA,
 		uint_t k, const T_Scalar* b, uint_t ldb, T_Scalar beta, T_Scalar *c, uint_t ldc)
@@ -506,11 +521,11 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);		
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
-		copy_to_original_output(C, mC, k, c, ldc);
+		C.exportd(c, ldc);
 
 	} else if (prA.isSymmetric()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 		info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 		info = armpl_spmat_hint(C.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
@@ -527,14 +542,14 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
 
-		copy_to_original_output(C, mC, k, c, ldc);
+		C.exportd(c, ldc);
 
 		// y := y - alpha * diag(A) * x
 		revert_duplicated_diagonal(false, n, alpha, colptrA, rowidxA, valuesA, k, b, ldb, c, ldc);
 
 	} else if (prA.isHermitian()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 		info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 		info = armpl_spmat_hint(C.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
@@ -552,7 +567,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
 
-		copy_to_original_output(C, mC, k, c, ldc);
+		C.exportd(c, ldc);
 
 		// y := y - alpha * diag(A) * x
 		revert_duplicated_diagonal(true, n, alpha, colptrA, rowidxA, valuesA, k, b, ldb, c, ldc);
@@ -585,7 +600,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 	} else if (prA.isSymmetric()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 
 		// y := beta * y + alpha * tri(A) * x
@@ -611,7 +626,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 	} else if (prA.isHermitian()) {
 
-		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
+		//info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_TRIANGULAR); armpl_status_check(info);
 		info = armpl_spmat_hint(A.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_FEW); armpl_status_check(info);
 
 		// y := beta * y + alpha * tri(A) * x
@@ -733,12 +748,12 @@ void csc_spmm(T_Scalar alpha,
 		DnsMatrix<T_Scalar> C(mC, nC);
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
-		copy_to_original_output(C, mC, nC, c, ldc);
+		C.exportd(c, ldc);
 	} else {
 		DnsMatrix<T_Scalar> C(mC, nC, c, ldc);
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
-		copy_to_original_output(C, mC, nC, c, ldc);
+		C.exportd(c, ldc);
 	} // beta
 }
 /*-------------------------------------------------*/
