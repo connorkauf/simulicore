@@ -177,8 +177,8 @@ class ArmPlMatrix {
 
 		~ArmPlMatrix()
 		{
-			armpl_status_t info = armpl_spmat_destroy(mat());
-			armpl_status_check(info);
+			armpl_status_t info = ARMPL_STATUS_SUCCESS;
+			info = armpl_spmat_destroy(mat()); armpl_status_check(info);
 		}
 
 		armpl_spmat_t& mat() { return m_mat; };
@@ -197,7 +197,13 @@ class DnsMatrix : public ArmPlMatrix {
 		DnsMatrix() = default;
 		~DnsMatrix() = default;
 
-		DnsMatrix(uint_t m, uint_t n) : ArmPlMatrix(m, n) {}
+		DnsMatrix(uint_t m, uint_t n)
+			: ArmPlMatrix(m, n)
+		{
+			armpl_status_t info = ARMPL_STATUS_SUCCESS;
+			info = armpl_spmat_hint(mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_DENSE); armpl_status_check(info);
+			//info = armpl_spmat_hint(mat(), ARMPL_SPARSE_HINT_MEMORY, ARMPL_SPARSE_MEMORY_NOALLOCS); armpl_status_check(info);
+		}
 
 		DnsMatrix(uint_t m, uint_t n, const T_Scalar *a, uint_t lda)
 		{
@@ -215,18 +221,13 @@ class DnsMatrix : public ArmPlMatrix {
 			std::free(res);
 		}
 
-		void exportd(uint_t m, uint_t n, T_Scalar *c, uint_t ldc)
+		void exportd(uint_t *m, uint_t *n, T_Scalar *c, uint_t ldc)
 		{
 			// This is stupid...
-			int_t mRes = 0;
-			int_t nRes = 0;
 			T_Scalar *res = nullptr;
-			armpl_sparse_export_dns(mat(), &mRes, &nRes, &res);
+			armpl_sparse_export_dns(mat(), m, n, &res);
 
-			if(mRes != m || nRes != n)
-				throw err::NoConsistency(msg::InvalidDimensions());
-
-			bulk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
+			bulk::dns::copy(uplo_t::Full, *m, *n, res, *m, c, ldc);
 			std::free(res);
 		}
 };
@@ -239,7 +240,12 @@ class CsxMatrix : public ArmPlMatrix {
 		CsxMatrix() = default;
 		~CsxMatrix() = default;
 
-		CsxMatrix(uint_t m, uint_t n) : ArmPlMatrix(m, n) {}
+		CsxMatrix(uint_t m, uint_t n)
+			: ArmPlMatrix(m, n)
+		{
+			armpl_status_t info = ARMPL_STATUS_SUCCESS;
+			info = armpl_spmat_hint(mat(), ARMPL_SPARSE_HINT_STRUCTURE, ARMPL_SPARSE_STRUCTURE_UNSTRUCTURED); armpl_status_check(info);
+		}
 
 		// Use this class to separate from dense cases
 		// Perhaps some sparse-only options will be added in the future
@@ -265,6 +271,13 @@ class CsrMatrix : public CsxMatrix {
 		{
 			armpl_sparse_export_csr(mat(), m, n, rowptr, colidx, values);
 		}
+
+		void export3(int_t **rowptr, int_t **colidx, T_Scalar **values) const
+		{
+			int_t m = 0;
+			int_t n = 0;
+			export3(&m, &n, rowptr, colidx, values);
+		}
 };
 /*-------------------------------------------------*/
 /*-------------------------------------------------*/
@@ -286,6 +299,13 @@ class CscMatrix : public CsxMatrix {
 		void export3(int_t *m, int_t *n, int_t **colptr, int_t **rowidx, T_Scalar **values) const
 		{
 			armpl_sparse_export_csc(mat(), m, n, colptr, rowidx, values);
+		}
+
+		void export3(int_t **colptr, int_t **rowidx, T_Scalar **values) const
+		{
+			int_t m = 0;
+			int_t n = 0;
+			export3(&m, &n, colptr, rowidx, values);
 		}
 };
 /*-------------------------------------------------*/
@@ -342,9 +362,7 @@ void csc_add(uint_t m, uint_t n,
 
 	armpl_sparse_add(alpha, transA, A.mat(), beta, transB, B.mat(), C.mat());
 
-	int_t mC = 0;
-	int_t nC = 0;
-	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
+	C.export3(colptrC, rowidxC, valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_csc_add(T_Scl) \
@@ -502,7 +520,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	bulk::dns::scale(uplo_t::Full, mC, k, c, ldc, beta);
 	beta = T_Scalar(1);                                     
                                                          
-	CscMatrix<T_Scalar> A(m, n, colptrA, rowidxA, values    A);
+	CscMatrix<T_Scalar> A(m, n, colptrA, rowidxA, valuesA);
 	DnsMatrix<T_Scalar> B(mB, k, b, ldb);
 	DnsMatrix<T_Scalar> C(mC, k, c, ldc);
 	enum armpl_sparse_hint_value transB = opToHint(op_t::N);
@@ -699,11 +717,7 @@ void csc_spmm(T_Scalar alpha,
 
 	armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
 
-	{
-		int_t mC1 = 0;
-		int_t nC1 = 0;
-		C.export3(&mC1, &nC1, colptrC, rowidxC, valuesC);
-	}
+	C.export3(colptrC, rowidxC, valuesC);
 
 	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
@@ -718,6 +732,31 @@ instantiate_spmm(real4_t);
 instantiate_spmm(complex_t);
 instantiate_spmm(complex8_t);
 #undef instantiate_spmm
+/*-------------------------------------------------*/
+template <typename T_Scalar>
+static void add_to_zero_dense(const CscMatrix<T_Scalar>& C, T_Scalar *c, uint_t ldc)
+{
+	int_t m = 0;
+	int_t n = 0;
+	int_t *colptr = nullptr;
+	int_t *rowidx = nullptr;
+	T_Scalar* values = nullptr;
+	C.export3(&m, &n, &colptr, &rowidx, &values);
+
+	bulk::dns::zero(uplo_t::Full, m, n, c, ldc);
+
+	for (int_t j = 0; j < static_cast<int_t>(n); j++) {
+		for (int_t irow = colptr[j]; irow < colptr[j + 1]; irow++) {
+			int_t i = rowidx[irow];
+			T_Scalar v = values[irow];
+			bulk::dns::entry(ldc,c,i,j) += v;
+		} // irow
+	} // j
+
+	std::free(colptr);
+	std::free(rowidx);
+	std::free(values);
+}
 /*-------------------------------------------------*/
 template <typename T_Scalar>
 void csc_spmm(T_Scalar alpha,
@@ -745,10 +784,19 @@ void csc_spmm(T_Scalar alpha,
 	info = armpl_spmat_hint(B.mat(), ARMPL_SPARSE_HINT_SPMM_INVOCATIONS, ARMPL_SPARSE_INVOCATIONS_SINGLE); armpl_status_check(info);
 
 	if(beta == T_Scalar(0)) {
+#if 0
+		// For some reason this does not work
+		// Also does not work for beta = 1 & c = 0
 		DnsMatrix<T_Scalar> C(mC, nC);
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
 		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), beta, C.mat());
 		C.exportd(c, ldc);
+#else
+		CscMatrix<T_Scalar> C(mC, nC);
+		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(T_Scalar(0)), C.mat()); armpl_status_check(info);
+		armpl_sparse_spmm(alpha, transA, A.mat(), transB, B.mat(), T_Scalar(0), C.mat());
+		add_to_zero_dense(C, c, ldc);
+#endif
 	} else {
 		DnsMatrix<T_Scalar> C(mC, nC, c, ldc);
 		info = armpl_spmm_optimize(transA, transB, scalarToHint(alpha), A.mat(), B.mat(), scalarToHint(beta), C.mat()); armpl_status_check(info);
