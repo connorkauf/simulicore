@@ -18,11 +18,12 @@
 #include "cla3p/perms/pxmatrix.hpp"
 
 // system
+#include <algorithm>
 
 // 3rd
 
 // cla3p
-#include "cla3p/support/utils.hpp"
+#include "cla3p/support/rand.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -75,18 +76,41 @@ PxMatrix<T_Int> PxMatrix<T_Int>::permuteLeft(const PxMatrix<T_Int>& P) const
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
+static void fill_identity_permutation(uint_t n, T_Int *P)
+{
+	for(uint_t i = 0; i < n; i++) {
+		P[i] = static_cast<T_Int>(i);
+	} // i
+}
+/*-------------------------------------------------*/
+template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::identity(uint_t n)
 {
 	PxMatrix<T_Int> ret(n);
-	fill_identity_perm(ret.size(), ret.values());
+	fill_identity_permutation(ret.size(), ret.values());
 	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Int>
+static void fill_random_permutation(uint_t n, T_Int *P)
+{
+	if(!n) return;
+
+	fill_identity_permutation(n, P);
+
+	uint_t ilen = n;
+	for(uint_t i = 0; i < n - 1; i++) {
+		uint_t k = rand<T_Int>(0, ilen-1);
+		std::swap(P[k], P[ilen-1]);
+		ilen--;
+	} // i
 }
 /*-------------------------------------------------*/
 template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::random(uint_t n)
 {
 	PxMatrix<T_Int> ret(n);
-	fill_random_perm(ret.size(), ret.values());
+	fill_random_permutation(ret.size(), ret.values());
 	return ret;
 }
 /*-------------------------------------------------*/

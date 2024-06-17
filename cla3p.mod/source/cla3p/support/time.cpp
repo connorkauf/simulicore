@@ -14,12 +14,27 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_SUPPORT_HPP_
-#define CLA3P_SUPPORT_HPP_
-
-#include "cla3p/support/imalloc.hpp"
-#include "cla3p/support/rand.hpp"
-#include "cla3p/support/mt.hpp"
+// this file inc
 #include "cla3p/support/time.hpp"
 
-#endif // CLA3P_SUPPORT_HPP_
+// system
+#include <iostream>
+
+// 3rd
+
+// cla3p
+
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+RealTimer::RealTimer()
+{
+}
+/*-------------------------------------------------*/
+RealTimer::~RealTimer()
+{
+	std::cout << "Elapsed Time: " << currentDiff() << std::endl;
+}
+/*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/

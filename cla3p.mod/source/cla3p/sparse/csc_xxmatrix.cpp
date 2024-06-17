@@ -29,6 +29,7 @@
 #include "cla3p/bulk/csc.hpp"
 #include "cla3p/bulk/csc_math.hpp"
 #include "cla3p/support/imalloc.hpp"
+#include "cla3p/support/rand.hpp"
 #include "cla3p/support/utils.hpp"
 
 #include "cla3p/checks/basic_checks.hpp"

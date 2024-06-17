@@ -31,6 +31,7 @@
 #include "cla3p/error/literals.hpp"
 #include "cla3p/support/utils.hpp"
 #include "cla3p/support/imalloc.hpp"
+#include "cla3p/support/rand.hpp"
 #include "cla3p/checks/basic_checks.hpp"
 #if defined(CLA3P_INTEL_MKL)
 #include "cla3p/proxies/mkl_proxy.hpp"

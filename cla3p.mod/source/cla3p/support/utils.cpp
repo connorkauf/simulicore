@@ -20,14 +20,12 @@
 // system
 #include <cstdio>
 #include <cstring>
-#include <string>
-#include <cmath>
-#include <algorithm>
 
 // 3rd
 
 // cla3p
 #include "cla3p/error/exceptions.hpp"
+#include "cla3p/support/rand.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -171,73 +169,6 @@ std::string coordToString(T_Int i, T_Int j)
 template std::string coordToString(int_t , int_t );
 template std::string coordToString(uint_t, uint_t);
 /*-------------------------------------------------*/
-template <typename T_Int>
-static T_Int randomCaseInt(T_Int lo, T_Int hi)
-{
-	T_Int diff = hi - lo;
-	T_Int stdRandVal = std::rand();
-	T_Int inc = stdRandVal % diff;
-	return (lo + inc);
-}
-/*-------------------------------------------------*/
-template int_t  randomCaseInt(int_t , int_t );
-template uint_t randomCaseInt(uint_t, uint_t);
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-static T_Scalar randomCaseReal(T_Scalar lo, T_Scalar hi)
-{
-  T_Scalar diff = hi - lo;
-	T_Scalar stdRandVal = static_cast<T_Scalar>(std::rand());
-  T_Scalar inc = diff * (stdRandVal / static_cast<T_Scalar>(RAND_MAX + 1U));
-	return (lo + inc);
-}
-/*-------------------------------------------------*/
-template real_t  randomCaseReal(real_t , real_t );
-template real4_t randomCaseReal(real4_t, real4_t);
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-static T_Scalar randomCaseComplex(
-		typename TypeTraits<T_Scalar>::real_type lo, 
-		typename TypeTraits<T_Scalar>::real_type hi)
-{
-	return T_Scalar(randomCaseReal(lo,hi), randomCaseReal(lo,hi));
-}
-/*-------------------------------------------------*/
-template complex_t  randomCaseComplex(real_t , real_t );
-template complex8_t randomCaseComplex(real4_t, real4_t);
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-static T_Scalar randomCase(
-		typename TypeTraits<T_Scalar>::real_type lo,
-		typename TypeTraits<T_Scalar>::real_type hi);
-/*-------------------------------------------------*/
-template<> int_t  randomCase<int_t >(int_t  lo, int_t  hi) { return randomCaseInt<int_t >(lo,hi); }
-template<> uint_t randomCase<uint_t>(uint_t lo, uint_t hi) { return randomCaseInt<uint_t>(lo,hi); }
-/*-------------------------------------------------*/
-template<> real_t  randomCase<real_t >(real_t  lo, real_t  hi) { return randomCaseReal<real_t >(lo,hi); }
-template<> real4_t randomCase<real4_t>(real4_t lo, real4_t hi) { return randomCaseReal<real4_t>(lo,hi); }
-/*-------------------------------------------------*/
-template<> complex_t  randomCase<complex_t >(real_t  lo, real_t  hi) { return randomCaseComplex<complex_t >(lo,hi); }
-template<> complex8_t randomCase<complex8_t>(real4_t lo, real4_t hi) { return randomCaseComplex<complex8_t>(lo,hi); }
-/*-------------------------------------------------*/
-template <typename T_Scalar>
-T_Scalar rand(
-		typename TypeTraits<T_Scalar>::real_type lo,
-		typename TypeTraits<T_Scalar>::real_type hi)
-{
-	if(lo > hi)
-		throw err::Exception("Need lo <= hi");
-
-	return randomCase<T_Scalar>(lo,hi);
-}
-/*-------------------------------------------------*/
-template int_t      rand(int_t  , int_t  );
-template uint_t     rand(uint_t , uint_t );
-template real_t     rand(real_t , real_t );
-template real4_t    rand(real4_t, real4_t);
-template complex_t  rand(real_t , real_t );
-template complex8_t rand(real4_t, real4_t);
-/*-------------------------------------------------*/
 static std::string valToStringSpec(int_t val, uint_t nsd)
 {
 	constexpr std::size_t BUFFER_LEN = 64;
@@ -354,35 +285,6 @@ std::string ListPrinter::header() const
 
 	return ret;
 }
-/*-------------------------------------------------*/
-template <typename T_Int>
-void fill_identity_perm(uint_t n, T_Int *P)
-{
-	for(uint_t i = 0; i < n; i++) {
-		P[i] = static_cast<T_Int>(i);
-	} // i
-}
-/*-------------------------------------------------*/
-template void fill_identity_perm(uint_t, uint_t*);
-template void fill_identity_perm(uint_t, int_t*);
-/*-------------------------------------------------*/
-template <typename T_Int>
-void fill_random_perm(uint_t n, T_Int *P)
-{
-	if(!n) return;
-
-	fill_identity_perm(n, P);
-
-	uint_t ilen = n;
-	for(uint_t i = 0; i < n - 1; i++) {
-		uint_t k = rand<T_Int>(0, ilen-1);
-		std::swap(P[k], P[ilen-1]);
-		ilen--;
-	} // i
-}
-/*-------------------------------------------------*/
-template void fill_random_perm(uint_t, uint_t*);
-template void fill_random_perm(uint_t, int_t*);
 /*-------------------------------------------------*/
 decomp_t determineDecompType(decomp_t dtype, const Property& pr)
 {

@@ -60,6 +60,26 @@ void free(void *ptr)
 	mkl_free(ptr);
 }
 /*-------------------------------------------------*/
+nint_t get_dynamic()
+{
+	return mkl_get_dynamic();
+}
+/*-------------------------------------------------*/
+nint_t get_max_threads()
+{
+	return mkl_get_max_threads();
+}
+/*-------------------------------------------------*/
+void set_num_threads(nint_t numThreads)
+{
+	mkl_set_num_threads(numThreads);
+}
+/*-------------------------------------------------*/
+nint_t set_num_threads_local(nint_t numThreads)
+{
+	return mkl_set_num_threads_local(numThreads);
+}
+/*-------------------------------------------------*/
 #define omatcopy_macro(typeout, typein, prefix) \
 typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
 		const typein *a, bulk_t lda, \

@@ -35,6 +35,11 @@ void* calloc(std::size_t size, std::size_t nmemb);
 void* realloc(void *ptr, std::size_t nmemb);
 void free(void *ptr);
 
+nint_t get_dynamic();
+nint_t get_max_threads();
+void set_num_threads(nint_t numThreads);
+nint_t set_num_threads_local(nint_t numThreads);
+
 #define omatcopy_macro(typeout, typein) \
 typeout omatcopy(char ordering, char trans, bulk_t rows, bulk_t cols, typein alpha, \
 		const typein *a, bulk_t lda, \

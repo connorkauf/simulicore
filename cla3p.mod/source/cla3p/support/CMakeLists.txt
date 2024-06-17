@@ -3,11 +3,17 @@
 #-----------------------------------------------
 set(CLA3P_SRC ${CLA3P_SRC}
 	support/imalloc.cpp
+	support/rand.cpp
+	support/mt.cpp
+	support/time.cpp
 	support/utils.cpp
 	PARENT_SCOPE)
 
 set(CLA3P_SUPPORT_HPP 
 	imalloc.hpp
+	rand.hpp
+	mt.hpp
+	time.hpp
 	)
 
 #-----------------------------------------------

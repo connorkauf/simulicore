@@ -14,12 +14,30 @@
  * limitations under the License.
  */
 
-#ifndef CLA3P_SUPPORT_HPP_
-#define CLA3P_SUPPORT_HPP_
+#ifndef CLA3P_RAND_HPP_
+#define CLA3P_RAND_HPP_
 
-#include "cla3p/support/imalloc.hpp"
-#include "cla3p/support/rand.hpp"
-#include "cla3p/support/mt.hpp"
-#include "cla3p/support/time.hpp"
+/** 
+ * @file
+ */
 
-#endif // CLA3P_SUPPORT_HPP_
+#include "cla3p/types.hpp"
+
+/*-------------------------------------------------*/
+namespace cla3p {
+/*-------------------------------------------------*/
+
+/*
+ * Random number in [lo,hi]
+ * In complex cases real/complex part in [lo,hi]
+ */
+template <typename T_Scalar>
+T_Scalar rand(
+		typename TypeTraits<T_Scalar>::real_type lo, 
+		typename TypeTraits<T_Scalar>::real_type hi);
+
+/*-------------------------------------------------*/
+} // namespace cla3p
+/*-------------------------------------------------*/
+
+#endif // CLA3P_RAND_HPP_

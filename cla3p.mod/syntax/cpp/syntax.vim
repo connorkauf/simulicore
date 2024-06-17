@@ -14,6 +14,7 @@ syn keyword cTypeCustomDatatype Meta1D Meta2D MatrixMeta
 syn keyword cTypeCustomDatatype Array2D
 syn keyword cTypeCustomDatatype Guard
 syn keyword cTypeCustomDatatype Coord Tuple TupleVec
+syn keyword cTypeCustomDatatype ThreadManager Timer RealTimer
 syn keyword cTypeCustomDatatype VirtualEntity
 syn keyword cTypeCustomDatatype VirtualParams VirtualRowVec VirtualObject VirtualVector VirtualMatrix
 syn keyword cTypeCustomDatatype VirtualProd
@@ -67,6 +68,7 @@ syn keyword cTypeCustomNSpace blas
 syn keyword cTypeCustomNSpace lapack
 syn keyword cTypeCustomNSpace pardiso
 
+syn keyword cTypeCustomNSpace mt
 syn keyword cTypeCustomNSpace bulk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc

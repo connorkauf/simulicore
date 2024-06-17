@@ -77,15 +77,6 @@ template <typename T_Int>
 std::string coordToString(T_Int i, T_Int j);
 
 /*
- * Random number in [lo,hi]
- * In complex cases real/complex part in [lo,hi]
- */
-template <typename T_Scalar>
-T_Scalar rand(
-		typename TypeTraits<T_Scalar>::real_type lo, 
-		typename TypeTraits<T_Scalar>::real_type hi);
-
-/*
  * Value to string
  *
  * if nsd > 0
@@ -126,18 +117,6 @@ class ListPrinter {
 		nint_t m_ndCols ;
 		nint_t m_ndVals ;
 };
-
-/*
- * Identity permutation vector
- */
-template <typename T_Int>
-void fill_identity_perm(uint_t n, T_Int *P);
-
-/*
- * Random permutation vector
- */
-template <typename T_Int>
-void fill_random_perm(uint_t n, T_Int *P);
 
 /*
  * Checks for auto & returns appropriate type
