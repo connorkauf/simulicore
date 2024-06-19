@@ -25,7 +25,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -211,7 +211,7 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n, const T_Scalar *a, u
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/
 

@@ -217,7 +217,7 @@ class DnsMatrix : public ArmPlMatrix {
 			int_t n = 0;
 			T_Scalar *res = nullptr;
 			armpl_sparse_export_dns(mat(), &m, &n, &res);
-			bulk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
+			blk::dns::copy(uplo_t::Full, m, n, res, m, c, ldc);
 			std::free(res);
 		}
 
@@ -227,7 +227,7 @@ class DnsMatrix : public ArmPlMatrix {
 			T_Scalar *res = nullptr;
 			armpl_sparse_export_dns(mat(), m, n, &res);
 
-			bulk::dns::copy(uplo_t::Full, *m, *n, res, *m, c, ldc);
+			blk::dns::copy(uplo_t::Full, *m, *n, res, *m, c, ldc);
 			std::free(res);
 		}
 };
@@ -386,7 +386,7 @@ static void revert_duplicated_diagonal(bool conjop, uint_t n, T_Scalar alpha,
 			if (rowidx[irow] == j) {
 				T_Scalar Ajj = conjop ? T_Scalar(arith::getRe(values[irow])): values[irow];
 				for (uint_t l = 0; l < k; l++) {
-					bulk::dns::entry(ldc, c, j, l) -= alpha * Ajj * bulk::dns::entry(ldb, b, j, l);
+					blk::dns::entry(ldc, c, j, l) -= alpha * Ajj * blk::dns::entry(ldb, b, j, l);
 				} // l
 			} // diag
 		} // irow
@@ -517,7 +517,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	uint_t mB = (opA == op_t::N ? n : m);                   
 	uint_t mC = (opA == op_t::N ? m : n);               
                                                          
-	bulk::dns::scale(uplo_t::Full, mC, k, c, ldc, beta);
+	blk::dns::scale(uplo_t::Full, mC, k, c, ldc, beta);
 	beta = T_Scalar(1);                                     
                                                          
 	CscMatrix<T_Scalar> A(m, n, colptrA, rowidxA, valuesA);
@@ -613,7 +613,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
 		// TODO: omp
 		for (uint_t l = 0; l < k; l++) {
-			armpl_sparse_mv(transA, alpha, A.mat(), bulk::dns::ptrmv(ldb, b, 0, l), beta, bulk::dns::ptrmv(ldc, c, 0, l));
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
 		} // l
 
 	} else if (prA.isSymmetric()) {
@@ -627,7 +627,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
 		// TODO: omp
 		for (uint_t l = 0; l < k; l++) {
-			armpl_sparse_mv(transA, alpha, A.mat(), bulk::dns::ptrmv(ldb, b, 0, l), beta, bulk::dns::ptrmv(ldc, c, 0, l));
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
 		} // l
 
 		// y := y + alpha * tri(A)' * x
@@ -636,7 +636,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
 		// TODO: omp
 		for (uint_t l = 0; l < k; l++) {
-			armpl_sparse_mv(transA, alpha, A.mat(), bulk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), bulk::dns::ptrmv(ldc, c, 0, l));
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), blk::dns::ptrmv(ldc, c, 0, l));
 		} // l
 
 		// y := y - alpha * diag(A) * x
@@ -653,7 +653,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
 		// TODO: omp
 		for (uint_t l = 0; l < k; l++) {
-			armpl_sparse_mv(transA, alpha, A.mat(), bulk::dns::ptrmv(ldb, b, 0, l), beta, bulk::dns::ptrmv(ldc, c, 0, l));
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), beta, blk::dns::ptrmv(ldc, c, 0, l));
 		} // l
 
 		// y := y + alpha * tri(A)' * x
@@ -662,7 +662,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 		info = armpl_spmv_optimize(A.mat()); armpl_status_check(info);
 		// TODO: omp
 		for (uint_t l = 0; l < k; l++) {
-			armpl_sparse_mv(transA, alpha, A.mat(), bulk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), bulk::dns::ptrmv(ldc, c, 0, l));
+			armpl_sparse_mv(transA, alpha, A.mat(), blk::dns::ptrmv(ldb, b, 0, l), T_Scalar(1), blk::dns::ptrmv(ldc, c, 0, l));
 		} // l
 
 		// y := y - alpha * diag(A) * x
@@ -719,7 +719,7 @@ void csc_spmm(T_Scalar alpha,
 
 	C.export3(colptrC, rowidxC, valuesC);
 
-	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_spmm(T_Scl) \
@@ -743,13 +743,13 @@ static void add_to_zero_dense(const CscMatrix<T_Scalar>& C, T_Scalar *c, uint_t 
 	T_Scalar* values = nullptr;
 	C.export3(&m, &n, &colptr, &rowidx, &values);
 
-	bulk::dns::zero(uplo_t::Full, m, n, c, ldc);
+	blk::dns::zero(uplo_t::Full, m, n, c, ldc);
 
 	for (int_t j = 0; j < static_cast<int_t>(n); j++) {
 		for (int_t irow = colptr[j]; irow < colptr[j + 1]; irow++) {
 			int_t i = rowidx[irow];
 			T_Scalar v = values[irow];
-			bulk::dns::entry(ldc,c,i,j) += v;
+			blk::dns::entry(ldc,c,i,j) += v;
 		} // irow
 	} // j
 

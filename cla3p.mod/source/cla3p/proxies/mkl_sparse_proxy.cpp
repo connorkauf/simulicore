@@ -465,7 +465,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 
 		// TODO: use openMP for this loop
 		for(uint_t l = 0; l < k; l++) {
-			mkl_sparse_mv(op, alpha, A.mat(), A.descr(), bulk::dns::ptrmv(ldb,b,0,l), beta, bulk::dns::ptrmv(ldc,c,0,l));
+			mkl_sparse_mv(op, alpha, A.mat(), A.descr(), blk::dns::ptrmv(ldb,b,0,l), beta, blk::dns::ptrmv(ldc,c,0,l));
 		} // l
 
 	} else if(prA.isHermitian()) {
@@ -475,7 +475,7 @@ void csc_mm(prop_t propA, uplo_t uploA, uint_t m, uint_t n, T_Scalar alpha, op_t
 	
 		// TODO: use openMP for this loop
 		for(uint_t l = 0; l < k; l++) {
-			mkl_sparse_mv(op, alpha, A.mat(), A.descr(), bulk::dns::ptrmv(ldb,b,0,l), beta, bulk::dns::ptrmv(ldc,c,0,l));
+			mkl_sparse_mv(op, alpha, A.mat(), A.descr(), blk::dns::ptrmv(ldb,b,0,l), beta, blk::dns::ptrmv(ldc,c,0,l));
 		} // l
 
 	} else {
@@ -518,7 +518,7 @@ void csc_spmm(op_t opA,
 	int_t nC = 0;
 	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
 
-	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_spmm(T_Scl) \
@@ -605,7 +605,7 @@ void csc_sp2m(
 	int_t nC = 0;
 	C.export3(&mC, &nC, colptrC, rowidxC, valuesC);
 
-	bulk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
+	blk::csc::sort(nC, *colptrC, *rowidxC, *valuesC);
 }
 /*-------------------------------------------------*/
 #define instantiate_sp2m(T_Scl) \

@@ -219,12 +219,12 @@ lanxx_fro_sq_recursive(bool conjop, char uplo, int_t n, const T_Scalar *a, int_t
 		int_t n2 = n - n1;
 
 		ret += lanxx_fro_sq_recursive(conjop, uplo, n1, a, lda);
-		ret += lanxx_fro_sq_recursive(conjop, uplo, n2, bulk::dns::ptrmv(lda,a,n1,n1), lda);
+		ret += lanxx_fro_sq_recursive(conjop, uplo, n2, blk::dns::ptrmv(lda,a,n1,n1), lda);
 
 		if(uplo == 'U')
-			tmp += lange(norm, n1, n2, bulk::dns::ptrmv(lda,a,0,n1), lda);
+			tmp += lange(norm, n1, n2, blk::dns::ptrmv(lda,a,0,n1), lda);
 		else if(uplo == 'L')
-			tmp += lange(norm, n2, n1, bulk::dns::ptrmv(lda,a,n1,0), lda);
+			tmp += lange(norm, n2, n1, blk::dns::ptrmv(lda,a,n1,0), lda);
 
 		ret += (2 * tmp * tmp);
 

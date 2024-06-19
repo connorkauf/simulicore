@@ -33,7 +33,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 template <typename T_Scalar>
@@ -327,6 +327,6 @@ template void gem_x_trm(uplo_t, op_t, uint_t, uint_t, uint_t, complex_t , const 
 template void gem_x_trm(uplo_t, op_t, uint_t, uint_t, uint_t, complex8_t, const complex8_t*, uint_t, const complex8_t*, uint_t, complex8_t*, uint_t);
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/

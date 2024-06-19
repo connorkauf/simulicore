@@ -35,7 +35,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace csc {
 /*-------------------------------------------------*/
 template <typename T_Int>
@@ -891,6 +891,6 @@ instantiate_permute(uint_t, complex8_t);
 #undef instantiate_permute
 /*-------------------------------------------------*/
 } // namespace csc
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/

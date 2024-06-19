@@ -25,7 +25,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 
@@ -146,7 +146,7 @@ void gem_x_trm(uplo_t uplo, op_t opA, uint_t m, uint_t n, uint_t k, T_Scalar alp
 
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/
 

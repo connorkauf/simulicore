@@ -399,7 +399,7 @@ static void addToTargetSpecialization(
 
 		if(v.transOp() == op_t::N) {
 
-			bulk::dns::copy(
+			blk::dns::copy(
 					v.obj().prop().uplo(), 
 					v.obj().nrows(), 
 					v.obj().ncols(), 
@@ -411,7 +411,7 @@ static void addToTargetSpecialization(
 
 			transp_op_consistency_check(v.obj().prop().type(), false);
 
-			bulk::dns::transpose(
+			blk::dns::transpose(
 					v.obj().nrows(), 
 					v.obj().ncols(), 
 					v.obj().values(), 
@@ -422,7 +422,7 @@ static void addToTargetSpecialization(
 
 			transp_op_consistency_check(v.obj().prop().type(), true);
 
-			bulk::dns::conjugate_transpose(
+			blk::dns::conjugate_transpose(
 					v.obj().nrows(), 
 					v.obj().ncols(), 
 					v.obj().values(), 
@@ -474,7 +474,7 @@ static void addToTargetSpecialization(
 
 			trg.self() = T_Matrix::init(v.size1(), v.size2(), v.obj().nnz(), v.obj().prop());
 
-			bulk::csc::transpose(
+			blk::csc::transpose(
 					v.obj().nrows(), 
 					v.obj().ncols(), 
 					v.obj().colptr(), 
@@ -490,7 +490,7 @@ static void addToTargetSpecialization(
 
 			trg.self() = T_Matrix::init(v.size1(), v.size2(), v.obj().nnz(), v.obj().prop());
 
-			bulk::csc::conjugate_transpose(
+			blk::csc::conjugate_transpose(
 					v.obj().nrows(), 
 					v.obj().ncols(), 
 					v.obj().colptr(), 

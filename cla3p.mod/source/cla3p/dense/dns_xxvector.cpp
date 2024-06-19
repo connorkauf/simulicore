@@ -186,13 +186,13 @@ std::string XxVectorTmpl::info(const std::string& header) const
 XxVectorTlst
 void XxVectorTmpl::print(uint_t nsd) const
 {
-	bulk::dns::print(uplo_t::Full, size(), 1, this->values(), size(), nsd);
+	blk::dns::print(uplo_t::Full, size(), 1, this->values(), size(), nsd);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 std::string XxVectorTmpl::toString(uint_t nsd) const
 {
-	return bulk::dns::print_to_string(uplo_t::Full, size(), 1, this->values(), size(), nsd);
+	return blk::dns::print_to_string(uplo_t::Full, size(), 1, this->values(), size(), nsd);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -291,7 +291,7 @@ VirtualVector<T_Vector> XxVectorTmpl::operator-() const
 XxVectorTlst
 void XxVectorTmpl::iscale(T_Scalar val)
 {
-	bulk::dns::scale(uplo_t::Full, this->size(), 1, this->values(), this->size(), val);
+	blk::dns::scale(uplo_t::Full, this->size(), 1, this->values(), this->size(), val);
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -315,13 +315,13 @@ VirtualVector<T_Vector> XxVectorTmpl::conjugate() const
 XxVectorTlst
 void XxVectorTmpl::iconjugate()
 {
-	bulk::dns::conjugate(uplo_t::Full, this->size(), 1, this->values(), this->size());
+	blk::dns::conjugate(uplo_t::Full, this->size(), 1, this->values(), this->size());
 }
 /*-------------------------------------------------*/
 XxVectorTlst
 typename XxVectorTmpl::T_RScalar XxVectorTmpl::normOne() const
 {
-	return bulk::dns::norm_one(
+	return blk::dns::norm_one(
 			prop_t::General,
 			uplo_t::Full,
 			this->size(),
@@ -333,7 +333,7 @@ typename XxVectorTmpl::T_RScalar XxVectorTmpl::normOne() const
 XxVectorTlst
 typename XxVectorTmpl::T_RScalar XxVectorTmpl::normInf() const
 {
-	return bulk::dns::norm_inf(
+	return blk::dns::norm_inf(
 			prop_t::General,
 			uplo_t::Full,
 			this->size(),
@@ -345,7 +345,7 @@ typename XxVectorTmpl::T_RScalar XxVectorTmpl::normInf() const
 XxVectorTlst
 typename XxVectorTmpl::T_RScalar XxVectorTmpl::normEuc() const
 { 
-	return bulk::dns::norm_euc(this->size(), this->values());
+	return blk::dns::norm_euc(this->size(), this->values());
 }
 /*-------------------------------------------------*/
 XxVectorTlst
@@ -355,7 +355,7 @@ T_Vector XxVectorTmpl::permuteLeft(const prm::PiMatrix& P) const
 
 	perm_op_consistency_check(this->size(), 1, P.size(), 1);
 
-	bulk::dns::permute(prop_t::General, uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size(), P.values(), nullptr);
+	blk::dns::permute(prop_t::General, uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size(), P.values(), nullptr);
 
 	return ret;
 }
@@ -411,7 +411,7 @@ XxVectorTlst
 T_Vector XxVectorTmpl::random(uint_t n, T_RScalar lo, T_RScalar hi)
 {
 	T_Vector ret(n);
-	bulk::dns::rand(uplo_t::Full, ret.size(), 1, ret.values(), ret.size(), lo, hi);
+	blk::dns::rand(uplo_t::Full, ret.size(), 1, ret.values(), ret.size(), lo, hi);
 	return ret;
 }
 /*-------------------------------------------------*/

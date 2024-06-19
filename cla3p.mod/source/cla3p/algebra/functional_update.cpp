@@ -60,7 +60,7 @@ void update(typename T_Matrix::value_type alpha,
 			A.prop(), A.nrows(), A.ncols(),
 			B.prop(), B.nrows(), B.ncols());
 
-	bulk::dns::update(A.prop().uplo(), A.nrows(), A.ncols(), alpha, 
+	blk::dns::update(A.prop().uplo(), A.nrows(), A.ncols(), alpha, 
 			A.values(), A.ld(),
 			B.values(), B.ld());
 }

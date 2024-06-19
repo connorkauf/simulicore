@@ -27,7 +27,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace csc {
 /*-------------------------------------------------*/
 
@@ -100,7 +100,7 @@ void permute(prop_t ptype, uplo_t uplo, uint_t m, uint_t n,
 
 /*-------------------------------------------------*/
 } // namespace csc
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/
 

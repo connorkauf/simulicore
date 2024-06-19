@@ -172,9 +172,9 @@ void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 		// 
 		// TODO: perhaps use a copy for 1D arrays
 		//
-		bulk::dns::copy(uplo_t::Full, nc, 1, this->colptr(), nc, trg.colptr(), nc);
-		bulk::dns::copy(uplo_t::Full, nz, 1, this->rowidx(), nz, trg.rowidx(), nz);
-		bulk::dns::copy(uplo_t::Full, nz, 1, this->values(), nz, trg.values(), nz);
+		blk::dns::copy(uplo_t::Full, nc, 1, this->colptr(), nc, trg.colptr(), nc);
+		blk::dns::copy(uplo_t::Full, nz, 1, this->rowidx(), nz, trg.rowidx(), nz);
+		blk::dns::copy(uplo_t::Full, nz, 1, this->values(), nz, trg.values(), nz);
 
 	} // do not apply on self
 }
@@ -191,7 +191,7 @@ void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 XxMatrixTlst
 std::string XxMatrixTmpl::toString(uint_t nsd) const
 {
-	return bulk::csc::print_to_string(ncols(), this->colptr(), this->rowidx(), this->values(), nsd);
+	return blk::csc::print_to_string(ncols(), this->colptr(), this->rowidx(), this->values(), nsd);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -226,7 +226,7 @@ XxMatrixTlst
 void XxMatrixTmpl::iscale(T_Scalar val)
 {
 	hermitian_coeff_check(prop(), val);
-	bulk::dns::scale(uplo_t::Full, nnz(), 1, this->values(), nnz(), val);
+	blk::dns::scale(uplo_t::Full, nnz(), 1, this->values(), nnz(), val);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
@@ -253,13 +253,13 @@ void XxMatrixTmpl::iconjugate()
 	//
 	// TODO: perhaps use a conjugate for 1D arrays
 	//
-	bulk::dns::conjugate(uplo_t::Full, nnz(), 1, this->values(), nnz());
+	blk::dns::conjugate(uplo_t::Full, nnz(), 1, this->values(), nnz());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normOne() const
 {
-	return bulk::csc::norm_one(
+	return blk::csc::norm_one(
 			prop().type(),
 			ncols(), 
 			this->colptr(), 
@@ -270,7 +270,7 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normOne() const
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normInf() const
 {
-	return bulk::csc::norm_inf(
+	return blk::csc::norm_inf(
 			prop().type(),
 			nrows(),
 			ncols(),
@@ -282,7 +282,7 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normInf() const
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
 {
-	return bulk::csc::norm_max(
+	return blk::csc::norm_max(
 			ncols(),
 			this->colptr(), 
 			this->values());
@@ -291,7 +291,7 @@ typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normMax() const
 XxMatrixTlst
 typename XxMatrixTmpl::T_RScalar XxMatrixTmpl::normFro() const
 {
-	return bulk::csc::norm_fro(
+	return blk::csc::norm_fro(
 			prop().type(),
 			ncols(),
 			this->colptr(), 
@@ -315,21 +315,21 @@ T_Matrix XxMatrixTmpl::general() const
 	} else if(prop().isSymmetric()) {
 
 		colptr_ge = i_malloc<T_Int>(ncols() + 1);
-		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
+		blk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[ncols()];
 		rowidx_ge = i_malloc<T_Int>(nz);
 		values_ge = i_malloc<T_Scalar>(nz);
-		bulk::csc::sy2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
+		blk::csc::sy2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isHermitian()) {
 
 		colptr_ge = i_malloc<T_Int>(ncols() + 1);
-		bulk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
+		blk::csc::uplo2ge_colptr(prop().uplo(), ncols(), this->colptr(), this->rowidx(), colptr_ge);
 		T_Int nz = colptr_ge[ncols()];
 		rowidx_ge = i_malloc<T_Int>(nz);
 		values_ge = i_malloc<T_Scalar>(nz);
-		bulk::csc::he2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
+		blk::csc::he2ge(prop().uplo(), ncols(), this->colptr(), this->rowidx(), this->values(), colptr_ge, rowidx_ge, values_ge);
 		ret = T_Matrix::wrap(nrows(), ncols(), colptr_ge, rowidx_ge, values_ge, true);
 
 	} else if(prop().isTriangular()) {
@@ -366,7 +366,7 @@ T_Matrix XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMat
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
-	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+	blk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
 			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), Q.values());
@@ -380,7 +380,7 @@ T_Matrix XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P) const
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
-	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+	blk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
 			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), nullptr);
@@ -394,7 +394,7 @@ T_Matrix XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q) const
 	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
-	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+	blk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
 			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			nullptr, Q.values());
@@ -408,7 +408,7 @@ T_Matrix XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P) const
 	perm_op_consistency_check(nrows(), ncols(), P.size(), P.size());
 
 	T_Matrix ret(nrows(), ncols(), nnz(), prop());
-	bulk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
+	blk::csc::permute(prop().type(), prop().uplo(), nrows(), ncols(), 
 			this->colptr(), this->rowidx(), this->values(), 
 			ret.colptr(), ret.rowidx(), ret.values(), 
 			P.values(), nullptr);
@@ -438,7 +438,7 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 		} // irow
 	} // j
 
-	bulk::csc::roll(nj, cptr);
+	blk::csc::roll(nj, cptr);
 
 	T_Int     nnz  = cptr[nj];
 	T_Int    *ridx = nullptr;
@@ -463,7 +463,7 @@ T_Matrix XxMatrixTmpl::block(uint_t ibgn, uint_t jbgn, uint_t ni, uint_t nj) con
 			} // irow
 		} // j
 
-		bulk::csc::unroll(nj, cptr);
+		blk::csc::unroll(nj, cptr);
 
 	} // nnz
 

@@ -69,7 +69,7 @@ syn keyword cTypeCustomNSpace lapack
 syn keyword cTypeCustomNSpace pardiso
 
 syn keyword cTypeCustomNSpace mt
-syn keyword cTypeCustomNSpace bulk
+syn keyword cTypeCustomNSpace blk
 syn keyword cTypeCustomNSpace dns
 syn keyword cTypeCustomNSpace csc
 syn keyword cTypeCustomNSpace coo

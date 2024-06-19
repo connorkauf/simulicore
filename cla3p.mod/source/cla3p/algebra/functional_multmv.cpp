@@ -47,26 +47,26 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 
 	if(A.prop().isGeneral()) {
 
-		bulk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
 
 	} else if(A.prop().isSymmetric()) {
 
-		bulk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
 
 	} else if(A.prop().isHermitian()) {
 
-		bulk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
+		blk::dns::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, A.values(), A.ld(), X.values(), beta, Y.values());
 
 	} else if(A.prop().isTriangular()) {
 
 		if(beta == T_Scalar(0)) {
 
-			bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), Y.values());
+			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), Y.values());
 
 		} else {
 
 			T_Vector tmp(Y.size());
-			bulk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
+			blk::dns::trm_x_vec(A.prop().uplo(), opA, A.nrows(), A.ncols(), alpha, A.values(), A.ld(), X.values(), tmp.values());
 			Y.iscale(beta);
 			ops::update(1, tmp, Y);
 
@@ -147,19 +147,19 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
 
 	if(A.prop().isGeneral() || A.prop().isTriangular()) {
 
-		bulk::csc::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
+		blk::csc::gem_x_vec(opA, A.nrows(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
 				X.values(), beta, Y.values());
 
 	} else if(A.prop().isSymmetric()) {
 
-		bulk::csc::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+		blk::csc::sym_x_vec(A.prop().uplo(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
 				X.values(), beta, Y.values());
 
 	} else if(A.prop().isHermitian()) {
 
-		bulk::csc::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
+		blk::csc::hem_x_vec(A.prop().uplo(), A.ncols(), alpha, 
 				A.colptr(), A.rowidx(), A.values(), 
 				X.values(), beta, Y.values());
 

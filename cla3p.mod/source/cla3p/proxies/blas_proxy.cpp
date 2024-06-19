@@ -308,16 +308,16 @@ static void gemmt_recursive(char uplo, char transa, char transb, int_t n, int_t 
 		for(int_t j = 0; j < n; j++) {
 
 			int_t incb = (transb == 'N' ? 1 : ldb);
-			const T_Scalar *bj = (transb == 'N' ? bulk::dns::ptrmv(ldb,b,0,j) : bulk::dns::ptrmv(ldb,b,j,0));
+			const T_Scalar *bj = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,j) : blk::dns::ptrmv(ldb,b,j,0));
 
 			if(uplo == 'L') {
 
-				const T_Scalar *al = (transa == 'N' ? bulk::dns::ptrmv(lda,a,j,0) : bulk::dns::ptrmv(lda,a,0,j));
+				const T_Scalar *al = (transa == 'N' ? blk::dns::ptrmv(lda,a,j,0) : blk::dns::ptrmv(lda,a,0,j));
 
 				int_t ma = (transa == 'N' ? n-j : k  );
 				int_t na = (transa == 'N' ? k   : n-j);
 				int_t incc = 1;
-				T_Scalar *cj = bulk::dns::ptrmv(ldc,c,j,j);
+				T_Scalar *cj = blk::dns::ptrmv(ldc,c,j,j);
 				gemv(transa, ma, na, alpha, al, lda, bj, incb, beta, cj, incc);
 
 			} else if(uplo == 'U') {
@@ -327,7 +327,7 @@ static void gemmt_recursive(char uplo, char transa, char transb, int_t n, int_t 
 				int_t ma = (transa == 'N' ? j+1 : k  );
 				int_t na = (transa == 'N' ? k   : j+1);
 				int_t incc = 1;
-				T_Scalar *cj = bulk::dns::ptrmv(ldc,c,0,j);
+				T_Scalar *cj = blk::dns::ptrmv(ldc,c,0,j);
 				gemv(transa, ma, na, alpha, au, lda, bj, incb, beta, cj, incc);
 
 			} // U/L
@@ -340,25 +340,25 @@ static void gemmt_recursive(char uplo, char transa, char transb, int_t n, int_t 
 		int_t n2 = n - n1;
 
 		const T_Scalar *a1 = a;
-		const T_Scalar *a2 = (transa == 'N' ? bulk::dns::ptrmv(lda,a,n1,0) : bulk::dns::ptrmv(lda,a,0,n1));
+		const T_Scalar *a2 = (transa == 'N' ? blk::dns::ptrmv(lda,a,n1,0) : blk::dns::ptrmv(lda,a,0,n1));
 
 		const T_Scalar *b1 = b;
-		const T_Scalar *b2 = (transb == 'N' ? bulk::dns::ptrmv(ldb,b,0,n1) : bulk::dns::ptrmv(ldb,b,n1,0));
+		const T_Scalar *b2 = (transb == 'N' ? blk::dns::ptrmv(ldb,b,0,n1) : blk::dns::ptrmv(ldb,b,n1,0));
 
 		T_Scalar *c11 = c;
-		T_Scalar *c22 = bulk::dns::ptrmv(ldc,c,n1,n1);
+		T_Scalar *c22 = blk::dns::ptrmv(ldc,c,n1,n1);
 
 		gemmt_recursive(uplo, transa, transb, n1, k, alpha, a1, lda, b1, ldb, beta, c11, ldc);
 		gemmt_recursive(uplo, transa, transb, n2, k, alpha, a2, lda, b2, ldb, beta, c22, ldc);
 
 		if(uplo == 'L') {
 
-			T_Scalar *c21 = bulk::dns::ptrmv(ldc,c,n1,0);
+			T_Scalar *c21 = blk::dns::ptrmv(ldc,c,n1,0);
 			gemm(transa, transb, n2, n1, k, alpha, a2, lda, b1, ldb, beta, c21, ldc);
 
 		} else if(uplo == 'U') {
 
-			T_Scalar *c12 = bulk::dns::ptrmv(ldc,c,0,n1);
+			T_Scalar *c12 = blk::dns::ptrmv(ldc,c,0,n1);
 			gemm(transa, transb, n1, n2, k, alpha, a1, lda, b2, ldb, beta, c12, ldc);
 
 		} // U/L

@@ -70,9 +70,9 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 	uint_t nc = this->ncols() + 1;
 	uint_t nz = this->nnz();
 
-	bulk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
-	bulk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
-	bulk::dns::get_real(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
+	blk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
+	blk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
+	blk::dns::get_real(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
 
 	return ret;
 }
@@ -87,9 +87,9 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 	uint_t nc = this->ncols() + 1;
 	uint_t nz = this->nnz();
 
-	bulk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
-	bulk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
-	bulk::dns::get_imag(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
+	blk::dns::copy    (uplo_t::Full, nc, 1, this->colptr(), nc, ret.colptr(), nc);
+	blk::dns::copy    (uplo_t::Full, nz, 1, this->rowidx(), nz, ret.rowidx(), nz);
+	blk::dns::get_imag(uplo_t::Full, nz, 1, this->values(), nz, ret.values(), nz);
 
 	return ret;
 }

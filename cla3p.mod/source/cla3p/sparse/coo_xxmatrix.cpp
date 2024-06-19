@@ -179,7 +179,7 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 			colptr[tuple.col() + 1]++;
 			});
 
-	bulk::csc::roll(ncols(), colptr);
+	blk::csc::roll(ncols(), colptr);
 
 	T_Int nnz = colptr[ncols()];
 
@@ -199,9 +199,9 @@ typename XxMatrixTmpl::T_CscMatrix XxMatrixTmpl::toCsc(dup_t duplicatePolicy) co
 				colptr[tuple.col()]++;
 				});
 
-		bulk::csc::unroll(ncols(), colptr);
-		bulk::csc::sort(ncols(), colptr, rowidx, values);
-		bulk::csc::remove_duplicates(ncols(), colptr, rowidx, values, duplicatePolicy);
+		blk::csc::unroll(ncols(), colptr);
+		blk::csc::sort(ncols(), colptr, rowidx, values);
+		blk::csc::remove_duplicates(ncols(), colptr, rowidx, values, duplicatePolicy);
 
 		rowidx = static_cast<T_Int   *>(i_realloc(rowidx, colptr[ncols()] * sizeof(T_Int   )));
 		values = static_cast<T_Scalar*>(i_realloc(values, colptr[ncols()] * sizeof(T_Scalar)));

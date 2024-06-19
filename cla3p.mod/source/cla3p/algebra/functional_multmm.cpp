@@ -93,7 +93,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 		if(C.prop().isGeneral()) {
 
-			bulk::dns::gem_x_gem(
+			blk::dns::gem_x_gem(
 					C.nrows(), 
 					C.ncols(), 
 					k, alpha, 
@@ -120,7 +120,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		bulk::dns::sym_x_gem(A.prop().uplo(), 
+		blk::dns::sym_x_gem(A.prop().uplo(), 
 				C.nrows(), 
 				C.ncols(), 
 				alpha, 
@@ -131,7 +131,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		bulk::dns::hem_x_gem(
+		blk::dns::hem_x_gem(
 				A.prop().uplo(), 
 				C.nrows(), 
 				C.ncols(), 
@@ -143,7 +143,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isGeneral() && B.prop().isSymmetric() && C.prop().isGeneral()) {
 
-		bulk::dns::gem_x_sym(B.prop().uplo(), 
+		blk::dns::gem_x_sym(B.prop().uplo(), 
 				C.nrows(), 
 				C.ncols(), 
 				alpha, 
@@ -154,7 +154,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 	} else if(A.prop().isGeneral() && B.prop().isHermitian() && C.prop().isGeneral()) {
 
-		bulk::dns::gem_x_hem(B.prop().uplo(), 
+		blk::dns::gem_x_hem(B.prop().uplo(), 
 				C.nrows(), 
 				C.ncols(), 
 				alpha, 
@@ -167,7 +167,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 		if(beta == T_Scalar(0)) {
 
-			bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
+			blk::dns::trm_x_gem(A.prop().uplo(), opA, 
 					C.nrows(), 
 					C.ncols(), 
 					B.nrows(), 
@@ -179,7 +179,7 @@ void mult(typename T_Matrix::value_type alpha,
 		} else {
 
 			T_Matrix tmp(C.nrows(), C.ncols());
-			bulk::dns::trm_x_gem(A.prop().uplo(), opA, 
+			blk::dns::trm_x_gem(A.prop().uplo(), opA, 
 					C.nrows(), 
 					C.ncols(), 
 					B.nrows(), 
@@ -196,7 +196,7 @@ void mult(typename T_Matrix::value_type alpha,
 
 		if(beta == T_Scalar(0)) {
 
-			bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
+			blk::dns::gem_x_trm(B.prop().uplo(), opB, 
 					C.nrows(), 
 					C.ncols(), 
 					A.nrows(), 
@@ -208,7 +208,7 @@ void mult(typename T_Matrix::value_type alpha,
 		} else {
 
 			T_Matrix tmp(C.nrows(), C.ncols());
-			bulk::dns::gem_x_trm(B.prop().uplo(), opB, 
+			blk::dns::gem_x_trm(B.prop().uplo(), opB, 
 					C.nrows(), 
 					C.ncols(), 
 					A.nrows(), 
@@ -371,7 +371,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 
 		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
-			bulk::csc::gem_x_gem(opA, 
+			blk::csc::gem_x_gem(opA, 
 					C.nrows(), 
 					C.ncols(), 
 					k, 
@@ -383,7 +383,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 
 	} else if(A.prop().isSymmetric() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		bulk::csc::sym_x_gem(A.prop().uplo(),
+		blk::csc::sym_x_gem(A.prop().uplo(),
 				C.nrows(),
 				C.ncols(),
 				alpha,
@@ -394,7 +394,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
 
 	} else if(A.prop().isHermitian() && B.prop().isGeneral() && C.prop().isGeneral()) {
 
-		bulk::csc::hem_x_gem(A.prop().uplo(),
+		blk::csc::hem_x_gem(A.prop().uplo(),
 				C.nrows(),
 				C.ncols(),
 				alpha,
@@ -444,7 +444,7 @@ void mult(typename T_CscMatrix::value_type alpha,
 
 		uint_t k = (_opA.isTranspose() ? A.nrows() : A.ncols());
 
-		bulk::csc::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
+		blk::csc::gem_x_gem(C.nrows(), C.ncols(), k, alpha,
 				opA, A.colptr(), A.rowidx(), A.values(),
 				opB, B.colptr(), B.rowidx(), B.values(),
 				beta, C.values(), C.ld());
@@ -498,7 +498,7 @@ T_Matrix mult(typename T_Matrix::value_type alpha,
 		int_t    *rowidxC = nullptr;
 		T_Scalar *valuesC = nullptr;
 
-		bulk::csc::gem_x_gem(m, n, k,
+		blk::csc::gem_x_gem(m, n, k,
 				opA, A.colptr(), A.rowidx(), A.values(),
 				opB, B.colptr(), B.rowidx(), B.values(),
 				&colptrC, &rowidxC, &valuesC);

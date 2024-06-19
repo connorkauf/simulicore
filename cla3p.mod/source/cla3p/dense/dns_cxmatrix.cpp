@@ -74,7 +74,7 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::real() const
 
 	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
 
-	bulk::dns::get_real(
+	blk::dns::get_real(
 			this->prop().uplo(), 
 			this->nrows(), 
 			this->ncols(), 
@@ -92,7 +92,7 @@ typename CxMatrixTmpl::T_RMatrix CxMatrixTmpl::imag() const
 
 	T_RMatrix ret(this->nrows(), this->ncols(), ret_prop);
 
-	bulk::dns::get_imag(
+	blk::dns::get_imag(
 			this->prop().uplo(), 
 			this->nrows(), 
 			this->ncols(), 

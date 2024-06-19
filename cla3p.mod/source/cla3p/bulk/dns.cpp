@@ -39,7 +39,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 static inline uint_t recursive_min_dim()
@@ -1067,6 +1067,6 @@ instantiate_permute(complex8_t);
 #undef instantiate_permute
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/

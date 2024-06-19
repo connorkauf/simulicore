@@ -29,7 +29,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace dns {
 /*-------------------------------------------------*/
 #define PRINTER_BUFFER_SIZE 128
@@ -428,6 +428,6 @@ void print(uplo_t uplo, uint_t m, uint_t n, const complex8_t *a, uint_t lda, uin
 #undef PRINTER_BUFFER_SIZE
 /*-------------------------------------------------*/
 } // namespace dns
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/

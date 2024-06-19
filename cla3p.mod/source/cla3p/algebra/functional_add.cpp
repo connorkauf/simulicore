@@ -41,7 +41,7 @@ T_Vector add(
 
 	T_Vector ret(X.size());
 
-	bulk::dns::add(uplo_t::Full, X.size(), 1, 
+	blk::dns::add(uplo_t::Full, X.size(), 1, 
 		alpha, X.values(), X.size(),
 		beta , Y.values(), Y.size(), 
 		ret.values(), ret.size());
@@ -74,7 +74,7 @@ T_Matrix add(
 
 	T_Matrix ret(m, n, pr);
 
-	bulk::dns::add(pr.uplo(), m, n, 
+	blk::dns::add(pr.uplo(), m, n, 
 			alpha, A.values(), A.ld(),
 			beta, B.values(), B.ld(), 
 			ret.values(), ret.ld());
@@ -110,7 +110,7 @@ T_Matrix add(typename T_Matrix::value_type alpha,
 	int_t*    rowidxC = nullptr;
 	T_Scalar* valuesC = nullptr;
 
-	bulk::csc::add(nrowsC, ncolsC, alpha,
+	blk::csc::add(nrowsC, ncolsC, alpha,
 			A.colptr(), A.rowidx(), A.values(),
 			B.colptr(), B.rowidx(), B.values(),
 			&colptrC, &rowidxC, &valuesC);

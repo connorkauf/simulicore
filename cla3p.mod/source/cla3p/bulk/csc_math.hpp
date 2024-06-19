@@ -25,7 +25,7 @@
 
 /*-------------------------------------------------*/
 namespace cla3p {
-namespace bulk {
+namespace blk {
 namespace csc {
 /*-------------------------------------------------*/
 
@@ -115,7 +115,7 @@ void gem_x_gem(uint_t m, uint_t n, uint_t k,
 
 /*-------------------------------------------------*/
 } // namespace csc
-} // namespace bulk
+} // namespace blk
 } // namespace cla3p
 /*-------------------------------------------------*/
 
