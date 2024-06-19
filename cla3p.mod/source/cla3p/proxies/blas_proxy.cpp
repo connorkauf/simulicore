@@ -366,7 +366,7 @@ static void gemmt_recursive(char uplo, char transa, char transb, int_t n, int_t 
 	} // n
 }
 /*-------------------------------------------------*/
-#if defined(CLA3P_INTEL_MKL)
+#if defined(CLA3P_INTEL_MKL) || defined(CLA3P_ARMPL)
 #define gemmt_macro(typein, prefix) \
 void gemmt(char uplo, char transa, char transb, int_t n, int_t k, \
 		typein alpha, const typein *a, int_t lda, const typein *b, int_t ldb, \
