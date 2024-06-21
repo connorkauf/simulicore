@@ -1,8 +1,9 @@
 #-----------------------------------------------
 # set library name
 #-----------------------------------------------
-set(CLA3P_LIB "cla3p" CACHE INTERNAL "The cla3p library")
-set(CLA3P_I64_LIB "cla3p_i64" CACHE INTERNAL "The cla3p_i64 library")
+set(CLA3P_INC "${CLA3P_ROOT}/source" CACHE INTERNAL "The cla3p includes")
+set(CLA3P_LIB "cla3p" CACHE INTERNAL "The lp64 cla3p library")
+set(CLA3P_I64_LIB "${CLA3P_LIB}_i64" CACHE INTERNAL "The ilp64 cla3p library")
 
 #-----------------------------------------------
 # source setup
