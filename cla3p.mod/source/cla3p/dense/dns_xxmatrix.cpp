@@ -513,9 +513,16 @@ XxMatrixTlst
 void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 {
 	if(this != &trg) {
-		trg.wrapper(nrows(), ncols(), this->values(), ld(), this->owner(), prop());
+
+		if(nrows() == trg.nrows() && ncols() == trg.ncols() && prop() == trg.prop()) {
+			copyToExisting(trg);
+		} else {
+			trg.wrapper(nrows(), ncols(), this->values(), ld(), this->owner(), prop());
+		} // similar
+
 		this->unbind();
 		clear();
+
 	} // do not apply on self
 }
 /*-------------------------------------------------*/

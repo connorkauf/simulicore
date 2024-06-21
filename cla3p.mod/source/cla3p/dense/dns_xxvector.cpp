@@ -221,9 +221,16 @@ XxVectorTlst
 void XxVectorTmpl::moveTo(XxVectorTmpl& trg)
 {
 	if(this != &trg) {
-		trg.wrapper(size(), this->values(), this->owner());
+
+		if(size() == trg.size()) {
+			copyToExisting(trg);
+		} else {
+			trg.wrapper(size(), this->values(), this->owner());
+		} // similar
+
 		this->unbind();
 		clear();
+
 	} // do not apply on self
 }
 /*-------------------------------------------------*/

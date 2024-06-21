@@ -104,16 +104,17 @@ class RxVector : public XxVector<T_Scalar,RxVector<T_Scalar>> {
 
 		/**
 		 * @brief The copy assignment operator.
-		 *
-		 * If `(*this)` is empty, constructs a vector with a copy of the contents of `other`, `other` is unchanged.@n
-		 * If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size of `(*this)` should match the size of `other`.
+		 * @details If `(*this)` is empty, constructs a vector with a copy of the contents of `other`.@n
+		 *          If `(*this)` is not empty, performs a deep copy of the data of `other` to `(*this)`. The size of `(*this)` should match the size of `other`.@n
+		 *          `other` is unchanged.
 		 */
 		RxVector<T_Scalar>& operator=(const RxVector<T_Scalar>& other) = default;
 
 		/**
 		 * @brief The move assignment operator.
-		 *
-		 * Replaces the contents of `(*this)` with those of `other`, `other` is destroyed.
+		 * @details If `(*this)` is similar to `other`, performs a deep copy of the data of `other` to `(*this)`.@n
+		 *          Otherwise, replaces the contents of `(*this)` with those of `other`.@n
+		 *          `other` is destroyed.
 		 */
 		RxVector<T_Scalar>& operator=(RxVector<T_Scalar>&& other) = default;
 

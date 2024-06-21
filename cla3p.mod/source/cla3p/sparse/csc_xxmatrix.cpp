@@ -182,10 +182,18 @@ void XxMatrixTmpl::copyToExisting(XxMatrixTmpl& trg) const
 XxMatrixTlst
 void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 {
-	trg.wrapper(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), this->owner(), prop());
+	if(this != &trg) {
 
-	this->unbind();
-	clear();
+		if(nrows() == trg.nrows() && ncols() == trg.ncols() && prop() == trg.prop() && nnz() == trg.nnz()) {
+			copyToExisting(trg);
+		} else {
+			trg.wrapper(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), this->owner(), prop());
+		} // similar
+
+		this->unbind();
+		clear();
+
+	} // do not apply on self
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
