@@ -42,13 +42,13 @@ class Meta2D {
 		 * @brief The matrix rows.
 		 * @return The number of rows in `(*this)`.
 		 */
-		uint_t nrows() const;
+		virtual uint_t nrows() const;
 
 		/**
 		 * @brief The matrix columns.
 		 * @return The number of columns in `(*this)`.
 		 */
-		uint_t ncols() const;
+		virtual uint_t ncols() const;
 
 		/**
 		 * @brief Test whether object is empty.
