@@ -39,6 +39,10 @@ class MatrixMeta : public Meta2D {
 		MatrixMeta(uint_t nr, uint_t nc, const Property& pr);
 		~MatrixMeta();
 
+		/**
+		 * @brief The matrix property.
+		 * @detail Gets the defined property for the matrix.
+		 */
 		const Property& prop() const;
 
 	protected:
