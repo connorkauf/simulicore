@@ -43,6 +43,7 @@ message(STATUS "SimuliCore Install Directory: ${CMAKE_INSTALL_PREFIX}")
 add_subdirectory(cmake)
 add_subdirectory(licensing)
 add_subdirectory(cla3p.mod)
+add_subdirectory(clra.mod)
 
 if(${SIMULICORE_FULL_INSTALL})
 	add_subdirectory(sample)

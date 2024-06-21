@@ -1,23 +1,25 @@
 /**
- * @page module_index Module Index
- *  - @subpage module_index_datatypes
- *  - @subpage module_index_allocators
- *  - @subpage module_index_vectors
- *  - @subpage module_index_matrices
- *  - @subpage module_index_guard
- *  - @subpage module_index_math_op
- *  - @subpage module_index_linsol
- *  - @subpage module_index_math_operators
- *  - @subpage module_index_stream_operators
- *  - @subpage module_index_exceptions
- *  - @subpage module_index_special_enums
+ * @page cla3p_module_index Module Index
+ *  - @subpage cla3p_module_index_datatypes
+ *  - @subpage cla3p_module_index_allocators
+ *  - @subpage cla3p_module_index_vectors
+ *  - @subpage cla3p_module_index_matrices
+ *  - @subpage cla3p_module_index_guard
+ *  - @subpage cla3p_module_index_math_op
+ *  - @subpage cla3p_module_index_linsol
+ *  - @subpage cla3p_module_index_qr
+ *  - @subpage cla3p_module_index_svd
+ *  - @subpage cla3p_module_index_math_operators
+ *  - @subpage cla3p_module_index_stream_operators
+ *  - @subpage cla3p_module_index_exceptions
+ *  - @subpage cla3p_module_index_special_enums
  *
  *
  *
  *
  *
  *
- * @defgroup module_index_datatypes Datatypes
+ * @defgroup cla3p_module_index_datatypes Datatypes
  * @brief The basic CLA3P datatypes.
  *
  * List of the basic datatypes that are used in CLA3P.@n
@@ -30,7 +32,7 @@
  *
  *
  *
- * @defgroup module_index_allocators Allocators
+ * @defgroup cla3p_module_index_allocators Allocators
  * List of allocators that are used in CLA3P.
  *
  *
@@ -38,10 +40,10 @@
  *
  *
  *
- * @addtogroup module_index_vectors Vectors
+ * @addtogroup cla3p_module_index_vectors Vectors
  * The CLA3P vector objects.
  * @{
- *   @defgroup module_index_vectors_dense Dense Vectors
+ *   @defgroup cla3p_module_index_vectors_dense Dense Vectors
  *   The CLA3P dense vector objects.
  * @}
  *
@@ -50,16 +52,16 @@
  *
  *
  *
- * @addtogroup module_index_matrices Matrices
+ * @addtogroup cla3p_module_index_matrices Matrices
  * The CLA3P matrix objects.
  * @{
- *   @defgroup module_index_matrices_dense Dense Matrices
+ *   @defgroup cla3p_module_index_matrices_dense Dense Matrices
  *   The CLA3P dense matrix objects.
  *
- *   @defgroup module_index_matrices_sparse Sparse Matrices
+ *   @defgroup cla3p_module_index_matrices_sparse Sparse Matrices
  *   The CLA3P sparse matrix objects.
  *
- *   @defgroup module_index_matrices_perm Permutation Matrices
+ *   @defgroup cla3p_module_index_matrices_perm Permutation Matrices
  *   The CLA3P permutation matrix objects.
  * @}
  * 
@@ -68,7 +70,7 @@
  *
  *
  *
- * @defgroup module_index_guard Guard
+ * @defgroup cla3p_module_index_guard Guard
  * The CLA3P guard utility class.@n
  * Includes class:
  *  - @ref cla3p::Guard
@@ -78,16 +80,16 @@
  *
  *
  *
- * @addtogroup module_index_math_op Functional Algebra
+ * @addtogroup cla3p_module_index_math_op Functional Algebra
  * List of CLA3P algebraic operations (functional).
  * @{
- *   @defgroup module_index_math_op_add Add/Update Operations
+ *   @defgroup cla3p_module_index_math_op_add Add/Update Operations
  *
- *   @defgroup module_index_math_op_vecvec Inner/Outer product Operations
+ *   @defgroup cla3p_module_index_math_op_vecvec Inner/Outer product Operations
  *
- *   @defgroup module_index_math_op_matvec Matrix-Vector Operations
+ *   @defgroup cla3p_module_index_math_op_matvec Matrix-Vector Operations
  *
- *   @defgroup module_index_math_op_matmat Matrix-Matrix Operations
+ *   @defgroup cla3p_module_index_math_op_matmat Matrix-Matrix Operations
  * @}
  *
  *
@@ -95,10 +97,10 @@
  *
  *
  *
- * @addtogroup module_index_linsol Linear Solvers
+ * @addtogroup cla3p_module_index_linsol Linear Solvers
  * List of CLA3P classes for solving systems of linear equations.
  * @{
- *   @defgroup module_index_linsol_dense Dense Linear Solvers
+ *   @defgroup cla3p_module_index_linsol_dense Dense Linear Solvers
  *   List of CLA3P dense linear solvers.@n
  *   Includes classes:
  *    - @ref cla3p::LapackAuto
@@ -107,7 +109,7 @@
  *    - @ref cla3p::LapackLU
  *    - @ref cla3p::LapackCompleteLU
  *
- *   @defgroup module_index_linsol_sparse Sparse Linear Solvers
+ *   @defgroup cla3p_module_index_linsol_sparse Sparse Linear Solvers
  *   List of CLA3P sparse linear solvers.@n
  *   Includes classes:
  *    - @ref cla3p::PardisoLLt
@@ -121,20 +123,40 @@
  *
  *
  *
- * @addtogroup module_index_math_operators Algebra Operators
+ * @defgroup cla3p_module_index_qr QR Decomposition
+ * The CLA3P object used for QR decomposition of dense matrices.@n
+ * Includes class:
+ *  - @ref cla3p::DefaultQR
+ *
+ *
+ *
+ *
+ *
+ *
+ * @defgroup cla3p_module_index_svd Singular Value Decomposition
+ * The CLA3P object used for singular value decomposition of dense matrices.@n
+ * Includes class:
+ *  - @ref cla3p::DefaultSVD
+ *
+ *
+ *
+ *
+ *
+ *
+ * @addtogroup cla3p_module_index_math_operators Algebra Operators
  * List of CLA3P algebraic operator definitions that are not class members.
  * @{
- *   @defgroup module_index_math_operators_add Addition/Subtraction Operators
+ *   @defgroup cla3p_module_index_math_operators_add Addition/Subtraction Operators
  *
- *   @defgroup module_index_math_operators_update Updating Operators
+ *   @defgroup cla3p_module_index_math_operators_update Updating Operators
  *
- *   @defgroup module_index_math_operators_scal Scaling Operators
+ *   @defgroup cla3p_module_index_math_operators_scal Scaling Operators
  *
- *   @defgroup module_index_math_operators_mult Multiplication Operators
+ *   @defgroup cla3p_module_index_math_operators_mult Multiplication Operators
  *
- *   @defgroup module_index_math_operators_perm Permutation Operators
+ *   @defgroup cla3p_module_index_math_operators_perm Permutation Operators
  *
- *   @defgroup module_index_math_operators_linsol Linear Solving Operators
+ *   @defgroup cla3p_module_index_math_operators_linsol Linear Solving Operators
  * @}
  *
  *
@@ -142,7 +164,7 @@
  *
  *
  *
- * @defgroup module_index_stream_operators Stream Operators
+ * @defgroup cla3p_module_index_stream_operators Stream Operators
  * List of CLA3P stream operators.
  *
  *
@@ -150,7 +172,7 @@
  *
  *
  *
- * @defgroup module_index_exceptions Exceptions
+ * @defgroup cla3p_module_index_exceptions Exceptions
  * List of CLA3P exceptions for error handling.@n
  *   Includes classes:
  *    - @ref cla3p::err::Exception
@@ -164,6 +186,6 @@
  *
  *
  *
- * @defgroup module_index_special_enums Special Enumerations
+ * @defgroup cla3p_module_index_special_enums Special Enumerations
  * @brief The CLA3P enumerations for special operations.
  */

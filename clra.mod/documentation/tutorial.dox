@@ -1,0 +1,697 @@
+/**
+ * @page clra_tutorial Quick Start Guide
+ */
+
+/*
+ * @page tutorial Quick Start Guide
+ * In this section we present a collection of examples that demonstrate the basic concepts of CLA3P.@n 
+ * The purpose of this guide is to help users get familiar with the CLA3P API and grasp its capabilities.@n
+ * Simply choose the category you are interested in and browse the related code.
+ *
+ *  - @subpage tutorial_datatypes
+ *  - @subpage tutorial_vectors
+ *  - @subpage tutorial_property
+ *  - @subpage tutorial_matrices
+ *  - @subpage tutorial_guard
+ *  - @subpage tutorial_assign
+ *  - @subpage tutorial_block_ops
+ *  - @subpage tutorial_perm
+ *  - @subpage tutorial_linsol
+ * 
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_datatypes Datatypes
+ *
+ * CLA3P uses the following datatypes:
+ *
+ * @code
+ *
+ * cla3p::int_t i; // integer
+ * cla3p::uint_t u; // unsigned integer
+ *
+ * cla3p::real_t d; // double precision real (double)
+ * cla3p::real4_t s; // single precision real (float)
+ * cla3p::complex_t z; // double precision complex (std::complex<double>)
+ * cla3p::complex8_t c; // single precision complex (std::complex<float>)
+ *
+ * @endcode
+ *
+ * For 32-bit integer length, link with the default library (libcla3p.so / cla3p.lib).@n 
+ * For 64-bit integer length add -DCLA3P_I64 to your compilation flags and link with the i64 library (libcla3p_i64.so / cla3p_i64.lib).
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_vectors Vectors
+ *  - @subpage tutorial_vectors_dense
+ *
+ * @page tutorial_vectors_dense Dense Vectors
+ *
+ * CLA3P supports the following dense vectors:
+ *
+ * @code
+ *
+ * cla3p::dns::RdVector Xd; // double precision real vector
+ * cla3p::dns::RfVector Xs; // single precision real vector
+ * cla3p::dns::CdVector Xz; // double precision complex vector
+ * cla3p::dns::CfVector Xc; // single precision complex vector
+ *
+ * @endcode
+ *
+ *
+ * @section tutorial_vectors_dense_create Creating vectors
+ * You can declare/create dense vectors in the following ways:
+ *
+ *   @subsection tutorial_vectors_dense_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01a_dense_vector_create.cpp </td>
+ *       <td> @include i32/out/ex01a_dense_vector_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_vectors_dense_create_random Create random dense vector
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01d_dense_vector_create_random.cpp </td>
+ *       <td> @include i32/out/ex01d_dense_vector_create_random.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_vectors_dense_create_aux Create dense vector from aux data
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01c_dense_vector_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex01c_dense_vector_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ * @section tutorial_vectors_dense_fill Accessing dense vector elements
+ * Examples on how to access/fill values of dense vectors:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex01b_dense_vector_fill.cpp </td>
+ *     <td> @include i32/out/ex01b_dense_vector_fill.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section tutorial_vectors_dense_algebra Algebra
+ * Examples on how to perform algebraic operations using dense vectors:
+ *
+ *   @subsection tutorial_vectors_dense_algebra_scale Scale
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01i_dense_vector_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex01i_dense_vector_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_vectors_dense_algebra_add Add
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01j_dense_vector_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex01j_dense_vector_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_vectors_dense_algebra_dot Dot Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01k_dense_vector_algebra_dot.cpp </td>
+ *       <td> @include i32/out/ex01k_dense_vector_algebra_dot.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_property Property
+ *
+ * The @ref cla3p::Property class is used to specify special matrix properties like symmetry. 
+ *
+ * Properties consist of two fields:
+ *
+ * @code
+ *
+ * cla3p::prop_t prop; // main matrix property: general/symmetric/hermitian etc
+ * cla3p::uplo_t uplo; // matrix data fill part 
+ *
+ * @endcode
+ *
+ * You can manually declare a property using the class constructor or you can use the pre-defined property creator functions in the cla3p::Property class.
+ *
+ * Here is an example of how to define various properties:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex00_property_create.cpp </td>
+ *     <td> @include i32/out/ex00_property_create.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_matrices Matrices
+ *  - @subpage tutorial_matrices_dense
+ *  - @subpage tutorial_matrices_sparse
+ *
+ * @page tutorial_matrices_dense Dense Matrices
+ *
+ * CLA3P supports the following dense matrices:
+ *
+ * @code
+ *
+ * cla3p::dns::RdMatrix Ad; // double precision real matrix
+ * cla3p::dns::RfMatrix As; // single precision real matrix
+ * cla3p::dns::CdMatrix Az; // double precision complex matrix
+ * cla3p::dns::CfMatrix Ac; // single precision complex matrix
+ *
+ * @endcode
+ *
+ *
+ * @section tutorial_matrices_dense_create Creating matrices
+ * You can declare/create dense matrices in the following ways:
+ *
+ *   @subsection tutorial_matrices_dense_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02a_dense_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex02a_dense_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_create_property Default creation with property
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02c_dense_matrix_create_with_property.cpp </td>
+ *       <td> @include i32/out/ex02c_dense_matrix_create_with_property.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_create_random Create random dense matrix
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02e_dense_matrix_create_random.cpp </td>
+ *       <td> @include i32/out/ex02e_dense_matrix_create_random.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_create_aux Create dense matrix from aux data
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02d_dense_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex02d_dense_matrix_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ * @section tutorial_matrices_dense_fill Accessing matrix elements
+ * Examples on how to access/fill values of dense matrices:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex02b_dense_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex02b_dense_matrix_fill.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section tutorial_matrices_dense_algebra Algebra
+ * Examples on how to perform algebraic operations using dense matrices:
+ *
+ *   @subsection tutorial_matrices_dense_algebra_scale Scale
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02k_dense_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex02k_dense_matrix_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_algebra_add Add
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02l_dense_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex02l_dense_matrix_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_algebra_mvmult Matrix-Vector Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02m_dense_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex02m_dense_matrix_algebra_vmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_algebra_mmmult Matrix-Matrix Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02n_dense_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex02n_dense_matrix_algebra_mmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_dense_algebra_mtmmult Transposed Matrix-Matrix Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex02o_dense_matrix_algebra_mtmult.cpp </td>
+ *       <td> @include i32/out/ex02o_dense_matrix_algebra_mtmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ *
+ * @page tutorial_matrices_sparse Sparse Matrices
+ *
+ * CLA3P supports two kinds of sparse matrices:
+ *  - Coordinate storage format (coo), used as a utility class for creating sparse matrices.
+ *  - Compressed sparse column storage format (csc), used as the main class for algebraic operations.
+ *
+ * @code
+ *
+ * cla3p::coo::RdMatrix Ad; // double precision real matrix (coordinate format)
+ * cla3p::coo::RfMatrix As; // single precision real matrix (coordinate format)
+ * cla3p::coo::CdMatrix Az; // double precision complex matrix (coordinate format)
+ * cla3p::coo::CfMatrix Ac; // single precision complex matrix (coordinate format)
+ *
+ * cla3p::csc::RdMatrix Ad; // double precision real matrix (compressed sparse column format)
+ * cla3p::csc::RfMatrix As; // single precision real matrix (compressed sparse column format)
+ * cla3p::csc::CdMatrix Az; // double precision complex matrix (compressed sparse column format)
+ * cla3p::csc::CfMatrix Ac; // single precision complex matrix (compressed sparse column format)
+ *
+ * @endcode
+ *
+ *
+ * @section tutorial_matrices_sparse_create Creating matrices
+ * You can declare/create sparse matrices in the following ways:
+ *
+ *   @subsection tutorial_matrices_sparse_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06a_sparse_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex06a_sparse_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_sparse_create_property Default creation with property
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06c_sparse_matrix_create_with_property.cpp </td>
+ *       <td> @include i32/out/ex06c_sparse_matrix_create_with_property.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_sparse_create_aux Create sparse matrix from aux data
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06d_sparse_matrix_create_from_aux_data.cpp </td>
+ *       <td> @include i32/out/ex06d_sparse_matrix_create_from_aux_data.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ * @section tutorial_matrices_sparse_fill Inserting matrix elements
+ * Examples on how to fill values of sparse matrices:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex06b_sparse_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex06b_sparse_matrix_fill.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section tutorial_matrices_sparse_algebra Algebra
+ * Examples on how to perform algebraic operations using dense matrices:
+ *
+ *   @subsection tutorial_matrices_sparse_algebra_scale Scale
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06k_sparse_matrix_algebra_scale.cpp </td>
+ *       <td> @include i32/out/ex06k_sparse_matrix_algebra_scale.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_sparse_algebra_add Add
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06l_sparse_matrix_algebra_add.cpp </td>
+ *       <td> @include i32/out/ex06l_sparse_matrix_algebra_add.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_sparse_algebra_mvmult Matrix-Vector Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06m_sparse_matrix_algebra_vmult.cpp </td>
+ *       <td> @include i32/out/ex06m_sparse_matrix_algebra_vmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_sparse_algebra_mmmult Matrix-Matrix Product
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex06n_sparse_matrix_algebra_mmult.cpp </td>
+ *       <td> @include i32/out/ex06n_sparse_matrix_algebra_mmult.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ *
+ *
+ * @page tutorial_guard Guards
+ * Guard utility for vectors and matrices.@n 
+ * Some functions need to return objects that contain immutable data.@n 
+ * Instead of returning the vector or matrix, they return a guard to that object.@n 
+ * You can create your own guarded objects and/or retrieve a const reference to the object by calling the @ref cla3p::Guard::get() member function.
+ *
+ * @code
+ *
+ * const cla3p::dns::RdVector X = cla3p::dns::RdVector::random(3);
+ * const cla3p::dns::RdMatrix A = cla3p::dns::RdMatrix::random(3,3);
+ *
+ * cla3p::Guard<cla3p::dns::RdVector> Xgrd(X);
+ * cla3p::Guard<cla3p::dns::RdMatrix> Agrd(A);
+ *
+ * const cla3p::dns::RdVector& Xref = Xgrd.get();
+ * const cla3p::dns::RdMatrix& Aref = Agrd.get();
+ *
+ * std::cout << Xref.info() << Xref << std::endl;
+ * std::cout << Aref.info() << Aref << std::endl;
+ *
+ * @endcode
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_assign Assignments
+ * You can copy objects using simple assignment, copy constructors and copy assignments are fully supported.@n 
+ * You can explicitly copy and move an object to another using member functions.@n 
+ * You can also shallow-copy an object, be aware of content referencing!@n 
+ *
+ * @section tutorial_assign_copy Deep Copying
+ * Copy the contents of a vector or matrix to another. Original object is unchanged.
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex01e_dense_vector_copy.cpp </td>
+ *     <td> @include i32/out/ex01e_dense_vector_copy.out </td>
+ *   </tr>
+ *   <tr>
+ *     <td> @include     src/ex02f_dense_matrix_copy.cpp </td>
+ *     <td> @include i32/out/ex02f_dense_matrix_copy.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section tutorial_assign_move Moving
+ * Moving contents of a vector or matrix to another. Original object is destroyed.
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex01f_dense_vector_move.cpp </td>
+ *     <td> @include i32/out/ex01f_dense_vector_move.out </td>
+ *   </tr>
+ *   <tr>
+ *     <td> @include     src/ex02g_dense_matrix_move.cpp </td>
+ *     <td> @include i32/out/ex02g_dense_matrix_move.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ * @section tutorial_assign_rcopy Shallow Copying
+ * Create a copy of a vector or matrix to another. Copied object contains a reference to the contents of the original object. Original object is unchanged.
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex01h_dense_vector_shallow_copy.cpp </td>
+ *     <td> @include i32/out/ex01h_dense_vector_shallow_copy.out </td>
+ *   </tr>
+ *   <tr>
+ *     <td> @include     src/ex02h_dense_matrix_shallow_copy.cpp </td>
+ *     <td> @include i32/out/ex02h_dense_matrix_shallow_copy.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_block_ops Block Operations
+ *
+ * You can set/get a (shallow-)copy of a portion of a dense vector:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex01g_dense_vector_block_operations.cpp </td>
+ *     <td> @include i32/out/ex01g_dense_vector_block_operations.out </td>
+ *   </tr>
+ * </table>
+ *
+ * You can set/get a (shallow-)copy of a portion of a dense matrix:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex02i_dense_matrix_block_operations.cpp </td>
+ *     <td> @include i32/out/ex02i_dense_matrix_block_operations.out </td>
+ *   </tr>
+ * </table>
+ *
+ * You can get a (shallow-)copy of a dense matrix column:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex02j_dense_matrix_column_operations.cpp </td>
+ *     <td> @include i32/out/ex02j_dense_matrix_column_operations.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_perm Permutations
+ *  - @subpage tutorial_perm_matrix
+ *  - @subpage tutorial_perm_ops
+ *
+ * @page tutorial_perm_matrix Permutation Matrix
+ *
+ * Permutation matrices are used to rearrange a vector or matrix enties.@n 
+ * Permutation matrices are represented by an array of integers.@n 
+ * So an n-sized PermMatrix is a 1D entity and its individual values lie in [0, n-1] (0-based indexing).@n 
+ * CLA3P uses the @ref cla3p::prm::PxMatrix<cla3p::int_t> class to represent such matrices.@n 
+ * For more information about permutation matrices see <a href="https://en.wikipedia.org/wiki/Permutation_matrix">here</a>.
+ *
+ *
+ * @section tutorial_perm_matrix_create Creating permutation matrices
+ * You can create permutation matrices like this:
+ *
+ *   @subsection tutorial_perm_matrix_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex03a_permutation_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex03a_permutation_matrix_create.out </td>
+ *       <td> @include i64/out/ex03a_permutation_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_perm_matrix_create_identity Create Identity
+ *   <table>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex03c_permutation_matrix_create_identity.cpp </td>
+ *       <td> @include i32/out/ex03c_permutation_matrix_create_identity.out </td>
+ *       <td> @include i64/out/ex03c_permutation_matrix_create_identity.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_perm_matrix_create_random Create Random
+ *   <table>
+ *     <tr><th>Code</th><th>Output (32bit ints)</th><th>Output (64bit ints)</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex03d_permutation_matrix_create_random.cpp </td>
+ *       <td> @include i32/out/ex03d_permutation_matrix_create_random.out </td>
+ *       <td> @include i64/out/ex03d_permutation_matrix_create_random.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *
+ * @section tutorial_perm_matrix_fill Accessing permutation matrix elements
+ * Examples on how to access/fill values in permutation matrices:
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex03b_permutation_matrix_fill.cpp </td>
+ *     <td> @include i32/out/ex03b_permutation_matrix_fill.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @page tutorial_perm_ops Permutation Operations
+ *
+ * Below you can find examples on how to use permutation matrices using operators as well as member functions.
+ *
+ * @section tutorial_perm_ops_vector Permuting vectors
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex03e_permutation_matrix_permute_vector.cpp </td>
+ *     <td> @include i32/out/ex03e_permutation_matrix_permute_vector.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_perm_ops_matrix Permuting matrices
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex03f_permutation_matrix_permute_matrix.cpp </td>
+ *     <td> @include i32/out/ex03f_permutation_matrix_permute_matrix.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_perm_ops_matrix_sym Permuting symmetric/hermitian matrices
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex03g_permutation_matrix_permute_matrix_symmetric.cpp </td>
+ *     <td> @include i32/out/ex03g_permutation_matrix_permute_matrix_symmetric.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_perm_ops_perm Permuting permutation matrices
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex03h_permutation_matrix_permute_permutation_matrix.cpp </td>
+ *     <td> @include i32/out/ex03h_permutation_matrix_permute_permutation_matrix.out </td>
+ *   </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page tutorial_linsol Linear System Solvers
+ *  - @subpage tutorial_linsol_lapack
+ *  - @subpage tutorial_linsol_pardiso
+ *
+ * @page tutorial_linsol_lapack Dense (Lapack Based)
+ *
+ * Below you can find examples on how to solve systems of linear equations.
+ *
+ * @section tutorial_linsol_lapack_lu LU Decomposition (General/Symmetric/Hermitian Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex05a_solving_linear_systems_lu.cpp </td>
+ *     <td> @include i32/out/ex05a_solving_linear_systems_lu.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_lapack_ldlt LDL' Decomposition (Symmetric/Hermitian Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex05b_solving_linear_systems_ldlt.cpp </td>
+ *     <td> @include i32/out/ex05b_solving_linear_systems_ldlt.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_lapack_auto Auto Detect Decomposition Method
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex05c_solving_linear_systems_auto.cpp </td>
+ *     <td> @include i32/out/ex05c_solving_linear_systems_auto.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_lapack_operators Using Operators to Solve Linear Systems
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex05d_solving_linear_systems_operators.cpp </td>
+ *     <td> @include i32/out/ex05d_solving_linear_systems_operators.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @page tutorial_linsol_pardiso Pardiso (Intel&reg; MKL)
+ *
+ * Below you can find examples on how to solve sparse linear systems.
+ *
+ * @section tutorial_linsol_pardiso_lu LU Decomposition (General Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07a_solving_sparse_linear_systems_lu.cpp </td>
+ *     <td> @include i32/out/ex07a_solving_sparse_linear_systems_lu.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_ldlt LDL' Decomposition (Symmetric/Hermitian Indefinite Matrices)
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07c_solving_sparse_linear_systems_ldlt.cpp </td>
+ *     <td> @include i32/out/ex07c_solving_sparse_linear_systems_ldlt.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_auto Auto Detect Decomposition Method
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07e_solving_sparse_linear_systems_auto.cpp </td>
+ *     <td> @include i32/out/ex07e_solving_sparse_linear_systems_auto.out </td>
+ *   </tr>
+ * </table>
+ *
+ * @section tutorial_linsol_pardiso_operators Using Operators to Solve Linear Systems
+ * <table>
+ *   <tr><th>Code</th><th>Output</th></tr>
+ *   <tr>
+ *     <td> @include     src/ex07d_solving_sparse_linear_systems_operators.cpp </td>
+ *     <td> @include i32/out/ex07d_solving_sparse_linear_systems_operators.out </td>
+ *   </tr>
+ * </table>
+ */

@@ -43,7 +43,7 @@ T_Virtual operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a scalar with a vector.
  *
  * Performs the operation <b>val * X</b>
@@ -62,7 +62,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a scalar with a dense matrix.
  *
  * Performs the operation <b>val * A</b>
@@ -81,7 +81,7 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a scalar with a sparse matrix.
  *
  * Performs the operation <b>val * A</b>
@@ -115,7 +115,7 @@ T_Virtual operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a vector with a scalar.
  *
  * Performs the operation <b>X * val</b>
@@ -133,7 +133,7 @@ cla3p::VirtualVector<T_Vector> operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a dense matrix with a scalar.
  *
  * Performs the operation <b>A * val</b>
@@ -151,7 +151,7 @@ cla3p::VirtualMatrix<T_Matrix> operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Multiplies a sparse matrix with a scalar.
  *
  * Performs the operation <b>A * val</b>
@@ -184,7 +184,7 @@ T_Virtual operator/(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Devides a vector by a scalar.
  *
  * Performs the operation <b>(1/val) * X</b>
@@ -202,7 +202,7 @@ cla3p::VirtualVector<T_Vector> operator/(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Devides a dense matrix by a scalar.
  *
  * Performs the operation <b>(1/val) * A</b>
@@ -220,7 +220,7 @@ cla3p::VirtualMatrix<T_Matrix> operator/(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Devides a sparse matrix by a scalar.
  *
  * Performs the operation <b>(1/val) * A</b>
@@ -253,7 +253,7 @@ void operator*=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `X` by `val`.
@@ -270,7 +270,7 @@ void operator*=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `A` by `val`.
@@ -287,7 +287,7 @@ void operator*=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `A` by `val`.
@@ -319,7 +319,7 @@ void operator/=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `X` by `1/val`.
@@ -336,7 +336,7 @@ void operator/=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `A` by `1/val`.
@@ -353,7 +353,7 @@ void operator/=(
 }
 
 /**
- * @ingroup module_index_math_operators_scal
+ * @ingroup cla3p_module_index_math_operators_scal
  * @brief Scaling operator.
  *
  * Scales `A` by `1/val`.

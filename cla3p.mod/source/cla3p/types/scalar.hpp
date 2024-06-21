@@ -32,25 +32,25 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @brief Single precision real.
  */
 using real4_t = float;
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @brief Double precision real.
  */
 using real_t = double;
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @brief Single precision complex.
  */
 using complex8_t = std::complex<real4_t>;
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @brief Double precision complex.
  */
 using complex_t = std::complex<real_t>;
@@ -62,6 +62,7 @@ template<> class TypeTraits<real_t> {
 		using real_type = real_t;
 		static std::string type_name();
 		static std::string prec_name();
+		constexpr static char netlibChar() { return 'd'; }
 		constexpr static bool is_real() { return true; }
 		constexpr static bool is_complex() { return false; }
 		constexpr static bool is_single_precision() { return false; }
@@ -74,6 +75,7 @@ template<> class TypeTraits<real4_t> {
 		using real_type = real4_t;
 		static std::string type_name();
 		static std::string prec_name();
+		constexpr static char netlibChar() { return 's'; }
 		constexpr static bool is_real() { return true; }
 		constexpr static bool is_complex() { return false; }
 		constexpr static bool is_single_precision() { return true; }
@@ -86,6 +88,7 @@ template<> class TypeTraits<complex_t> {
 		using real_type = complex_t::value_type;
 		static std::string type_name();
 		static std::string prec_name();
+		constexpr static char netlibChar() { return 'z'; }
 		constexpr static bool is_real() { return false; }
 		constexpr static bool is_complex() { return true; }
 		constexpr static bool is_single_precision() { return false; }
@@ -98,6 +101,7 @@ template<> class TypeTraits<complex8_t> {
 		using real_type = complex8_t::value_type;
 		static std::string type_name();
 		static std::string prec_name();
+		constexpr static char netlibChar() { return 'c'; }
 		constexpr static bool is_real() { return false; }
 		constexpr static bool is_complex() { return true; }
 		constexpr static bool is_single_precision() { return true; }

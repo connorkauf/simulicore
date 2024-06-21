@@ -56,6 +56,8 @@ set(CLA3P_EXAMPLES_SRC
 	ex07c_solving_sparse_linear_systems_ldlt.cpp
 	ex07d_solving_sparse_linear_systems_operators.cpp
 	ex07e_solving_sparse_linear_systems_auto.cpp
+	ex08a_qr_decomposition.cpp
+	ex08b_sv_decomposition.cpp
 	)
 
 #-----------------------------------------------

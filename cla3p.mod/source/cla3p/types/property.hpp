@@ -267,7 +267,7 @@ std::vector<Property> allProperties();
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the type of pr.
  */
 std::ostream& operator<<(std::ostream& so, const cla3p::Property& pr);

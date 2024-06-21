@@ -56,7 +56,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a dense vector with another dense vector.
  *
  * Performs the operation <b>Y = Y + X</b>
@@ -70,7 +70,7 @@ void operator+=(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a dense vector with another dense vector.
  *
  * Performs the operation <b>Y = Y - X</b>
@@ -86,7 +86,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a dense matrix with another compatible dense matrix.
  *
  * Performs the operation <b>A = A + B</b>
@@ -100,7 +100,7 @@ void operator+=(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a dense matrix with another compatible dense matrix.
  *
  * Performs the operation <b>A = A - B</b>
@@ -116,7 +116,7 @@ void operator-=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a sparse matrix with another compatible sparse matrix.
  *
  * Performs the operation <b>A = A + B</b>
@@ -130,7 +130,7 @@ void operator+=(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_operators_update
+ * @ingroup cla3p_module_index_math_operators_update
  * @brief Update a sparse matrix with another compatible sparse matrix.
  *
  * Performs the operation <b>A = A - B</b>

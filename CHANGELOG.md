@@ -1,3 +1,32 @@
+# [v1.3.1] - 2024-??-??
+
+1) MacOS support (ArmPL powered)
+2) Introducing CLRA module & CLA3P complementary functionality.
+
+## CLA3P Module
+
+### New Features
+- MacOS M-series support
+- QR decomposition (standard)
+- SVD decomposition (standard)
+- Threading class
+- Timing class
+- Permute member funs with allocated target argument
+
+### Changes
+- Move assignment policy change (perform deep copy if src is similar to dest)
+
+### Fixes
+
+## CLRA Module
+The new module for low rank approximation utilization.
+
+### New Features
+- Low-rank matrix class (LrMatrix)
+- Rank moderator class (full-rank to low-rank reducer)
+- Partial QR decomposition class
+
+
 # [v1.3.0] - 2024-06-05
 
 SimuliCore Intel&reg; MKL Pardiso Sparse Solver & various fixes

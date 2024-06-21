@@ -6,108 +6,114 @@
 
     <!-- ==================================================================== -->
 
-    <tab type="usergroup" url="@ref tutorial" title="Tutorial">
-      <tab type="user" url="@ref tutorial_datatypes" title="Datatypes"/>
+    <tab type="usergroup" url="@ref cla3p_tutorial" title="Tutorial">
+      <tab type="user" url="@ref cla3p_tutorial_datatypes" title="Datatypes"/>
 
-      <tab type="usergroup" url="@ref tutorial_vectors" title="Vectors">
-        <tab type="usergroup" url="@ref tutorial_vectors_dense" title="Dense">
-          <tab type="user" url="@ref tutorial_vectors_dense_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_vectors_dense_fill" title="Fill/Access"/>
-          <tab type="user" url="@ref tutorial_vectors_dense_algebra" title="Algebra"/>
+      <tab type="usergroup" url="@ref cla3p_tutorial_vectors" title="Vectors">
+        <tab type="usergroup" url="@ref cla3p_tutorial_vectors_dense" title="Dense">
+          <tab type="user" url="@ref cla3p_tutorial_vectors_dense_create" title="Create"/>
+          <tab type="user" url="@ref cla3p_tutorial_vectors_dense_fill" title="Fill/Access"/>
+          <tab type="user" url="@ref cla3p_tutorial_vectors_dense_algebra" title="Algebra"/>
         </tab>
       </tab>
 
-      <tab type="user" url="@ref tutorial_property" title="Property"/>
+      <tab type="user" url="@ref cla3p_tutorial_property" title="Property"/>
 
-      <tab type="usergroup" url="@ref tutorial_matrices" title="Matrices">
-        <tab type="usergroup" url="@ref tutorial_matrices_dense" title="Dense">
-          <tab type="user" url="@ref tutorial_matrices_dense_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_matrices_dense_fill" title="Fill/Access"/>
-          <tab type="user" url="@ref tutorial_matrices_dense_algebra" title="Algebra"/>
+      <tab type="usergroup" url="@ref cla3p_tutorial_matrices" title="Matrices">
+        <tab type="usergroup" url="@ref cla3p_tutorial_matrices_dense" title="Dense">
+          <tab type="user" url="@ref cla3p_tutorial_matrices_dense_create" title="Create"/>
+          <tab type="user" url="@ref cla3p_tutorial_matrices_dense_fill" title="Fill/Access"/>
+          <tab type="user" url="@ref cla3p_tutorial_matrices_dense_algebra" title="Algebra"/>
         </tab>
-        <tab type="usergroup" url="@ref tutorial_matrices_sparse" title="Sparse">
-          <tab type="user" url="@ref tutorial_matrices_sparse_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_matrices_sparse_fill" title="Fill"/>
-          <tab type="user" url="@ref tutorial_matrices_sparse_algebra" title="Algebra"/>
+        <tab type="usergroup" url="@ref cla3p_tutorial_matrices_sparse" title="Sparse">
+          <tab type="user" url="@ref cla3p_tutorial_matrices_sparse_create" title="Create"/>
+          <tab type="user" url="@ref cla3p_tutorial_matrices_sparse_fill" title="Fill"/>
+          <tab type="user" url="@ref cla3p_tutorial_matrices_sparse_algebra" title="Algebra"/>
+        </tab>
+      </tab>
+
+      <tab type="user" url="@ref cla3p_tutorial_guard" title="Guards"/>
+
+      <tab type="usergroup" url="@ref cla3p_tutorial_assign" title="Assignments">
+        <tab type="user" url="@ref cla3p_tutorial_assign_copy" title="Copy"/>
+        <tab type="user" url="@ref cla3p_tutorial_assign_move" title="Move"/>
+        <tab type="user" url="@ref cla3p_tutorial_assign_rcopy" title="Shallow Copy"/>
+      </tab>
+
+      <tab type="user" url="@ref cla3p_tutorial_block_ops" title="Block Operations"/>
+
+      <tab type="usergroup" url="@ref cla3p_tutorial_perm" title="Permutations">
+        <tab type="usergroup" url="@ref cla3p_tutorial_perm_matrix" title="Permutation Matrix">
+          <tab type="user" url="@ref cla3p_tutorial_perm_matrix_create" title="Create"/>
+          <tab type="user" url="@ref cla3p_tutorial_perm_matrix_fill" title="Fill/Access"/>
+        </tab>
+        <tab type="user" url="@ref cla3p_tutorial_perm_ops" title="Permutation Operations"/>
+      </tab>
+
+      <tab type="usergroup" url="@ref cla3p_tutorial_linsol" title="Linear System Solvers">
+        <tab type="usergroup" url="@ref cla3p_tutorial_linsol_lapack" title="Dense (Lapack)">
+          <tab type="user" url="@ref cla3p_tutorial_linsol_lapack_lu" title="LU"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_lapack_ldlt" title="LDL'"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_lapack_auto" title="Auto"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_lapack_operators" title="Operators"/>
+        </tab>
+        <tab type="usergroup" url="@ref cla3p_tutorial_linsol_pardiso" title="Pardiso (Intel(R) MKL)">
+          <tab type="user" url="@ref cla3p_tutorial_linsol_pardiso_lu" title="LU"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_pardiso_ldlt" title="LDL'"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_pardiso_auto" title="Auto"/>
+          <tab type="user" url="@ref cla3p_tutorial_linsol_pardiso_operators" title="Operators"/>
         </tab>
       </tab>
 
-      <tab type="user" url="@ref tutorial_guard" title="Guards"/>
-
-      <tab type="usergroup" url="@ref tutorial_assign" title="Assignments">
-        <tab type="user" url="@ref tutorial_assign_copy" title="Copy"/>
-        <tab type="user" url="@ref tutorial_assign_move" title="Move"/>
-        <tab type="user" url="@ref tutorial_assign_rcopy" title="Shallow Copy"/>
-      </tab>
-
-      <tab type="user" url="@ref tutorial_block_ops" title="Block Operations"/>
-
-      <tab type="usergroup" url="@ref tutorial_perm" title="Permutations">
-        <tab type="usergroup" url="@ref tutorial_perm_matrix" title="Permutation Matrix">
-          <tab type="user" url="@ref tutorial_perm_matrix_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_perm_matrix_fill" title="Fill/Access"/>
-        </tab>
-        <tab type="user" url="@ref tutorial_perm_ops" title="Permutation Operations"/>
-      </tab>
-
-      <tab type="usergroup" url="@ref tutorial_linsol" title="Linear System Solvers">
-        <tab type="usergroup" url="@ref tutorial_linsol_lapack" title="Dense (Lapack)">
-          <tab type="user" url="@ref tutorial_linsol_lapack_lu" title="LU"/>
-          <tab type="user" url="@ref tutorial_linsol_lapack_ldlt" title="LDL'"/>
-          <tab type="user" url="@ref tutorial_linsol_lapack_auto" title="Auto"/>
-          <tab type="user" url="@ref tutorial_linsol_lapack_operators" title="Operators"/>
-        </tab>
-        <tab type="usergroup" url="@ref tutorial_linsol_pardiso" title="Pardiso (Intel(R) MKL)">
-          <tab type="user" url="@ref tutorial_linsol_pardiso_lu" title="LU"/>
-          <tab type="user" url="@ref tutorial_linsol_pardiso_ldlt" title="LDL'"/>
-          <tab type="user" url="@ref tutorial_linsol_pardiso_auto" title="Auto"/>
-          <tab type="user" url="@ref tutorial_linsol_pardiso_operators" title="Operators"/>
-        </tab>
-      </tab>
+      <tab type="user" url="@ref cla3p_tutorial_qr" title="QR Decomposition"/>
+      <tab type="user" url="@ref cla3p_tutorial_svd" title="Singular Value Decomposition"/>
     </tab>
 
     <!-- ==================================================================== -->
 
-    <tab type="usergroup" url="@ref module_index" title="Module Index">
-      <tab type="user" url="@ref module_index_datatypes" title="Datatypes"/>
-      <tab type="user" url="@ref module_index_allocators" title="Allocators"/>
+    <tab type="usergroup" url="@ref cla3p_module_index" title="Module Index">
+      <tab type="user" url="@ref cla3p_module_index_datatypes" title="Datatypes"/>
+      <tab type="user" url="@ref cla3p_module_index_allocators" title="Allocators"/>
 
-      <tab type="usergroup" url="@ref module_index_vectors" title="Vectors">
-        <tab type="user" url="@ref module_index_vectors_dense" title="Dense"/>
+      <tab type="usergroup" url="@ref cla3p_module_index_vectors" title="Vectors">
+        <tab type="user" url="@ref cla3p_module_index_vectors_dense" title="Dense"/>
       </tab>
 
-      <tab type="usergroup" url="@ref module_index_matrices" title="Matrices">
-        <tab type="user" url="@ref module_index_matrices_dense" title="Dense"/>
-        <tab type="user" url="@ref module_index_matrices_sparse" title="Sparse"/>
-        <tab type="user" url="@ref module_index_matrices_perm" title="Permutation"/>
+      <tab type="usergroup" url="@ref cla3p_module_index_matrices" title="Matrices">
+        <tab type="user" url="@ref cla3p_module_index_matrices_dense" title="Dense"/>
+        <tab type="user" url="@ref cla3p_module_index_matrices_sparse" title="Sparse"/>
+        <tab type="user" url="@ref cla3p_module_index_matrices_perm" title="Permutation"/>
       </tab>
 
-      <tab type="user" url="@ref module_index_guard" title="Guard"/>
+      <tab type="user" url="@ref cla3p_module_index_guard" title="Guard"/>
 
-      <tab type="usergroup" url="@ref module_index_math_op" title="Functional Algebra">
-        <tab type="user" url="@ref module_index_math_op_add" title="Add/Update"/>
-        <tab type="user" url="@ref module_index_math_op_vecvec" title="Vector-Vector"/>
-        <tab type="user" url="@ref module_index_math_op_matvec" title="Matrix-Vector"/>
-        <tab type="user" url="@ref module_index_math_op_matmat" title="Matrix-Matrix"/>
+      <tab type="usergroup" url="@ref cla3p_module_index_math_op" title="Functional Algebra">
+        <tab type="user" url="@ref cla3p_module_index_math_op_add" title="Add/Update"/>
+        <tab type="user" url="@ref cla3p_module_index_math_op_vecvec" title="Vector-Vector"/>
+        <tab type="user" url="@ref cla3p_module_index_math_op_matvec" title="Matrix-Vector"/>
+        <tab type="user" url="@ref cla3p_module_index_math_op_matmat" title="Matrix-Matrix"/>
       </tab>
 
-      <tab type="usergroup" url="@ref module_index_linsol" title="Linear Solvers">
-        <tab type="user" url="@ref module_index_linsol_dense" title="Dense"/>
-        <tab type="user" url="@ref module_index_linsol_sparse" title="Sparse"/>
+      <tab type="usergroup" url="@ref cla3p_module_index_linsol" title="Linear Solvers">
+        <tab type="user" url="@ref cla3p_module_index_linsol_dense" title="Dense"/>
+        <tab type="user" url="@ref cla3p_module_index_linsol_sparse" title="Sparse"/>
       </tab>
 
-      <tab type="usergroup" url="@ref module_index_math_operators" title="Algebra Operators">
-        <tab type="user" url="@ref module_index_math_operators_add" title="Add/Subtract"/>
-        <tab type="user" url="@ref module_index_math_operators_update" title="Update"/>
-        <tab type="user" url="@ref module_index_math_operators_scal" title="Scale"/>
-        <tab type="user" url="@ref module_index_math_operators_mult" title="Multiply"/>
-        <tab type="user" url="@ref module_index_math_operators_perm" title="Permute"/>
-        <tab type="user" url="@ref module_index_math_operators_linsol" title="Linear Solve"/>
+      <tab type="user" url="@ref cla3p_module_index_qr" title="QR Decomposition"/>
+      <tab type="user" url="@ref cla3p_module_index_svd" title="Singular Value Decomposition"/>
+
+      <tab type="usergroup" url="@ref cla3p_module_index_math_operators" title="Algebra Operators">
+        <tab type="user" url="@ref cla3p_module_index_math_operators_add" title="Add/Subtract"/>
+        <tab type="user" url="@ref cla3p_module_index_math_operators_update" title="Update"/>
+        <tab type="user" url="@ref cla3p_module_index_math_operators_scal" title="Scale"/>
+        <tab type="user" url="@ref cla3p_module_index_math_operators_mult" title="Multiply"/>
+        <tab type="user" url="@ref cla3p_module_index_math_operators_perm" title="Permute"/>
+        <tab type="user" url="@ref cla3p_module_index_math_operators_linsol" title="Linear Solve"/>
       </tab>
 
-      <tab type="user" url="@ref module_index_stream_operators" title="Stream Operators"/>
-      <tab type="user" url="@ref module_index_exceptions" title="Exceptions"/>
-      <tab type="user" url="@ref module_index_special_enums" title="Special Enumerations"/>
+      <tab type="user" url="@ref cla3p_module_index_stream_operators" title="Stream Operators"/>
+      <tab type="user" url="@ref cla3p_module_index_exceptions" title="Exceptions"/>
+      <tab type="user" url="@ref cla3p_module_index_special_enums" title="Special Enumerations"/>
     </tab>
 
     <!-- ==================================================================== -->

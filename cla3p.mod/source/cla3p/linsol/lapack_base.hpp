@@ -25,6 +25,7 @@
 #include <vector>
 
 #include "cla3p/types.hpp"
+#include "cla3p/support/heap_buffer.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -37,6 +38,7 @@ namespace cla3p {
 template <typename T_Matrix>
 class LapackBase {
 
+	using T_Scalar = typename T_Matrix::value_type;
 	using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
 
 	protected:
@@ -97,7 +99,7 @@ class LapackBase {
 	private:
 		int_t m_info;
 		T_Matrix m_factor;
-		T_Matrix m_buffer;
+		HeapBuffer<T_Scalar> m_buffer;
 		std::vector<int_t> m_ipiv1;
 		std::vector<int_t> m_jpiv1;
 		

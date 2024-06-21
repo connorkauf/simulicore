@@ -11,6 +11,7 @@ set(CLA3P_SRC ${CLA3P_SRC}
 
 set(CLA3P_SUPPORT_HPP 
 	imalloc.hpp
+	heap_buffer.hpp
 	rand.hpp
 	mt.hpp
 	time.hpp

@@ -29,7 +29,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_vecvec
+ * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a vector outer product.
  *
  * Performs the operation <b>A = A + alpha * X Y<sup>T</sup></b>@n
@@ -46,7 +46,7 @@ template <typename T_Vector, typename T_Matrix>
 void outer(typename T_Vector::value_type alpha, const T_Vector& X, const T_Vector& Y, T_Matrix& A);
 
 /**
- * @ingroup module_index_math_op_vecvec
+ * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Update a matrix with a conjugate vector outer product.
  *
  * Performs the operation <b>A = A + alpha * X Y<sup>H</sup></b>@n

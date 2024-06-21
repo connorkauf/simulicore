@@ -30,7 +30,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Update a dense vector with a compatible scaled dense vector.
  *
  * Performs the operation <b>Y = Y + alpha * X</b>
@@ -45,7 +45,7 @@ void update(typename T_Vector::value_type alpha,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Update a dense matrix with a compatible scaled dense matrix.
  *
  * Performs the operation <b>B = B + alpha * A</b>
@@ -61,7 +61,7 @@ void update(
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Update a sparse matrix with a compatible scaled sparse matrix.
  *
  * Performs the operation <b>B = B + alpha * A</b>

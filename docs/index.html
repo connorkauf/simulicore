@@ -13,6 +13,7 @@
     <script>
         function suiteName() { document.write("SimuliCore"); }
         function cla3pLibName() { document.write("CLA3P"); }
+        function clraLibName() { document.write("CLRA"); }
     </script>
 
     <style>
@@ -109,14 +110,16 @@
                 <ul>
                     <li>General purpose dense matrix algebra</li>
                     <li>General purpose sparse matrix algebra</li>
+                    <li>General purpose low-rank matrix algebra</li>
                     <li>Linear solvers</li>
                     <li>Minimal operator desing with symbolic operation layer</li>
                     <li>Eigen/QR/SVD decompositions</li>
                     <li>Message Passing Interface utilities</li>
                     <li>Custom advanced features for specialized technical problems</li>
                 </ul>
-                At the moment a general purpose dense matrix algebra library is under development, 
-                along with the corresponding linear solvers. Sparse matrix algebra support has been recently added.
+                At the moment a general purpose dense matrix algebra library is constantly under development, 
+                along with the corresponding linear solvers. Sparse matrix algebra and solver support has been recently added.
+                A first approach to low-rank matrices is now available on demand.
                 Gradually all of the above features will be added for a more complete suite to come together.
             </p>
         </div> <!-- End About Section -->
@@ -143,6 +146,26 @@
                 </div>
                 <div class="w3-half">
                     <img class="w3-image" src="./images/logos/cla3p.png" alt="CLA3P Logo" style="width:150px">
+                </div>
+            </div> <!-- End software grid -->
+            <div class="w3-row-padding" style="margin:0 -16px">
+                <!-- Software grid -->
+                <div class="w3-half">
+                    <p>
+                        An add-on library to <script>cla3pLibName()</script> is
+                        <script>clraLibName()</script> (Compact Low Rank Approximations)
+                        a library dedicated to low-rank matrix utilization and related solvers. 
+                        Using the already successful <script>cla3pLibName()</script> design patterns, 
+                        it will make low-rank matrix handling easier than ever.
+                    </p>
+                    <form style="display: inline" action="./v1.3.0/clra/html/index.html" target="_blank" method="get">
+                        <button class="w3-button w3-light-grey w3-padding-large w3-section">
+                            Documentation
+                        </button>
+                    </form>
+                </div>
+                <div class="w3-half">
+                    <img class="w3-image" src="./images/logos/clra.png" alt="clra Logo" style="width:150px">
                 </div>
             </div> <!-- End software grid -->
             <h3 class="w3-padding-16 w3-text-light-grey">Download</h3>

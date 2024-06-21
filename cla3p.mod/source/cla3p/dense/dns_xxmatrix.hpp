@@ -242,9 +242,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 
 		/**
 		 * @brief Permutes a general matrix.
-		 *
-		 * Creates a permuted copy `P*(*this)*Q` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)*Q` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `P*(*this)*Q`.
@@ -252,34 +250,65 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 		T_Matrix permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q) const;
 
 		/**
+		 * @brief Permutes a general matrix.
+		 * @details Fills `trg` with the permuted copy `P*(*this)*Q` of `(*this)`.
+		 *          Matrix `trg` must be similar to `(*this)`.
+		 * @param[in] P The left side permutation matrix.
+		 * @param[in] Q The right side permutation matrix.
+		 * @param[out] trg The permuted matrix `P*(*this)*Q`.
+		 */
+		void permuteLeftRight(const prm::PxMatrix<int_t>& P, const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar,T_Matrix>& trg) const;
+
+		/**
 		 * @brief Permutes the rows of a general matrix.
-		 *
-		 * Creates a permuted copy `P*(*this)` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
 		 * @return The matrix `P*(*this)`.
 		 */
 		T_Matrix permuteLeft(const prm::PxMatrix<int_t>& P) const;
 
 		/**
+		 * @brief Permutes the rows of a general matrix.
+		 * @details Fills `trg` with the permuted copy `P*(*this)` of `(*this)`.
+		 *          Matrix `trg` must be similar to `(*this)`.
+		 * @param[in] P The left side permutation matrix.
+		 * @param[out] trg The permuted matrix `P*(*this)`.
+		 */
+		void permuteLeft(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar,T_Matrix>& trg) const;
+
+		/**
 		 * @brief Permutes the columns of a general matrix.
-		 *
-		 * Creates a permuted copy `(*this)*Q` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `(*this)*Q` of `(*this)`.
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `(*this)*Q`.
 		 */
 		T_Matrix permuteRight(const prm::PxMatrix<int_t>& Q) const;
 
 		/**
+		 * @brief Permutes the columns of a general matrix.
+		 * @details Fills `trg` with the permuted copy `(*this)*Q` of `(*this)`.
+		 *          Matrix `trg` must be similar to `(*this)`.
+		 * @param[in] Q The right side permutation matrix.
+		 * @param[out] trg The permuted matrix `(*this)*Q`.
+		 */
+		void permuteRight(const prm::PxMatrix<int_t>& Q, XxMatrix<T_Scalar,T_Matrix>& trg) const;
+
+		/**
 		 * @brief Permutes a matrix symmetrically.
-		 *
-		 * Creates a permuted copy `P*(*this)*P^T` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)*P^T` of `(*this)`.
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The matrix `P*(*this)*P^T`.
 		 */
 		T_Matrix permuteMirror(const prm::PxMatrix<int_t>& P) const;
+
+		/**
+		 * @brief Permutes a matrix symmetrically.
+		 * @details Fills `trg` with the permuted copy `P*(*this)*P^T` of `(*this)`.
+		 *          Matrix `trg` must be similar to `(*this)`.
+		 * @param[in] P The left and right side permutation matrix.
+		 * @param[out] trg The permuted matrix `P*(*this)*P^T`.
+		 */
+		void permuteMirror(const prm::PxMatrix<int_t>& P, XxMatrix<T_Scalar,T_Matrix>& trg) const;
 
 		/**
 		 * @brief Gets a submatrix with content copy.
@@ -448,7 +477,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Scalar> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Matrix>

@@ -30,7 +30,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Updates a general matrix with a matrix-matrix product.
  *
  * Performs the operation <b>C := beta * C + alpha * opA(A) * opB(B)</b>@n
@@ -65,7 +65,7 @@ void mult(typename T_Matrix::value_type alpha,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& C);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
  *
  * Performs the operation <b>B := alpha * opA(A) * B</b>
@@ -81,7 +81,7 @@ void trimult(typename T_Matrix::value_type alpha, op_t opA,
 		dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Replaces a matrix with a scaled triangular matrix-matrix product.
  *
  * Performs the operation <b>B := alpha * B * opA(A)</b>
@@ -97,7 +97,7 @@ void trimult(typename T_Matrix::value_type alpha,
 		op_t opA, const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Replaces a matrix with the scaled solution of a triangular system.
  *
  * Solves the system <b>opA(A) * X = alpha * B</b>
@@ -113,7 +113,7 @@ void trisol(typename T_Matrix::value_type alpha, op_t opA,
     dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Replaces a matrix with the scaled solution of a triangular system.
  *
  * Solves the system <b>X * opA(A) = alpha * B</b>
@@ -131,7 +131,7 @@ void trisol(typename T_Matrix::value_type alpha,
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Updates a general dense matrix with a sparse-dense matrix-matrix product.
  *
  * Performs the operation <b>C := beta * C + alpha * opA(A) * B</b>@n
@@ -158,7 +158,7 @@ void mult(typename T_CscMatrix::value_type alpha, op_t opA,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Updates a dense matrix with a sparse-sparse matrix-matrix product.
  *
  * Performs the operation <b>C := beta * C + alpha * opA(A) * opB(B)</b>@n
@@ -184,7 +184,7 @@ void mult(typename T_CscMatrix::value_type alpha,
     dns::XxMatrix<typename T_DnsMatrix::value_type,T_DnsMatrix>& C);
 
 /**
- * @ingroup module_index_math_op_matmat
+ * @ingroup cla3p_module_index_math_op_matmat
  * @brief Creates a general sparse matrix from a sparse-sparse matrix-matrix product.
  *
  * Performs the operation <b>alpha * opA(A) * opB(B)</b>@n

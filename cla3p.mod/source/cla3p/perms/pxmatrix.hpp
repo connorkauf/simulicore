@@ -131,11 +131,20 @@ class PxMatrix : public dns::XiVector<T_Int,PxMatrix<T_Int>> {
 
 		/**
 		 * @brief Permutes a permutation matrix.
-		 *
+		 * @details Creates a permuted copy `P*(*this)` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
-		 * @return The permutated permutation matrix (P * (*this)).
+		 * @return The permutated permutation matrix (P*(*this)).
 		 */
 		PxMatrix<T_Int> permuteLeft(const PxMatrix<T_Int>& P) const;
+
+		/**
+		 * @brief Permutes the entries of a vector
+		 * @details Fills `trg` with the permuted copy `P*(*this)` of `(*this)`.
+		 *          Permutation matrix `trg` must be similar to `(*this)`.
+		 * @param[in] P The left side permutation matrix.
+		 * @param[out] trg The permuted permutation matrix `P*(*this)`.
+		 */
+		void permuteLeft(const PxMatrix<T_Int>& P, PxMatrix<T_Int>& trg) const;
 
 		/** @} */
 

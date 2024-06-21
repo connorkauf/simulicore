@@ -44,7 +44,7 @@ using uint_t = unsigned int;
 using nint_t = int;
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @brief Standard indexing.
  */
 using bulk_t = std::size_t;

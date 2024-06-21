@@ -30,7 +30,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible scaled dense vectors.
  *
  * Performs the operation <b>alpha * X + beta * Y</b>
@@ -47,7 +47,7 @@ T_Vector add(
 		typename T_Vector::value_type beta , const dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible scaled dense matrices.
  *
  * Performs the operation <b>alpha * A + beta * B</b>
@@ -64,7 +64,7 @@ T_Matrix add(
 		typename T_Matrix::value_type beta , const dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& B);
 
 /**
- * @ingroup module_index_math_op_add
+ * @ingroup cla3p_module_index_math_op_add
  * @brief Adds two compatible sparse matrices.
  *
  * Performs the operation <b>alpha * A + B</b>

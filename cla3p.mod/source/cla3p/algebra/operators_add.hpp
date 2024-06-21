@@ -58,7 +58,7 @@ operator-(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Adds two compatible vectors.
  *
  * Performs the operation <b>X + Y</b>
@@ -99,7 +99,7 @@ operator+(
 }
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Subtracts two compatible vectors.
  *
  * Performs the operation <b>X - Y</b>
@@ -144,7 +144,7 @@ operator-(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Adds two compatible matrices.
  *
  * Performs the operation <b>A + B</b>
@@ -185,7 +185,7 @@ operator+(
 }
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Subtracts two compatible matrices.
  *
  * Performs the operation <b>A - B</b>
@@ -230,7 +230,7 @@ operator-(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Adds two compatible sparse matrices.
  *
  * Performs the operation <b>A + B</b>
@@ -271,7 +271,7 @@ operator+(
 }
 
 /**
- * @ingroup module_index_math_operators_add
+ * @ingroup cla3p_module_index_math_operators_add
  * @brief Subtracts two compatible sparse matrices.
  *
  * Performs the operation <b>A - B</b>

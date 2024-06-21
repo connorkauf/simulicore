@@ -358,44 +358,70 @@ void XxMatrixTmpl::igeneral()
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q) const
 {
-	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
-
 	T_Matrix ret(nrows(), ncols(), prop());
-	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld(), P.values(), Q.values());
+	permuteLeftRight(P, Q, ret);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::permuteLeftRight(const prm::PiMatrix& P, const prm::PiMatrix& Q, XxMatrix<T_Scalar,T_Matrix>& trg) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), Q.size());
+	similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
+	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld(), P.values(), Q.values());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P) const
 {
-	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
-
 	T_Matrix ret(nrows(), ncols(), prop());
-	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld(), P.values(), nullptr);
+	permuteLeft(P, ret);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::permuteLeft(const prm::PiMatrix& P, XxMatrix<T_Scalar,T_Matrix>& trg) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), P.size(), ncols());
+	similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
+	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld(), P.values(), nullptr);
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q) const
 {
-	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
-
 	T_Matrix ret(nrows(), ncols(), prop());
-	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld(), nullptr, Q.values());
+	permuteRight(Q, ret);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::permuteRight(const prm::PiMatrix& Q, XxMatrix<T_Scalar,T_Matrix>& trg) const
+{
+	perm_ge_op_consistency_check(prop().type(), nrows(), ncols(), nrows(), Q.size());
+	similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
+	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld(), nullptr, Q.values());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst
 T_Matrix XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P) const
 {
+	T_Matrix ret(nrows(), ncols(), prop());
+	permuteMirror(P, ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+XxMatrixTlst
+void XxMatrixTmpl::permuteMirror(const prm::PiMatrix& P, XxMatrix<T_Scalar,T_Matrix>& trg) const
+{
 	perm_op_consistency_check(nrows(), ncols(), P.size(), P.size());
+	similarity_check(prop(), nrows(), ncols(), trg.prop(), trg.nrows(), trg.ncols());
 
 	prm::PiMatrix iP;
-	if(prop().isGeneral()) iP = P.inverse();
+	if(prop().isGeneral())
+		iP = P.inverse();
 
-	T_Matrix ret(nrows(), ncols(), prop());
-	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), ret.values(), ret.ld(), P.values(), iP.values());
-	return ret;
+	blk::dns::permute(prop().type(), prop().uplo(), nrows(), ncols(), this->values(), ld(), trg.values(), trg.ld(), P.values(), iP.values());
 }
 /*-------------------------------------------------*/
 XxMatrixTlst

@@ -41,7 +41,7 @@ class MatrixMeta : public Meta2D {
 
 		/**
 		 * @brief The matrix property.
-		 * @detail Gets the defined property for the matrix.
+		 * @details Gets the defined property for the matrix.
 		 */
 		const Property& prop() const;
 

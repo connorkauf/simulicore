@@ -1,7 +1,7 @@
 #-----------------------------------------------
 # set library name
 #-----------------------------------------------
-set(CLA3P_INC "${CLA3P_ROOT}/source" CACHE INTERNAL "The cla3p includes")
+set(CLA3P_INC "${CMAKE_CURRENT_SOURCE_DIR}/.." CACHE INTERNAL "The cla3p includes")
 set(CLA3P_LIB "cla3p" CACHE INTERNAL "The lp64 cla3p library")
 set(CLA3P_I64_LIB "${CLA3P_LIB}_i64" CACHE INTERNAL "The ilp64 cla3p library")
 
@@ -21,6 +21,8 @@ set(CLA3P_HPP
 	virtuals.hpp
 	algebra.hpp
 	linsol.hpp
+	svd.hpp
+	qr.hpp
 	)
 
 #-----------------------------------------------
@@ -39,6 +41,8 @@ add_subdirectory(perms)
 add_subdirectory(virtuals)
 add_subdirectory(algebra)
 add_subdirectory(linsol)
+add_subdirectory(svd)
+add_subdirectory(qr)
 
 #-----------------------------------------------
 # target setup
@@ -52,8 +56,8 @@ add_library(${CLA3P_I64_LIB} SHARED ${CLA3P_SRC})
 target_compile_definitions(${CLA3P_LIB} PRIVATE ${CLA3P_3RD_PARTY_DEF})
 target_compile_definitions(${CLA3P_I64_LIB} PRIVATE ${CLA3P_3RD_PARTY_I64_DEF})
 
-target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
-target_include_directories(${CLA3P_I64_LIB} PRIVATE ${CLA3P_ROOT}/source ${CLA3P_3RD_PARTY_INC})
+target_include_directories(${CLA3P_LIB} PRIVATE ${CLA3P_INC} ${CLA3P_3RD_PARTY_INC})
+target_include_directories(${CLA3P_I64_LIB} PRIVATE ${CLA3P_INC} ${CLA3P_3RD_PARTY_INC})
 
 target_link_libraries(${CLA3P_LIB} ${CLA3P_3RD_PARTY_LIB})
 target_link_libraries(${CLA3P_I64_LIB} ${CLA3P_3RD_PARTY_I64_LIB})

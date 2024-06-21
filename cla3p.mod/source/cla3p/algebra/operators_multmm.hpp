@@ -77,7 +77,7 @@ operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_mult
+ * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a matrix with a matrix.
  *
  * Performs the operation <b>A * B</b>
@@ -98,7 +98,7 @@ operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_mult
+ * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a sparse matrix with a dense matrix.
  *
  * Performs the operation <b>A * B</b>
@@ -124,7 +124,7 @@ operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_mult
+ * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a sparse matrix with a sparse matrix.
  *
  * Performs the operation <b>A * B</b>

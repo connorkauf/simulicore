@@ -680,6 +680,87 @@ complex_gesvd_macro(complex8_t, c)
 #undef real_gesvd_macro
 #undef complex_gesvd_macro
 /*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define geqrf_macro(typein, prefix) \
+int_t geqrf(int_t m, int_t n, typein *a, int_t lda, typein *tau) \
+{ \
+	return lapacke_func_name(prefix##geqrf)(LAPACK_COL_MAJOR, m, n, a, lda, tau); \
+}
+#else
+#define geqrf_macro(typein, prefix) \
+int_t geqrf(int_t m, int_t n, typein *a, int_t lda, typein *tau) \
+{ \
+	int_t info = 0; \
+	LapackAllocator<typein> alloc; \
+	lapack_func_name(prefix##geqrf)(&m, &n, a, &lda, tau, alloc.work(), alloc.lwork(), &info); \
+	if(info == 0){ \
+		alloc.allocate(); \
+		lapack_func_name(prefix##geqrf)(&m, &n, a, &lda, tau, alloc.work(), alloc.lwork(), &info); \
+	} \
+	return info; \
+}
+#endif
+geqrf_macro(real_t    , d);
+geqrf_macro(real4_t   , s);
+geqrf_macro(complex_t , z);
+geqrf_macro(complex8_t, c);
+#undef geqrf_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define xxmqr_macro(typein, prefix) \
+int_t xxmqr(char side, char trans, int_t m, int_t n, int_t k, \
+    const typein *a, int_t lda, const typein *tau, typein *c, int_t ldc) \
+{ \
+	return lapacke_func_name(prefix##mqr)(LAPACK_COL_MAJOR, side, trans, \
+			m, n, k, a, lda, tau, c, ldc); \
+}
+#else
+#define xxmqr_macro(typein, prefix) \
+int_t xxmqr(char side, char trans, int_t m, int_t n, int_t k, \
+    const typein *a, int_t lda, const typein *tau, typein *c, int_t ldc) \
+{ \
+	int_t info = 0; \
+	LapackAllocator<typein> alloc; \
+	lapack_func_name(prefix##mqr)(&side, &trans, &m, &n, &k, a, &lda, tau, c, &ldc, alloc.work(), alloc.lwork(), &info); \
+	if(info == 0){ \
+		alloc.allocate(); \
+		lapack_func_name(prefix##mqr)(&side, &trans, &m, &n, &k, a, &lda, tau, c, &ldc, alloc.work(), alloc.lwork(), &info); \
+	} \
+	return info; \
+}
+#endif
+xxmqr_macro(real_t    , dor);
+xxmqr_macro(real4_t   , sor);
+xxmqr_macro(complex_t , zun);
+xxmqr_macro(complex8_t, cun);
+#undef xxmqr_macro
+/*-------------------------------------------------*/
+#if defined(CLA3P_PREFER_LAPACKE)
+#define xxgqr_macro(typein, prefix) \
+int_t xxgqr(int_t m, int_t n, int_t k, typein *a, int_t lda, const typein *tau) \
+{ \
+	return lapacke_func_name(prefix##gqr)(LAPACK_COL_MAJOR, m, n, k, a, lda, tau); \
+}
+#else
+#define xxgqr_macro(typein, prefix) \
+int_t xxgqr(int_t m, int_t n, int_t k, typein *a, int_t lda, const typein *tau) \
+{ \
+	int_t info = 0; \
+	LapackAllocator<typein> alloc; \
+	lapack_func_name(prefix##gqr)(&m, &n, &k, a, &lda, tau, alloc.work(), alloc.lwork(), &info); \
+	if(info == 0){ \
+		alloc.allocate(); \
+		lapack_func_name(prefix##gqr)(&m, &n, &k, a, &lda, tau, alloc.work(), alloc.lwork(), &info); \
+	} \
+	return info; \
+}
+#endif
+xxgqr_macro(real_t    , dor);
+xxgqr_macro(real4_t   , sor);
+xxgqr_macro(complex_t , zun);
+xxgqr_macro(complex8_t, cun);
+#undef xxgqr_macro
+/*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p
 /*-------------------------------------------------*/

@@ -32,7 +32,7 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Solves a system of linear equations.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -55,7 +55,7 @@ T_Vector operator/(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Solves a system of linear equations.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -90,7 +90,7 @@ typename T_Virtual::value_type operator/(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Overwrites rhs with the linear system solution.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -113,7 +113,7 @@ void operator/=(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Overwrites rhs with the linear system solution.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -140,7 +140,7 @@ void operator/=(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Solves a sparse system of linear equations.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -162,7 +162,7 @@ T_Vector operator/(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& B);
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Solves a sparse system of linear equations.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -196,7 +196,7 @@ typename T_Virtual::value_type operator/(
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Overwrites rhs with the sparse linear system solution.
  *
  * Solves the  linear system <b>A X = B</b>
@@ -218,7 +218,7 @@ void operator/=(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
- * @ingroup module_index_math_operators_linsol
+ * @ingroup cla3p_module_index_math_operators_linsol
  * @brief Overwrites rhs with the sparse linear system solution.
  *
  * Solves the  linear system <b>A X = B</b>

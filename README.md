@@ -25,6 +25,8 @@ Traditional functional scientific programming is supported by a wide range of li
 
 The first library in the suite is [**CLA3P (Compact Linear Algebra Parallel Portable Package)**](cla3p.mod/README.md) a high performance linear algebra library that uses smart OOP design patterns and an intuitive API that allows the user to produce high quality code with minimum effort.
 
+A recent add-on to **CLA3P** is [**CLRA (Compact Low Rank Approximations)**](clra.mod/README.md) a module dedicated to low-rank matrix utilization. Following **CLA3P** design, **CLRA** makes low-rank matrix handling extremely easy and fast.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -76,7 +78,7 @@ In the installation directory you will find the following folders:
 
 # License
 
-Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See [license](LICENSE) and [notice](NOTICE) for more information.
+All open source modules are licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0). See [license](LICENSE) and [notice](NOTICE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

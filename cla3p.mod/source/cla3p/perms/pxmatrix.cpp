@@ -24,6 +24,8 @@
 
 // cla3p
 #include "cla3p/support/rand.hpp"
+#include "cla3p/checks/basic_checks.hpp"
+#include "cla3p/checks/perm_checks.hpp"
 
 /*-------------------------------------------------*/
 namespace cla3p {
@@ -67,12 +69,19 @@ template <typename T_Int>
 PxMatrix<T_Int> PxMatrix<T_Int>::permuteLeft(const PxMatrix<T_Int>& P) const
 {
 	PxMatrix<T_Int> ret(this->size());
+	permuteLeft(P, ret);
+	return ret;
+}
+/*-------------------------------------------------*/
+template <typename T_Int>
+void PxMatrix<T_Int>::permuteLeft(const PxMatrix<T_Int>& P, PxMatrix<T_Int>& trg) const
+{
+	perm_op_consistency_check(this->size(), 1, P.size(), 1);
+	similarity_dim_check(this->size(), trg.size());
 
 	for(uint_t i = 0; i < this->size(); i++) {
-		ret(i) = P((*this)(i));
+		trg(i) = P((*this)(i));
 	} // i
-
-	return ret;
 }
 /*-------------------------------------------------*/
 template <typename T_Int>

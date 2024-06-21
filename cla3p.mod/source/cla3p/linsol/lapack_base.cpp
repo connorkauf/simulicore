@@ -133,10 +133,7 @@ void LapackBase<T_Matrix>::reserve(uint_t n)
 template <typename T_Matrix>
 void LapackBase<T_Matrix>::resizeBuffer(uint_t n)
 {
-	if(n > m_buffer.nrows() && n > m_buffer.ncols()) {
-		m_buffer.clear();
-		m_buffer = T_Matrix::init(n, n);
-	}
+	m_buffer.resize(n * n);
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
@@ -147,7 +144,7 @@ void LapackBase<T_Matrix>::resizeFactor(const T_Matrix& mat)
 	m_factor = T_Matrix::wrap(
 			mat.nrows(), 
 			mat.ncols(), 
-			m_buffer.values(), 
+			m_buffer.data(), 
 			mat.nrows(), 
 			false, 
 			mat.prop());

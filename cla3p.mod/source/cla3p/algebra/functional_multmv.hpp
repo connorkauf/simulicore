@@ -30,7 +30,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_matvec
+ * @ingroup cla3p_module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
  * Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>
@@ -51,7 +51,7 @@ void mult(typename T_Vector::value_type alpha, op_t opA,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& Y);
 
 /**
- * @ingroup module_index_math_op_matvec
+ * @ingroup cla3p_module_index_math_op_matvec
  * @brief Replaces a vector with a triangular matrix-vector product.
  *
  * Performs the operation <b>X := opA(A) * X</b>
@@ -66,7 +66,7 @@ void trimult(op_t opA,
     dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /**
- * @ingroup module_index_math_op_matvec
+ * @ingroup cla3p_module_index_math_op_matvec
  * @brief Replaces a vector with the solution of a triangular system.
  *
  * Solves the system <b>opA(A) * X = B</b>
@@ -85,7 +85,7 @@ void trisol(op_t opA,
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_matvec
+ * @ingroup cla3p_module_index_math_op_matvec
  * @brief Updates a vector with a matrix-vector product.
  *
  * Performs the operation <b>Y := beta * Y + alpha * opA(A) * X</b>

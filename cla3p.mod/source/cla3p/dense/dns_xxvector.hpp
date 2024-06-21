@@ -289,13 +289,20 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 
 		/**
 		 * @brief Permutes the entries of a vector
-		 *
-		 * Creates a permuted copy `P*(*this)` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
 		 * @return The vector `P*(*this)`.
 		 */
 		T_Vector permuteLeft(const prm::PxMatrix<int_t>& P) const;
+
+		/**
+		 * @brief Permutes the entries of a vector
+		 * @details Fills `trg` with the permuted copy `P*(*this)` of `(*this)`.
+		 *          Vector `trg` must be similar to `(*this)`.
+		 * @param[in] P The left side permutation matrix.
+		 * @param[out] trg The permuted vector `P*(*this)`.
+		 */
+		void permuteLeft(const prm::PxMatrix<int_t>& P, XxVector<T_Scalar,T_Vector>& trg) const;
 
 		/**
 		 * @brief Gets a subvector with content copy.
@@ -388,7 +395,7 @@ class XxVector : public XiVector<T_Scalar,T_Vector> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of vec.
  */
 template <typename T_Vector>

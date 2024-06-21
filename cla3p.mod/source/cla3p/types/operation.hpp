@@ -108,7 +108,7 @@ inline Operation noOp()
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::Operation& op);

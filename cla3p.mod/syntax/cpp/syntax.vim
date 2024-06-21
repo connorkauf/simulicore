@@ -2,7 +2,7 @@
 
 syn keyword cTypeCustomDatatype MKL_INT MKL_UINT MKL_Complex8 MKL_Complex16
 syn keyword cTypeCustomDatatype nint_t int_t uint_t real4_t real_t complex8_t complex_t bulk_t
-syn keyword cTypeCustomDatatype prop_t uplo_t op_t side_t diag_t dup_t decomp_t
+syn keyword cTypeCustomDatatype prop_t uplo_t op_t side_t diag_t dup_t decomp_t svpolicy_t qpolicy_t
 syn keyword cTypeCustomDatatype Property Operation
 syn keyword cTypeCustomDatatype Printer
 syn keyword cTypeCustomDatatype Exception NoConsistency InvalidOp Overflow OutOfMemory OutOfBounds
@@ -14,7 +14,7 @@ syn keyword cTypeCustomDatatype Meta1D Meta2D MatrixMeta
 syn keyword cTypeCustomDatatype Array2D
 syn keyword cTypeCustomDatatype Guard
 syn keyword cTypeCustomDatatype Coord Tuple TupleVec
-syn keyword cTypeCustomDatatype ThreadManager Timer RealTimer
+syn keyword cTypeCustomDatatype HeapBuffer ThreadManager Timer RealTimer
 syn keyword cTypeCustomDatatype VirtualEntity
 syn keyword cTypeCustomDatatype VirtualParams VirtualRowVec VirtualObject VirtualVector VirtualMatrix
 syn keyword cTypeCustomDatatype VirtualProd
@@ -33,6 +33,8 @@ syn keyword cTypeCustomDatatype reorder_t perm_t pivot_t
 syn keyword cTypeCustomDatatype ImmutableParams GlobalParams
 syn keyword cTypeCustomDatatype AnalysisParams DecompParams SolveParams
 syn keyword cTypeCustomDatatype PardisoBase PardisoAuto PardisoLLt PardisoLDLt PardisoLU PardisoSymmetricLU
+syn keyword cTypeCustomDatatype DefaultSVD
+syn keyword cTypeCustomDatatype DefaultQR
 
 hi cTypeCustomDatatype ctermfg=lightgreen guifg=darkblue
 

@@ -210,9 +210,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 		/**
 		 * @brief Permutes a general matrix.
-		 *
-		 * Creates a permuted copy `P*(*this)*Q` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)*Q` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `P*(*this)*Q`.
@@ -221,9 +219,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 		/**
 		 * @brief Permutes the rows of a general matrix.
-		 *
-		 * Creates a permuted copy `P*(*this)` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)` of `(*this)`.
 		 * @param[in] P The left side permutation matrix.
 		 * @return The matrix `P*(*this)`.
 		 */
@@ -231,9 +227,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 		/**
 		 * @brief Permutes the columns of a general matrix.
-		 *
-		 * Creates a permuted copy `(*this)*Q` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `(*this)*Q` of `(*this)`.
 		 * @param[in] Q The right side permutation matrix.
 		 * @return The matrix `(*this)*Q`.
 		 */
@@ -241,9 +235,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 
 		/**
 		 * @brief Permutes a matrix symmetrically.
-		 *
-		 * Creates a permuted copy `P*(*this)*P^T` of `(*this)`.
-		 *
+		 * @details Creates a permuted copy `P*(*this)*P^T` of `(*this)`.
 		 * @param[in] P The left and right side permutation matrix.
 		 * @return The matrix `P*(*this)*P^T`.
 		 */
@@ -349,7 +341,7 @@ class XxMatrix : public MatrixMeta, public XxObject<T_Int,T_Scalar> {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Matrix>

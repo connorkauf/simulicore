@@ -28,7 +28,7 @@ namespace cla3p {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @enum prop_t
  * @brief The property type.
  *
@@ -45,7 +45,7 @@ enum class prop_t {
 };
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @enum uplo_t
  * @brief The fill type.
  *
@@ -59,7 +59,7 @@ enum class uplo_t : char {
 };
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @enum op_t
  * @brief The operation type.
  *
@@ -89,7 +89,7 @@ enum class diag_t : char {
 };
 
 /**
- * @ingroup module_index_datatypes
+ * @ingroup cla3p_module_index_datatypes
  * @enum dup_t
  * @brief The duplicated policy.
  *
@@ -111,24 +111,47 @@ enum class decomp_t {
 	SymmetricLU = 5
 };
 
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum svpolicy_t
+ * @brief The singular vector calculation policy.
+ * @details Sets the policy for singular vector calculation in SVD.
+ */
+enum class svpolicy_t : char {
+	NoCalculation = 'N', /**< No singular vectors will be calculated */
+	Limited       = 'S', /**< The first min(m,n) singular vectors will be calculated */
+	Full          = 'A'  /**< All singular vectors will be calculated */
+};
+
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum qpolicy_t
+ * @brief The Q matrix calculation policy (QR decomposition).
+ * @details Sets the policy for the matrix Q form in QR decomposition.
+ */
+enum class qpolicy_t {
+	Reflection = 0, /**< Matrix Q will be stored only in the form of elementary reflector product */
+	Full            /**< Matrix Q will be explicitly calculated */
+};
+
 /*-------------------------------------------------*/
 } // namespace cla3p
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the type of prop.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::prop_t& prop);
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the type of uplo.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::uplo_t& uplo);
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the type of op.
  */
 std::ostream& operator<<(std::ostream& os, const cla3p::op_t& op);

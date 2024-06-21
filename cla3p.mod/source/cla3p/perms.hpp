@@ -23,7 +23,7 @@ namespace cla3p {
 namespace prm {
 
 /**
- * @ingroup module_index_matrices_perm
+ * @ingroup cla3p_module_index_matrices_perm
  * @brief Integer Permutation Matrix.
  */
 using PiMatrix = PxMatrix<int_t>;

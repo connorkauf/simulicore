@@ -45,7 +45,7 @@ operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_mult
+ * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a matrix with a vector.
  *
  * Performs the operation <b>A * X</b>
@@ -66,7 +66,7 @@ operator*(
 }
 
 /**
- * @ingroup module_index_math_operators_mult
+ * @ingroup cla3p_module_index_math_operators_mult
  * @brief Multiplies a sparse matrix with a vector.
  *
  * Performs the operation <b>A * X</b>

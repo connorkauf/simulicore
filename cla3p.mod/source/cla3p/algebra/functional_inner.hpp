@@ -27,7 +27,7 @@ namespace ops {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_op_vecvec
+ * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector dot product.
  *
  * Performs the operation <b>X<sup>T</sup> Y</b>
@@ -40,7 +40,7 @@ template <typename T_Vector>
 typename T_Vector::value_type dot(const T_Vector& X, const T_Vector& Y);
 
 /**
- * @ingroup module_index_math_op_vecvec
+ * @ingroup cla3p_module_index_math_op_vecvec
  * @brief Calculate vector conjugate dot product.
  *
  * Performs the operation <b>X<sup>H</sup> Y</b>

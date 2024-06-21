@@ -359,12 +359,16 @@ XxVectorTlst
 T_Vector XxVectorTmpl::permuteLeft(const prm::PiMatrix& P) const
 {
 	T_Vector ret(this->size());
-
-	perm_op_consistency_check(this->size(), 1, P.size(), 1);
-
-	blk::dns::permute(prop_t::General, uplo_t::Full, this->size(), 1, this->values(), this->size(), ret.values(), ret.size(), P.values(), nullptr);
-
+	permuteLeft(P, ret);
 	return ret;
+}
+/*-------------------------------------------------*/
+XxVectorTlst
+void XxVectorTmpl::permuteLeft(const prm::PiMatrix& P, XxVector<T_Scalar,T_Vector>& trg) const
+{
+	perm_op_consistency_check(this->size(), 1, P.size(), 1);
+	similarity_dim_check(this->size(), trg.size());
+	blk::dns::permute(prop_t::General, uplo_t::Full, this->size(), 1, this->values(), this->size(), trg.values(), trg.size(), P.values(), nullptr);
 }
 /*-------------------------------------------------*/
 XxVectorTlst

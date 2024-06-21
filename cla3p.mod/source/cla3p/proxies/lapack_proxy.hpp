@@ -217,6 +217,31 @@ gesvd_macro(complex_t);
 gesvd_macro(complex8_t);
 #undef gesvd_macro
 
+#define geqrf_macro(typein) \
+int_t geqrf(int_t m, int_t n, typein *a, int_t lda, typein *tau)
+geqrf_macro(real_t);
+geqrf_macro(real4_t);
+geqrf_macro(complex_t);
+geqrf_macro(complex8_t);
+#undef geqrf_macro
+
+#define xxmqr_macro(typein) \
+int_t xxmqr(char side, char trans, int_t m, int_t n, int_t k, \
+		const typein *a, int_t lda, const typein *tau, typein *c, int_t ldc)
+xxmqr_macro(real_t);
+xxmqr_macro(real4_t);
+xxmqr_macro(complex_t);
+xxmqr_macro(complex8_t);
+#undef xxmqr_macro
+
+#define xxgqr_macro(typein) \
+int_t xxgqr(int_t m, int_t n, int_t k, typein *a, int_t lda, const typein *tau)
+xxgqr_macro(real_t);
+xxgqr_macro(real4_t);
+xxgqr_macro(complex_t);
+xxgqr_macro(complex8_t);
+#undef xxgqr_macro
+
 /*-------------------------------------------------*/
 } // namespace lapack
 } // namespace cla3p

@@ -26,25 +26,25 @@ namespace cla3p {
 namespace csc {
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Double precision real matrix.
  */
 using RdMatrix = RxMatrix<int_t,real_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Single precision real matrix.
  */
 using RfMatrix = RxMatrix<int_t,real4_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Double precision complex matrix.
  */
 using CdMatrix = CxMatrix<int_t,complex_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Single precision complex matrix.
  */
 using CfMatrix = CxMatrix<int_t,complex8_t>;
@@ -57,25 +57,25 @@ namespace cla3p {
 namespace coo {
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Double precision real matrix.
  */
 using RdMatrix = RxMatrix<int_t,real_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Single precision real matrix.
  */
 using RfMatrix = RxMatrix<int_t,real4_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Double precision complex matrix.
  */
 using CdMatrix = CxMatrix<int_t,complex_t>;
 
 /**
- * @ingroup module_index_matrices_sparse
+ * @ingroup cla3p_module_index_matrices_sparse
  * @brief Single precision complex matrix.
  */
 using CfMatrix = CxMatrix<int_t,complex8_t>;

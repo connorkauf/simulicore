@@ -189,7 +189,7 @@ class XxMatrix : public MatrixMeta {
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_stream_operators
+ * @ingroup cla3p_module_index_stream_operators
  * @brief Writes to os the contents of mat.
  */
 template <typename T_Matrix>

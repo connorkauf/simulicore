@@ -33,7 +33,7 @@ namespace csc { template <typename T_Int, typename T_Scalar, typename T_Matrix> 
 /*-------------------------------------------------*/
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a vector.
  *
  * Performs the operation <b>P * X</b>
@@ -48,7 +48,7 @@ T_Vector operator*(
 		const cla3p::dns::XxVector<typename T_Vector::value_type,T_Vector>& X);
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a general dense matrix.
  *
  * Performs the operation <b>P * A</b>
@@ -63,7 +63,7 @@ T_Matrix operator*(
 		const cla3p::dns::XxMatrix<typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies general dense matrix with a permutation matrix.
  *
  * Performs the operation <b>A * P</b>
@@ -79,7 +79,7 @@ T_Matrix operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P);
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies permutation matrix with a general sparse matrix.
  *
  * Performs the operation <b>P * A</b>
@@ -94,7 +94,7 @@ T_Matrix operator*(
 		const cla3p::csc::XxMatrix<typename T_Matrix::index_type,typename T_Matrix::value_type,T_Matrix>& A);
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies general sparse matrix with a permutation matrix.
  *
  * Performs the operation <b>A * P</b>
@@ -110,7 +110,7 @@ T_Matrix operator*(
 		const cla3p::prm::PxMatrix<T_Int>& P);
 
 /**
- * @ingroup module_index_math_operators_perm
+ * @ingroup cla3p_module_index_math_operators_perm
  * @brief Multiplies a permutation matrix with a permutation matrix.
  *
  * Performs the operation <b>P * Q</b>

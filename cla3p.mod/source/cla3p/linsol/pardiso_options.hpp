@@ -35,7 +35,7 @@ inline int_t Undefined()
 }
 
 /**
- * @ingroup module_index_special_enums
+ * @ingroup cla3p_module_index_special_enums
  * @enum reorder_t
  * @brief The method for calculating fill-reducing orderings.
  */
@@ -45,7 +45,7 @@ enum class reorder_t : int_t {
 };
 
 /**
- * @ingroup module_index_special_enums
+ * @ingroup cla3p_module_index_special_enums
  * @enum pivot_t
  * @brief The pivoting strategy for symmetric indefinite matrices.
  */
