@@ -64,8 +64,10 @@ enum class uplo_t : char {
  * @brief The operation type.
  *
  * List of operations (implicitly) applied on a matrix.@n
- * For efficiency purposes in matrix operations, this flag is used to designate a virtual operation that is not explicitly applied to the matrix.@n
- * For example in order for the operation Y = A<sup>T</sup> * X to be calculated we do not need to explicitly calculate A<sup>T</sup>.@n
+ * For efficiency purposes in matrix operations, this flag is used to designate
+ * a virtual operation that is not explicitly applied to the matrix.@n
+ * For example in order for the operation Y = A<sup>T</sup> * X to be calculated
+ * we do not need to explicitly calculate A<sup>T</sup>.@n
  * Instead we can use the mult() function with the appropriate op_t value for the matrix A:
  @code
  cla3p::ops::mult(1, cla3p::op_t::T, A, X, 0, Y);
@@ -132,6 +134,21 @@ enum class svpolicy_t : char {
 enum class qpolicy_t {
 	Reflection = 0, /**< Matrix Q will be stored only in the form of elementary reflector product */
 	Full            /**< Matrix Q will be explicitly calculated */
+};
+
+/**
+ * @ingroup cla3p_module_index_datatypes
+ * @enum qrtrans_t
+ * @brief The input matrix transposition policy (QR decomposition).
+ * @details Sets the policy for automatically transposing the input matrix in QR decomposition,
+ *          so that the decomposition will be applied on tall matrices (#rows > #columns).@n
+ *          If NoTranspose is selected the decomposition will be applied on the input matrix `(A -> QR)`.@n
+ *          If AutoTranspose is selected and #rows < #columns the decomposition will be applied on the 
+ *          (conjugate) transpose of the input matrix `(A`<sup>*</sup>` -> QR)`.
+ */
+enum class qrtrans_t {
+	NoTranspose   = 0, /**< Input matrix will be decomposed as-is. */
+	AutoTranspose      /**< Input matrix will be internally transposed if #rows < #columns */
 };
 
 /*-------------------------------------------------*/
