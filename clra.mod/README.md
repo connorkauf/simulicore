@@ -24,7 +24,7 @@
 
 **Compact Low Rank Approximations** is a **CLA3P** plugin for low-rank matrix support. It follows the same design patterns as the
 base **CLA3P** module and is distributed as a part of [**SimuliCore**](https://connorkauf.github.io/simulicore/index.html).
-At the moment the **CLRA** library is available apon request. You can request a copy of the library via [email](https://connorkauf.github.io/simulicore/index.html#contact).
+At the moment the **CLRA** library is available upon request. You can request a copy of the library via [email](https://connorkauf.github.io/simulicore/index.html#contact).
 
 ### Features so far
 
