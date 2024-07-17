@@ -226,9 +226,9 @@ void XxVectorTmpl::moveTo(XxVectorTmpl& trg)
 			copyToExisting(trg);
 		} else {
 			trg.wrapper(size(), this->values(), this->owner());
+			this->unbind();
 		} // similar
 
-		this->unbind();
 		clear();
 
 	} // do not apply on self

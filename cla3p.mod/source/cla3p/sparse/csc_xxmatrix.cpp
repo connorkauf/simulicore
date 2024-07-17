@@ -188,9 +188,9 @@ void XxMatrixTmpl::moveTo(XxMatrixTmpl& trg)
 			copyToExisting(trg);
 		} else {
 			trg.wrapper(nrows(), ncols(), this->colptr(), this->rowidx(), this->values(), this->owner(), prop());
+			this->unbind();
 		} // similar
 
-		this->unbind();
 		clear();
 
 	} // do not apply on self
