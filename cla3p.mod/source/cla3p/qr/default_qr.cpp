@@ -41,7 +41,6 @@ DefaultQR<T_Matrix>::DefaultQR(uint_t m, uint_t n, qpolicy_t qPolicy)
 		DefaultQR<T_Matrix>::DefaultQR()
 {
 	setQMatPolicy(qPolicy);
-
 	reserve(m, n);
 }
 /*-------------------------------------------------*/

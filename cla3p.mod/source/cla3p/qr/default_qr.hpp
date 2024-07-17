@@ -37,9 +37,7 @@ class DefaultQR {
 
 	private:
 		using T_Scalar = typename T_Matrix::value_type;
-		//using T_RScalar = typename TypeTraits<T_Scalar>::real_type;
 		using T_Vector = typename TypeTraits<T_Matrix>::vector_type;
-		//using T_RVector = typename TypeTraits<T_Vector>::real_type;
 
 	public:
 
