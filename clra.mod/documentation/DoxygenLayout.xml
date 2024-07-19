@@ -7,6 +7,14 @@
     <!-- ==================================================================== -->
 
     <tab type="usergroup" url="@ref clra_tutorial" title="Tutorial">
+
+      <tab type="usergroup" url="@ref clra_tutorial_matrices" title="Matrices">
+        <tab type="usergroup" url="@ref clra_tutorial_matrices_lowrank" title="Low-rank">
+          <tab type="user" url="@ref clra_tutorial_matrices_lowrank_create" title="Create"/>
+        </tab>
+        <tab type="usergroup" url="@ref clra_tutorial_matrices_hybrid" title="Hybrid">
+        </tab>
+      </tab>
     <!--
       <tab type="user" url="@ref tutorial_datatypes" title="Datatypes"/>
 
@@ -19,20 +27,6 @@
       </tab>
 
       <tab type="user" url="@ref tutorial_property" title="Property"/>
-
-      <tab type="usergroup" url="@ref tutorial_matrices" title="Matrices">
-        <tab type="usergroup" url="@ref tutorial_matrices_dense" title="Dense">
-          <tab type="user" url="@ref tutorial_matrices_dense_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_matrices_dense_fill" title="Fill/Access"/>
-          <tab type="user" url="@ref tutorial_matrices_dense_algebra" title="Algebra"/>
-        </tab>
-        <tab type="usergroup" url="@ref tutorial_matrices_sparse" title="Sparse">
-          <tab type="user" url="@ref tutorial_matrices_sparse_create" title="Create"/>
-          <tab type="user" url="@ref tutorial_matrices_sparse_fill" title="Fill"/>
-          <tab type="user" url="@ref tutorial_matrices_sparse_algebra" title="Algebra"/>
-        </tab>
-      </tab>
-
       <tab type="user" url="@ref tutorial_guard" title="Guards"/>
 
       <tab type="usergroup" url="@ref tutorial_assign" title="Assignments">

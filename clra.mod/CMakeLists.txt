@@ -16,10 +16,9 @@ set(CLRA_SOURCE_DIR ${SIMULICORE_ROOT}/../clra.mod/source)
 if(EXISTS ${CLRA_SOURCE_DIR})
 	if(IS_DIRECTORY ${CLRA_SOURCE_DIR})
 		add_subdirectory(${CLRA_SOURCE_DIR} ${CMAKE_BINARY_DIR}/source)
+		add_subdirectory(examples)
 	endif()
 endif()
-
-#add_subdirectory(examples)
 
 if(${SIMULICORE_FULL_INSTALL})
 	add_subdirectory(documentation)

@@ -1,5 +1,70 @@
 /**
  * @page clra_tutorial Quick Start Guide
+ * @details In this section we present a collection of examples that demonstrate the basic concepts of CLRA.@n 
+ *          The purpose of this guide is to help users get familiar with the CLRA API and grasp its capabilities.@n
+ *          Simply choose the category you are interested in and browse the related code.
+ *
+ *  - @subpage clra_tutorial_matrices
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @page clra_tutorial_matrices Matrices
+ *  - @subpage clra_tutorial_matrices_lowrank
+ *  - @subpage clra_tutorial_matrices_hybrid
+ *
+ * @page clra_tutorial_matrices_lowrank Low-rank Matrices
+ *
+ * CLRA supports the following low-rank matrices:
+ *
+ * @code
+ *
+ * // using templates:
+ *
+ * cla3p::lra::LrMatrix<cla3p::dns::RdMatrix> Ad; // double precision real low-rank matrix
+ * cla3p::lra::LrMatrix<cla3p::dns::RfMatrix> As; // single precision real low-rank matrix
+ * cla3p::lra::LrMatrix<cla3p::dns::CdMatrix> Az; // double precision complex low-rank matrix
+ * cla3p::lra::LrMatrix<cla3p::dns::CfMatrix> Ac; // single precision complex low-rank matrix
+ *
+ * // or using standard typedefs:
+ *
+ * cla3p::lra::RdMatrix Ad; // double precision real low-rank matrix
+ * cla3p::lra::RfMatrix As; // single precision real low-rank matrix
+ * cla3p::lra::CdMatrix Az; // double precision complex low-rank matrix
+ * cla3p::lra::CfMatrix Ac; // single precision complex low-rank matrix
+ *
+ * @endcode
+ *
+ *
+ * @section clra_tutorial_matrices_lowrank_create Creating matrices
+ * You can declare/create low-rank matrices in the following ways:
+ *
+ *   @subsection tutorial_matrices_lowrank_create_default Default creation
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01a_lowrank_matrix_create.cpp </td>
+ *       <td> @include i32/out/ex01a_lowrank_matrix_create.out </td>
+ *     </tr>
+ *   </table>
+ *
+ *   @subsection tutorial_matrices_lowrank_create_random Create random low-rank matrix
+ *   <table>
+ *     <tr><th>Code</th><th>Output</th></tr>
+ *     <tr>
+ *       <td> @include     src/ex01b_lowrank_matrix_create_random.cpp </td>
+ *       <td> @include i32/out/ex01b_lowrank_matrix_create_random.out </td>
+ *     </tr>
+ *   </table>
+ *
+ * @page clra_tutorial_matrices_hybrid Hybrid Matrices
+ *
+ * CLRA supports the following hybrid matrices matrices:
+ *
+ * Pending...
  */
 
 /*
