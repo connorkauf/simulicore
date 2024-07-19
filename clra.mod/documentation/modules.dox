@@ -35,7 +35,7 @@
  *
  *          See classes:
  *          - @ref cla3p::lra::RankModerator
- *          - @ref cla3p::lra::PartialQR
+ *          - @ref cla3p::PartialQR
  *
  *          From CLA3P:
  *          - @ref cla3p::DefaultSVD
