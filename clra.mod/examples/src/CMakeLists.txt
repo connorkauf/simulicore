@@ -3,7 +3,6 @@
 #-----------------------------------------------
 set(CLRA_EXAMPLES_SRC
 	ex01a_lowrank_matrix_create.cpp
-	ex01b_lowrank_matrix_create_random.cpp
 	)
 
 #-----------------------------------------------
