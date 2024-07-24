@@ -114,10 +114,12 @@ class DefaultQR {
 		 */
 		const T_Vector& tau() const;
 
+		const T_Matrix& elementaryReflectors() const;
+
 	private:
 		qpolicy_t m_qPolicy;
 
-		T_Matrix m_matrixBackup;
+		T_Matrix m_matrixA;
 		T_Vector m_tauVector;
 		T_Matrix m_matrixR;
 		T_Matrix m_matrixQ;

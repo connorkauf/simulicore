@@ -59,7 +59,7 @@ void DefaultQR<T_Matrix>::defaults()
 template <typename T_Matrix>
 void DefaultQR<T_Matrix>::clearInternalWrappers()
 {
-	m_matrixBackup.clear();
+	m_matrixA.clear();
 	m_tauVector.clear();
 	m_matrixR.clear();
 	m_matrixQ.clear();
@@ -129,6 +129,12 @@ const T_Matrix& DefaultQR<T_Matrix>::Q() const
 }
 /*-------------------------------------------------*/
 template <typename T_Matrix>
+const T_Matrix& DefaultQR<T_Matrix>::elementaryReflectors() const
+{ 
+	return m_matrixA; 
+}
+/*-------------------------------------------------*/
+template <typename T_Matrix>
 void DefaultQR<T_Matrix>::resizeInternalObjects(const T_Matrix& mat)
 {
 	uint_t m = mat.nrows();
@@ -141,7 +147,7 @@ void DefaultQR<T_Matrix>::resizeInternalObjects(const T_Matrix& mat)
 	clearInternalWrappers();
 
 	{
-		m_matrixBackup = T_Matrix::wrap(m, n, m_scalarBuffers.request(m * n), m, false, mat.prop());
+		m_matrixA = T_Matrix::wrap(m, n, m_scalarBuffers.request(m * n), m, false, mat.prop());
 		m_tauVector = T_Vector::wrap(k, m_scalarBuffers.request(k), false);
 		m_matrixR = T_Matrix::wrap(k, n, m_scalarBuffers.request(k * n), k, false);
 
@@ -156,14 +162,14 @@ void DefaultQR<T_Matrix>::decompose(const T_Matrix& mat)
 { 
 	resizeInternalObjects(mat);
 
-	m_matrixBackup = mat;
-	m_matrixBackup.igeneral();
+	m_matrixA = mat;
+	m_matrixA.igeneral();
 
 	int_t info = lapack::geqrf(
-			m_matrixBackup.nrows(), 
-			m_matrixBackup.ncols(), 
-			m_matrixBackup.values(),
-			m_matrixBackup.ld(),
+			m_matrixA.nrows(), 
+			m_matrixA.ncols(), 
+			m_matrixA.values(),
+			m_matrixA.ld(),
 			m_tauVector.values());
 
 	lapack_info_check(info);
@@ -179,7 +185,7 @@ void DefaultQR<T_Matrix>::fillMatrixR()
 	uint_t n = m_matrixR.ncols();
 	uint_t k = std::min(m,n);
 
-	m_matrixR = m_matrixBackup.rblock(0,0,m,n);
+	m_matrixR = m_matrixA.rblock(0,0,m,n);
 
 	for(uint_t j = 0; j < k; j++) {
 		for(uint_t i = j+1; i < k; i++) {
@@ -196,7 +202,7 @@ void DefaultQR<T_Matrix>::fillMatrixQ()
 		uint_t m = m_matrixQ.nrows();
 		uint_t n = m_matrixQ.ncols();
 
-		m_matrixQ = m_matrixBackup.rblock(0,0,m,n);
+		m_matrixQ = m_matrixA.rblock(0,0,m,n);
 
 		int_t info = lapack::xxgqr(m, n, n, 
 				m_matrixQ.values(), 
