@@ -51,14 +51,6 @@
  *     </tr>
  *   </table>
  *
- *   @subsection tutorial_matrices_lowrank_create_random Create random low-rank matrix
- *   <table>
- *     <tr><th>Code</th><th>Output</th></tr>
- *     <tr>
- *       <td> @include     src/ex01b_lowrank_matrix_create_random.cpp </td>
- *       <td> @include i32/out/ex01b_lowrank_matrix_create_random.out </td>
- *     </tr>
- *   </table>
  *
  * @page clra_tutorial_matrices_hybrid Hybrid Matrices
  *
